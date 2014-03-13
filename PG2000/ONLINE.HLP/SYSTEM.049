@@ -1,0 +1,1454 @@
+%%
+1,0:1
+%%
+.1
+    Funktionen der System-Library
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º ACHTUNG: Da die System-Library nur Inline-Funktionen und lokale           º
+  º          Funktionsbl”cke (keine AVT-Funktionsbl”cke!) enth„lt, muá kein   º
+  º          Library-Runtime-Modul in die Steuerung bertragen werden.        º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+    Nach dem Importieren der System-Library stehen Ihnen folgende Funktions-
+    gruppen zur Verfgung:
+
+    @020[< Bit-Behandlung        >] bedingtes Setzen/Rcksetzen von Bits
+    @030[< Datentypkonvertierung >] Konvertierung in andere Datentypen
+    @050[< Exceptions            >] Informationen ber Exceptions
+    @060[< Flankenerkennung      >] Erkennung von Signal„nderungen
+    @070[< Schiebe-Operationen   >] bitweises Verschieben von Daten
+    @080[< Speicherverwaltung    >] Speicherbereiche kopieren und fllen
+    @090[< Stringbehandlung      >] Behandlung von Zeichenketten
+    @100[< Zykluszeit-Funktionen >] šberwachung ein-/ausschalten
+    @110[< Inkrement-Funktionen  >] Inkrementieren von Variablen
+
+                                       @200[ ANHANG ]                  @999[ HILFE beenden ]
+.20
+    System-Library - Bit-Behandlung
+
+    Bit-Behandlung:
+    Funktionen zum bedingten Setzen/Rcksetzen von Bits in Variablen:
+
+    @021[PRESET ] Bedingtes Setzen
+    @022[RESET  ] Bedingtes Rcksetzen
+    @023[BIT_CLR] Bit einer Variable auf logisch 0 setzen
+    @024[BIT_SET] Bit einer Variable auf logisch 1 setzen
+    @025[BIT_TST] Bit einer Variable abfragen
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.21
+    System-Library - Bit-Behandlung (Fortsetzung)
+
+    newval = @021[PRESET](enable,oldval)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Bedingung
+    ->  oldval    : BIT           Wert des Ausgangs, wenn "enable" = 0.
+    <-  newval    : BIT           Der Ausgang "newval" wird gesetzt
+                                  (logisch 1), wenn "enable" = 1.
+
+    Wenn der Eingang "enable" logisch 1 ist, wird der Ausgang "newval" gesetzt
+    (logisch 1). Ist "enable" = 0, bleibt "newval" = "oldval" (siehe @026[Beispiel]).
+
+
+
+
+
+
+
+
+
+                                   @020[ Bit-Behandlung ]                  @001[ šbersicht ]
+.22
+    System-Library - Bit-Behandlung (Fortsetzung)
+
+    newval = @022[RESET](enable,oldval)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Bedingung
+    ->  oldval    : BIT           Wert des Ausgangs, wenn "enable" = 0.
+    <-  newval    : BIT           Der Ausgang "newval" wird gel”scht
+                                  (logisch 0), wenn "enable" = 1.
+
+    Wenn der Eingang "enable" logisch 1 ist, wird der Ausgang "newval" gel”scht
+    (logisch 0). Ist "enable" = 0, bleibt "newval" = "oldval" (siehe @026[Beispiel]).
+
+
+
+
+
+
+
+
+
+                                   @020[ Bit-Behandlung ]                  @001[ šbersicht ]
+.23
+    System-Library - Bit-Behandlung (Fortsetzung)
+
+    var_out = @023[BIT_CLR](var,cnt)
+
+    Parameter-Datentypen :
+    ->  var       : @250[BASIS]         Eingangsvariable
+    ->  cnt       : BYTE          Nummer des Bits, das gel”scht (log. 0) werden
+                                  soll.
+    <-  var_out   : @250[BASIS]         Ausgangsvariable mit gel”schtem Bit.
+
+    Das Bit mit der Nummer "cnt" wird gel”scht (siehe @027[Beispiel]).
+    Das Ergebnis "var_out" hat denselben Datentyp wie die Eingangsvariable
+    "var".
+
+
+
+
+
+
+
+
+                                   @020[ Bit-Behandlung ]                  @001[ šbersicht ]
+.24
+    System-Library - Bit-Behandlung (Fortsetzung)
+
+    var_out = @024[BIT_SET](var,cnt)
+
+    Parameter-Datentypen :
+    ->  var       : @250[BASIS]         Eingangsvariable
+    ->  cnt       : BYTE          Nummer des Bits, das gesetzt (log. 1) werden
+                                  soll.
+    <-  var_out   : @250[BASIS]         Ausgangsvariable mit gesetztem Bit.
+
+    Das Bit mit der Nummer "cnt" wird gesetzt (siehe @028[Beispiel]).
+    Das Ergebnis "var_out" hat denselben Datentyp wie die Eingangsvariable
+    "var".
+
+
+
+
+
+
+
+
+                                   @020[ Bit-Behandlung ]                  @001[ šbersicht ]
+.25
+    System-Library - Bit-Behandlung (Fortsetzung)
+
+    out = @025[BIT_TST](var,cnt)
+
+    Parameter-Datentypen :
+    ->  var       : @250[BASIS]         Eingangsvariable
+    ->  cnt       : BYTE          Nummer des zu testenden Bits.
+    <-  out       : BIT           Wert des Bits mit der Nummer "cnt".
+
+    Die Funktion liefert als Ergebnis den Zustand (0 oder 1) des Bits mit der
+    Nummer "cnt" (siehe @027[Beispiel]).
+
+
+
+
+
+
+
+
+
+
+                                   @020[ Bit-Behandlung ]                  @001[ šbersicht ]
+.26
+    System-Library - Bit-Behandlung (Beispiel)
+
+    Beispiel zu PRESET() / RESET():
+    Die Bit-Variable "Ausgang" ist abh„ngig von zwei Eing„ngen:
+
+         Eingang "Start" = 1 ... "Ausgang" setzen (logisch 1).
+         Eingang "Stop" = 1 .... "Ausgang" zurcksetzen (logisch 0).
+
+    Der Reset-Eingang "Stop" soll dominieren! D.h. sind beide Eing„nge ("Start"
+    und "Stop") gesetzt, hat der Reset-Eingang "Stop" Vorrang.
+
+      Ausgang = PRESET((Start AND NOT Stop),Ausgang)
+      Ausgang = RESET(Stop,Ausgang)
+
+
+
+
+
+
+
+
+                                   @020[ Bit-Behandlung ]                  @001[ šbersicht ]
+.27
+    System-Library - Bit-Behandlung (Beispiel)
+
+    Beispiel zu BIT_CLR() / BIT_TST():
+    Wenn Bit 3 der Variable "Maske" gesetzt ist, soll ein bestimmter Befehl
+    ausgefhrt werden. Anschlieáend soll das Bit wieder gel”scht werden.
+         ÚÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄ¿
+         ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³X³ ³ ³ ³
+         ÀÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÙ
+          Â                     Â Â Â Â
+          ³                     ³ ³ ³ ÀÄÄÄÄÄ Bit 0
+          ³                     ³ ³ ÀÄÄÄÄÄÄÄ Bit 1
+          ³                     ³ ÀÄÄÄÄÄÄÄÄÄ Bit 2
+          ³                     ÀÄÄÄÄÄÄÄÄÄÄÄ Bit 3
+          ³                                   :
+          ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Bit 15
+
+      if BIT_TST(Maske,3) = 1 then
+          ; Befehl(e)
+          Maske = BIT_CLR(Maske,3)    ; Bit 3 quittieren
+      endif
+
+                                   @020[ Bit-Behandlung ]                  @001[ šbersicht ]
+.28
+    System-Library - Bit-Behandlung (Beispiel)
+
+    Beispiel zu BIT_SET():
+    Wenn die Betriebsart "Automatik" eingestellt ist ("Auto" = 1), sollen die
+    Bits 6 und 7 der Variable "B_Art" gesetzt werden.
+            ÚÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄ¿
+            ³X³X³ ³ ³ ³ ³ ³ ³
+            ÀÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÙ
+    Bit-Nr.: 7 6 5 4 3 2 1 0
+
+      if Auto = 1 then
+          B_Art = BIT_SET(B_Art,7)    ; Bit 7 setzen
+          B_Art = BIT_SET(B_Art,6)    ; Bit 6 setzen
+      endif
+
+    Besser w„re allerdings folgende Schreibweise:
+
+      B_Art = B_Art OR %%11000000      ; Bits 6+7 setzen
+
+
+
+                                   @020[ Bit-Behandlung ]                  @001[ šbersicht ]
+.30
+    System-Library - Datentypkonvertierung
+
+    Datentypkonvertierung:
+    Treffen bei einer Operation zwei Variablen mit unterschiedlichem Datentyp
+    aufeinander, so konvertiert der Compiler den "kleineren" Datentyp auto-
+    matisch auf den "gr”áeren" Datentyp ("Aufw„rtskonvertierung"). Diese Art
+    der Datentypkonvertierung bezeichnen wir als implizite (automatische)
+    Datentypkonvertierung. Mit der impliziten Datentypkonvertierung ist eine
+    Wandlung auf einen kleineren Datentyp ("Abw„rtskonvertierung") nicht
+    m”glich. Eine Abw„rtskonvertierung (explizite Datentypkonvertierung) muá
+    vom Anwender selbst mit Hilfe von Standard-Funktionen durchgefhrt werden
+    (siehe dazu @039[Beispiel 1] und @040[Beispiel 2]).
+    Standard-Funktionen fr die explizite Datentypkonvertierung:
+
+    @032[BIT  ] Konvertierung in BIT
+    @033[BYTE ] Konvertierung in BYTE
+    @034[INT8 ] Konvertierung in INT8
+    @035[WORD ] Konvertierung in WORD
+    @036[INT16] Konvertierung in INT16
+    @037[LONG ] Konvertierung in LONG
+    @038[INT32] Konvertierung in INT32
+                                     @031[ Fortsetzung ]                   @001[ šbersicht ]
+.31
+    System-Library - Datentypkonvertierung (Fortsetzung)
+
+    Die explizite Datentypkonvertierung wird aber auch angewandt, wenn z.B. bei
+    einer Addition oder Multiplikation zwei gleiche Datentypen aufeinander
+    treffen und das Ergebnis den Zahlenbereich dieses Datentyps berschreitet
+    (siehe dazu @041[Beispiel 3]). In diesem Fall muá eine der Variablen explizit auf
+    einen dem Ergebnis der Operation entsprechenden Datentyp konvertiert werden
+    (explizite "Aufw„rtskonvertierung").
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.32
+    System-Library - Datentypkonvertierung (Fortsetzung)
+
+    bit_pv = @032[BIT](var)
+
+    Parameter-Datentypen :
+    ->  var       : @250[NICHT FLOAT]   Eingangsvariable
+    <-  bit_pv    : BIT           Variable nach der Konvertierung.
+
+    Konvertiert eine Variable in den Typ BIT.
+
+
+
+
+
+
+
+
+
+
+
+
+                                @030[ Datentypkonvertierung ]              @001[ šbersicht ]
+.33
+    System-Library - Datentypkonvertierung (Fortsetzung)
+
+    byte_pv = @033[BYTE](var)
+
+    Parameter-Datentypen :
+    ->  var       : @250[NICHT FLOAT]   Eingangsvariable
+    <-  byte_pv   : BYTE          Variable nach der Konvertierung.
+
+    Konvertiert eine Variable in den Typ BYTE.
+
+
+
+
+
+
+
+
+
+
+
+
+                                @030[ Datentypkonvertierung ]              @001[ šbersicht ]
+.34
+    System-Library - Datentypkonvertierung (Fortsetzung)
+
+    int8_pv = @034[INT8](var)
+
+    Parameter-Datentypen :
+    ->  var       : @250[NICHT FLOAT]   Eingangsvariable
+    <-  int8_pv   : INT8          Variable nach der Konvertierung.
+
+    Konvertiert eine Variable in den Typ INT8.
+
+
+
+
+
+
+
+
+
+
+
+
+                                @030[ Datentypkonvertierung ]              @001[ šbersicht ]
+.35
+    System-Library - Datentypkonvertierung (Fortsetzung)
+
+    word_pv = @035[WORD](var)
+
+    Parameter-Datentypen :
+    ->  var       : @250[NICHT FLOAT]   Eingangsvariable
+    <-  word_pv   : WORD          Variable nach der Konvertierung.
+
+    Konvertiert eine Variable in den Typ WORD.
+
+
+
+
+
+
+
+
+
+
+
+
+                                @030[ Datentypkonvertierung ]              @001[ šbersicht ]
+.36
+    System-Library - Datentypkonvertierung (Fortsetzung)
+
+    int16_pv = @036[INT16](var)
+
+    Parameter-Datentypen :
+    ->  var       : @250[NICHT FLOAT]   Eingangsvariable
+    <-  int16_pv  : INT16         Variable nach der Konvertierung.
+
+    Konvertiert eine Variable in den Typ INT16.
+
+
+
+
+
+
+
+
+
+
+
+
+                                @030[ Datentypkonvertierung ]              @001[ šbersicht ]
+.37
+    System-Library - Datentypkonvertierung (Fortsetzung)
+
+    long_pv = @037[LONG](var)
+
+    Parameter-Datentypen :
+    ->  var       : @250[NICHT FLOAT]   Eingangsvariable
+    <-  long_pv   : LONG          Variable nach der Konvertierung.
+
+    Konvertiert eine Variable in den Typ LONG.
+
+
+
+
+
+
+
+
+
+
+
+
+                                @030[ Datentypkonvertierung ]              @001[ šbersicht ]
+.38
+    System-Library - Datentypkonvertierung (Fortsetzung)
+
+    int32_pv = @038[INT32](var)
+
+    Parameter-Datentypen :
+    ->  var       : @250[NICHT FLOAT]   Eingangsvariable
+    <-  int32_pv  : INT32         Variable nach der Konvertierung.
+
+    Konvertiert eine Variable in den Typ INT32.
+
+
+
+
+
+
+
+
+
+
+
+
+                                @030[ Datentypkonvertierung ]              @001[ šbersicht ]
+.39
+    System-Library - Datentypkonvertierung (Beispiel 1)
+
+    Beispiel 1:
+    Beispiel zur expliziten Abw„rtskonvertierung. Die beiden niederwertigen
+    Bytes der LONG-Variable "Adresse" sollen in der WORD-Variable "Offset"
+    gespeichert werden:
+
+      Offset = WORD(Adresse)
+
+    Achtung!
+    Bei der expliziten Abw„rtskonvertierung gehen Daten verloren!
+
+
+
+
+
+
+
+
+
+
+    @040[ Beispiel 2 ]                @030[ Datentypkonvertierung ]              @001[ šbersicht ]
+.40
+    System-Library - Datentypkonvertierung (Beispiel 2)
+
+    Beispiel 2:
+    Beispiel zur expliziten Abw„rtskonvertierung. Die INT16-Variable "Var1"
+    soll der INT8-Variable "Var2" zugewiesen werden:
+
+      Var2 = INT8(Var1)           ; Var1 wird in INT8 konvertiert
+
+    Achtung!
+    Beachten Sie, daá bei der Konvertierung von vorzeichenbehafteten Datentypen
+    (INT-Datentypen) in Datentypen ohne Vorzeichen aus kleinen negativen Zahlen
+    groáe positive Zahlen werden!
+
+
+
+
+
+
+
+
+
+    @041[ Beispiel 3 ]                @030[ Datentypkonvertierung ]              @001[ šbersicht ]
+.41
+    System-Library - Datentypkonvertierung (Beispiel 3)
+
+    Beispiel 3:
+    Beispiel zur expliziten Aufw„rtskonvertierung.
+    Zwei BYTE-Zahlen ("Byte_Var1" und "Byte_Var2") sollen addiert und in einer
+    WORD-Variable ("Ergebnis") gespeichert werden:
+
+      Ergebnis = WORD(Byte_Var1) + WORD(Byte_Var2)
+
+    Achtung!
+    Ohne explizite Aufw„rtskonvertierung wrden die beiden BYTE-Zahlen zuerst
+    addiert (šberlauf m”glich!) und das Ergebnis implizit in den Datentyp WORD
+    konvertiert werden.
+
+
+
+
+
+
+
+
+                                @030[ Datentypkonvertierung ]              @001[ šbersicht ]
+.50
+    System-Library - Exceptions
+
+    Exceptions:
+    Diese Funktionsgruppe enth„lt zur Zeit nur die Funktion EXC_info(), die in
+    Exceptiontasks verwendet wird, um festzustellen, welche Task die Exception
+    verursacht hat.
+
+    @051[EXC_info] Informationen ber Exception-Verursacher
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.51
+    System-Library - Exceptions (Fortsetzung)
+
+    @051[EXC_info](task_class,task_ident)
+
+    Parameter-Datentypen :
+    <-  @055[task_class]: INT8         Taskklasse
+    <-  @056[task_ident]: LONG         Ident-Nummer
+
+    Die Funktion EXC_info() kann nur in einer Exceptiontask aufgerufen werden.
+    Sie liefert Informationen zu jener Task, welche die Exception verursacht
+    hat (Taskklasse und Ident-Nummer). Mit der Ident-Nummer k”nnen Sie weitere
+    Informationen zu der Task, welche die Exception ausgel”st hat, anfordern
+    (siehe dazu BURTRAP-Library). Machen wir dazu ein @052[Beispiel].
+
+
+
+
+
+
+
+
+                                     @050[ Exceptions ]                    @001[ šbersicht ]
+.52
+    System-Library - Exceptions (Beispiel)
+
+    Beispiel:
+    Stellen Sie fest, welche Task die Exception verursacht hat und fordern Sie
+    weitere Informationen zu dieser Task (Task-Name, Gruppennummer) an:
+
+      EXC_info(Taskklasse,Id_Nr)
+      if Id_Nr <> $FFFFFFFF then
+           Status=ST_name(Id_Nr,adr(T_Name[0]),adr(Gruppe))
+      endif
+
+
+
+
+
+
+
+
+
+
+
+                                     @050[ Exceptions ]                    @001[ šbersicht ]
+.55
+    System-Library - Exceptions (Fortsetzung)
+
+    <- Parameter <task_class>: INT8
+
+    Taskklasse der Task, welche die Exception verursacht hat:
+    1 bis 4 ..... normale Taskklasse 1 bis 4 (TC#1 bis TC#4)
+    -1 bis -4 ... superschnelle Taskklasse 1 bis 4 (HS#1 bis HS#4)
+    -8 .......... Exception-Taskklasse (EXC)
+    -9 .......... Interrupt-Taskklasse (IRQ)
+    0 ........... Kein Taskklassen-Kontext.
+                  D.h. die Exception wurde weder durch eine Task in einer zeit-
+                  gesteuerten Taskklasse (normale oder superschnelle TC), noch
+                  durch eine Task in einer ereignisgesteuerten Taskklasse (IRQ-
+                  oder EXC-Taskklasse) ausgel”st.
+
+
+
+
+
+
+
+                                      @051[ EXC_info ]                     @001[ šbersicht ]
+.56
+    System-Library - Exceptions (Fortsetzung)
+
+    <- Parameter <task_ident>: LONG
+
+    Ident-Nummer der zyklischen Task (normale, superschnelle, IRQ- oder EXC-
+    Task), welche die Exception verursacht hat. Wird am Ausgang "task_ident"
+    der Wert $FFFFFFFF ausgegeben, so wurde die Exception nicht durch eine
+    zyklische Task ausgel”st (z.B. I/O-Exception).
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @051[ EXC_info ]                     @001[ šbersicht ]
+.60
+    System-Library - Flankenerkennung
+
+    Flankenerkennung:
+    Mit den Flankenerkennungs-Funktionen k”nnen Signal„nderungen erkannt und
+    ausgewertet werden:
+
+    @061[EDGE   ] Beide Flanken (nderung von 0 nach 1 und von 1 nach 0)
+    @062[EDGEPOS] Positive Flanke (nderung von 0 nach 1)
+    @063[EDGENEG] Negative Flanke (nderung von 1 nach 0)
+
+    Flankenerkennungs-Funktionen mssen in jedem Taskzyklus aufgerufen werden,
+    d.h. in bedingten Ausdrcken wie z.B. "if" Anweisungen ist die Verwendung
+    von Flankenerkennungs-Funktionen zu vermeiden (siehe @064[Beispiel])!
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.61
+    System-Library - Flankenerkennung (Fortsetzung)
+
+    out = @061[EDGE](in)
+
+    Parameter-Datentypen :
+    ->  in        : BIT           Eingangssignal, das auf nderung berwacht
+                                  wird.
+    <-  out       : BIT           Wird fr einen Taskzyklus log. 1, wenn sich
+                                  das Eingangssignal „ndert.
+
+    Wenn sich der Eingang "in" von 0 nach 1 oder von 1 nach 0 „ndert, wird der
+    Ausgang "out" fr einen Taskzyklus auf logisch 1 gesetzt.
+    Diese Funktion muá in jedem Taskzyklus aufgerufen werden (siehe @064[Beispiel])!
+
+
+
+
+
+
+
+
+                                  @060[ Flankenerkennung ]                 @001[ šbersicht ]
+.62
+    System-Library - Flankenerkennung (Fortsetzung)
+
+    out = @062[EDGEPOS](in)
+
+    Parameter-Datentypen :
+    ->  in        : BIT           Eingangssignal, das auf nderung berwacht
+                                  wird.
+    <-  out       : BIT           Wird fr einen Taskzyklus log. 1, wenn sich
+                                  das Eingangssignal von 0 auf 1 „ndert.
+
+    Wenn sich der Eingang "in" von 0 nach 1 (positive Flanke) „ndert, wird der
+    Ausgang "out" fr einen Taskzyklus auf logisch 1 gesetzt.
+    Diese Funktion muá in jedem Taskzyklus aufgerufen werden (siehe @064[Beispiel])!
+
+
+
+
+
+
+
+
+                                  @060[ Flankenerkennung ]                 @001[ šbersicht ]
+.63
+    System-Library - Flankenerkennung (Fortsetzung)
+
+    out = @063[EDGENEG](in)
+
+    Parameter-Datentypen :
+    ->  in        : BIT           Eingangssignal, das auf nderung berwacht
+                                  wird.
+    <-  out       : BIT           Wird fr einen Taskzyklus log. 1, wenn sich
+                                  das Eingangssignal von 1 auf 0 „ndert.
+
+    Wenn sich der Eingang "in" von 1 nach 0 (negative Flanke) „ndert, wird der
+    Ausgang "out" fr einen Taskzyklus auf logisch 1 gesetzt.
+    Diese Funktion muá in jedem Taskzyklus aufgerufen werden (siehe @064[Beispiel])!
+
+
+
+
+
+
+
+
+                                  @060[ Flankenerkennung ]                 @001[ šbersicht ]
+.64
+    System-Library - Flankenerkennung (Beispiel)
+
+    Beispiel:
+
+      if EDGEPOS(Schalter_1) = 1 then    ; Schalter_1 0->1 ?
+          LED = not LED                  ; wenn ja, LED invertieren
+          Var = EDGENEG(Schalter_2)      ; Achtung!
+      endif
+
+    Achtung!
+    Die Funktion EDGENEG() im vorangehenden Beispiel kann zu unerwarteten Er-
+    gebnissen fhren, da sie in einer "if" Anweisung steht und nur aufgerufen
+    wird, wenn die Bedingung erfllt ist. Diese Art der Verwendung ist zu ver-
+    meiden, da Flankenerkennungs-Funktionen in jedem Taskzyklus aufgerufen
+    werden mssen.
+
+
+
+
+
+
+                                  @060[ Flankenerkennung ]                 @001[ šbersicht ]
+.70
+    System-Library - Schiebe-Operationen
+
+    Schiebe-Operationen:
+    Mit den Schiebe-Operationen k”nnen Variablen bitweise manipuliert werden:
+
+    @071[ASR] Arithmetisches Schieben nach rechts um cnt Bits
+    @072[LSL] Schieben nach links um cnt Bits
+    @073[LSR] Schieben nach rechts um cnt Bits
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.71
+    System-Library - Schiebe-Operationen (Fortsetzung)
+
+    var_out = @071[ASR](var,cnt)
+
+    Parameter-Datentypen :
+    ->  var       : @250[BASIS]         Variable, die bitweise manipuliert wird.
+    ->  cnt       : BYTE          Anzahl der Bits.
+    <-  var_out   : @250[BASIS]         Variable nach der Schiebe-Operation.
+
+    Der Inhalt der Variable "var" wird um "cnt" Bits nach rechts geschoben
+    (siehe @074[Beispiel]). Das h”chstwertige Bit (Vorzeichen-Bit) bleibt dabei
+    erhalten. Der Datentyp der Variable "var_out" ist identisch mit dem der
+    Eingangsvariable "var".
+
+
+
+
+
+
+
+
+                                 @070[ Schiebe-Operationen ]               @001[ šbersicht ]
+.72
+    System-Library - Schiebe-Operationen (Fortsetzung)
+
+    var_out = @072[LSL](var,cnt)
+
+    Parameter-Datentypen :
+    ->  var       : @250[BASIS]         Variable, die bitweise manipuliert wird.
+    ->  cnt       : BYTE          Anzahl der Bits.
+    <-  var_out   : @250[BASIS]         Variable nach der Schiebe-Operation.
+
+    Der Inhalt der Variable "var" wird um "cnt" Bits nach links geschoben
+    (siehe @075[Beispiele]). Der Datentyp der Variable "var_out" ist identisch mit
+    dem der Eingangsvariable "var".
+
+
+
+
+
+
+
+
+
+                                 @070[ Schiebe-Operationen ]               @001[ šbersicht ]
+.73
+    System-Library - Schiebe-Operationen (Fortsetzung)
+
+    var_out = @073[LSR](var,cnt)
+
+    Parameter-Datentypen :
+    ->  var       : @250[BASIS]         Variable, die bitweise manipuliert wird.
+    ->  cnt       : BYTE          Anzahl der Bits.
+    <-  var_out   : @250[BASIS]         Variable nach der Schiebe-Operation.
+
+    Der Inhalt der Variable "var" wird um "cnt" Bits nach rechts geschoben
+    (siehe @076[Beispiel]). Der Datentyp der Variable "var_out" ist identisch mit
+    dem der Eingangsvariable "var".
+
+
+
+
+
+
+
+
+
+                                 @070[ Schiebe-Operationen ]               @001[ šbersicht ]
+.74
+    System-Library - Schiebe-Operationen (Beispiel)
+
+    Beispiel:
+    Der INT16-Wert "Daten" soll halbiert werden (Schieben um eine Stelle nach
+    rechts entspricht einer Division durch 2). Bei logischem Schieben von ne-
+    gativen Zahlen wrde allerdings das Vorzeichen-Bit auch verschoben, d.h.
+    das Ergebnis w„re falsch. Bei arithmetischem Schieben mit der Funktion
+    ASR() bleibt das h”chstwertige Bit (Vorzeichen-Bit) erhalten, nur die
+    anderen Bits werden nach rechts verschoben. Beachten Sie, daá der kleinste
+    Wert, der so erreicht werden kann, -1 ist.
+
+      Daten = ASR(Daten,1)               ; Daten / 2
+
+
+
+
+
+
+
+
+
+                                 @070[ Schiebe-Operationen ]               @001[ šbersicht ]
+.75
+    System-Library - Schiebe-Operationen (Beispiel)
+
+    Beispiel 1:
+    Die WORD-Variable "Faktor" soll mit 4 multipliziert werden. Verschieben der
+    Bits um zwei Stellen nach links entspricht einer Multiplikation mit 4:
+
+      Faktor = LSL(Faktor,2)             ; Faktor * 4
+
+    Beispiel 2:
+    Die WORD-Variable "Maske" soll aus zwei Einzelbytes "Info1" und "Info2"
+    zusammengesetzt werden:
+                       ÚÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄ¿ ÚÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄ¿
+                       ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³
+                       ÀÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÙ ÀÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÙ
+                            "Info1"           "Info2"
+                       ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+                                     "Maske"
+
+      Maske = LSL(WORD(Info1),8)         ; Info1 8 Bits links
+      Maske = Maske + WORD(Info2)        ; Info2 addieren
+
+                                 @070[ Schiebe-Operationen ]               @001[ šbersicht ]
+.76
+    System-Library - Schiebe-Operationen (Beispiel)
+
+    Beispiel:
+    Der BYTE-Variable "Char" soll ein Byte der LONG-Variable "Code" zugewiesen
+    werden. Welches Byte (0 bis 3), wird mit "Byte_Nr" angegeben.
+
+      Char = BYTE(LSR(Code,(Byte_Nr * 8)))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 @070[ Schiebe-Operationen ]               @001[ šbersicht ]
+.80
+    System-Library - Speicherverwaltung
+
+    Speicherverwaltung:
+    Diese Funktionen werden zum Kopieren bzw. Fllen von Speicherbereichen ver-
+    wendet:
+
+    @081[memcpy] Speicherbereich kopieren
+    @082[memset] Speicherbereich mit bestimmten Werten fllen
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.81
+    System-Library - Speicherverwaltung (Fortsetzung)
+
+    nxt_adr = @081[memcpy](adr(dest_p),adr(src_p),length)
+
+    Parameter-Datentypen :
+    <-> dest_p    : @250[ALLE]          Zieladresse
+    ->  src_p     : @250[ALLE]          Zu kopierende Daten (Quelladresse).
+    ->  length    : LONG          Anzahl zu kopierender Bytes.
+    <-  nxt_adr   : LONG          Adresse der kopierten Daten (neu).
+
+    Die Funktion memcpy() kopiert Daten vom Speicherbereich "src_p" in den
+    Speicherbereich "dest_p" (siehe @083[Beispiel]).
+    Stellen Sie sicher, daá an der Zieladresse genug Speicher reserviert
+    (allokiert) ist, um alle Daten zu kopieren, sonst k”nnen durch das Kopieren
+    andere Daten berschrieben werden.
+
+
+
+
+
+
+                                 @080[ Speicherverwaltung ]                @001[ šbersicht ]
+.82
+    System-Library - Speicherverwaltung (Fortsetzung)
+
+    nxt_adr = @082[memset](adr(dest_p),value,length)
+
+    Parameter-Datentypen :
+    <-> dest_p    : @250[ALLE]          Zieladresse (zu initialisierende Daten).
+    ->  value     : BYTE          Initialisierungswert
+    ->  length    : LONG          Anzahl zu initialisierender Bytes.
+    <-  nxt_adr   : LONG          Adresse der initialisierten Daten.
+
+    Alle Speicherstellen an der angegebenen Zieladresse werden mit dem
+    Initialisierungswert "value" berschrieben (siehe @084[Beispiel]).
+
+
+
+
+
+
+
+
+
+                                 @080[ Speicherverwaltung ]                @001[ šbersicht ]
+.83
+    System-Library - Speicherverwaltung (Beispiel)
+
+    Beispiel:
+    Ein 50 Byte groáer Sendepuffer "Buffer[]" soll mit neuen Daten (Feld-
+    variable "Frame[]", L„nge "Frame_L") beschrieben werden. Die restlichen
+    Bytes sind mit 0 aufzufllen.
+
+      ; Sendepuffer mit neuen Daten beschreiben:
+      n_adr = memcpy(adr(Buffer[0]),adr(Frame[0]),Frame_L)
+      ; Auffllen der restlichen Bytes mit 0:
+      n_adr = memset(n_adr,0,(50 - Frame_L))
+
+
+
+
+
+
+
+
+
+
+                                 @080[ Speicherverwaltung ]                @001[ šbersicht ]
+.84
+    System-Library - Speicherverwaltung (Beispiel)
+
+    Beispiel:
+    Ein 30 Byte groáer Pufferspeicher "Puffer[]" soll mit folgenden Werten
+    initialisiert werden:
+
+    Puffer[0] bis Puffer[9] ..... fllen mit 0
+    Puffer[10] bis Puffer[19] ... fllen mit 1
+    Puffer[20] bis Puffer[29] ... fllen mit 2
+
+      nxt_adr = memset(adr(Puffer[0]),0,10)
+      nxt_adr = memset(adr(Puffer[10]),1,10)
+      nxt_adr = memset(adr(Puffer[20]),2,10)
+
+
+
+
+
+
+
+
+                                 @080[ Speicherverwaltung ]                @001[ šbersicht ]
+.90
+    System-Library - Stringbehandlung
+
+    Stringbehandlung:
+    Diese Funktionen dienen zur Manipulation von Zeichenketten (Strings):
+
+    @091[strcpy] Kopiert einen String in einen anderen
+    @092[strlen] Liefert die L„nge eines Strings
+    @093[strcat] H„ngt einen String an einen anderen an
+    @094[itoa  ] Konvertiert eine INT-Zahl in einen ASCII-String
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.91
+    System-Library - Stringbehandlung (Fortsetzung)
+
+    nxt_adr = @091[strcpy](adr(dest_p),adr(src_p))
+
+    Parameter-Datentypen :
+    <-> dest_p    : BYTE (Feld)   Ziel-String
+    ->  src_p     : BYTE (Feld)   Quell-String (String, der kopiert wird).
+    <-  nxt_adr   : LONG          Adresse von "dest_p" (fr Kaskadierung).
+
+    Der String "src_p" wird in "dest_p" kopiert (siehe @095[Beispiel]). Stellen Sie
+    sicher, daá die definierte L„nge des BYTE-Feldes "dest_p" groá genug ist,
+    um den Quell-String "src_p" aufzunehmen.
+    Das Ergebnis "nxt_adr" ist die Adresse des abschlieáenden Nullbytes im
+    String "dest_p". Dies erm”glicht eine Kaskadierung der Funktion.
+    Der zu kopierende String "src_p" kann auch eine String-Konstante oder ein
+    konstanter String (z.B.: "ABCabc") sein.
+
+
+
+
+
+                                  @090[ Stringbehandlung ]                 @001[ šbersicht ]
+.92
+    System-Library - Stringbehandlung (Fortsetzung)
+
+    length = @092[strlen](adr(src_p))
+
+    Parameter-Datentypen :
+    ->  src_p     : BYTE (Feld)   String, dessen L„nge festgestellt werden
+                                  soll.
+    <-  length    : WORD          L„nge des Strings.
+
+    Liefert die L„nge des Strings "src_p" (siehe @095[Beispiel]).
+
+
+
+
+
+
+
+
+
+
+
+                                  @090[ Stringbehandlung ]                 @001[ šbersicht ]
+.93
+    System-Library - Stringbehandlung (Fortsetzung)
+
+    nxt_adr = @093[strcat](adr(dest_p),adr(src_p))
+
+    Parameter-Datentypen :
+    <-> dest_p    : BYTE (Feld)   Ziel-String, an den der String "src_p"
+                                  angeh„ngt werden soll.
+    ->  src_p     : BYTE (Feld)   Quell-String (String, der an den String
+                                  "dest_p" angeh„ngt wird).
+    <-  nxt_adr   : LONG          Adresse von "dest_p" (fr Kaskadierung).
+
+    Der String "src_p" wird an "dest_p" angeh„ngt (siehe @095[Beispiel]).
+    Das Ergebnis "nxt_adr" ist die Adresse des abschlieáenden Nullbytes im
+    String "dest_p". Dies erm”glicht eine Kaskadierung der Funktion.
+    Der Quell-String "src_p" kann auch eine String-Konstante oder ein kon-
+    stanter String (z.B.: "ABCabc") sein.
+
+
+
+
+
+                                  @090[ Stringbehandlung ]                 @001[ šbersicht ]
+.94
+    System-Library - Stringbehandlung (Fortsetzung)
+
+    length = @094[itoa](value,adr(dest_p))
+
+    Parameter-Datentypen :
+    ->  value     : INT8,INT16,   Numerischer Wert, der in einen String
+                    INT32         konvertiert werden soll.
+    <-> dest_p    : BYTE (Feld)   Ziel-String
+    <-  length    : WORD          L„nge des erzeugten Strings.
+
+    Konvertiert eine Zahl vom Typ INT8, INT16 oder INT32 in einen ASCII-String
+    und liefert die L„nge des erzeugten Strings (siehe @095[Beispiel]).
+
+
+
+
+
+
+
+
+
+                                  @090[ Stringbehandlung ]                 @001[ šbersicht ]
+.95
+    System-Library - Stringbehandlung (Beispiel)
+
+    Beispiel:
+    Zwei INT16-Werte "Wert1" und "Wert2" sollen in einen Report-Puffer
+    "Rep_Puff" als ASCII-String mit dem Format "Wert1: x  Wert2: y" einge-
+    tragen werden, wobei x und y Zahlen wie z.B. 1, 100, -100, 2000 sind.
+    Die L„nge des Strings wird in "Str_L" gespeichert.
+
+      nxt_adr = strcpy(adr(Rep_Puff[0]),"Wert1: ")
+      itoa(Wert1,nxt_adr)
+      nxt_adr = strcat(nxt_adr,"  Wert2: ")
+      itoa(Wert2,nxt_adr)
+      Str_L = strlen(adr(Rep_Puff[0]))
+
+
+
+
+
+
+
+
+                                  @090[ Stringbehandlung ]                 @001[ šbersicht ]
+.100
+    System-Library - Zykluszeit-Funktionen
+
+    Zykluszeit-Funktionen:
+    Mit der Funktion ZYKVL_enable() k”nnen Sie die Zykluszeitberwachung fr
+    die normalen Taskklassen ein- bzw. ausschalten (aktivieren bzw. deakti-
+    vieren).
+
+    @101[ZYKVL_enable] Zykluszeitberwachung ein-/ausschalten
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.101
+    System-Library - Zykluszeit-Funktionen (Fortsetzung)
+
+    status = @101[ZYKVL_enable](mode)
+
+    Parameter-Datentypen :
+    ->  mode      : BYTE          0 ..... Zykluszeitberwachung ausschalten.
+                                  $FF ... Zykluszeitberwachung einschalten.
+    <-  status    : WORD          Fehlernummer (keine Bedeutung, daher immer 0)
+
+    Mit der Funktion ZYKVL_enable() der System-Library k”nnen Sie die Zyklus-
+    zeitberwachung fr die normalen Taskklassen aktivieren oder deaktivieren.
+    Wenn die Zykluszeitberwachung fr die normalen Taskklassen aktiviert ist,
+    wird bei jeder šberschreitung der parametrierten Zykluszeit einer normalen
+    TC (einfache Zykluszeitverletzung) die Exception "TC-Zykluszeitverletzung"
+    (Exception-Nr. 144) ausgel”st (siehe @103[Beispiel]).
+    Standardm„áig ist die Zykluszeitberwachung fr die normalen Taskklassen
+    deaktiviert, d.h. šberschreitungen der eingestellten Zykluszeiten (einfache
+    Zykluszeitverletzungen) werden ignoriert! Allerdings wird in diesem Fall
+    die Einhaltung der maximalen Zykluszeiten (siehe "B&R SYSTEM 2000 System-
+    Software Referenzhandbuch") berwacht.
+
+                                     @102[ Fortsetzung ]                   @001[ šbersicht ]
+.102
+    System-Library - Zykluszeit-Funktionen (Fortsetzung)
+
+    Mit der Funktion ZYKVL_enable() k”nnen Sie nur die šberwachung der ein-
+    fachen Zykluszeiten von normalen Taskklassen aktivieren bzw. deaktivieren.
+    Die šberwachung der maximalen Zykluszeiten kann vom Anwender nicht beein-
+    fluát werden und ist deshalb immer aktiv!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                @100[ Zykluszeit-Funktionen ]              @001[ šbersicht ]
+.103
+    System-Library - Zykluszeit-Funktionen (Beispiel)
+
+    Beispiel:
+    Eine Endlosschleife in der normalen Taskklasse TC#4 verursacht nach wenigen
+    Sekunden (Standard) eine Zykluszeitverletzung. Bei aktivierter Zykluszeit-
+    berwachung wird die Zykluszeitverletzung nach Ablauf der eingestellten
+    Taskklassen-Zykluszeit gemeldet.
+
+      ZYKVL_enable($FF)                  ; Zykluszeitberwachung aktivieren
+      Blockiert = 0                      ; Schleife nur einmal ausfhren
+      a = 0                              ; Z„hler initialisieren
+
+
+
+
+
+
+
+
+
+
+                               @104[ Fortsetzung - Beispiel ]              @001[ šbersicht ]
+.104
+    System-Library - Zykluszeit-Funktionen (Beispiel - Fortsetzung)
+
+    Zyklische Task (TC#4):
+    Wenn eine Exceptiontask fr Exception-Nr. 144 existiert, wird die Endlos-
+    schleife ausgefhrt, bis die Ausstiegsbedingung "Exc_Task_Fl" = 1 erfllt
+    ist:
+
+      if Blockiert = 0 then              ; nur einmal!
+          loop                           ; Achtung!
+              a = a + 1                  ; Endlosschleife
+          exitif Exc_Task_Fl = 1         ; Ausstiegsbedingung
+          endloop
+          Blockiert = 1                  ; nur einmal!
+      endif
+
+    Exceptiontask (Exception-Nr. 144):
+    In unserem etwas unsinnigen Beispiel verwenden wir die RPS-globale Variable
+    "Exc_Task_Fl" zum Beenden der Endlosschleife:
+
+      Exc_Task_Fl = 1
+
+                                @100[ Zykluszeit-Funktionen ]              @001[ šbersicht ]
+.110
+    System-Library - Inkrement-Funktionen
+
+    Inkrement-Funktionen:
+    Diese Funktionsgruppe enth„lt derzeit nur die Funktion INC():
+
+    @111[INC] Inkrementieren einer Variable
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.111
+    System-Library - Inkrement-Funktionen (Fortsetzung)
+
+    var_out = @111[INC](var)
+
+    Parameter-Datentypen :
+    ->  var       : @250[NICHT FLOAT]   Variable, die inkrementiert wird.
+    <-  var_out   : @250[NICHT FLOAT]   Variable nach der Inkrementierung.
+
+    Der Wert der Eingangsvariable "var" wird in jedem Taskzyklus um 1 erh”ht
+    (inkrementiert).
+
+
+
+
+
+
+
+
+
+
+
+                                @110[ Inkrement-Funktionen ]               @001[ šbersicht ]
+.200
+    ANHANG : LIBRARY-Informationen
+
+
+    @201[< Allgemeines       >]      Voraussetzungen etc.
+
+    @250[< Syntax            >]      Syntax fr die Erkl„rung der Funktionen
+
+    @400[< History           >]      Neue Funktionalit„ten und Versions„nderungen
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.201
+    System-Library : Allgemeines
+
+    Die Funktionen der System-Library enthalten keine AVT-Funktionsbl”cke und
+    ben”tigen deshalb kein Library-Runtime-Modul in der RPS. Ihr Code wird in
+    das Anwenderprogramm integriert.
+
+    Anmerkungen:
+    - Die System-Library wird beim Erzeugen eines Projekts automatisch in die
+      Datenbank importiert. D.h. die Funktionen der System-Library sind sofort
+      nach der Projekt-Erzeugung verfgbar.
+
+    - Da die System-Library nur Inline-Funktionen und lokale Funktionsbl”cke
+      (keine AVT-Funktionsbl”cke!) enth„lt, muá kein Library-Runtime-Modul in
+      die Steuerung bertragen werden.
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.250
+    System-Library : Syntaxbeschreibung
+
+    Datentypen:
+    Fr viele Funktionen sind bestimmte Gruppen von Datentypen zul„ssig. Um
+    bei der Funktionsbeschreibung nicht alle zul„ssigen Datentypen anfhren
+    zu mssen, werden folgende Gruppenbezeichnungen eingefhrt:
+    ÉÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍ»
+    º Gruppe º  BIT  ³ INT8  ³ BYTE  ³ INT16 ³ WORD  ³ INT32 ³ LONG  ³ FLOAT º
+    ÌÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍ¹
+    º BASIS  º       ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º NICHT  º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    º FLOAT  º       ³       ³       ³       ³       ³       ³       ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º ALLE   º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º FELD   º  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  º
+    ÈÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍ¼
+      x  Datentyp ist zul„ssig
+     [x] Datentyp ist zul„ssig als Feldvariable oder Zeichenkette (String)
+
+                                     @251[ Fortsetzung ]                   @001[ šbersicht ]
+.251
+    System-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Pfeile:
+    Fr die Darstellung von Eingangs- und Ausgangsparametern werden Pfeile
+    verwendet. Dabei gilt folgende Vereinbarung:
+    ÉÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º  Pfeil  º  Bedeutung                                                   º
+    ÌÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º   ->    º  Eingangsparameter                                           º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <->   º  Ein-/Ausgangsparameter. Funktionell ist es ein Ausgangs-    º
+    º         º  parameter. šblicherweise wird er aber vor dem Aufruf der    º
+    º         º  Funktion mit einer bestimmten Information geladen (z.B.     º
+    º         º  einer Adresse). Meist wird die Adresse einer Variable mit   º
+    º         º  adr() [PL2000] oder einem Adreákontakt [KOP] angeschlossen. º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <-    º  Ausgangsparameter                                           º
+    ÈÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @252[ Fortsetzung ]                   @001[ šbersicht ]
+.252
+    System-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Funktionsbl”cke:
+    Funktionsbl”cke sind in dieser Online-Hilfe nicht grafisch dargestellt.
+    Sie finden aber alle fr Funktionsbl”cke relevanten Informationen, wie
+    Eingangsparameter (->), Ein-/Ausgangsparameter (<->) und Ausgangsparameter
+    (<-) in der Online-Hilfe.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.400
+    System-Library : History - Versions„nderungen
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V2.20 -> V2.23  ³ AKTUELLE VERSION: Neue Funktionalit„ten                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Anpassung der System-Library des Programmiersystems (SYSTEM.SLB) an CPUs  º
+  º ohne Bit-Logik.                                                           º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º V2.10 -> V2.20  ³ LTERE VERSIONEN: Neue Funktionalit„ten                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Anpassung der System-Library des Programmiersystems (SYSTEM.SLB) an die   º
+  º CP200: Durch die ge„nderte Exception-Behandlung wurde eine Anpassung der  º
+  º der Funktionen EXC_info() und ZYKKVL_enable() notwendig.                  º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+
+.End

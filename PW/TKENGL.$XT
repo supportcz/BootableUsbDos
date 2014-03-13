@@ -1,0 +1,1648 @@
+001 %PANELWARE \ Programmname
+002 %--- Bernecker & Rainer Industrie Elektronik Ges.m.b.H. ---\Firmenname
+003
+004
+005 %Warning - Missing Text Layer File\
+006 %Warning - Invalid Text Layer File\
+007 %Warning - Text Layer File not complete\
+008 %Cannot open temporary file\
+009 %Text Layer #0 (default) not defined\
+010 %Text Layer Editor\         Begin Texte Sprach-Editor
+011 %Default Language:\
+012 %Language No. %d:\
+013 %Text Layer\
+014 %Copy\
+015 %Paste\
+016 %Exit\
+017
+018 %Text Layer \                               RÅckfrage speichern Ja/Nein
+019 %Text Layers\                               Funktionstaste fÅr mehrere Editoren
+020 %Compiled ESC sequence is longer than in the default language\
+021 %Default Language\                  Defaultbeschreibung Defaultsprache
+022 %Text Layers\                               Funktionstaste Anfruf Sprachbeschreibungseditor
+023 %Text Layer Overview\
+024 %Edit\
+025 %Ins\
+026 %Del\
+027
+028 %Text Layer Definition\             öberschrift Eingabe
+029
+030 %Text Layer No.:\
+031 %Text Layer Name:\
+032 %Panel Text Layer No.:\
+033 %Compile Text Layer:\
+034
+035
+036 %No.\
+037 %Text Layer Name\
+038 %No on Panel\
+039 %Compile\
+040 %Max. Number of Text Layers reached\
+041 %Cannot delete default language\
+042 %Text Layer\
+043 %Select Text Layer\
+044 %Text Layers:\                      öberschrift Sprachbeschr. Ausdruck
+045 %Text Layers not imported\
+046 %Source contains no Text Layers\
+047 %Text Layers partially imported\
+048 %Text Layers completely imported\
+049 %Text Layers partially imported\
+050 %Source contains less Text Layers\
+051 %Multiple assigned Text Layers !\   Sprachcompiler Fehlermeldungen
+052 %No Text Layer enabled !\
+053 %Only one Text Layer possible !\
+054 %Language Compiler:\
+055
+056 %                     ESC to continue\
+057 % Screen type:\ vorlÑufig!!!
+058 %Text\
+059 %Field\
+060 %Line\
+061 %Edit Picture\
+062 %not found\
+063 %Delete Project\
+064
+065 %FEUCH \            Buchstaben fuer ALT-Buchstabe in Haupt-Menue
+066 %---\
+067 %Search path\
+068 %(RET for directory list)\
+069 %File name\
+070 %Load\
+071 %Load Project\
+072 %Load Picture\
+073 %Text Entry \Modustexte, alle gleich lang
+074 %Field Entry\
+075 %Line Draw  \
+076 %           \
+077 %Mode\
+078 %Picture element\
+079 %NONAME\ max 8 Zeichen!!!
+080 %No more text is possible in this picture/report\
+081 %No Picture elements deleted\
+082 %No more lines are possible in this picture\
+083 %No graphics possible on this panel\
+084 %is not a panel parameter file\
+085 %Save Project\
+086 %Save Picture\
+087 %Save\
+088 %File\
+089 %already exists!\
+090 %Overwrite ? (Y/N) \
+091 %Yes\Gro·buchstabe, Ja Antwort, max. 4 Zeichen
+092 %No\Gro·buchstabe, Nein Antwort, max. 4 Zeichen
+093 %cannot be read\
+094 %doesn't belong to the selected panel\
+095 %There is nothing to save!\
+096 %cannot be written\
+097 %New\
+098 %Save? (Y/N) \
+099 %is not saved!\
+100 %Picture\
+101 %ESC to Cancel\
+102 %Please wait\
+103 %Field is too large to fit on the display!\
+104 %Accept\
+105 %Exit\
+106 %Project\
+107 %Table\
+108 %Select field type\
+109 %No more fields are possible in this picture/report\
+110 %Select Screen:\
+111 %Select Language:\
+112 %Monochrome\max.20 Zeichen!
+113 %Color\
+114 %LCD\
+115 %Plasma\
+116 %English\Sprachen, max. 20 Zeichen!
+117 %Deutsch\
+118 %Magyar\
+119 %Franáais\
+120 %Espa§ol\
+121 %Italiano\
+122 %Dutch\
+123 %Suomen\
+124 %Write error while saving the configuration!\
+125 %Configuration\
+126 %The selected language text file cannot be read.\
+127 %Screen:\
+128 %Language:\
+129 %Help\
+130 %System Info\
+131 %Position:\         fuer Ueberschrift bei Bild-Drucken
+132 %Please define a project first!\
+133 %    Delete? (Y/N) \
+134 %Invalid Tagname!\
+135 %Tagname already exists with different data type\
+136 %Tagname includes unknown connection\
+137 %Illegal Tagname\
+138 %PLC data type is unknown for this connection!\
+139 %Warning! Unused marks shows the status after the last error free compilation!\
+140 %maximum number of connections reached!\
+141 %Invalid or missing driver description file (PPF-file)!\
+142 %ID already exists!\     Verbindungseditor wenn ID bereits existiert!
+143 %Illegal connection!\     Es muss Verbindung ausgewaehlt werden !
+144 %Deletion denied, connection contains valid tagname(s)!\
+145 %Illegal or missing parameter!\
+146 %Missing Controller!\       Maske "Neues Projekt"
+147 %Invalid Project Name!\  Maske "Neues Projekt"
+148 %Download Project ? (Y/N) \
+149 %Upload Project ? (Y/N) \
+150 %Missing object file! Please compile! \
+151 %No more text is possible for this global text group!\
+152 %Flash cleared!\
+153 %Error at Clear Flash: \
+154 %Clear Flash...\
+155 %Max. 20kB text is possible for one global text group!\
+156 %File/Directory does not exist!\
+157 %Missing Alarm Definition!\
+158 %Invalid/missing PLC-Type!\  
+159 %Connection Definition\     Maske -Verbindungsdefinition- 
+160 %ID:\
+161 %Connection:\
+162 %PLC Type:\
+163 %Set Bit/Byte\               Selektor-Menue -Tastenaktionen-
+164 %Set Word\
+165 %Toggle Bit/Byte\
+166 %Toggle Word\
+167 %Momentary Bit/Byte\hold down the button
+168 %LED Control from PLC\
+169 %Goto Input\                                Ende Selektor-Menue
+170                     
+171 %Tagname:\
+172 %Tagname for Completion:\Abschlu·adresse:
+173     %Value for Completion:\Abschlu·wert:
+174 %Type:\
+175 %KeyPad Module:\
+176 %Numerical Keycode Table\
+177 %    Alpha Keycode Table\
+178 %NumTab\
+179 %AlphaTab\
+180 %Load Keycode Table\
+181 %Save Keycode Table\
+182 %Download Project Anyway? (Y/N) \
+183 %<ƒƒŸ\          Fuer Auswahl Enter DrÅcken
+184 %No PLC address defined for this tagname!\
+185 %Printing...\
+186 %Not allowed for this group!\
+187 %Text group name missing!\
+188 %This field type is not possible for this panel!\
+189 %Control Key\
+190 %Function Key\
+191 %Caution! The control keys are entered in both tables!\
+192 %Only function keys from F1 to F22 are possible!\
+193 %Warning: Incomplete control key definition!\
+194 %Save...\
+195 %Write Protect\
+196 %Drive not ready\
+197 %Disk Error\
+198 %Enter Picture Name\198 u 199 u 206 gleich lang!
+199 %Enter Branch      \ Verzweigung eingeben
+200 %Picture name\
+201 %Branch\
+202 %Project Def.\
+203 %Bind Picture\
+204 %Picture List\
+205 %The names of the bound pictures can only be changed with F1!\
+206 %Enter Function Key\
+207 %Function Key\
+208 %Function key has already been used!\
+209 %Project Name:\
+210 %Panel Type:\
+211 %Keycode Table Used:\
+212 %Global Text File:\
+213 %Number of Pictures:\
+214 %Maximum 250 pictures allowed in a project! Picture not accepted.\
+215 %This branch cannot be deleted!\
+216 %Incomplete branches have been defined! Picture is not accepted.\
+217 %Delete Pict.\
+218 %not bound\
+219 %No memory available! Function cannot be executed!\
+220 %No pictures bound!\
+221 %New Pict.\
+222 %The last picture cannot be deleted!\
+223 %Name of the first picture:\
+224 %Comm. error picture name:\
+225 %Please choose an edit mode first (Project, Picture, Text Groups)!\
+226 %Warning! Not all pictures are bound!\
+227 %Warning! The connected picture is not in the picture list!\
+228 %Picture list missing!\
+229 %The comm. error picture is not in the project definition!\
+230 %Error! Incomplete project definition!\
+231 %No memory available\
+232 %Edit Keycode Table\
+233 %Edit Project\
+234 %Edit Text Group\
+235 %Ins\
+236 %Del\
+237 %Other functions\
+238 %Accept\
+239 %Text File\
+240 %No memory for global text!\
+241 %Import Text Group\
+242 %Project Compiler\
+243 %Fatal Error!\
+244 %Compiling...\
+245 %Cancel:\
+246 %fatal error(s) found!\
+247 %No object code created!\
+248 %Error while saving the object file\
+249 %Error while compiling a text group\
+250 %Error while compiling the pictures\
+251 %Error while compiling the keycode tables\
+252 %Internal Compiler Error!\
+253 %Download Project\
+254 %Download, Block:\
+255 %Download complete\
+256 %Cannot make connection with panel!\
+257 %Please check cable and installation!\
+258 %Compilation finished. Errors:\
+259 %Cannot write to panel memory!\
+260 %Panel is being reset  -  please wait!\
+261 %Panel memory is being erased  -  please wait!\
+262 %Global Init\
+263 %Change Picture\
+264 %Global Init: \
+265 %On \
+266 %Off \
+267 %Next\              Texte fuer Bildverzeichnis
+268 %Previous\
+269 %project size %dk !\
+270 %maximal number of text reached!\
+271 %Upload complete\
+272 %Frame? (Y/N):\
+273 %Clear display  \273 bis 277 gleich lang, und max. 25!
+274 %GI Text Def.   \
+275 %Change Picture:\
+276 %Change Picture Global:\
+277 %Project contains too many PLC variables!\
+278 %LED No.:\
+279 %ClrScr\
+280 %LED\
+281 %L.On\
+282 %L.Off\
+283 %L.Blink\
+284 %L.Fblink\
+285 %Text\als Bezeichnung im GL Editor
+286 %Number of Global Init Text:\
+287 %Text Number of Global Init Text:\
+288 %Define project parameters\
+289 %Error! Error picture and first picture cannot be the same!\
+290 %The selected file has an incorrect version number!\
+291 %The selected file is not a project file!\
+292 %The selected file is not a text group file!\
+293 %The selected file is not a keycode table file!\
+294 %The selected file is not a picture file!\
+295 %The file has the wrong ID !\
+296 %Upload Project\
+297 %Function is only possible through main menu!\
+298 %Program is too large !\
+299 %Current user path\
+300 %The registers from 800 to 1499 may not be written to!\
+301 %Clear Screen\von 301 bis 305 max. 39 Zeichen!
+302 %Key LED switched on\
+303 %Key LED switched off\
+304 %Key LED blinking slow\
+305 %Key LED blinking fast\
+306 %No:\
+307 %Activate the Menu with Alt-Function key\
+308 %Alt-F5 for Help\
+309 %PgUp/PgDn for more\
+310 %Protocol:\
+311 %Channel #2\
+312 %Channel #1\
+313 %Adr\
+314 %File requires converting\
+315 %All LEDs switched off\
+316 %All L.OFF\
+317 %The selected file must be converted\
+318 % contains invalid commands!\
+319 %No bar graph fields are possible on this panel\
+320 %No LONG fields are possible on this panel\
+321 %Warning! Memory fragmented - Program re-started!\
+322 %A Slave Project can only be used in connection to a Main Project!\
+323 %This panel does not support slave projects!\
+324 %Slave Project\
+325 %Deletion denied. Slave project still defined.\
+326 %A Slave Project can only be loaded in connection to a Main Project!\
+327 %Maximum 3 slave projects per main project!\
+328 %Slave Project\
+329 %This slave controller number has already been used for another slave project!\
+330 %This panel has no inputs!\
+331 %This panel has no outputs!\
+332 % contains incorrect variable names!\
+333 %Define Global Init Text\
+334 %Key\
+335 %Keys/LED Func.\ Modustexte, alle gleich lang (vgl. Text[73] ff. )
+336 %No more Key/LED Functions are possible in this picture\
+337 %No key functions are possible on this panel\
+338 %No LED functions are possible on this panel\
+339 %Invalid OBX Table!\
+340 %contains key functions with invalid keys\
+341 %New user path\
+342 %LED/Key Function\
+343 %Key Function\
+344 %LED Function\
+345 %define\ Auswahltext Default-Verbindungen, derzeit nicht benutzt!
+346 %select\
+347 %delete\
+348 %Value 1:\
+349 %Value 2:\
+350 %change\
+351 %Connection List\
+352 %ID\
+353 %Connection\
+354 %PLC Type\
+355 %No LED functions are possible on this key\
+356 %Load connection list\
+357 %Save connection list\
+358 %Master Project:\
+359 %Import Project\
+360 %Import Picture\
+361 %PgUp/PgDn, CursorUp/CursorDown - more\
+362 %Station Number\
+363 %Module is being burned\
+364 %Module burned successfully\
+365 %Select User Path\
+366 %Select Interface\
+367 %Select NW Module Name\
+368 %COM 1\
+369 %COM 2\
+370 %Network\
+371 %NW Module\
+372 %is not currently supported !\
+373 %Connection interrupted\
+374 %Successful Connection\
+375 %Module could not be burned!\
+376 %Errors in Transmission\
+377 %Address not allowed for this PLC data type !\
+378 %Missing display type!\     Maske "Neues Projekt"
+379 %Function is not possible on this panel!\
+380 %Project started!\
+381 %Error at Start Project\
+382 %Function is not possible in this edit mode!\
+383 %Cannot execute Text Layer Editor for -NONAME- \ 
+384 %Text Attribute\                    Funktionstaste im Bildeditor
+385 %File(s) don't exist\
+386 %File(s) successfully processed\
+387 %Memory Free\
+388 %Pictures\
+389 %No further Text Layers defined\
+390 %For.\
+391 %Back\
+392 %Exit Program (Y/N)? \
+393 %Invalid multiple use of a function key\
+394 %Warning: Picture contains overlapping fields\
+395 %Picture change by the PLC is not allowed on this panel!\
+396 %Function is not necessary on this panel!\
+397 %Messages\
+398 %Background lighting cannot be installed on this panel!\
+399 %Text Group File FILENAME does not exist! \  
+400 %+N+ Next\  Tastencodetabelleneditor Steuertasten-Auswahl-Menue
+401 %+P+ Previous\
+402 %+E+ Enter\
+403 %+n+ nEXT INPUT\
+404 %+C+ Clear\
+405 %+B+ Backspace\
+406 %+S+ Sign change\
+407 %+p+ pREVIOUS INPUT\
+408 %+G+ Group Acknowledge\
+409 % \                         Reserve fuer Steuertasten
+410 %Picture\                  Bildverzeichnis-Header beim Ausdrucken
+411 %Neighbour\
+412 %Global Init\
+413 %Picture change\            "Bildwechsel aus der SPS"
+414 %by the PLC\
+415
+416 %Page:\
+417 %Field\                      Ueberschrift Feldbeschreibung
+418 %Project Description:\      Ueberschrift Projektbeschreibung
+419 %Picture List:\          Ueberschrift Bildverzeichnis
+420 %January\                    Monatsnamen fuer Datumsaufbereitung
+421 %February\
+422 %March\
+423 %April\
+424 %May\
+425 %June\
+426 %July\
+427 %August\
+428 %September\
+429 %October\
+430 %November\
+431 %December\
+432 %300  \                     Selektormenue fuer Baud-Rate
+433 %600  \
+434 %1200 \
+435 %2400 \
+436 %4800 \
+437 %9600 \
+438 %19200\
+439 %Minutes\
+440 %Printer Configuration\      Menue fuer Druckerkonfiguration
+441 %Page Length:\
+442 %Left Margin:\
+443 %Page Feed (LF/FF):\
+444 %Characters/Line:\
+445 
+446 %Module is too large !\
+447 %Oldest or Newest Alarm not allowed in conjunction with Active Alarm field!\
+448 %Field type already exists, only 1 allowed per picture!\
+449 %This panel has no alarm functions!\
+450 %Fields are not allowed in the error picture on this panel!\
+451 %Invalid Hardware!\
+452 %Only INTERNAL variables are allowed in the error picture!\
+453 %Warning! Not INTERNAL variable!\
+454 %Reference to unknown connection ID!\
+455 %Invalid file name or wild cards!\
+456 %Picture requires panel\
+457 %Keycode table requires panel\
+458 %Warning: Global Text(s) contain characters and ESC Sequences\
+459 %Version Conflict: Please load and save project !\
+460 %Version Conflict: File cannot be edited!\
+461 %User module does not exist\
+462 %Upload, Module:\
+463 %Download, Module:\
+464 %Error with startup_network\
+465 %Is panel in TEACH Mode ?\
+466 %Version Conflict: Please load and save the .TTA file !\
+467 %The previous input key is invalid for this panel!\
+468 %Only function keys from F1 to F99 are possible!\
+469 %Compiler Error\
+470 %Connections list is not required for this panel!\
+471 %Numeric keycode table\ weitere Texte fuer Druckfunktionen
+472 %Alphanumeric keycode table\
+473 %Key/LED Functions, Picture:\
+474 %contains a field with reference to unknown text group:\
+475 %Group Acknowledge Key is not allowed on this panel!\
+476 %Alarm System:\     Fehlermeldungsbestandteil
+477 %Invalid variable name !\
+478 %No PLC data type defined for this tagname!\
+479 %Tagname not used in any field yet!\
+480 %Deletion denied, alarm group contains valid alarms!\
+481 %Maximum number of alarms per group reached!\
+482 %Maximum number of groups reached!\
+483 %Not allowed for this group!\
+484 %Maximum number of alarms reached!\
+485 %Variable name already exists!\
+486 %Maximum number of tagnames reached!\
+487 %Illegal address pre-selector!\
+488 %Address out of range!\
+489 %Address not allowed for this field type!\
+490 %Text Group List\    Ueberschrift fuer Text-Gruppenverzeichnis
+491 %Gr#\                       Ueberschrift Textgruppenverzeichnis
+492 %Text Group Name\
+493
+494
+495 %Previous page\             ALT-F1...F-Taste Help
+496 %Help Main Screen\          F10   ...Zurueck zum Help-Main-Bildschirm
+497 %System Alarms\             Fixtext Gruppenverzeichniseintrag
+498 %Group Alarms\              Fixtext Gruppenverzeichniseintrag
+499 %Alarm Group List\   Ueberschrift fuer Gruppenverzeichnis
+500 %Gr#\                       Ueberschrift Alarmgruppenverzeichnis
+501 %No.\
+502 %Alarm Bit Field\
+503 %Len\                       nicht in Verwendung
+504 %Scan\
+505 %Prio\
+506 %Group Alarm\
+507 %Status Abbr.\
+508
+509
+510 %Edit\                      F-Tastenbelegung Alarmgruppenverzeichnis
+511 %Ins\
+512 %Del\
+513 %Alarm\
+514 %Alarm List\
+515
+516
+517 %NONE\                      Selektormenue fuer Paritaet
+518 %EVEN\
+519 %ODD\
+520 %LF\                        Selektormenue fuer Formfeed/Linefeed
+521 %FF\
+522 %None   \                   Selektormenue fuer Handshake
+523 %XON/OFF\
+524 %RTS/CTS\
+525 %DD.MM.YY HH:MM:SS \        Selektormenue fuer Timeformat
+526 %MM.DD.YY HH:MM:SSa\
+527 %HH:MM:SS\
+528 %HH:MM:SSa\
+529 %HH:MM\
+530 %HH:MMa\
+531 %Don't display\
+532 %None       \               Selektormenue fuer Trennzeichen
+533 %Period\
+534 %Space\
+535 %Hyphen\
+536 %. -\                       Zeichen fuer Trennzeichen
+537
+538 %Don't display\          Selektormenue fuer Stellenanzahl
+539 %1 character\
+540 %2 characters\
+541 %3 characters\
+542
+543 %Don't display\          Selektormenue fuer Ereignisdarstellungsform
+544 %Character\
+545 %Text\
+546
+547 %Don't display\          Selektormenue fuer Alarmtextdarstellungsform
+548 %Display\
+549 %0 50 100 500 1000\         Multiplikatoren fuer ScanRate
+550 %Min     \                    Selektormenue fuer ScanRate
+551 %500 msec\
+552 %1 sec   \
+553 %5 sec   \
+554 %10 sec  \
+555
+556
+557 %Maximum\                   Selektormenue fuer Laenge Hist. Alarmliste
+558 %10\
+559 %50\
+560 %100\
+561 %1000\
+562
+563
+564
+565 %Alarm System Basic Configuration \   Maske Alarmsystem Grundkonfiguration
+566 %Text if No Alarm:\
+567 %Text for Group Acknowledge:\
+568 %Alarm History List Length:\
+569
+570
+571
+572
+573
+574 %Panel Printer Configuration\       Maske Alarmsystem Allg. Druckerparam.
+575 %Sequence for Triggered:\
+576 %Sequence for Reset:\
+577 %Sequence for Acknowleged:\
+578 %Sequence for By-passed:\
+579
+580 %Printer Line Parameters\            Maske Druckerzeilenparameter
+581 %Time format:\
+582 %Separator #1:\
+583 %Group number:\
+584 %Separator #2:\
+585 %Alarm number:\
+586 %Separator #3:\
+587 %Alarm text:\
+588 %Separator #4:\
+589 %Event:\
+590 %Separator #5:\
+591 %Acknowledgment Status:\
+592
+593
+594 %Group Alarm Definition\            Ueberschrift Summenalarmgruppe 
+595 %Alarm Group Definition\            Maske Alarmgruppenerfassung
+596 %Group Number:\
+597 %Max. Number of Alarms:\
+598 %Tagname for Alarm Bit Field:\
+599 %Tagname for Group Alarm:\
+600 %Tagname for Bypass Image:\
+601 %Tagname for Acknowledge Image:\
+602 %Alarm Scan Rate:\
+603 %Priority:\
+604 %Alarm Status text for\
+605 %      Triggered:\
+606 %      Reset:\
+607 %      Acknowlegded:\
+608 %      Unacknowledged:\
+609 %      By-passed:\
+610 %      Not by-passed:\
+611     %Status Abbr.:\
+612
+613 %Default Alarm Conf.\               F-Taste Alarmgruppendefinition
+614 %Group Alarm\
+615 %Default Alarm Configuration\        Maske Default-Alarmkonfiguration
+616 %Acknowledgment Possible:\
+617 %Acknowledgment Necessary:\
+618 %Disable printing when triggered:\
+619 %Disable printing when reset:\
+620 %Disable print when ack. & reset:\
+621 %Disable printing when acknowledged:\
+622 %Bypass Allowed:\
+623 %Trigger group alarm:\set group alarm or not
+624 %Disable printing when by-passed:\
+625 %Disable printing when not by-passed:\
+626 %Latched Alarm:\
+627
+628
+629
+630 %Edit\                 Funktionstasten Grundkonfiguration
+631 %Printer\
+632 %Line printout\
+633 %Alarm Group List\
+634
+635 %Field Format\              FT Felddefinition Alarmfelder und Ueberschrift Feldelemente
+636 %Filter Code\                --"-- und Ueberschrift Filtercode
+637 %Up/Down Input\             Funktionstasten Felddefinition sonstige Felder
+638 %Locking\
+639 %Scaling\
+640 %Alarm Text\                 Alarmtext fuer Examples
+641 %T\                         Ereigniszeichen fuer Examples
+642 %A\                         Qstatuszeichen fuer Examples
+643 %Triggered\                  Ereignistext fuer Examples
+644 %Acknowledged\                 Quittierstatustext fuer Examples
+645 %No Alarm\                Text fuer NOALARM
+646 %Group Acknowledge\                Text fuer Sammelquittierung
+647 %----------- Header -----------\  Text fuer Kopfzeile
+648 %Triggered\                  Alarmzustandstexte
+649 %Reset\
+650 %Acknowledged\
+651 %Unacknowledged\
+652 %By-passed\
+653 %Not by-passed\
+654
+655 %TRA 10B BU\                Zustandsbezeichnungsstring
+656 %Used\                      F-Taste fuer VZT-Verzeichnis
+657 %PLC Node Parameters\       F-Taste fuer Verbindungs-Liste
+658 %PLC Network Parameters\    F-Taste fuer Node-Parameter-Menue
+659 %Scaling/Limits\            F-Taste fuer Input Long ohne VZ
+660 %Group Alarm Definition\     Ueberschrift Summenalarmdefinition
+661 %Alarm Definition\           Maske Alarmerfassung
+662 %Group Number:\
+663 %Alarm Number:\
+664 %Alarm Text:\
+665 %Alarm Configuration\
+666 %Acknowledgment Possible:\
+667 %Acknowledgment Necessary:\
+668 %Disable printing when triggered:\
+669 %Disable printing when reset:\
+670 %Disable printing when ack. & reset:\
+671 %Disable printing when acknowledged:\
+672 %Bypass Allowed:\
+673 %Trigger group alarm:\
+674 %Disable printing when by-passed:\
+675 %Disable printing when not by-passed:\
+676 %Latched Alarm:\
+677
+678
+679
+680 %Alarm List\          Ueberschrift fuer Alarmverzeichnis
+681 %Al#\                       Spaltenbeschreibung Alarmverzeichnis
+682 %Alarm Text\
+683
+684
+685 %Binary\                             Selektormenue fuer Uhrzeitformat SPS
+686 %BCD\
+687 %Inverse\                            Selektormenue fuer Selector
+688 %*\
+689 %-\
+690 %>\
+691 %<\
+692 %#\
+693 %!\
+694
+695 %Field Class\                        Ueberschrift Selektormenue Feldauswahl
+696 %    Output Field    \              !!! Selektormenue fuer Feldauswahl
+697 %    Input Field     \              !!! max 20 Zeichen
+698 %    Alarm Field     \              !!!
+699
+700 %Output Bit/Byte\               Selektormenue Output-Feldtypen, max 30 Zeichen!
+701 %Output Word (unsigned)\
+702 %Output Word (signed)\
+703 %Output Text\
+704 %Output String\
+705 %Output Byte as Bar Graph\
+706 %Output Word as Bar Graph\
+707 %Output Long (unsigned)\
+708 %Output Long (signed)\
+709 %Output Text Advanced\
+710 %Output Float\
+711 %Output Date/Time\
+712 
+713 %Input Bit/Byte\                Selektormenue Input-Feldtypen, max 30 Zeichen!
+714 %Input Word (unsigned)\
+715 %Input Word (signed)\
+716 %Input String\
+717 %Input Long (unsigned)\
+718 %Input Long (signed)\
+719 %Input Password\
+720 %Input Float\
+721 
+722
+723 %Oldest Active Alarm\  Selektormenue Alarm-Feldtypen, max 30 Zeichen!
+724 %Newest Active Alarm\
+725 %Active Alarm\ alarm on still
+726 %Alarm\
+727 %Alarm History List Entry\
+728 %Position:\                         Maske fuer FLA-Felddefinition
+729 %<Field Width>:\
+730 %Function Key for Acknowledge:\
+731 %Time Format:\                    FLA-Feldelemente
+732 %Separator #1:\
+733 %Group Number:\
+734 %Separator #2:\
+735 %Alarm Number:\
+736 %Separator #3:\
+737 %Alarm Text:\
+738 %Separator #4:\
+739 %Acknowledgment Status:\
+740 %Position:\                         Maske fuer FAA-Felddefinition
+741 %<Field Width>:\
+742 %F-key for Acknowledge:\
+743 %Function Key for Up:\
+744 %Function Key for Down:\
+745 %Cursor Character:\ pointer character ??                 FAA-Feldelemente
+746 %Time Format:\
+747 %Separator #1:\
+748 %Group Number:\
+749 %Separator #2:\
+750 %Alarm Number:\
+751 %Separator #3:\
+752 %Alarm Text:\
+753 %Separator #4:\
+754 %Info:\
+755 %Priority:\
+756
+757 %Position:\                         Maske fuer FA-Felddefinition
+758 %<Field Width>:\
+759 %F-Key for Bypass:\
+760 %F-Key for Up:\
+761 %F-Key for Down:\
+762 %Address of Group Number Filter:\
+763 %Address of Alarm Number Filter:\
+764
+765 %Cursor Character:\                  FA-Feldelemente
+766 %Group Number:\
+767 %Separator #1:\
+768 %Alarm Number:\
+769 %Separator #2:\
+770 %Alarm Text:\
+771 %Separator #3:\
+772 %Alarm Status:\
+773 %Acknowledgment Status:\
+774 %Bypass Status:\
+775 %Separator #4:\
+776 %Priority:\
+777
+778
+779
+780 %Position:\                         Maske fuer FHA-Felddefinition
+781 %<Field Width>:\
+782 %Function Key for Up:\
+783 %Function Key for Down:\
+784 %Address of Filter Control Byte:\
+785 %Address of Group Number Filter:\
+786 %Address of Alarm Number Filter:\
+787 %Address of Priority Filter:\
+788 %Address of Filter Time:\
+789
+790 %Cursor Character:\          FHA-Formatdefinition
+791 %Time Format:\
+792 %Separator #1:\
+793 %Group Number:\
+794 %Separator #2:\
+795 %Alarm Number:\
+796 %Separator #3:\
+797 %Alarm Text:\
+798 %Separator #4:\
+799 %Event:\
+800 %Separator #5:\
+801 %Acknowledgment Status:\
+802
+803 %Enable Filter Function:\    enable/disable   FHA-Filtercode
+804 %PLC Time Format:\
+805 %Enable Time Filter:\        allowed
+806 %Enable Group Filter:\
+807 %Enable Priority Filter:\
+808
+809
+810
+811
+812
+813
+814
+815
+816 %Up/Down Input\             Ueberschrift Sub-Menue -Verstellinput-
+817 %"+" Key:\               Sub-Menue -Verstellinput-
+818 %"-" Key:\
+819
+820 %Position:\                 Felderfassungsmenue: Input-Felder Typ: A
+821 %Number of Digits:\
+822 %Places after dec. point:\
+823 %Character Size:\
+824 %<Field Width>:\
+825 %Destination Tagname:\
+826 %Tagname for Completion:\
+827 %Value for Completion:\
+828 %Up/Down Input? (Y/N):\
+829 %Locking Active? (Y/N):\
+830 %Display leading zeros? (Y/N):\
+831 %Scaling? (Y/N):\
+832
+833 %Scaling\        Ueberschrift Sub-Menue -Normierung- fuer Inputfelder
+834 %0% Value in the PLC:\       Sub-Menue -Normierung- Input-Felder Typ: A
+835 %100% Value in the PLC:\
+836 %Minimum Value on Panel:\
+837 %Maximum Value on Panel:\
+838 %Scaling\        Ueberschrift Sub-Menue -Normierung- fuer Outputfelder
+839 %0% Value in the PLC:\       Sub-Menue -Normierung- Input-Felder Typ: A
+840 %100% Value in the PLC:\
+841 %0% Value on Panel:  \
+842 %100% Value on Panel:\
+843 %Input Locking Configuration\    Ueberschrift Sub-Menue -Sperrbit-Konfiguration-
+844 %Tagname for Locking Value:\     Sub-Menue -Sperrbit-Konfiguration-
+845 %Input Locked if:\
+846 %Password Level:\
+847 %Locking Value == 0               \    Selektormenue Sperrarten
+848 %Locking Value <  Password Level\
+849 %Locking Value >= Password Level\
+850 %Position:\                 Felderfassungsmenue: Output-Felder Typ: B
+851 %Number of Digits:\
+852 %Places after dec. point:\
+853 %Character Size:\
+854 %<Field Width>:\
+855 %Tagname:\
+856 %Display leading zeros? (Y/N):\
+857 %Scaling? (Y/N):\
+858
+859 %Scaling\                Ueberschrift Sub-Menue -Normierung-
+860 %0% Value in the PLC:\       Sub-Menue: Normierung Output-Felder Typ: B
+861 %100% Value in the PLC:\
+862 %0% Value on Panel:\
+863 %100% Value on Panel:\
+864
+865 %Position:\                 Felderfassungsmenue: Output-Balken Typ: C
+866 %Pixel X Coordinate:\
+867 %Pixel Y Coordinate:\
+868 %Direction:\
+869 %Bar Width:\
+870 %Bar Length:\
+871 %Tagname:\
+872 %Scaling? (Y/N):\
+873
+874
+875 %Position:\                 Felderfassungsmenue: Input-Long ohne VZ
+876 %Number of Digits:\
+877 %Places after Dec. Point:\
+878 %Character Size:\
+879 %<Field width>:\
+880 %Destination Tagname:\
+881 %Tagname for Completion:\
+882 %Value for Completion:\
+883 %Locking Active? (Y/N):\
+884 %Display leading zeros? (Y/N):\
+885 %Scaling? (Y/N):\
+886 %Text Attribute\                Ueberschrift Maske Textattribut
+887 %Character Size:\               Textattribut Textzeichengroesse
+888 %Position:\                 Felderfassungsmenue: Input-String       
+889 %String Length:\
+890 %Character Size:\
+891 %Destination Tagname:\
+892 %Tagname for Completion:\
+893 %Value for Completion:\
+894 %Right Cursor Key:\
+895 %Left Cursor Key:\
+896 %Del Key:\
+897 %Backspace Key:\
+898 %Tabulator Key:\
+899 %Tabulator Size:\
+900 %Initial mode:\
+901 %Locking Active? (Y/N):\ 
+902 %Position:\                 Felderfassungsmenue: Output-String
+903 %String Length:\
+904 %Character Size:\
+905 %Tagname:\
+906 
+907 %Position:\                 Felderfassungsmenue: Output-Time/Date
+908 %Time Format:\
+909
+910 %Position:\                 Felderfassungsmenue: Output-Text & Advanced
+911 %Number of Characters:\
+912 %Character Size:\
+913 %Tagname:\
+914 %Tagname for Attribute:\
+915 %Text Group:\
+916 %Position:\                 Felderfassungsmenue: Input Float
+917 %Number of Digits:\
+918 %Places after the dec. point:\
+919 %Character Size:\
+920 %<Field Width>:\
+921 %Destination Tagname:\
+922 %Tagname for Completion:\
+923 %Value for Completion:\
+924 %Locking Active? (Y/N):\
+925 %Display leading zeros? (Y/N):\
+926 %Scaling? (Y/N):\
+927
+928 %Position:\                 Felderfassungsmenue: Input-Passwort
+929 %Character Size:\
+930 %Number of Characters:\
+931 %Destination Tagname:\
+932 %Tagname for Completion:\              ???
+933 %Value for Completion:\                 ???
+934 %Echo Character:\
+935 %Number of Password Levels:\
+936 %Text for Level #1:\
+937 %Text for Level #2:\
+938 %Text for Level #3:\
+939
+940 
+941 
+942 %edit               \		SelektormenÅ Lîschmodus in Maske String Input
+943 %clear              \
+944 %character dependent\
+945 %Input Limits\              Ueberschrift Maske: Grenzwert Input Long
+946 %Lower Limit Value:\        Maske: Grenzwert Input Long     
+947 %Upper Limit Value:\
+948 %VAT\                               Funktionstaste in Verbindungseditor
+949
+950 %Variable Assignment Table\         Ueberschrift VZT-Verzeichnis
+951 %Tagname\                              Spaltenbezeichner VZT-VZ
+952 %Panel Data Type\
+953 %PLC Address\
+954 %PLC Variable Type\
+955 %VAT Definition\                    Ueberschrift VZT-Definition
+956 %Tagname:\                             VZT-Definitionsmaske
+957 %PLC Address:\
+958 %PLC Variable Type:\
+959 
+960 %             \             BTI-Datentypen fuer VZT-Editor
+961 %Bit\
+962 %Byte\
+963 %Word signed\
+964 %Long signed\
+965 %Byte unsigned\
+966 %Word unsigned\
+967 %Long unsigned\
+968 %Float\
+969 %String\
+970
+971 
+972 
+973 %The Text Group will be removed, are you sure? (Y/N)\
+974 %Conn\                              Kurzform Ftaste F5 im Bildeditor (Felddefinition)
+975 %Connection List\   Ftaste F5 im Bildeditor (Felddefinition)
+976 %Text Groups\               Ftaste F5 im Bildeditor (Felddefinition)
+977 %Reports\                   Ftaste F5 im Protokolleditor (Protokolldefinition)
+978 %Recipes\                   Ftaste F6 im Bildeditor (Felddefinition)
+979 %Scaling\                   Kurzform Ftaste F3 Normierung im Bildeditor (Felddefinition)
+980 %Panel Printer Configuration\       Maske Allgemeine Druckerparameter
+981 %Printer Available ?:\
+982 %Lines/Page:\
+983 %Characters/Line:\
+984 %Page Feed:\
+985 %Interface Number:\
+986 %Baud Rate:\
+987 %Parity:\
+988 %Number of Data Bits:\
+989 %Number of Stop Bits:\
+990 %Header Text:\
+991 %Handshake Mode:\
+992 %Init Sequence for Printer:\
+993 %Init Sequence for Form Feed:\
+994 
+995 %Cannot make connection with panel while user flash is cleared!\
+996	%Please wait!                                  <ESC> to cancel \
+997
+998
+999 %PLC Network Parameter Definition\    Ueberschrift PPF-Maske
+1000 %PLC Node Parameter Definition\      Ueberschrift PPF-Maske
+1001 %                                           \  reserviert fuer PPF-Maske
+1002 %                                           \  reserviert fuer PPF-Maske
+1003 %                                           \  reserviert fuer PPF-Maske
+1004 %                                           \  reserviert fuer PPF-Maske
+1005 %                                           \  reserviert fuer PPF-Maske
+1006 %                                           \  reserviert fuer PPF-Maske
+1007 %                                           \  reserviert fuer PPF-Maske
+1008 %                                           \  reserviert fuer PPF-Maske
+1009 %                                           \  reserviert fuer PPF-Maske
+1010 %                                           \  reserviert fuer PPF-Maske
+1011 %                                           \  reserviert fuer PPF-Maske
+1012 %                                           \  reserviert fuer PPF-Maske
+1013 %                                           \  reserviert fuer PPF-Maske
+1014 %                                           \  reserviert fuer PPF-Maske
+1015 %                                           \  reserviert fuer PPF-Maske
+1016 %                                           \  reserviert fuer PPF-Maske
+1017 %                                           \  reserviert fuer PPF-Maske
+1018 %                                           \  reserviert fuer PPF-Maske
+1019 %                                           \  reserviert fuer PPF-Maske
+1020 %                                           \  reserviert fuer PPF-Maske
+1021 %PLC Node ID:\             Fixtext Node-Maske
+1022 %Connection:\              Fixtexte Netzwerk-Maske
+1023 %PLC Type:\
+1024 %Invalid/missing Network Parameter!\
+1025 %New Slave Project\         Ueberschrift Maske Neues Slave Projekt
+1026 % \                        Maske Neues Projekt
+1027 %Slave Project Name:\
+1028 %Controller:\
+1029 %Slave Controller Number:\              inklusive   
+1030 % \
+1031 %Display Type:\            Maske Hardwaredefinition
+1032 %Number of KeyPad Modules:\
+1033 %Type KeyPad Module 1 :\
+1034 %Type KeyPad Module 2 :\
+1035 %Type KeyPad Module 3 :\
+1036 %Type KeyPad Module 4 :\
+1037 %Type KeyPad Module 5 :\
+1038 %Type KeyPad Module 6 :\
+1039 %Type KeyPad Module 7 :\
+1040
+1041 %Hardware Definition\   Ueberschrift Maske Hardwaredefinition
+1042 %New Project\        Ueberschrift Maske Neues Projekt
+1043 % \                        Maske Neues Projekt
+1044 %Project Name:\
+1045 %Controller:\              inklusive       
+1046 % \
+1047 %Display Type:\        Maske Hardwaredefinition
+1048 %Number of KeyPad Modules:\
+1049 %Type KeyPad Module 1 :\
+1050 %Type KeyPad Module 2 :\
+1051 %Type KeyPad Module 3 :\
+1052 %Type KeyPad Module 4 :\
+1053 %Type KeyPad Module 5 :\
+1054 %Type KeyPad Module 6 :\
+1055 %Type KeyPad Module 7 :\
+1056 
+1057 
+1058 %LCD 2x20\                 Select-Menue Display-Type
+1059 %LCD 4x20\
+1060 %LCD 4x40\
+1061 %LCD 8x40\
+1062 %LCD16x40\
+1063 %VFD 2x20\
+1064 %VFD 2x40\
+1065 %16  \                     Select-Menue Tastenmodul-Type
+1066 %12+4\
+1067 %8   \
+1068 %4   \
+1069 %6   \
+1070 %Hardware\  F-Taste Hardwaredefinition
+1071 %I/O\               F-Taste Input/Output FunktionalitÑt
+1072 %Direction:\
+1073 %right\
+1074 %left\
+1075 %upward\
+1076 %downward\
+1077
+1078
+1079
+1080 %Invalid Controller!\
+1081
+1082 %Import Project? (Y/N)\
+1083 %Warning: The components of the current project (Keycodes, Alarm\
+1084 %definitions, VATs, etc.) will be completely substituted by the \
+1085 %components of the imported project. \
+1086 %Press ALT-F5, HELP for more information!\
+1087 %Enter 'Y' to start the import function \
+1088 %or ESC to cancel.                 \ reserviert fuer Warnung 1083
+1089 %                                  \ reserviert fuer Warnung 1083
+1090 %For an upload first create a dummy project with\  Warntext fuer Upload !
+1091 %the hardware parameters of your panel and save it!\
+1092 %Don't use the upload function if a regular project is loaded!\
+1093 %\
+1094 %\
+1095 %Press 'Y' to start upload or \
+1096 %press ESC to return to the main menu!\
+1097
+1098 
+1099 
+1100 %Project Definition\    GE-VERSION: Ueberschrift Maske Projektdefinition
+1101 % \                        Maske Projektdefinition
+1102 %Hardware:\
+1103 % \
+1104 %Picture for Communication Error:\
+1105 %F-Key for Error Confirmation:\
+1106 %Enable Key Buffering:\
+1107 %Background lighting permanently on:\
+1108 %Minutes:\
+1109 %Enable Alarm System:\
+1110 %Transmit Key Matrix:\
+1111 %Address:\
+1112 %Transmit Current Picture Number:\
+1113 %Address:\
+1114 %Transmit LED Matrix:\
+1115 %Address:\
+1116 %Allow picture change by the PLC:\
+1117 %Address:\
+1118 %Enable Text Layers:\
+1119 %Text Layer Switching:\
+1120 %Address:\
+1121 %Update Time from PLC:\
+1122 %Time Trigger Address:\
+1123 %Time Address:\
+1124    
+1125 
+1126 
+1127 
+1128 
+1129 
+1130 
+1131 
+1132 
+1133 
+1134 
+1135 %Project Definition\    BR-VERSION: Ueberschrift Maske Projektdefinition
+1136 % \                        Maske Projektdefinition
+1137 %Hardware:\
+1138 % \
+1139 %Picture for Communication Error:\
+1140 %F-Key for Error Confirmation:\
+1141 %Enable Key Buffering:\
+1142 %Background lighting permanently on:\
+1143 %Minutes:\
+1144 %Enable Alarm System:\
+1145 %Transmit Key Matrix:\
+1146 %Address:\
+1147 %Transmit Current Picture Number:\ 
+1148 %Address:\
+1149 %Transmit LED Matrix:\
+1150 %Address:\ 
+1151 %Allow picture change by the PLC:\
+1152 %Address:\
+1153 %Enable Text Layers:\
+1154 %Text Layer Switching:\
+1155 %Address:\
+1156 %Update Time from PLC:\
+1157 %Time Trigger Address:\
+1158 %Time Address:\
+1159    
+1160 
+1161 
+1162 
+1163 
+1164 
+1165 
+1166 
+1167 
+1168
+1169
+1170 %Slave Project Definition\    Ueberschrift Maske Slave-Projektdefinition
+1171 % \                          Maske Slave-Projektdefinition
+1172 %Hardware:\
+1173 %Slave Controller Number:\
+1174 % \
+1175 %Picture for Communications Error:\
+1176 %F-Key for Error Confirmation:\
+1177 %Enable Key Buffering:\
+1178 %Background lighting permanently on:\
+1179 %Minutes:\ 
+1180 %Transmit Key Matrix:\
+1181 %Address:\
+1182 %Transmit Current Picture Number:\
+1183 %Address:\
+1184 %Transmit LED Matrix:\
+1185 %Address:\
+1186 %Allow picture change by the PLC:\ 
+1187 %Address:\  
+1188 %Enable Text Layers:\
+1189 %Text Layer Switching:\
+1190 %Address:\  
+1191 
+1192 
+1193
+1194
+1195 
+1196 
+1197 
+1198
+1199
+1200 %7\                         Anzahl folgender interner Alarmtexte
+1201 %Power ON\                  PowerOn Alarm
+1202 %Alarm Printout restarted\   Druckzeiger zurueckgestellt Alarm
+1203 %Printer Not Ready\        Drucker nicht bereit Alarm
+1204 %Cannot Read Alarm Data\
+1205 %Internal Error\
+1206 %Printer Buffer Overflow\
+1207 %Battery discharged\
+1208 
+1209
+1210 %System Download\ 
+1211 %Download Operating System ? (Y/N)\
+1212 %Download active...\
+1213 %Burning Flash...\
+1214
+1215 %Import Text Layer\
+1216 %Export Text Layer\
+1217
+1218
+1219
+1220 %Screen        \
+1221 %Language      \
+1222 %User Path     \
+1223 %Channel #1    \
+1224 %Channel #2    \
+1225
+1226
+1227
+1228 %Recipes not imported\
+1229 %Recipes imported\
+1230 %Error importing the project or the picture list\
+1231 %Picture completely imported\
+1232 %Picture partially imported\
+1233 %Picture not imported\
+1234 %Keycode table imported\
+1235 %Keycode table not imported, panel type differs\
+1236 %Alarm System imported\
+1237 %Alarm System not imported\
+1238 %Text Group List initialized\
+1239 %Text Group List imported\
+1240 %Text Group imported\
+1241 %contains unknown connection type:\
+1242 %Connection type used instead:\
+1243 %Connection imported\
+1244 %Variable Assignment Table imported\
+1245 %VAT contains illegal PLC addresses or data types\
+1246 %VAT import\
+1247 %VAT export\
+1248 %illegal PLC data type\
+1249 %illegal PLC address\
+1250 %Variable already exists\
+1251 %Variable assignment(s) imported\
+1252 %Variable assignment(s) partially imported\
+1253 %Variable assignment(s) completely exported\
+1254 %Invalid line format\
+1255 %Variable name too long\
+1256 %Panel data type too long\
+1257 %PLC address too long\
+1258 %PLC data type too long\
+1259 %Import Report\
+1260 %Overwrite ? (Y/N)\        Maske Import-VZT: Ueberschreiben-Dialog 
+1261 %Overwrite all ? (Y/N)\
+1262 %Alarm System: Basic Configuration\        Infotexte fuer Sprachkompiler
+1263 %Alarm System: Panel Printer Conf.\
+1264 %Alarm System: Alarm Group No.: \
+1265 %Project contains too many different drivers !\
+1266 %Internal\ Text fuer Vergleich auf Interne Verbindung (check_drivers)
+1267 %Report completely imported\
+1268 %Report partially imported\
+1269 %Report not imported\
+1270 %Text Layer Description imported\
+1271 %Text Layer File imported\
+1272 %Text Layer File not/partially imported\
+1273 %Panel Printer Configuration imported\
+1274 %Panel Printer Configuration not imported\
+1275 %Error! The project cannot be downloaded!\ 
+1276 %The controller you are using has an operating system version TABVV.\
+1277 %Your project is running only on controllers higher than PRJVV.\
+1278 %You have to update the operating system of your controller!\
+1279
+1280 %Warning! This project has been created for an older panel version\DL Versionskontrolle
+1281 %PRJVV. The current panel controller has version TABVV\
+1282 %You can convert the project by loading and recompiling.\
+1283 %                                          \ reserviert fuer 1280
+1284 
+1285 %This project has been created with a newer PCS version,\
+1286 %with PCS CNAME, OLDVV!\
+1287 %  \ reserviert fuer 1285
+1288 %  \ reserviert fuer 1285
+1289 %ESC to Cancel\
+1290 %This project has been created for panel Controller CNAME, operating\
+1291 %system version OLDVV.  Your PCS can handle this project only if it \
+1292 %is converted for operating system version NEWVV.\
+1293 %In this case the project can only be executed in controllers having\
+1294 %version NEWVV.\
+1295 %  \ reserviert fuer 1290
+1296 %  \ reserviert fuer 1290
+1297 %  \ reserviert fuer 1290
+1298 %Convert project for operating system version NEWVV ? (Y/N)\ NEWVV=Key !!!
+1299
+1300 %F1 File\
+1301 %F2 Edit\
+1302 %F3 Utilities\
+1303 %F4 Config\
+1304 %F5 Help\
+1305
+1306
+1307 %New           ^N \
+1308 %New Project      \
+1309 %New Slave Project\
+1310 %Open Project     \
+1311 %Delete Project   \            Pulluptexte alle EintrÑge gleich lang!!!
+1312 %Load          ^L \            und max. 17 Zeichen!
+1313 %Save          ^S \
+1314 %Save as          \
+1315 %Import        ^I \
+1316 %Export        ^E \
+1317 %Exit         F10 \
+1318 
+1319 
+1320 %Project     ^P\
+1321 %Picture     ^B\
+1322 %Keyboard    ^K\
+1323 %Text Groups ^T\
+1324 %Connection  ^C\
+1325 %Alarm System^A\
+1326 %Reports     ^O\
+1327 %Recipes     ^R\
+1328 %Panel Printer \
+1329 
+1330 
+1331 
+1332
+1333 %Compile      ^Q\
+1334 %Download     ^X\
+1335 %Upload         \
+1336 %System Download\
+1337 %Start Project  \
+1338 %Stop Project   \
+1339 %Reset Panel    \
+1340 %Recipe Upload  \
+1341 %Recipe Backup  \
+1342 %Recipe Restore \
+1343 
+1344 
+1345 
+1346 %Show Config.  \
+1347 %Screen        \
+1348 %Language      \
+1349 %User Path     \
+1350 %Channel #1    \
+1351 %Channel #2    \
+1352 %Print         \
+1353 %Compiler Opts.\
+1354 
+1355 
+1356 
+1357 
+1358
+1359 %Help     \
+1360 %Info     \
+1361 %Memory   \
+1362 %DOS-Shell\
+1363 %Messages \
+1364 
+1365 
+1366 
+1367
+1368 
+1369 
+1370 
+1371 
+1372 
+1373 
+1374 
+1375 
+1376
+1377
+1378
+1379
+1380 
+1381 
+1382 
+1383 
+1384 
+1385
+1386
+1387
+1388
+1389
+1390
+1391
+1392
+1393
+1394
+1395
+1396
+1397
+1398
+1399 
+1400 %Report List\
+1401 %Tagname for Report Trigger\
+1402 %Rp#\
+1403 %Report Name\
+1404 %Tag.Compl.\
+1405 %Value Compl.\
+1406 %Subs. Report\
+1407 %Format\
+1408
+1409
+1410 %Report Parameter Definition\Maske Protokollparameter
+1411 %Report Name:\
+1412 %Number of Lines:\
+1413 %Number of Columns:\
+1414 %Form Feed before:\
+1415 %Form Feed after:\
+1416 %Tagname for Completion:\
+1417 %Value for Completion:\
+1418 %Subsequent Report:\
+1419 %Init Sequence for Report:\
+1420 
+1421 %Tagname for Report Trigger\ Maske Steueradresse
+1422 %Tagname for Report Trigger:\
+1423 %Edit Report\
+1424 %Report\
+1425 %Trigger\
+1426
+1427 %disabled   \
+1428 %enabled    \
+1429 %conditional\
+1430 %Max. number of reports reached\ Fehlermeldungen
+1431 %This panel does not support the Report Sytem!\
+1432 %Error! The Subsequent Report and Tagname for Completion exclude each other!\
+1433 %Missing Report Name!\
+1434 %Report already exists!\
+1435 %Delete Report PROTNAME ? (Y/N) \
+1436 %Report PROTNAME contains reference to unknown subsequent Report FOLGPROT!\
+1437 %Version Conflict in Report PROTNAME!\
+1438 %Report\
+1439 %Report System\
+1440 %Cannot open Report File PROTNAME!\
+1441 %Reports List initialized\
+1442 %Reports List imported\
+1443 %Report imported\
+1444 %Lines/Columns to remove must be empty! New setting has been ignored!\
+1445 %Panel Printer Configuration\Infotext fÅr Sprachkompiler
+1446 %Report PROTNAME references to illegal subsequent Report! (Recursion)\
+1447 %Report system: Tagname for Trigger\ Fehlermeldung fÅr fehlerhafte...
+1448 %Restore failed!\                  Erfolgsmeldung
+1449 %Restore successful completed!\    Erfolgsmeldung
+1450 %Should recipe still be restored? (Y/N) \
+1451 %Recipe Restore\                           Ueberschrift
+1452 %No Backup made! (Error opening backup file)\
+1453 %Backup done successfully!\
+1454 %Recipe Backup\                            Ueberschrift
+1455 %Current Path:\                            Rezept Backup - Fenster
+1456 %Recipes in panel:\
+1457 %Backup\                                           Funktionstasten
+1458 %Change Path\
+1459 %/dev//DSrezept/RECIPE\            Verbindungsname Rezeptsystem
+1460 %This Panel does not support the Recipe System!\
+1461 %Recipe List\
+1462 %ID\
+1463 %Recipe\
+1464 %Data Files\
+1465 %Tagname for Trigger\
+1466 %File Size\
+1467 %Total Size\
+1468 %Edit\
+1469 %Ins\
+1470 %Del\
+1471 %Recipe Items\
+1472 %Exit\
+1473 %Accept\
+1474 %Init\
+1475 %Recipe Definition\
+1476 %ID:\
+1477 %Recipe name:\
+1478 %Number of Data Files:\
+1479 %Tagname for Trigger:\
+1480 %Recipe Name is already used for an other recipe!\
+1481 %Fatal Error, Cannot actualize recipe!\  wenn Fehler in REZmerge()
+1482 %Incomplete Recipe Definition!\
+1483 %Maximum number of recipes reached!\
+1484 %Recipe Item List\
+1485 %Deletion denied, recipe contains valid items!\
+1486 %ID already exists for a recipe!\
+1487 %Recipe connection not allowed here!\
+1488 %ID already exists for a connection!\
+1489 %Name\  Rezeptelementlistenheader
+1490 %Data type\
+1491 %Size\
+1492 %Tagname\
+1493 %Recipe Item Definition\
+1494 %Name:\
+1495 %Data Type:\
+1496 %Item Size:\
+1497 %Tagname:\
+1498 %Recipe %s in the panel has the same format as in the backup\
+1499 %Maximum number of recipe items reached!\
+1500 %Recipe Item Name already exists!\
+1501 %Incomplete Recipe Item Definition!\
+1502 %Recipe Initialization\
+1503 %Data File\
+1504 %Item\
+1505 %Initial Value\
+1506 %Prev.File\
+1507 %Next File\
+1508 %Data File:\
+1509 %\reserved - see code
+1510 %Item Name 'INDEX' is reserved!\
+1511 %Clear Data File %d (Y/N) ?\
+1512 %Recipe\
+1513 %Tagname includes unknown recipe item!\
+1514 %Recipe compiler:\
+1515 %Recipes require more memory than available (20480 Bytes)!\
+1516 %Recipe item not allowed for this field! Incompatible data types!\
+1517 %Recipe Upload\
+1518 %Number of data files differ! Project: %d   Panel: %d\
+1519 %Recipe %s in the panel has a different format as in the project!\
+1520 %Recipe %s in the panel has the same format as in the project.\
+1521 %Upload recipe %s? (Y/N)\
+1522 %Uploading a recipe overwrites the recipe initial values\
+1523 %in your project with the current values from the panel.\
+1524 % \
+1525 %Press 'Y' to start upload or\
+1526 %press ESC to return to the main menu!\
+1527 %Panel has no recipes with names as defined in the project!\
+1528 %Panel has no recipes!\
+1529 %Project has no recipes!\
+1530 %Recipe %s: Number of data files differ! Project: %s  Panel: %s\
+1531 %Restore recipe %s? (Y/N)\
+1532 %Recipe %s successfully restored from %s.\
+1533 %Recipe %s in panel has different format as in backup!\
+1534 %Recipe %s: Number of data files differ! Panel: %s  Backup: %s\
+1535 %Recipe does not exist in panel!\
+1536 %The project in the panel is possibly destroyed!\
+1537 %The project in the panel is erased!\
+1538 %Cannot restore recipe!\
+1539 %The project in the panel is still OK!\
+1540 %Fatal Error, cannot erase flash or cannot restore recipe!\
+1541 %\
+1542 %The project in the panel is probably destroyed!\
+1543 %Please check the cables, reset the panel and try again!\
+1544 %\ reserviert fuer Meldung ab 1540
+1545 %If you respond here with 'N' or ESC, the project in the panel will be\
+1546 %destroyed!\
+1547 %\ reserviert fuer Meldung ab 1540
+1548 %Retry? (Y/N)\
+1549 %Invalid ID!\
+1550 %Compiler Options\                 Ueberschrift Maske "Compiler Optionen"
+1551 %Create Documentation:\
+1552 %Compile Slave Projects:\
+1553
+1554
+1555 %Channel #2 - Configuration\       Ueberschrift Maske Kanal#2-Konfiguration
+1556 %Interface:\                                       Maske Kanal#2-Konfiguration
+1557 %Set Clock:\
+1558 %Start project after Download:\
+1559 %Baud Rate for System Download:\
+1560 %Recipe Values for Download:\ 
+1561
+1562
+1563 %Keep recipe values unchanged in panel\aktuele Werte im Tableu behalten Selektor "Kanal#2:Rezeptwerte"
+1564 %Overwrite recipes with initial values\
+1565 %9600 \            Selektormenue "Baud-Rate fuer BS-Download"
+1566 %19200\
+1567 %38400\
+1568
+1569 %Start Project\            Ueberschrift Fenster "Projekt starten"
+1570 %Stop Project\				Ueberschrift Fenster "Projekt anhalten"
+1571 %Reset Panel\				Ueberschrift Fenster "Tableau resetieren"
+1572 
+1573 
+1574
+1575 %Min.\     :Selection Menu "Life Sign Interval" in Project Def.
+1576 % 1 sec\
+1577 % 5 sec\
+1578 %10 sec\
+1579
+1580 %Project Definition I/O\   öberschrift Maske I/O in Projektdef.
+1581 %Life Sign:\                               Maske I/O in Projektdef.
+1582 %Address:\
+1583 %Life Sign Intervall (Sec.):\
+1584 %Transmit Panel Input:\
+1585 %Address:\
+1586 %Set Panel Output:\
+1587 %Address:\
+1588 %Set output on Comm. Error:\
+1589
+1590
+1591
+1592 
+1593 
+1594 
+1595 
+1596
+1597
+1598
+1599
+1600 %Text Layer #0 (default) can not be exported or imported!\
+1601 %Exporting \
+1602 %Text Layer Area(s) exported!\
+1603 %Importing \
+1604 %Illegal Key Line:\
+1605 %not contained within the project\
+1606 %not contained within the file\
+1607 %completely imported\
+1608 %partially imported\
+1609
+1610 %Driver for connection %s is not installed!\
+1611 %Cannot import a C221 project into a non C221 project!\
+1612
+1613
+1614
+1615
+1616
+1617
+1618
+1619
+1620
+1621
+1622
+1623
+1624
+1625
+1626
+1627
+1628
+1629
+1630
+1631
+1632
+1633
+1634
+1635
+1636
+1637
+1638
+1639
+1640
+1641
+1642
+1643
+1644
+1645
+1646
+1647
+1648

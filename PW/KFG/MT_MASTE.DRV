@@ -1,0 +1,6 @@
+;
+;    Treiberbeschreibungsfile fuer MININET
+;
+;Filename      Modulname        
+MT_MASTE       00.mt_maste      
+DSMTMAST       ff.DSmininet     

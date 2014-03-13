@@ -1,0 +1,3225 @@
+%%
+1,0:1
+%%
+.1
+    Funktionen der I/O-Library
+
+  ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ ACHTUNG: Da die I/O-Library AVT-Funktionen enthlt, k”nnen die Funktionen บ
+  บ          dieser Library nur verwendet werden, wenn das Library-Runtime-   บ
+  บ          Modul (B&R-Modul IO_LIB.BR) im nullspannungssicheren Speicher    บ
+  บ          (Anwender-ROM) der Steuerung vorhanden ist!                      บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     @002[ Fortsetzung ]               @999[ HILFE beenden ]
+.2
+    Funktionen der I/O-Library (Fortsetzung)
+
+    Nach dem Importieren der I/O-Library stehen Ihnen folgende Funktionen zur
+    Verfgung:
+
+    @030[IO_mphydef] Multiple physikalische Schaufelauftragsdefinition
+    @040[IO_ptest  ] Physikalischen Schaufelauftragsdefinition testen
+    @060[IO_data   ] I/O-Schaufelauftrag ausfhren
+    @080[IO_info   ] Bestimmen des fehlerverursachenden I/O-Moduls
+    @090[IX_info   ] Bestimmen des fehlerverursachenden Submoduls (Anpassungsmoduls)
+    @100[IO_disable] Deaktivieren eines I/O-Moduls
+    @110[IX_disable] Deaktivieren eines I/O-Moduls mit Subslots
+    @120[IO_enable ] Aktivieren eines I/O-Moduls
+    @130[IX_enable ] Aktivieren eines I/O-Moduls mit Subslots
+    @140[IO_check  ] Prfen eines I/O-Moduls
+    @150[IX_check  ] Prfen eines I/O-Moduls mit Subslots
+    @160[IO_alloc  ] Allokieren eines I/O-Datenbereichs
+    @170[IO_free   ] Freigabe eines I/O-Datenbereichs
+    @180[IO_list   ] Liste aller gesteckten I/O-Module erstellen
+    @200[IO_slist  ] Liste aller gesteckten Submodule (Anpassungsmodule) erstellen
+
+                                     @003[ Fortsetzung ]                   @001[ bersicht ]
+.3
+    Funktionen der I/O-Library (Fortsetzung)
+
+    @210[SYS_list  ] Liste aller gesteckten Systemmodule erstellen
+    @230[HW_list   ] Liste aller Hardware-Module erstellen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @500[ ANHANG ]                      @001[ bersicht ]
+.30
+    IO_mphydef - Multiple physikalische Schaufelauftragsdefinition
+
+    @031[IO_mphydef] (enable,adr(iop_adr),adr(sc_adr),io_index,status,ioident)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  "enable" = 1 ist
+    ->  @035[iop_adr   ]: iop-Struktur  Struktur, in der die I/O-Parameter angegeben
+                                  werden
+    ->  sc_adr    : BYTE (FELD)   Datenbereich fr Schaufelinformation.
+                                  Die Lnge dieses BYTE-Feldes wird wie folgt
+                                  berechnet:
+                                  Lnge = (Anzahl der Eintrge) * 6 + 30
+    ->  io_index  : WORD          Index des Schaufeleintrags fr Definition
+    <-  @037[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+    <-  @038[ioident   ]: LONG          Identifier fr I/O-Schaufelauftrag (wird fr
+                                  die Funktion IO_data() ben”tigt)
+
+
+
+
+                                     @031[ Fortsetzung ]                   @001[ bersicht ]
+.31
+    IO_mphydef - Multiple physikalische Schaufelauftragsdefinition (Fortsetzung)
+
+    Die Funktion IO_mphydef() baut mit Hilfe der bergebenen I/O-Parameter
+    (siehe Struktur iop) einen Schaufelauftrag fr den I/O-Prozessor bzw. die
+    I/O-Emulation (System B&R 2005) auf. Dabei wird der Schaufelauftrag im
+    bereitgestellten Bereich "sc_adr" abgelegt. Dieser Datenbereich fr die
+    Schaufelinformation muแ als Merker (lokal, tk_global oder rps_global)
+    definiert werden, das Anfordern mit der Funktion MEM_alloc() oder
+    TMP_alloc() ist nicht zulssig. Auch eine explizite Manipulation in der
+    Applikation ist nicht zulssig.
+    Ab Version V2.00 der I/O-Library kann der ben”tigte I/O-Datenbereich mit
+    der Funktion @160[IO_alloc()] allokiert werden.
+    Im Datenbereich "sc_adr" k”nnen mehrere Schaufeleintrge abgelegt werden.
+    Der Parameter "io_index" gibt den Index des Schaufeleintrags im Schaufel-
+    informationsbereich "sc_adr" an. Der Bereich "sc_adr" ist also das
+    "Gedchtnis" der I/O-Behandlung, das beim Aufruf von IO_data() verwendet
+    wird. Damit kann die Funktion IO_mphydef() auch in einer "loop" Anweisung
+    aufgerufen werden, wobei ber die Struktur iop die I/O-Parameter fr den
+    Eintrag "io_index" bergeben werden. Der Index 0 reprsentiert den ersten
+    Eintrag.
+
+                                     @032[ Fortsetzung ]                   @001[ bersicht ]
+.32
+    IO_mphydef - Multiple physikalische Schaufelauftragsdefinition (Fortsetzung)
+
+    Wenn das Feld "sc_adr" als RPS-globaler Merker definiert wird, und in der
+    Struktur iop fr "data_adr" die Adresse eines RPS-globalen Merkers ber-
+    geben wird, kann die Funktion IO_mphydef() auch am Multiprozessor (MP)
+    aufgerufen werden. Fr das Schaufeln der Daten muแ dann zyklisch die
+    Funktion IO_data() aufgerufen werden. Somit kann auch am Multiprozessor
+    auf RPSIO zugegriffen werden, wobei natrlich die Busbelastung am System-
+    bus steigt.
+
+    Achtung!
+    - Um die Leistungsfhigkeit des Systems nicht zu beeintrchtigen, sollte
+      die Funktion IO_mphydef() nur in INIT-UPs der zyklischen Tasks bzw. in
+      Taskklassen mit entsprechend groแer Zykluszeit verwendet werden.
+    - Das Definieren von Schaufelauftrgen am Remote I/O-Bus wird mit der
+      Funktion IO_mphydef() nicht untersttzt.
+    - Am MP drfen nur RPS-globale Merker verwendet werden!
+    - Die Laufzeit der Funktion IO_mphydef() hngt auch davon ab, ob vor dem
+      aktuell definierten Eintrag nicht verwendete Eintrge initialisiert
+      werden mssen (siehe dazu @650[Ausfhrungszeiten]).
+
+                                     @030[ IO_mphydef ]                    @001[ bersicht ]
+.35
+    IO_mphydef - Multiple physikalische Schaufelauftragsdefinition (Fortsetzung)
+
+    -> Parameter <iop_adr    >: iop-Struktur
+
+    In der Struktur iop werden alle Parameter fr die Definition eines Eintrags
+    angegeben. Wird fr adr(iop_adr) der Wert 0 bergeben, so wird der Eintrag
+    mit dem Index "io_index" wieder deaktiviert und beim nchsten Aufruf von
+    IO_data() nicht mehr geschaufelt. Elemente der Struktur iop:
+
+    io_type    : BYTE    I/O-Typ:
+                         0 ... 2010-IO
+                         1 ... 2005-IO
+                         5 ... 2003-IO
+    master_no  : BYTE    Logische Nummer des IO-Masters (derzeit immer 1)
+    slave_no   : BYTE    B&R 2010: immer 0
+                         B&R 2005: Nummer der Rckwand
+                         0 ... Basisrckwand
+                         1 ... Erweiterungsrckwand 1
+                         usw.
+                         B&R 2003: immer 0
+
+                                     @036[ Fortsetzung ]                   @001[ bersicht ]
+.36
+    IO_mphydef - Multiple physikalische Schaufelauftragsdefinition (Fortsetzung)
+
+    module_adr : BYTE    Moduladresse des I/O-Moduls (in dezimaler Form)
+    intern_off : BYTE    Interner Offset am Modul (wie bei Modultyp
+                         "Transp. In" bzw. "Transp. Out")
+    mode       : BYTE    Zugriffsmodus:
+                         Bit 5 = 0 ... Schreiben des Output-Abbildes
+                         Bit 5 = 1 ... Lesen des Input-Abbildes
+                         Bit 6 = 0 ... Zugriff auf den normalen I/O-Bereich
+                         Bit 6 = 1 ... Zugriff auf den Statusbereich des
+                                       I/O-Moduls
+    data_len   : BYTE    Lnge des zu schaufelnden Datenbereichs in Byte
+                         (bei BIT: Anzahl der 8-Bit-Gruppen)
+    reserve    : BYTE    Reserve (wegen WORD-Ausrichtung)
+    data_adr   : LONG    Adresse eines analogen Merkerbereichs (lokal,
+                         tk_global oder rps_global) mit der bei data_len
+                         angegebenen Lnge. Es kann nur auf analoge Merker,
+                         aber nicht auf digitale Merker geschaufelt werden.
+                         D.h. digitale Daten k”nnen nur gepackt (in Gruppen
+                         zu 8 Bit) geschaufelt werden.
+
+                                     @030[ IO_mphydef ]                    @001[ bersicht ]
+.37
+    IO_mphydef - Multiple physikalische Schaufelauftragsdefinition (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern:
+    5501     Falsche Parameter
+    5556     Falsche Adresse "data_adr" angegeben
+    5557     Falscher Offset "intern_off" oder falsche Lnge "data_len"
+    5564     Kein Zugriff auf 2010-IO bzw. 2005-Erweiterungen
+    5565     Kein 2005-Basis-IO vorhanden
+    5569     SC-Adresse nicht WORD-Aligned
+    5576     Fehler beim 2003-Direkt-IO
+    5578     2003: Direkt-IO-Overflow
+    9136     IO-Fehler 2003
+
+    Alle anderen Fehlernummern sind im Anhang @600[Fehlermeldungen] beschrieben.
+
+
+
+
+
+                                     @030[ IO_mphydef ]                    @001[ bersicht ]
+.38
+    IO_mphydef - Multiple physikalische Schaufelauftragsdefinition (Fortsetzung)
+
+    <- Parameter <ioident    >: LONG
+
+    Als Ergebnis liefert die Funktion IO_mphydef() einen Identifier fr den
+    I/O-Schaufelauftrag (Ausgangsparameter "ioident"). Dieser Identifier wird
+    zum Ausfhren des definierten I/O-Schaufelauftrags mit der Funktion
+    IO_data() ben”tigt. Der Identifier ist jedoch nur gltig, wenn der Ausgang
+    "status" gleich 0 ist.
+
+
+
+
+
+
+
+
+
+
+
+
+                                     @030[ IO_mphydef ]                    @001[ bersicht ]
+.40
+    IO_ptest - Physikalische Schaufelauftragsdefinition testen
+
+    @041[IO_ptest] (enable,adr(iop_adr),status,ok)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  "enable" = 1 ist
+    ->  @045[iop_adr   ]: iop-Struktur  Struktur, in der die I/O-Parameter angegeben
+                                  werden
+    <-  @047[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+    <-  ok        : BIT           Flag, das anzeigt, ob der Schaufelauftrag
+                                  korrekt durchgefhrt werden kann:
+                                  1 ... Schaufelauftrag o.k.
+                                  0 ... Schaufelauftrag nicht o.k.
+
+    Die Funktion IO_ptest() baut mit Hilfe der bergebenen I/O-Parameter
+    (siehe Struktur iop) einen Schaufelauftrag fr den I/O-Prozessor bzw. die
+    I/O-Emulation (System B&R 2005) auf. Der Schaufelauftrag wird im statischen
+    FUB-Bereich abgelegt. Daher kann die Funktion nur auf der Zentraleinheit,
+    aber nicht am Parallelprozessor bzw. Multiprozessor aufgerufen werden.
+
+                                     @041[ Fortsetzung ]                   @001[ bersicht ]
+.41
+    IO_ptest - Physikalische Schaufelauftragsdefinition testen (Fortsetzung)
+
+    Der Schaufelauftrag wird einmal ausgefhrt, um zu ermitteln, ob der Auftrag
+    korrekt durchgefhrt werden kann, oder ob es zu einem I/O-Fehler kommt
+    (I/O-Modul nicht vorhanden oder falscher I/O-Modul-Typ gesteckt).
+    Wenn ein Fehler aufgetreten ist, wird am Ausgang "status" eine entspre-
+    chende Fehlernummer ausgegeben und der Ausgang "ok" auf 0 gesetzt.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     @042[ Fortsetzung ]                   @001[ bersicht ]
+.42
+    IO_ptest - Physikalische Schaufelauftragsdefinition testen (Fortsetzung)
+
+    Achtung!
+    - Um die Leistungsfhigkeit des Systems nicht zu beeintrchtigen, sollte
+      die Funktion IO_ptest() nur in INIT-UPs der zyklischen Tasks bzw. in
+      Taskklassen mit entsprechend groแer Zykluszeit verwendet werden.
+    - Die Funktion IO_ptest() darf in superschnellen Taskklassen nicht auf-
+      gerufen werden (Ausnahme: Initialisierungs-Unterprogramme der super-
+      schnellen Taskklassen).
+    - Die Funktion IO_ptest() darf am Parallelprozessor bzw. Multiprozessor
+      nicht verwendet werden!
+    - Im System B&R 2005 kann die Funktion IO_ptest() nur fr die Basisrckwand
+      verwendet werden. Bei den Erweiterungsrckwnden ist der Einsatz dieser
+      Funktion nicht m”glich, da bei einem Fehler (I/O-Modul nicht vorhanden)
+      die ganze Erweiterungsrckwand rckgesetzt werden mแte. Ab der Version
+      V1.60 der I/O-Library kann jedoch mit der Funktion IO_list() die im Hoch-
+      lauf ermittelte I/O-Konfiguration von 2005-Erweiterungen festgestellt
+      werden.
+
+
+
+                                      @040[ IO_ptest ]                     @001[ bersicht ]
+.45
+    IO_ptest - Physikalische Schaufelauftragsdefinition testen (Fortsetzung)
+
+    -> Parameter <iop_adr    >: iop-Struktur
+
+    Elemente der Struktur iop:
+
+    io_type    : BYTE    I/O-Typ:
+                         0 ... 2010-IO
+                         1 ... 2005-IO
+                         5 ... 2003-IO
+    master_no  : BYTE    Logische Nummer des IO-Masters (derzeit immer 1)
+    slave_no   : BYTE    B&R 2010: immer 0
+                         B&R 2005: Nummer der Rckwand
+                         0 ... Basisrckwand
+                         1 ... Erweiterungsrckwand 1
+                         usw.
+                         B&R 2003: immer 0
+    module_adr : BYTE    Moduladresse des I/O-Moduls (in dezimaler Form)
+    intern_off : BYTE    Interner Offset am Modul (wie bei Modultyp
+                         "Transp. In" bzw. "Transp. Out")
+
+                                     @046[ Fortsetzung ]                   @001[ bersicht ]
+.46
+    IO_ptest - Physikalische Schaufelauftragsdefinition testen (Fortsetzung)
+
+    mode       : BYTE    Zugriffsmodus:
+                         Bit 5 = 0 ... Schreiben des Output-Abbildes
+                         Bit 5 = 1 ... Lesen des Input-Abbildes
+                         Bit 6 = 0 ... Zugriff auf den normalen I/O-Bereich
+                         Bit 6 = 1 ... Zugriff auf den Statusbereich des
+                                       I/O-Moduls
+    data_len   : BYTE    Lnge des zu schaufelnden Datenbereichs in Byte
+                         (bei BIT: Anzahl der 8-Bit-Gruppen)
+    reserve    : BYTE    Reserve (wegen WORD-Ausrichtung)
+    data_adr   : LONG    Adresse eines analogen Merkerbereichs (lokal,
+                         tk_global oder rps_global) mit der bei data_len
+                         angegebenen Lnge. Es kann nur auf analoge Merker,
+                         aber nicht auf digitale Merker geschaufelt werden.
+                         D.h. digitale Daten k”nnen nur gepackt (in Gruppen
+                         zu 8 Bit) geschaufelt werden.
+
+
+
+
+                                      @040[ IO_ptest ]                     @001[ bersicht ]
+.47
+    IO_ptest - Physikalische Schaufelauftragsdefinition testen (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern:
+    5501     Falsche Parameter
+    5551     IO_ptest() in mehreren Taskklassen parallel aufgerufen
+    5553     IO_ptest() darf nicht in HS-Taskklassen aufgerufen werden
+    5555     I/O-Modul nicht gesteckt oder falsch
+    5556     Falsche Adresse "data_adr" angegeben
+    5557     Falscher Offset "intern_off" oder falsche Lnge "data_len"
+    5558     IO_ptest() darf am Parallelprozessor bzw. Multiprozessor nicht
+             aufgerufen werden
+    5563     IO_ptest() auf Systemen mit EX350 derzeit nicht m”glich
+    5567     FUB-Daten liegen nicht im IO/Merker-Pool
+    5576     Fehler beim 2003-Direkt-IO
+    9136     IO-Fehler 2003
+
+    Alle anderen Fehlernummern sind im Anhang @600[Fehlermeldungen] beschrieben.
+
+
+                                      @040[ IO_ptest ]                     @001[ bersicht ]
+.60
+    IO_data - I/O-Datenschaufelauftrag ausfhren
+
+    @061[IO_data] (enable,ioident,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  ioident   : LONG          Identifier fr I/O-Schaufelauftrag von der
+                                  Funktion IO_mphydef()
+    <-  @065[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Diese Funktion fhrt den mit IO_mphydef() definierten Schaufelauftrag
+    aus. Nach dem Aufruf dieser Funktion stehen die geschaufelten Daten zur
+    Verfgung.
+    Ausnahme: Wenn am Ausgang "status" der Fehler 5559 geliefert wird, kann
+    der I/O-Zugriff nicht direkt erfolgen, es wurde nur ein Auftrag abgesetzt.
+    Die Funktion muแ daher im nchsten Zyklus noch einmal aufgerufen werden,
+    bis "status" ungleich 5559 ist. Erst dann stehen die Daten zur Verfgung
+    (2003-IO).
+
+
+                                     @061[ Fortsetzung ]                   @001[ bersicht ]
+.61
+    IO_data - I/O-Datenschaufelauftrag ausfhren (Fortsetzung)
+
+    Die Datenbereiche, auf die geschaufelt wird, werden bei der Definition
+    (physikalische oder logische Schaufelauftragsdefinition) angegeben. Dies
+    sind entweder explizite Datenbereiche (analoge Merkerbereiche) oder die
+    vom Programmiersystem PG2000 vergebenen Datenbereiche (implizite Daten-
+    bereiche, analog oder digital).
+    Werden digitale Prozeแvariablen explizit geschaufelt, so k”nnen sie nur
+    gepackt in den Analogbereich geschaufelt werden. D.h. alle Variablen, die
+    der gleichen 8-Bit-Gruppe angeh”ren, werden beim Aufruf der Funktion
+    IO_data() auf den neuesten Stand gebracht.
+
+    Die Tasks, die die entsprechenden Schaufelauftrge definieren, drfen nicht
+    deinstalliert werden, solange die Funktion IO_data() auf diese Identifier
+    ("ioident") angewandt wird, da sonst die Datenbereiche nicht mehr zur Ver-
+    fgung stehen!
+
+
+
+
+
+                                     @062[ Fortsetzung ]                   @001[ bersicht ]
+.62
+    IO_data - I/O-Datenschaufelauftrag ausfhren (Fortsetzung)
+
+    Achtung!
+    - Durch die bergabe eines falschen Identifiers fr den Schaufelauftrag
+      (Parameter "ioident") kann eine Exception ausgel”st werden. Tritt bei
+      der Definition des Schaufelauftrags ein Fehler auf, wird der bergebene
+      Identifier fr den Schaufelauftrag (Parameter "ioident") auf einen un-
+      gltigen Wert gesetzt!
+    - Beim expliziten Schaufeln von digitalen Ausgangsdaten ber explizite
+      Datenbereiche wird immer eine 8-Bit-Gruppe geschaufelt. Bei nicht ver-
+      wendeten Kanlen der Gruppe sind daher Inkonsistenzen m”glich.
+    - Erfolgt ein direkter Zugriff auf ein nicht vorhandenes I/O-Modul, wird
+      (wie beim zyklischen Zugriff auf ein nicht gestecktes I/O-Modul) eine
+      I/O-Exception (Exception-Nr. 128) ausgel”st.
+    - Mit der Funktion IO_data() ist kein Zugriff auf Remote I/O-Daten m”glich!
+
+
+
+
+
+
+                                       @060[ IO_data ]                     @001[ bersicht ]
+.65
+    IO_data - I/O-Datenschaufelauftrag ausfhren (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern:
+    5559     Funktion IO_data() in Arbeit (Aufruf im nchsten Zyklus notwendig)
+    5568     IO-Exception fuer 2010-IO oder 2005-Expansionen durch parallel
+             aktivierten, noch nicht abgeschlossenen Auftrag, z.B. IO_check
+             auf ein nicht vorhandenes IO-Modul
+    9111     IO-Exception fuer 2010-IO oder 2005-Expansionen durch aktuelles
+             IO_data selbst
+    9136     IO-Fehler 2003
+    11716    Timeout beim Schaufelauftrag (fataler Fehler)
+    11717    Ungltiger I/O-Identifier
+
+    Alle anderen Fehlernummern sind im Anhang @600[Fehlermeldungen] beschrieben.
+
+
+
+
+
+                                       @060[ IO_data ]                     @001[ bersicht ]
+.80
+    IO_info - Bestimmen des fehlerverursachenden I/O-Moduls
+
+    @081[IO_info] (enable,status,io_type,master_no,slave_no,module_adr,
+             intern_off,mode)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    <-  @085[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+    <-  io_type   : BYTE          I/O-Typ: 0 ... 2010-IO
+                                           1 ... 2005-IO
+                                           2 ... RIO-2010
+                                           3 ... RIO-2005
+                                           4 ... RIO-2003
+                                           5 ... 2003-IO
+    <-  master_no : BYTE          Logische Nummer des IO-Masters (derzeit
+                                  immer 1) bzw. des RIO-Masters
+    <-  slave_no  : BYTE          Nummer des RIO-Slaves bzw. Nummer der 2005-
+                                  Rckwand (0=Basisrckwand, 1=Erweiterungs-
+                                  rckwand 1, 2=Erweiterungsrckwand 2, usw.).
+
+                                     @081[ Fortsetzung ]                   @001[ bersicht ]
+.81
+    IO_info - Bestimmen des fehlerverursachenden I/O-Moduls (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+                                  Bei 2010-IO und 2003-IO muแ fr slave_no
+                                  immer der Wert 0 angegeben werden.
+    <-  module_adr: BYTE          Moduladresse des I/O-Moduls
+                                  (in dezimaler Form)
+    <-  intern_off: BYTE          Interner Offset am Modul (wie bei Modultyp
+                                  "Transp. In" bzw. "Transp. Out")
+    <-  mode      : BYTE          Zugriffsmodus:
+                                  Bit 5 = 0 ... Fehler beim Schreiben des
+                                                Output-Abbildes
+                                  Bit 5 = 1 ... Fehler beim Lesen des Input-
+                                                Abbildes
+                                  Bit 6 = 0 ... Fehler beim Zugriff auf den
+                                                normalen I/O-Bereich
+                                  Bit 6 = 1 ... Fehler beim Zugriff auf den
+                                                Statusbereich des I/O-Moduls
+
+
+
+                                     @082[ Fortsetzung ]                   @001[ bersicht ]
+.82
+    IO_info - Bestimmen des fehlerverursachenden I/O-Moduls (Fortsetzung)
+
+    Mit der Funktion IO_info() kann bei Auftreten einer I/O-Exception das
+    fehlerverursachende I/O-Modul bestimmt werden. Mit den (durch den Aufruf
+    dieser Funktion) erhaltenen I/O-Informationen kann das weitere Verhalten
+    bei I/O-Exceptions festgelegt werden (z.B. Deaktivieren des I/O-Moduls
+    mit der Funktion IO_disable()). Mit Hilfe von IO_check() kann geprft
+    werden, ob das I/O-Modul wieder vorhanden ist.
+
+    Die Funktion IO_info() darf nur in Exceptiontasks fr die I/O-Exception
+    (Exception-Nr. 128) aufgerufen werden, da nur dort die I/O-Information zur
+    Verfgung steht. Wird die Funktion in einer anderen Task verwendet, wird
+    am Ausgang "status" eine entsprechende Fehlernummer (5550) ausgegeben.
+
+
+
+
+
+
+
+
+                                     @083[ Fortsetzung ]                   @001[ bersicht ]
+.83
+    IO_info - Bestimmen des fehlerverursachenden I/O-Moduls (Fortsetzung)
+
+    Achtung!
+    - Da Exceptiontasks in der Version 1.05 des Betriebssystems RPSSW noch
+      nicht untersttzt werden, ist der Einsatz der Funktion IO_info() erst
+      ab Version 1.10 der RPSSW m”glich.
+    - Diese Funktion kann nur verwendet werden, wenn der Exceptionhandler
+      EXERMO.BR (mindestens Version 1.11) auf der Zentraleinheit (Anwender-ROM)
+      vorhanden ist!
+    - Die Funktion IO_info() darf nur in Exceptiontasks fr die I/O-Exception
+      (Exception-Nr. 128) verwendet werden!
+
+
+
+
+
+
+
+
+
+
+                                       @080[ IO_info ]                     @001[ bersicht ]
+.85
+    IO_info - Bestimmen des fehlerverursachenden I/O-Moduls (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern:
+    5550     IO_info(): Keine Information vorhanden (falscher Kontext)
+
+    Alle anderen Fehlernummern sind im Anhang @600[Fehlermeldungen] beschrieben.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @080[ IO_info ]                     @001[ bersicht ]
+.90
+    IX_info - Bestimmen des fehlerverursachenden Anpassungsmoduls
+
+    @091[IX_info] (enable,status,io_type,master_no,slave_no,module_adr,slot,
+             intern_off,mode)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    <-  @095[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+    <-  io_type   : BYTE          I/O-Typ: 0 ... 2010-IO
+                                           1 ... 2005-IO
+                                           2 ... RIO-2010
+                                           3 ... RIO-2005
+                                           4 ... RIO-2003
+                                           5 ... 2003-IO
+    <-  master_no : BYTE          Logische Nummer des IO-Masters (derzeit
+                                  immer 1) bzw. des RIO-Masters
+    <-  slave_no  : BYTE          Nummer des RIO-Slaves bzw. Nummer der 2005-
+                                  Rckwand (0=Basisrckwand, 1=Erweiterungs-
+                                  rckwand 1, 2=Erweiterungsrckwand 2, usw.).
+
+                                     @091[ Fortsetzung ]                   @001[ bersicht ]
+.91
+    IX_info - Bestimmen des fehlerverursachenden Anpassungsmoduls (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+                                  Bei 2010-IO und 2003-IO muแ fr slave_no
+                                  immer der Wert 0 angegeben werden.
+    <-  module_adr: BYTE          Moduladresse des I/O-Moduls
+                                  (in dezimaler Form)
+    <-  slot      : BYTE          Steckplatz (Subslot) des Submoduls (auch
+                                  Anpassungsmodul genannt)
+    <-  intern_off: BYTE          Interner Offset am Modul (wie bei Modultyp
+                                  "Transp. In" bzw. "Transp. Out")
+    <-  mode      : BYTE          Zugriffsmodus:
+                                  Bit 5 = 0 ... Fehler beim Schreiben des
+                                                Output-Abbildes
+                                  Bit 5 = 1 ... Fehler beim Lesen des Input-
+                                                Abbildes
+                                  Bit 6 = 0 ... Fehler beim Zugriff auf den
+                                                normalen I/O-Bereich
+                                  Bit 6 = 1 ... Fehler beim Zugriff auf den
+                                                Statusbereich des I/O-Moduls
+
+                                     @092[ Fortsetzung ]                   @001[ bersicht ]
+.92
+    IX_info - Bestimmen des fehlerverursachenden Anpassungsmoduls (Fortsetzung)
+
+    Mit der Funktion IX_info() kann bei Auftreten einer I/O-Exception das
+    fehlerverursachende Anpassungsmodul bestimmt werden. Mit den (durch den
+    Aufruf dieser Funktion) erhaltenen I/O-Informationen kann das weitere
+    Verhalten bei I/O-Exceptions festgelegt werden (z.B. Deaktivieren des
+    Anpassungsmoduls mit der Funktion IX_disable()). Mit Hilfe von IX_check()
+    kann geprft werden, ob das I/O-Modul wieder vorhanden ist.
+
+    Die Funktion IX_info() darf nur in Exceptiontasks fr die I/O-Exception
+    (Exception-Nr. 128) aufgerufen werden, da nur dort die I/O-Information zur
+    Verfgung steht. Wird die Funktion in einer anderen Task verwendet, wird
+    am Ausgang "status" eine entsprechende Fehlernummer (5550) ausgegeben.
+
+
+
+
+
+
+
+
+                                     @093[ Fortsetzung ]                   @001[ bersicht ]
+.93
+    IX_info - Bestimmen des fehlerverursachenden Anpassungsmoduls (Fortsetzung)
+
+    Achtung!
+    - Da Exceptiontasks in der Version 1.05 des Betriebssystems RPSSW noch
+      nicht untersttzt werden, ist der Einsatz der Funktion IX_info() erst
+      ab Version 1.10 der RPSSW m”glich.
+    - Diese Funktion kann nur verwendet werden, wenn der Exceptionhandler
+      EXERMO.BR (mindestens Version 1.11) auf der Zentraleinheit (Anwender-ROM)
+      vorhanden ist!
+    - Die Funktion IX_info() darf nur in Exceptiontasks fr die I/O-Exception
+      (Exception-Nr. 128) verwendet werden!
+
+
+
+
+
+
+
+
+
+
+                                       @090[ IX_info ]                     @001[ bersicht ]
+.95
+    IX_info - Bestimmen des fehlerverursachenden Anpassungsmoduls (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern:
+    5550     IX_info(): Keine Information vorhanden (falscher Kontext)
+
+    Alle anderen Fehlernummern sind im Anhang @600[Fehlermeldungen] beschrieben.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @090[ IX_info ]                     @001[ bersicht ]
+.100
+    IO_disable - Deaktivieren eines I/O-Moduls
+
+    @101[IO_disable] (enable,io_type,master_no,slave_no,module_adr,force_flag,
+                dig_value,ana_value,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  io_type   : BYTE          I/O-Typ: 0 ... 2010-IO
+                                           1 ... 2005-IO
+                                           2 ... RIO-2010
+                                           3 ... RIO-2005
+                                           4 ... RIO-2003
+                                           5 ... 2003-IO
+    ->  master_no : BYTE          Logische Nummer des IO-Masters (derzeit
+                                  immer 1) bzw. des RIO-Masters
+    ->  slave_no  : BYTE          Nummer des RIO-Slaves bzw. Nummer der 2005-
+                                  Rckwand (0=Basisrckwand, 1=Erweiterungs-
+                                  rckwand 1, 2=Erweiterungsrckwand 2, usw.).
+
+
+                                     @101[ Fortsetzung ]                   @001[ bersicht ]
+.101
+    IO_disable - Deaktivieren eines I/O-Moduls (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+                                  Bei 2010-IO und 2003-IO muแ fr slave_no
+                                  immer der Wert 0 angegeben werden.
+    ->  module_adr: BYTE          Moduladresse des I/O-Moduls
+                                  (in dezimaler Form)
+    ->  force_flag: BIT           Flag, mit dem festgelegt wird, ob Input-Werte
+                                  im normalen I/O-Bereich fr die Applikation
+                                  geforced werden sollen:
+                                  0 ... Inputs (digital/analog) nicht forcen
+                                  1 ... Inputs (digital/analog) forcen
+    ->  dig_value : BIT           Force-Wert fr digitale Inputs des I/O-Moduls
+    ->  ana_value : WORD          Force-Wert fr analoge Inputs des I/O-Moduls
+    <-  @105[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit dieser Funktion werden alle zyklischen I/O-Zugriffe auf das angegebene
+    I/O-Modul deaktiviert (unterbunden). Dadurch wird auf dieses I/O-Modul im
+    zyklischen Betrieb nicht mehr zugegriffen, d.h. es kann keine I/O-Exception
+    fr dieses Modul auftreten.
+
+                                     @102[ Fortsetzung ]                   @001[ bersicht ]
+.102
+    IO_disable - Deaktivieren eines I/O-Moduls (Fortsetzung)
+
+    Damit kann der zyklische Zugriff auf I/O-Module dynamisch konfiguriert
+    werden.
+
+    Mit dem Force-Flag ("force_flag") und den Force-Werten fr digitale und
+    analoge Inputs ("dig_value" und "ana_value") kann der Applikation statisch
+    ein fixer Input-Wert aller Kanle des deaktivierten I/O-Moduls vorge-
+    spiegelt werden. Damit hat der Input auch im Fehlerfall, z.B. wenn das
+    I/O-Modul entfernt wurde, einen (konfigurierbaren) definierten Wert.
+    Bei digitalen Inputs werden immer alle geschaufelten Kanle des I/O-Moduls
+    auf den angegebenen digitalen Force-Wert gesetzt.
+    Wenn am I/O-Modul analoge Felder verwendet werden, setzt die Funktion
+    IO_disable() alle Input-Feldelemente auf den analogen Force-Wert. Felder
+    k”nnen nur an Hand der Byte-Lnge erkannt werden: Ist ein analoger
+    Schaufeleintrag lnger als ein Word, so werden alle Words auf den analogen
+    Force-Wert gesetzt. Bei analogen Eintrgen mit ungerader Lnge bzw.
+    ungerader Adresse wird am Ausgang "status" eine entsprechende Fehlernummer
+    (5552) ausgegeben.
+
+
+                                     @103[ Fortsetzung ]                   @001[ bersicht ]
+.103
+    IO_disable - Deaktivieren eines I/O-Moduls (Fortsetzung)
+
+    Mit Hilfe der Funktion IO_check() k”nnen Sie prfen, ob auf das I/O-Modul
+    wieder zugegriffen werden kann, mit der Funktion IO_enable() k”nnen die
+    Zugriffe auf das I/O-Modul wieder aktiviert werden.
+
+    Achtung!
+    - Bei Verwendung der I/O-Library-Funktionen fr den direkten Zugriff
+      auf I/O-Module bzw. beim Einsatz anderer Funktionen mit I/O-Zugriff
+      (z.B. Spool-Funktionen), muแ die Applikation durch explizite Verriegelung
+      dafr sorgen, daแ auf ein gezogenes I/O-Modul mit der jeweiligen Funktion
+      nicht mehr zugegriffen wird.
+    - Input-Werte aus dem Statusbereich werden beim Aufruf dieser Funktion
+      nicht geforced!
+    - Mit dieser Funktion werden nur die zyklischen I/O-Zugriffe von Tasks,
+      die bereits im System geladen sind, deaktiviert. Somit ist ein Download
+      von Tasks, die nicht vorhandene I/O-Module ansprechen, nur im SERVICE-
+      Modus m”glich.
+
+
+
+                                     @100[ IO_disable ]                    @001[ bersicht ]
+.105
+    IO_disable - Deaktivieren eines I/O-Moduls (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern:
+    5501     Falsche Parameter
+    5552     Analogdaten mit ungerader Lnge oder ungerader Adresse k”nnen
+             nicht geforced werden
+    5558     IO_disable() darf am Parallelprozessor bzw. Multiprozessor nicht
+             aufgerufen werden
+    5562     IO_enable() bei optimierter IO-Emulation derzeit nicht m”glich
+
+    Alle anderen Fehlernummern sind im Anhang @600[Fehlermeldungen] beschrieben.
+
+
+
+
+
+
+
+
+                                     @100[ IO_disable ]                    @001[ bersicht ]
+.110
+    IX_disable - Deaktivieren eines I/O-Moduls mit Subslots
+
+    @111[IX_disable] (enable,io_type,master_no,slave_no,module_adr,slot,force_flag,
+                dig_value,ana_value,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  io_type   : BYTE          I/O-Typ: 0 ... 2010-IO
+                                           1 ... 2005-IO
+                                           2 ... RIO-2010
+                                           3 ... RIO-2005
+                                           4 ... RIO-2003
+                                           5 ... 2003-IO
+    ->  master_no : BYTE          Logische Nummer des IO-Masters (derzeit
+                                  immer 1) bzw. des RIO-Masters
+    ->  slave_no  : BYTE          Nummer des RIO-Slaves bzw. der 2005-Rckwand
+                                  (0=Basisrckwand, 1=Erweiterungsrckwand 1,
+                                  usw.). Bei 2010-IO und 2003-IO muแ fr
+                                  slave_no immer der Wert 0 angegeben werden.
+
+                                     @111[ Fortsetzung ]                   @001[ bersicht ]
+.111
+    IX_disable - Deaktivieren eines I/O-Moduls mit Subslots (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    ->  module_adr: BYTE          Moduladresse des I/O-Moduls
+                                  (in dezimaler Form)
+    ->  slot      : BYTE          Steckplatz (Subslot) auf dem Modul:
+                                  0 ..... ganzes Modul mit allen gesteckten
+                                          Submodulen (auch Anpassungsmodule
+                                          genannt)
+                                  1-4 ... Submodul (auch Anpassungsmodul ge-
+                                          nannt) auf dem angegebenen Steck-
+                                          platz (1-4)
+    ->  force_flag: BIT           Flag, mit dem festgelegt wird, ob Input-Werte
+                                  im normalen I/O-Bereich fr die Applikation
+                                  geforced werden sollen:
+                                  0 ... Inputs (digital/analog) nicht forcen
+                                  1 ... Inputs (digital/analog) forcen
+    ->  dig_value : BIT           Force-Wert fr digitale Inputs des I/O-Moduls
+    ->  ana_value : WORD          Force-Wert fr analoge Inputs des I/O-Moduls
+    <-  @115[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+                                     @112[ Fortsetzung ]                   @001[ bersicht ]
+.112
+    IX_disable - Deaktivieren eines I/O-Moduls mit Subslots (Fortsetzung)
+
+    Mit dieser Funktion werden alle zyklischen I/O-Zugriffe auf das angegebene
+    Anpassungsmodul deaktiviert (unterbunden). Dadurch wird auf dieses Modul im
+    zyklischen Betrieb nicht mehr zugegriffen, d.h. es kann keine I/O-Exception
+    fr dieses Modul auftreten. Damit kann der zyklische Zugriff auf I/O-Module
+    dynamisch konfiguriert werden.
+    Mit dem Force-Flag ("force_flag") und den Force-Werten fr digitale und
+    analoge Inputs ("dig_value" und "ana_value") kann der Applikation statisch
+    ein fixer Input-Wert aller Kanle des deaktivierten I/O-Moduls vorge-
+    spiegelt werden. Damit hat der Input auch im Fehlerfall, z.B. wenn das
+    I/O-Modul entfernt wurde, einen (konfigurierbaren) definierten Wert.
+    Bei digitalen Inputs werden immer alle geschaufelten Kanle des I/O-Moduls
+    auf den angegebenen digitalen Force-Wert gesetzt.
+    Wenn am I/O-Modul analoge Felder verwendet werden, setzt die Funktion
+    IX_disable() alle Input-Feldelemente auf den analogen Force-Wert. Felder
+    k”nnen nur an Hand der Byte-Lnge erkannt werden: Ist ein analoger
+    Schaufeleintrag lnger als ein Word, so werden alle Words auf den analogen
+    Force-Wert gesetzt. Bei analogen Eintrgen mit ungerader Lnge bzw.
+    ungerader Adresse wird am Ausgang "status" eine entsprechende Fehlernummer
+    (5552) ausgegeben.
+                                     @113[ Fortsetzung ]                   @001[ bersicht ]
+.113
+    IX_disable - Deaktivieren eines I/O-Moduls mit Subslots (Fortsetzung)
+
+    Mit Hilfe der Funktion IX_check() k”nnen Sie prfen, ob auf das Anpassungs-
+    modul wieder zugegriffen werden kann, mit der Funktion IX_enable() k”nnen
+    die Zugriffe auf das Anpassungsmodul wieder aktiviert werden.
+
+    Achtung!
+    - Bei Verwendung der I/O-Library-Funktionen fr den direkten Zugriff
+      auf I/O-Module bzw. beim Einsatz anderer Funktionen mit I/O-Zugriff
+      (z.B. Spool-Funktionen), muแ die Applikation durch explizite Verriegelung
+      dafr sorgen, daแ auf ein gezogenes I/O-Modul mit der jeweiligen Funktion
+      nicht mehr zugegriffen wird.
+    - Input-Werte aus dem Statusbereich werden beim Aufruf dieser Funktion
+      nicht geforced!
+    - Mit dieser Funktion werden nur die zyklischen I/O-Zugriffe von Tasks,
+      die bereits im System geladen sind, deaktiviert. Somit ist ein Download
+      von Tasks, die nicht vorhandene I/O-Module ansprechen, nur im SERVICE-
+      Modus m”glich.
+
+
+
+                                     @110[ IX_disable ]                    @001[ bersicht ]
+.115
+    IX_disable - Deaktivieren eines I/O-Moduls mit Subslots (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern:
+    5501     Falsche Parameter
+    5552     Analogdaten mit ungerader Lnge oder ungerader Adresse k”nnen
+             nicht geforced werden
+    5558     IX_disable() darf am Parallelprozessor bzw. Multiprozessor nicht
+             aufgerufen werden
+    5562     IX_enable() bei optimierter IO-Emulation derzeit nicht m”glich
+
+    Alle anderen Fehlernummern sind im Anhang @600[Fehlermeldungen] beschrieben.
+
+
+
+
+
+
+
+
+                                     @110[ IX_disable ]                    @001[ bersicht ]
+.120
+    IO_enable - Aktivieren eines I/O-Moduls
+
+    @121[IO_enable] (enable,io_type,master_no,slave_no,module_adr,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  io_type   : BYTE          I/O-Typ: 0 ... 2010-IO
+                                           1 ... 2005-IO
+                                           2 ... RIO-2010
+                                           3 ... RIO-2005
+                                           4 ... RIO-2003
+                                           5 ... 2003-IO
+    ->  master_no : BYTE          Logische Nummer des IO-Masters (derzeit
+                                  immer 1) bzw. des RIO-Masters
+    ->  slave_no  : BYTE          Nummer des RIO-Slaves bzw. Nummer der 2005-
+                                  Rckwand (0=Basisrckwand, 1=Erweiterungs-
+                                  rckwand 1, 2=Erweiterungsrckwand 2, usw.).
+                                  Bei 2010-IO und 2003-IO muแ fr slave_no
+                                  immer der Wert 0 angegeben werden.
+
+                                     @121[ Fortsetzung ]                   @001[ bersicht ]
+.121
+    IO_enable - Aktivieren eines I/O-Moduls (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    ->  module_adr: BYTE          Moduladresse des I/O-Moduls
+                                  (in dezimaler Form)
+    <-  @125[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit dieser Funktion werden alle zyklischen Zugriffe auf das festgelegte
+    I/O-Modul aktiviert (freigegeben). Damit kann der zyklische I/O-Zugriff
+    dynamisch konfiguriert werden.
+
+    Achtung!
+    Mit der Funktion IO_enable() werden alle zyklischen Zugriffe aktiviert
+    (auch die mit DBTOOL.EXE oder mit dem Modul SPSIO.BR statisch deaktivierten
+    Zugriffe auf I/O-Module).
+
+
+
+
+
+
+                                      @120[ IO_enable ]                    @001[ bersicht ]
+.125
+    IO_enable - Aktivieren eines I/O-Moduls (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern:
+    5501     Falsche Parameter
+    5562     IO_enable() bei optimierter IO-Emulation derzeit nicht m”glich
+
+    Alle anderen Fehlernummern sind im Anhang @600[Fehlermeldungen] beschrieben.
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @120[ IO_enable ]                    @001[ bersicht ]
+.130
+    IX_enable - Aktivieren eines I/O-Moduls mit Subslots
+
+    @131[IX_enable] (enable,io_type,master_no,slave_no,module_adr,slot,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  io_type   : BYTE          I/O-Typ: 0 ... 2010-IO
+                                           1 ... 2005-IO
+                                           2 ... RIO-2010
+                                           3 ... RIO-2005
+                                           4 ... RIO-2003
+                                           5 ... 2003-IO
+    ->  master_no : BYTE          Logische Nummer des IO-Masters (derzeit
+                                  immer 1) bzw. des RIO-Masters
+    ->  slave_no  : BYTE          Nummer des RIO-Slaves bzw. Nummer der 2005-
+                                  Rckwand (0=Basisrckwand, 1=Erweiterungs-
+                                  rckwand 1, 2=Erweiterungsrckwand 2, usw.).
+                                  Bei 2010-IO und 2003-IO muแ fr slave_no
+                                  immer der Wert 0 angegeben werden.
+
+                                     @131[ Fortsetzung ]                   @001[ bersicht ]
+.131
+    IX_enable - Aktivieren eines I/O-Moduls mit Subslots (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    ->  module_adr: BYTE          Moduladresse des I/O-Moduls
+                                  (in dezimaler Form)
+    ->  slot      : BYTE          Steckplatz (Subslot) auf dem Modul:
+                                  0 ..... ganzes Modul mit allen gesteckten
+                                          Submodulen (Anpassungsmodulen)
+                                  1-4 ... Submodul (Anpassungsmodul) auf dem
+                                          angegebenen Steckplatz (1-4)
+    <-  @135[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit dieser Funktion werden alle zyklischen Zugriffe auf das festgelegte
+    I/O-Modul aktiviert (freigegeben). Damit kann der zyklische I/O-Zugriff
+    dynamisch konfiguriert werden.
+
+    Achtung!
+    Mit der Funktion IX_enable() werden alle zyklischen Zugriffe aktiviert
+    (auch die mit DBTOOL.EXE oder mit dem Modul SPSIO.BR statisch deaktivierten
+    Zugriffe auf I/O-Module).
+
+                                      @130[ IX_enable ]                    @001[ bersicht ]
+.135
+    IX_enable - Aktivieren eines I/O-Moduls mit Subslots (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern:
+    5501     Falsche Parameter
+    5562     IX_enable() bei optimierter IO-Emulation derzeit nicht m”glich
+
+    Alle anderen Fehlernummern sind im Anhang @600[Fehlermeldungen] beschrieben.
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @130[ IX_enable ]                    @001[ bersicht ]
+.140
+    IO_check - Prfen eines I/O-Moduls
+
+    @141[IO_check] (enable,io_type,master_no,slave_no,module_adr,search_typ,status,
+              found_flag,module_typ)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  io_type   : BYTE          I/O-Typ: 0 ... 2010-IO
+                                           1 ... 2005-IO
+                                           2 ... RIO-2010
+                                           3 ... RIO-2005
+                                           4 ... RIO-2003
+                                           5 ... 2003-IO
+    ->  master_no : BYTE          Logische Nummer des IO-Masters (derzeit
+                                  immer 1) bzw. des RIO-Masters
+    ->  slave_no  : BYTE          Nummer des RIO-Slaves bzw. der 2005-Rckwand
+                                  (0=Basisrckwand, 1=Erweiterungsrckwand 1,
+                                  usw.). Bei 2010-IO und 2003-IO muแ fr
+                                  slave_no immer der Wert 0 angegeben werden.
+
+                                     @141[ Fortsetzung ]                   @001[ bersicht ]
+.141
+    IO_check - Prfen eines I/O-Moduls (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    ->  module_adr: BYTE          Moduladresse des zu prfenden I/O-Moduls
+                                  (in dezimaler Form)
+    ->  search_typ: BYTE          Typ (@146[Typ-Code]), den das I/O-Modul mit der
+                                  angegebenen Moduladresse haben muแ. Steckt
+                                  an dieser Moduladresse ein I/O-Modul, das
+                                  nicht den definierten Typ hat, wird ein
+                                  Fehler gemeldet. Wenn der Typ des I/O-Moduls
+                                  nicht geprft werden soll (Typ egal), muแ
+                                  fr search_typ der Wert 0 bergeben werden.
+    <-  @145[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+    <-  found_flag: BIT           Flag, das anzeigt, ob das I/O-Modul vor-
+                                  handen ist:
+                                  0 ... I/O-Modul mit angegebenem Typ nicht
+                                        vorhanden
+                                  1 ... I/O-Modul mit angegebenem Typ vor-
+                                        handen
+    <-  @146[module_typ]: BYTE          Typ-Code des geprften I/O-Moduls.
+
+                                     @142[ Fortsetzung ]                   @001[ bersicht ]
+.142
+    IO_check - Prfen eines I/O-Moduls (Fortsetzung)
+
+    Mit dieser Funktion kann berprft werden, ob das angegebene I/O-Modul
+    vorhanden ist. Ist der Status der Funktion (Ausgang "status") ungleich 0,
+    so ist das angegebene I/O-Modul nicht vorhanden.
+
+    Jedes Modul der Systeme B&R 2010, B&R 2005 und B&R 2003 hat einen @146[Typ-Code],
+    ber den der Typ des Moduls eindeutig bestimmt werden kann.
+    Mit dem Parameter "search_typ" kann definiert werden, welchen Typ
+    (Typ-Code) das zu prfenden I/O-Modul haben muแ. Befindet sich an der mit
+    "module_adr" festgelegten Moduladresse ein I/O-Modul, das nicht den ange-
+    gebenen Typ hat, wird ein Fehler (Fehlernummer 5554) gemeldet.
+    Am Ausgang "module_typ" wird der tatschliche Typ-Code des zu prfenden
+    I/O-Moduls ausgegeben.
+
+
+
+
+
+
+
+                                     @143[ Fortsetzung ]                   @001[ bersicht ]
+.143
+    IO_check - Prfen eines I/O-Moduls (Fortsetzung)
+
+    Achtung!
+    - Diese Funktion kann nur verwendet werden, wenn der Exceptionhandler
+      EXERMO.BR (mindestens Version 1.11) auf der Zentraleinheit (Anwender-ROM)
+      vorhanden ist!
+    - Die Funktion IO_check() darf in superschnellen Taskklassen nicht ver-
+      wendet werden (Ausnahme: Initialisierungs-Unterprogramme der super-
+      schnellen Taskklassen).
+    - Im System B&R 2005 kann die Funktion IO_check() nur fr die Basisrckwand
+      verwendet werden. Bei den Erweiterungsrckwnden ist der Einsatz dieser
+      Funktion nicht m”glich, da bei einem Fehler (I/O-Modul nicht vorhanden)
+      die ganze Erweiterungsrckwand rckgesetzt werden mแte. Ab der Version
+      V1.60 der I/O-Library kann jedoch mit der Funktion IO_list() die im Hoch-
+      lauf ermittelte I/O-Konfiguration von 2005-Erweiterungen festgestellt
+      werden.
+
+
+
+
+
+                                      @140[ IO_check ]                     @001[ bersicht ]
+.145
+    IO_check - Prfen eines I/O-Moduls (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern:
+    5501     Falsche Parameter
+    5551     IO_check() in mehreren Taskklassen parallel aufgerufen
+    5553     IO_check() darf nicht in HS-Taskklassen aufgerufen werden
+    5554     I/O-Modul gesteckt, aber Modultyp stimmt nicht
+    5555     I/O-Modul nicht gesteckt
+    5558     IO_check() darf am Parallelprozessor bzw. Multiprozessor nicht
+             aufgerufen werden
+    5563     IO_check() auf Systemen mit EX350 derzeit nicht m”glich
+    5567     FUB-Daten liegen nicht im IO/Merker-Pool
+    5576     Fehler beim 2003-Direkt-IO
+    9136     IO-Fehler 2003
+
+    Alle anderen Fehlernummern sind im Anhang @600[Fehlermeldungen] beschrieben.
+
+
+
+                                      @140[ IO_check ]                     @001[ bersicht ]
+.146
+    IO_check - Prfen eines I/O-Moduls (Fortsetzung)
+
+    <- Parameter <module_typ >: BYTE
+
+    Am Ausgang "module_typ" wird der tatschliche Typ-Code des zu prfenden
+    I/O-Moduls ausgegeben.
+    Typ-Codes der wichtigsten I/O-Module (fr "search_typ" und "module_typ"):
+
+    ษออออออออออออออออออออออหออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ    System B&R 2003   บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   DI400   ณ   $01    บ   DI475   ณ   $01    บ   AI351   ณ $02, $03 บ
+    บ   DI401   ณ   $02    บ   DO476   ณ   $02    บ   AI354   ณ   $04    บ
+    บ   DI425   ณ   $03    บ   DO650   ณ   $03    บ   AI774   ณ   $06    บ
+    บ   DO426   ณ   $04    บ   DO750   ณ   $04    บ   AT351   ณ   $08    บ
+    บ   DO600   ณ   $06    บ   DI477   ณ   $05    บ   AT662   ณ   $0A    บ
+    บ   DO700   ณ   $07    บ   DI450   ณ $06, $08 บ   AT664   ณ   $0C    บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+                                     @147[ Fortsetzung ]                   @001[ bersicht ]
+.147
+    IO_check - Prfen eines I/O-Moduls (Fortsetzung)
+
+    ษออออออออออออออออออออออหออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ    System B&R 2003   บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   AI300   ณ   $08    บ   DI476   ณ   $07    บ   AO352   ณ   $0E    บ
+    บ   AI700   ณ   $09    บ   DM455   ณ   $20    บ   NC161   ณ   $10    บ
+    บ   AT300   ณ   $0A    บ   DO479   ณ   $40    บ   DI135   ณ   $12    บ
+    บ   AT400   ณ   $0B    บ   DO480   ณ   $41    บ   DO135   ณ   $14    บ
+    บ   AT600   ณ   $0C    บ   DI690   ณ   $60    บ   AT352   ณ   $1A    บ
+    บ   AT601   ณ   $0D    บ   DO690   ณ   $61    บ   AF451   ณ   $1E    บ
+    บ   AT602   ณ   $0E    บ   DM476   ณ   $62    บ   AI261   ณ   $20    บ
+    บ   AO725   ณ   $0F    บ   AI375   ณ   $80    บ   AI294   ณ   $22    บ
+    บ   AO900   ณ   $10    บ   AI775   ณ   $81    บ   AF101   ณ   $C0    บ
+    บ   AO300   ณ   $11    บ   AI350   ณ   $82    บ   CM471   ณ   $C1    บ
+    บ   AM000   ณ   $12    บ   AI350   ณ   $83    บ   CM211   ณ   $C2    บ
+    บ   AM001   ณ   $13    บ   AM050   ณ   $88    บ   CM411   ณ   $C3    บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+                                     @148[ Fortsetzung ]                   @001[ bersicht ]
+.148
+    IO_check - Prfen eines I/O-Moduls (Fortsetzung)
+
+    ษออออออออออออออออออออออหออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ    System B&R 2003   บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   NC300   ณ   $14    บ   AM051   ณ   $89    บ   DI435   ณ   $E1    บ
+    บ   NC301   ณ   $15    บ   AM374   ณ   $8A    บ   DO720   ณ   $E2    บ
+    บ   NC302   ณ   $16    บ   AT650   ณ   $90    บ   DM435   ณ   $E3    บ
+    บ   NC303   ณ   $17    บ   AT651   ณ   $91    บ   DI645   ณ   $E5    บ
+    บ   EX301   ณ   $18    บ   AT450   ณ   $92    บ   DO721   ณ   $E6    บ
+    บ   EX302   ณ   $19    บ   AT350   ณ   $93    บ   DM438   ณ   $E7    บ
+    บ   DS100   ณ   $1A    บ   AT652   ณ   $94    บ   DI439   ณ   $E9    บ
+    บ   DS101   ณ   $1B    บ   AT660   ณ   $95    บ   DO435   ณ   $EB    บ
+    บ   DS102   ณ   $1C    บ   AI961   ณ   $96    บ   DO722   ณ   $F2    บ
+    บ   DO428   ณ   $1D    บ   NC150   ณ   $98    บ   DM465   ณ   $F7    บ
+    บ   IP101   ณ   $1E    บ   AO350   ณ   $A0    บ           ณ          บ
+    บ   DI825   ณ   $1F    บ   AO775   ณ   $A1    บ           ณ          บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+                                     @149[ Fortsetzung ]                   @001[ bersicht ]
+.149
+    IO_check - Prfen eines I/O-Moduls (Fortsetzung)
+
+    ษออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   DO430   ณ   $20    บ   DO760   ณ   $B0    บ
+    บ   UM900   ณ   $21    บ   DI575   ณ   $B1    บ
+    บ   DI426   ณ   $22    บ   DI695   ณ   $B2    บ
+    บ   NC102   ณ   $23    บ           ณ          บ
+    บ   AT610   ณ   $25    บ           ณ          บ
+    บ   DI725   ณ   $26    บ           ณ          บ
+    บ   DO710   ณ   $27    บ           ณ          บ
+    บ   AI730   ณ   $28    บ           ณ          บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+
+
+
+
+                                      @140[ IO_check ]                     @001[ bersicht ]
+.150
+    IX_check - Prfen eines I/O-Moduls mit Subslots
+
+    @151[IX_check] (enable,io_type,master_no,slave_no,module_adr,slot,search_typ,
+              status,found_flag,module_typ)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  io_type   : BYTE          I/O-Typ: 0 ... 2010-IO
+                                           1 ... 2005-IO
+                                           2 ... RIO-2010
+                                           3 ... RIO-2005
+                                           4 ... RIO-2003
+                                           5 ... 2003-IO
+    ->  master_no : BYTE          Logische Nummer des IO-Masters (derzeit
+                                  immer 1) bzw. des RIO-Masters
+    ->  slave_no  : BYTE          Nummer des RIO-Slaves bzw. der 2005-Rckwand
+                                  (0=Basisrckwand, 1=Erweiterungsrckwand 1,
+                                  usw.). Bei 2010-IO und 2003-IO muแ fr
+                                  slave_no immer der Wert 0 angegeben werden.
+
+                                     @151[ Fortsetzung ]                   @001[ bersicht ]
+.151
+    IX_check - Prfen eines I/O-Moduls mit Subslots (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    ->  module_adr: BYTE          Moduladresse des zu prfenden I/O-Moduls
+                                  (in dezimaler Form)
+    ->  slot      : BYTE          Steckplatz (Subslot) auf dem Modul:
+                                  0 ..... Analog-Interfacemodul vorhanden?
+                                  1-4 ... Submodul (auch Anpassungsmodul ge-
+                                          nannt) auf dem angegebenen Steck-
+                                          platz (1-4) vorhanden?
+    ->  search_typ: BYTE          Typ (@156[Typ-Code]), den das I/O-Modul mit der
+                                  angegebenen Moduladresse haben muแ. Steckt
+                                  an dieser Moduladresse ein I/O-Modul, das
+                                  nicht den definierten Typ hat, wird ein
+                                  Fehler gemeldet. Wenn der Typ des I/O-Moduls
+                                  nicht geprft werden soll (Typ egal), muแ
+                                  fr search_typ der Wert 0 bergeben werden.
+    <-  @155[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+
+
+                                     @152[ Fortsetzung ]                   @001[ bersicht ]
+.152
+    IX_check - Prfen eines I/O-Moduls mit Subslots (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    <-  found_flag: BIT           Flag, das anzeigt, ob das I/O-Modul vor-
+                                  handen ist:
+                                  0 ... I/O-Modul mit angegebenem Typ nicht
+                                        vorhanden
+                                  1 ... I/O-Modul mit angegebenem Typ vor-
+                                        handen
+    <-  @156[module_typ]: BYTE          Typ-Code des geprften I/O-Moduls.
+
+    Mit dieser Funktion kann berprft werden, ob das angegebene I/O-Modul
+    vorhanden ist. Ist der Status der Funktion (Ausgang "status") ungleich 0,
+    so ist das angegebene I/O-Modul nicht vorhanden.
+    Jedes Modul der Systeme B&R 2010, B&R 2005 und B&R 2003 hat einen @156[Typ-Code],
+    ber den der Typ des Moduls eindeutig bestimmt werden kann.
+    Mit dem Parameter "search_typ" kann definiert werden, welchen Typ
+    (Typ-Code) das zu prfenden I/O-Modul haben muแ. Befindet sich an der mit
+    "module_adr" festgelegten Moduladresse ein I/O-Modul, das nicht den ange-
+    gebenen Typ hat, wird ein Fehler (Fehlernummer 5554) gemeldet.
+
+                                     @153[ Fortsetzung ]                   @001[ bersicht ]
+.153
+    IX_check - Prfen eines I/O-Moduls mit Subslots (Fortsetzung)
+
+    Am Ausgang "module_typ" wird der tatschliche Typ-Code des zu prfenden
+    I/O-Moduls ausgegeben.
+
+    Achtung!
+    - Diese Funktion kann nur verwendet werden, wenn der Exceptionhandler
+      EXERMO.BR (mindestens Version 1.11) auf der Zentraleinheit (Anwender-ROM)
+      vorhanden ist!
+    - Auf CPUs des Systems B&R 2003 ist die Funktion IX_check() erst ab Version
+      V2.00 der RPSSW lauffhig.
+    - Die Funktion IX_check() darf in superschnellen Taskklassen nicht ver-
+      wendet werden (Ausnahme: Initialisierungs-Unterprogramme der super-
+      schnellen Taskklassen).
+    - Im System B&R 2005 kann die Funktion IX_check() nur fr die Basisrckwand
+      verwendet werden. Bei den Erweiterungsrckwnden ist der Einsatz dieser
+      Funktion nicht m”glich, da bei einem Fehler (I/O-Modul nicht vorhanden)
+      die ganze Erweiterungsrckwand rckgesetzt werden mแte. Ab der Version
+      V1.60 der I/O-Library kann jedoch mit der Funktion IO_list() die im Hoch-
+      lauf ermittelte I/O-Konfiguration von 2005-Erweiterungen festgestellt
+      werden.
+                                      @150[ IX_check ]                     @001[ bersicht ]
+.155
+    IX_check - Prfen eines I/O-Moduls mit Subslots (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern:
+    5501     Falsche Parameter
+    5551     IX_check() in mehreren Taskklassen parallel aufgerufen
+    5553     IX_check() darf nicht in HS-Taskklassen aufgerufen werden
+    5554     I/O-Modul gesteckt, aber Modultyp stimmt nicht
+    5555     I/O-Modul nicht gesteckt
+    5558     IX_check() darf am Parallelprozessor bzw. Multiprozessor nicht
+             aufgerufen werden
+    5563     IX_check() auf Systemen mit EX350 derzeit nicht m”glich
+    5567     FUB-Daten liegen nicht im IO/Merker-Pool
+    5576     Fehler beim 2003-Direkt-IO
+    9136     IO-Fehler 2003
+
+    Alle anderen Fehlernummern sind im Anhang @600[Fehlermeldungen] beschrieben.
+
+
+
+                                      @150[ IX_check ]                     @001[ bersicht ]
+.156
+    IX_check - Prfen eines I/O-Moduls mit Subslots (Fortsetzung)
+
+    <- Parameter <module_typ >: BYTE
+
+    Am Ausgang "module_typ" wird der tatschliche Typ-Code des zu prfenden
+    I/O-Moduls ausgegeben.
+    Typ-Codes der wichtigsten I/O-Module (fr "search_typ" und "module_typ"):
+
+    ษออออออออออออออออออออออหออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ    System B&R 2003   บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   DI400   ณ   $01    บ   DI475   ณ   $01    บ   AI351   ณ $02, $03 บ
+    บ   DI401   ณ   $02    บ   DO476   ณ   $02    บ   AI354   ณ   $04    บ
+    บ   DI425   ณ   $03    บ   DO650   ณ   $03    บ   AI774   ณ   $06    บ
+    บ   DO426   ณ   $04    บ   DO750   ณ   $04    บ   AT351   ณ   $08    บ
+    บ   DO600   ณ   $06    บ   DI477   ณ   $05    บ   AT662   ณ   $0A    บ
+    บ   DO700   ณ   $07    บ   DI450   ณ $06, $08 บ   AT664   ณ   $0C    บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+                                     @157[ Fortsetzung ]                   @001[ bersicht ]
+.157
+    IX_check - Prfen eines I/O-Moduls mit Subslots (Fortsetzung)
+
+    ษออออออออออออออออออออออหออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ    System B&R 2003   บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   AI300   ณ   $08    บ   DI476   ณ   $07    บ   AO352   ณ   $0E    บ
+    บ   AI700   ณ   $09    บ   DM455   ณ   $20    บ   NC161   ณ   $10    บ
+    บ   AT300   ณ   $0A    บ   DO479   ณ   $40    บ   DI135   ณ   $12    บ
+    บ   AT400   ณ   $0B    บ   DO480   ณ   $41    บ   DO135   ณ   $14    บ
+    บ   AT600   ณ   $0C    บ   DI690   ณ   $60    บ   AT352   ณ   $1A    บ
+    บ   AT601   ณ   $0D    บ   DO690   ณ   $61    บ   AF451   ณ   $1E    บ
+    บ   AT602   ณ   $0E    บ   DM476   ณ   $62    บ   AI261   ณ   $20    บ
+    บ   AO725   ณ   $0F    บ   AI375   ณ   $80    บ   AI294   ณ   $22    บ
+    บ   AO900   ณ   $10    บ   AI775   ณ   $81    บ   AF101   ณ   $C0    บ
+    บ   AO300   ณ   $11    บ   AI350   ณ   $82    บ   CM471   ณ   $C1    บ
+    บ   AM000   ณ   $12    บ   AI350   ณ   $83    บ   CM211   ณ   $C2    บ
+    บ   AM001   ณ   $13    บ   AM050   ณ   $88    บ   CM411   ณ   $C3    บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+                                     @158[ Fortsetzung ]                   @001[ bersicht ]
+.158
+    IX_check - Prfen eines I/O-Moduls mit Subslots (Fortsetzung)
+
+    ษออออออออออออออออออออออหออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ    System B&R 2003   บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   NC300   ณ   $14    บ   AM051   ณ   $89    บ   DI435   ณ   $E1    บ
+    บ   NC301   ณ   $15    บ   AM374   ณ   $8A    บ   DO720   ณ   $E2    บ
+    บ   NC302   ณ   $16    บ   AT650   ณ   $90    บ   DM435   ณ   $E3    บ
+    บ   NC303   ณ   $17    บ   AT651   ณ   $91    บ   DI645   ณ   $E5    บ
+    บ   EX301   ณ   $18    บ   AT450   ณ   $92    บ   DO721   ณ   $E6    บ
+    บ   EX302   ณ   $19    บ   AT350   ณ   $93    บ   DM438   ณ   $E7    บ
+    บ   DS100   ณ   $1A    บ   AT652   ณ   $94    บ   DI439   ณ   $E9    บ
+    บ   DS101   ณ   $1B    บ   AT660   ณ   $95    บ   DO435   ณ   $EB    บ
+    บ   DS102   ณ   $1C    บ   AI961   ณ   $96    บ   DO722   ณ   $F2    บ
+    บ   DO428   ณ   $1D    บ   NC150   ณ   $98    บ   DM465   ณ   $F7    บ
+    บ   IP101   ณ   $1E    บ   AO350   ณ   $A0    บ           ณ          บ
+    บ   DI825   ณ   $1F    บ   AO775   ณ   $A1    บ           ณ          บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+                                     @159[ Fortsetzung ]                   @001[ bersicht ]
+.159
+    IX_check - Prfen eines I/O-Moduls mit Subslots (Fortsetzung)
+
+    ษออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   DO430   ณ   $20    บ   DO760   ณ   $B0    บ
+    บ   UM900   ณ   $21    บ   DI575   ณ   $B1    บ
+    บ   DI426   ณ   $22    บ   DI695   ณ   $B2    บ
+    บ   NC102   ณ   $23    บ           ณ          บ
+    บ   AT610   ณ   $25    บ           ณ          บ
+    บ   DI725   ณ   $26    บ           ณ          บ
+    บ   DO710   ณ   $27    บ           ณ          บ
+    บ   AI730   ณ   $28    บ           ณ          บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+
+
+
+
+                                      @150[ IX_check ]                     @001[ bersicht ]
+.160
+    IO_alloc - Allokieren eines I/O-Datenbereichs
+
+    @161[IO_alloc] (enable,bytesize,status,data_ptr)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  "enable" = 1 ist
+    ->  bytesize  : WORD          Gr”แe des I/O-Datenbereichs in Byte
+    <-  @165[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+    <-  data_ptr  : LONG          Adresse des allokierten I/O-Datenbereichs
+
+    Mit der Funktion IO_alloc() kann I/O-Speicher fr die Bearbeitung mit
+    IO_mphydef() und IO_data() allokiert werden (speziell in Systemen mit
+    EX350). Die Freigabe des allokierten Speichers kann mit der Funktion
+    @170[IO_free()] erfolgen.
+
+
+
+
+
+
+                                     @161[ Fortsetzung ]                   @001[ bersicht ]
+.161
+    IO_alloc - Allokieren eines I/O-Datenbereichs (Fortsetzung)
+
+    Beispiel: Allokieren eines I/O-Datenbereichs
+
+      if sc_adr = 0 then
+          ;* Allokieren des Speichers fr SC-Daten und IO-Daten
+          IO_alloc(1,sc_len + io_len,status,sc_adr)
+      endif
+
+      if status = 0 then
+          ...
+          ;* IO-Daten liegen hinter dem SC-Bereich
+          iop.data_adr = sc_adr + sc_len
+          io_val access sc_adr + sc_len
+
+          IO_mphydef(1,adr(iop),sc_adr,0,status,ioident)
+          ...
+          ;* Outputwert berechnen und auf IO-Modul ausgeben
+          io_val = calc(x,y,z)
+          IO_data(1,ioident,status)
+      endif
+                                      @160[ IO_alloc ]                     @001[ bersicht ]
+.165
+    IO_alloc - Allokieren eines I/O-Datenbereichs (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern:
+    3611     Im analogen I/O-Bereich ist zuwenig Speicher verfgbar
+
+    Alle anderen Fehlernummern sind im Anhang @600[Fehlermeldungen] beschrieben.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @160[ IO_alloc ]                     @001[ bersicht ]
+.170
+    IO_free - Freigabe eines I/O-Datenbereichs
+
+    @170[IO_free] (enable,bytesize,data_ptr,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  "enable" = 1 ist
+    ->  bytesize  : WORD          Gr”แe des I/O-Datenbereichs in Byte
+    ->  data_ptr  : LONG          Adresse des allokierten I/O-Datenbereichs
+    <-  @175[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Diese Funktion deallokiert einen Speicherbereich, der mit IO_alloc()
+    allokiert wurde.
+
+
+
+
+
+
+
+
+                                                                     @001[ bersicht ]
+.175
+    IO_free - Freigabe eines I/O-Datenbereichs (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern:
+    3711     Ungltiger Parameter bei IO_free im analogen I/O-Bereich
+
+    Alle anderen Fehlernummern sind im Anhang @600[Fehlermeldungen] beschrieben.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @170[ IO_free ]                     @001[ bersicht ]
+.180
+    IO_list - Liste aller gesteckten I/O-Module
+
+    @181[IO_list] (enable,io_type,master_no,slave_no,prev_mod,adr(name_adr),
+             status,module_adr,module_typ,io_bus)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  io_type   : BYTE          I/O-Typ: 0 ... 2010-IO
+                                           1 ... 2005-IO
+                                           2 ... RIO-2010
+                                           3 ... RIO-2005
+                                           4 ... RIO-2003
+                                           5 ... 2003-IO
+    ->  master_no : BYTE          Logische Nummer des IO-Masters (derzeit
+                                  immer 1) bzw. des RIO-Masters
+
+
+
+
+
+                                     @181[ Fortsetzung ]                   @001[ bersicht ]
+.181
+    IO_list - Liste aller gesteckten I/O-Module (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    ->  slave_no  : BYTE          Nummer des RIO-Slaves bzw. Nummer der 2005-
+                                  Rckwand (0=Basisrckwand, 1=Erweiterungs-
+                                  rckwand 1, 2=Erweiterungsrckwand 2, usw.).
+                                  Bei 2010-IO und 2003-IO muแ fr slave_no
+                                  immer der Wert 0 angegeben werden.
+    ->  prev_mod  : BYTE          Moduladresse des I/O-Moduls (in dezimaler
+                                  Form), bei dem die Suche fortgesetzt wird
+                                  (bei Angabe von 0 wird die Suche beim ersten
+                                  I/O-Modul am Bus fortgesetzt)
+    <-> @185[name_adr  ]: 6 BYTE (FELD) Name des I/O-Moduls
+                                  (als nullterminierter String)
+    <-  @186[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+    <-  module_adr: BYTE          Moduladresse des ersten gefundenen I/O-Moduls
+                                  (in dezimaler Form)
+    <-  @187[module_typ]: BYTE          Typ-Code des gefundenen I/O-Moduls
+    <-  io_bus    : WORD          I/O-Bus-Parameter (Parameter io_bus) fr die
+                                  Funktion IO_physdef()
+
+                                     @182[ Fortsetzung ]                   @001[ bersicht ]
+.182
+    IO_list - Liste aller gesteckten I/O-Module (Fortsetzung)
+
+    Mit der Funktion IO_list() kann ein I/O-Bus (2010-IO, 2005-Basis-IO, 2005-
+    Erweiterungen, 2003-IO, Remote-IO 2010, Remote-IO 2005, Remote-IO 2003)
+    nach I/O-Modulen durchsucht werden. Als Ergebnis liefert diese Funktion
+    Name, Moduladresse und Typ (@187[Typ-Code]) des gefundenen I/O-Moduls.
+    Die Funktion IO_list() sucht das erste vorhandene Modul am I/O-Bus hinter
+    der angegebenen Moduladresse "prev_mod" (allerdings nur ber die im Hoch-
+    lauf festgestellte Hardware-Konfigurationstabelle, nicht durch direkten
+    physikalischen Zugriff).
+    Um den ganzen I/O-Bus zu durchsuchen, muแ der Parameter "prev_mod" beim
+    ersten Aufruf auf 0 gesetzt werden. Bei jedem weiteren Aufruf der Funktion
+    muแ der Ausgangsparameter "module_adr" als neuer "prev_mod" verwendet
+    werden. Mit "prev_mod" = i - 1 kann man jedoch auch von jeder beliebigen
+    Moduladresse "i" aus die Suche beginnen. Wenn kein I/O-Modul mehr gefunden
+    wird, wird am Ausgang "status" eine entsprechende Fehlernummer ausge-
+    geben.
+
+
+
+
+                                     @183[ Fortsetzung ]                   @001[ bersicht ]
+.183
+    IO_list - Liste aller gesteckten I/O-Module (Fortsetzung)
+
+    Achtung!
+    - Diese Funktion kann nur verwendet werden, wenn der Exceptionhandler
+      EXERMO.BR (mindestens Version 1.11) auf der Zentraleinheit (Anwender-ROM)
+      vorhanden ist!
+    - Um die Leistungsfhigkeit des Systems nicht zu beeintrchtigen, sollte
+      die Funktion IO_list() nur in Initialisierungs-Unterprogrammen
+      (INIT-UPs) der zyklischen Tasks verwendet werden. Damit trotzdem alle
+      I/O-Module erfaแt werden, muแ die Funktion IO_list() im INIT-UP in einer
+      "loop" Anweisung aufgerufen werden (siehe @730[Beispiel 4]).
+    - Die Funktion IO_list() darf in superschnellen Taskklassen nicht verwendet
+      werden (Ausnahme: INIT-UPs der superschnellen Taskklassen).
+    - Um mit der Funktion IO_list() die korrekte Bezeichnung eines I/O-Moduls
+      zu erhalten, muแ das entsprechende Datenmodul (IO_2010.BR fr 2010-IO,
+      IO_2005.BR fr 2005-IO und IO_2003.BR fr 2003-IO) im Anwender-ROM der
+      Zentraleinheit vorhanden sein.
+
+
+
+
+                                       @180[ IO_list ]                     @001[ bersicht ]
+.185
+    IO_list - Liste aller gesteckten I/O-Module (Fortsetzung)
+
+    <-> Parameter <name_adr  >:  6 BYTE (FELD)
+
+    In der Variable "name_adr" wird die Bezeichnung des gefundenen I/O-Moduls
+    als String (5 Zeichen + Nullbyte) hinterlegt.
+    Da in der Hardware-Konfigurationstabelle kein Modulname eingetragen ist,
+    k”nnen die korrekten Modulbezeichnungen nur ber die mitgelieferten Daten-
+    module IO_2010.BR, IO_2005.BR und IO_2003.BR bestimmt werden. D.h. wenn
+    das entsprechende Datenmodul (IO_2010.BR fr 2010-IO, IO_2005.BR fr
+    2005-IO und IO_2003.BR fr 2003-IO) nicht im Anwender-ROM der Zentral-
+    einheit vorhanden ist, wird der String "?????" als Modulbezeichnung ein-
+    getragen.
+
+
+
+
+
+
+
+
+                                       @180[ IO_list ]                     @001[ bersicht ]
+.186
+    IO_list - Liste aller gesteckten I/O-Module (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern:
+    5501     Falsche Parameter
+    5551     IO_list() in mehreren Taskklassen parallel aufgerufen
+    5553     IO_list() darf nicht in HS-Taskklassen aufgerufen werden
+    5555     I/O-Modul nicht gesteckt
+    5558     IO_list() darf am Parallelprozessor bzw. Multiprozessor nicht
+             aufgerufen werden
+    5576     Fehler beim 2003-Direkt-IO
+    9136     IO-Fehler 2003
+
+    Alle anderen Fehlernummern sind im Anhang @600[Fehlermeldungen] beschrieben.
+
+
+
+
+
+
+                                       @180[ IO_list ]                     @001[ bersicht ]
+.187
+    IO_list - Liste aller gesteckten I/O-Module (Fortsetzung)
+
+    <- Parameter <module_typ >: BYTE
+
+    Neben der Modulbezeichnung (Name des Moduls) liefert die Funktion IO_list()
+    als Ergebnis auch den Typ-Code (Parameter "module_typ") des gefundenen
+    I/O-Moduls. ber den Typ-Code kann jedes Modul der Systeme B&R 2010, 2005
+    und 2003 eindeutig bestimmt werden. Typ-Codes der wichtigsten I/O-Module:
+    ษออออออออออออออออออออออหออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ    System B&R 2003   บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   DI400   ณ   $01    บ   DI475   ณ   $01    บ   AI351   ณ $02, $03 บ
+    บ   DI401   ณ   $02    บ   DO476   ณ   $02    บ   AI354   ณ   $04    บ
+    บ   DI425   ณ   $03    บ   DO650   ณ   $03    บ   AI774   ณ   $06    บ
+    บ   DO426   ณ   $04    บ   DO750   ณ   $04    บ   AT351   ณ   $08    บ
+    บ   DO600   ณ   $06    บ   DI477   ณ   $05    บ   AT662   ณ   $0A    บ
+    บ   DO700   ณ   $07    บ   DI450   ณ $06, $08 บ   AT664   ณ   $0C    บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+                                     @188[ Fortsetzung ]                   @001[ bersicht ]
+.188
+    IO_list - Liste aller gesteckten I/O-Module (Fortsetzung)
+
+    ษออออออออออออออออออออออหออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ    System B&R 2003   บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   AI300   ณ   $08    บ   DI476   ณ   $07    บ   AO352   ณ   $0E    บ
+    บ   AI700   ณ   $09    บ   DM455   ณ   $20    บ   NC161   ณ   $10    บ
+    บ   AT300   ณ   $0A    บ   DO479   ณ   $40    บ   DI135   ณ   $12    บ
+    บ   AT400   ณ   $0B    บ   DO480   ณ   $41    บ   DO135   ณ   $14    บ
+    บ   AT600   ณ   $0C    บ   DI690   ณ   $60    บ   AT352   ณ   $1A    บ
+    บ   AT601   ณ   $0D    บ   DO690   ณ   $61    บ   AF451   ณ   $1E    บ
+    บ   AT602   ณ   $0E    บ   DM476   ณ   $62    บ   AI261   ณ   $20    บ
+    บ   AO725   ณ   $0F    บ   AI375   ณ   $80    บ   AI294   ณ   $22    บ
+    บ   AO900   ณ   $10    บ   AI775   ณ   $81    บ   AF101   ณ   $C0    บ
+    บ   AO300   ณ   $11    บ   AI350   ณ   $82    บ   CM471   ณ   $C1    บ
+    บ   AM000   ณ   $12    บ   AI350   ณ   $83    บ   CM211   ณ   $C2    บ
+    บ   AM001   ณ   $13    บ   AM050   ณ   $88    บ   CM411   ณ   $C3    บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+                                     @189[ Fortsetzung ]                   @001[ bersicht ]
+.189
+    IO_list - Liste aller gesteckten I/O-Module (Fortsetzung)
+
+    ษออออออออออออออออออออออหออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ    System B&R 2003   บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   NC300   ณ   $14    บ   AM051   ณ   $89    บ   DI435   ณ   $E1    บ
+    บ   NC301   ณ   $15    บ   AM374   ณ   $8A    บ   DO720   ณ   $E2    บ
+    บ   NC302   ณ   $16    บ   AT650   ณ   $90    บ   DM435   ณ   $E3    บ
+    บ   NC303   ณ   $17    บ   AT651   ณ   $91    บ   DI645   ณ   $E5    บ
+    บ   EX301   ณ   $18    บ   AT450   ณ   $92    บ   DO721   ณ   $E6    บ
+    บ   EX302   ณ   $19    บ   AT350   ณ   $93    บ   DM438   ณ   $E7    บ
+    บ   DS100   ณ   $1A    บ   AT652   ณ   $94    บ   DI439   ณ   $E9    บ
+    บ   DS101   ณ   $1B    บ   AT660   ณ   $95    บ   DO435   ณ   $EB    บ
+    บ   DS102   ณ   $1C    บ   AI961   ณ   $96    บ   DO722   ณ   $F2    บ
+    บ   DO428   ณ   $1D    บ   NC150   ณ   $98    บ   DM465   ณ   $F7    บ
+    บ   IP101   ณ   $1E    บ   AO350   ณ   $A0    บ           ณ          บ
+    บ   DI825   ณ   $1F    บ   AO775   ณ   $A1    บ           ณ          บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+                                     @190[ Fortsetzung ]                   @001[ bersicht ]
+.190
+    IO_list - Liste aller gesteckten I/O-Module (Fortsetzung)
+
+    ษออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   DO430   ณ   $20    บ   DO760   ณ   $B0    บ
+    บ   UM900   ณ   $21    บ   DI575   ณ   $B1    บ
+    บ   DI426   ณ   $22    บ   DI695   ณ   $B2    บ
+    บ   NC102   ณ   $23    บ           ณ          บ
+    บ   AT610   ณ   $25    บ           ณ          บ
+    บ   DI725   ณ   $26    บ           ณ          บ
+    บ   DO710   ณ   $27    บ           ณ          บ
+    บ   AI730   ณ   $28    บ           ณ          บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+
+
+
+
+                                       @180[ IO_list ]                     @001[ bersicht ]
+.200
+    IO_slist - Liste aller gesteckten Submodule
+
+    @201[IO_slist] (enable,io_type,master_no,slave_no,module_adr,prev_slot,
+              adr(name_adr),status,slot_no,slot_typ)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  io_type   : BYTE          I/O-Typ: 4 ... RIO-2003
+                                           5 ... 2003-IO
+    ->  master_no : BYTE          Logische Nummer des IO-Masters (derzeit
+                                  immer 1) bzw. des RIO-Masters
+    ->  slave_no  : BYTE          Nummer des RIO-Slaves (bei RIO-2003). Bei
+                                  2003-IO muแ fr slave_no immer der Wert 0
+                                  angegeben werden.
+    ->  module_adr: BYTE          Moduladresse des Analog-Interfacemoduls
+                                  (in dezimaler Form).
+                                  Dieses Analog-Interfacemodul wird nach Sub-
+                                  modulen (auch Anpassungsmodule genannt)
+                                  durchsucht.
+
+                                     @201[ Fortsetzung ]                   @001[ bersicht ]
+.201
+    IO_slist - Liste aller gesteckten Submodule (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    ->  prev_slot : BYTE          Steckplatz (in dezimaler Form) des Submoduls
+                                  (auch Anpassungsmodul genannt), bei dem die
+                                  Suche fortgesetzt wird (bei Angabe von 0 wird
+                                  die Suche beim ersten Anpassungsmodul fort-
+                                  gesetzt)
+    <-> @205[name_adr  ]: 6 BYTE (FELD) Name des Anpassungsmoduls
+                                  (als nullterminierter String)
+    <-  @206[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+    <-  slot_no   : BYTE          Steckplatz des ersten gefundenen Anpassungs-
+                                  moduls (in dezimaler Form)
+    <-  @207[slot_typ  ]: BYTE          Typ-Code des gefundenen Anpassungsmoduls
+
+    Mit der Funktion IO_slist() k”nnen die auf einem Analog-Interfacemodul
+    (System B&R 2003) vorhandenen Submodule (auch Anpassungsmodule genannt)
+    analysiert werden (2003-IO, RIO-2003).
+
+
+
+                                     @202[ Fortsetzung ]                   @001[ bersicht ]
+.202
+    IO_slist - Liste aller gesteckten Submodule (Fortsetzung)
+
+    Die Funktion IO_slist() sucht das erste vorhandene Submodul hinter dem
+    angegebenen Steckplatz "prev_slot" (allerdings nur ber die im Hoch-
+    lauf festgestellte Hardware-Konfigurationstabelle, nicht durch direkten
+    physikalischen Zugriff).
+    Um alle (auf einem Analog-Interfacemodul) vorhandenen Anpassungsmodule
+    zu analysieren, muแ der Parameter "prev_slot" beim ersten Aufruf auf 0
+    gesetzt werden. Bei jedem weiteren Aufruf der Funktion muแ der Ausgangs-
+    parameter "slot_no" als neuer "prev_slot" verwendet werden.
+    Mit "prev_slot" = i - 1 kann man jedoch auch von jedem beliebigen Steck-
+    platz "i" aus die Suche beginnen. Wenn kein Anpassungsmodul mehr gefunden
+    wird, wird am Ausgang "status" eine entsprechende Fehlernummer ausge-
+    geben.
+
+
+
+
+
+
+
+                                     @203[ Fortsetzung ]                   @001[ bersicht ]
+.203
+    IO_slist - Liste aller gesteckten Submodule (Fortsetzung)
+
+    Achtung!
+    - Um die Leistungsfhigkeit des Systems nicht zu beeintrchtigen, sollte
+      die Funktion IO_slist() nur in Initialisierungs-Unterprogrammen
+      (INIT-UPs) der zyklischen Tasks verwendet werden.
+    - Um mit der Funktion IO_slist() die korrekten Bezeichnungen der Submodule
+      zu erhalten, muแ das Datenmodul IO_2003.BR im Anwender-ROM der Zentral-
+      einheit vorhanden sein.
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ IO_slist ]                     @001[ bersicht ]
+.205
+    IO_slist - Liste aller gesteckten Submodule (Fortsetzung)
+
+    <-> Parameter <name_adr  >:  6 BYTE (FELD)
+
+    In der Variable "name_adr" wird die Bezeichnung des gefundenen Anpassungs-
+    moduls als String (5 Zeichen + Nullbyte) hinterlegt.
+    Da in der Hardware-Konfigurationstabelle kein Modulname eingetragen ist,
+    kann die korrekte Modulbezeichnung nur ber das mitgelieferten Daten-
+    modul IO_2003.BR bestimmt werden. D.h. wenn das Datenmodul IO_2003.BR
+    nicht im Anwender-ROM der Zentraleinheit vorhanden ist, wird der String
+    "?????" als Modulbezeichnung eingetragen.
+
+
+
+
+
+
+
+
+
+
+                                      @200[ IO_slist ]                     @001[ bersicht ]
+.206
+    IO_slist - Liste aller gesteckten Submodule (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern:
+    5501     Falsche Parameter
+    5555     Anpassungsmodul (Submodul) nicht gesteckt
+    5576     Fehler beim 2003-Direkt-IO
+    9136     IO-Fehler 2003
+
+    Alle anderen Fehlernummern sind im Anhang @600[Fehlermeldungen] beschrieben.
+
+
+
+
+
+
+
+
+
+
+                                      @200[ IO_slist ]                     @001[ bersicht ]
+.207
+    IO_slist - Liste aller gesteckten Submodule (Fortsetzung)
+
+    <- Parameter <slot_typ  >: BYTE
+
+    Dieser Parameter enthlt den Typ-Code des gefundenen Anpassungsmoduls.
+
+    ษอออออออออออออออออัออออออออออป
+    บ Anpassungsmodul ณ Typ-Code บ
+    ฬอออออออออออออออออุออออออออออน
+    บ      AI351      ณ $02, $03 บ
+    บ      AI354      ณ   $04    บ
+    บ      AI774      ณ   $06    บ
+    บ      AT351      ณ   $08    บ
+    บ      AT662      ณ   $0A    บ
+    บ      AT664      ณ   $0C    บ
+    บ      AO352      ณ   $0E    บ
+    บ      NC161      ณ   $10    บ
+    บ      DI135      ณ   $12    บ
+    บ      DO135      ณ   $14    บ
+    ศอออออออออออออออออฯออออออออออผ
+
+                                     @208[ Fortsetzung ]                   @001[ bersicht ]
+.208
+    IO_slist - Liste aller gesteckten Submodule (Fortsetzung)
+
+    ษอออออออออออออออออัออออออออออป
+    บ Anpassungsmodul ณ Typ-Code บ
+    ฬอออออออออออออออออุออออออออออน
+    บ      AT352      ณ   $1A    บ
+    บ      AI261      ณ   $20    บ
+    ศอออออออออออออออออฯออออออออออผ
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ IO_slist ]                     @001[ bersicht ]
+.210
+    SYS_list - Liste aller gesteckten Systemmodule
+
+    @211[SYS_list] (enable,prev_mod,adr(name_adr),status,module_adr,module_typ)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  prev_mod  : BYTE          Moduladresse des Systemmoduls (in dezimaler
+                                  Form), bei dem die Suche fortgesetzt wird
+                                  0 ..... Suche beim ersten Systemmodul
+                                          fortsetzen
+                                  255 ... Information zur aktuellen CPU
+                                          holen
+    <-> @215[name_adr  ]: 6 BYTE (FELD) Name des Systemmoduls
+                                  (als nullterminierter String)
+    <-  @216[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+    <-  module_adr: BYTE          Moduladresse des ersten gefundenen System-
+                                  moduls (in dezimaler Form)
+    <-  @217[module_typ]: BYTE          Typ-Code des gefundenen Systemmoduls
+
+
+                                     @211[ Fortsetzung ]                   @001[ bersicht ]
+.211
+    SYS_list - Liste aller gesteckten Systemmodule (Fortsetzung)
+
+    Mit der Funktion SYS_list() k”nnen alle Systemmodule am Bus analysiert
+    werden, wobei immer das Systemmodul mit der nchsth”heren Moduladresse
+    im Vergleich zur angegebenen Moduladresse (Parameter "prev_mod") gesucht
+    wird.
+    Um den ganzen Bus zu durchsuchen, muแ der Parameter "prev_mod" beim
+    ersten Aufruf auf 0 gesetzt werden. Bei jedem weiteren Aufruf der Funktion
+    muแ der Ausgangsparameter "module_adr" als neuer "prev_mod" verwendet
+    werden.
+    Mit "prev_mod" = i - 1 kann man jedoch auch von jeder beliebigen Modul-
+    adresse "i" aus die Suche beginnen. Wenn kein Systemmodul mehr gefunden
+    wird, wird am Ausgang "status" eine entsprechende Fehlernummer ausge-
+    geben.
+    Mit "prev_mod" = 255 kann der Typ und der Name der aktuellen CPU ermittelt
+    werden, die Moduladresse ist dabei immer 0. Der Name der aktuellen CPU
+    wird allerdings erst ab BUGFIX 11 der Betriebssystem-Version 1.10
+    (B&R-Modul BUGFIX.BR mit der Versionsnummer 1.21) untersttzt. Bei lteren
+    BUGFIX-Versionen wird an Stelle des Namens der String "?????" zurck-
+    geliefert.
+
+                                     @212[ Fortsetzung ]                   @001[ bersicht ]
+.212
+    SYS_list - Liste aller gesteckten Systemmodule (Fortsetzung)
+
+    Achtung!
+    - Um die Leistungsfhigkeit des Systems nicht zu beeintrchtigen, sollte
+      die Funktion SYS_list() nur in Initialisierungs-Unterprogrammen
+      (INIT-UPs) der zyklischen Tasks verwendet werden. Damit trotzdem alle
+      Systemmodule erfaแt werden, muแ die Funktion SYS_list() im INIT-UP in
+      einer "loop" Anweisung aufgerufen werden. Siehe Beispiel zur Funktion
+      IO_list (@730[Beispiel 4]).
+    - Bei Angabe des Werts 255 fr den Parameter "prev_mod" wird erst ab
+      BUGFIX 11 der Betriebssystem-Version 1.10 (B&R-Modul BUGFIX.BR mit der
+      Versionsnummer 1.21) der korrekte Name der aktuellen CPU in der Variable
+      "name_adr" hinterlegt. Bei lteren BUGFIX-Versionen wird an Stelle des
+      Namens der String "?????" zurckgeliefert.
+
+
+
+
+
+
+
+                                      @210[ SYS_list ]                     @001[ bersicht ]
+.215
+    SYS_list - Liste aller gesteckten Systemmodule (Fortsetzung)
+
+    <-> Parameter <name_adr  >:  6 BYTE (FELD)
+
+    In der Variable "name_adr" wird die Bezeichnung des gefundenen Systemmoduls
+    als String (5 Zeichen + Nullbyte) hinterlegt.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @210[ SYS_list ]                     @001[ bersicht ]
+.216
+    SYS_list - Liste aller gesteckten Systemmodule (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern:
+    5555     Kein Systemmodul mehr gefunden
+
+    Alle anderen Fehlernummern sind im Anhang @600[Fehlermeldungen] beschrieben.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @210[ SYS_list ]                     @001[ bersicht ]
+.217
+    SYS_list - Liste aller gesteckten Systemmodule (Fortsetzung)
+
+    <- Parameter <module_typ >: BYTE
+
+    Neben der Modulbezeichnung (Name des Systemmoduls) liefert die Funktion
+    SYS_list() als Ergebnis auch den Typ-Code (Parameter "module_typ") des
+    gefundenen Systemmoduls. Typ-Codes der wichtigsten Systemmodule:
+
+    ษออออออออออออออออออออัออออออออออัอออออออออออออออออออป
+    บ Systemmodul        ณ Typ-Code ณ System            บ
+    ฬออออออออออออออออออออุออออออออออุอออออออออออออออออออน
+    บ ME010              ณ   $00    ณ B&R 2003          บ
+    บ EX100/EX150        ณ   $01    ณ B&R 2010/B&R 2005 บ
+    บ EX350              ณ   $02    ณ B&R 2005          บ
+    บ ME020              ณ   $02    ณ B&R 2003          บ
+    บ EX101              ณ   $03    ณ B&R Panel-CPU     บ
+    บ LS191              ณ   $03    ณ B&R PC            บ
+    บ NW100/NW150        ณ   $10    ณ B&R 2010/B&R 2005 บ
+    บ XP152              ณ   $11    ณ B&R 2005          บ
+    ศออออออออออออออออออออฯออออออออออฯอออออออออออออออออออผ
+
+                                     @218[ Fortsetzung ]                   @001[ bersicht ]
+.218
+    SYS_list - Liste aller gesteckten Systemmodule (Fortsetzung)
+
+    ษออออออออออออออออออออัออออออออออัอออออออออออออออออออป
+    บ Systemmodul        ณ Typ-Code ณ System            บ
+    ฬออออออออออออออออออออุออออออออออุอออออออออออออออออออน
+    บ CP100/CP104        ณ   $20    ณ B&R 2010          บ
+    บ CP152/CP153        ณ   $21    ณ B&R 2005          บ
+    บ IF152              ณ   $22    ณ B&R 2005          บ
+    บ IP151              ณ   $23    ณ B&R 2005          บ
+    บ CP472              ณ   $24    ณ B&R 2003          บ
+    บ CP470              ณ   $25    ณ B&R 2003          บ
+    บ CP474              ณ   $26    ณ B&R 2003          บ
+    บ CP260              ณ   $27    ณ B&R 2005          บ
+    บ IF260              ณ   $2A    ณ B&R 2005          บ
+    บ LS251              ณ   $2B    ณ B&R PC            บ
+    บ MP100              ณ   $2D    ณ B&R 2010          บ
+    บ IF100/IF101        ณ   $2E    ณ B&R 2010          บ
+    บ CP772              ณ   $30    ณ B&R 2003          บ
+    บ CP770              ณ   $31    ณ B&R 2003          บ
+    ศออออออออออออออออออออฯออออออออออฯอออออออออออออออออออผ
+
+                                     @219[ Fortsetzung ]                   @001[ bersicht ]
+.219
+    SYS_list - Liste aller gesteckten Systemmodule (Fortsetzung)
+
+    ษออออออออออออออออออออัออออออออออัอออออออออออออออออออป
+    บ Systemmodul        ณ Typ-Code ณ System            บ
+    ฬออออออออออออออออออออุออออออออออุอออออออออออออออออออน
+    บ CP774              ณ   $32    ณ B&R 2003          บ
+    บ AC701              ณ   $33    ณ B&R 2003          บ
+    บ IP161              ณ   $34    ณ B&R 2005          บ
+    บ IP350              ณ   $35    ณ B&R 2005          บ
+    บ IP152              ณ   $36    ณ B&R 2005          บ
+    บ CP430              ณ   $38    ณ B&R 2003          บ
+    บ CP476              ณ   $39    ณ B&R 2003          บ
+    บ HIC3               ณ   $3A    ณ B&R Panel-CPU     บ
+    บ CP200              ณ   $50    ณ B&R 2010          บ
+    บ CP210              ณ   $51    ณ B&R 2010          บ
+    บ IF050              ณ   $60    ณ B&R 2005          บ
+    บ NC154              ณ   $61    ณ B&R 2005          บ
+    บ EM150              ณ   $62    ณ B&R 2005          บ
+    บ IF060              ณ   $63    ณ B&R 2005          บ
+    บ NC156              ณ   $64    ณ B&R 2005          บ
+    ศออออออออออออออออออออฯออออออออออฯอออออออออออออออออออผ
+                                     @220[ Fortsetzung ]                   @001[ bersicht ]
+.220
+    SYS_list - Liste aller gesteckten Systemmodule (Fortsetzung)
+
+    ษออออออออออออออออออออัออออออออออัอออออออออออออออออออป
+    บ Systemmodul        ณ Typ-Code ณ System            บ
+    ฬออออออออออออออออออออุออออออออออุอออออออออออออออออออน
+    บ NC158              ณ   $65    ณ B&R 2005          บ
+    บ NC157              ณ   $66    ณ B&R 2005          บ
+    บ EX450/LS050-26     ณ   $96    ณ B&R 2005 / PCI    บ
+    บ ME050-26           ณ   $96    ณ B&R 2003          บ
+    บ EX450/LS050-66-2   ณ   $9B    ณ B&R 2005 / PCI    บ
+    บ ME050-66-2         ณ   $9B    ณ B&R 2003          บ
+    บ EX450/LS050-66     ณ   $A6    ณ B&R 2005 / PCI    บ
+    บ ME050-66           ณ   $A6    ณ B&R 2003          บ
+    บ EX450/LS050-78     ณ   $A7    ณ B&R 2005 / PCI    บ
+    บ ME050-78           ณ   $A7    ณ B&R 2003          บ
+    บ EX450/LS050-76     ณ   $A8    ณ B&R 2005 / PCI    บ
+    บ ME050-76           ณ   $A8    ณ B&R 2003          บ
+    บ EX450/LS050-77     ณ   $A9    ณ B&R 2005 / PCI    บ
+    บ ME050-77           ณ   $A9    ณ B&R 2003          บ
+    ศออออออออออออออออออออฯออออออออออฯอออออออออออออออออออผ
+
+                                     @221[ Fortsetzung ]                   @001[ bersicht ]
+.221
+    SYS_list - Liste aller gesteckten Systemmodule (Fortsetzung)
+
+    ษออออออออออออออออออออัออออออออออัอออออออออออออออออออป
+    บ Systemmodul        ณ Typ-Code ณ System            บ
+    ฬออออออออออออออออออออุออออออออออุอออออออออออออออออออน
+    บ EX450/LS050-21     ณ   $AB    ณ B&R 2005 / PCI    บ
+    บ ME050-21           ณ   $AB    ณ B&R 2003          บ
+    บ EX450/LS050-71     ณ   $AC    ณ B&R 2005 / PCI    บ
+    บ ME050-71           ณ   $AC    ณ B&R 2003          บ
+    บ EX450/LS050-41     ณ   $AD    ณ B&R 2005 / PCI    บ
+    บ ME050-41           ณ   $AD    ณ B&R 2003          บ
+    บ EX450/LS050-72     ณ   $AE    ณ B&R 2005 / PCI    บ
+    บ ME050-72           ณ   $AE    ณ B&R 2003          บ
+    ศออออออออออออออออออออฯออออออออออฯอออออออออออออออออออผ
+
+
+
+
+
+
+
+                                      @210[ SYS_list ]                     @001[ bersicht ]
+.230
+    HW_list - Liste aller Hardware-Module erstellen
+
+    @231[HW_list] (enable,first,adr(name_adr),status,hw_type,module_typ,master_no,
+             slave_no,module_adr,slot_no)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  first     : BIT           1 ... Bestimmen des ersten Hardware-Moduls
+                                  0 ... Bestimmen des nchsten Hardware-Moduls
+    <-> @235[name_adr  ]: 6 BYTE (FELD) Name des Moduls
+                                  (als nullterminierter String)
+    <-  @236[status    ]: WORD          Fehlernummer (0 = kein Fehler).
+    <-  @237[hw_type   ]: BYTE          Hardware-Typ
+    <-  @238[module_typ]: BYTE          Typ-Code des Moduls
+
+
+
+
+
+
+                                     @231[ Fortsetzung ]                   @001[ bersicht ]
+.231
+    HW_list - Liste aller Hardware-Module erstellen (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    <-  master_no : BYTE          Logische Nummer des IO-Masters, des RIO-
+                                  Masters bzw. des CAN-Busses bei CANIO
+                                  (1, 2, usw.):
+                                  1 ..... bei 2010-IO, 2005-IO und 2003-IO
+                                          inkl. Submodule (Anpassungsmodule)
+                                  $FF ... $FF = UNDEFINED, bei SPS-CPU, PPs,
+                                          Systemmodulen (auแer EX100/EX150),
+                                          Submodulen in Systemmodulen
+    <-  slave_no  : BYTE          Nummer der 2005-Rckwand (0=Basisrckwand,
+                                  1=Erweiterungsrckwand 1, usw.), Nummer
+                                  des RIO-Slaves (bei Remote I/O), bzw. CAN-
+                                  Knotennummer (bei CANIO):
+                                  0 ..... bei 2010-IO und 2003-IO inkl.
+                                          Submodule (Anpassungsmodule)
+                                  $FF ... $FF = UNDEFINED, bei SPS-CPU,
+                                          Parallelprozessoren, Systemmodulen,
+                                          Submodulen in Systemmodulen
+
+                                     @232[ Fortsetzung ]                   @001[ bersicht ]
+.232
+    HW_list - Liste aller Hardware-Module erstellen (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+
+    <-  module_adr: BYTE          Moduladresse des Hardware-Moduls in dezimaler
+                                  Form
+    <-  slot_no   : BYTE          Steckplatz des Submoduls (Einschubmodul oder
+                                  Anpassungsmodul) in dezimaler Form
+
+    Mit dem FUB HW_list() k”nnen alle Hardware-Module, die vom aktuellen
+    Prozessor aus "sichtbar" und damit in der Hardware-Konfigurationstabelle
+    eingetragen sind, abgefragt werden. Diese Liste wird auch vom Automation
+    Studio verwendet. Damit steht ein zentraler Funktionsblock fr das Fest-
+    stellen der Hardware-Konfiguration zur Verfgung.
+
+    Mit "first" = 1 kann das erste Hardware-Modul in der Liste bestimmt werden.
+    Bei allen weiteren Aufrufen von HW_list() bis zum Ende der Liste muแ
+    "first" = 0 gesetzt werden.
+
+
+
+                                     @233[ Fortsetzung ]                   @001[ bersicht ]
+.233
+    HW_list - Liste aller Hardware-Module erstellen (Fortsetzung)
+
+    Abhngig vom Hardware-Typ stehen verschiedene Modulparameter zur Verfgung:
+    Bei 2005-IO die Nummer der 2005-Rckwand, bei Remote I/O die Master-Nummer
+    und die Slave-Nummer, bei CANIO die Busnummer und die CAN-Knotennummer.
+    Zustzlich wird immer die Moduladresse sowie der Typ-Code des Moduls
+    ermittelt. Der Typ-Code ist allerdings in einigen Fllen nicht eindeutig
+    (CP100/CP104, CP152/CP153, IF100/IF101, EX100/EX150, NW100/NW150).
+    Eindeutig ist jedoch der Name des Hardware-Moduls, der optional mit Hilfe
+    der Datenmodule IO_2010.BR, IO_2005.BR, IO_2003.BR, IO_PC.BR und IO_PW.BR
+    bestimmt werden kann. In diesen Datenmodulen sind die Namen aller Module
+    der jeweiligen Systemfamilie enthalten, also I/O-Module und Systemmodule
+    (inkl. Submodule). Bei Verwendung von gemischten Systemen (z.B. 2005-CPU
+    mit CANIO-2003, LS251 mit RIO-2010 oder RIO-2005) mssen alle ben”tigten
+    Datenmodule im nullspannungssicheren Speicher der Zentraleinheit vorhanden
+    sein.
+
+    Achtung!
+    Da die Bestimmung des Namens relativ viel Zeit kostet, kann sie durch
+    bergabe des Werts 0 fr "adr(name_adr)" (Zeiger auf die Adresse 0)
+    deaktiviert werden!
+                                       @230[ HW_list ]                     @001[ bersicht ]
+.235
+    HW_list - Liste aller Hardware-Module erstellen (Fortsetzung)
+
+    <-> Parameter <name_adr  >:  6 BYTE (FELD)
+
+    In der Variable "name_adr" wird die Bezeichnung des Hardware-Moduls als
+    String (5 Zeichen + Nullbyte) hinterlegt.
+    Da in der Hardware-Konfigurationstabelle kein Modulname eingetragen ist,
+    k”nnen die korrekten Modulbezeichnungen nur ber die mitgelieferten Daten-
+    module IO_2010.BR, IO_2005.BR, IO_2003.BR, IO_PC.BR und IO_PW.BR bestimmt
+    werden. D.h. wenn das entsprechende Datenmodul nicht im nullspannungs-
+    sicheren Speicher der Zentraleinheit vorhanden ist, wird der String "?????"
+    als Modulbezeichnung eingetragen.
+
+
+
+
+
+
+
+
+
+                                       @230[ HW_list ]                     @001[ bersicht ]
+.236
+    HW_list - Liste aller Hardware-Module erstellen (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern:
+    5555     Kein Systemmodul mehr gefunden
+    5566     Kennung der Hardware-Konfiguration wird nicht untersttzt
+
+    Alle anderen Fehlernummern sind im Anhang @600[Fehlermeldungen] beschrieben.
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @230[ HW_list ]                     @001[ bersicht ]
+.237
+    HW_list - Liste aller Hardware-Module erstellen (Fortsetzung)
+
+    <- Parameter <hw_type   >: BYTE
+
+    Hardware-Typ:
+    0 .... 2010-IO
+    1 .... 2005-IO
+    2 .... RIO-2010
+    3 .... RIO-2005
+    4 .... RIO-2003
+    5 .... 2003-IO
+    6 .... 2003-CANIO
+    7 .... SPS-CPU
+    8 .... PP-Systemmodul
+    9 .... anderes Systemmodul
+    10 ... Submodul (Einschubmodul oder Anpassungsmodul), das auf einer CPU,
+           auf einem PP oder auf einem Systemmodul betrieben wird.
+
+
+
+
+                                       @230[ HW_list ]                     @001[ bersicht ]
+.238
+    HW_list - Liste aller Hardware-Module erstellen (Fortsetzung)
+
+    <- Parameter <module_typ >: BYTE
+
+    Neben der Modulbezeichnung liefert die Funktion HW_list() als Ergebnis
+    auch den Typ-Code des Hardware-Moduls.
+
+    Typ-Codes der wichtigsten I/O-Module:
+    ษออออออออออออออออออออออหออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ    System B&R 2003   บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   DI400   ณ   $01    บ   DI475   ณ   $01    บ   AI351   ณ $02, $03 บ
+    บ   DI401   ณ   $02    บ   DO476   ณ   $02    บ   AI354   ณ   $04    บ
+    บ   DI425   ณ   $03    บ   DO650   ณ   $03    บ   AI774   ณ   $06    บ
+    บ   DO426   ณ   $04    บ   DO750   ณ   $04    บ   AT351   ณ   $08    บ
+    บ   DO600   ณ   $06    บ   DI477   ณ   $05    บ   AT662   ณ   $0A    บ
+    บ   DO700   ณ   $07    บ   DI450   ณ $06, $08 บ   AT664   ณ   $0C    บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+                                     @239[ Fortsetzung ]                   @001[ bersicht ]
+.239
+    HW_list - Liste aller Hardware-Module erstellen (Fortsetzung)
+
+    ษออออออออออออออออออออออหออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ    System B&R 2003   บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   AI300   ณ   $08    บ   DI476   ณ   $07    บ   AO352   ณ   $0E    บ
+    บ   AI700   ณ   $09    บ   DM455   ณ   $20    บ   NC161   ณ   $10    บ
+    บ   AT300   ณ   $0A    บ   DO479   ณ   $40    บ   DI135   ณ   $12    บ
+    บ   AT400   ณ   $0B    บ   DO480   ณ   $41    บ   DO135   ณ   $14    บ
+    บ   AT600   ณ   $0C    บ   DI690   ณ   $60    บ   AT352   ณ   $1A    บ
+    บ   AT601   ณ   $0D    บ   DO690   ณ   $61    บ   AF451   ณ   $1E    บ
+    บ   AT602   ณ   $0E    บ   DM476   ณ   $62    บ   AI261   ณ   $20    บ
+    บ   AO725   ณ   $0F    บ   AI375   ณ   $80    บ   AI294   ณ   $22    บ
+    บ   AO900   ณ   $10    บ   AI775   ณ   $81    บ   AF101   ณ   $C0    บ
+    บ   AO300   ณ   $11    บ   AI350   ณ   $82    บ   CM471   ณ   $C1    บ
+    บ   AM000   ณ   $12    บ   AI350   ณ   $83    บ   CM211   ณ   $C2    บ
+    บ   AM001   ณ   $13    บ   AM050   ณ   $88    บ   CM411   ณ   $C3    บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+                                     @240[ Fortsetzung ]                   @001[ bersicht ]
+.240
+    HW_list - Liste aller Hardware-Module erstellen (Fortsetzung)
+
+    ษออออออออออออออออออออออหออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ    System B&R 2003   บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   NC300   ณ   $14    บ   AM051   ณ   $89    บ   DI435   ณ   $E1    บ
+    บ   NC301   ณ   $15    บ   AM374   ณ   $8A    บ   DO720   ณ   $E2    บ
+    บ   NC302   ณ   $16    บ   AT650   ณ   $90    บ   DM435   ณ   $E3    บ
+    บ   NC303   ณ   $17    บ   AT651   ณ   $91    บ   DI645   ณ   $E5    บ
+    บ   EX301   ณ   $18    บ   AT450   ณ   $92    บ   DO721   ณ   $E6    บ
+    บ   EX302   ณ   $19    บ   AT350   ณ   $93    บ   DM438   ณ   $E7    บ
+    บ   DS100   ณ   $1A    บ   AT652   ณ   $94    บ   DI439   ณ   $E9    บ
+    บ   DS101   ณ   $1B    บ   AT660   ณ   $95    บ   DO435   ณ   $EB    บ
+    บ   DS102   ณ   $1C    บ   AI961   ณ   $96    บ   DO722   ณ   $F2    บ
+    บ   DO428   ณ   $1D    บ   NC150   ณ   $98    บ   DM465   ณ   $F7    บ
+    บ   IP101   ณ   $1E    บ   AO350   ณ   $A0    บ           ณ          บ
+    บ   DI825   ณ   $1F    บ   AO775   ณ   $A1    บ           ณ          บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+                                     @241[ Fortsetzung ]                   @001[ bersicht ]
+.241
+    HW_list - Liste aller Hardware-Module erstellen (Fortsetzung)
+
+    ษออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O-Modul ณ Typ-Code บ I/O-Modul ณ Typ-Code บ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   DO430   ณ   $20    บ   DO760   ณ   $B0    บ
+    บ   UM900   ณ   $21    บ   DI575   ณ   $B1    บ
+    บ   DI426   ณ   $22    บ   DI695   ณ   $B2    บ
+    บ   NC102   ณ   $23    บ           ณ          บ
+    บ   AT610   ณ   $25    บ           ณ          บ
+    บ   DI725   ณ   $26    บ           ณ          บ
+    บ   DO710   ณ   $27    บ           ณ          บ
+    บ   AI730   ณ   $28    บ           ณ          บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+
+
+
+
+                                     @242[ Fortsetzung ]                   @001[ bersicht ]
+.242
+    HW_list - Liste aller Hardware-Module erstellen (Fortsetzung)
+
+    Typ-Codes der wichtigsten Systemmodule (Zentraleinheiten, Parallel-
+    prozessoren, usw.):
+
+    ษอออออออออออออออออออออัออออออออออัออออออออออออออัอออออออออออออออออออออออป
+    บ Modul               ณ Typ-Code ณ Hardware-Typ ณ ben”tigte Datenmodule บ
+    ฬอออออออออออออออออออออุออออออออออุออออออออออออออุอออออออออออออออออออออออน
+    บ ME010               ณ   $00    ณ Systemmodul  ณ IO_2003.BR            บ
+    บ EX100/EX150         ณ   $01    ณ Systemmodul  ณ IO_2010.BR/IO_2005.BR บ
+    บ EX350               ณ   $02    ณ Systemmodul  ณ IO_2005.BR            บ
+    บ ME020               ณ   $02    ณ Systemmodul  ณ IO_2003.BR            บ
+    บ EX101               ณ   $03    ณ Systemmodul  ณ IO_PCPU.BR            บ
+    บ LS191               ณ   $03    ณ Systemmodul  ณ IO_PC.BR              บ
+    บ NW100/NW150         ณ   $10    ณ Systemmodul  ณ IO_2010.BR/IO_2005.BR บ
+    บ XP152               ณ   $11    ณ CPU / PP     ณ IO_2005.BR            บ
+    บ CP100/CP104         ณ   $20    ณ CPU          ณ IO_2010.BR            บ
+    บ CP152/CP153         ณ   $21    ณ CPU          ณ IO_2005.BR            บ
+    บ IF152               ณ   $22    ณ CPU / PP     ณ IO_2005.BR            บ
+    ศอออออออออออออออออออออฯออออออออออฯออออออออออออออฯอออออออออออออออออออออออผ
+
+                                     @243[ Fortsetzung ]                   @001[ bersicht ]
+.243
+    HW_list - Liste aller Hardware-Module erstellen (Fortsetzung)
+
+    ษอออออออออออออออออออออัออออออออออัออออออออออออออัอออออออออออออออออออออออป
+    บ Modul               ณ Typ-Code ณ Hardware-Typ ณ ben”tigte Datenmodule บ
+    ฬอออออออออออออออออออออุออออออออออุออออออออออออออุอออออออออออออออออออออออน
+    บ IP151               ณ   $23    ณ CPU / PP     ณ IO_2005.BR            บ
+    บ CP472               ณ   $24    ณ CPU          ณ IO_2003.BR            บ
+    บ CP470               ณ   $25    ณ CPU          ณ IO_2003.BR            บ
+    บ CP474               ณ   $26    ณ CPU          ณ IO_2003.BR            บ
+    บ CP260               ณ   $27    ณ CPU          ณ IO_2005.BR            บ
+    บ C300                ณ   $28    ณ CPU          ณ IO_PW.BR              บ
+    บ C200/C210/C220/P150 ณ   $29    ณ CPU          ณ IO_PW.BR              บ
+    บ IF260               ณ   $2A    ณ CPU / PP     ณ IO_2005.BR            บ
+    บ LS251               ณ   $2B    ณ CPU          ณ IO_PC.BR              บ
+    บ MP100               ณ   $2D    ณ PP           ณ IO_2010.BR            บ
+    บ IF100/IF101         ณ   $2E    ณ PP           ณ IO_2010.BR            บ
+    บ CP772               ณ   $30    ณ CPU          ณ IO_2003.BR            บ
+    บ CP770               ณ   $31    ณ CPU          ณ IO_2003.BR            บ
+    บ CP774               ณ   $32    ณ CPU          ณ IO_2003.BR            บ
+    ศอออออออออออออออออออออฯออออออออออฯออออออออออออออฯอออออออออออออออออออออออผ
+
+                                     @244[ Fortsetzung ]                   @001[ bersicht ]
+.244
+    HW_list - Liste aller Hardware-Module erstellen (Fortsetzung)
+
+    ษอออออออออออออออออออออัออออออออออัออออออออออออออัอออออออออออออออออออออออป
+    บ Modul               ณ Typ-Code ณ Hardware-Typ ณ ben”tigte Datenmodule บ
+    ฬอออออออออออออออออออออุออออออออออุออออออออออออออุอออออออออออออออออออออออน
+    บ AC701               ณ   $33    ณ CPU          ณ IO_2003.BR            บ
+    บ IP161               ณ   $34    ณ CPU / PP     ณ IO_2005.BR            บ
+    บ IP350               ณ   $35    ณ CPU / PP     ณ IO_2005.BR            บ
+    บ IP152               ณ   $36    ณ CPU / PP     ณ IO_2005.BR            บ
+    บ CP430               ณ   $38    ณ CPU          ณ IO_2003.BR            บ
+    บ CP476               ณ   $39    ณ CPU          ณ IO_2003.BR            บ
+    บ HIC3                ณ   $3A    ณ CPU          ณ IO_PCPU.BR            บ
+    บ CP200               ณ   $50    ณ CPU          ณ IO_2010.BR            บ
+    บ CP210               ณ   $51    ณ CPU          ณ IO_2010.BR            บ
+    บ IF050               ณ   $60    ณ Systemmodul  ณ IO_2005.BR            บ
+    บ NC154               ณ   $61    ณ Systemmodul  ณ IO_2005.BR            บ
+    บ EM150               ณ   $62    ณ Systemmodul  ณ IO_2005.BR            บ
+    บ IF060               ณ   $63    ณ Systemmodul  ณ IO_2005.BR            บ
+    บ NC156               ณ   $64    ณ Systemmodul  ณ IO_2005.BR            บ
+    บ NC158               ณ   $65    ณ Systemmodul  ณ IO_2005.BR            บ
+    ศอออออออออออออออออออออฯออออออออออฯออออออออออออออฯอออออออออออออออออออออออผ
+                                     @245[ Fortsetzung ]                   @001[ bersicht ]
+.245
+    HW_list - Liste aller Hardware-Module erstellen (Fortsetzung)
+
+    ษอออออออออออออออออออออัออออออออออัออออออออออออออัอออออออออออออออออออออออป
+    บ Modul               ณ Typ-Code ณ Hardware-Typ ณ ben”tigte Datenmodule บ
+    ฬอออออออออออออออออออออุออออออออออุออออออออออออออุอออออออออออออออออออออออน
+    บ NC157               ณ   $66    ณ Systemmodul  ณ IO_2005.BR            บ
+    บ EX450/LS050-26      ณ   $96    ณ Systemmodul  ณ IO_2005.BR/IO_PC.BR   บ
+    บ ME050-26            ณ   $96    ณ Systemmodul  ณ IO_2003.BR            บ
+    บ EX450/LS050-66-2    ณ   $9B    ณ Systemmodul  ณ IO_2005.BR/IO_PC.BR   บ
+    บ ME050-66-2          ณ   $9B    ณ Systemmodul  ณ IO_2003.BR            บ
+    บ EX450/LS050-66      ณ   $A6    ณ Systemmodul  ณ IO_2005.BR/IO_PC.BR   บ
+    บ ME050-66            ณ   $A6    ณ Systemmodul  ณ IO_2003.BR            บ
+    บ EX450/LS050-78      ณ   $A7    ณ Systemmodul  ณ IO_2005.BR/IO_PC.BR   บ
+    บ ME050-78            ณ   $A7    ณ Systemmodul  ณ IO_2003.BR            บ
+    บ EX450/LS050-76      ณ   $A8    ณ Systemmodul  ณ IO_2005.BR/IO_PC.BR   บ
+    บ ME050-76            ณ   $A8    ณ Systemmodul  ณ IO_2003.BR            บ
+    บ EX450/LS050-77      ณ   $A9    ณ Systemmodul  ณ IO_2005.BR/IO_PC.BR   บ
+    บ ME050-77            ณ   $A9    ณ Systemmodul  ณ IO_2003.BR            บ
+    บ EX450/LS050-21      ณ   $AB    ณ Systemmodul  ณ IO_2005.BR/IO_PC.BR   บ
+    บ ME050-21            ณ   $AB    ณ Systemmodul  ณ IO_2003.BR            บ
+    ศอออออออออออออออออออออฯออออออออออฯออออออออออออออฯอออออออออออออออออออออออผ
+                                     @246[ Fortsetzung ]                   @001[ bersicht ]
+.246
+    HW_list - Liste aller Hardware-Module erstellen (Fortsetzung)
+
+    ษอออออออออออออออออออออัออออออออออัออออออออออออออัอออออออออออออออออออออออป
+    บ Modul               ณ Typ-Code ณ Hardware-Typ ณ ben”tigte Datenmodule บ
+    ฬอออออออออออออออออออออุออออออออออุออออออออออออออุอออออออออออออออออออออออน
+    บ EX450/LS050-71      ณ   $AC    ณ Systemmodul  ณ IO_2005.BR/IO_PC.BR   บ
+    บ ME050-71            ณ   $AC    ณ Systemmodul  ณ IO_2003.BR            บ
+    บ EX450/LS050-41      ณ   $AD    ณ Systemmodul  ณ IO_2005.BR/IO_PC.BR   บ
+    บ ME050-41            ณ   $AD    ณ Systemmodul  ณ IO_2003.BR            บ
+    บ EX450/LS050-72      ณ   $AE    ณ Systemmodul  ณ IO_2005.BR/IO_PC.BR   บ
+    บ ME050-72            ณ   $AE    ณ Systemmodul  ณ IO_2003.BR            บ
+    ศอออออออออออออออออออออฯออออออออออฯออออออออออออออฯอออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+
+                                     @247[ Fortsetzung ]                   @001[ bersicht ]
+.247
+    HW_list - Liste aller Hardware-Module erstellen (Fortsetzung)
+
+    Typ-Codes der Submodule (Einschubmodule) des Systems B&R 2005:
+
+    ษออออออออออัออออออออออป
+    บ Submodul ณ Typ-Code บ
+    ฬออออออออออุออออออออออน
+    บ IF613    ณ   $00    บ
+    บ IF672    ณ   $01    บ
+    บ IF661    ณ   $02    บ
+    บ IF621    ณ   $03    บ
+    บ IF671    ณ   $04    บ
+    บ IF681    ณ   $05    บ
+    บ IF681    ณ   $06    บ
+    บ IF622    ณ   $08    บ
+    บ MC111    ณ   $7B    บ
+    บ MC112    ณ   $7C    บ
+    บ MC211    ณ   $7D    บ
+    บ MC212    ณ   $7E    บ
+    ศออออออออออฯออออออออออผ
+
+                                       @230[ HW_list ]                     @001[ bersicht ]
+.500
+    ANHANG : LIBRARY-Informationen
+
+
+    @501[< Allgemeines       >]      Voraussetzungen etc.
+
+    @550[< Syntax            >]      Syntax fr die Erklrung der Funktionen
+
+    @600[< Fehlernummern     >]      Zusammenfassung aller Fehlernummern
+
+    @650[< Ausfhrungszeiten >]      Ausfhrungszeiten und Stackbedarf
+
+    @700[< Beispiele         >]      Beispiele fr die Verwendung der Funktionsbl”cke
+
+    @800[< History           >]      Neue Funktionalitten und Versionsnderungen
+
+
+
+
+
+
+
+                                                                     @001[ bersicht ]
+.501
+    I/O-Library : Allgemeines
+
+    Die I/O-Library bietet dem Anwender die M”glichkeit, ...
+
+    ... (neben den zyklischen I/O-Zugriffen) direkt auf I/O-Punkte des I/O-
+        Busses zuzugreifen (direkter I/O-Zugriff).
+    ... den zyklischen Zugriff auf ein I/O-Modul dynamisch zu aktivieren oder
+        zu deaktivieren.
+    ... das Vorhandensein eines I/O-Moduls zu berprfen. Ist ein Modul nicht
+        vorhanden, kann der Zugriff auf das Modul deaktiviert werden.
+    ... eine Liste mit Name, Moduladresse und Typ aller am I/O-Bus gesteckten
+        I/O-Module zu erstellen.
+    ... bei einer I/O-Exception das fehlerverursachende I/O-Modul festzustellen
+        und zu deaktivieren.
+
+
+
+
+
+
+
+                                     @502[ Fortsetzung ]                   @001[ bersicht ]
+.502
+    I/O-Library : Allgemeines (Fortsetzung)
+
+    Nach dem Importieren der I/O-Library stehen Ihnen folgende Funktionsgruppen
+    zur Verfgung:
+
+    - @503[Direkter I/O-Zugriff        ]
+    - @505[Dynamische I/O-Konfiguration]
+
+    Anmerkungen:
+    - Bevor Sie die Funktionen der I/O-Library in Ihrem Projekt verwenden
+      k”nnen, mssen Sie die Library in die entsprechende Projekt-Datenbank
+      importieren.
+
+    - Da die I/O-Library AVT-Funktionen enthlt, k”nnen die Funktionen dieser
+      Library nur verwendet werden, wenn das Library-Runtime-Modul (B&R-Modul
+      IO_LIB.BR) auf der Zentraleinheit (Anwender-ROM) vorhanden ist!
+
+    - Die Funktionen der I/O-Library liefern im Fehlerfall als Ergebnis eine
+      @600[Fehlernummer].
+
+
+                                     @503[ Fortsetzung ]                   @001[ bersicht ]
+.503
+    I/O-Library : Allgemeines (Fortsetzung)
+
+    Allgemeines zum direkten I/O-Zugriff:
+    Neben den zyklischen I/O-Zugriffen kann auf I/O-Punkte auch direkt zuge-
+    griffen werden. Ein direkter I/O-Zugriff setzt sich aus der Definition des
+    Schaufelauftrags und der Datenanforderung zusammen. Mit der I/O-Library
+    k”nnen direkte I/O-Zugriffe sowohl definiert als auch ausgefhrt werden:
+
+    IO_mphydef ... Multiple physikalische Schaufelauftragsdefinition
+    IO_ptest ..... Physikalische Schaufelauftragsdefinition testen
+    IO_data ...... I/O-Schaufelauftrag ausfhren
+
+    Die Auftragsdefinition und die Auftragsausfhrung k”nnen in unterschied-
+    lichen Tasks erfolgen. Dabei ist jedoch zu beachten, daแ die Deinstallation
+    der Definitions-Task (Task mit der Schaufelauftragsdefinition) zu einem
+    nichtvorhersagbaren Systemverhalten fhrt, da die fr den Schaufelauftrag
+    notwendigen Datenbereiche im Kontext der Definitions-Task abgelegt werden!
+
+
+
+
+                                     @504[ Fortsetzung ]                   @001[ bersicht ]
+.504
+    I/O-Library : Allgemeines (Fortsetzung)
+
+    Achtung!
+    - Die Funktion IO_ptest() kann am Parallelprozessor bzw. Multiprozessor
+      (im weiteren auch "PP" bzw. "MP" genannt) derzeit nicht verwendet
+      werden (siehe entsprechenden Abschnitt)!
+    - Mit den Funktionen fr den direkten I/O-Zugriff ist ein Zugriff auf
+      Remote I/O-Daten nicht m”glich!
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     @505[ Fortsetzung ]                   @001[ bersicht ]
+.505
+    I/O-Library : Allgemeines (Fortsetzung)
+
+    Allgemeines zur dynamischen I/O-Konfiguration:
+    Mit den Funktionen dieser Gruppe kann die aktuelle I/O-Konfiguration
+    ermittelt und der Zugriff auf I/O-Module dynamisch aktiviert oder
+    deaktiviert werden:
+
+    IO_info ...... Bestimmen des fehlerverursachenden I/O-Moduls
+    IX_info ...... Bestimmen des fehlerverursachenden Submoduls
+    IO_disable ... Deaktivieren eines I/O-Moduls
+    IX_disable ... Deaktivieren eines I/O-Moduls mit Subslots
+    IO_enable .... Aktivieren eines I/O-Moduls
+    IX_enable .... Aktivieren eines I/O-Moduls mit Subslots
+    IO_check ..... Prfen eines I/O-Moduls
+    IX_check ..... Prfen eines I/O-Moduls mit Subslots
+    IO_list ...... Liste aller gesteckten I/O-Module erstellen
+    IO_slist ..... Liste aller gesteckten Submodule erstellen
+    SYS_list ..... Liste aller gesteckten Systemmodule erstellen
+    HW_list ...... Liste aller Hardware-Module erstellen
+
+
+                                       @500[ ANHANG ]                      @001[ bersicht ]
+.550
+    I/O-Library : Syntaxbeschreibung
+
+    Datentypen:
+    Fr viele Funktionen sind bestimmte Gruppen von Datentypen zulssig. Um
+    bei der Funktionsbeschreibung nicht alle zulssigen Datentypen anfhren
+    zu mssen, werden folgende Gruppenbezeichnungen eingefhrt:
+    ษออออออออหอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออป
+    บ Gruppe บ  BIT  ณ INT8  ณ BYTE  ณ INT16 ณ WORD  ณ INT32 ณ LONG  ณ FLOAT บ
+    ฬออออออออฮอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออน
+    บ BASIS  บ       ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ NICHT  บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    บ FLOAT  บ       ณ       ณ       ณ       ณ       ณ       ณ       ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ ALLE   บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ FELD   บ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  บ
+    ศออออออออสอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออผ
+      x  Datentyp ist zulssig
+     [x] Datentyp ist zulssig als Feldvariable oder Zeichenkette (String)
+
+                                     @551[ Fortsetzung ]                   @001[ bersicht ]
+.551
+    I/O-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Pfeile:
+    Fr die Darstellung von Eingangs- und Ausgangsparametern werden Pfeile
+    verwendet. Dabei gilt folgende Vereinbarung:
+    ษอออออออออหออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ  Pfeil  บ  Bedeutung                                                   บ
+    ฬอออออออออฮออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ   ->    บ  Eingangsparameter                                           บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <->   บ  Ein-/Ausgangsparameter. Funktionell ist es ein Ausgangs-    บ
+    บ         บ  parameter. blicherweise wird er aber vor dem Aufruf der    บ
+    บ         บ  Funktion mit einer bestimmten Information geladen (z.B.     บ
+    บ         บ  einer Adresse). Meist wird die Adresse einer Variable mit   บ
+    บ         บ  adr() [PL2000] oder einem Adreแkontakt [KOP] angeschlossen. บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <-    บ  Ausgangsparameter                                           บ
+    ศอออออออออสออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                     @552[ Fortsetzung ]                   @001[ bersicht ]
+.552
+    I/O-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Funktionsbl”cke:
+    Funktionsbl”cke sind in dieser Online-Hilfe nicht grafisch dargestellt.
+    Sie finden aber alle fr Funktionsbl”cke relevanten Informationen, wie
+    Eingangsparameter (->), Ein-/Ausgangsparameter (<->) und Ausgangsparameter
+    (<-) in der Online-Hilfe.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @500[ ANHANG ]                      @001[ bersicht ]
+.600
+    I/O-Library : Fehlernummern
+
+    Die folgende Liste ist eine Zusammenfassung aller m”glichen Fehlermeldungen
+    der I/O-Library:
+
+    5501     Falsche Parameter
+    5550     IO_info(): Keine Information vorhanden (falscher Kontext)
+    5551     IO_ptest()/IO_check()/IX_check()/IO_list() in mehreren Task-
+             klassen parallel aufgerufen
+    5552     Analogdaten mit ungerader Lnge oder ungerader Adresse k”nnen
+             nicht geforced werden
+    5553     IO_ptest()/IO_check()/IX_check()/IO_list() darf nicht in HS-
+             Taskklassen aufgerufen werden
+    5554     I/O-Modul gesteckt, aber Modultyp stimmt nicht
+    5555     I/O-Modul / Anpassungsmodul / Systemmodul nicht gesteckt oder
+             falsch
+    5556     IO_ptest()/IO_mphydef(): Falsche Adresse "data_adr" angegeben
+    5557     IO_ptest()/IO_mphydef(): Falscher Offset "intern_off" oder
+             falsche Lnge "data_len"
+    5558     Funktion darf am Parallelprozessor bzw. Multiprozessor nicht
+             aufgerufen werden
+                                     @601[ Fortsetzung ]                   @001[ bersicht ]
+.601
+    I/O-Library : Fehlernummern (Fortsetzung)
+
+    5559     Funktion IO_data() in Arbeit (Aufruf im nchsten Zyklus notwendig)
+    5562     Funktion bei optimierter IO-Emulation derzeit nicht m”glich
+    5563     Funktion auf Systemen mit EX350 derzeit nicht m”glich
+    5564     Kein Zugriff auf 2010-IO bzw. 2005-Erweiterungen
+    5565     Kein 2005-Basis-IO vorhanden
+    5567     IO_check/IX_check/IO_ptest: FUB-Daten liegen nicht im
+             IO/Merker-Pool
+    5569     SC-Adresse nicht WORD-Aligned
+    5576     Fehler beim Direkt-IO
+    5578     2003: Direkt-IO-Overflow
+    5579     2003: alter Direkt-IO-Auftrag noch aktiv
+    9136     IO-Fehler 2003
+    11716    IO_data(): Timeout beim Schaufelauftrag (fataler Fehler)
+    11717    IO_data(): Ungltiger I/O-Identifier
+
+
+
+
+
+                                       @500[ ANHANG ]                      @001[ bersicht ]
+.650
+    I/O-Library : Ausfhrungszeiten
+
+    Die folgende Tabelle zeigt die Ausfhrungszeiten der Funktionen der I/O-
+    Library sowie deren Stackbedarf:
+
+    ษออออออออออออัออออออออออออัอออออออออออัอออออออออออออัออออออออออออออออออออป
+    บ Funktion   ณ  Laufzeit  ณ Userstack ณ Supervisor- ณ   bei              บ
+    บ            ณ    [ๆs]    ณ  [Byte]   ณ stack [Byte]ณ                    บ
+    วฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ IO_mphydef ณ        460 ณ     172   ณ      46     ณ 2010-IO ohne  INIT บ
+    บ            ณ480 + 9 * n ณ     172   ณ      46     ณ 2010-IO mit n INIT บ
+    บ            ณ        480 ณ     212   ณ      46     ณ 2005-IO ohne  INIT บ
+    บ            ณ505 + 9 * n ณ     212   ณ      46     ณ 2005-IO mit n INIT บ
+    บ            ณ        290 ณ     144   ณ      46     ณ Deaktivierung      บ
+    บ IO_ptest   ณ        520 ณ     172   ณ      46     ณ 2010-IO OK         บ
+    บ            ณ        840 ณ     172   ณ     212     ณ 2010-IO nicht OK   บ
+    บ            ณ        450 ณ     212   ณ      46     ณ 2005-IO OK         บ
+    บ            ณ        800 ณ     212   ณ     282     ณ 2005-IO nicht OK   บ
+    บ IO_info    ณ         45 ณ      24   ณ       -     ณ                    บ
+    ศออออออออออออฯออออออออออออฯอออออออออออฯอออออออออออออฯออออออออออออออออออออผ
+
+                                     @651[ Fortsetzung ]                   @001[ bersicht ]
+.651
+    I/O-Library : Ausfhrungszeiten (Fortsetzung)
+
+    ษออออออออออออัออออออออออออัอออออออออออัอออออออออออออัออออออออออออออออออออป
+    บ Funktion   ณ  Laufzeit  ณ Userstack ณ Supervisor- ณ   bei              บ
+    บ            ณ    [ๆs]    ณ  [Byte]   ณ stack [Byte]ณ                    บ
+    วฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ IO_data    ณ     >   50 ณ      24   ณ       -     ณ 2010-IO            บ
+    บ            ณ     >  100 ณ      24   ณ      26     ณ 2005-IO            บ
+    บ            ณ     >   90 ณ      72   ณ     144     ณ 2003-IO            บ
+    บ IO_disable ณ     >  700 ณ     176   ณ      36     ณ projektabhngig    บ
+    บ IO_enable  ณ     >  700 ณ     176   ณ      36     ณ projektabhngig    บ
+    บ IO_check   ณ 340 -  650 ณ     120   ณ     212     ณ 2010-IO            บ
+    บ            ณ 520 -  690 ณ     160   ณ     282     ณ 2005-IO            บ
+    บ IO_alloc   ณ 200 -  ??? ณ      56   ณ     296     ณ CP260, 16-??? Byte บ
+    บ IO_free    ณ 190 -  ??? ณ      52   ณ     296     ณ CP260, 16-??? Byte บ
+    บ IO_list    ณ 410 -65000 ณ     180   ณ     212     ณ 2010-IO            บ
+    บ            ณ 580 - 9000 ณ     220   ณ     282     ณ 2005-IO            บ
+    บ SYS_list   ณ 180 - 1400 ณ     104   ณ     118     ณ                    บ
+    ศออออออออออออฯออออออออออออฯอออออออออออฯอออออออออออออฯออออออออออออออออออออผ
+
+
+                                       @500[ ANHANG ]                      @001[ bersicht ]
+.700
+    I/O-Library : Beispiel 1
+
+    Beispiel zu IO_list():
+
+      ; Durchsuchen des I/O-Busses (B&R 2010) im INIT-UP der Exceptiontask
+      module_adr = 0        ; ganzen I/O-Bus vom Beginn weg durchsuchen
+      module_cnt = 0        ; Initialisierung des Modulzhlers
+      loop
+          ; Aufruf von IO_list() im Loop: enable=1, 2010-I/O (io_type=0,
+          ; master_no=1, slave_no=0), I/O-Modul-Name egal: adr(name_adr)=0
+          IO_list(1,0,1,0,module_adr,0,status,module_adr,
+                  modul_typ[module_cnt],io_bus)
+          ; erhaltene Moduladresse in einem Feld merken
+          if status = 0 then
+              moduladr[module_cnt] = modul_adr
+          endif
+          ; Wenn kein Modul mehr vorhanden oder die Tabelle voll ist: Loop-Ende
+          exitif (status <> 0) or (module_cnt >= max_dim)
+          ; Kein Fehler, daher Modulzhler erh”hen
+          module_cnt = module_cnt + 1
+      endloop
+                                     @710[ Beispiel 2 ]                    @001[ bersicht ]
+.710
+    I/O-Library : Beispiel 2
+
+    Beispiel zu IO_disable():
+    Deaktivieren eines I/O-Moduls bei einer I/O-Exception.
+
+      ; Auswerten der I/O-Exception in einer Exceptiontask (Exception-Nr. 128)
+      IO_info(1,sts_info,io_typ,master,slave,moduladr,int_off,mode)
+
+      ; Deaktivieren des I/O-Moduls, das den Fehler ausgel”st hat
+      ; Kein FORCEN der Input-PVs im normalen I/O-Bereich
+      IO_disable(1,io_typ,master,slave,moduladr,0,0,0,sts_dis)
+
+      ; Ende der Exceptiontask => die RPSSW setzt den zyklischen Ablauf fort,
+      ; das deaktivierte I/O-Modul wird aber nicht mehr zyklisch behandelt
+
+
+
+
+
+
+
+                                     @720[ Beispiel 3 ]                    @001[ bersicht ]
+.720
+    I/O-Library : Beispiel 3
+
+    Beispiel zu IO_check():
+    Deaktivieren nicht vorhandener I/O-Module im Hochlauf der RPS.
+
+      ; Im INIT-UP einer Exceptiontask (z.B. Exception-Nr. 128) wird geprft,
+      ; ob die 2010-I/O-Module Nr. 2-8 (Moduladresse 2 bis 8) vorhanden sind
+      ; (Typ des I/O-Moduls wird nicht geprft). Die nicht vorhandenen I/O-
+      ; Module werden deaktiviert.
+      ; => Dynamische I/O-Konfiguration des Systems im Hochlauf
+      loop mod_nr = 2 to 8 do
+          ; Prfen des I/O-Moduls Nr. "mod_nr" ohne Typ-Check. Flag (das an-
+          ; zeigt, ob das I/O-Modul vorhanden ist) im Feld "ioflag" merken.
+          IO_check(1,0,1,0,mod_nr,0,sts_chk,ioflag[mod_nr],found_typ)
+          ; Wenn das Modul nicht vorhanden ist, wird es deaktiviert,
+          ; dabei werden die Inputs nicht geforced, die Verriegelung in der
+          ; Applikation erfolgt z.B. ber "io_flag".
+          if sts_chk <> 0 then
+              IO_disable(1,0,1,0,mod_nr,0,0,0,sts_ena)
+          endif
+      endloop
+                                       @500[ ANHANG ]                      @001[ bersicht ]
+.800
+    I/O-Library : History - Versionsnderungen
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V2.30 -> V2.31  ณ AKTUELLE VERSION: Neue Funktionalitten/Fehlerbehebung  บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - SYS_list: ME010 Modulkennung von 0 auf 1 geaendert                      บ
+  บ - io_2003.br: ME010 Modulkennung von 0 auf 1 geaendert                    บ
+  บ               CM211, CM411 inkl. ANP-Anteilen                             บ
+  บ - IO_mphydef, IO_check, IX_check bei CP476 mit Moduladresse 16 OK         บ
+  บ - IO_mphydef: Check des WORD-Alignment von sc_adr                         บ
+  บ - IO_ptest bei 2003-ANP-Modulen OK                                        บ
+  บ - IO_ptest OK bei "lokalen Variablen im UserRAM"                          บ
+  บ - IO_check / IX_check OK auf CP476 / PPxx mit mehr als 12100 Byte         บ
+  บ   RPS-Globals Analog                                                      บ
+  บ - Fehlerkorrektur wegen Exception beim Download                           บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+                                     @804[ Fortsetzung ]                   @001[ bersicht ]
+.804
+    I/O-Library : History - Versionsnderungen
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V2.23 -> V2.30  ณ AKTUELLE VERSION: Neue Funktionalitten/Fehlerbehebung  บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - keine HW-Konfigurationserkennung mehr -> nur mehr im RPSSW Basissystem  บ
+  บ   ab RPSSW V2.22;                                                         บ
+  บ - io_pcpu.br: PP00 statt HIC3                                             บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V2.22 -> V2.23  ณ AKTUELLE VERSION: Neue Funktionalitten/Fehlerbehebung  บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Untersttzung der HIC3                                                  บ
+  บ - Untersttzung der 18-fach Backplane 2005 (bis zu 16 IO-Module)          บ
+  บ - IO_data: Fehler 9111 bei IO-Exception durch FUB selbst,                 บ
+  บ            Fehler 5568 bei IO-Exception durch vorigen Auftrag (IO_check)  บ
+  บ - io_pcpu.br: HIC3, EX101 mit IF6xx, PCMCIA mit MCxxx, AI901, AI902       บ
+  บ - io_2005.br: DI486, UM161, IF686, DO486, AO360, DI695, DI175             บ
+  บ - io_2003.br: ME050-xx, AI901, AI902                                      บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+                                     @805[ Fortsetzung ]                   @001[ bersicht ]
+.805
+    I/O-Library : History - Versionsnderungen
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V2.20 -> V2.22  ณ AKTUELLE VERSION: Neue Funktionalitten/Fehlerbehebung  บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Untersttzung der Module CP476 mit ME010/ME020 + IF6xx, EX450, LS050    บ
+  บ - Untersttzung der 18-fach Backplane 2005 (bis zu 15 IO-Module)          บ
+  บ - IO_disable, IX_disable : Fehlerkorrektur fuer Moduladresse 0 (2003)     บ
+  บ - io_2005.br: IF622, EX450                                                บ
+  บ - io_2003.br: CM211, CM411, ME010, ME020, IF6xx                           บ
+  บ - io_pc.br  : LS050                                                       บ
+  บ - IO_data : Timeout fuer 1 Auftrag auf 4-fache Zeit erhoeht (Fehler 11716)บ
+  บ - HW_list : IF060-Slotmodule funktionieren                                บ
+  บ - SYS_list : LS251 inkl. Systemmodule (EX150, LS050) funktionieren        บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V2.10 -> V2.20  ณ AKTUELLE VERSION: Neue Funktionalitten/Fehlerbehebung  บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Nutzung der IO-Library im Automation Studio moeglich                    บ
+  บ - HW-Konfigurationserkennung fuer EX250                                   บ
+  บ - IO_physdef, IO_define und IO_combine werden nicht mehr untersttzt      บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+                                     @806[ Fortsetzung ]                   @001[ bersicht ]
+.806
+    I/O-Library : History - Versionsnderungen
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V2.00 -> V2.10  ณ AKTUELLE VERSION: Neue Funktionalitten/Fehlerbehebung  บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Neuer Funktionsblock HW_list().                                         บ
+  บ - Untersttzung der CPUs IP161 und IP152 (SYS_list, IO_disable).          บ
+  บ - IO_mphydef() auch auf IF260 (bei Verwendung als PP) m”glich (Voraus-    บ
+  บ   setzung: Hardware-Revision 13.00).                                      บ
+  บ - IO_ptest, IO_check, IX_check : Fehler 5567, wenn FUB-Daten nicht im     บ
+  บ   Merker-Pool                                                             บ
+  บ - Fehlerkorrektur bei IX_enable() / IX_disable()                          บ
+  บ - Fehlerkorrektur bei IO_mphydef (Deaktivierung)                          บ
+  บ - Fehlerkorrektur bei SYS_list mit PP                                     บ
+  บ - Fehlerkorrektur bei IO_check (Modultyp)                                 บ
+  บ - Fehlerkorrektur bei Initialisierung (RPSSW-Fehler 7010)                 บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+                                     @807[ Fortsetzung ]                   @001[ bersicht ]
+.807
+    I/O-Library : History - Versionsnderungen
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.60 -> V2.00  ณ LTERE VERSIONEN: Neue Funktionalitten/Fehlerbehebung  บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Untersttzung der Module IF260, IP350, LS251.                           บ
+  บ - Neue Funktionen fr 2003-Slots: IX_info(), IX_enable(), IX_disable()    บ
+  บ   und IX_check().                                                         บ
+  บ - Neue Funktionen fr EX350-Bedienung: IO_alloc() und IO_free().          บ
+  บ - Neues Datenmodul "IO_2005.BR" mit den Namen der 2005-IF-Module (CP260,  บ
+  บ   IF260).                                                                 บ
+  บ - Fehlerkorrektur bei EX350-Bedienung (HW-Konfigurationserkennung).       บ
+  บ - Fehlerkorrektur beim FUB IO_slist() bezglich RIO-2003.                 บ
+  บ - Fehlerkorrektur beim FUB IO_mphydef() fr CP260 (Daten wurden nicht     บ
+  บ   geschaufelt).                                                           บ
+  บ - Fehlerkorrektur beim FUB IO_check() wegen DI426.                        บ
+  บ - Keine Untersttzung mehr fr die Version V1.05 der RPSSW.               บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                     @808[ Fortsetzung ]                   @001[ bersicht ]
+.808
+    I/O-Library : History - Versionsnderungen (Fortsetzung)
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.50 -> V1.60  ณ LTERE VERSIONEN: Neue Funktionalitten/Fehlerbehebung  บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Umstellung auf eine IO-Manager-Task zur Ermittlung der Hardware-        บ
+  บ   Konfiguration (inkl. 2005-Erweiterungen und Remote-IO) im Hochlauf.     บ
+  บ - Untersttzung der Module IP151, IF152 und CP260.                        บ
+  บ - Untersttzung der CP4xx und CP7xx (2003-IO). Mit der neuen Funktion     บ
+  บ   IO_slist() kann eine Liste der vorhandenen I/O-Module (2003-IO) er-     บ
+  บ   stellt werden.                                                          บ
+  บ - Neues Datenmodul "IO_2003.BR" mit den Namen aller 2003-IO-Module.       บ
+  บ - Der FUB IO_list() kann ab dieser Version auch fr RIO-2010 und RIO-2005 บ
+  บ   verwendet werden.                                                       บ
+  บ - Fehlerkorrektur beim FUB IO_mphydef() fr 2005-IO-Statuszugriff auf     บ
+  บ   gerade Moduladressen.                                                   บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+                                     @809[ Fortsetzung ]                   @001[ bersicht ]
+.809
+    I/O-Library : History - Versionsnderungen (Fortsetzung)
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.40 -> V1.50  ณ LTERE VERSIONEN: Neue Funktionalitten                 บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Untersttzung der CP200.                                                บ
+  บ - Funktion SYS_list() fr die Analyse der vorhandenen Systemmodule.       บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V1.32 -> V1.40  ณ LTERE VERSIONEN: Neue Funktionalitten                 บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Untersttzung der XP152.                                                บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V1.31 -> V1.32  ณ LTERE VERSIONEN: Neue Funktionalitten                 บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Neues Datenmodul "IO_2010.BR" mit den Namen aller 2010-IO-Module fr    บ
+  บ   die Verwendung im Funktionsblock RIO_list() ab RIO-Version V4.20.       บ
+  บ - Korrektur eines Fehlers bei IO_mphydef() : Bei 2005-IO konnte es nach   บ
+  บ   dem Deaktivieren des Eintrags (iop = NULL) zum Fehler 11716 bei         บ
+  บ   IO_data() kommen.                                                       บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+                                     @810[ Fortsetzung ]                   @001[ bersicht ]
+.810
+    I/O-Library : History - Versionsnderungen (Fortsetzung)
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.30 -> V1.31  ณ LTERE VERSIONEN: Neue Funktionalitten                 บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Korrektur eines Fehlers bei IO_mphydef() bzw. IO_ptest() : Bei 2005-IO  บ
+  บ   konnten nur 7 Byte Status bzw. 15 Byte Normal behandelt werden, bei     บ
+  บ   8 Byte Status bzw. 16 Byte Normal wurde der Fehler 5557 gemeldet.       บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V1.20 -> V1.30  ณ LTERE VERSIONEN: Neue Funktionalitten                 บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Neuer FUB IO_ptest() fr den Test einer physikalischen Schaufelauf-     บ
+  บ   tragsdefinition. Dieser FUB kann nur auf der RPS-CPU aufgerufen werden. บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V1.12 -> V1.20  ณ LTERE VERSIONEN: Neue Funktionalitten                 บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Neuer FUB IO_mphydef() fr die multiple physikalische Schaufelauftrags- บ
+  บ   definition. Dieser FUB kann sowohl auf der RPS-CPU als auch am MP2010   บ
+  บ   aufgerufen werden.                                                      บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+                                     @811[ Fortsetzung ]                   @001[ bersicht ]
+.811
+    I/O-Library : History - Versionsnderungen (Fortsetzung)
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.11 -> V1.12  ณ LTERE VERSIONEN: Fehlerbehebung                        บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Wird bei IO_list() prev_mod=255 angegeben, tritt kein fataler Fehler    บ
+  บ   mehr auf, sondern es wird der Status 5555 geliefert.                    บ
+  บ - Bei 2005-Basis-IO werden bei IO_list() keine Systemmodule mehr ge-      บ
+  บ   funden. Auch IO_check() liefert bei Systemmodulen den Status 5555.      บ
+  บ - IO_check() liefert bei Moduladressen > 99 (2010) bzw. > 13 (2005) den   บ
+  บ   Status 5501.                                                            บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+
+                                     @812[ Fortsetzung ]                   @001[ bersicht ]
+.812
+    I/O-Library : History - Versionsnderungen (Fortsetzung)
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.11           ณ                                                         บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - bernahme der Direkt-IO-FUBs in das Modul "IO_LIB.BR"; damit wird       บ
+  บ   das Modul "DIRECTIO.BR" nicht weiter untersttzt.                       บ
+  บ - Neue FUBs fr IO-Exception-Information, dynamisches Aktivieren und      บ
+  บ   Deaktivieren von I/O-Modulen, Check von I/O-Modulen und Liste der       บ
+  บ   vorhandenen I/O-Module.                                                 บ
+  บ   ACHTUNG: Voraussetzung fr die FUBs IO_info(), IO_check() und IO_list() บ
+  บ            sind die Module "EXERMO.BR" und "IO_LIB.BR" ab Version V1.11 ! บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+                                       @500[ ANHANG ]                      @001[ bersicht ]
+.End
+

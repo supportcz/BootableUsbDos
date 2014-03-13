@@ -1,0 +1,81 @@
+                        INFORMATION
+                 NET2000 - Driver V1.30 for
+             PANELWARE CONFIGURATION SOFTWARE
+
+
+A. The  following programs can be found on this diskette
+
+    All required files are automatically installed to the hard disk.
+
+    Communication driver for NET2000
+
+B. Required version of PANELWARE CONFIGURATION SOFTWARE
+
+    To install the NET2000 driver V1.30, PANELWARE CONFIGURATION 
+    SOFTWARE revision 01.80 or higher is required. 
+
+C. To install all files to the hard disk, (e.g. Drive C: ) you must
+   use the automatic installation program provided on this diskette.
+   To run this program, this diskette must be inserted in the drive
+   (e.g. drive A:). The following command line is to be entered on the PC.
+
+        C:> A:SETUP
+
+    IMPORTANT: To guarantee the functionality of the NET2000 driver, all
+               required files must be installed on the hard disk with
+               the SETUP program.
+
+D. Installation Notes
+
+    The target path of this installation must be the exact same path as
+    that defined for the PANELWARE CONFIGURATION SOFTWARE.
+
+        e.g. PANELWARE CONFIGURATION SOFTWARE installation:
+
+                Target path:       C:\PW\
+
+             NET2000 Installation - Driver Diskette
+
+                Target Path:       C:\PW\
+
+E. New Installation of the NET2000 driver
+
+    When installing the NET2000 driver, a new entry is made in the
+    existing connection list.
+    All required files are copied to the \target_path\kfg directory.
+
+F. Required Software in the PLC (System 2005/2010)
+
+    In order to use NET2000 on the PLC, the software "1A0200.01"
+    Revision 01.14 or higher is required. This software contains the
+    NET2000 library for the PLC
+
+G. NET2000 Driver Limitations
+
+    Version V1.0
+
+        -    No Slave-Slave Cross Traffic (NOT TESTED)
+        -    No Network Operation (NOT TESTED)
+
+    Version V1.10 / V1.20 / V1.30
+
+        -    no limitations
+
+H. Changes NET2000 driver
+
+    Version V1.0 to V1.10
+
+        -    The BIT-BYTE conversion is working now.
+        -    The BIT-BIT conversion has been corrected. The bits in the
+             last byte have not been shifted correctly.
+
+    Version V1.10 to V1.20
+
+        -    Multiple Get_OV (PCS operating system V2.11 or higher required)
+
+    Version V1.20 to V1.30
+
+        -    Errors in Multiple Get_OV corrected (PCS V2.3 or higher req.)
+	-    Errors in BIT-BYTE conversion have been corrected
+
+   24.1.1997

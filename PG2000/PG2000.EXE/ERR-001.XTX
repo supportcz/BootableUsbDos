@@ -1,0 +1,147 @@
+reservedreservedreservedreservedreservedreserved** Error %u** Error %u:%s
+** Error %u : %s
+** Error %u on PCC:
+%s
+** Download Error %s New Entry - Information Only Incorrect Usage Wrong Record Bad Attribute Comparison No More Label Entries Incorrect Name List Incorrect Index for Name List Entry Already Exists Entry Not Found Entry deleted at Pos. index Error in the Hash Table PV not found Data type not found IO module not found Unknown task class Unknown IO type No part address exists Unknown type Invalid field length Nesting too deep Different types Bits and bytes mixed Number of components exceeded Different Amounts Different Lengths Invalid PV declaration Missing variable on the processor side Invalid offset for a FBK ALIAS variable.
+ => Run optimize to solve this problem! Error at INTISAM Path name doesn't exist DB file wasn't created DB file wasn't closed DB file wasn't opened Error recreating Access not allowed With invalid DB action READ_FIRST not made yet Second READ_FIRST made No action send executed Max. processor amount exceeded The PCC doesn't exist The processor doesn't exist DB file is already open DB file not opened with access Unknown mode Write error Read error Update error Delete error Mode incorrect or not allowed Incorrect specification Entry may not be changed Incorrect SRC type Error opening file Version number not read Version number not written Versions do not match Attention: Updated Version Allocation error Not enough memory No name entered Number missing or incorrect File cannot be opened Log file cannot be opened No user rights for this action Changes are not allowed Position incorrect or not found No record exists PV chaining may not be changed Found next processor Data types do not correspond Field lengths do not correspond Bit number exceeds processor range Incorrect processor defined Hardware initialization failure!
+ Program start not possible! Program terminated!
+ Window initialization error! CSCAPE - Error Hardware initialization failure Error in user file user.pri Error in directory given in user.pri Memory requirements is too high.
+ Program terminated! Missing configurations file.
+ Program terminated! Defective help configuration.
+ Help text display not possible. Defective main menu configuration.
+ Program terminated! Defective background configuration.
+ Program terminated! Defective standard window configuration.
+ Program terminated! Defective other window configuration.
+ Program terminated! Defective window color configuration Defective error handler configuration Defective table editor configuration Defective record construction Unknown table function Data bank read error Windows becomes too small Windows becomes too big Not enough memory to create file selection box Not enough memory to create a window Not enough memory to set the page frame Missing Text !
+ Program terminated! FV_TOO_MANY_ATWIN  FV_NO_ATWIN  FV_NO_PARENT  File not available II_MAC_NOTFOUND  II_MAC_FATAL  II_MAC_FILEKAPUTT  II_MAC_MEM  II_MAC_FOPEN  Disk full or incorrect path
+ faulty action! Faulty Entry in the project file !
+ Project not deleted ! Faulty DBK Initialization!
+ Project not opened. Not enough memory for menu line.
+ Program terminated! Defective menu  configuration.
+ Program terminated! Missing menu configuration.
+ Program terminated! Incorrect number of menu points Defective table editor configuration Too many PV's -
+ Search terminated ! No PV's found -
+ Change search mask ! No processors available ! No PV's for chaining
+ provided !CPU-PV could not be changed ! Source file incorrectly opened. Configuration incorrectly opened. Memory is full. Document cannot be created. Could not open Output file for print Variable not defined. Configuration entry for printer not found. Line number too small Printer driver PRINT not loaded, direct printout not possible. Printout not possible. Call error - call application support ! File or directory not found, please check name. Printer (drive letter) not found. Too many files in queue. Please wait and try again. Queue is not empty. Operation complete No answer from PCC during wait time An instruction was answered with an unexpected message code wrong type Object does not exist on the PCC Object directory is unreadable malloc failed Missing connection Operation interrupted by user maximum entry count reached unknown load error: %s Module already exists Module is not a B&R module Module type or group is inconsistent Module name or index is inconsistent Module name is inconsistent No memory left in RAM or FLASH or insufficient FIXRAM configured Module checksum error during module installation:
+ %s Segment error 9 during download Message error 10 during download Message error 11 during download Message error 12 during upload Module group is inconsistent Data length is inconsistent Version number is inconsistent Wrong state of the connection Error during store (write protected ?) NC Update not posible, maybee no actual version of NC manager Error durring NC update ---- No connection to PCC ----
+ PCC Reset not possible Modem does not respond !
+ Please check connection. Bootmanager
+ Incorrect port referenced Bootmanager
+ Handle is incorrect Bootmanager
+ is already active Bootmanager
+ is not active Bootmanager
+ No information for this Flash memory Bootmanager
+ Command is active Bootmanager
+ Error handling file Bootmanager
+ Error erasing Flash Bootmanager
+ Connection lost Bootmanager
+ Incorrect baudrate Bootmanager
+ Corrupted message Bootmanager
+ Corrupted command from DL file Bootmanager
+ Error in command from DL-File Bootmanager
+ no Check Callback (fatal) Bootmanager
+ wrong Tag Bootmanager
+ insufficient data Bootmanager
+ internal error - data inconsistent Bootmanager
+ Invalid data input Bootmanager
+ no valid system file to select ! Bootmanager
+ Download in progress Bootmanager
+ Invalid download status Bootmanager
+ Error while making connection !
+ (PCC possibly erasing FLASH memory
+ Please wait an try again) Error text is already in message window Not enough memory  Incorrect list ID when extending list Incorrect object table ID Invalid data branch position No PVs in data branch Loop in data tree Error initializing GDM window Error while opening a NM file for a task Error while initializing the NM for a task Error for Make has occured
+ Compile procedure terminated Undeclared variable
+ Compile procedure terminated PG and GDM versions do not correspond.
+ Please convert ! Symbol without name
+ Compile procedure terminated Task not available on PCC.
+ Monitoring not possible ! Rebuild not possible !
+ No rebuild info in the data module Not enough memory
+ desired function cannot be carried out. TB_WRONG_MODE  Rebuild not possible ! No rebuild info in task I PV Definition in RB Info missing.  I No Text buffer available  I No FBK Info in RB Block  Label offset overflow  Incorrect module type,
+ rebuild not possible ! Code length overflow U label index allocated twice I Referenced label not defined UI Label offset overflow Maximum variable length exceeded  I Address register for task builder locked I Illegal register code for task builder U nvalid character in a PV name U Several PVs defined for an analog
+ (transp.) output U Offset list full, too many different
+ IO types (>50) V No longer occurs from version V1.06 on I Incorrect code for task builder U Addressing type absolute long not allowed for the PCC I two <eA> with command class 17 U IO type not allowed for HS task I Operand type not allowed I Command not supported by NOTBIT emulation   Reconfiguration or reinit. of the V IO type not yet supported U IO type not allowed for this task class Descriptor file not found
+ or too many open files Incorrect line order in descriptor file
+ or missing variable entry :I - Line in the worng position. :O - Line in the worng position. :S - Line in the worng position. :T - Line in the worng position. Syntax error in descriptor file :
+ ':<incorrect character>' FBK name not as first instruction line
+ or comment line without ';' FBK name too long :U or :F in wrong position. :K<A|I|L>; Code on wrong position. B Unknown data type B String entry error B Number entry error B  Not enough space for required blocks in the RIO - DPR I  Offset and block do not correspond BI Block overflow, reinit and generate can help I  incorrect RIO block number B no offset defined for IP I  Invalid Handle B  Initialization of a running PCC I  Reading an inactive PV is not possible B  Too many PVs for the Profibus frame B  Too many lists open I  Incorrect PV Index for the PS functions B  No PV's entered in the list I  Number of PVs does not match list BI Definition of the list on the PCC is faulty I  Block too big for single access B  Local PVs only possible for a task B  The same applies for FBK Memory
+V  Inline FBKs not supported up to V1.08. B  Delete and insert entire structure not supported. B  Array index exceeded Action interrupted by user Task not available on the PCC !
+ Status test not possible. Incorrect task status; Operation will not be carried out Incorrect mode when calling the function Status: Screen update carried out Task changed on PCC ! Reload No connection with PCC Status: Variable forced List no longer available Invalid address Max. number of forced PVs reached Error loading the module
+ from the PCC Error during string upload from PCC NIL-Pointer access ! Error uploading the optimized
+ I/O shovel table from the PCC ! Subfunction not yet implemented Too many locked areas VM-Blocksize exceeds maximum size too many open VM-Blocks VW-Files attached VM-Block not free'd invalid handle or closed handle invalid File ID invalid Block ID Failure moving to/from extended Memory Nonsensical Argument to function no indirect memory available insufficient core memory (malloc failed) insufficient upper memory block insufficient high memory area insufficient LIM-EMS memory insufficient LIM-XMS memory insufficient extended memory Swapfile not large enough invalid Filename File is not a valid Data-File Error: VM-offset too large Error: VM-length too large Error: Object is write-protected Failure mapping in expanded Memory storage class limit exceeded Warning: area was not locked Fatal: Error in Block-Directory Error: unable to open message file Error: message file too large Error: no memory for messages Error: no memory for tables Warning: text number used more than once Warning: cant interpret message line Fatal: not enough core for init (DOS fn 0x48) Fatal: out of disk space Fatal: swap file not opened Warning: File did not exist, was created Warning: File existing Warning: Block already exists Error: File locked by another user Error: DOS returns error: check errno Error: Failed open(handle,...) Can't open file
+ Invalid function number Can't open file
+ No such file or directory Can't open file
+ Path not found Can't open file
+ Too many open files Can't open file
+ Permission denied Can't open file
+ Bad file number Can't open file
+ Memory arena trashed Can't open file
+ Not enough memory Can't open file
+ Invalid memory block address Can't open file
+ Invalid environment Can't open file
+ Invalid format Can't open file
+ Invalid access code Can't open file
+ Invalid data Can't open file
+ No such device Can't open file
+ Attempted to remove current directory Can't open file
+ Not same device Can't open file
+ No more files Can't open file
+ Invalid argument Can't open file
+ Arg list too big Can't open file
+ Exec format error Can't open file
+ Cross-device link Can't open file
+ Maths argument Can't open file
+ Result too large Can't open file
+ File already exists Can't open file
+ Possible deadlock Error: Failed close(handle) Can't close file
+ Invalid function number Can't close file
+ Bad file number Error: Failed seek(handle,...) Error: Failed read(handle,...) Can't read file
+ Invalid function number. Can't read file
+ Bad file number Can't read file
+ Path not found Can't read file
+ Too many open files Can't read file
+ Permission denied Can't read file
+ Bad file number Can't read file
+ Memory arena trashed Can't read file
+ Not enough memory Error: Failed write(handle,...) Can't write file
+ Invalid function number. Can't write file
+ Bad file number Can't write file
+ Path not found Can't write file
+ Too many open files Can't write file
+ Permission denied Can't write file
+ Bad file number Can't write file
+ Memory arena trashed Can't write file
+ Not enough memory Error: Failed changesize(handle,...) Error: Failed access() Error; Failed lock(handle,...) Not enough memory. Defective Configuration Wrong object table ID Invalid Object ID Incorrect object structure index No valid polygon line No object at the given position No object selected No vaild group No valid LAD symbol index No valid GDM symbol index Invalid direction of cursor movement Negative Raster coordination Negative Character coordination table editor text buffer is full Line not valid  Invalid line character Invalid editor type Line to be deleted is not empty No pointer to an object table GE Kern ext too long No valid GRAFCET Symbol index Block cannot be inserted.
+ Other symbol is used Marking mode turned on or block buffer is empty Versions do not correspond Not enough Memory Line put in the wrong position
+ Enter next command Do not place output in the first
+ column Line types do not match Analog inputs can only be in 
+ column 1 LAD error. Please correct
+ so compiling can take place. No branches possible 
+ in analog lines Field already contains a symbol FBK does not have enough room here Constant to output ->
+ WRONG This is not a digital constant Constant contains invalid characters Invalid PV name Invalid Name Wrong FBK Index No Position index found Empty LAD No FBK found SP is not allowed Maximum number of columns has been reached ! No analog input for the string constant No dynamic vaiables allowed IL_LONG_ERR  undeclared PVs, close aborted Try in FOLLOW Mode ERR_CG_UNKNOWN  ERR_CGAO_SWITCH  I  Error reading token ERR_CG_ESTCK_NOT_EMPTY  ERR_CG_NO_EMIT_OP  ERR_CG_LSTCK_NOT_EMPTY  ERR_CG_LSTACK  U  Simple PV used as array U  ACTION range exceeded
+ Maximum number! (512 ?) U  ACTION range overlaps itself U  First parameter of the function must be a in parameter (ACCU) U  Too many parameters for FBK ERR_CG_FUB_PARAM  U  Attempt to assign a value to an expression.
+ Caution with FBK out parameters IU No free D register for offset calculation:
+ Array nesting is too deep ERR_CG_NO_FREE_REG  I  Not enough memory IU ev. too deep nested expression ERR_CG_ESTACK_UNDERFLOW  ERR_CG_WRONG_DYN_MOD  U  No dynamic variable on the left of Access Operator ERR_CG_WRONG_FUB_MOD  U  Case Selection = Constant ERR_FKT_STACK_OVERFLOW  Assignment to a constant  I Command not supported by NOTBIT emulation I  Address operator has no <ea> I  Insufficient memory U  Data type on the left side of an assignment is smaller
+  U  Data types do not correspond U  Operation not allowed for this data type    Array index is not a base data type U  Line type not yet implemented U  Exitif without Loop Block I  Too many labels I  Not enough memory U  Line or token block cannot be opened I  Not enough memory ERR_AG_ADR_NOT_LONG  ERR_AG_MULDIV  ERR_AG_FATAL  ERR_AG_CLOSE  ERR_AG_EXG_REG  ERR_AG_DEBUG  ERR_AG_T1  U  Accu not defined with a LOAD OPERATION U  Action area is invalid I  Not enough memory I  Not enough memory ZP_ERR_LINE_TOO_BIG  U  Negation of a float constant ZP_ERR_STRING_UPDATE  U  Logic Op. on a float or string ZP_ERR_NO_INTEGRAL_CONST  IU Line nested too deep U  Warning: Negative constant the |absolute| > (2 ^ 31) U  Too many labels for linking constants U  Duplicate label U  ELSE without IF U  ENDIF without IF U  EXITIF without LOOP Block U  ENDLOOP without LOOP U  ENDCASE without CASE U  ACTION without CASE I  Line type not implemented I  Fatal Error U  Block construct not complete I  Not enough memory U  Label not available U  State label with confused with ordinary label U  Error in select block U  Instruction not in action block Load Error Task not available Task cannot be installed No connection to PCC Error in INIT Phase Incorrect Source Type Source file cannot be opened Old Debug Info Format Not enough block memory, close other window No Debug Info, single line task Source block cannot be read Debug domain not available Debugger file not available Not enough memory Other load error Bur-File cannot be opened br-File not available or too old U  Clipboard full, deleting help IU No entry found in clipboard I  Block size exceeded I  Incorrect clipboard handle I  Incorrect Sub-entry I  Too many Sub-entries (> 16) I  Incorrect Sub-entry FBK editor cannot be installed Curser in FBK Error moving contact I/O variable has no name Do not exit Error while saving No elements in the input / output list Entry is ended with <ESC> or <CANCEL> Selected name is already in FBK Invalid variable name No FBK in file VD will not be exited Invalid parameter was given No processors available Error initializing the VM list Incorrect IO Type Processor switched with inact. VD No PV's available for processing Incorrect IP chain Incorrect mode No data types available TD interrupted by user No components available Error saving the structure Faulty or incorrect export file Error exporting a data type Error importing a data type Incorrect list index Incorrect file code or version no. Action interrupted by the user Exit entry with ESC TE_TOOBIG  Incorrect field type for subtable Cursor not over field (mouse) Error setting a filter TAB editor cannot be initialized Incorrect mode for this action Error printing a list VM list not initialized Error writing a list to a file Error reading a list from a file Error opening file This LAD doesn't exist VW Stack is full Error in KP_get content->faulty matrix VWRW Stack is full Branch stack not completely processed All registers used LAD-Path: Direction change Branch substack is full LAD has a short circuit Output will never be reached Branch will never be reached LAD contains nonsensical line structures Branch has no 
+ next key -> Event is lost Contact with non-matching types
+ are linked Editor has already found an error FBK has no input/output parameters Error which the editor must find LAD in old format will be edited
+ Please convert Contact has no name INLINE FBK may not have open inputs Initialization terminated No PV's found Error with PV Check Invalid area out of memory No connection avaiable Help file not found.
+ Help text display not possible. Not a help file.
+ Help text display not possible. Memory is low.
+ Help text display not possible. Configuration of the help file missing.
+ Help text display not possible. Mouse driver not loaded.
+ Keyboard operation possible. Highest possible window number reached. Maximum table record number reached ALI cannot start Data bank write error Read error for data bank interface Read error for name list interface Configuration variable declaration faulty Allowed number of structure levels reached Insufficient memory for declaration Error in table editor - stack Not enough memory for table                             (     0    	 ;   	  D   
+  I     Z     q   - Ü   . £   / ≥   0 ¿   1 Ÿ   2 Ô   3   4 !  5 6  6 F  7 b  @ z  A á  B õ  J Ø  K ¬  L “  M È  N ˆ  O   P   Q ,  R A  S _  T q  U É  V' ö  WQ ¡  ^   _ #  ` ;  a R  b h  c ~  d è  e ¢  f π  g —  h Ë  i    j   k 5  l Q  m i  r à  s ï  t °  u ¨  v π  w ∆  x ‰  y ¸  z   Ü (  á ;  à S  â n  ä Ñ  ê ü  ë ∞  í ¬  ì “  î Ó  ï   ñ   ó =  ò  U  ô u  § Ü  • •  ¶ ∫  ß  ◊  ®# ˜  ©   È> 6  Ú2 t  Û ¶  Ù  µ  ı ’  ˆ% Ò  ¸6   ˝2 L  ˛? ~  ˇ8 Ω   9 ı  > .	  ; l	  % ß	  & Ã	  % Ú	   
+   5
+   L
+   a
+   {
+  / ì
+  % ¬
+  ( Á
+  $   $ 3  % F  & S  ' a  V t  W Ö  X ì  Y ¶  Z ≤  l, ¿  m: Ï  n0 &  ⁄6 V  €4 å  ‹1 ¿  ›  Ò  ﬁ%   ÷% 6  ÿ& [  ﬁ Å  ‡! õ  Ù º  π  Ÿ  ∫" ˘  ª   º +  Ω% G  æ l  ø+ Ç  ¬ ≠  ? √     (   0 A   " q  !4 ì  " «  h €  i$ Ó  j<   k N  l! Y  m z  n ô  o ß  r ∫  ì ÿ  0 Ù  1   2 !  3% <  4% a  5 Ü  6A ¢  7 „  8  ˘  9    :! 9  ;! Z  < {  = ö  > ∑  ? ”  @ Ú  A'   B> 7  C u  Æ7 ç  %3 ƒ  .' ˜  /!   0 ?  1 ^  22 y  3 ´  4!    5! Î  8   9  )  : I  ;, h  <+ î  =' ø  > Ê  ? ˝  @0   A  L  `. l  a" ö  b% º  cl ·  á( M  à u  â& à  ä Æ  ç »  é Â  è ˚  í   ú) +  ù+ T  û9   ü2 ∏  ˜9 Í  ;2 #  I6 U  ; ã  p; ∆  q   r/   s% ?  t d  u Ä  v õ  x/ ≤  y ·  z ˆ  {   | 3  }" L  Ñ+ n  Ö) ô  é  ¬  ò6 ‚  ô    ¢7   ¨) O  ≠" x  Ø8 ö  ±! “  ≤" Û  ≥   ¥, 0  ’$ \  ÷  Ä  ◊ Ä  ÿ* ú  2 ∆  C ¯  ! ;  	! \  
+! }  ! û  < ø  D ˚   ?    Q   Q  # m    ê   ê   §   π  89 Œ  9&    :0 -   ; ]   B {   d ñ   e# ®   f* À   g' ı   h !  i+ 3!  j  ^!  k ^!  l% }!  m/ ¢!  n# —!  x& Ù!  yM "  z5 g"  { ú"  å ¥"  ç; œ"  é9 
+#  è) C#  ê" l#  ë é#  í ´#  ì ¬#  î ⁄#  ï Û#  ñ" $  ó' %$  ò$ L$  ô p$  ö? Ö$  X  ƒ$  Y ‰$  Z" ˙$  [! %  \ =%  ]  Z%  ^ z%  _ ä%  `' õ%  a! ¬%  b „%  c)  &  d  )&  e I&  f g&  g É&  h ü&  i º&  j ÷&  k Á&  l '  m  '  n! ;'  o# \'  v '  Ä ú'  ä  π'  î# Ÿ'  ï ¸'  ñ (  ó 8(  ú) T(  ù% }(  π. ¢(  ∫ –(  ª È(  º) )  Ω .)  æ E)  √# c)  & Ü)    ¨)  !) À)  "+ Ù)  #  *  $% ?*  %# d*  &! á*  '& ®*  (# Œ*  ). Ò*  *% +  +  D+  ,% d+  - â+  /  ß+  07 «+  1! ˛+  2 ,  3" >,  4" `,  5# Ç,  6# •,  A  »,  B" Ë,  C% 
+-  D# /-  Ñ R-  Ö* n-  ä" ò-  Ë ∫-  L Ÿ-  M* ¯-  N! ".  O  C.  P% c.  Q# à.  R! ´.  S& Ã.  T# Ú.  ∞  /  ±+ 5/  ≤" `/  ≥! Ç/  ¥& £/  µ$ …/  ∂" Ì/  ∑' 0  ∏$ 60  % Z0  x 0  ‹ ñ0  @ µ0  A »0  B ‡0  C ˆ0  D! 1  E )1  F  ?1  G _1  H r1  I Å1  J õ1  K% µ1  L ⁄1  M  ˜1  N! 2  O 82  P H2  Q _2  R  s2  S ì2  T ±2  ^ ∆2  h0 ‰2  i0 3  r D3  • _3  ¶3 q3  ß) §3  ® Õ3  ©( Â3  ™8 4  ´' E4  ¨  l4  ≠# å4  Æ Ø4  Ø Ã4  ∞% Î4  ± 5  ≤  5  ≥ -5  ¥ =5  µ
+ U5  ∂ _5  ∑ l5  ∏- ~5  ’( ´5  ÷ ”5  0   Ô5  1  Ô5  2   ¸5  3   ¸5  4   ¸5  5   ¸5  6  ¸5  :   6  l  6  (# -6  )# =6  *# N6  .# e6  /# }6  0# ê6  1# ®6  2# ∑6  3#2 “6  4#  7  5#A $7  <# e7  =# Ñ7  >#P ñ7  ?#I Ê7  @# /8  A# C8  B#" X8  C# z8  D# ì8  E#6 ©8  F# ﬂ8  G#  ı8  H# ı8  I# 9  J# *9  K#, D9  P#  p9  ç# ê9  é#< ß9  ó#  „9  °#, :  ´#' /:  Ò#! V:  Ú# w:  Û# î:  π$ ß:  ∫$( º:  % ‰:  %  ˘:  % ˘:   % ;  '% ;  |% +;  }% 9;  ~% I;  % W;  Å%* b;  Ç%  å;  K& å;  M& ¶;  N& ª;  O& –;  P&  Â;  Q& <  R&" <  S& =<  V& W<  ¨&8 o<  ≠&) ß<  Æ& –<  Ø& „<  ∞& ˆ<  ±& 
+=  ≤& '=  ≥& ?=  ¥& W=  ∂& n=  ∑& ã=  ∏&  ö=  π& ∫=  ∫& œ=  º&1 Ê=  Ω& >  æ&# 0>  ' S>  ' ^>  ' q>  ' ä>  ' ü>  1' ≥>  2' …>  3' Ê>  4', ¸>  5'  (?  6' H?  7' d?  8' ?  9' õ?  :' ≠?  ;' æ?  >'! ÿ?  ¯*! ˘?  ˘* @  + 9@  + P@  + n@  + Ö@  + §@  ·. ª@  ‚. ⁄@  „. Ë@  ‰. ˝@  Â. A  Ê. "A  Á.' 5A  Ë.& \A  È.  ÇA  Í. ¢A  Î. ∏A  …2 «A   2 ›A  À2 ˘A  Ã2 B  Õ2 0B  Œ2" BB  œ2! dB  –2 ÖB  —2 òB  ê3 ßB  ë3 øB  ì3 ÷B  î3  ÓB  ï3 ÓB  ñ3  	C  ó3 )C  ò3 EC  ±6 aC  ≤6# vC  ≥6 ôC  ¥6 ∏C  µ6 ÃC  ∂6" ◊C  ∑6 ˘C  ∏6 D  π6! .D  ∫6 OD  ª6 nD  º6 ÑD  Ω6 úD  æ6! ªD  ô: ‹D  ö: ÔD  õ: E  ú:  E  ù:' E  û: >E  ü:& QE  †: wE  °: äE  ¢: •E  £: ΩE  §: ’E  •: ÚE  ¶:) F  ß:* 8F  ®:, bF  ©:" éF  ™:# ∞F  ´:! ”F  ¨:1 ÙF  ≠: %G  Æ:$ 9G  Å> ]G  Ç> wG  É> ÖG  Ñ> ôG  hB ¶G  iB ¥G  	R6 ÀG  
+R2 H  R0 3H  RI cH  R7 ¨H  R( „H  R$ I  R /I  lR @I  mR# VI  nR# yI  oR* úI  pR  ∆I  vR+ ∆I  –R$ ÒI  €R J  TV 3J  y»OJ  

@@ -1,0 +1,15 @@
+#TXT 00 00 01 78  _
+#TXT 00 02 28 78  _S-EEPROM_defekt____________
+#TXT 01 02 28 78  _Alarm_aktiviert____________
+#TXT 02 02 28 78  _SicherheitsrÅckruf_________
+#TXT 03 02 28 78  _NormalrÅckruf______________
+#TXT 04 02 28 78  _Passwort-Besicherung_aktiv_
+#TXT 05 02 28 78  _Fehler_im_Sonderprogramm___
+#TXT 06 02 28 78  _Sonderprogramm_aktiv_______
+#TXT 07 02 28 78  _RÅckruf-Besicherung_aktiv__
+#TXT 09 02 15 78  PROM-Version_:_
+#VAR 09 18 11 01 78 00 42 N N J N N 00 00 00 
+#TXT 09 31 01 78  _
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~

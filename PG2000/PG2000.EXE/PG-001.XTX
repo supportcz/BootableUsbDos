@@ -1,0 +1,515 @@
+Name :Tasks Module No Channel NoD@ata TypeYes	NoVariable Decl.OKCancelOK	CancelEditText EditorClose     ^F4Ladder DiagramHelpUtilitiesMemory TestE@xit      F4PV List  OK  CancelTask BuilderPL2000OK	MemoryCompile      F9SearchCo@ntinue  F5MarkLadder Diagram,PL2000,Statement List,Data Module,Function Block,TextPaste    InsBlockAdditions  OpenNameSaveReturnVariable is undefinedALI - Report  G D M     F12ContactStructureFunctionsTextLineRightLeftDefinitionFBKIns/OverClose    ^F4,Save,Restore,Resize   ^F5,Minimize,Maximize ^F1,Next     F6BytesAfter warm start,After download,NeverModeFileLineSave changes in %s ?R U NDeleteNo task exists on the PCC to select !PL2000/STL/Text#1,Ladder#6,Variable#2,Offset Table#5Drive %c: not ready !Invalid path or file name !Not enough memory !File cannot be opened !Line Mode Copying%s <-> %s : Empty data branch (no common PVs)TargetParametersObject,ProjectASCII#3,Object#2,Object->Editor#1,Project#9,Library#6,BFU->FBK#7,System Flag#8,Task Rebuild#5Editor Object,PG2000 Object,ASCII,Module LabelSave was not successful !ESC to return to menu, Backspace for previous pageRe@size WindowTask RebuildLP-Status : %dIncorrect NM-Initialization !Object without nameTasksDebugger         Co@nnectionDe@bugger   F11No changes madeNo direction change allowed ! *** Error Occurred *** %c     Error Code: %uFile opened in READ-ONLY mode ! MP #2, IP #3TC1,TC2,TC3,TC4,HS1,HS2,HS3,HS4,EXC,IRQ,DAT,TXT,B&R,allObjectBranchMoveCheckTask ClassPositionDeleteMoveDrawWithout Saving ?No	Yes	CancelPositioning here is not possible !Group 0/Main CPU/PCC 1 cannot be deletedThis name has already been used !Invalid data branch positionNo entries in the B&R Module TableNew entry in the B&R Module TableNo data branch can be drawn here !<CURSOR> : Move; <ENTER> : Position; <SPACE> : ListLayerLayerGDMVar.DeclObject type        :                 Task
+Init routine       :
+Resource           :
+Start (Irq/Exc) No.:
+Transfer Mode      :
+Installation       :
+Start              :
+Spool              :
+Rebuild info       :Default,Don't InstallGRP :ParamTaskTask Name :Entry Layer :PVsFunction is not allowed in the operating modeCross ReferenceDelete All?NM List for "%s" does not exist or file being usedOKCancelNameEnter a Task NameGDM Checking in processTask "%s" is not in the databankTask Class of "%s" was changedCancel	OkG@enerateCopy FileIndex,Variable,Var.List,Domain,Prog.Inv,Event,StartError %d while inserting the PV %sForcing a local PV is not possible !Name  : Compiler InterruptedPV Name : Value : $Data : Function: Index : $WriteForce   PV FormatListName    :PG Version :SearchPath         :Project Name : !!! Stop on the $PCC !!!Description  :PCC Name     :Date    : Time    : Create project %s with PCC %s ?Entry :Really delete all information of the Child GDM of > %s <  ?GDM Check Complete%s <-> %s : Common PVs, but no Data Branch			Empty Data Branch (no common PVs)No MPs or PPs allowedDatabank path switched to PCC "%s"DrawDeleteThis ladder diagram doesn't exist yetFile has been savedError %dError position in LAD %s :Line %d Column %dLAD Parser (with Debug Info): %sError found:B&R Programming System Memory%.128sInit-SPRemove Layer#8,Insert Layer#9Rebuild#12,On-Line#10GDM Check#1,Object List~5170,FUB Liste~868,Cross Reference#3,Entry Layer#4,Rename#5,Move#6,Download       "F9#14,Layer has more than one Child objectLadder Diagram,PL2000,Statement ListRename,Load,Save,Print#6,Close#15Rename#11,Delete#12,Negate#21Alias Name,DeleteSave File
+GDM Object List : Created on  %s
+
+≥ No. ≥ Task Name  ≥ PCC      ≥Processor ≥Type   ≥TC #  ≥InitType≥
+√ƒƒƒƒƒ≈ƒƒƒƒƒƒƒƒƒƒƒƒ≈ƒƒƒƒƒƒƒƒƒƒ≈ƒƒƒƒƒƒƒƒƒƒ≈ƒƒƒƒƒƒƒ≈ƒƒƒƒƒƒ≈ƒƒƒƒƒƒƒƒ¥GDM object list saved in the file "%s"
+
+      n.d : Task not entered in the databank       ,Offset Table#20Export      Open Project %s ?Importing the Library %sHide project %s or delete ? %s already exists. Please delete ! Target Project Go To@Monitor       F11Library not found => FBK Import not possibleOverlay Add Please enter a search path for another project !Search Path : %s is being copied.AnalysisPCC @Refresh RateDocumentation@ClosePV List %s.out saved%sDouble definition on I/O Module : %sThis is not allowed for HS tasks !Editors        Variable DeclarationOn	Off	CancelTask %s in Step mode ! Start it ?Task %s Stopped ! Start it ?PVs being forced ! Turn forcing off ?FBK without output parameters is not allowed in LAD CopyNumber,Delete,Move Load,Save,Rename,Delete,Print,SymbolProcessor,GroupSimultaneousGRAFCET Create VLD FileOnly possible with PCC SW Version V1.10 and later!Incomplete project %s is not accepted !ProcessorInstall NumberInstall  C O N T E N T SCross reference for %s.%s is being created@OpenC@reateCopyPVReadListStart	StopContinue	BackSave	LoadValue	EndFBK without input parameters is not allowed in LAD OK	Text	Cancel Modem EditorLast changeVariable List for %s.%s is being createdProject DescriptionInsert Line   e,Delete line   d,Debugger      y,G D M,Place FBK,Other~8126Insert Line   e,Delete Line   d,Debugger      y,G D M,right  ≥      r,≥ left        l,Contact~191,Other~8126ProjectObject list cannot be opened !B&R Module cannot be installed !GenerateDatabank     FBK/Data Type Choice  Type NameNo frozen tasks available !*** Processing all tasks in project list '%s' ***Initializing the databank of %s !Delete unused PVs and HW Modules of %sPlease create a object list and generate the project !Mark all variables as 'Deletable'?File cannot be copied to itself !Change PCCB&R Library  local PV at     :
+Init Value:
+  Internal        :
+  Output          :On,Off**** LAD Parser    %sCommentPhone No.   :LAD %s was compiled without Debug InfoLAD %s was compiled with Debug InfoLAD contains an error -> Switching over is not possibleVar.decl. was not called -> Switching over is not possibleSwitching: Editor -> Debugger Please don't forget to Download !!!Switching: Debugger -> EditorVariable Declaration Ok.ExportImportTarget Path: File Name Please call the Var Decl. firstRe-definition %s is not allowed !Copy     ^InsDelete unused entries ?Status : %dSpecified list was saved in the file %sSearching through the databank - Please waitCreate new Init subprogram ?Error : Same file name for different source types !File is being edited !Please close the child editor first !Empty window to be saved !New File !Not enough memory for a new window !Zoom WindowName,Insert,DeleteFBK Editor cannot be opened !Please reconnect to %s !***      Project Download      ****** Project Generation Complete ******  Project Download Complete  ***D@ownloadFile name is not compressible%s in line %dSyntax Checking, please waitDownload,Replace,Start,Stop,Install,Restart,Store,Remove,Cancel  Has PCC %s been stopped ?  StoreInit-SP %s does not exist !Invalid name -> File will not be renamed !LAD monitor%sModule %s is not in the data bankWarning : PV monitor       ≥  PV Name        ≥   Value   ≥ Force ≥    Write    ≥OnVariablesPlease stop the PV list first !No PVs entered !Step SizePV Value :Change window colors with cursor keysStartStopStepValueForceF. Off.vld - File corruptTask @ClassesModules:File %s does not exist*** Project Generation Interrupted ****** Project Download Interrupted ***decimal#21,hex #22,binary #23Conflict of output format <-> Data type Index :KByteNo enough memory -> Please save !MByteStart,Stop,Cycle,Step SizeContinue with 'RETURN'   Replace with 'e'   Quit with 'ESC'Continue with 'RETURN'   Quit with 'ESC'LoadTableStart,Stop,Step,Cycle,Break,Input,Output,Shovel,Close Go to : Search for  :DebuggerStart/StopStepCycleBreakpointI/ODeleteVariableLineInput,Output,ManualDelete All,Passpoint,ConditionGoto CPRename FileStartCycleStepStopavailable,not availableDefault,Don't startDefault : File~190,Block~387,Search#4,Replace#5,Ins/Over#7,Move.Mode#8,Compile#14Password  : Mode      : CompilerMod. Command:PCC Action Ok.Mark#9,Delete#10,Insert#11,Copy#12,Mode#13Move.ModeEditorReplaceDelete FileSource :
+Target :File successfully copied !File successfully renamed !File successfully deleted !PG InfoPCC MemoryOff Messages INDEX larger than a WORDERROR %4d ** Control Machine Expression ** Token %4d of %4dERROR %u while creating directory "%s"ECHO: %sOutput:%cFatal Error b_lex: %sSyntax Error: Unknown ObjectError in directory %s** ERROR %4d ** Control Machine Logic ** Token %4d of %4dWARNING:  Array[0-%d] -> Index: %ld  Line %dError in array offset calculation: Index not in register!Internal Error: Result stack corrupt!**** CODE GENERATOR %s**** CODE GENERATOR Ok.Code Generator T3.0 ** Statistics:  #Lines = %3d  #Tokens = %3dCG ERROR %4d in code generator line %4d type %2dCG ERROR closing the databankConstant Expression in Case! Line %dNo scratch register availableThere is no offset data register availableThere is no free address registerNot enough memory !!ERROR  Select variable is not a WORD! Line %dFATAL ERROR: Help stack ZP_baum_abbau() too small !Tree to large (ZP_make_node)!Fatal Error: Not enough memory! (ZP_alloc_konst)Entry
+%s is not a valid number!
+Stop string: 
+%sFatal Error: Not enough memory! (ZP_index_string)Fatal Error: Not enough memory! (ZP_index_longint)Constant exceeds range !!!!ERROR: Invalid action rangeError in ZP_ausgabe    Status %d**** LINE PARSER  %sMODULO of FLOAT Variable ?FATAL ERROR: Unknown unary operator on FLOAT-Variable!ERROR: Not enough memory for block parser!!!Error opening the line file !**** BLOCK PARSER   %sError reading the line!ERROR:  Jump Target is not a labelERROR:  Too many labels!!!ERROR:  Label on line %d is also on line %dERROR:  Label on line %d is a state label on line %dERROR:  Statement is not in Action Block! Line %dERROR:  Too many nesting levels !ELSE without IF ! Line %dELSE_IF without IF ! Line %dENDIF without IF ! Line %dEXITIF in SELECT-Block: Line %dEXITIF requires Loop block: Line %dENDLOOP without LOOP ! Line %dACTION without CASE! Line %dState label is not in select block ! Line %dERROR:  State Label in Line %d is also in line %dERROR:  State Label Line %d exists as label in line %dERROR:  Too many state labels !SELECT operation not in Select-Block ! Line %dERROR:  Too many nesting levels !NEXT without WHEN ! Line %dERROR:  Jump target is not a state lable of this block: Line %dERROR:  END ACTION without ACTION BLOCK! Line %dERROR:  Action Number is already defined! Line %dENDSELECT without SELECT !!! Line %dSelect Block has no State!  Line %dBlock Parser: Line type is not implemented yetWARNING: Label on line %d is not referencedERROR:  Label on line %d is not definedERROR:  Open Loop Block on line %dERROR:  Open If Block on line %dERROR:  Open Select Block on line %d**** BLOCK PARSER   Ok.FATAL Error: awlpar in FBK description is too long !ERROR in Inline FBK! Status: %dERROR:  PV is not an array!**** STL Parser    %s  OK.**** STL Parser    OK.ERROR: IL Block open! Too many bracket levelsERROR: Accumulator is not defined. Line: %dWarning: FBK assignment changed!Warning: Comparison of signed <-> unsigned in line %dWarning: Array without index in line %d (Index 0 used)ATTENTION: Databank and program version conflict ! (%d)Program was not correctly exited last timeA databank REBUILD must be done - please waitSome predefined PVs are being entered into the database !Error entering the PV > %s <; error  (%d)Error opening %s%s : (%d)Error closing %s%s : (%d)FBK/SP Name of PV > %s < in FBK/SP list not found !FBK/SP Name of PV > %s < does not exist !Not enough memory to read FBK/SP > %s <FBK/SP Name > %s < does not exist in the databank !<WARNING>: > %s FBK %s() < ; %2d.Input: Name > %s < not used<WARNING>: > %s FBK %s() < ; %2d.Output: Name > %s < not usedData type of the local/dynamic (ALIAS)PV > %s < not givenNot enough memory to read (ALIAS)PV > %s <(ALIAS )PV Name > %s < does not exist in the databankData type of (ALIAS)PV > %s < with type no. (%d) doesn't exist in the DBData type of PV component > %s < with type no. (%d) doesn't exist in the DBFBK/SP Name not found in FBK/SP list !FBK/SP Name doesn't exist !Error (%d) with Record No.%3d > %s <%3dRecord No.%3d already exists > %s <EXPORT of Task > %s <Searching for task in the B&R Module tableOpening Source FileOpening Ex/Import File > %s <Copying block from source fileThe data bank record accessed in the Ex/Import file*** Importing Data Record ****** Exporting Data Record ****** Deleting Data Record ***DB error occurred ! Error (%d)Error on PCC: %s . Error (%d) occurredError on PCC: %s CPU: %s Type: %c. Error (%d) occurredDATABANK NO LONGER OPERATIONAL -- COMPLETELY ERASED !Databank File %s is being processedOption '-IP.' only allowed for intelligent controllerUnknown IO TYPENot enough memory - Abort necessary !<WARNING>: Data Type of (ALIAS)PV > %s < was changed<WARNING>: Data Type of PV component > %s < was changed> %s < This option is not allowed !Unknown input file (doesn't exist or incorrectly entered) !Data Type no. > %d < doesn't exist in the databankIMPORT ** File: %s ** >>> %sEX/IMPORT could not be executed ! Error (%d)Please examine the LOGFILE > %s.LOG <EX/IMPORT completed successfullyEx/Importing the INIT-SubprogramEx/Importing the EXCEPTION ModuleCreating the directory for the databank records-PVs:         Databank - Ex/Importing the PVs used.-DATA TYPES:  Databank - Ex/Importing the data types used-FBK/SP:      Databank - Ex/Importing the FBKs/SPs used-EX,%s-IM,%s-ERR,%s,(%d)FBK/SP Code of > %s < could not be read/written<WARNING>: Variable > %s < does not exist in the source !No data record availableTASK > %s < already exists; Enter a new name or 'Change' !DATABANK VERSION of Program and Imported file are different !Data Type of PV > %s < invalid; Type no. = %dTASK: Original name > %s < -- Import name > %s < !FILE: %s already exists - Keep It ?LOG FILE: > %s < could not be opened ! **** FBK/SP data type not found **** -?-?-?-?-?-?-?-?-?-?-PV Table Purged. %3d Record(s) deletedHardware Module Arrangement Purged. %3d Record(s) deletedTASK > %s < could not be found. Error (%d)Error entering the structure > %s <. Error  (%d)Keep It	Change	Change All	Cancel %s "%s" available in the databank !  Enter all elements in the databank ? There were no FBKs/UPs imported !==> Initializing PG2000 - Please Wait <==Hardware Arrangement (X.X...) cannot be interpreted ! PV Name "%s"; Two different offsets given ! PV Name "%s,... "; Too many PVs in the PV list ! PV Name "%s"; Data type "%s" doesn't exist in the databank ! Scope "%s" not implemented yet ! PV Name "%s". Unknown IO Type ! [ P | R | N | Hardware arrangement(X.X.X)] not allowed with (M)em.Locations ! PV Name "%s". Error with Offset statement ! PV Name "%s"; Invalid channel number; [0-255] ! PV Name "%s"; No hardware arangement allowed - only INTERNAL ! PV Name "%s"; INTERNAL not defined in an IN/OUT Block ! PV Name "%s"; IN Var im OUT Block or OUT Var in IN Block ! PV Name "%s,... "; Long name not allowed in a PV list ! PV Name "%s"; Error in databank entry (%d) ! PV Name "%s"; Pre-Offset Error (%d) ! PV Name "%s"; Only pre-offset with (I)ntelligent Controller ! PV Name "%s"; Error entering the hardware arrangement (%d) ! PV Name "%s"; Unallowed array length "%d" entered ! Illegal Processor number "%d"; Valid [0-7](MP/PP) [0-63](IP) ! REBUILD O.K. Memory Required on the  PCC INTERNAL   TC #1     TC #2     TC #3     TC #4    pcc globalDigitalAnalogMemory local  : Analog :       Byte
+                Digital:       BitBack plane :
+Slot       :
+Cycle time :        Ês2005 I/O,2010 I/O,Remote I/OIP parameterMaster no. :
+Slave no.  :
+Slave type :B&R 2005,B&R 2010BurnPrint       ***     Project Burn Complete       ******     Project Burn Interrupted    ****** Project file created. Printout will be started. ****** Project Printout Interrupted  ****** Project Printout Starting (Please Wait) ******     Project Burn Starting       ***available    free DOS :
+ UMB :
+ XMS :
+ EMS :
+ Disk:Please start list firstParameter File not foundParameter: Line %d ignoredParameter: Status %d in line %dParameter: Local variable in line %d ignoredSet Process ParametersParameter setting completeMake,Compiler,Parser Save Settings ? Settings   Copyright B&R Time factor(ms):  Refresh Rate Ser@vice   Processing File %sDelete StructureOnly allowed for project files ! Init RIO Not enough space on the target drive !Interrupt Project Processing ?Replace ? (Y)es (N)o (A)ll (E)ndLine %dDirectionFile %s cannot be opened. Print: Error in file %s, line %dPrint: Mask saved in %sLine %d too longStatus %d in line %dWindow List Save LayoutMacro : key combination setMacro : Only <CTRL><...> combination allowedMacro : Definition interruptedMacro already exists ! Delete (Y)es (N)o ?Cycle (Ês) : PurgeInsert,Delete,Write,Force#16,Format~346Load#8,Save#9Start#10,Stop#11,Cycle#12,Step Size#13,Task...#142010 I/O#5,2005 I/O#9Rename,Load,SaveEditor,File,Project,Module LabelModule Type2010 I/O,REMOTE I/O~664,2005 I/O#22010 Slave#3,2005 Slave#4 Module Definition Station  : Base Pl. : Module No: Master No: Mod. Mode: Parameters,Export,Import,Rebuild,PV ListCross Reference#7,RIO Config#9,FBK List#4,Data Type List#5,Delete Lib#10Connection to PCC %s is not set-up !PL2000,STL,LAD,RemoveFile %s exists ! Overwrite ?Task %s restored from B&R ModuleRestored with Rebuild --> No Rebuild-Info created for this task!Task Rebuilt (De-compiled)**** TASK BUILDER   %s**** TASK BUILDER   Ok.TB Status : %d**** Init-SPinvalid RIO parameter; Master : 1-4; Slave : 1-32StopWarm startLine,ColumnEditor Set-upOverwrite current source ?Please save the Var.Decl. first !New         Save @Asinvalid module address; 2010: 1-99; 2005: 1-13; RIO:1-32 !Cycle time < 100 usec is invalid !V.Decl Sync. :MarkCu@t      DelObjectR U N       F9Changes in the SYSTEM LIBRARY are not allowed !Modules in a PROJECT LIBRARY are not allowed to be changed !Only USER FBKs/SPs can be bound in a library !Given Library type (%c) and type of the library (%c) conflictFBK/SP "%s" not contained in the library !New Library ( %s ) createdHash Table Re-initializationStructure element %s not declared !<WARNING>: Data Type of read only PV > %s < was changed
+check in the Offset Table !<WARNING>: Data Type > %s < includes structure element > %s < twice! No.   FBK/SP   Funct.Type Bit/Byte  Inputs   Type  Outputs   Type LocalAVTInlineSP<INTWARNING>: Offset missmatch of PV <%s>: NV => %0X DB => %0X !PV Values    :GlobalPermanentTC#No. PV Name Scope PCCIO Type Task Name TCLNo. Name Bit/Byte Element Type LenData bank version is old ! Update ? Hide	Delete	CancelProject Path is too long!Illegal character is project descriptionIllegal character is project nameIllegal character is PCC nameIMPORT completed: %d Object(s), %d Error(s)EXPORT completed: %d Object(s), %d Error(s)Project export started for (%s)
+Destination path: %sTask,Data module,Library,B&R module,Function block,Data type,ConstantExport %s %sNo source file %s%s exists !File is in old export format !  Please add with ext. Tool !<WARNING>: PV > %s < is Read Only ! Will not be changed !A REINIT must be performed on the databank !<WARNING>: Library FBK > %s < is not in the databank !Error freezing task > %s < ! Error (%d)Error "Unfreezing" task > %s < ! Error (%d)Data doesn't exist in export file !Import Data contains %s < %s >Import	CancelShould the source also be exported ?<WARNING>: Invalid declaration of PV > %s < ! Not imported !Change	LeaveImport not possible ! (XPE-Format isn't downwardly compatible)Can not delete file, disk write protected !PG Object > %s < deletedPL2000,LAD,STL,TextReplace     :File %s deleted.Error deleting the file %s.Delete files and databank entries of > %s < ?Delete file %s ?DeleteOKCancelLib Info Lib HelpLib InfoLibrary  :Version  :Lib.Type :Author   :Created  :SystemProjectSelect pathOnline help file for library "%s" not available!Import LibraryProject: Path   : Routing: Should all unused variables be deleted
+ from the database ?Synchronize with:
+directory:PCC Online,directoryWARNING : Cold starting the PCC will delete
+          all data and modules not stored
+          on the PCC. Cold start the PCC ?WARNING : Booting in diagnose mode will delete
+          all data and modules not stored on 
+          the PCC. Boot in diagnose mode ?Save	Test	Cancel PCC Basic Configuration ConfigurationPCC Name    :                        Project :PCC Memory  :  Analog  : $     Byte  (min : $     Byte)                Digital : $     Bit   (min : $     Bit )                FIX RAM :       kByte
+TC-Stack (TC_1 - TC_4) : $     ByteOS System Data/Stack   : $         Byte ------------------------------------------------------ Task Class  :
+
+Timing      : Duration:        ms (Ês for HS_TC)
+              Tolerance:       msTC Memory   :  Analog  : $     Byte  (min : $     Byte)                Digital : $     Bit   (min : $     Bit ) TC Stack (HS_1 - HS_4) : $     ByteRe@storeTC_1,TC_2,TC_3,TC_4,HS_1,HS_2,HS_3,HS_4,Size of the FIX RAM must be a multiple of 16 Kb!Size of the HS TC Stack must be a multiple of 64 ($40) bytes!TC memory area must be a multiple of 16 ($10) bytes !Cycle time must be a multiple of 10 ms !LogfileNo backup files exist ATTENTION : PCC will be reset (Reconfig-Mode) File %s already exists. Upload from the PCC anyway ?Yes	No	CancelDelete all backup files ?OK	Delete	CancelCreated :
+Size    : ByteObject type        : Data module
+
+Spool              :
+Rebuild info       :
+Target memory      :Error during Project Make ! Purge anyway ?Module %s hasn't been changed. Download not necessaryATTENTION : Task %s is inconsistent to project! Download anyway ?ATTENTION : Project will be re-compiled! Download singly anyway ?Mask files %sMASKEN\*.MSK not availableCreateExitThis will end your PG 2000 SessionSave assysconfDB-ReinitDB-PurgeDelete Library > %s < ?RenameOptimizeRemove LayerInternal   TC #1     TC #2     TC #3     TC #4    mp globalStamp Project : Version  :
+ Revision :
+ Extra    :Variable %s not chained.Name        :
+Version     :
+Date        :
+Length      :
+Start Adr.  :Module InfoNo	YesFormat       :
+   Path         :
+
+   Name         :PCC/CPU      :Library      :
+   Data module  :
+   Extension    :
+   Tasks        :-all-,-none-,-some-Type         :
+   Object       :Task,Constant,FBK,Data type,Data module,Extension,Library,EditorXPE,ASCII,B&RASCII project exportSource:Destination:Data typeUnchanged,Change,AskOptimizeGeneral:
+  Make            :
+  ASCII import    :
+I/O:
+  I/O table       :
+  I/O emulation   :
+  Bit handling    :
+Runtime:
+  Range check     :
+  Check adr(0)    :
+Install:
+  Transfer mode   :
+  Spooling        :
+  Rebuild info    :Mod. Type: MP100#45,IF100#46,XP152#17,IP151#35,IF152#34,IF260#42,IP350#53,IP152#54,IP161#52Create#35,Compile#36fubs.prfFBK list file : 
+FBK list : created on %s
+
+≥ No. ≥  FBK name  ≥      type      ≥
+√ƒƒƒƒƒ≈ƒƒƒƒƒƒƒƒƒƒƒƒ≈ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ¥Kontaktplan,PL2000,AnweisungslisteFBK list file "%s" created
+≥%3d  ≥ %-10.10s ≥ %-15.15s≥*** Bearbeiten aller FUBs der FUB Liste '%s' ****** FUB Listenbearbeitung beendet ****** FUB Listenbearbeitung abgebrochen ***Invalid file for exportInvalid file for importOK	Cancel	DirectoryAdd @libraryThe value for the module no. is only valid between %d and %dThe module no. %d could not be changed*** Rebuild offsets for PCC > %s < processor > %s < ***Reorganisation of the memory will cause all
+information stored in variables to be
+lost. Carry out optimization ?Directory    :
+
+   Name         :
+   Contents     :Options :
+   Existing     :%s "%s" existsRequestalready! Would you like to overwrite %s?Stamp when storing      :
+
+Info :
+      Version:
+      Date   :
+Local Memory   :
+      Analog :       Byte
+      Digital:       BitYes	No	All	None	CancelASCII export nor supported for ladder !No module "%s.br" available. Compile may solve this problem!OKAllNoneCancelThis file can only be imported into the text editor!This file can only be imported into the offset editor!Databank path already exists !Error: %u at creating module "%s"Error: Can't create directoryinvalid character in stringinvalid or incorrect data entryinvalid number type (2-36 avaialbe.)Binary entry bigger then 32 bits not possibelDial,Hang Up,Command,SaveModem connection closedDial (90 sec. time out), Cancel with <ESC>M@odem     The processor %s does not exist in the data bankShould the library
+
+be replaced by
+
+in your project ?Delete    DelNew %s exists! Read it in?Column and ƒŸ line split only if syntax check off !VD Sync. on is only possible with syntax check on!No valid PG2000 project found !RIO Master :RIO Configuration TC #%dBlock Size(Byte)  Block Count(max.)TC #1  :  TC #2  :  TC #3  :  TC #4  :  TC #1-4:  Digital I/O,Analog I/ORIO Configuration %sRIO Assignment changed. Please optimize !LAD#0,PL2000#1,STL#3Library    : IN (x2)OUTI/O Area   :ReadyprintingFBK %s already exists ! Overwrite ?Help  F10Wrong or too long project path !The main settings have been saved.Optimized,DefaultDefault,After download,After warm start,NeverTarget memory      :
+Range Check        :
+Check adr(0)       :
+I/O emulation      :
+local Memory       :Confirm,Automatic,No Import PV monitor File %s unchanged. Compilation skippedThe permanent memory area was 
+changed. Project optimization must 
+be carried out. Start optimization of the 
+project ?FBK %s exists already! Overwrite ?Task %s could not be restored (error %d)No rebuild info available !
+Execute binary rebuild ?RestoreModule %s could not be loaded.Following modules on the PCC and in your project are not the same:* module %s   PCC     : V%-5.5s %-20.20s %-6s Byte   project : V%-5.5s %-20.20s %-6s ByteFollowing modules are only avaiable on the PCC:Following modules are only avaiable in the project :Project compareProject compare done.
+There are no differences between PC and PCC.Project compare done.
+There are differences between PC and PCC.
+ Details are listed in the message window below.Read module info : %sCo@mpareExchange,UpdateDefault,Exchange,UpdateUSR-ROM,FIX-RAM,MEM-CRDAfter download,After warm start,NeverCan't execute project compare.
+Editor for module %s is activ.These Modules have been changes since the last compile:Error %d : recursive call of the FBK "%s" in the FBK "%s"invalid RIO configuration, max. 13.5 kByte or 16 kBit for Out+In+In'…ÕÀ—ª∫ ∫≥∫ÃÕŒÿπ∫ ∫≥∫«ƒ◊≈∂»Õ œ1/4Data In#1,Data Out#2 (filtered) Name   Scope   Data Type   Length   I/O-Type   Init Value   Long Name  Module adr.  Module type  Channel no.  Slot VDPVFilterIncorrect name entered !Data Type & Scope don't match !Invalid I/O Type for Alias PV !Invalid I/O Type for Structure PV !Max. Length for local PVs is 255!I/O Type not allowed !Only I/O type INTERNAL is valid for local PVs !Only I/O types INTERNAL and MP/PP are valid for pcc_global PVs !This I/O type is not allowed for tc_global PVs !INPUT,OUTPUT,STATIC2010,2005,2003 Master  Slave  Slave type  Module adr.  Module type  Channel no.  Slot  Back plane  Module adr.  Module type  Channel no. Digit. In #1,Digit. Out#2,Analog In #3,Analog Out#4,Transp.In #5,Transp.Out#6,Status In #7,Status Out#8CONSTANTDigit. IO IP  Channel  Direction  Bit No.No data type entered !Data Type ListVar.Decl.: UndoType def.FBK_ALIASClose,SaveLoad#11,Save#12,Rename#13,Delete#14Insert#21,Delete#22,Move#23,Rename#24,Undo#25Invalid Length Entry !Invalid Module Address (1 - 99) !Invalid Module Address (1 - 13) !RIO Master between 1 and 8 !RIO Slave between 1 and 127 !A Base Plate Number must be entered !A module type must be entered !A slave type must be entered !tc_globalpcc_globalproc_globallocaldynamicallundef.IP-I/OINTERNAL2010 I/OREMOTE I/O2005 I/OMP/PPIPReferenceSearchName     :Scope    :Data Type:I/O Type :2003-I/OPV cannot be changed ==>  Read Only !Invalid module address (1 - 8) !Variable %s has a wrong data type !No IP entered !PV must be a PV on an IP !Only analog data types allowed !Only digital data type allowed !CAN Bus No. between 1 and 8 !Defective IP Interconnection !CAN Slave between 1 and 32 !Defective I/O entry !Incorrect Initialization Value !Init Value   :File Name :Separt. Line :Index:Yes,NoCAN-I/ORecord No.: %dMain,Exp. 1,Exp. 2,Exp. 3,Exp. 4In#1,Out#2Direction must be entered !Long text    :I/O Abbr.    :Undeclared PVs exist ! Declare Now ?Set,RemoveHardware ArrrangementInvalid channel number !PV does not exist on the CPU !CPU PVs must not be changed !Invalid slot number ! Bus no.  Node no.  Module adr.  Module typ  Channel no.  Slot Remanent,0Component   Data Type   LengthType Decl:Structure cannot be used twice !Component %s moved !New lines cannot be moved !StructureComponentStructure name already exists !Delete entire structure ?Component %s has incorrect data type !Save old structure ?****free****Load#11,Rename#12,Delete#13Insert#21,Delete#22,Move#23,Rename#24Error exporting %s !  Status: %dFile name:Undeclared Component !ExportExportComp +Comp -No Data types available !DocumentationPrinter,Object,ProjectPrinter   :          Form feed:Header    :Footer    :Print  ProjectFrontpage      :ObjectOutput device      :Variables    :Parameter    :Description  :          Rows     :Page      Lines    :Margins   Top      :          Bottom   :          Left     :          Right    :Distance  Header   :          Footer   :GDM                :Globale variables  :Cross Reference    :Table of contens   :Data types         :------------------------------------------Data types   :Configuration      :TTY,ISO,IBM,HPLJ,EPSONNo,YesNone,Before,AfterObjectsOK	CancelKeep	Delete	WaitPRINT has not finished printing all the files !Output file for printBanner    :Device does not existSAP does not existInstruction Overflow at connectionPacket is unknownCE_WRONG_KFG_VERSIONNo memory for ALIConnection number does not existConnection is inactiveConnection is already activeNo connection terminationConnection does not existCE_WARNG_HIDDEN_ABORTCE_RED_MCB_FAILCE_RED_WRONG_PTRCE_FREE_MCB_FAILCE_FREE_WRONG_PTRFaulty communications InitCE_SIO_HWERRCE_SIO_NODRVCE_SIO_BUSYCE_INIT_INV_TIMERTICKCE_INIT_NO_ONE_IRQ_TIMERToo much data for a TelegramCE_FRAME_OVERRUNCE_L7_CODING_INVCE_UNSUFF_LIST_SIZECE_WRONG_SAPLI_TYPECE_NUMBER_TOO_BIGData packet to large to transmitService is not supportedOV Version not compatibleCE_DEV_SAPLI_NOT_AVAILABLEApp. loader is still busyInvalid file name for App.loaderApplication loader does not workCE_ALI_BADFNCE_CLIENT_NOT_LOADEDCE_ALI_SYSTEM_WRONG_COMMANDCE_SAPLI_CNT_INVCE_OFFSET_INVCE_FILEPOS_INVCE_FILESIZE_INVCE_FILEOPEN_INVCE_SAPLI_TYP_INVCE_ASIC1_TIMEOUTCE_DL_WRONG_INIT_STATUSCE_DL_FILE_OPEN_ERRCE_SAPLI_TYP_NOT_SUPPORTED
+Config file %s not found
+Config file %s invalid ! Error %u ** ALI-ERROR ** CSC_$%02X %.2s_SAP %sALI: Error %u
+*** EH_fatal, status : %d ***
+*** EH_warning, status : %d error_info: $%08lx ***
+*** EH_communication_error, &RQB = %Fp, sapli_nr : %d ***VFD_STATEAPPL_REFAPPL_REF APPL_UNREACHDEFINITIONDEFINITION OBJ_UNDEFDEFINITION OBJ_INCONSISTDEFINITION NAME_EXISTSRESOURCERESOURCE MEM_UNAVAILRESOURCE SERV_OVERFLOWSERVICESERVICE STATE_CONFLICTSERVICE PDU_SIZESERVICE CONSTR_CONFLICTSERVICE PARAM_INCONSISTSERVICE ILLEGAL_PARAMACCESSACCESS OBJ_INVALIDACCESS HW_FAULTACCESS ACCESS_DENIEDACCESS INVALID_ADRESSACCESS ATTR_INCONSISTACCESS OBJ_UNSUPPORTACCESS NON_EXISTACCESS TYPE_CONFLICTACCESS NAME_UNSUPPORTOVOV NAME_OVERFLOWOV OVERFLOWOV WRITE_PROTECTOV EXT_OVERFLOWOV DESCR_OVERFLOWOV OPERAT_PROBLEMOTHER
+** Connection interrupted by %s reason:%hu **local Userlocal FMSlocal LLIConnection Monitoringremote Userremote FMSremote L2
+** ALI - REJECT because Invoke ID %hu **Invoke ID %hu already exist **Max. Services Overflow **Feature not supported (connection oriented) **Feature not supported (not connection oriented) **PDU Size **User Error **KI: Operation CompleteKI: No answer from ALI within waiting timeALI: Error MIC%04x(%u)ALI: C=$%04xModule '%s' does not exist on the PCCKI: Object directory is unreadableKI: Not enough memoryKI: Connection missing !KI: Timer not foundKI: Command ID=%d interrupted!Operation interruped by user with <ESC> !ALI: Request Message! MI = $%04XALI: Debug Message ALI: Unconfirmed Message! MI = $%04XKI: Response without command! MI = $%04XALI: UNKNOWN Message MI = $%04XALI: Window is fullKI: RQB missingPCC Error code %u.Not enough memory on the PCCObject invalidSM: Error calling RTC-HW TrapSM: The offset is incorrectSM: Length and Offset incompatibleSM: Incorrect data type for instructionIncorrect PasswordSM: ERR_PGSM_WRONG_SPBOOT Module not foundMemory type (FIX RAM, permanent memory, Memcard) not configured!SM: ERR_PGSM_WRONG_EXENot enough free memory (%u)EPROM/FLASH not erasedSM: ERR_PGSM_SYSROMMODULEPROM/FLASH cannot be burned (write protected ?)TRAP number invalidObject is in the wrong stateModule '%s' cannot be deinstalled (write protected ?) (%u)Incorrect bits setTimeout in Init RIOWrong module address in Init RIOEPROM/FLASH not erased (V)Verify after burn - not OK (%u)Incorrect USR Number (%u)No function ptr set in bvwtab PCC not in Diagnose Mode (%u)Ok.PCC programming '%s' done.Module '%s' deleted.Remote-IO Initialization completeMemory erased, do a cold start IMMEDIATELY !PCC Time: %stask '%s' was stoppedtask '%s' was not started!task '%s' was startedtask '%s' was not stopped !task '%s' is not updated !task '%s' is not available !task '%s' was reinstalledTask '%s' was installed already !task class was startedtask class was stoppedtask class was not stopped !task class was not started !OVDM:%u,state=%sStefan.keyOV: Ver=%u Len=%u DM:$%04X-$%04X PI:$%04X-$%04X VL:$%04X-$%04XModule listTask listTask classesConnectionREADY;ERROR;INTERRUPTEDShould the object
+%11s %-7s %s
+be replaced by 
+%11s %-7s %s?%s - !Service!%s - !Diag! <OFF-LINE> not possible (status conflict or wrong key switch positon)Invalid connection! Contiune?Reset PCC;Warm start,Cold start,Reset,DiagnoseCold start,Diagnose,Erase FIXRAM,Erase FLASH,Erase MEM-Card,Erase perm. memory,Update PCCSWOkConfigCancelWarm start,Cold start,Reset,Reconfig,NMI-Copy,Diagnose,ErrorTransferring PCC data. Cancel with ESCSelect Object and ActionSelect a file to DownloadStartStopCancelPCC Task Action Ok.List generated, index = $%04XList deletedTask created, index = $%04XInitializing communication to PCC. Abort with ESCIndex	VariableVar.List	DomainProg.Inv	EventStart	CancelDownloadReplaceStartStopRestartRemoveCancelDownloadBurnFixUploadInstallRemoveInfoCancelDownload %s activ. %02u percent. Abort with ESCDownload '%s' %sUpload %s activ. %02u percent. Abort with ESCUpload '%s' %s%s !! Emergency Stop !!PCC Programming is not completeInit On Off   Cold Start,DiagnoseError durring Remote I/O initializationOK	Passwd	CancelObject directoryPCC-Info2010;2005;2003;;;;;;BTCPU;C200;;;;MP2010;2010;;;No; Yes 10 ms;1 sec;**EPROM;FLASHSystem     :HW Version :MHzSystem RAM :PCCIO RAM  :KBRTC        :Resolution :APM        :NV Memory  :PCCSW Version :Boot Type     :PCC Free MemorySystem    :NV Memory :Appl. RAM :Temporary :Byte********Fixed     :Rechargable:Battery    :Empty,FullRAM,FLASHRAM,ROM,FIXSet PCC ClockWould you like to %s the PCC?205:CP15x;c,@cfme960.br,2005,16.67,210:CP10x;c,@cfme910.br,2010,16.67,2MP:MP100;m,@cfme910.br,2010,16.67,2PP:PP100;p,@cfme910.br,2010,16.67,2BT:C300;b,@cfc300.br,PANEL,16.67,E#A:C200;b,@cfc200.br,PANEL,16.67,152:XP152;c,@cfxp152.br,2005,16.00,040:CP200;c,@cfcp200.br,2010,33.33,220:C220;c,@cfc220.br,PANEL,16.67,IF1:IF10x;m,@cfif100.br,2010,16.67,151:IP151;c,@cfip151.br,2005,16.00,IF5:IF152;p,@cfif152.br,2005,16.00,472:CP472;c,@cfcp472.br,2003,16.00,470:CP470;c,@cfcp470.br,2003,16.00,474:CP474;c,@cfcp474.br,2003,16.00,260:CP260;c,@cfcp260.br,2005,38.40,IF6:IF260;c,@cfif260.br,2005,25.16,772:CP772;c,@cfcp772.br,2003,16.00,770:CP770;c,@cfcp770.br,2003,16.00,774:CP774;c,@cfcp774.br,2003,16.00,041:CP210;c,@cfcp210.br,2010,33.33,251:LS251;c,@cfls251.br,LS,38.40,A70:AC701;c,@cfac701.br,2003,16.00,350:IP350;c,@cfip350.br,2005,16.00,IP5:IP152;c,@cfip152.br,2005,16.00,161:IP161;c,@cfip161.br,2005,25.16,BAU:QBAUE;c,@cfqbaue.br,2003,16.00,430:CP430;c,@cfcp430.br,2003,16.00,476:CP476;c,@cfcp476.br,2003,25.16,HI3:PP00;c,@cfpp00.br,3000,25.16,Burning PCC info! System Download 9600,19200,38400,57600,115200COM1,COM2Push now the reset button on the PCC!
+Baudrate: Port:Type: Ver.: Rev.: Erase user FLASH !Erase system FLASH !Transfer system !OS transfer completed !OS transfer aborted !There is no PCC SW installed
+ on your target device.Connection is being established - please wait !Should the selected PCC SW
+ be installed ?ME???#4921,XP152#4922,C200#4923,IF260#4926,IF???#4924,CP200#4921,CP?7?#4922,IP151#4924,CP210#4921,CP260#4925,IP350#4925,LS251#4924,IP152#4924,IP161#4924,CP430#4922,PP00#4922 Default text for  unknown target type!  Switch off your PCC and make
+ sure that the switch on the
+ APM is set to OK.  Switch off your PCC and make
+ sure that a valid CAN node number
+ (not zero) is given. Set the mode switch to a
+ position other than 6.
+ Then trigger RESET. Switch off your PCC and make
+ sure that a valid CAN node number
+ (not zero) is given. Set the mode switch to a
+ position other then 0.
+ Then trigger RESET. Set the mode switsch to
+ position 1!
+ Then trigger RESET.downloadHardware:Software:No PCC SW was installed The installation was completed
+ successfully.Would you like to abort downloading ?Update PCCSWNode switch    ($01-$20):$Node number offset  :$Modem async. :Modem init   :clear USER  clear SYSTEMload  SYSTEMready       aborted     burning INFOCAN baudrate :CAN basis ID :Incorrect node number !Incorrect node number offset !Invalid CAN baudrate !Invalid CAN basis ID !Incorrect modem async string !Incorrect modem init string !**Error: could not open Add on module '%s'!**Error: Add on module '%s' has incorrect format!**Error: Low Memory!Add on Module '%s' inserted.Add on Module '%s' exchanged.Description  :Task DescriptionData bank path does not exists. Access is not possible !Object has no name ![8(!-'|+--|/->|@-~)]Invalid character in name !Incorrect layer : no insertion possible !Deleting block not possible : Object has child object(s) !Cyclic Task ,Interrupt Task#5,Exception Task#6,Text File#4,Data Module#2,B&R Module#7,System Module#9,Configuration#8       Task Status :
+Memory Type :Invalid character or '#' in the descriptionTask Class  :
+Module Number :Task Class  :
+Exception No:Line %d Column %d : Open data branch
+≥%3d  ≥ %-10.10s ≥ %-8.8s ≥ %-8.8s ≥  %-4s ≥   -  ≥  %-4s  ≥
+≥%3d  ≥ %-10.10s ≥ %-8.8s ≥ %-8.8s ≥  %-4s ≥  %2d  ≥  %-4s  ≥PCCPROCESSORGROUPTASKLayer : %s  Line %d Column %dtask.prjTC1,TC2,TC3,TC4,   ,   ,   ,   ,   ,   ,   ,   ,   ,   ,   ,   ,HS1,HS2,HS3,HS4,IRQ,EXCTC1,TC2,TC3,TC4,HS1,HS2,HS3,HS4,IRQ,EXCLadder Diagram,PL2000,Statement ListLadder Diagram,PL2000,   ,Statement ListCursor : move; Cursor : resize; <ENTER> : endMoving the main CPU is not allowed !MP,IP,AllSolo,Async.Invalid operation mode !Bus Number     :
+Cycle time(ms) :Processor data entry Main CPU available. Block cannot be inserted.Main CPU undefined !Loop in data branchesNo object at end of data branchIPs and MP/PPs are not allowed on the same data branchNo variables defined for interconnection Data type or length of PVs do not matchPV Name  :
+Data type:
+Length   :  ** Main CPU Side **   ** Processor Side ** Parameters for Processor %s are undefinedObject listPlease close the variable declaration first !WARNING : Data bank path for PCC Object "%s" doesn't exist !WARNING : PCC Object for data bank path "%s" is not entered in the GDM !Data bank path to PCC "%s" createdData bank path was renamed from "%s" to "%s"Data bank path to current PCC cannot be deleted !Delete data bank path to PCC > %s < ?Data bank path to PCC "%s" deleted !Data bank path to PCC "%s" already existsDelete all data bank entries to Processor > %s < ?Project file :GDM window is savedSRC,DAT,TXT,LIB,B&R,n.d. Files No room to delete the line or column !No entry for Processor > %s < in the data bank ! Enter it ?Layer insertedLayer removedPlease close the Offset Table or Var.Decl. !Delete Object > %s < ?WARNING : Object for Module "%s" is not entered in the GDM !Current layer saved as the entry layer to the GDMWARNING : Object parameter for Module "%s" undefined.Draw,Erase,Draw/Erase Off,Process VariablesCreate#2,Compile#25,Download#29,RUN#26,Store#27,Print#28Object list invalid : Module %s (PCC %s, Processor %s) isn't in the GDMAll unused PV and Task Entries will be deleted. Optimize object anyway ?*** Project Processing PCC > %s < Processor > %s < ***SynchronizeDelete Module from the PCC     :
+Delete object from the GDM     :
+Delete src and br modules      :Change connection to PCC > %s < Processor > %s < !GDM Layer from PCC > %s < Processor > %s < not availableGDM Synchronization completeunknown,NC driver,NC data moduleUSR-ROM,FIX-RAM,MEM-CRD,SYS-ROMGDMPL2000,LAD,STLThe GDM is being processed<CURSOR> : Move; <ENTER> : PlaceDifferences between modules in PG and on the PCC. Save a list ?Project Processing completeObject type        : 
+
+Installation       :
+Start              :
+Spool              :
+Rebuild info       :
+Target memory      :Module Info   : Version:   .  .
+                Date   :
+                Length :       Byte Reconstruct the data base   :
+ Reconstruct the source      :
+ Reconstruct the data points :Synchronize projectLine+Line-Invalid file selected !ATTENTION : Due to the reorganization
+   of the data base you have to compile
+   the project after synchronize!To assign the version info you have to compile your project first!Module             already exists
+in the project. Should the module
+
+     Size   :       Byte
+     Date   :
+     Version:
+
+be replaced by
+
+     Size   :       Byte
+     Date   :
+     Version:
+
+Module %s already exists in the GDM !From version V2.30 the ladder monitor is available via menu point Object-Monitor!On,Off,Defaultlibvers.lstVersion list:Library version list : created %s
+
+	  |Module name |Type |Project |PG2000  |Project |PG2000  |
+	  |            |     |  *.br  |  *.br  |  *.slb |  *.slb |
+	  |------------+-----+--------+--------+--------+--------|
+	  | %-10.10s | %-3.3s | %-6.6s | %-6.6s | %-6.6s | %-6.6s |%c
+memmap.lstMemory list   :Memory usage listing: created %s
+
+Invalid file name or file already exists
+	  *...Version conflictLibrary version list stored at '%s'	  |Memory class       |configured   |used         |
+	  |-------------------+-------------+-------------|Memory usage list stored at '%s'
+	  |Name         |TC#  |used         |
+	  |-------------+-----+-------------|,Library List#21,Memory List#22Default,Memory Pool,USR-RAMEditor window for %s is open !  Please close it first !**** PL2000 Parser %s**** PL2000 Parser OkNot enough MemoryUnexpected data structure entryNo rebuild information in the taskPV definition missing from RB-InfoNo text buffer availableNo FBK info in the RB blockPV offset larger than 32767 bytes: Incorrect or incompatible Rebuild-InformationUnexpected type entryMaximum code length exceededLabel index entered twiceUndefined label indexLabel offset outside the short-areaPV size is more than 32767 bytes: Task too complex (too many branches or variables)Wrong FBK entry; please recompileInline function called as (ALIAS-)FBKAddress register lockedUnexpected registerPV name contains invalid charactersSeveral PVs assigned to analog (transp.) outputOverlapping PV hardware definitionOffset list full - over 50 different I/O typesRebuild info incomplete because it is too bigDefective S-AWL-Bit-CodeDefective S-AWL-CodeIllegal S-AWL address typeIllegal S-AWL address type - two <EA>Illegal I/O type for HS-taskIllegal S-AWL operand typeIllegal S-AWL instruction during NOTBIT-EmulationRegister allocation restriction - please simplify expressionWrong offset for TB_putByteCan not undo address register modificationAnalog-I/O - reconfigure or initialize data bankDigital-I/O - reconfigure or initialize data bankUnimplemented I/O typeIllegal I/O type for this task classFile PGTXT.HFC not available => no RB informationDefective descriptor file or missing variable entryInsufficient memory in RIO DPRRIO offset and block don't tallyRIO block overflow, eventual reinitialization and regenerationWrong RIO block numberIncorrect offset entry, please optimize projectPV can only be used in Exchange Mode after compilingI/O Variables can be a maximum 127 BytesNo offset given for PV in the area editorIdentical rebuild impossible (RIO conflict)! Proceed ?Update not possible in Flash Mode, since the existing module is in RAMUpdate not possible FIXRAM Mode not possible, since the existing Module is in RAMUpdate not possible, since the IO Sections are differentUpdate not possible, since the ID Sections are differentUpdate not possible, since the DT Sections are differentUpdate not possible, since the number of IO's has been changedUpdate not possible, since the task class has been changedUpdate not possible, since the order number has been changedUpdate not possible, since the number of PP's has been changedUpdate not possible, since the system bus entry has been changedUpdate not possible, since the number of AVT's has been changedUpdate not possible, since the AVT entry has been changedUpdate not possible, since the local variable with the given name has been changedUpdate not possible, since the global variable with the given name has been changedUpdate not possible, since the update module is not availableUpdate not possible, since changes have been made concering the PPUpdate not possible, since a local variable was not foundUpdate not possible, since the data type number is differentUpdate not possible, since the data type code is differentUpdate not possible, since the array length is differentUpdate not possible, since the data type name has been changedUpdate not possible, since the length of the data structure in Byte is differentUpdate not possible, since the length of the digital data for the FBK Alias is differentUpdate not possible, since the length of the analog data for the FBK Alias is differentUpdate not possible, since the name of a structure element has been changedUpdate not possible, since the offset of the element in the structure is differentUpdate not possible, since the number of elements is differentUpdate not possible, since the length of the task local data area BYTE is largerUpdate not possible, since the length of the task local data area BIT is largerUpdate not possible, since there was no BR-Module generated with exchange modeUpdate not possible, since there is not enought MemoryUpdate not possible, since the setting for local data has been changedI/O table optimization on, please only use Project Download !Yes	NoI/O module for task class OBJ block does not existOperation ModeProgram part will not be carried outI/O module __iotk<Task class> will not be automatically burnt!FBK definition missingStructures are parameter typesData module structure : %s**** DATA MODULE    %s**** DATA MODULE    Ok.FBK parameter no longer usedFile name contains illegal charactersFBK not available in the databankPV defined twice on I/O module: Module not in the databankInit SP not availableNo processor concatenation information for PVNo valid SYSCONF entry for CAN bus numberCAN-I/O used, without a SYSCONF modulePV exceeds 8 bit arrea for digital CAN-I/OFile access path too longFile could not be renamedWarning Error Error Internal error %s(no precise information available)Problem with memory space or file accessFundamental problem, possible databank access errorColumn Error* Module generated: * Update module generated: Taskbuilder running: -InitSPTaskbuilder running: * Function block generated: Taskbuilder running: %s (%d KB)Taskbuilder running: %s (%d PVs)Data base problem; import correct library may solve problem.Offsets have been changed, please optimize the projectIncorrect index in the name list, please compile with ParserData type section bigger than 64KBData type greater than 32KB: Data type contains array-component with more than 4095 elements: 16 bit limit exceededUnexpected datatypeUnexpected token typeError while reading a tokenUnexpected line typeLOOP Variables are not allowed to be dynamicUnexpected operatorLStack not emptyWrong condition codeSimple PV used as arrayACTION value was already usedFirst parameter (accumulator) is not an input parameterDatabank could not be closed correctlyIncorrect parameter numberIncorrect parameter typeInvalid assignment or incorrect parameter typeExpression too complex; please simplifyNo more register freeInsufficient memoryExpression too complex; please simplifyExpression or logic stack depth under 0Left operand of the ACCESS operator is not a dynamic variableIncorrect FBk modusError status while generating code for inline FBKCASE expression is a constant valueFunction call too deeply nestedAssignment to a constantIncorrect S-STL addressing typeIncorrect function useAlias call of a functionPV requires 32767 BytesCode generation for inline FBKInvalid S-STL operand typeIncorrect data typeNon-matching data typeOperations on this data type not allowedArray index is not an integer valueAlias FBK call not possibleCan not access libraryArray index has a data type larger than WORDConstant array index outside the array areaArray offset calculation: Index not in registerSELECT variable is not of type WORDMOD function cannot be used on FLOAT valuesUnknown unary operator used on FLOAT valueCompare unsigned value with signed valueArray addressed without index; Index 0 usedIncorrect object code; please recompileEXITIF without LOOP blockToo many labelsCode generator running: %s* Code generator: %ld error-InitSPPL2000 block parser running: %s* PL2000-Block-Parser: %ld errortoo little memoryAccumulator contents not defined by load-operationOpen block at end of text (bracket missing)Operator is not an extendable functionFundamental parser problemIncorrect STL syntaxIncorrect IL syntaxToo many open bracket levelsBSTCK underflowIncorrect character in STL source textIncorrect character in IL source textSTL line parser running: %sIL line parser running: %s* STL line parser: %ld error* IL line parser: %ld errorFundamental parser problemPL2000 syntax errorWrong characters in PL2000 source textSecond action value smaller or the same as the firstAction value is not a constant between 0 and 65535Insufficient memoryInsufficient memoryLine too long; please divide upNegation of a float constantIllegal string operationOperator of inappropriate data type usedIncorrect constant data typeExpression too complicated; please simplify1. Action value is not a constant between 0 and 655352. Action value is not a constant between 0 and 65535Too many symbols; please divide up the lineInsufficient memoryFundamental scanner problemNegative constant smaller than -(2^31)Division by zero* PL2000 line parser: %ld error-InitSPPL2000 line parser running: %sToo many STATE instructionsACTION value already usedNo matching IF instruction in current blockNo matching IF instruction in current blockEXITIF from SELECT blockNo matching ACTION instruction in current blockNo matching CASE instruction in current blockNo matching CASE instruction in current blockToo many ACTION instructionsUnexpected control_stack entryToo little memoryReferenced label not definedToo many nesting levelsSTATE label already defined; see line: SELECT block without STATE instructionInstruction in ACTION block not allowedNo matching CASE instruction in current blockAlready an ELSEACTION entry in current blockDifference between ACTION constants larger than 511No matching SELECT instruction in current blockToo many labelsNo matching SELECT instruction in current blockNo matching WHEN instruction in current blockJump target is not a STATE label within this blockNo matching SELECT instruction in current blockSTATE label cannot reached using GOTOLabel already defined; see line: Label already defined; see line: No matching LOOP instruction in current blockNo matching LOOP instruction in current blockLabel not referencedLOOP without matching ENDLOOPIF or ELSE block without matching ENDIFSELECT without corresponding ENDSELECTSTATE label in the SELECT block already defined; see line: WHEN without corresponding NEXTACTION without corresponding ENDACTIONCASE without corresponding ENDCASEName   Scope   Value  F Force Format Write Task  PV monitorDecimalHexBinaryCharTC Info    :*******************************ValueReferencePV name   : OKCancelTask...DebuggerScope     :Data Type :Length    :I/O-Type  :Task      :      StringStopRunIdleStep???IRQEXCHSTCLadder monitor, PV monitor  Difference PCC object <-> PG !Execute monitor (with Upload) ? Difference Task <-> Source File     Execute monitor ?PV monitor Difference PCC Object <-> PG !
+ Monitoring not posible. File was changed since last CompileRUN!
+  Monitoring not posible.ƒƒƒƒƒƒƒƒƒƒƒ,ƒƒƒƒƒƒƒƒƒƒø,ƒƒƒƒƒƒƒƒƒƒŸ,          ≥,          ¿,          ⁄,ƒƒƒƒƒƒƒƒƒƒ¥,          √,ƒƒƒƒƒƒƒƒƒƒ¬,ƒƒƒƒƒƒƒƒƒƒ¡,ƒƒƒƒƒƒƒƒƒƒ≈,ƒƒƒƒ¥ √ƒƒƒƒ,ƒƒƒƒ¥ √ƒƒƒø,ƒƒƒƒ¥ √ƒƒƒŸ,ƒƒƒƒ¥ √ƒƒƒ¥,ƒƒƒƒ¥ √ƒƒƒ¬,ƒƒƒƒ¥ √ƒƒƒ¡,ƒƒƒƒ¥ √ƒƒƒ≈,ƒƒƒƒƒƒƒ( ) , ∫ «ƒƒƒƒƒƒƒ, ∫ «ƒƒƒƒƒƒø, ∫ «ƒƒƒƒƒƒŸ,ÕÕÕÕµ ∆ÕÕÕÕ,ÕÕÕÕµ √ƒƒƒƒ,ƒƒƒƒ¥ ∆ÕÕÕÕ,ƒƒƒƒƒ(( )) ,ÕÕÕÕÕÕÕÕÕÕÕ,           ,⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø,≥                    ≥,√ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ¥,¥                    √,¥                    ≥,≥                    √,¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ,                      ,ƒƒƒƒƒƒƒƒƒƒ ,          ƒ,ÕÕÕÕÕÕÕ( )  …ÕÕÕÕÕÕÕÕÕÕÕª , ∫           ∫ , »ÕÕÕÕÕÕÕÕÕÕÕº , …ÕÕÕÕÕÕÕCPUÕª , …ÕÕÕÕÕÕÕÕPPÕª , …ÕÕÕÕÕÕÕÕMPÕª , ÷ƒƒƒƒƒƒƒƒƒƒƒ∑ , ”ƒƒƒƒƒƒƒƒƒƒƒΩ , ≥           ≥ , ¿ƒƒƒƒƒƒƒƒƒƒƒŸ ,               , ⁄ƒƒƒƒƒƒTC#1ƒø , ⁄ƒƒƒƒƒƒTC#2ƒø , ⁄ƒƒƒƒƒƒTC#3ƒø , ⁄ƒƒƒƒƒƒTC#4ƒø , ⁄ƒƒƒƒƒƒHS#1ƒø , ⁄ƒƒƒƒƒƒHS#2ƒø , ⁄ƒƒƒƒƒƒHS#3ƒø , ⁄ƒƒƒƒƒƒHS#4ƒø , …ÕÕÕÕÕÕÕÕIPÕª , ⁄ƒƒƒƒƒƒƒDATƒø , ⁄ƒƒƒƒƒƒƒLIBƒø , ⁄ƒƒƒƒƒƒƒTXTƒø , ⁄ƒƒƒƒƒƒƒIRQƒø , ⁄ƒƒƒƒƒƒƒEXCƒø , ⁄ƒƒƒƒƒƒƒB&Rƒø …ÕÕÕÕÕª,∫     ∫,»ÕÕÕÕÕº,’ÕÕÕÕÕ∏,‘ÕÕÕÕÕæ,⁄ƒƒƒƒƒø,¿ƒƒƒƒƒŸ,≥     ≥,   ≥   ,≈,       ,⁄ƒƒ¡ƒƒø,¿ƒƒ¬ƒƒŸ,’ÕÕœÕÕ∏,‘ÕÕ—ÕÕæ,»ÕÕ—ÕÕº,…ÕÕœÕÕª,‹‹‹‹‹‹‹,€     €,ﬂﬂﬂﬂﬂﬂﬂ, 0 ≈   , 1 ÿ   , Graphic Info is being restored. Please wait !Error in line %d column %d : Symbol without Name !Error %d occurred. Reading of the PV list stopped.Force On,Force OffSymbol: All,FBKFunction blocksFBK NameAll parameters are not connected to the inline FBK on line %d column %d.Alias name:P.Frame On#15,P.Frame Off#16Delete#11,Right ≥#12,≥ Left#13Different types between line %d column %d and line %d column %dDecimal,Hex,BinaryMaximum line number reached**** LAD Parser    Ok ≥LeftRight ≥ Start/StopReplace > %s < changed ! Save and RUN ?  Source file > %s < changed ! Complie and download ?  Task > %s < is not on the PCC ! Download ? Direction    :
+Start Pos.   :Down,UpSearch mask not found !%d search mask replacedError %d parsing the Init-SPCursor,Start,EndError %d using a constant on line %d column %dError %d in line %d column %d : No analog input for string constantError %d by using variable '%s': Dynamic vaiables are not allowedLine %d Row %d : Line without end pointFBK in line %d row %d without any connected input.FBK in line %d row %d without any connected output.FBK in line %d row %d without any connected input or output.Contact in line %d row %d has no nameFBK %s in line %u row %u has been changed. Please replace! /+-&SRA1 ƒƒ¥ √ƒƒ,2 ƒƒ¥/√ƒƒ,3   ∫ «ƒƒ,4 ƒƒ( ),5 ƒƒ(/),6 ƒ(( )),7 ƒƒ¥+√ƒƒ,8 ƒƒ¥-√ƒƒ,9 ƒƒ¥&√ƒƒ,0 ƒƒ(S),q ƒƒ(R),w ƒƒ(+),t ƒƒ(-),u ƒƒ(&),o   ∫A«ƒƒline %u row %u : Phantom deletedline %u row %u : Phantom link deletedline %u row %u : Element deletedline %u row %u : FBK updatedline %u row %u : FBK to longline %u row %u : FBK to shortline %u row %u : FBK incorrect input position %uline %u row %u : FBK incorrect output position %uline %u row %u : FBK corruptline %u row %u : Internal text errorImportBlock Mode      :
+Line Split      :
+Cursor Movement :
+Lable Field     :
+Tabulator       :
+Import Path     :Yes,NoOn ,OffInvalid Entry !ASCII~8208,Var.Decl.#4,Parameters#11,Compile#5,R U N#8,G D M#12Clipboard is emptyNo marked area or not enough memory!Import#13,Export#14Source text was saved to "%s"This action is not allowed for an Init-SP !ASCII-Export,Task-ExportOpen Init-SP,Delete Init-SPInit-SP %s deletedDelete Init-SP %s ?Line,Column,CharInsert,OverwriteText Area,WindowSave	CancelSkip,Do not skipOut of memoryLine is too longToo many linesMonitor error %u at %uMonitor error %u line %u row %uB&R Source Level DebuggerL:%3d C:%2d %sDebugger is opening debug file "%s"Debugger interrupted: Task can't be loaded!Download Debug task %s DM-index = $%04X, PI-index = $%04XDebugger interrupted; MI-code = $%04X, stat = %d, msg = %dDebugger interrupted; Task not available !OV_Entry for debug task unreadable !Debug task "%s" is being installed.Debugger error: Task is not installable!Debugger requires online connection to PCCDebug task is installed.Debug task is being initialized.Initialization failed.Error at Init-Start !Debug Task Initialization is running.Error at Init-Done !Debug task is initialized.Error during deinstallation !Debug task deinstalled%s Data from TC#%d is being copied.IO Copy Ok.Start debug line.Starting Debug task.Debug task running.Reading debug register.Debug register has been read.Stoping debug task.Debug task has been stopped.Debug task exception $%02X.Debug task cycle %u.Debug task break %u.Copy Input %s, Copy Output %s.Wrong source typeSource file can't be openedNo debug info, recompile "%s" !Not enough block memory, close other windowsDebug Info ErrorSource block is unreadableDebug domain is not availableModule DEBUGGER.BR not foundNot enough main memory, close other windowsDebugger: Loader does not accept task!Debugger: %s.src file can't be opened!Trace debug task.Debug task traced %u.Debug task "%s" must be recompiled !Breakpoint set on line %uError with Set-Break !Breakpoint no. %u set.Breakpoint no. %u deleted in line %uError with Clear-Break !Breakpoint no. %u deleted.Delete all breakpoints.Error executing Clear All-Break !All breakpoints deleted.Missing continuation at c=%u s=%u !Debug message %u is not handled.Debug task does not exist on the PCC !Debug task is in an incorrect state !No corresponding base pointer !Debug task is not a PCC task !No input/output data exists for the debug task !No debug task or start address not in code area !Stop address is not in code area !Breakpoint table is full !Breakpoint already exists !Breakpoint is not in the code area !Undefined action number !No breakpoint exists !Max. number of debug tasks exceeded !Module type is not supported by debugger !Incorrect start address !Incorrect spec_id !No breakpoint set !No debug task class exists !Given task class doesn't exist !No shovel table exists !No memory is available to load the debug task !Module table has no free entries available !Incorrect register number !TC_install Error !ST_install Error !t_create Error !TC_deinstall Error !ST_deinstall Error !MO_deinstall Error !Unknown PCC debugger error %u !Debug-Message: invoke = %u , error = %uNumber    : AnalysisAnalysisRE_read_quit: Incorrect MI Code
+Error list end
+
+No more entries exist
+Error writing file %s !Error report for file %sEntry     : Module adr.: Module type: Slot: Channel: Int. Offset: Byte length: In/OutputCommand has no effect at current cursor positionI/O move completed with <RETURN> (Cancel with <ESC>)No Input/Output at this positionDeleting line at cursor position is not possibleLine cannot be placed at cursor positionAn input/output at cursor position is not possibleFBK opened in Read Only mode !No input/output to select !Variable name cannot be used twice !Warning: Variable %s does not exist in source !FBK not in the data bank !I/O~12022,Line~12023,Comment#5,Print#6Moving to cursor position is not possibleDirectory#2,Remove FBK#4Type       : B&R call   : No FBKs in the data bank !Comment    :LibrariesWarning: Variable %s has the wrong scope !Position#31,Delete#32,Move#33,Rename#34Insert#41,Delete#42Delete FBK from the databank ?VOIDUNDEFLibrary    : Maximum of %d inputs/outputs allowed !No I/O-Info exists => recompile FBK ! Name   Data type   Length   Bytes   Offset areaAreaAnalog#1,Digital#2Analog#1,Status#4Area SelectionDigital,AnalogOffsetsFormat      :Ins. PV Del. PV CalculateCheckSortHex,DecimalOffset Check:AreaN (normal),R (read only),F (frozen)Offset not permitted !No PVs to select !Too many PVs to select from !Offset overlap !Areas overlap !Offset Check O.K. !Offset not aligned !Ex/ImportVariable %s does not exist in the data bank !Keep It	Import	Cancel <ESC>Area cannot be changed !AnalogDigitalStatusVariable %s is Read Only but not in the defined Area!Area already exists in Export file !Overwrite	CancelProcessor %s available in the data bank !Import	CancelStructure length mismatch => save Offset Table ! Name   Data Type   ValueConstantBIT,INT8,INT16,INT32,BYTE,WORD,LONG,FLOAT,STRINGConstant symbol %s is already defined.Constant editorC@onstantsList of ConstantsConstantMonitorgroup/name mem./no. state. Ês max./avg./min.PCC monitorServiceDiagEmergency stopExe. order    :Exception no. :Module number :Start/Stop        PCC Misc.DownloadObj.Handl.All /  Name        :
+Object type :
+Version     :
+Date        :
+Size        :
+Start addr. :Info,Start,Stop,Download,Upload,Delete,Store,Install,RestartInfo,Download,Upload,Store,DeletePCC @monitorStart,StopStart,Stop,Cold Start,Read PCC time,Write PCC time,Init.RIO,PCC info,Parameter,Force off,Erase ~16024RAM#28,FLASH#29PV monitorStart PCC,Stop PCCShould the task '%s'
+be stopped ?Should all tasks in group %s
+be stopped ?Should the PCC be stopped ?Should the objectbe stored innon-volatile ?Store objectChanges take effect after a cold start!NoteWarningConfirm stop ?              :Use target for storing, set
+in Object Parameters menu ? :Please wait...Download not possible, file
+%s
+not found!Should the module '%s'
+be removed?SPLSpool address:Memory error:
+%sSYSRAMFLAFIXCRDTC_%dHS_%dEXCIRQDATSYSTEMCONFIGCNCUSROPTLIBEXHSYSCONNWCONMODBUGFIXOM/ALI: Error MIC%04x(%u) PCCSW Configuration OK	Default	CancelPCC name       :
+ Processor type :
+ PCCSW version  : 
+ Password       :
+ Configure      :
+ Target memory  :Module info
+     Version   :
+     Date      :
+     Time      :
+     Size      :Memory,Module,Task classes,HS task classes,Exceptions,Interrupts,TimeOuts,Modem On-Line,Operating system,Remote I/O,PB Indices%sShould the configuration be stored on the PCC?Changes to the configuration module
+will be lost.The default settings for the CPU "%s"
+could not be read !Error: %s!The configuration module will be overwritten
+with the default settings for the CPU "%s".Global memory
+   Analog   (min:        ):         Byte
+   Digital  (min:        ):         BitsPermanent memory 
+   Analog                 :         Byte   Digital                :         Bit Memory
+   FIX-RAM                :         kByte
+   Temporary              :         kByteNumber of task classes :
+Task class             :
+ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒTiming
+  Duration             :       ms
+  Tolerance            :       ms
+  Idle time            :       msMemory
+  Analog   (min:      ):       Byte
+  Digital  (min:      ):       BitStack size
+  User                :       Byte
+  Interrupt           :       ByteTCLogbook entries          :
+Cyclic tasks   (min     ):
+Idle time tasks(min     ):System tasks   (min     ):
+B&R modules    (min     ):File "%s" already exists in the project.
+Upload from PCC ?Yes	No	CancelNumber of HS classes  :
+HS task classes       :
+ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒType                  :
+Duration              :       ms
+Interruptable         :HSTCNever,ByˇIRQ-TC,AlwaysHW-Timer,RIO/PP-FBKNumber    (min:      ):
+Interruptable         :Allowed system time violation  :       sec
+Wait
+   after cold start            :       sec
+   after warm start            :       sec
+   at POWERFAIL                :       secIF1,inactivewirdˇignoriert.,hÑltˇdieˇRPSˇan.,lîstˇeinˇInitˇaus.,lîstˇeinˇTotal-Initˇaus.Interface       :
+Initialization  :
+
+WÑhlstring:
+
+Error handling :
+  An interruption of the connectionCommunication
+  Communication channels:
+  Parallel connections  :
+  Frame handling        :
+  Device driver         :
+  Force requests        :
+  PV tables             :
+  Log. variable lists   :
+  Phy. variable lists   :
+Carry out a cold start to
+bring changes into effect?Master,ISL2M,1M,500k,181k,100kYes,No1,2Enable,Disable,DefaultInactive,Active,ExceptionInactive,Active,ExceptionConfigurations        :
+Settings for          :
+ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ
+Slot                  :
+Operating mode        :
+Baudrate              :
+Redundancy            :
+TimeoutIO             :              msSlaveTimeOut          :              sec
+Max. Station          :
+Repeat Count          :
+No. of Priorities     :
+Slaves                :
+   Ack slave Drop Out :
+   Ackknowledge ready :
+Hot Plug              :                  from  to 
+Data type        $     $
+Structure        $     $
+Variable lists   $     $
+Program Invoc    $     $
+Domain           $     $
+Process variable $     $PrintSave changes in configuration module ?No connection to PCC !Continue	CancelConfiguration module on PCC
+is different to the module in your project !Memory,Module,Task classes,HS task classes,Exceptions,Interrupts,TimeOuts,Operating system,Remote I/O,CAN I/O,2003 I/O,PB Indices,Communication14,1,2,3,4,5,6,7,9,10,13,12,11,14Could not store configuration module !Could not load configuration module from PCC!No. of I/O channels refreshed during an I/O cycle:All,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16V1.10,V1.90,V2.00The PCCSW version is different to the target!The PCC is password protected. To connect
+you must enter the correct password !
+Password:Password <Password!> The configuration on the PCC is different
+to that in the project. You should correct
+this mismatch!Download	Upload	CancelErase FIXRAMWarning: If the %s is erased
+         all memory on the PCC
+         will be cleared!Erase FLASHErasing FLASH.
+Please wait...Error: Can't open section %d!Error: Section %d has incorrect size!Service,Cold startSystem, Idle timeWarm start,Cold startDiagnose,Cold startThe actual configuration an the PPC
+is not the same as in the project!Upload	Continue	CancelDefine the processor type
+and the PCCSW version.
+
+Processor:
+PCCSW    :Erase permanent memoryThe configuration module was created
+for a type "%s" PCC.
+The current PCC is of type "%s"!The password on the PCC doesn't match the configuration!
+No coldstart after downloading SYSCONF?
+Password:Configurations        :
+Settings for          :
+ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ
+Slot                  :
+Sub slot              :
+Interface             :
+Baudrate              :
+SlaveTimeOut          :              msTimeoutIO             :              ms
+Repeat count          :
+Interruptable         :
+No. of ScrM modules   :
+No. of slaves         :
+Exception             :IF1,IF2,IF3,IF4 20 kBIT/s,125 kBIT/s,250 kBIT/s,500 kBIT/s   Missing Module    :OK	Slaves	CancelParameter for Slave No.:
+node number:
+ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ
+Idle Time
+  Digital IN :       ms   Digital OUT:       ms
+  Analog  IN :       ms   Analog  OUT:       msCycle Time              Inhibit Time
+  Digital IN :       ms   Digital IN :       ms
+  Analog  IN :       ms   Analog  IN :       msB&R OS
+  System Bus Cards    :
+  AVT Entries         :
+  Semaphores          :
+  Queues              :
+  Data/Stack          :$  Boot behavior
+     after error        :
+     after reset        :
+     after power fail   :On line IF for modem IF:
+
+ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ 11 Bit, 29 BitNumber of Configurations  :
+Configuration Number      :
+ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ
+Slot                      :
+Subslot                   :
+Interface                 :
+Type                      :
+ Baudrate   :
+ Parity     :
+ Data Bits  :
+ Stop Bits  :Serial,CAN,PB,EthernetParameter2400 BIT/s,9600 BIT/s,19200 BIT/s,38400 BIT/s,57600 BIT/s,115200 BIT/snone,even,odd81,2 Baudrate  :
+ Base ID   :
+ ID length :
+ Max. Nodes:Local,PS,SL1,SL2,SL3,SL4,SL5,SL6,SL7,SL8,SL9,SL10,SL11,SL12,SL13Local,SL1,SL2,SL3,SL4,SL5,SL6,SL7,SL8,SL9,SL10,SL11,SL12,SL13User Flash,System FlashCan only be set for 2003 CPUsNever,AlwaysSysconf with template "%s" printed (%s). Baudrate   :
+ Parity     :
+ Data bits  :
+ Stop bits  :
+ Idle time  :
+ Init string: Init string: Idle time  :FIXRAM from 0kB to 64kB!CPU does not support FIXRAM!Temporary RAM from 12kB to 256kB!Temporary RAM from 8kB to 128kB!Temporary RAM from 8kB to 256kB!Logbook entries from 16 to 150!Logbook entries from 16 to 500!min. 20, max. 65535 B&R modules!min. 10, max. 65535 System tasks!Idle time from 0 to 10ms in 0.5ms steps!User stack min. 512Byte max. 64kByte!System stack min. 640Byte max 64kByte!HS cycle time min. 1ms max. 65.535ms!HS cycle time min. 0.5ms max. 65.535ms!Powerfail max. 32.51sec!Communication channels min. 5 max. 65535!Device drivers min. 6 max. 65535!AVT entries min. 20 max. 5461!Semaphor min. 1!Queues min. 1!max. 127 Stations!HS user stack min. 256Byte max. 16320Byte!HS system stack min. 640Byte max. 64kB!RIO Configuration may not exceed 8!Configuration of temporary RAM not necessary!Maximum of one HS class and one RIO/PP timer class!Cycle time from 10 to 5000ms in 10ms steps!Time value from 0 to 2.55sec!Time value from 0 to 65sec!Memory area from 0 to 1008kByte!Memory area from 0 to 192 kByte!No IRQ Tasks allowed!Total amount of global and perm. internal variables must be smaller than 64kB !Time value from 0 to 65530ms!Memory area from 0 to 65520!Time value from 0 to 254000ms!Time value from 0 to 655sec!Invalid Slot!Invalid Subslot Number!Invalid Interface!Settings from 1 to 32!Invalid Baudrate!Timeout from 0 to 65535!Lifeguard Time from 0 to 65535!ScrM from 0 to 255!Retries from 0 to 255!Invalid setting from users! Terminate?Node Number from 1 to 32!Invalid Time Value, 0 to 65535Setting from 0 to 15!Same interfaces in the configuration!No SS,SS1,SS2,SS3Values from 5 to 512 allowed!Values from 5 to 128 allowed!At least 1 (CPU) up to a max. 14 for 2005 Systems!At least 10 up to a max. 65535!InfoInfoSystem:
+  Hardware     :
+  Revision     :
+  Boot mode    :
+Memory:
+  PCC I/O:
+  System :
+AMM:
+  Type    :            Buff. CPU:
+  Memory  :            Buff. APM:
+  PCCSW   :
+RTC:
+  Date :
+  Time :
+Node number:$No connection to PCC!2010;2005;2003;;;;;;BTCPU;C200;;;;MP2010;2010;;;Warm start,Cold start,Reset,Reconfig,NMI-Copy,Diagnose,ErrorEmpty,OK,NV,NTEPROM/RAM,FLASH/RAMForce offUsageSetMemory usage           assigned  free
+System   :                 Byte
+SYS  ROM :                 Byte
+User ROM :                 ByteUser RAM :                 Byte
+FIX  RAM :                 Byte
+Temp. RAM:                 Byte
+MEM card :                 ByteCAN Info:        
+  Node Number :$
+  CAN-ID      :
+  Baudrate    :        kBitDiagnoseModule:Delete	Close	CancelPCC is not in diagnose mode!Download diagnose task...Connect with diagnose task...Upload data from PCC...Get ID for the diagnose module...Data exchange with PCC...Upload %ld bytes out of %d, %ld already uploaded...OKdefectEPROMFLASHFIXRAMDEL   Error while erasing a module!Diagnose: Connection error!Diagnose: No diagnose module on PCC!Diagnose: No module on PCC!Diagnose: No memory available!Uploading data from PCC
+Please wait...Carry out a cold start?M.CARDFLASHsFIXRAMspermanent memoryErrasing the FLASH last a few minutes!
+Once started the process is non interrupt!
+Would you like to stop the PG2000 batch?MEM card memoryErase MEM cardPWD: %s%d, %dSuccessful: %s
+Path: %sRouting: %s (%s)ResetA reset should be carried out on a PP!
+Switch to CPU!
+A reset on the CPU also works on the PP's.In order to delete FLASHs/FIXRAMs/MEMCARD memory on a PP
+switch the CPU to Diagnose Mode.
+Then cold start the CPU.Pemanent memory is not supported on a PP!To update the PCC software you need a direct cable connection !No memoryRoutingSegment PCC name Node no. Slot Subslot Interface CAN,IF1,IF2,IF3,IF4Segment name required!> Net table <Could not create list!Net tableNet table (Home)PCC name required!Node number required!Slot error!Sub slot error!Interface required!Establish the connection with...
+ PCC:
+
+ Path:Auto routing on! Auto routing off!OkConfigAR TabAR onCancelAutoManualRouting %s: %s (%s)@NetworkThe network capability requires 
+PCCSW version 1.91 or higher!Connection over "%s" is not possible!
+%sConnectionNo local connections could be made!Station cannot be accessed!%u. The PCC "%s" was not found in the network table.%u. No local connection could be made 
+   to %4.4s.%u. The local PCC is running with an OS version smaller than %s.%u. The PCC, path "%s" is not responding.WARNING : The PCC, "%s" was not found in the routing table! 
+          %sThe current connection still exists!A local connection was made!WARNING : The local PCC "%s" was not found
+          in the routing table!
+          Please check the PCC name in the SYSCONF!
+          %sTry to connect PG  <-->  PCCTry to connect PG < -- > PCCSelect the local processor.
+Local PCC:
+Save for this session:LocalDetermine a local PCC.The local PCC could not be determined!No memory for connections!Changes to the module "%s" are only accepted on PCC
+after a cold start!
+Should a cold start be carried out?Not enough space in "%s" for modulr "%s"!
+required: %ld, available %ld Byte.
+%sRam,SYS ROM,Fix RAM,User ROM,MemcardDownload Module: "%s", Target: "%s", required: %ld, available %ld ByteDelete target memory and start again.Target memory not available or not configured!@OnlineGeneral  
+  Variable update    :         ms
+PV display
+  Format             :
+  TC-Info            :
+Security                
+  Confirm stop       :
+  Confirm delete     :  Warm restart       :
+  PCC Stop           :
+Save Monitor     
+  Object parameter   :
+PCCSW Download
+  Baudrate           :OnlineUpdate the PCC System SoftwareA PCCSW Update without Bootmanager is possible starting with PCCSW V2.00!
+Activate the Bootmanager in order to update to a new PCCSW!PCCSW Update, Please wait...Download Module"%s" on the PCC deleted!Download Rebuiltinfo removed.OS Download: File "%s" selected!An Update could not be carried out!Scan rate can be set from 55 to 59950 msecReapeat	OfflineTarget memory not available because PCC is in Diagnose Mode"%s" is not a valid connection nameVersion of "%s" does not support SYS ROM            
+     
+     
+       *     0    	 >   	 	 G   
+  P     T     _     l     z    	 ~     á     í     †     ß     ≠     ≥     ø    	 ≈     Œ     ›     „     Ò    D ı     9    F    K     W  !  [  "  _  #  c  $   i  %  i  &  ~  '  å  (  ô  ) 	 †  * 	 ©  +  ≤  ,  ∂  -  ∫  .  ø  / 
+ √  0  Õ  1  –  2 I ÿ  3  !  4 % &  5  K  6  O  7  S  8  W  9  k  :  p  ; % v  < 4 õ  >  œ  ?  ‰  @  ˇ  A    B  )  C - :  D  g  E 
+ m  F  w  G ] Ö  H . ‚  I    J 2 )  K  [  L  i  M  u  N  É  O  †  P  ≥  Q  ∏  R     S  ’  T  Â  U  Ù  V -   W  >  X  ]  Y 7 j  Z  °  [  ß  \  ≠  ]  ±  ^ 
+ ∂  _  ¿  `  »  a  Œ  b  “  c  ÷  d  Ê  e " Û  f (   g ! =  h  ^  i " z  j ! ú  k " Ω  l 3 ﬂ  m    n    o    p  !  q — )  r  ˙  s    t    u    v    w  (  x  5  y - 8  z  e  {  t  | 2   }  ±  ~  ø    –  Ä   Á  Å  	  Ç 	 %	  É 	 .	  Ñ 	 7	  Ö 3 @	  Ü " s	  á $ ï	  à  π	  â  ¡	  ä 
+ ’	  ã 	 ﬂ	  å  Ë	  ç 
+ Ô	  é 	 ˘	  è  
+  ê  
+  ë  
+  í 	 
+  ì  
+  î 	 
+  ï  %
+  ñ  1
+  ó  7
+  ò  E
+  ô  S
+  ö  l
+  õ  z
+  ú 
+ à
+  ù 
+ í
+  û  ú
+  ü  ª
+  † ; ¬
+  °  ˝
+  ¢ -   £ ! <  §  ]  • " r  ¶  î  ß  ò  ® % û  ™  √  ´  ÷  ¨  ﬁ  ≠  ¯  Æ   	  Ø  )  ∞  5  ±  L  ≤  R  ≥  X  ¥  _  µ  |  ∂ r ë  ∑ $   ∏ $ '  æ ! K  ø  l  ¿  â  ¡ 	 ö  ¬ ! £  √ D ƒ  ƒ C   ≈ & K  ∆ 5 q  «  ¶  »  ∂  …  √     ‘  À  Ï  Ã #   Õ  *  Œ  :  œ  ?  – , Q  —  }  “  Ñ  ” 0 â  ‘  π  ’  «  ÷  ⁄  ◊  ‚  ÿ  Û  Ÿ     ⁄    € &   ‹ " @  ›  b  ﬁ  r  ﬂ  Ü  ‡ ! ì  ·  ¥  ‚ % –  „ 4 ı  ‰  )  Â  -  Ê $ @  Á  d  Ë  s  È    Í  á  Î 2 ñ  Ï ' »  Ì 	 Ô  Ó  ¯  Ô        Ò *   Ú  H  Û  M  Ù  T  ı  X  ˆ  Z  ˜  ^  ¯ , b  ˘ 3 é  ˙  ¡  ˚  œ  ¸  ÷  ˝  ‹  ˛ ( Á  ˇ     J "  l l   ÿ   ﬂ    ˝      %   2  
+ H  	 R  
+1 m  ! û  & ø  6 Â  "   ! =  
+ ^   h  G s   ∫   ¿   ’   ‹  & È  #   7 2  : i   £  # ¡   ‰            ! %  " 1  # <  $! [  % |  & â  ' †  (' ´  ), “  * ˛  +3   , M  -% c  . à  /
+ ¢  0$ ¨  1 –  2 €  3 Ì  4 
+  5" "  6# D  7# g  8	 ä  9 ì  : ∞  ; Ω  <? Ÿ  =   > 5  ? :  @* U  A   B# ä  C
+ ≠  D ∑  E5 …  F ˛  G	    H 	  I (  J	 8  K
+ A  L% K  M p  N u  O y  P }  Q Ç  R á  S ç  T †  U ≠  V ¥  W µ  X& À  Y$ Ò  Z   [( 2  \ Z  ] a  ^! f  _ á  ` å  a; ¶  b( ·  c 	  d   e5   f	 G  g P  h ]  i
+ e  j o  k s  l
+ x  m Ç  n Ö  o ã  p ì  q ó  r ™  s »  t œ  u ⁄  v ﬂ  w ‰  x Ë  y  Ï  z Ï  {   |
+   }G    ~ g   s  Ä   Å á  Ç î  É* ¢  Ñ	 Ã  Ö ’  Ü €  á ‚  à Ì  â ˛  ä   ã 3  å N  ç
+ U  é _  è
+ b  ë l  í; Ñ  ì& ø  î Â  ï	 Ì  ñ ˆ  ó    ò '   õ9 <   ú, u   ù9 °   ü% ⁄   ° ˇ   ¢ !  £? ,!  §0 k!  • õ!  ¶$ ∏!  ß ‹!  ®* ˘!  ©! #"  ´ D"  ¨- X"  ±3 Ö"  ≥ ∏"  µ0 ’"  ∂0 #  ∑1 5#  ∏2 f#  π ò#  ∫ ≥#  ª  Œ#  º Ó#  Ω $  æ6 $  ¿, R$  ¡ ~$  ¬ õ$  √ ±$  ƒ" »$  ≈ Í$  ∆+ %  «4 /%  »1 c%  …! î%    µ%  À Œ%  Ã Í%  Œ &  œ# #&  – F&  — d&  “, Ä&  ”1 ¨&  ‘6 ›&  ’ '  ◊. 2'  ÿ! `'  Ÿ Å'  ⁄? ú'  €0 €'  ‹1 (  ›$ <(  ﬁ# `(  ﬂ. É(  ‡+ ±(  ·' ‹(  ‚" )  „  %)  ‰$ E)  Â i)  Á4 Ä)  Ë ¥)  È ”)  Í Ó)  Î *  Ï *  Ì 4*  Ó+ K*  Ô  v*  5 ñ*  Ò6 À*  ı7 +  ˆ* 8+  ˜- b+  ¯9 è+  ˘) »+  ˙ Ò+  ˚ 
+,  ¸3 #,  ˝) V,  ˛' ,  ˇ3 ¶,   < Ÿ,  = -  9 R-  * ã-  5 µ-  H Í-  K 2.  & }.   £.  	$ æ.  
+ ‚.  # Â.   /  * /   G/   Z/   w/  3 ï/   »/   Â/   0   0  & <0  6 b0  5 ò0  # Õ0  5 0   %1  % 41  4 Y1  7 ç1  # ƒ1   ; Á1  !2 "2  " T2  #, p2  $% ú2  %  ¡2  &  ·2  '! 3  (/ "3  )3 Q3  *9 Ñ3  +7 Ω3  , Ù3  - ˙3  .  4  // 4  09 ;4  1 t4  2: å4  3= ∆4  4- 5  52 05  6# b5  7& Ö5  8& ´5  9 —5  :& Ê5  ;9 6  <* E6  =0 o6  >  ü6  ?% ø6  @& ‰6  A! 
+7  C) +7  D6 T7  E, ä7  F1 ∂7  G= Á7  H! $8  I  E8  JN e8  K, ≥8  L0 ﬂ8  M? 9  N8 N9  O; Ü9  P8 ¡9  Q- ˘9  R& &:  S> L:  T= ä:  U4 «:  V? ˚:  W :;  X F;  Y< c;  Z ü;  [ ¶;  \F ¨;  ]0 Ú;  ^ "<  _ ><  `& J<  a p<  b Å<  c Ö<  d' í<  e' π<  f7 ‡<  g% =  h/ <=  i' k=  j í=  k" £=  l ≈=  m ‹=  n Ù=  o >  p, ->  q Y>  r o>  s â>  t ù>  u Æ>  v ∂>  w «>  x ÿ>  y Ê>  z Ú>  { ?  |  ?  }
+ 4?  ~& >?   d?  Ä  Ç?  Å ¢?  Ç	 ©?  É ≤?  Ñ  Ã?  Ö Ï?  Ü @  á @  à '@  â 4@  ä ?@  ã, Z@  å Ü@  ç* §@  é Œ@  è €@  ê' ‡@  ë A  í1 A  ì EA  î ZA  ï  jA  ñ äA  ó" ïA  ò ∑A  ô –A  ö „A  õ ÓA  ú ˘A  ù B  û B  ü( B  †H BB  °$ äB  ¢ ÆB  £ √B  §  ﬂB  • ˇB  ¶+ C  ß ?C  ® YC  © oC  ™ ÜC  ´ îC  ¨1 †C  ≠ —C  Æ
+ ’C  Ø ﬂC  ∞ ÍC  ± ˜C  ≤! D  ≥ 2D  ¥ ?D  µ: GD  ∂" ÅD  ∑ £D  ∏ ±D  π µD  ∫ √D  ª …D  º/ ÿD  Ω< E  æ. CE  ø= qE  ¿* ÆE  ¡ ÿE  ¬ ÚE  √# F  ƒS 1F  ≈D ÑF  ∆C »F  « G  » G  … G    G  À@ G  Ã [G  Õ iG  Œ	 oG  œ xG  –* {G  ’" •G  ÷$ «G  ﬂ ÎG  ‡ ˝G  ·( H  ‚! >H  „ _H  ‰+ |H  Â+ ßH  Ê4 “H  ÁE I  Ë KI  È WI  Í; sI  Î9 ÆI  Ï, ÁI  Ì6 J  Ó' IJ  Ô+ pJ  # õJ  Ò æJ  Ú ‹J  Û$ ÈJ  Ù< K  ı IK  ˆ> UK  ˜+ ìK  ¯ æK  ˘ ÷K  ˙ ÈK  ˚ ˆK  ¸ L  ˝- !L  ˛ NL  ˇ ^L    dL   ÄL  
+ àL  
+ íL  
+ úL  
+ ¶L  
+ ∞L   ∫L   ¿L  	 «L  
+0 “L   M  	 M  	 M  	 "M  ; +M   fM   ÇM  Ä ñM  á N    ùN  ! ≠N  " ∆N  #. ”N  $8 O  %8 9O  &H qO  '' πO  (8 ‡O  )a P  *8 yP  +8 ±P  ,# ÈP  - Q  .( Q  /0 <Q  0= lQ  15 ©Q  2( ﬁQ  3 R  4 R  5/ "R  64 QR  7 ÖR  8 íR  9 ´R  : ªR  ; ŒR  <` ”R  =* 3S  >5 ]S  ?A íS  @A ”S  A' T  B ;T  C AT  D" ET  E gT  F nT  G	 uT  H ~T  I ÜT  J ùT  K £T  L ´T  M; ∑T  N ÚT  O# U  P $U  QE <U  R ÅU  S åU  T3 íU  U ≈U  VD ”U  W V  X  *V  Y@ JV  Z äV  [ óV  \ ´V  ] ≤V  ^	 æV  _ «V  ` €V  aÁ „V  b  W  cP ’W  d %X  e 9X  f AX  g QX  h' jX  i& ëX  j" ∑X  k ŸX  l ÛX  m0 Y  n% @Y  o) eY  p éY  q •Y  r ºY  s œY  t< €Y  u& Z  v7 =Z  wp tZ  x3 ‰Z  y [  z 2[  { @[  |( G[  }É o[  ~ Ú[  ' \  Ä< /\  Å k\  Ç4 }\  É6 ±\  Ö Á\  Ë! ]  ~ &]   C]  Ä ^]  Å$ }]  Ç- °]  ‹ Œ]  › Á]  ﬁ* ˛]  ﬂ (^  ‡0 4^  ·5 d^  ‚ ô^  „ ¶^  ‰4 ¿^  Â2 Ù^  Ê &_  Á E_  Ë Q_  È# i_  Í
+ å_  Î
+ ñ_  Ï
+ †_  Ì
+ ™_  Ó
+ ¥_  Ô æ_   ‘_  Ò) Ë_  Ú `  Û %`  Ù 2`  ı 9`  ˆ <`  ˜ H`  ¯ M`  ˘# U`  ˙	 x`  ˚  Å`  ¸" °`  ˝ √`  ˛- ‘`  ˇh a    ia   Ña  & êa  w ∂a  " -b  ( Ob  4 wb   ´b   ≤b  	B –b  
+ c  ' c  ' Dc  / kc  4 öc   Œc  B ›c  p d   èd   §d   ¨d   ªd   “d  % Èd  = e  7 Ke  9 Çe  D ªe  ò  ˇe  ô f  ö 3f  õG >f  ú- Öf  ù ≤f  û ¥f  ü ∂f  † ºf  ° ‘f  ¢ Ûf  £# g  §! 5g  • Vg  ¶/ lg  ß@ õg  ®0 €g  © h  ™ h  ´H ,h  ¨3 th  ≠g ßh  Æ i  Ø	 i  ∞  i  ± ?i  ≤ Ui  ≥ ci  ¥ ni  µ	 ri  ∂	 {i  ∑
+ Ñi  ∏# éi  π- ±i  ∫ ﬁi  ª! Ùi  º! j  Ω 6j  æ Rj  ø% oj  ¿ îj  ¡ ≥j  ¬	 —j  √
+ ⁄j  ƒ ‰j  ≈ Ôj  ∆ Ùj  « ˚j  » ˛j  … k    
+k  À k  Ã
+ k  Õ $k  Œ ,k  œ 1k  –	 3k  — <k  “
+ Bk  ”
+ Lk  ‘
+ Vk  ’
+ `k  ÷ jk  ◊% rk  ÿ  ók  Ÿ# ∑k  ⁄ ⁄k  € Èk  ‹  l  ›  #l  ﬁ Cl  ﬂ `l  ‡ ~l  · öl  ‚  Øl  „ œl  ‰ ›l  Â Ël  Ê ˆl  Á ¸l  Ë m  È 	m  Í  m  Î
+ 7m  Ï Am  Ì \m  Ó jm  Ô$ xm  
+ úm  Ò ¶m  Ú ªm  Û ”m  Ù Òm  ı n  ˆ? #n  ˜
+ bn  ¸ ln  ˝
+ än  ˛  în  ˇ ¥n   	 »n  		 „n  		 Ïn  	 ın  	 o  	& -o  	 So  	 go  	 so  		% éo  
+	  ≥o  	
+ ”o  	 ›o  	 Ûo  	 ˘o  	 ˇo  	 p  	 p  ∏ $p   1p   Gp   Rp   fp    qp  ! |p  " Ép  # äp  $ öp  % †p  & ¥p  ' ¬p  ( –p  ) ﬁp  * Úp  + q  , q  - .q  . Bq  / Vq  0 jq  1 ~q  2 íq  3 ¶q  4 ∫q  5 Œq  6* ‚q  7 r  8 r  9 .r  : Dr  ; Jr  < [r  =	 br  > kr  ?/ {r  @ ™r  A ør  †  r  ° ﬂr  ¢" Òr  £ s  § $s  ™ 8s  ´  Is  ¨ is  ≠ s  Æ õs  Ø ¥s  ∞ Õs  ¥ ‚s  µ Òs  æ t  ø t  » "t  … <t    Ht  À Tt  Ã _t  Õ tt  “ åt  ” ®t  ‘ ∏t  ’ »t  ‹ €t  › Ót  ﬁ  ˇt  ﬂ u  ‡ 7u  · Pu  Ê ju  Á  Éu  Ë  £u   √u  Ò œu  ˙ „u  ˚ ˛u  ¸ v  ˝ v  ˛ )v  ˇ 8v    Gv   Wv   gv   ~v   ëv   ´v  # ƒv  	% Áv  
+ w   w  3 7w  : jw  	 §w   ≠w   µw  
+  w   ‘w   Ëw    x   x   x   2x   Hx   Ox   ex   ux   åx   £x   ∏x   æx    –x  ! ﬂx  " Ûx  # y  $ y  % 1y  & Ay  ' Uy  ( jy  ) ly  * |y  + áy  , óy  - ¶y  . ∑y  / »y  6. Õy  7
+ ˚y  8	 z  9	 z  : z  ; ,z  <
+ 7z  =	 Az  T Jz  U cz  V sz  W ëz  X. ™z  Y2 ÿz  Z 
+{  [ {  h "{  i* 8{  j b{  k x{  l% Ñ{  m" ©{  n À{  o ‡{  p ¯{  q |  r) )|  s  R|  t r|  u$ Ö|  v( ©|  w —|  ì |  î }  ö }  õ $}  ú @}  ù N}  û k}  ü" Ü}  †' ®}  ° œ}  ¢ ·}  £ ˆ}  §@ ~  • K~  ¶ a~  ß |~  ® í~  ©0 ™~  ™ ⁄~  ´ Ì~  ¨: 	  ≠ C  Æ U  Ø  h  ∞ à  ± ¢  ≤ ¡  ≥ ⁄  ¥ ¯  Ã  Ä  Õ Ä  Œ Ä  œ 2Ä  –! FÄ  —, gÄ  “ ìÄ  ”  üÄ  ‘ üÄ  ’ ¥Ä  ÷ ŒÄ  ◊ „Ä  ÿ ˛Ä  Ÿ Å  ⁄ 4Å  €! MÅ  · nÅ  ‚ ÑÅ  „ öÅ  ‰ ∂Å  0 “Å  1
+ ‚Å  2> ÏÅ  3 *Ç  4	 5Ç  5 >Ç  6
+ JÇ  7 TÇ  8< kÇ  9 ßÇ  : µÇ  ; ¿Ç  <: ÃÇ  = É  î. #É  ï[ QÉ  ñ ¨É  ó< ºÉ  ò& ¯É  ô Ñ  ö 6Ñ  õ OÑ  ú `Ñ  ù sÑ  û êÑ  ü úÑ  †1 ∑Ñ  °: ËÑ  ¢1 "Ö  £3 SÖ  §/ ÜÖ  • µÖ  ¶- ≈Ö  ß ÚÖ  ®  Ü  © Ü  ™ 6Ü  ´ AÜ  ¨ DÜ  ≠  WÜ  Ø' WÜ  ∞ ~Ü  ± éÜ  ≤ ûÜ  ≥0 ¶Ü  ¥ ÷Ü  µ ﬁÜ  ∂ ÏÜ  ∑ ˜Ü  ∏ á  π á  ∫ á  ª á  º *á  Ω ,á  æ 8á  ø Dá  ¿ Pá  ¡ \á  ¬ ká  √ zá  ƒ âá  ≈ îá  ∆ üá  « ™á  » µá  … πá    ¡á  À Ãá  Ã ÿá  Õ
+ ‰á  Œ	 Óá  œ ˜á  – à  — à  ⁄# ,à  €# Oà  ‹# rà  ›# ïà  ﬁ" ∏à  ﬂ" ⁄à  ‡# ¸à  ·# â  ‚" Bâ  „# dâ  ‰# áâ  Â# ™â  Ê# Õâ  Á# â  Ë# ä  È# 6ä  Í# Yä  Î# |ä  Ï# üä  Ì# ¬ä  Ó# Âä  Ô! ã  # )ã  Ò# Lã  Ú# oã  Û# íã  Ù# µã  ı# ÿã  ˆ# ˚ã  ˜! å  % ?å  & På  ' aå  (	 ~å  *0 áå  + ∑å  , ºå  - ¬å  . »å  / Œå  0 ‡å  1 Ùå  2 ç  3 ç  44 1ç  5/ eç  6* îç  7≠ æç  8( ké  9N ìé  :V ·é  ;F 7è  <V }è  =F ”è  >: ê  B Sê  C	 [ê  D	 dê  E mê  F. Ñê  G% ≤ê  H ◊ê  I „ê  J ˝ê  K ë  L !ë  M /ë  N ;ë  O Gë  P Së  Q _ë  R kë  S wë  T Öë  U ìë  V ™ë  W »ë  X ﬁë  Y Ùë  Z í  [+ /í  \1 Zí  ] ãí  ^ üí  _ ªí  Ï ÿí  Ì Êí  Ó8 ˆí  Ô .ì   Bì  Ò Vì  Ú) qì  Û: öì  Ùu ‘ì  ı Iî  ˆ Pî  ˜+ kî  ¯ ñî  ˘ ≥î  ˙$ Œî  ˚= Úî  ¸> /ï  ˝ mï  ˛	 pï  ˇ yï    ~ï   Çï   üï  W ßï  ' ˛ï  $ %ñ  ( Iñ  . qñ  $ üñ  		 √ñ  
+ Ãñ   ◊ñ  ! Ôñ   ó  - %ó   Ró   fó   {ó  6 öó  ) –ó  ' ˘ó     ò   @ò   Vò  ) mò   ñò  - °ò  < Œò  H 
+ô  " Rô  , tô  1 †ô   % —ô  !$ ˆô  ") ö  #2 Cö  $ uö  % Éö  & ñö  ' Æö  (& µö  ); €ö  * õ  + $õ  ,, 1õ  - ]õ  .< sõ  /1 Øõ  05 ‡õ  1+ ú  28 @ú  3G xú  4H øú  56 ù  6 =ù  7b Hù  82 ™ù  98 ‹ù  : û  ;  0û  < Pû  = oû  > rû  ? Äû  @  öû  A? ∫û  B ˘û  C ü  D\ ìü  E\ Ôü  F K†  G ^†  H c†  I h†  Jo †  KB Ó†  L¡ 0°  M% Ò°  NQ ¢  O g¢  P u¢  Q Ä¢  R# ç¢  S¥ ∞¢  T? d£  U
+ ££  V ≠£  W" º£  X( ﬁ£  Y §  Z# §  [i A§  \  ™§  ]N  §  ^ •  _ 7•  É7 R•  á â•  à û•  p ≥•  q ƒ•  r" „•  s" ¶  t '¶  u ?¶  v# Z¶  w- }¶  x ™¶  y ø¶  z €¶  { Ù¶  |# 	ß  }" ,ß  ~1 Nß  ! ß  Ä% †ß  Ñ ≈ß  Ö ‹ß  é# Ôß  ò/ ®  ô" A®  ¢. c®  £- ë®  ¨ æ®  ≠ ÷®  Ø Í®  ±% ©  ≤ )©  ≥ E©  ¥1 _©  µ< ê©  ∂ Ã©  ∑* Á©  ’0 ™  ÷1 A™  ◊ r™  ÿ$ à™  1 ¨™  3 ›™  8 ´  9  .´  :> N´  ; å´  </ ¢´  =4 —´  >( ¨  B) -¨  L6 V¨  jF å¨  kQ “¨  l8 #≠  m8 [≠  n8 ì≠  o> À≠  p: 	Æ  q< CÆ  r> Æ  s@ ΩÆ  t? ˝Æ  u9 <Ø  vR uØ  wS «Ø  x= ∞  yB W∞  z9 ô∞  {< “∞  |: ±  }8 H±  ~> Ä±  P æ±  ÄX ≤  ÅW f≤  ÇK Ω≤  ÉR ≥  Ñ> Z≥  ÖP ò≥  ÜO Ë≥  áN 7¥  à6 Ö¥  âF ª¥  = µ   >µ   Dµ   ^µ   vµ  $ Ñµ  > ®µ   Êµ  	 ¸µ  
+ ∂   4∂   J∂   a∂  % }∂  ! ¢∂    √∂   „∂   ˝∂  - ∑  ) ?∑  & h∑  * é∑   ∏∑   —∑   Í∑   Ú∑    ¯∑  ! ˛∑  " ∏  #" ∏  $( 1∏  %3 Y∏  & å∏  ' ì∏  ( ò∏  ) ¨∏  * «∏  + ‹∏  , „∏  - ¯∏  . π  /  3π  2< Sπ  36 èπ  4< ≈π  5" ∫  6 #∫  7A @∫  8 Å∫  d /À  e GÀ  f MÀ  g TÀ  h ZÀ  i
+ `À  n jÀ  o qÀ  p tÀ  q zÀ  r ~À  s äÀ  t ©À  u	 ÆÀ  v ∑À  w √À  x ‘À  y ‹À  z ÁÀ  { ÚÀ  | ˝À  } Ã  ~ Ã   Ã  Ä Ã  Å #Ã  Ç &Ã  É *Ã  Ñ .Ã  Ö 1Ã  Ü 4Ã  á 7Ã  à 9Ã  â ;Ã  ™  UÃ  ´ uÃ  ¨  îÃ  ≠ ¥Ã  Æ
+  Ã  ∞8 ‘Ã  ±B Õ  A¿ NÕ  Bæ Œ  C≠ ÃŒ  D– yœ  Eœ I–  F´ —  m- √—  n2 —  ≤2 "“  ≥ T“  ∏ f“  π n“  ∫ u“  ª Ñ“  ºH å“  Ω ‘“  æ ﬂ“  ø ˚“  ¿? ”  ¡ X”  ¬ j”  √ Ö”  ƒ ö”  ≈ †”  ∆
+ ®”  « ≤”  »! π”  …5 ⁄”   , ‘  Ã ;‘  Õ X‘  Œ _‘  — v‘  “ ç‘  ” ©‘  ‘. π‘  ’C Á‘  ÷A *’  ◊' k’  ÿ2 í’  Ÿ3 ƒ’  ⁄< ˜’  €% 3÷  ‹: X÷  ‡ í÷  ·Ü ö÷  ‚   ◊  ‰% @◊  Â  e◊  Ê Ö◊  Á °◊  Ë Ω◊  È0 ⁄◊  Í1 
+ÿ  Î ;ÿ  Ï$ Wÿ    {ÿ  	 k Åÿ  
+  Ïÿ    Úÿ    ˘ÿ   ? Ÿ    GŸ   $ YŸ    }Ÿ    êŸ   + ≠Ÿ    ÿŸ    Ÿ    ⁄    ⁄    0⁄    @⁄    P⁄    `⁄    k⁄  0  {⁄  1  à⁄  7  ò⁄  4! ¶⁄  5! º⁄  (# ñ∫  )# ©∫  *# æ∫  +# Ÿ∫  ,#, Ì∫  /# ª  0# ,ª  1# <ª  2# Pª  4# gª  5#7 Ñª  6#& ªª  <# ·ª  =# ˚ª  >#. º  ?#' Aº  @# hº  A# }º  B#' êº  C#' ∑º  E#= ﬁº  F# Ω  G#1 .Ω  H## _Ω  I# ÇΩ  J# °Ω  K# πΩ  P# ÿΩ  Q# ÓΩ  R# æ  S# æ  T# ;æ  Z# Uæ  [# hæ  \#( ~æ  ]## ¶æ  ^# …æ  _# ‰æ  ç#, ˙æ  ò#+ &ø  ô#/ Qø  ®## Äø  π#+ £ø  ∫#* Œø  Ï#( ¯ø  Ì#+  ¿  Ò#' K¿  Ú# r¿  Û# ã¿  @$ ö¿  A$ ¥¿  B$ œ¿  C$ ÷¿  D$  ı¿  π$ ¡  Å%2 &¡  Ç%+ X¡  É%& É¡  Ñ% ©¡  Ö% √¡  Ü% ◊¡  á% Í¡  à% ¬  â%& ¬  ä%% ;¬  –% `¬  —% {¬  “% ï¬  ”% ±¬  H& Ã¬  I& Ê¬  J&& ˘¬  K&4 √  L&2 S√  M& Ö√  N& ò√  O& ´√  P&  √  Q& Ê√  R&( ˛√  S& &ƒ  V&+ Bƒ  W&5 mƒ  X&5 ¢ƒ  Z&+ ◊ƒ  [& ≈  ò& ≈  ô&& 0≈  ö& V≈  ¢& f≈  £& Ö≈  §& å≈  ≠& ™≈  Æ& ≈≈  Ø&+ ﬁ≈  ∞&+ 	∆  ±& 4∆  ≤&/ L∆  ≥&- {∆  ¥&- ®∆  µ& ’∆  ∑& Ò∆  π& «  ∫&  «  ª& <«  º&' S«  Ω&& z«  æ&' †«  ¿&- ««  ¡&, Ù«  ¬&3  »  √&/ S»  ƒ& Ç»  ≈&/ ë»  ∆&- ¿»  «&2 Ì»  »&/ …  …&% N…   &! s…  À&! î…  Ã&- µ…  Õ&- ‚…  Œ&    œ& #   –&' @   —&& g   “&; ç   ”& »   ‘&& Á   ’&" À  ' €⁄  ' Ù⁄  '# €  '+ %€  '9 P€  ': â€  '* √€  '$ Ì€  '# ‹  '( 4‹  '* \‹  ' Ü‹  '  û‹  ' æ‹  ' ‘‹  '% È‹   ' ›  !' "›  "' <›  #' Y›  $'# o›  %' í›  &' ù›  '' Æ›  (' ¬›  )' ’›  *' Ï›  +' 	ﬁ  ,' ﬁ  -' 8ﬁ  .' Sﬁ  /' gﬁ  0' {ﬁ  1' ôﬁ  2' ™ﬁ  3' ≈ﬁ  4', ‰ﬁ  5' ﬂ  6'  ﬂ  7' :ﬂ  8' Wﬂ  9'+ sﬂ  :'& ûﬂ  ;'& ƒﬂ  <' Íﬂ  =' ˚ﬂ  >'$ ‡  t' 4‡  u' M‡  v' c‡  w'$ y‡  x' ù‡  y' µ‡  z' œ‡  {'! Ê‡  |' ·  0*# ·  î*  B·  ï*& b·  ñ*% à·  ó* ≠·  ò* Ã·  ô*0 Í·  ö*1 ‚  õ*" K‚  ú* m‚  ù* á‚  û*$ ¢‚  ü* ∆‚  †* ﬂ‚  °*% ı‚  ¢** „  £* D„  §* ]„  •* p„  ¶* É„  ß*  ü„  ®* ø„  ©*/ ◊„  ™*, ‰  ´* 2‰  ¨* M‰  ≠* _‰  Æ* q‰  Ø* Å‰  ∞* ï‰  ±* ©‰  ≤* Ω‰  ≥*' ‹‰  ˘* Â  ˙* Â  ˚* Â  ¸* Â  ˝* >Â  ˛* NÂ  ˇ* eÂ   + |Â  + îÂ  + †Â  + ≠Â  + ∫Â  +	 ¿Â  + …Â  + ÷Â  ·.	 „Â  ‚.0 ÏÂ  „.4 Ê  ‰.  PÊ  Â.0 pÊ  Ê.( †Ê  Á.2 »Ê  Ë. ˙Ê  È. Á  Í.$ 3Á  Î./ WÁ  Ï. ÜÁ  Ì.& †Á  Ó.) ∆Á  Ô. ÔÁ  . Ë  Ò. Ë  Ú. !Ë  Û. ;Ë  Ù.	 GË  ı.* PË  ˆ.' zË  ˜. °Ë  ¯. ¥Ë  ˘. “Ë  ˙. ÷Ë  ˚. €Ë  ¸.& ËË  ˝.% È  …2, 3È   2 _È  À2 cÈ  Ã2 gÈ  Õ2 yÈ  Œ2 äÈ  œ2 òÈ  –2 ¶È  —2 ≠È  “2 ∫È  ”2 ¬È  ‘2	  È  ’2 ”È  ÷2 ÿÈ  ◊2 ‹È  ÿ2 ÁÈ  Ÿ2 ÙÈ  ⁄2# ¯È  €2 Í  ‹2 1Í  ›2 CÍ  ﬁ2 `Í  ﬂ2 pÍ  ‡2 Í  ·2 íÍ  ‚2	 ¶Í  „2- ØÍ  ‰2 ‹Í  Â2 ˜Í  Ê2 Î  Á2 Î  Ë2 Î  È25 "Î  Í2$ WÎ  Î2 {Î  Ï2) ãÎ  Ì2 ¥Î  Ó20 ¡Î  7 ÒÎ  7 
+Ï  70 Ï  7& BÏ  7 hÏ  7
+ wÏ  7 ÅÏ  7 íÏ  Ä> öÏ  Å>, °Ï  Ç> ÕÏ  É> ÿÏ  Ñ> ﬂÏ  Ö> „Ï  Ü> ÒÏ  á>  Ì  à> Ì  â>  Ì  ä>
+ Ì  ã> (Ì  å>	 0Ì  ç> 9Ì  é>
+ AÌ  è> KÌ  ê> SÌ  ë> UÌ  í>S VÌ  ì>< ©Ì  î>! ÂÌ  ï> Ó  ñ>
+ Ó  ó>e Ó  ò> ÅÓ  ô>
+ êÓ  ö> öÓ  õ>! ¨Ó  ú>) ÕÓ  ù> ˆÓ  û> Ô  ü> "Ô  †> .Ô  °> <Ô  ¢>' HÔ  £> oÔ  §> sÔ  •> zÔ  ¶>9 óÔ  ß> –Ô  ®>) ﬁÔ  ©>"   ™> )  ´> ,  ¨> :  ≠> J  Æ> M  Ø> P  ∞> S  ±> V  º> Y  Ω> ^  æ> c  ø> f  ¿> i  ¡> l  ¬> r  √> x  ƒ> {  ≈> ~  ∆> Å  «> Ñ  »> á  …> ç   > ï  ‰> õ  †A ¥  °A …  ¢Ak ⁄  £AO EÒ  §A~ îÒ  •A Ú  ¶A. Ú  ßA1 BÚ  ®A9 sÚ  ©A
+ ¨Ú  ™AX ∂Ú  ´A_ Û  ¨A: mÛ  ≠A( ßÛ  ÆAZ œÛ  ØAW )Ù  ∞Al ÄÙ  ±AM ÏÙ  ≤AP 9ı  ≥A âı  ¥AP ãı  µA5 €ı  ∂A: ˆ  ∑A Jˆ  ∏AU Wˆ  πAP ¨ˆ  ∫A ¸ˆ  ªA  ˜  ºA ˜  ΩA/ )˜  æA∞ X˜  øA ¯  ¿AL ¯  ¡Af `¯  ¬Aﬁ ∆¯  √A4 §˘  ƒA
+ ÿ˘  ≈A ‚˘  ∆A ˆ˘  «A ¸˘  »A ˇ˘  …A ˙   A .˙  ÀA· G˙  ÃA– (˚  ÕA± ¯˚  ŒA ©¸  œA& Æ¸  –A ‘¸  —A Í¸  “AH ˘¸  ”Aè A˝  ‘A! –˝  ’A& Ò˝  ÷A- ˛  ◊A2 D˛  ÿA* v˛  ŸA †˛  ⁄A- ±˛  €AY ﬁ˛  ‹A 7ˇ  ›A ?ˇ  ﬁAc Lˇ  ﬂA Øˇ  ‡A ≈ˇ  ·AU —ˇ  ‚A &  „A 1  ‰A N  ÂA% k  ÙA ê  ıA ¢  ˆA ≥  ˜A »  ¯AF €  ˘A ! ˙AG 7 ˚A ~ ¸AZ î ˝Aj Ó ˛A· X ˇAü 9  B ÿ B+ Á B  B ( B¡ 8 BÑ ˘ B } B] ¸ BK Y B § B⁄ ≥ B7 ç B ƒ B	 ⁄ BF „ B ) B 6 B 7 B3 : B@ m B= ≠ B Í B 	 B 	 B( *	 BS R	 B •	 B ≤	 hB ø	 iB ◊	 jB! Û	 kB  
+ lB  4
+ mB T
+ nB s
+ oB  í
+ pB! ≤
+ qB( ”
+ rB% ˚
+ sB&   tB% F uB' k vB í wB) ™ xB! ” yB Ù zB  {B " |B 0 }B* B ~B' l B# ì ÄB- ∂ ÅB3 „ ÇB+  ÉB A ÑB ^ ÖB  y ÜB  ô áB π àBO Œ âB  äB : ãB V åB t \D ê ]D ù ^D ¥ _D ∆ `D ‹ aD Ì bD  cD $ dD 7 eD& M fD s gD å hD ™ iD% ø jD ‰ kD ı lD  mD2 / nD a àE Ä âE Ñ äE“ à ãE Z åE0 o çE< ü éE € èE È êE	 ¸ ëE  íE 
+ ÏE  ÌEy  ÓE í ÔEN  ˆE _ ˜E g ¯E n ˘E Å ˙E ù ˚E ∂ ¸E ” ˝E! Í ˛E  ˇE3 $  F W F Y F _ F d F i F o F u 
+F í F$ ≠ F — F Ï F& 
+ F 0 F G QF M RF S SF Z TFz j UF ‰ VF Û 8J  9J  :J  ;J % <J 5 =J` : >Jr ö ?J)  @J? 5 AJ	 t BJ } CJ1 Ñ DJ µ EJ » FJ ﬁ GJ Î HJ	  IJ 
+ JJ  KJ , LJ A MJ L NJ [ OJ. n PJ ú QJ ≠ RJ æ SJ € TJ ﬂ UJ Â VJ ¯ WJ>   XJ( > YJ
+ f ZJ# p [J ì \J4 Æ ]J3 ‚ ^J@  _J) U `JI ~ aJ$ « bJ Î cJã  dJ í eJ Æ fJ=   gJ  hJ  iJ& "  N H !Nk b "NO Õ #N$  $NF @ %N% Ü &N. ´ 'N Ÿ (N´ ‡ )N| ã *N  +N  ,NÖ + -N ∞ .N' Ã /N Û 0N    1N# 0  2N* S  3N }  4N; å  5N# «  6N( Í  Ñ	 L! 

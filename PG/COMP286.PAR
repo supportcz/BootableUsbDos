@@ -1,0 +1,56 @@
+3 *** if active F3 reverse
+************************************
+* The attributes can be entered HEXADECIMAL (preceding '$') or decimal 
+* without characteristic.
+*
+* Empty lines must always begin with "*" (comment)
+*
+*
+* At HEX input High Nibble corresponds to the background color
+* and Low Nibble to the writing color.
+*
+* 0 ... black                8 ... dark grey
+* 1 ... blue                 9 ... light blue
+* 2 ... green                A ... light green
+* 3 ... cyan                 B ... light cyan
+* 4 ... red                  C ... light red
+* 5 ... magenta              D ... light magenta
+* 6 ... brown                E ... yellow
+* 7 ... light grey           F ... white
+*
+*
+* example:
+*
+*  red background and black writing color  ==>  $40
+*  grey background and blue writing color  ==>  $71
+*
+************************************
+$0E         *editing line if active
+$2A         *FIND MASK if active
+*************
+*** PRE SETTINGS EDITOR
+$0A         *basic color (background in STL, ...)
+$0A         *help line (display length is shorter than field length)
+$0C         *help line attribute for visible port
+$7E         *help line attribute for additional cursor
+$0C         *tabulator line
+$50         *line numbers
+$0E         *debugger line
+$60         *warnings
+$E0         *error messages
+$2A         *editing line if not active
+*************
+*** LADDER DIAGRAM ATTRIBUTES
+$70         *inverse
+$01         *underlined
+$07         *normal
+$09         *inverse - underlined
+$F0         *inverse - flashing
+*************
+*** FUNCTION KEYS
+$09         *normal
+$70         *inverse (baud rate in terminal mode)
+$07         *function key number
+$07         *space between, background
+*ÿ
+

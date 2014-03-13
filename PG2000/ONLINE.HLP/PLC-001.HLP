@@ -1,0 +1,63 @@
+%%
+1,0:1      General Information about PCC Errors
+2,0:2      General Errors Chapter
+3,0:3      HW-Trap Library Errors Chapter
+4,0:4      SW-SysTrap Library Errors Chappter
+5,0:5
+6,0:6
+7,0:7
+8,0:8
+9,0:9
+10,0:10
+11,0:11    Miscellaneous Chapter
+%%
+.1
+        General Information about PCC Errors
+
+
+        Help text currently not available
+
+.2
+        General Errors
+
+        Help text currently not available
+
+.3
+        HW-Trap Library Errors
+
+        Help text currently not available
+.4
+        SW-SysTrap Library Errors
+
+        Help text currently not available
+.5
+        ALI-Trap Library Errors
+
+        Help text currently not available
+.6
+        Task Classes /PCC Task/U Task/HS Task Errors
+
+        Help text currently not available
+
+.7
+        System Errors
+
+        Help text currently not available
+.8
+        Boot Errors
+
+        Help text currently not available
+.9
+        Operatr Panel Trap Library Errors
+
+        Help text currently not available
+.10
+        Installation Errors
+
+        Help text currently not available
+.11
+        Miscellaneous
+
+        Help text currently not available
+
+.End

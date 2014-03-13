@@ -1,0 +1,12 @@
+#TXT 00 00 46 78  _1)_InaktivitÑts-Timeout_fÅr_LogOff_(RS232)_:_
+#VAR 00 47 03 01 78 00 78 N N J N N 00 00 01 
+#TXT 00 52 21 78  (10*sec)_____________
+#TXT 01 00 46 78  _2)_InaktivitÑts-Timeout_fÅr_LogOff_(RS485)_:_
+#VAR 01 47 03 01 78 00 78 N N J N N 00 00 02 
+#TXT 01 52 08 78  (10*sec)
+#TXT 03 00 46 78  _3)_Timeout_Task-Synchronisation_bei_LogOff_:_
+#VAR 03 47 03 01 78 00 78 N N J N N 00 00 03 
+#TXT 03 52 05 78  (sec)
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~

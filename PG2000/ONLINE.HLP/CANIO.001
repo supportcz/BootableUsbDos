@@ -1,0 +1,902 @@
+%%
+1,0:1
+%%
+.1
+    CANIO Library Functions
+
+  ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ Attention: The CANIO Library contains AVT functions. This means the       บ
+  บ            functions of this Library can only be used when the Library    บ
+  บ            Runtime module (B&R Module CANIO.BR) is available in the non-  บ
+  บ            volatile memory (Application ROM) on the controller! After     บ
+  บ            transferring the Library Runtime Module to the non-volatile    บ
+  บ            memory, you must carry out a COLDSTART("TOTALINIT").           บ
+  บ            CANIO Library functions must be called in the cyclic section   บ
+  บ            of a Task (not in the Initialization sub-program)!             บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+    The following functions are available after you have imported the CANIO 
+    Library:
+
+    @020[CANIOcmd] Command request send/command response receive 
+    @040[CANIOexc] Exception-handling (Exception Number 170)
+
+
+
+                                      @200[ APPENDIX ]                      @999[ End HELP ]
+.20
+    CANIOcmd - Command Request send/Command Response receive
+
+    @021[CANIOcmd] (enable,busnr,nodenr,adr(cmd),adr(res),status)
+
+    Parameter Data Type :
+    ->  enable    : BIT           The function block is only activated, when
+                                  enable = 1 
+    ->  @025[busnr     ]: BYTE          Bus number of the requested CAN Bus (1-8)
+    ->  nodenr    : BYTE          CAN node number of the Slave Station (1-32)
+    ->  @026[cmd       ]: 8 BYTE (FELD) Command request
+    <-> @028[res       ]: 8 BYTE (FELD) Command response
+    <-  @030[status    ]: WORD          Error number (0 = no error)
+
+    The CANIOcmd() function sends a command request to a CAN Bus Slave module,
+    and receives a command response. This function is mainly used for reading
+    and describing configuration words.
+
+
+
+
+
+                                      @021[ Continue ]                      @001[ Overview ]
+.21
+    CANIOcmd - Command Request send/Command Response receive (continued)
+
+    The correct construction of a command request (input parameter "cmd") is
+    described in "B&R SYSTEM 2000 B&R 2003 User's Manual" (chapter "CAN BUS
+    Slave Module Functions", section "Commands - CAN Bus Slave Module").
+    The output "status" is set to 65535 (BUSY) while the Command Request
+    send/Command Response receive is being sent. The command response
+    (input/output parameter "res") can only be evaluated when the output
+    "status" is 0. If an error occurs while the function is being executed, the
+    output "status" triggers a corresponding error number.
+    If a command response is not received, a Timeout error is triggered.
+
+    Note:
+    Because function blocks created in CANIO Master, which runs on a 10 msec
+    operating system clock, there is no point using the function block in a
+    HS task class with a cycle time of less than 10 msec.
+
+
+
+
+
+                                                                      @001[ Overview ]
+.25
+    CANIOcmd Command Request send/Command Response receive (continued)
+
+    -> Parameter <busnr     >: BYTE
+
+    Bus number of the required CAN bus (1-8). The parameters for the CAN bus
+    selected must be set in the system configuration. To set the CAN bus
+    parameters, call the function <Object><Parameter> from the GDM task layer.
+    Position the cursor on the "sysconf" symbol. Select the <CAN I/O> function
+    (see <Configure> Popup Menu) to open a dialog in which you can set CAN
+    parameters.
+
+
+
+
+
+
+
+
+
+
+
+                                      @020[ CANIOcmd ]                      @001[ Overview ]
+.26
+    CANIOcmd - Command Request send/Command Response receive (continued)
+
+    -> Parameter <cmd       >: 8 BYTE (FELD)
+
+    Command request. The CANIOcmd() function sends a command request from
+    the Station (Client) to a CAN slave module and receives a command response.
+    The command request must have the following construction:
+    ษอออออออหออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ Byte  บ Description                                      บ
+    ฬอออออออฮออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ   0   บ ID (free number from range 0 ... 126)            บ
+    วฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   1   บ Command code                                     บ
+    วฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   2   บ Parameter 1                                      บ
+    วฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   3   บ Parameter 2                                      บ
+    วฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ 4 - 7 บ Command data in Motorola format                  บ
+    ศอออออออสออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+                                      @027[ Continue ]                      @001[ Overview ]
+.27
+    CANIOcmd - Command Request send/Command Response receive (continued)
+
+    A detailed description about "Command Requests" is found in the
+    "B&R SYSTEM 2000 B&R 2003 User's Manual" chapter "CAN BUS Slave Module
+    Functions" (section "Commands - CAN Bus Slave Module").
+    Not every command request to the Slave module will automatically result in
+    a command response (see individual command descriptions).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @020[ CANIOcmd ]                      @001[ Overview ]
+.28
+    CANIOcmd - Command Request send/Command Response receive (continued)
+
+    <-> Parameter <res       >: 8 BYTE (FELD)
+
+    Command response. The CANIOcmd() function sends a command request from the
+    Station (Client) to a CAN slave module and receives a command response.
+    The command response has the following construction:
+
+    ษอออออออหออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ Byte  บ Description                                      บ
+    ฬอออออออฮออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ   0   บ - Transfer OK:                                   บ
+    บ       บ   Code = Client code                             บ
+    บ       บ - Unsuccessful transfer:                         บ
+    บ       บ   Code Bit 7 is set                              บ
+    บ       บ - Transfer of an unrequested message:            บ
+    บ       บ   Code = $FF                                     บ
+    วฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   1   บ Command code                                     บ
+    ศอออออออสออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+                                      @029[ Continue ]                      @001[ Overview ]
+.29
+    CANIOcmd - Command Request send/Command Response receive (continued)
+
+    ษอออออออหออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ Byte  บ Description                                      บ
+    ฬอออออออฮออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ   2   บ Parameter 1                                      บ
+    วฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   3   บ Parameter 2                                      บ
+    วฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ 4 - 7 บ Command response in Motorola format or error codeบ
+    ศอออออออสออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+    A detailed description about "Command Responses" is found in the
+    "B&R SYSTEM 2000 B&R 2003 User's Manual" chapter "CAN BUS Slave Module
+    Functions" (section "Commands - CAN Bus Slave Module").
+
+
+
+
+
+
+                                      @020[ CANIOcmd ]                      @001[ Overview ]
+.30
+    CANIOcmd - Command Request send/Command Response receive (continued)
+
+    <- Parameter <status    >: WORD
+
+    CANIOcmd() function error numbers:
+    65535    BUSY (function block waits for response)
+    8955     Bus is not configured
+    8956     Node is not configured
+    8976     No CANIO application is installed on the PP
+    8978     No CANIO application is installed on these nodes
+    8979     Node is not active
+    8985     Timeout
+             (the Slave node did not deliver a response inside 2 seconds)
+
+    A list of all possible CANIO library error messages is found in the
+    appendix @300[Error Messages].
+
+
+
+
+
+                                      @020[ CANIOcmd ]                      @001[ Overview ]
+.40
+    CANIOexc - Exception-Handling
+
+    @041[CANIOexc] (enable,status,exctyp,busnr,nodenr,errcode,addcode)
+
+    Parameter Data Type:
+    ->  enable    : BIT           The function block is only executed when
+                                  enable = 1
+    <-  @300[status    ]: WORD          Error number (0 = no error)
+    <-  exctyp    : BYTE          Type of Exception triggered:
+                                  1 ... Missing node
+                                  2 ... Node reactivated
+                                  3 ... Alarm
+                                  4 ... BusOff
+    <-  busnr     : BYTE          Bus number of the CAN bus (1-8)
+    <-  nodenr    : BYTE          CAN node number of the Slave Station (1-32)
+    <-  @045[errcode   ]: WORD          Error code of the Alarm
+    <-  @046[addcode   ]: WORD          Additional code of the Alarm
+
+
+
+
+                                      @041[ Continue ]                      @001[ Overview ]
+.41
+    CANIOexc - Exception-Handling (continued)
+
+    Since an Execption is triggered when an error occurs on the CAN bus, you
+    have to select the "Exception: Yes" setting in the System configuration
+    for the corresponding CAN bus. In addition you must call the <Object>
+    <Parameter> function from the GDM task layer. Position the cursor on
+    "sysconf" symbol. Select the <CAN I/O> function (see <Configure> Pop-up
+    menu) to open a dialog box in which you can set the CAN parameters. You
+    can select the "Exception: Yes" dialog box here. If an error occurs on
+    the CAN bus when setting this (e.g. CAN node missing), an exception is
+    triggered (Exception No. 170). You can find out the type of exception
+    triggered in an exception task (see output "exctyp") using the CANIOexc()
+    function.
+    
+    Note:
+    If you select the "Exception: Yes" function when no Exception task is
+    active, the error 8981 (no Exception task active) is triggered.
+
+
+
+
+                                      @042[ Continue ]                      @001[ Overview ]
+.42
+    CANIOexc - Exception-Handling (continued)
+
+    More detailed information can be seen regardless of the type of exeption
+    triggered (see outputs "busnr", "nodenr", "errcode" and "addcode"):
+
+    ษอออออออออออออออออออออหอออออออออออัอออออออออออัอออออออออออัอออออออออออป
+    บ Type of Exception   บ  "busnr"  ณ "nodenr"  ณ "errcode" ณ "addcode" บ
+    ฬอออออออออออออออออออออฮอออออออออออุอออออออออออุอออออออออออุอออออออออออน
+    บ Node missing        บ     x     ณ     x     ณ           ณ           บ
+    วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤถ
+    บ Node reactivated    บ     x     ณ     x     ณ           ณ           บ
+    วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤถ
+    บ Alarm               บ     x     ณ     x     ณ     x     ณ     x     บ
+    วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤถ
+    บ BusOff              บ     x     ณ           ณ           ณ           บ
+    ศอออออออออออออออออออออสอออออออออออฯอออออออออออฯอออออออออออฯอออออออออออผ
+
+
+
+
+
+                                      @043[ Continue ]                      @001[ Overview ]
+.43
+    CANIOexc - Exception-Handling (continued)
+
+    After the Exception "BusOff", only one further "BusOff" Exception can be
+    triggered if the BusOn status is entered in the mean time (can't be
+    directly defined in the function block).
+
+    If the exception "Node missing" is not triggered after a BusOff status,
+    this means the CAN bus was only briefly in BusOff status.
+
+    Each CAN node must register with the Master cyclically within the Life
+    Guard Time, otherwise the corresponding CAN node will be deregistered.
+    This means that the Exceptions "Node missing" and "Node reactivated" are
+    dependent on the Life Guard Time defined in the system configuration.
+    To set the Life Guard Time, call the <Object><Parameter> function from
+    the GDM task layer. Position the cursor on "sysconf" symbol. Select the
+    <CAN I/O> function (see <Configure> Pop-up menu) to open a dialog box
+    in which you can set the CAN parameters. You can define the Life Guard
+    Time (entry "TimeoutIO") here.
+
+
+
+                                                                      @001[ Overview ]
+.45
+    CANIOexc - Exception-Handling (continued)
+
+    <- Parameter <errcode   >: WORD
+
+    Error code (given when an Alarm is triggered).
+    A breakdown of individual error codes can be found in the appendix
+    "Error Messages CAN Bus Slave Module" in the "B&R SYSTEM 2000 B&R 2003
+    User's Manual".
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @040[ CANIOexc ]                      @001[ Overview ]
+.46
+    CANIOexc - Exception-Handling (continued)
+
+    <- Parameter <addcode   >: WORD
+
+    Additional code (only given when Alarm occurs).
+    A breakdown of individual error codes can be found in the appendix
+    "Error Messages CAN Bus Slave Module" in the "B&R SYSTEM 2000 B&R 2003
+    User's Manual".
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @040[ CANIOexc ]                      @001[ Overview ]
+.200
+    APPENDIX : LIBRARY Information
+
+
+    @201[< General Information  >]   Information, requirements etc.
+
+    @210[< Supported Hardware   >]   Hardware supported by CANIO Master
+
+    @220[< Configuration example>]   Example of Hardware configuration
+
+    @230[< Hardware limitations >]   Hardware limitations (CANIO Master)
+
+    @240[< CAN Bus Slave Module >]   CAN Bus slave module - B&R 2003
+
+    @250[< Syntax               >]   Syntax for declaring functions
+
+    @300[< Error numbers        >]   Summary of Error numbers
+
+    @400[< History              >]   New functionality and version changes
+
+
+
+                                                                      @001[ Overview ]
+.201
+    CANIO Master / CANIO Library : General Information
+
+    CAN I/O enables B&R 2003 SYSTEM CAN Slave nodes to be connected to all
+    B&R 2003, B&R 2005, B&R 2010 SYSTEM CPUs and PANELWARE, that are equipped
+    with a CAN interface or through a PP (parallel processor) connected to a
+    CAN interface. This connection is made possible using CANIO Master software
+    (abbr. CANIO Master). The CANIO Master is a system task, that enables
+    operation of B&R 2003 CAN I/Os (abbr. CANIO 2003) through PG2000 (simply
+    "Handling" process variables using variable declaration). The I/O Type
+    "CAN I/O" can be defined in the Variable declaration.
+    The CANIO Master is compatible with all CPUs (requires: PCCSW version
+    V2.00) equipped with a CAN interface (also with CPUs that can access
+    CAN I/Os through a parallel processor). The CAN slave node number on
+    the bus is recognized by the CANIO Master and then initialized in order
+    to read and write the I/O points. Special variables are declared for
+    reading/writing the module specific parameters.
+    The CANIO Master takes over node monitoring and error signals.
+    Error status can be processed using an exception task.
+
+
+
+                                      @202[ Continue ]                      @001[ Overview ]
+.202
+    CANIO Master / CANIO Library : General Information (continued)
+
+    Comparison between Remote IO 2003 and CANIO 2003:
+    The Remote Master is a hardware solution, the CANIO Master is a Software
+    solution. The following table shows the advantages and disadvantages of
+    the Remote IO 2003 and CANIO 2003.
+
+  ษอออออออออออออออออออออออออออออออออออออหออออออออออออออออออหออออออออออออออออออป
+  บ                                     บ  Remote-IO-2003  บ    CANIO-2003    บ
+  ฬอออออออออออออออออออออออออออออออออออออฮออออออออออออออออออฮออออออออออออออออออน
+  บ Processing time                     บ faster           บ slower           บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ Non B&R devices                     บ non-compatible   บ compatible       บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ Connection to different CPUs (PP)   บ not scalable     บ scalable         บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ Reaction to events                  บ cyclic           บ per event        บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ PCC-PCC-service                     บ no Network       บ via Network      บ
+  ศอออออออออออออออออออออออออออออออออออออสออออออออออออออออออสออออออออออออออออออผ
+
+                                      @203[ Continue ]                      @001[ Overview ]
+.203
+    CANIO Master / CANIO Library : General Information (continued)
+
+    Summary:
+    - CANIO (Software solution) can not achieve the same value for data
+      transfer as Remote-IO (Hardware solution).
+    - Non B&R devices can be served using the CAN library (but not through
+      CANIO Master). Connection to non B&R devices is not possible via the
+      Remote-IO.
+    - CANIO can be installed on all CPUs equipped with a CAN interface (also
+      on CPUs that can access CAN-I/Os via a parallel processor).
+    - Response to changes is carried out cyclically by the Remote-IO, CANIO
+      in comparison, reacts per event.
+    - CAN is a Network medium that enables future PCC-PCC service.
+
+
+
+
+
+
+
+
+                                      @204[ Continue ]                      @001[ Overview ]
+.204
+    CANIO-Master / CANIO-Library : General Information (continued)
+
+    Note:
+    - Before you can use the functions of the CANIO-library in your project,
+      you have to import this library into the corresponding project databank.
+
+    - Because the CANIO-library contains AVT-functions, these functions can
+      only be used when the Runtime-Module library (B&R module CANIO.BR) is
+      available in the controllers non-volatile memory (Application-ROM)!
+
+    - Version V2.00 of the PCCSW operating system is required for using
+      CANIO-master.
+
+    - CANIO-library functions report an @300[Error number] in the event of an error.
+
+
+
+
+
+
+
+                                      @200[ Appendix ]                      @001[ Overview ]
+.210
+    CANIO-Master / CANIO-Library : Supported Hardware
+
+    The CANIO master can be run by the following CAN interface equipped CPUs:
+
+    - CP104 (B&R 2010)
+    - CP200 (B&R 2010)
+    - IF100 (B&R 2010)
+    - IF101 (B&R 2010)
+    - XP152 (B&R 2005)
+    - IP151 (B&R 2005)
+    - IF152 (B&R 2005)
+    - IF260 (B&R 2005)
+    - CP260 (B&R 2005)
+    - CP472/CP772 (B&R 2003)
+    - CP474/CP774 (B&R 2003)
+    - CP470/CP770 (B&R 2003)
+    - C220 (Panelware)
+
+
+
+
+                                      @211[ Continue ]                      @001[ Overview ]
+.211
+    CANIO-Master / CANIO-Library : Supported Hardware (continued)
+
+    The CANIO-master can also be run by CPUs that can access CANIOs via a
+    PP (parallel processor):
+
+    - CP152 (B&R 2005)
+    - CP153 (B&R 2005)
+    - CP100 (B&R 2010)
+
+    The XP152, IF152, IP151, IF260, IF100 and IF101 modules are suitable for
+    use as PPs. The CANIO-master can be run from both the CPU and Master.
+
+
+
+
+
+
+
+
+
+
+                                      @200[ Appendix ]                      @001[ Overview ]
+.220
+    CANIO-Master / CANIO-Library : Configuration Example
+
+    Configuration example 1:
+    Configuring a CPU and more than one CAN-slave (configuration with only one
+    slave node is also possible):
+
+    CPxxx
+    ฺฤฤฤฟ
+    ณ   ณ
+    ณ ฺฟณ
+    ณ ภูณ
+    ภฤาฤู        CAN-Bus
+      ฬออออออออออออออออออออออออออหอออออออออออออ ...
+     ฺะยฤยฤยฤฟ                  ฺะยฤยฤยฤฟ
+     รฟณ ณ ณ ณ CAN-Slave 2003   รฟณ ณ ณ ณ CAN-Slave 2003
+     ภมมฤมฤมฤู                  ภมมฤมฤมฤู
+
+
+
+
+
+                               @221[ Configuration Example 2 ]              @001[ Overview ]
+.221
+    CANIO-Master / CANIO-Library : Configuration Example (continued)
+
+    Configuration example 2:
+    Configurating a CPU and a PP (PP = parallel processor):
+
+      ฺฤฤฤฤฤฤฤฤฤ CP152
+      ณ   ฺฤฤฤฤฤ IF152
+    ฺฤฤฤยฤฤฤฟ
+    ณ   ณ   ณ   
+    ณ   ณ ฺฟณ
+    ณ   ณ ภูณ
+    ภฤฤฤมฤาฤู        CAN-Bus
+          ฬออออออออออออออออออออออออออหอออออออออออออ ...
+         ฺะยฤยฤยฤฟ                  ฺะยฤยฤยฤฟ
+         รฟณ ณ ณ ณ CAN-Slave 2003   รฟณ ณ ณ ณ CAN-Slave 2003
+         ภมมฤมฤมฤู                  ภมมฤมฤมฤู
+
+    The CANIO-master can be run either from the CPU or from the PP.
+
+
+
+                               @222[ Configuration Example 3 ]              @001[ Overview ]
+.222
+    CANIO-Master / CANIO-Library : Configuration Example (continued)
+
+    Configuration example 3:
+    Configuring with two PPs (PP = parallel processor):
+      ฺฤฤฤฤฤฤฤฤฤฤฤฤฤ CP152
+      ณ   ฺฤฤฤยฤฤฤฤฤ IF152
+    ฺฤฤฤยฤฤฤยฤฤฤฟ
+    ณ   ณ   ณ   ณ
+    ณ   ณ ฺฟณ ฺฟณ
+    ณ   ณ ภูณ ภูณ
+    ภฤฤฤมฤาฤมฤาฤู        CAN-Bus 2
+          บ   ฬออออออออออออออออออออออออออหอออออออออออออ ...
+          บ  ฺะยฤยฤยฤฟ                  ฺะยฤยฤยฤฟ
+          บ  รฟณ ณ ณ ณ CAN-Slave 2003   รฟณ ณ ณ ณ CAN-Slave 2003
+          บ  ภมมฤมฤมฤู                  ภมมฤมฤมฤู
+          บ              CAN-Bus 1
+          ฬออออออออออออออออออออออออออหอออออออออออออ ...
+         ฺะยฤยฤยฤฟ                  ฺะยฤยฤยฤฟ
+         รฟณ ณ ณ ณ CAN-Slave 2003   รฟณ ณ ณ ณ CAN-Slave 2003
+         ภมมฤมฤมฤู                  ภมมฤมฤมฤู
+
+                               @223[ Configuration Example 4 ]              @001[ Overview ]
+.223
+    CANIO-Master / CANIO-Library : Configuration Example (continued)
+
+    Configuration example 4:
+    Configuration with a CPU that is at the disposal of several CAN 
+    interfaces:
+    CP260
+    ฺฤฤฤฟ
+    ณ   ณ
+    ณฺยฟณ
+    ณภมูณ
+    ภาฤาู        CAN-Bus 2
+     บ ศอหออออออออออออออออออออออออออหอออออออออออออ ...
+     บ  ฺะยฤยฤยฤฟ                  ฺะยฤยฤยฤฟ
+     บ  รฟณ ณ ณ ณ CAN-Slave 2003   รฟณ ณ ณ ณ CAN-Slave 2003
+     บ  ภมมฤมฤมฤู                  ภมมฤมฤมฤู
+     บ           CAN-Bus 1
+     ฬออออออออออออออออออออออออออหอออออออออออออ ...
+    ฺะยฤยฤยฤฟ                  ฺะยฤยฤยฤฟ
+    รฟณ ณ ณ ณ CAN-Slave 2003   รฟณ ณ ณ ณ CAN-Slave 2003
+    ภมมฤมฤมฤู                  ภมมฤมฤมฤู
+
+                               @224[ Configuration Example 5 ]              @001[ Overview ]
+.224
+    CANIO-Master / CANIO-Library : Configuration Example(continued)
+
+    Configuration example 5:
+    Configuring more than one CPU on a Bus:
+
+    CPU 1                             CPU 2
+    ฺฤฤฤฟ                             ฺฤฤฤฟ
+    ณ   ณ                             ณ   ณ
+    ณ ฺฟณ                             ณ ฺฟณ
+    ณ ภูณ                             ณ ภูณ
+    ภฤาฤู        CAN-Bus              ภฤาฤู
+      ฬออออออออออออออออออออออออออหออออออสออออออ ...
+     ฺะยฤยฤยฤฟ                  ฺะยฤยฤยฤฟ
+     รฟณ ณ ณ ณ CAN-Slave 2003   รฟณ ณ ณ ณ CAN-Slave 2003
+     ภมมฤมฤมฤู                  ภมมฤมฤมฤู
+
+     Configuration with two (or more) CPUs on a CAN bus is possible.
+     The CANIO-masters on the CPUs work independently from one another and do
+     not know of the others presence. A node cannot be served by two CPUs under
+     any circumstances as it would result in data collision on the CAN bus.
+
+                                      @200[ Appendix ]                      @001[ Overview ]
+.230
+    CANIO-Master / CANIO-Library : Hardware Limitations
+
+    The following conditions must be satisfied before you can begin CAN-I/O
+    service with the CANIO-master:
+    - Maximum of 8 CAN buses can be supported
+    - Allocate Identifier name (see appendix "CAN Identifier with CAN Bus
+      Slave Module" of the "B&R SYSTEM 2000 B&R 2003 User's Manual")
+    - Configuration memory ME770 is not supported
+    - Maximum of 32 nodes (because of the fixed identifier name)
+    - Maximum of 8 modules per node
+    - Maximum of four analog interface modules on one node
+    - Analog interface modules can only be installed in the first four slots
+      of a node.
+    - Accessing the configuration word for screw-in modules is only possible
+      using the CANIOcmd() function. The cyclic request for each special
+      command causes a high load on the bus.
+    - When configuring the CPU and PP, the CANIO-master must be run by on both
+      platforms.
+    - Transparent access is only possible with cyclic data. Offsets also refer
+      to cyclic data.
+
+                                      @231[ Continue ]                      @001[ Overview ]
+.231
+    CANIO-Master / CANIO-Library : Hardware Limitations (continued)
+
+    Since the configuration memory ME770 is not supported, the most important
+    node parameters and the module are automatically set through the CANIO
+    master (when a node becomes active again after a failure).
+    Application parameter settings carried out by the CANIOcmd() function
+    (e.g. changing the resolution of a temperature channel), have to be reset
+    by the application program after a failure (when the node is active again).
+    This means that the status of the CAN node in an exception task can be
+    monitored using the CANIOexc() function. Setting parameters using the
+    CANIOcmd() function is normally not necessary for standard applications.
+
+
+
+
+
+
+
+
+
+
+                                      @200[ Appendix ]                      @001[ Overview ]
+.240
+    CANIO-Master / CANIO-Library : CAN-Bus Slave Module - B&R 2003
+
+    As described in @230[Hardware Limitations], a maximum of 8 I/O modules are
+    available on a slave node. The first 4 modules can be analog interface
+    modules. Each interface module can handle 4 screw-in modules.
+    We differentiate between digital and screw-in modules as follows:
+
+    - @241[Digital Module ] 
+    - @242[Screw-in Module]
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ Appendix ]                      @001[ Overview ]
+.241
+    CANIO-Master / CANIO-Library : CAN-Bus Slave Module - B&R 2003 (continued)
+
+    Digital Module:
+    Variables assigned to a channel number are of data type BIT. If you use
+    the module type "Transp.In" or "Transp.Out" instead of a channel number
+    and an Offset, the declared variable for data type BYTE is written with
+    the length 1.
+
+    Changing the setting from standard input to output for digital mixed
+    modules is carried out automatically by the CANIO-Master. This sets the
+    corresponding output mask. Digital module operating parameters are set
+    through a command identifier.
+    Digital modules use the packed mode. This means that the data from 8
+    modules is packed in the CAN object. An object is assigned for the output
+    module - and an object for the inputs. Each BIT corresponds to an input
+    or output.
+
+
+
+
+
+                                        @240[ Back ]                        @001[ Overview ]
+.242
+    CANIO-Master / CANIO-Library : CAN-Bus Slave Module - B&R 2003 (continued)
+
+    Screw-in module:
+    Data exchange with a screw-in module is carried out by a 32 word long
+    memory area. Up to 16 words can be read or written depending on the
+    screw-in module used. Words 0 to 3 are used as data words. Words 4 to 15
+    are configuration words. Accessing the configuration words is done using
+    the CANIOcmd() function, where by configuration words 4+5 and 6+7 are
+    always labelled together. Configuration word 14 is designated for operating
+    parameters.
+    Words 13 and 15 are reserved for internal use.
+
+    ษออออออหออออออออออออออออออออออออออออออออออออออออป
+    บ Word บ Description                            บ
+    ฬออออออฮออออออออออออออออออออออออออออออออออออออออน
+    บ  0-3 บ Data words                             บ
+    บ 4-12 บ Configuration words                    บ
+    บ   14 บ Configuration word(operating parameter)บ
+    ศออออออสออออออออออออออออออออออออออออออออออออออออผ
+
+
+                                      @243[ Continue ]                      @001[ Overview ]
+.243
+    CANIO-Master / CANIO-Library : CAN-Bus Slave Module - B&R 2003 (continued)
+
+    Screw-in module (continued):
+    The modules data words can be accessed through a data identifier.
+    Configuaration words are described using a command identifier. In contrast
+    to the data identifier which is available on all modules, the command
+    identifier can only be accessed once per node.
+    Configuration words 4 to 12 can be described using the "Write value to
+    configuration word" (called through CANIO function CANIOcmd()).
+    Configuration word 14 can be entered using the "Write Operating Parameter"
+    command, and can be read using the "Read Operating Parameter" (called using
+    the CANIO function CANIOcmd()).
+    A detailed description about these commands can be found in chapter
+    "CAN BUS Slave Module Functions" (section "Commands - CAN Bus Slave Module")
+    in the "B&R SYSTEM 2000 B&R 2003 User's Manual".
+
+
+
+
+
+
+                                        @240[ Back ]                        @001[ Overview ]
+.250
+    CAN Library : Syntax Description
+
+    Data Types:
+    More than one function can be used with certain groups of data types.
+    The following group names are used so that not all of the valid data
+    types have to be listed in the function descriptions:
+    ษอออออออออหอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออป
+    บ Group   บ  BIT  ณ INT8  ณ BYTE  ณ INT16 ณ WORD  ณ INT32 ณ LONG  ณ FLOAT บ
+    ฬอออออออออฮอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออน
+    บ INTEGRALบ       ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ NOT     บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    บ FLOAT   บ       ณ       ณ       ณ       ณ       ณ       ณ       ณ       บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ ALL     บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ ARRAY   บ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  บ
+    ศอออออออออสอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออผ
+      x  Data type is allowed
+     [x] Data type is allowed as array variable or character string
+
+                                      @251[ Continue ]                      @001[ Overview ]
+.251
+    CANIO-Library : Syntax Description (continued)
+
+    Arrows:
+    Arrows are used to display input and output parameters.
+    The following arrangement is used for this purpose:
+    ษอออออออออหออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ  Arrow  บ  Meaning                                                     บ
+    ฬอออออออออฮออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ   ->    บ  Input parameter                                             บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <->   บ  Input/output parameter. Functions as an output parameter,   บ
+    บ         บ  but is normally loaded with certain information before the  บ
+    บ         บ  function is called (e.g. an address). The address of a      บ
+    บ         บ  variable is generally connected here using adr() [PL2000]   บ
+    บ         บ  or an address contact [LAD].                                บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <-    บ  Output parameter                                            บ
+    ศอออออออออสออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                      @252[ Continue ]                      @001[ Overview ]
+.252
+    CANIO-Library : Syntax Description (continued)
+
+    Function Blocks:
+    Function blocks are not shown graphically in this Online Help, but you
+    can find all of the relevant information about function blocks, such as
+    input parameters (->), input/output parameters (<->) and output parameters
+    (<-) in the Online Help.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ Appendix ]                      @001[ Overview ]
+.300
+    CANIO-Library : Error Number
+
+    The following list contains a summary of all possible CANIO-library error
+    messages:
+
+    65535    BUSY (function block waiting for response)
+    8955     Bus is not configured
+    8956     Node is not configured
+    8976     No CANIO application is installed on the PP (parallel processor)
+    8978     No CANIO application is installed locally on this node
+    8979     Node is not active
+
+
+
+
+
+
+
+
+
+
+                                      @200[ Appendix ]                      @001[ Overview ]
+.400
+    CANIO-Library : History - Version Changes
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.00 -> V1.20  ณ AKTUELLE VERSION: New Functionality/Problem Solving     บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Error correction.                                                       บ
+  บ - Databank-error repair.                                                  บ
+  บ - Several busses on a CPU or on a PP now contain separate data areas.     บ
+  บ - The IF260 and IF161 modulesare now supported by PPs.                    บ
+  บ - CANIOcmd(): If no response to a command is received, a Timeout error    บ
+  บ   is triggered.                                                           บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+
+                                      @401[ Continue ]                      @001[ Overview ]
+.401
+    CANIO Library : History - Version updates (continued)
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.00           ณ                                                         บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ First version of Online-Help for CANIO-Library.                           บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ Appendix ]                      @001[ Overview ]
+
+.End

@@ -1,0 +1,20 @@
+#TXT 00 27 20 78  旼컴컴컴컴컴컴컴컴커
+#TXT 01 27 12 78  쿘odem-Type:
+#VAR 01 40 05 01 78 00 42 N N J N N 00 00 00 
+#TXT 01 46 01 78  �
+#TXT 02 27 20 78  읕컴컴컴컴컴컴컴컴켸
+#TXT 03 01 10 78  COMMANDS_:
+#TXT 05 01 24 78  Initialization_Command_:
+#VAR 06 01 40 01 78 00 66 N N J N N 00 00 00 
+#TXT 07 01 17 78  Dialing_Command_:
+#VAR 08 01 30 01 78 00 66 N N J N N 00 00 00 
+#TXT 09 01 24 78  Dialing_Command_Suffix_:
+#VAR 10 01 30 01 78 00 66 N N J N N 00 00 00 
+#TXT 11 01 16 78  Hangup_Command_:
+#VAR 12 01 30 01 78 00 66 N N J N N 99 00 99 
+#TXT 18 01 01 78  _
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ \!@#$%^&*(){}[]-+=;,.<>?:
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS 5678
+#KS 12

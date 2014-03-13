@@ -1,0 +1,102 @@
+
+Project Update V1.25 => V2.0
+=============================
+
+
+
+    When converting projects that were created and used with PG2000 V1.25,
+    the following things are to be taken into account:
+
+
+1. Directory Structure
+
+    The directory structure has changed with the installation of project
+    management in PG2000. Basically, there is are directories in the form
+    <Projectname>.pgp. Under this directory is the databank dirctory (dbk)
+    and the source directory (pgm). The first step in the coonversion is
+    creating the directories. This is done either with "rename", "move" (if
+    supported by the operating system) or "xcopy". The directories used in
+    V1.25 can be taken from the file user.pri in the V1.25 "EXE" directory.
+
+        E.g.:
+                >md project1.pgp
+                >xcopy c:\pg2000\pg2000.dbk project1.pgp\dbk\ /s /v /e
+                >xcopy c:\pg2000\pg2000.pgm project1.pgp\pgm\ /s /v /e
+
+
+2. Databank - Update
+
+    Since the databank structure has slightly changed, it is necessary to
+    build particular information to accomodate for the new data bank
+    functions. To do this, the index files (*.idx) of all directories of this
+    project are to be deleted. This is done with "xdel" (DRDOS), "golbal del"
+    (4DOS) or with "del in all subdirectories of the databank (MSDOS).
+
+        >cd project1.pgp\dbk
+4DOS    >global delete *.idx     or
+DRDOS   >xdel *.idx /S           or
+MSDOS   >del *.idx
+        >cd  <Name>.sps          } for all directories of the form <Name>.SPS
+        >del *.idx               }
+
+    When the converted project is started for the first time, the message:
+    "Rebuild of the databank necessary" will appear once. All necessary
+    changes for the databank update are automatically performed.
+
+
+3. Source File Update
+
+    To convert the source files, a conversion of the file format is
+    necessary. The tool DC5.EXE is supplied to do this. Please make the
+    conversion of existing FNK sources singly. If this is forgotten, it is
+    possible to convert the source files to FBK files at a later date. To do
+    this on the file extension has to be changed from ".src" to ".fub".
+
+        >cd project1.pgp\pgm
+        >dc5 /cfub <FBKname>.bur  } for all exsiting FBK sources
+        >dc5 /csrc *.bur
+        >dc5 /csrc *.awl
+        >dc5 /csrc *.kop
+
+
+4. Converting the Initialization File
+
+    From version V2.0 on, the initialization data for PG2000 is saved in the
+    file PG.INI. To convert the file USER.PRI, the tool PRI2INI should be
+    used.
+
+
+5. Adding Prepared Projects into PG2000 V2.0
+
+    If all above mentioned preparations are made, PG2000 can be started.
+    From the project menu of PG2000, the converted projects can be added with
+    the function "Search". The serach path is to be entered (e.g. c:).
+
+
+6. Special notes for Converting Projects with Intelligent Perilperals (IP)
+
+    From V2.0 on, the handling of IPs parallel to the main CPU of the PLC is
+    operationally possible directly from the GDM. For this a structural
+    adjustment in the databank is nesessary. For this reason, the following
+    procedure is necessary when converting projects with IPs:
+
+        1. Open the variable declaration on the IP symbol (<Alt-O> <V>).
+        2. Export the declaration (<Alt D> <X> <Editor->XPE>)
+        3. If the IP is already in the correct position in the GDM, go to 4.
+            -   Place the IP in the GDM
+            -   Copy the GDM entries from the IP directory
+            -   goto 5
+        4. Open the IP layer, enter the module number and cycle time .
+        5. Open the variable declaration for the IP.
+        6. Import the exported Var.Decl. files from step 1.
+        7. If a "-.pvs" file with the variable declaration exists for the IP,
+           import this too (<Alt-D> <I> <ASCII ->Editor>).
+
+
+7.  First Time Editing of a Converted Project
+
+    After the project conversion, at the first "Project -> Generation", the
+    compiled option "Parser" should be set,since otherwise  there could be a
+    time related problem with the compilation of tasks with FBKS. For
+    projects with IPs, it would be sensible to perform the
+    "Re-init->Generate->Purge" cycle.

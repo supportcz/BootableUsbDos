@@ -1,0 +1,2489 @@
+%%
+1,0:1
+%%
+.1
+    Funktionen der Frame-Treiber-Library
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º ACHTUNG: Die Funktionen dieser Library k”nnen nur verwendet werden, wenn  º
+  º          der Frame-Treiber DVFRAME.BR im nullspannungssicheren Speicher   º
+  º          (Anwender-ROM) der Steuerung vorhanden ist!                      º
+  º          Nach dem šbertragen des Frame-Treibers in den nullspannungs-     º
+  º          sicheren Speicher muá ein KALTSTART (frher "TOTALINIT" genannt) º
+  º          durchgefhrt werden.                                             º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+
+
+
+                                     @002[ Fortsetzung ]               @999[ HILFE beenden ]
+.2
+    Funktionen der Frame-Treiber-Library (Fortsetzung)
+
+    Nach dem Importieren der Frame-Treiber-Library stehen Ihnen folgende
+    Funktionen zur Verfgung:
+
+    @020[FRM_xopen] Initialisieren einer Schnittstelle (eXtended Open)
+    @040[FRM_open ] Initialisieren einer Schnittstelle
+    @080[FRM_mode ] ndern der Schnittstellenparameter
+    @090[FRM_read ] Daten lesen und im Empfangspuffer ablegen
+    @100[FRM_rbuf ] Freigeben des Empfangspuffers
+    @110[FRM_gbuf ] Anfordern eines Sendepuffers
+    @120[FRM_write] Daten im Sendepuffer senden
+    @130[FRM_robuf] Freigeben des Sendepuffers
+    @140[FRM_close] Deinitialisieren einer Schnittstelle
+    @150[FRM_ctrl ] Bedienen der Schnittstelle
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.20
+    FRM_xopen - Initialisieren einer Schnittstelle - eXtended Open
+
+    @021[FRM_xopen] (enable,device,mode,config,status,ident)
+
+    Parameter-Datentypen :
+    ->  @025[enable   ] : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  @026[device   ] : LONG          An diesem Eingang wird die Adresse eines
+                                  Strings bergeben, welcher die verwendete
+                                  Schnittstelle eindeutig beschreibt.
+    ->  @028[mode     ] : LONG          An diesem Eingang wird die Adresse eines
+                                  Strings bergeben, welcher die verwendete
+                                  Schnittstelle parametriert.
+    ->  @030[config   ] : LONG          An diesem Eingang kann die Adresse einer
+                                  Konfigurationsstruktur bergeben werden
+                                  (optionale Angabe). Im Standardfall ist
+                                  die Definition dieser Struktur nicht not-
+                                  wendig.
+    <-  @033[status   ] : WORD          Fehlernummer (0 = kein Fehler)
+
+
+                                     @021[ Fortsetzung ]                   @001[ šbersicht ]
+.21
+    FRM_xopen - Initialisieren einer Schnittstelle - eXtended Open (Fortsetzung)
+
+    <-  ident     : LONG          Treiberkennung der Schnittstelle (wird fr
+                                  die anderen Funktionen der Frame-Treiber-
+                                  Library ben”tigt)
+
+    Bevor Sie mit Hilfe der Funktionen FRM_write() und FRM_read() Daten als
+    "Frame" senden und empfangen k”nnen, mssen die verwendeten Schnittstellen
+    initialisiert werden. Die Initialisierung der gewnschten Schnittstelle
+    erfolgt mit der Funktion FRM_xopen(). Dabei werden u.a. Steckplatz- und
+    Schnittstellennummer, Baudrate, Anzahl und Gr”áe der Puffer angegeben.
+    Mit Hilfe der Funktion FRM_xopen() k”nnen bis zu 16 Schnittstellen gleich-
+    zeitig betrieben werden.
+
+    ACHTUNG:
+    - Voraussetzung fr die Verwendung des Funktionsblocks FRM_xopen() ist eine
+      RPSSW-Version gr”áer oder gleich V1.91.
+    - Die Module IF050 und IF060 (passive Schnittstellenmodule) k”nnen nur be-
+      dient werden, wenn die FRAME-BASIS-Treiber FBIF050.BR (fr IF050) und
+      FBIF060.BR (fr IF060) auf der CPU (Anwender-ROM) vorhanden sind.
+
+                                                                     @001[ šbersicht ]
+.25
+    FRM_xopen - Initialisieren einer Schnittstelle - eXtended Open (Fortsetzung)
+
+    -> Parameter <enable    >: BIT
+
+    Ist beim Aufruf der Funktion FRM_xopen() der Eingang "enable" gesetzt,
+    wird die Schnittstelle initialisiert und die Puffer fr den Frame-Treiber
+    werden allokiert.
+    Nach erfolgreicher Ausfhrung der Funktion FRM_xopen() muá der Eingang
+    "enable" vom Anwender wieder auf 0 gesetzt werden.
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @020[ FRM_xopen ]                    @001[ šbersicht ]
+.26
+    FRM_xopen - Initialisieren einer Schnittstelle - eXtended Open (Fortsetzung)
+
+    -> Parameter <device    >: LONG
+
+    An diesem Eingang wird die Adresse eines Strings bergeben, welcher die
+    verwendete Schnittstelle eindeutig beschreibt.
+
+    Format des Strings:
+    [SL<x>].[SS<x>].[IF<x>]
+    SL: Slot (Steckplatz) mit der Nummer <x>. Die m”glichen Steckplatznummern
+        bewegen sich von 0 (CPU-Steckplatz) bis 15 (letzter Systembussteck-
+        platz).
+    SS: Steckt das Schnittstellenmodul, auf dem sich die Schnittstelle be-
+        findet, in einem Einschubsteckplatz (auch "Subslot" genannt), so muá
+        hier die Nummer dieses Einschubsteckplatzes (<x> = 1, 2 oder 3) ange-
+        geben werden. So muá z.B. bei Verwendung eines steckbaren Schnitt-
+        stellenmoduls (IF613, IF621, usw.) in einer IF060 fr den Einschub-
+        steckplatz immer SS1 angegeben werden, da die IF060 nur ber einen
+        Einschubsteckplatz verfgt.
+    IF: Schnittstelle mit der Nummer <x>.
+
+                                     @027[ Fortsetzung ]                   @001[ šbersicht ]
+.27
+    FRM_xopen - Initialisieren einer Schnittstelle - eXtended Open (Fortsetzung)
+
+    Als Trennzeichen der Argumente ist ein Punkt (".") vorgeschrieben. Es kann
+    aber auch jedes andere bliche Trennzeichen verwendet werden.
+    Zwischen Groá- und Kleinschreibung wird nicht unterschieden.
+
+    Beispiele gltiger Device-Beschreibungen:
+    "IF2"
+    "SL5.IF3"
+    "SS1.IF1"
+
+
+
+
+
+
+
+
+
+
+
+                                      @020[ FRM_xopen ]                    @001[ šbersicht ]
+.28
+    FRM_xopen - Initialisieren einer Schnittstelle - eXtended Open (Fortsetzung)
+
+    -> Parameter <mode      >: LONG
+
+    An diesem Eingang wird die Adresse eines Strings bergeben, welcher die
+    Schnittstelle parametriert.
+
+    Format des Strings:
+    [<Typ>],[<Baudrate>],[<Parity>],[<Datenbits>],[<Stoppbits>],[<Optionen>]
+
+    Typ:       Die Schnittstelle kann als [RS232|RS422|RS485|TTY|RS422BUS] ge-
+               ”ffnet werden, falls dies von der Hardware untersttzt wird.
+               Standardeinstellung: RS232
+    Baudrate:  Die Schnittstelle kann mit folgenden Baudraten ge”ffnet werden:
+               [300|600|1200|2400|4800|9600|19200|38400|57600|115200]
+               Standardeinstellung: 57600
+    Parity:    Die Einstellungen [N|O|E|H|L] fr no Parity (keine Parit„t),
+               odd Parity (ungerade Parit„t), even Parity (gerade Parit„t),
+               high forced Parity oder low forced Parity sind m”glich.
+               Standardeinstellung: no Parity
+
+                                     @029[ Fortsetzung ]                   @001[ šbersicht ]
+.29
+    FRM_xopen - Initialisieren einer Schnittstelle - eXtended Open (Fortsetzung)
+
+    Datenbits: Die Einstellungen [7|8] fr 7 oder 8 Datenbits sind m”glich.
+               Standardeinstellung: 8 Datenbits
+    Stoppbits: Die Einstellungen [1|2] fr 1 oder 2 Stoppbits sind m”glich.
+               Standardeinstellung: 1 Stoppbit
+    Optionen:  Wurde als Schnittstellentyp eine RS232 ausgew„hlt, sind folgende
+               Optionen zul„ssig:
+               [HW] ... fr Hardware-Handshake (RTS/CTS) oder
+               [RT] ... fr die Steuerung eines externen Kopplers (INT1) mit
+                        der RTS-Leitung.
+
+    Als Trennzeichen der Argumente ist ein Punkt (".") vorgeschrieben. Es kann
+    aber auch jedes andere bliche Trennzeichen verwendet werden.
+    Zwischen Groá- und Kleinschreibung wird nicht unterschieden, die Reihen-
+    folge der Parameter hat keine Bedeutung.
+
+    Beispiele gltiger Mode-Beschreibungen:
+    "19200,7,E,1"
+    "RS485,N,8,1,9600"
+    "RS232, 38400, HW"
+                                      @020[ FRM_xopen ]                    @001[ šbersicht ]
+.30
+    FRM_xopen - Initialisieren einer Schnittstelle - eXtended Open (Fortsetzung)
+
+    -> Parameter <config    >: LONG
+
+    Mit diesem Eingang kann die Adresse einer Konfigurationsstruktur bergeben
+    werden (optionale Angabe). Im Standardfall ist die Definition dieser
+    Struktur nicht notwendig.
+
+    Elemente der Struktur:
+    idle       : WORD           @223[Max. Leerzeit zwischen Zeichen]
+                                (Standardwert: 4)
+    delimc     : WORD           Freigabe der Frame-Abschluázeichen
+                                (Standardwert: 0)
+    delim      : 2 BYTE (FELD)  @222[Frame-Abschluázeichen]
+                                (Standardwert: 0,0)
+    tx_cnt     : WORD           Anzahl der Sendepuffer (max. 8)
+                                (Standardwert: 2)
+    rx_cnt     : WORD           Anzahl der Empfangspuffer (max. 8)
+                                (Standardwert: 2)
+
+
+                                     @031[ Fortsetzung ]                   @001[ šbersicht ]
+.31
+    FRM_xopen - Initialisieren einer Schnittstelle - eXtended Open (Fortsetzung)
+
+    tx_len     : WORD           L„nge der Sendepuffer
+                                (Standardwert: 256 Byte)
+    rx_len     : WORD           L„nge der Empfangspuffer
+                                (Standardwert: 256 Byte)
+    argc       : WORD           Anzahl zus„tzlicher Argumente in "argv"
+                                (Standardwert: 0)
+    @032[argv       ]: LONG           Adresse eines LONG-Feldes mit zus„tzlichen
+                                Argumenten.
+                                (Standardwert: 0)
+
+
+
+
+
+
+
+
+
+
+                                      @020[ FRM_xopen ]                    @001[ šbersicht ]
+.32
+    FRM_xopen - Initialisieren einer Schnittstelle - eXtended Open (Fortsetzung)
+
+    Das Strukturelement "argv" enth„lt die Adresse eines LONG-Feldes mit zu-
+    s„tzlichen Argumenten. Jedes Argument besteht aus zwei LONG-Elementen.
+    Im ersten LONG steht die Argumentnummer, im zweiten LONG steht der Wert
+    des Arguments. Folgende Argumente werden ausgewertet:
+    ÉÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º  Nr. ³ Bedeutung                                                        º
+    ÌÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º   0  ³ Baudrate (hier besteht die M”glichkeit, unbliche Baudraten ein- º
+    º      ³ zustellen)                                                       º
+    ÇÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º  15  ³ Adresse einer RX-Poll-PV (USER-Verst„ndigung: Frame empfangen)   º
+    ÇÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º  16  ³ Diverse Flags                                                    º
+    ÇÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º  17  ³ Adresse einer TX-Poll-PV (USER-Verst„ndigung: Frame gesendet)    º
+    ÇÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º (14) ³ Nur fr das C-Interface von Bedeutung.                           º
+    º      ³ USER-Verst„ndigung ber ein Event: Frame empfangen.              º
+    ÈÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+                                       @031[ Zurck ]                      @001[ šbersicht ]
+.33
+    FRM_xopen - Initialisieren einer Schnittstelle - eXtended Open (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion FRM_xopen():
+    258     Frame-Treiber ist nicht geladen
+    3008    Frame-Treiber ist nicht geladen
+    8074    Referenziertes Device existiert nicht bzw. FRAME-BASIS-Treiber fr
+            die IF050/IF060 ist nicht geladen
+    8252    Syntax-Fehler im Device-String (siehe Parameter "device")
+    8253    Syntax-Fehler im Mode-String (siehe Parameter "mode")
+    8254    Die maximale Anzahl gleichzeitig ge”ffneter Devices wurde ber-
+            schritten
+    8255    RPSSW-Version zu alt (es muá eine RPSSW-Version gr”áer oder gleich
+            V1.91 verwendet werden)
+    14808   Eine Einstellung im Mode-String (siehe Parameter "mode") wird von
+            der Schnittstelle nicht untersttzt
+
+    Eine Liste aller m”glichen Fehlermeldungen der Frame-Treiber-Library finden
+    Sie im Anhang @300[Fehlermeldungen].
+
+                                      @020[ FRM_xopen ]                    @001[ šbersicht ]
+.40
+    FRM_open - Initialisieren einer Schnittstelle
+
+    @041[FRM_open] (enable,dvnr,frmdelim,baud,mode,rxbufcnt,txbufcnt,rxbuflng,
+              txbuflng,arginfo,adr(argliste),status,ident)
+
+    Parameter-Datentypen :
+    ->  @045[enable   ] : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  @046[dvnr     ] : BYTE          Nummer der verwendeten Schnittstelle
+    ->  @055[frmdelim ] : LONG          Frame-Abschluázeichen
+    ->  @056[baud     ] : WORD          Baudrate
+    ->  @057[mode     ] : LONG          Schnittstellenkonfiguration
+    ->  @062[rxbufcnt ] : WORD          Anzahl der Empfangspuffer (RX)
+    ->  @062[txbufcnt ] : WORD          Anzahl der Sendepuffer (TX)
+    ->  @063[rxbuflng ] : WORD          Maximale L„nge des Empfangspuffers
+    ->  @063[txbuflng ] : WORD          Maximale L„nge des Sendepuffers
+    ->  @064[arginfo  ] : LONG          Anzahl der zus„tzlichen Parameter in
+                                  "argliste"
+    ->  @064[argliste ] : LONG (FELD)   Liste der zus„tzlichen Parameter als Feld
+                                  (erweiterte Parameterdefinition)
+
+                                     @041[ Fortsetzung ]                   @001[ šbersicht ]
+.41
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    <-  @073[status   ] : WORD          Fehlernummer (0 = kein Fehler)
+    <-  ident     : LONG          Treiberkennung der Schnittstelle (wird fr
+                                  die anderen Funktionen der Frame-Treiber-
+                                  Library ben”tigt)
+
+    Bevor Sie mit Hilfe der Funktionen FRM_write() und FRM_read() Daten als
+    "Frame" senden und empfangen k”nnen, mssen die verwendeten Schnittstellen
+    initialisiert werden. Die Initialisierung der gewnschten Schnittstelle
+    kann mit der Funktion FRM_open() erfolgen. Dabei werden u.a. Steckplatz-
+    und Schnittstellennummer, Baudrate, Anzahl und Gr”áe der Puffer angegeben.
+
+    ACHTUNG:
+    - Die Funktion FRM_open() kann nur verwendet werden, wenn der Frame-Treiber
+      DVFRAME.BR bzw. der Frame-Treiber DVFRAME3.BR (fr IF050-Schnittstellen)
+      auf der CPU (Anwender-ROM) vorhanden ist!
+    - Ab Version V3.10 der Frame-Treiber-Library und Version V1.91 der RPSSW
+      kann zum Initialisieren der Schnittstellen auch die Funktion FRM_xopen()
+      verwendet werden.
+
+                                      @042[ Beispiel ]                     @001[ šbersicht ]
+.42
+    FRM_open - Initialisieren einer Schnittstelle (Beispiel)
+
+    Wir verwenden das System B&R 2010. Die Daten werden ber die untere
+    Schnittstelle (RS232) der Zentraleinheit gesendet/empfangen. Fr die
+    anderen Eingangsparameter setzen wir einfach Standardwerte ein:
+
+      ; Standard-Initialisierung z.B. im INIT-UP der Task
+      dvnr = 1                ; B&R 2010: untere Schnittstelle (RS232)
+      frmdelim = 0            ; Frame ber Zeichenverzugszeit
+      baud = 96               ; Baudrate 9600
+      mode = $0101            ; keine Parit„t, 8 Datenbits, 1 Stoppbit
+      rxbufcnt = 1            ; 1 Empfangspuffer
+      txbufcnt = 1            ; 1 Sendepuffer
+      rxbuflng = $0010        ; 16 Byte Empfangspuffer
+      txbuflng = $0080        ; 128 Byte Sendepuffer
+      arginfo = 0             ; keine zus„tzlichen Parameter
+
+
+
+
+
+                               @043[ Fortsetzung - Beispiel ]              @001[ šbersicht ]
+.43
+    FRM_open - Initialisieren einer Schnittstelle (Beispiel - Fortsetzung)
+
+      ; ™FFNEN der gewnschten Schnittstelle
+      ; Voraussetzung fr die Abarbeitung aller weiteren Frame-Treiber-
+      ; Funktionen ist ein fehlerfreies ™ffnen (opnstatus = 0) !!!
+      if open = 0 then
+          FRM_open(1,dvnr,frmdelim,baud,mode,rxbufcnt,txbufcnt,rxbuflng,
+                   txbuflng,arginfo,adr(argliste),opnstatus,frmident)
+          open = 1
+      endif
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.45
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    -> Parameter <enable    >: BIT
+
+    Ist beim Aufruf der Funktion FRM_open() der Eingang "enable" gesetzt,
+    wird die Schnittstelle initialisiert und die Puffer fr den Frame-Treiber
+    werden allokiert.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @040[ FRM_open ]                     @001[ šbersicht ]
+.46
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    -> Parameter <dvnr      >: BYTE
+
+    Schnittstellennummer:
+    ÉÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Modul ³ Schnittstelle             ³ dvnr ³ Typ             ³ Treiber     º
+    ÌÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º CP100 ³ IF1 (oberes Interface)    ³ 0    ³ RS232           ³ DVFRAME.BR  º
+    º       ³ IF3 (mittleres Interface) ³ 2    ³ RS485/RS422     ³ DVFRAME.BR  º
+    º       ³ IF2 (unteres Interface)   ³ 1    ³ RS232/TTY       ³ DVFRAME.BR  º
+    ÌÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º CP200 ³ IF1 (oberes Interface)    ³ 0    ³ RS232           ³ DVFRAME.BR  º
+    º       ³ IF3 (mittleres Interface) ³ 2    ³ RS485/RS422     ³ DVFRAME.BR  º
+    º       ³ IF2 (unteres Interface)   ³ 1    ³ RS232           ³ DVFRAME.BR  º
+    ÌÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º CP104 ³ IF1 (oberes Interface)    ³ 0    ³ RS232           ³ DVFRAME.BR  º
+    º       ³ IF2 (unteres Interface)   ³ 1    ³ RS232/TTY       ³ DVFRAME.BR  º
+    ÈÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+                                     @047[ Fortsetzung ]                   @001[ šbersicht ]
+.47
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    Schnittstellennummer (Fortsetzung):
+    ÉÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Modul ³ Schnittstelle             ³ dvnr ³ Typ             ³ Treiber     º
+    ÌÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º IF10x ³ IF1                       ³ 0    ³ RS232           ³ DVFRAME.BR  º
+    º       ³ IF3                       ³ 2    ³ RS485/RS422/RIO ³ DVFRAME.BR  º
+    º       ³ IF2                       ³ 1    ³ RS232/TTY       ³ DVFRAME.BR  º
+    ÌÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º MP100 ³ IF1 (oberes Interface)    ³ 0    ³ RS232           ³ DVFRAME.BR  º
+    º       ³ IF3 (unteres Interface)   ³ 2    ³ RS485/RS422     ³ DVFRAME.BR  º
+    ÌÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º CP15x ³ IF2 (oberes Interface)    ³ 1    ³ RS485/RS422/TTY ³ DVFRAME.BR  º
+    º       ³ IF1 (unteres Interface)   ³ 0    ³ RS232           ³ DVFRAME.BR  º
+    ÌÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º XP152 ³ unteres Interface         ³ 0    ³ RS232           ³ DVFRAME.BR  º
+    ÌÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º IP151 ³ unteres Interface         ³ 0    ³ RS232           ³ DVFRAME.BR  º
+    ÈÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                     @048[ Fortsetzung ]                   @001[ šbersicht ]
+.48
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    Schnittstellennummer (Fortsetzung):
+    ÉÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Modul ³ Schnittstelle             ³ dvnr ³ Typ             ³ Treiber     º
+    ÌÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º IF152 ³ unteres Interface         ³ 0    ³ RS232           ³ DVFRAME.BR  º
+    ÌÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º CP470 ³ RS232-Schnittstelle       ³ 0    ³ RS232           ³ DVFRAME.BR  º
+    ÌÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º CP770 ³ RS232-Schnittstelle       ³ 0    ³ RS232           ³ DVFRAME.BR  º
+    ÌÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º CP474 ³ RS232-Schnittstelle       ³ 0    ³ RS232           ³ DVFRAME.BR  º
+    º       ³ Schnittstellenmodul auf   ³      ³ RS232 bzw.      ³             º
+    º       ³ Steckplatz 1              ³ 1    ³ RS485/RS422     ³ DVFRAME.BR  º
+    º       ³ Schnittstellenmodul auf   ³      ³ RS232 bzw.      ³             º
+    º       ³ Steckplatz 2              ³ 2    ³ RS485/RS422     ³ DVFRAME.BR  º
+    ÈÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @049[ Fortsetzung ]                   @001[ šbersicht ]
+.49
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    Schnittstellennummer (Fortsetzung):
+    ÉÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Modul ³ Schnittstelle             ³ dvnr ³ Typ             ³ Treiber     º
+    ÌÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º CP774 ³ RS232-Schnittstelle       ³ 0    ³ RS232           ³ DVFRAME.BR  º
+    º       ³ Schnittstellenmodul auf   ³      ³ RS232 bzw.      ³             º
+    º       ³ Steckplatz 1              ³ 1    ³ RS485/RS422     ³ DVFRAME.BR  º
+    º       ³ Schnittstellenmodul auf   ³      ³ RS232 bzw.      ³             º
+    º       ³ Steckplatz 2              ³ 2    ³ RS485/RS422     ³ DVFRAME.BR  º
+    ÌÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º IF050 ³ IF1 (oberes Interface)    ³ 3    ³ RS232           ³ DVFRAME3.BR º
+    º @050[(1)]   ³ IF3 (mittleres Interface) ³ 5    ³ RS485/RS422     ³ DVFRAME3.BR º
+    º       ³ IF2 (unteres Interface)   ³ 4    ³ RS232/TTY       ³ DVFRAME3.BR º
+    ÌÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º IF050 ³ IF1 (oberes Interface)    ³ 6    ³ RS232           ³ DVFRAME3.BR º
+    º @050[(2)]   ³ IF3 (mittleres Interface) ³ 8    ³ RS485/RS422     ³ DVFRAME3.BR º
+    º       ³ IF2 (unteres Interface)   ³ 7    ³ RS232/TTY       ³ DVFRAME3.BR º
+    ÈÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                     @050[ Fortsetzung ]                   @001[ šbersicht ]
+.50
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    Schnittstellenmodul IF050:
+    Das Schnittstellenmodul IF050 verfgt ber drei serielle Schnittstellen.
+    Der Anwender kann das Schnittstellenmodul IF050 an eine beliebige Position
+    der Basisrckwand stecken, es k”nnen auch mehrere Schnittstellenmodule ver-
+    wendet werden. Fr die Ermittlung der Schnittstellennummern mssen Sie die
+    Schnittstellenmodule von der Zentraleinheit ausgehend durchnumerieren. Das
+    Schnittstellenmodul, das am weitesten links steckt (wird als IF050 (1) be-
+    zeichnet) erh„lt die Schnittstellennummern 3, 4 und 5, das n„chste Schnitt-
+    stellenmodul (wird als IF050 (2) bezeichnet) erh„lt die Schnittstellen-
+    nummern 6, 7 und 8, usw.
+
+
+
+
+
+
+
+
+
+                                     @051[ Fortsetzung ]                   @001[ šbersicht ]
+.51
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    Beispiel:
+      ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Netzteil
+      ³   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Zentraleinheit
+      ³   ³  ÚÄÄÄÄÄÄÄÄÄÄÄ I/O-Modul
+      ³   ³  ³ ÚÄÄÄÄÄÄÄÄÄ Schnittstellenmodul IF050 (1):
+      ³   ³  ³ ³             IF1 ... Schnittstellennummer ("dvnr") 3
+      ³   ³  ³ ³             IF3 ... Schnittstellennummer ("dvnr") 5
+      ³   ³  ³ ³             IF2 ... Schnittstellennummer ("dvnr") 4
+      ³   ³  ³ ³ ÚÄÄÄÄÄÄÄ I/O-Modul
+      ³   ³  ³ ³ ³ ÚÄÄÄÄÄ I/O-Modul
+      ³   ³  ³ ³ ³ ³ ÚÄÄÄ Schnittstellenmodul IF050 (2):
+    ÚÄÄÄÂÄÄÄÂÄÂÄÂÄÂÄÂÄ¿      IF1 ... Schnittstellennummer ("dvnr") 6
+    ³   ³   ³ ³ ³ ³ ³ ³      IF3 ... Schnittstellennummer ("dvnr") 8
+    ³   ³   ³ ³ ³ ³ ³ ³      IF2 ... Schnittstellennummer ("dvnr") 7
+    ÀÄÄÄÁÄÄÄÁÄÁÄÁÄÁÄÁÄÙ
+
+
+
+
+                                     @052[ Fortsetzung ]                   @001[ šbersicht ]
+.52
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    Folgende Einschr„nkungen gelten derzeit fr die IF050 (Wenn Sie die Funk-
+    tion FRM_xopen() verwenden, sind die unten angefhrten Einschr„nkungen
+    hinf„llig):
+
+    - Fr die Bedienung eines IF050-Moduls muá der Frame-Treiber DVFRAME3.BR
+      (untersttzt die Schnittstellennummern 3 bis 8) auf die Zentraleinheit
+      (Anwender-ROM) geladen werden.
+      Es werden derzeit nur zwei Schnittstellenmodule untersttzt. Dies ist
+      allerdings eine Software-Einschr„nkung, auf Anfrage sind Treiber zur
+      Untersttzung von weiteren Schnittstellenmodulen erh„ltlich.
+
+    - šber die CPU-Schnittstellen k”nnen mit der Funktion FRM_write() auch
+      Puffer gesendet werden, welche nicht vom Frame-Treiber verwaltet werden
+      (sinnvoll bei konstanten Frames bzw. konstanten Texten). Dies ist beim
+      Schnittstellenmodul IF050 nicht zul„ssig! Beim Modul IF050 mssen alle
+      Puffer vor dem Senden mit FRM_write() mit der Funktion FRM_gbuf() ange-
+      fordert werden.
+
+
+                                     @053[ Fortsetzung ]                   @001[ šbersicht ]
+.53
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    Einschr„nkungen fr die IF050 (Fortsetzung):
+
+    - Das IF050-Schnittstellenmodul verfgt ber 576 Byte Pufferspeicher fr
+      alle drei Schnittstellen. Dieser Pufferbereich wird gleichm„áig auf die
+      drei Schnittstellen des Moduls aufgeteilt (6 Byte Reserve fr eine
+      eventuelle Verwaltung). D.h. pro IF050-Schnittstelle stehen 190 Byte
+      Pufferspeicher zur Verfgung. Die Anzahl der Empfangspuffer mal deren
+      L„nge addiert mit der Anzahl der Sendepuffer mal deren L„nge ist also
+      auf 190 Byte limitiert.
+
+    - Aus Hardware-Grnden dauert die Interrupt-Behandlung fr IF050-Module
+      deutlich l„nger als fr die CPU-Schnittstellen.
+
+
+
+
+
+
+
+                                     @054[ Fortsetzung ]                   @001[ šbersicht ]
+.54
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    Einschr„nkungen fr die IF050 (Fortsetzung):
+
+    - Achtung: Wird der Frame-Treiber fr die IF050- und die CPU-Schnittstellen
+      verwendet, dann muá der Stack fr die Taskklassen in der System-
+      konfiguration um mindestens 256 Byte erh”ht werden.
+
+    - Ab der Version 2.10 des Frame-Treibers ist es nach dem Stecken eines
+      neuen IF050-Moduls nicht mehr n”tig, einen KALTSTART (alte Bezeichnung:
+      TOTALINIT) auszul”sen. D.h. neue Schnittstellenmodule k”nnen ab dieser
+      Treiber-Version auch w„hrend des normalen RPS-Betriebs (vor dem Aufruf
+      der Funktion FRM_open()) gesteckt werden. Dabei gelten jedoch folgende
+      Einschr„nkungen:
+      1. Wenn ein IF050-Schnittstellenmodul auf einer Position steckt, darf
+         dieses Modul erst nach Aufruf der Funktion FRM_close() wieder von
+         diesem Steckplatz entfernt werden.
+      2. Jeder weitere Steckversuch der IF050 (nach einer erfolgreichen Be-
+         dienung) muá auf demselben Steckplatz durchgefhrt werden.
+      3. Eine Fehlbedienung fhrt zu einer Exception und zum Nothalt des
+         Systems.
+                                      @040[ FRM_open ]                     @001[ šbersicht ]
+.55
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    -> Parameter <frmdelim  >: LONG
+
+    Definition des Frame-Abschlusses (Frame-Begrenzung):
+    ÚÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄ¿
+    ³EEEEEEEE³DDDDDDDD³CBAAAAAA³AAAAAAAA³
+    ÀÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÙ
+
+    A ... Bit 0 bis 13:   @223[Max. Leerzeit zwischen Zeichen] (0 = Standardwert 4)
+    B ... Bit 14:         Freigabe fr Frame-Abschluázeichen 1
+    C ... Bit 15:         Freigabe fr Frame-Abschluázeichen 2
+    D ... Bit 16 bis 23:  @222[Frame-Abschluázeichen 1]
+    E ... Bit 24 bis 31:  @222[Frame-Abschluázeichen 2]
+
+    Wir unterscheiden zwischen der Frame-Begrenzung beim Empfangen und der
+    Frame-Begrenzung beim Senden:
+
+    * @221[Frame-Begrenzung beim Empfangen]
+    * @225[Frame-Begrenzung beim Senden   ]
+
+                                      @040[ FRM_open ]                     @001[ šbersicht ]
+.56
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    -> Parameter <baud      >: WORD
+
+    Mit dem Parameter "baud" wird die Baudrate festgelegt. Die Baudrate wird
+    in Einheiten zu 100 Baud (z.B. 192 = 19200 Baud) angegeben. Wird fr den
+    Parameter "baud" der Wert 0 angegeben, wird die Standardeinstellung der
+    Schnittstelle verwendet.
+        24 ..... 2400 Baud
+        48 ..... 4800 Baud
+        96 ..... 9600 Baud
+       192 .... 19200 Baud
+       384 .... 38400 Baud
+       576 .... 57600 Baud
+      1152 ... 115200 Baud
+      3470 ... 347000 Baud
+
+    RS232-Schnittstelle:        Baudrate < 115200 Baud
+    RS422/RS485-Schnittstelle:  Baudrate < 347000 Baud
+
+
+                                      @040[ FRM_open ]                     @001[ šbersicht ]
+.57
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    -> Parameter <mode      >: LONG
+
+    Grundlegende Schnittstellenparameter:
+    ÚÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄ¿
+    ³JI000000³00H0GGGG³F0ED000C³0B00000A³
+    ÀÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÙ
+
+    A,B,C,D,E und F ... Bit 0 bis 15:    @058[Asynchrone Parameter              ]
+    G ................. Bit 16 bis 19:   @059[Schnittstellenkonfiguration       ]
+    H ................. Bit 21:          @060[Schnittstellenkonfiguration       ]
+    I und J ........... Bit 30 bis 31:   @061[Handshake auf RS232-Schnittstellen]
+
+
+
+
+
+
+
+
+                                      @040[ FRM_open ]                     @001[ šbersicht ]
+.58
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    Asynchrone Parameter:
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Bit-Nummer ³ Bedeutung                                                  º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º Bit 0      ³ Freigabe fr asynchrone Parameter (1 = Freigabe)           º
+    ÇÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º Bit 6      ³ Stoppbit (0 = 1 Stoppbit / 1 = 2 Stoppbits)                º
+    ÇÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º Bit 8      ³ Datenbits (0 = 7 Datenbits / 1 = 8 Datenbits)              º
+    ÇÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º Bit 12     ³ Parit„t (0 = keine Parit„t / 1 = Parit„t verwendet)        º
+    ÇÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º Bit 13     ³ Empfangs-Parit„t (0 = ungerade / 1 = gerade)               º
+    ÇÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º Bit 14     ³ immer 0                                                    º
+    ÇÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º Bit 15     ³ Sende-Parit„t (0 = ungerade / 1 = gerade)                  º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                       @057[ Zurck ]                      @001[ šbersicht ]
+.59
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    Schnittstellenkonfiguration:
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Bit-Nummer ³ Bedeutung                                                  º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º Bit 16     ³ 0, 1 ... Standardkonfiguration: RS232 bzw. RS422           º
+    ÇÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º Bit 17     ³ 1 ...... RS485 fr 2010/dvnr = 2                           º
+    º            ³          RS485 fr 2005/dvnr = 1                           º
+    º            ³          RS485 fr IF050/dvnr = 2 + 3n, wobei n = Nummer   º
+    º            ³          der IF050 (beginnend bei 0)                       º
+    ÇÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º Bit 18     ³ 1 ...... doppelte RS485 (d.h. Transmitter ist nicht        º
+    º            ³          dauernd eingeschaltet, Vierdrahtleitung)          º
+    ÇÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º Bit 19     ³ 1 ...... TTY fr 2005/dvnr = 1 (fr 2010 funktioniert die  º
+    º            ³          TTY in der derzeitigen Version nicht)             º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+                                     @060[ Fortsetzung ]                   @001[ šbersicht ]
+.60
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    Schnittstellenkonfiguration (Fortsetzung):
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Bit-Nummer ³ Bedeutung                                                  º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º Bit 21     ³ 1 ...... explizite RS422-Einstellung (fr C200/C220 un-    º
+    º            ³          bedingt notwendig)                                º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+    Bis Frame-Treiber V2.40 werden Fehler, die durch falsche Konfiguration auf-
+    treten (z.B. dvnr=0 und RS485) noch nicht abgefangen und k”nnen zu einem
+    Fehlverhalten fhren. Die Schnittstellenkonfiguration wird unabh„ngig von
+    Bit 0 der Variable "mode" bernommen.
+    Ab RPSSW V1.91 und Frame-Treiber V3.00 werden fehlerhafte Konfigurationen
+    vom Treiber erkannt und abgelehnt!
+
+
+
+
+
+                                       @057[ Zurck ]                      @001[ šbersicht ]
+.61
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    Handshake auf RS232-Schnittstellen:
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Bit-Nummer ³ Bedeutung                                                  º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º Bit 30     ³ 1 = Hardware-Handshake (RTS/CTS)                           º
+    º            ³ Mit Hilfe der CTS-Leitung kann eine laufende šbertragung   º
+    º            ³ des Treibers "eingefroren" werden, sie wird nach Freigabe  º
+    º            ³ ber die CTS-Leitung wieder fortgesetzt. Der Treiber von   º
+    º            ³ sich aus behandelt den Inputoverflow-Fehler noch nicht mit º
+    º            ³ der RTS-Leitung.                                           º
+    ÇÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º Bit 31     ³ 1 = Software-Handshake                                     º
+    º            ³ Mit Hilfe der XON/XOFF-Kontrollzeichen wird die laufende   º
+    º            ³ šbertragung des Treibers "eingefroren" und wieder "auf-    º
+    º            ³ getaut".                                                   º
+    º            ³ Ab Version V3.00 des Frame-Treibers und Version V1.91 des  º
+    º            ³ Betriebssystems RPSSW wird das Software-Handshake nicht    º
+    º            ³ mehr untersttzt!                                          º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+                                       @057[ Zurck ]                      @001[ šbersicht ]
+.62
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    -> Parameter <rxbufcnt  >: WORD
+
+    Anzahl der Empfangspuffer (1 bis 8).
+
+    -> Parameter <txbufcnt  >: WORD
+
+    Anzahl der Sendepuffer (1 bis 8). Die šbertragung erfolgt asynchron (!)
+    zum Aufrufer. D.h. wenn der Parameter "status" der Funktion FRM_write()
+    0 ist, bedeutet das noch nicht, daá der Puffer auch wirklich bertragen
+    worden ist.
+
+    ACHTUNG:
+    Wenn eine RS485 bzw. ein RS422-Netzwerk verwendet wird, dann drfen NIE
+    mehrere Puffer gleichzeitig in Senderichtung beauftragt werden.
+    Ab Version V3.00 des Frame-Treibers und Version V1.91 der RPSSW ist diese
+    Einschr„nkung aufgehoben.
+
+
+
+                                      @040[ FRM_open ]                     @001[ šbersicht ]
+.63
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    -> Parameter <rxbuflng  >: WORD
+
+    Maximale L„nge des Empfangspuffers (1 bis 2048).
+    Beim Schnittstellenmodul IF050 stehen pro Schnittstelle nur 190 Byte
+    Pufferspeicher zur Verfgung. D.h. die Anzahl der Empfangspuffer mal
+    deren L„nge addiert mit der Anzahl der Sendepuffer mal deren L„nge ist
+    auf 190 Byte limitiert.
+
+    -> Parameter <txbuflng  >: WORD
+
+    Maximale L„nge des Sendepuffers (1 bis 2048).
+    Beim Schnittstellenmodul IF050 stehen pro Schnittstelle nur 190 Byte
+    Pufferspeicher zur Verfgung. D.h. die Anzahl der Empfangspuffer mal
+    deren L„nge addiert mit der Anzahl der Sendepuffer mal deren L„nge ist
+    auf 190 Byte limitiert.
+
+
+
+
+                                      @040[ FRM_open ]                     @001[ šbersicht ]
+.64
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    -> Parameter <arginfo   >: LONG
+
+    und
+
+    -> Parameter <argliste  >: LONG (FELD)
+
+    Diese beiden Eingangsparameter geh”ren zusammen. Sie erm”glichen eine er-
+    weiterte Parameterdefinition. Die meisten Eingangsparameter k”nnen sowohl
+    "normal" (siehe Eingangsparameter der Funktion FRM_open()) als auch in
+    "argliste" definiert werden. Ist ein Parameter doppelt parametriert, hat
+    die Angabe in "argliste" Vorrang. Der Eingang "arginfo" gibt die Anzahl der
+    Parameter in "argliste" an. "argliste" ist ein LONG-Feld, das in Werte-
+    Paare unterteilt ist. Der erste LONG-Wert ist die Nummer des Parameters,
+    der zweite LONG-Wert ist der Parameter selbst. Wenn die Eingangsparameter
+    "arginfo" und "argliste" nicht verwendet werden, sollten sie immer auf 0
+    gesetzt werden.
+
+
+
+                                     @065[ Fortsetzung ]                   @001[ šbersicht ]
+.65
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    ÉÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Nr. ³ Bedeutung         ³ Detailbeschreibung                            º
+    ÌÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º  0  ³ Baudrate          ³ Baudrate in 100er-Schritten (96 = 9600 Baud)  º
+    ÇÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º  1  ³ Asynchrone        ³ Bit 6 ... Stoppbit                            º
+    º     ³ Parameter         ³           (0 = 1 Stoppbit / 1 = 2 Stoppbits)  º
+    º     ³                   ³ Bit 8 ... Datenbits                           º
+    º     ³                   ³           (0 = 7 Datenbits / 1 = 8 Datenbits) º
+    º     ³                   ³ Bit 12 .. Parit„t                             º
+    º     ³                   ³           (0 = aus / 1 = ein)                 º
+    º     ³                   ³ Bit 13 .. Empfangs-Parit„t                    º
+    º     ³                   ³           (0 = ungerade / 1 = gerade)         º
+    º     ³                   ³ Bit 15 .. Sende-Parit„t                       º
+    º     ³                   ³           (0 = ungerade / 1 = gerade)         º
+    ÈÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @066[ Fortsetzung ]                   @001[ šbersicht ]
+.66
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    ÉÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Nr. ³ Bedeutung         ³ Detailbeschreibung                            º
+    ÌÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º  2  ³ Frame-            ³ Frame-Abschluázeichen 1 im High Word.         º
+    º     ³ Abschluázeichen   ³ Frame-Abschluázeichen 2 im Low Word. Wenn das º
+    º     ³                   ³ zweite Frame-Abschluázeichen nicht verwendet  º
+    º     ³                   ³ wird, muá der Wert auf $8000 gesetzt werden.  º
+    ÇÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º  3  ³ Frame-            ³ Frame-Abschluázeichen 3 im High Word.         º
+    º     ³ Abschluázeichen   ³ Frame-Abschluázeichen 4 im Low Word. Wenn das º
+    º     ³                   ³ vierte Frame-Abschluázeichen nicht verwendet  º
+    º     ³                   ³ wird, muá der Wert auf $8000 gesetzt werden.  º
+    ÈÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+                                     @067[ Fortsetzung ]                   @001[ šbersicht ]
+.67
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    ÉÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Nr. ³ Bedeutung         ³ Detailbeschreibung                            º
+    ÌÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º  4  ³ Leerzeit          ³ Max. Leerzeit zwischen Zeichen.               º
+    º     ³                   ³ Die Zeit zwischen dem Empfang zweier aufein-  º
+    º     ³                   ³ anderfolgender Zeichen wird "Leerzeit" oder   º
+    º     ³                   ³ "Idle-Zeit" genannt. šberschreitet diese Zeit º
+    º     ³                   ³ den bei der Parametrierung eingestellten      º
+    º     ³                   ³ Maximalwert, nimmt der Frame-Treiber an, daá  º
+    º     ³                   ³ der Frame vollst„ndig ist. Als Einheit fr    º
+    º     ³                   ³ die Leerzeit wird die L„nge eines Zeichens    º
+    º     ³                   ³ verwendet.                                    º
+    ÈÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+                                     @068[ Fortsetzung ]                   @001[ šbersicht ]
+.68
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    ÉÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Nr. ³ Bedeutung         ³ Detailbeschreibung                            º
+    ÌÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º  5  ³ Handshake         ³ $00001000 ... Hardware-Handshake RTS/CTS      º
+    º     ³                   ³ $00002000 ... Software-Handshake XON/XOFF     º
+    º     ³                   ³ $00004000 ... RTS-Bedienung beim Senden       º
+    º     ³                   ³ Diese Option kann zum Schalten eines RS485-   º
+    º     ³                   ³ Kopplers (z.B. INT1) verwendet werden. Die    º
+    º     ³                   ³ Option wird ab Version V3.00 des Frame-       º
+    º     ³                   ³ Treibers und Version V1.91 der RPSSW nicht    º
+    º     ³                   ³ mehr untersttzt.                             º
+    º     ³                   ³ $00008000 ... RTS ohne Receive beim Senden    º
+    ÇÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º  6  ³ rxbuflng          ³ Maximale L„nge des Empfangspuffers            º
+    ÇÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º  7  ³ txbuflng          ³ Maximale L„nge des Sendepuffers               º
+    ÇÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º  8  ³ rxbufcnt          ³ Anzahl der Empfangspuffer                     º
+    ÈÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+                                     @069[ Fortsetzung ]                   @001[ šbersicht ]
+.69
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    ÉÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Nr. ³ Bedeutung         ³ Detailbeschreibung                            º
+    ÌÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º  9  ³ txbufcnt          ³ Anzahl der Sendepuffer                        º
+    ÇÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º 10  ³ Schnittstellentyp ³ Bit 1 ... 0 = RS232, 1 = RS485                º
+    º     ³                   ³ Bit 2 ... 1 = Vierdraht-RS485 (RS422-BUS)     º
+    º     ³                   ³ Bit 3 ... 1 = TTY                             º
+    º     ³                   ³ Bit 4 ... reserviert                          º
+    º     ³                   ³ Bit 5 ... 1 = RS422                           º
+    ÇÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º 11  ³ Multidrop         ³ Adressen fr Multidrop                        º
+    º     ³                   ³ (derzeit noch nicht implementiert)            º
+    ÇÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º 12  ³ Callout           ³ Feld von Aussprngen (wird ab Version V3.00   º
+    º     ³                   ³ des Frame-Treibers und Version V1.91 der      º
+    º     ³                   ³ RPSSW nicht mehr untersttzt)                 º
+    ÈÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                     @070[ Fortsetzung ]                   @001[ šbersicht ]
+.70
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    ÉÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Nr. ³ Bedeutung         ³ Detailbeschreibung                            º
+    ÌÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º 13  ³ Restore           ³ $00000000 ... @141[Restore-Funktionalit„t]          º
+    ÇÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º 14  ³ Eventtask         ³ Event wird auf eine fixe Task umgeleitet:     º
+    º     ³                   ³ High Word ... High Word (Taskid)              º
+    º     ³                   ³ Low Word .... Eventmaske                      º
+    ÇÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º 15  ³ Adresse PV        ³ Es wird die Adresse einer PV (Datentyp BYTE)  º
+    º     ³                   ³ bergeben, die fr das Pollen des Inputs zu-  º
+    º     ³                   ³ st„ndig ist. Falls ein Input eingetroffen     º
+    º     ³                   ³ ist, wird diese Variable (PV) auf 1 gesetzt.  º
+    º     ³                   ³ Nach dem Aufruf von FRM_read() sollte die PV  º
+    º     ³                   ³ vom Anwenderprogramm auf 0 gesetzt werden.    º
+    ÈÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @071[ Fortsetzung ]                   @001[ šbersicht ]
+.71
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    ÉÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Nr. ³ Bedeutung         ³ Detailbeschreibung                            º
+    ÌÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º 16  ³ Misc              ³ Bit 0: 1 = auf der IF050 wird der gesamte     º
+    º     ³                   ³ interne Speicher (576 Byte) fr die erste     º
+    º     ³                   ³ Schnittstelle verwendet. Die anderen Schnitt- º
+    º     ³                   ³ stellen sind damit nicht mehr verwendbar.     º
+    º     ³                   ³ Bit 1: 1 = auch defekte Puffer (Parity, usw.) º
+    º     ³                   ³ werden an den Aufrufer durchgereicht. Der     º
+    º     ³                   ³ Aufrufer muá den Puffer wieder an den Treiber º
+    º     ³                   ³ zurckgeben! Verfgbar ab Version V3.30 des   º
+    º     ³                   ³ Frame-Treibers und Version V1.91 der RPSSW.   º
+    ÈÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+                                     @072[ Fortsetzung ]                   @001[ šbersicht ]
+.72
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    ÉÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Nr. ³ Bedeutung         ³ Detailbeschreibung                            º
+    ÌÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º 17  ³ Adresse PV        ³ Verfgbar ab Version V3.00 des Frame-Treibers º
+    º     ³                   ³ und Version V1.91 der RPSSW. Es wird die      º
+    º     ³                   ³ Adresse einer PV (Datentyp BYTE) bergeben,   º
+    º     ³                   ³ die die vollst„ndige šbertragung eines Frames º
+    º     ³                   ³ anzeigt (die PV wird bei jeder Frame-         º
+    º     ³                   ³ šbertragung inkrementiert).                   º
+    ÈÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+    Um z.B. den Parameter 13 (Restore nach FRM_close()) zu definieren, mssen
+    folgende Werte angegeben werden:
+
+      arginfo = 1
+      argliste[0] = 13                 ; Nummer des Parameters
+      argliste[1] = $00000000          ; Wert des Parameters
+
+
+                                      @040[ FRM_open ]                     @001[ šbersicht ]
+.73
+    FRM_open - Initialisieren einer Schnittstelle (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion FRM_open():
+    258     Frame-Treiber ist nicht geladen
+    3008    Frame-Treiber ist nicht geladen
+    8070    Falsche Konfiguration fr das Device
+    8074    Referenziertes Device existiert nicht
+    8076    IF050: Device ben”tigt zuviel internen Speicher
+
+    Eine Liste aller m”glichen Fehlermeldungen der Frame-Treiber-Library finden
+    Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+                                      @040[ FRM_open ]                     @001[ šbersicht ]
+.80
+    FRM_mode - ndern der Schnittstellenparameter
+
+    @081[FRM_mode] (enable,ident,mode,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  ident     : LONG          Treiberkennung der Schnittstelle
+                                  (von @020[FRM_xopen] oder @040[FRM_open])
+    ->  @085[mode     ] : LONG          An diesem Eingang wird die Adresse eines
+                                  Strings bergeben, welcher die verwendete
+                                  Schnittstelle parametriert.
+    <-  @088[status   ] : WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit Hilfe der Funktion FRM_mode() k”nnen w„hrend des Betriebs die Werte fr
+    Baudrate und asynchrone Parameter (Parity, Datenbits, Stoppbits) sowie der
+    Wert fr die maximale Leerzeit zwischen Zeichen ge„ndert werden.
+    Die Funktion FRM_mode() hat eine wesentlich geringere Laufzeit als die
+    Funktionen FRM_xopen() und FRM_open().
+    Voraussetzung fr die Verwendung der Funktion FRM_mode() ist eine RPSSW-
+    Version gr”áer oder gleich V1.91.
+                                     @081[ Fortsetzung ]                   @001[ šbersicht ]
+.81
+    FRM_mode - ndern der Schnittstellenparameter (Fortsetzung)
+
+    Mit der Funktion FRM_mode() k”nnen folgende Parameter ver„ndert werden:
+    - Baudrate
+    - asynchrone Parameter (Parity, Datenbits, Stoppbits)
+    - max. Leerzeit zwischen Zeichen (fr Frame-Begrenzung)
+
+    Laufzeitmessung:
+    Die folgende Tabelle zeigt die Laufzeit (Ausfhrungszeit) der Funktion
+    FRM_mode() beim ndern verschiedener Parameter. Die Zeiten wurden auf
+    einer CP104 gemessen.
+
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Auszufhrende Aktion                                    º Laufzeit [æs] º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º Baudrate „ndern                                         º      604      º
+    º asynchrone Parameter „ndern                             º      693      º
+    º max. Leerzeit „ndern                                    º      546      º
+    º Baudrate, asynchrone Parameter und max. Leerzeit „ndern º     1069      º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                                                     @001[ šbersicht ]
+.85
+    FRM_mode - ndern der Schnittstellenparameter (Fortsetzung)
+
+    -> Parameter <mode      >: LONG
+
+    An diesem Eingang wird die Adresse eines Strings bergeben, welcher die
+    Schnittstelle parametriert.
+
+    Format des Strings: [<Typ>],[<Baudrate>],[<Parity>],[<Datenbits>],
+                        [<Stoppbits>],[<Optionen>],[<Idle>]
+
+    Typ:       Die Schnittstelle kann als [RS232|RS422|RS485|TTY|RS422BUS] ge-
+               ”ffnet werden, falls dies von der Hardware untersttzt wird.
+               Standardeinstellung: RS232
+    Baudrate:  Die Schnittstelle kann mit folgenden Baudraten ge”ffnet werden:
+               [300|600|1200|2400|4800|9600|19200|38400|57600|115200]
+               Standardeinstellung: 57600
+    Parity:    Die Einstellungen [N|O|E|H|L] fr no Parity (keine Parit„t),
+               odd Parity (ungerade Parit„t), even Parity (gerade Parit„t),
+               high forced Parity oder low forced Parity sind m”glich.
+               Standardeinstellung: no Parity
+
+                                     @086[ Fortsetzung ]                   @001[ šbersicht ]
+.86
+    FRM_mode - ndern der Schnittstellenparameter (Fortsetzung)
+
+    Datenbits: Die Einstellungen [7|8] fr 7 oder 8 Datenbits sind m”glich.
+               Standardeinstellung: 8 Datenbits
+    Stoppbits: Die Einstellungen [1|2] fr 1 oder 2 Stoppbits sind m”glich.
+               Standardeinstellung: 1 Stoppbit
+    Optionen:  Wurde als Schnittstellentyp eine RS232 ausgew„hlt, sind folgende
+               Optionen zul„ssig:
+               [HW] ... fr Hardware-Handshake (RTS/CTS) oder
+               [RT] ... fr die Steuerung eines externen Kopplers (INT1) mit
+                        der RTS-Leitung.
+    Idle:      @223[Max. Leerzeit zwischen Zeichen]. Die Zeit zwischen dem Empfang
+               zweier aufeinanderfolgender Zeichen wird als "Leerzeit" oder
+               "Idle-Zeit" bezeichnet. šberschreitet diese Zeit den einge-
+               stellten Maximalwert (Max. Leerzeit zwischen Zeichen), nimmt
+               der Frame-Treiber an, daá der Frame vollst„ndig ist. Als Einheit
+               fr die Leerzeit wird die L„nge eines Zeichens verwendet.
+               Fr die Angabe dieses Parameters muá folgende Syntax verwendet
+               werden:
+               [I=<x>] ... fr <x> sind Werte von 1 bis 255 zul„ssig
+
+                                     @087[ Fortsetzung ]                   @001[ šbersicht ]
+.87
+    FRM_mode - ndern der Schnittstellenparameter (Fortsetzung)
+
+    Als Trennzeichen der Argumente ist ein Punkt (".") vorgeschrieben. Es kann
+    aber auch jedes andere bliche Trennzeichen verwendet werden.
+    Zwischen Groá- und Kleinschreibung wird nicht unterschieden, die Reihen-
+    folge der Parameter hat keine Bedeutung.
+
+    Beispiele gltiger Mode-Beschreibungen:
+    "19200,7,E,1,I=2"
+    "RS485,N,8,1,9600"
+    "RS232, 38400, HW, I=3"
+
+
+
+
+
+
+
+
+
+
+                                      @080[ FRM_mode ]                     @001[ šbersicht ]
+.88
+    FRM_mode - ndern der Schnittstellenparameter (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion FRM_mode():
+    258     Frame-Treiber ist nicht geladen
+    3008    Frame-Treiber ist nicht geladen
+    8251    Device ist nicht ge”ffnet
+    8253    Syntax-Fehler im Mode-String (siehe Parameter "mode")
+    14814   Funktion ist nicht verfgbar (im FBASE-Treiber nicht implementiert)
+
+    Eine Liste aller m”glichen Fehlermeldungen der Frame-Treiber-Library finden
+    Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+                                      @080[ FRM_mode ]                     @001[ šbersicht ]
+.90
+    FRM_read - Daten lesen und im Empfangspuffer ablegen
+
+    @091[FRM_read] (enable,ident,status,buffer,buflng)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  ident     : LONG          Treiberkennung der Schnittstelle
+                                  (von @020[FRM_xopen] oder @040[FRM_open])
+    <-  @095[status   ] : WORD          Fehlernummer (0 = kein Fehler)
+    <-  buffer    : LONG          Adresse des Empfangspuffers
+    <-  buflng    : WORD          L„nge des Empfangspuffers
+
+    Mit der Funktion FRM_read() wird der Empfangsvorgang gestartet, d.h. der
+    Frame-Treiber wird aufgefordert, Daten zu empfangen und in einem Empfangs-
+    puffer abzulegen.
+    Als Ergebnis liefert diese Funktion die Adresse (Parameter "buffer") und
+    die L„nge (Parameter "buflng") des Empfangspuffers. Damit k”nnen Sie Daten
+    auslesen (z.B. umkopieren mit der Funktion memcpy() der System-Library).
+
+
+                                     @091[ Fortsetzung ]                   @001[ šbersicht ]
+.91
+    FRM_read - Daten lesen und im Empfangspuffer ablegen (Fortsetzung)
+
+    Um vernnftig auf den Empfangspuffer zugreifen zu k”nnen, sollte man in der
+    Programmiersprache PL2000 ein Feld bzw. eine Struktur mit "access" auf die
+    bergebene Empfangspuffer-Adresse legen bzw. im KOP einen eigenen Zugriffs-
+    FUB einfhren.
+
+    Achtung!
+    Nach dem Auslesen der Daten mssen Sie den Empfangspuffer mit der Funktion
+    @100[FRM_rbuf] wieder freigeben.
+
+
+
+
+
+
+
+
+
+
+
+                                      @092[ Beispiel ]                     @001[ šbersicht ]
+.92
+    FRM_read - Daten lesen und im Empfangspuffer ablegen (Beispiel)
+
+      ; Prfen, ob Empfangsdaten vorhanden sind
+      FRM_read(1,frmident,rstatus,inbufadr,inbuflng)
+
+      if rstatus = 0 then
+          ; Applikationsabh„ngiges Auswerten der Empfangsdaten
+          incnt = incnt + 1
+          memcpy(insave_adr,inbufadr,inbuflng)
+          ; Empfangspuffer freigeben
+          FRM_rbuf(1,frmident,inbufadr,inbuflng,rbstatus)
+      endif
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.95
+    FRM_read - Daten lesen und im Empfangspuffer ablegen (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion FRM_read():
+    1       Keine Nachricht eingetroffen
+    60      Keine Nachricht eingetroffen
+    258     Treiber ist nicht geladen
+    3008    Treiber ist nicht geladen
+    8079    Puffer war beim Empfang fehlerhaft
+    8210    8210 + x; Analyse des fehlerhaften Puffers. x liegt zwischen 1
+            und 31, und wird folgendermaáen aufgeschlsselt:
+            ÚÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄ¿
+            ³ ³ ³ ³F³P³B³O³ ³
+            ÀÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÙ
+            O ... Bit 1: Overrun-Error (Empf„ngerberlauf aufgetreten)
+            B ... Bit 2: Break empfangen
+            P ... Bit 3: Parity-Error (Zeichen mit falscher Parit„t erhalten)
+            F ... Bit 4: Framing-Error (kein Stoppbit erhalten)
+    8251    Device ist noch nicht ge”ffnet
+
+                                     @096[ Fortsetzung ]                   @001[ šbersicht ]
+.96
+    FRM_read - Daten lesen und im Empfangspuffer ablegen (Fortsetzung)
+
+    Eine Liste aller m”glichen Fehlermeldungen der Frame-Treiber-Library finden
+    Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @090[ FRM_read ]                     @001[ šbersicht ]
+.100
+    FRM_rbuf - Freigeben des Empfangspuffers
+
+    @101[FRM_rbuf] (enable,ident,buffer,buflng,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  ident     : LONG          Treiberkennung der Schnittstelle
+                                  (von @020[FRM_xopen] oder @040[FRM_open])
+    ->  buffer    : LONG          Adresse des Empfangspuffers
+    ->  buflng    : WORD          L„nge des Empfangspuffers
+    <-  @105[status   ] : WORD          Fehlernummer (0 = kein Fehler)
+
+    Nach dem Auslesen der Daten mit der Funktion FRM_read() mssen Sie den
+    Empfangspuffer wieder freigeben. Dazu wird die Funktion FRM_rbuf() be-
+    n”tigt.
+    Durch die Verwendung von mehreren Empfangspuffern kann die Freigabe auch
+    verz”gert erfolgen (z.B. nach dem Empfang von mehreren Nachrichten).
+
+
+
+                                     @101[ Fortsetzung ]                   @001[ šbersicht ]
+.101
+    FRM_rbuf - Freigeben des Empfangspuffers (Fortsetzung)
+
+    Die Eingangsparameter "buffer" und "buflng" der Funktion FRM_rbuf() mssen
+    den Ausgangsparametern "@090[buffer]" und "@090[buflng]" von FRM_read() entsprechen,
+    sonst wird am Ausgang "status" eine Fehlernummer ausgegeben.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @102[ Beispiel ]                     @001[ šbersicht ]
+.102
+    FRM_rbuf - Freigeben des Empfangspuffers (Beispiel)
+
+      ; Prfen, ob Empfangsdaten vorhanden sind
+      FRM_read(1,frmident,rstatus,inbufadr,inbuflng)
+
+      if rstatus = 0 then
+          ; Applikationsabh„ngiges Auswerten der Empfangsdaten
+          incnt = incnt + 1
+          memcpy(insave_adr,inbufadr,inbuflng)
+          ; Empfangspuffer freigeben
+          FRM_rbuf(1,frmident,inbufadr,inbuflng,rbstatus)
+      endif
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.105
+    FRM_rbuf - Freigeben des Empfangspuffers (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion FRM_rbuf():
+    258     Treiber ist nicht geladen
+    3008    Treiber ist nicht geladen
+    8072    Falscher Puffer bergeben
+    8251    Device ist noch nicht ge”ffnet
+
+    Eine Liste aller m”glichen Fehlermeldungen der Frame-Treiber-Library finden
+    Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+
+                                      @100[ FRM_rbuf ]                     @001[ šbersicht ]
+.110
+    FRM_gbuf - Anfordern eines Sendepuffers
+
+    @111[FRM_gbuf] (enable,ident,status,buffer,buflng)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  ident     : LONG          Treiberkennung der Schnittstelle
+                                  (von @020[FRM_xopen] oder @040[FRM_open])
+    <-  @115[status   ] : WORD          Fehlernummer (0 = kein Fehler)
+    <-  buffer    : LONG          Adresse des Sendepuffers
+    <-  buflng    : WORD          L„nge des Sendepuffers
+
+    Mit der Funktion FRM_gbuf() wird ein freier Sendepuffer angefordert. Als
+    Ergebnis liefert diese Funktion die Adresse (Parameter "buffer") und die
+    L„nge (Parameter "buflng") eines freien Sendepuffers.
+    Die Pufferverwaltung wird ber den Treiber gehandhabt. Dies hat den Vor-
+    teil, daá sich der Anwender um die Puffergltigkeit nicht kmmern muá.
+
+
+
+                                     @111[ Fortsetzung ]                   @001[ šbersicht ]
+.111
+    FRM_gbuf - Anfordern eines Sendepuffers (Fortsetzung)
+
+    Es k”nnen auch fremde Puffer bertragen werden. In diesem Fall ist der
+    Anwender jedoch selbst dafr verantwortlich, daá er den Puffer vor der
+    Abarbeitung durch den Treiber nicht manipuliert.
+
+    Um vernnftig auf den Sendepuffer zugreifen zu k”nnen, sollte man in der
+    Programmiersprache PL2000 ein Feld bzw. eine Struktur mit "access" auf die
+    bergebene Adresse legen bzw. im KOP einen eigenen Zugriffs-FUB einfhren.
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @112[ Beispiel ]                     @001[ šbersicht ]
+.112
+    FRM_gbuf - Anfordern eines Sendepuffers (Beispiel)
+
+      ; Schreibpuffer beantragen
+      ; Daten nur bei korrekter Pufferreservierung senden (gbstatus = 0) !!
+      FRM_gbuf(1,frmident,gbstatus,outbufadr,outbuflng)
+      if (gbstatus = 0) then
+          ; Sendedaten aufbereiten - fixen String ausgeben
+          obuf access outbufadr                ; Sendepuffer zuweisen
+          strcpy(outbufadr,"Frame-Treiber - Outputtest")
+          olng = strlen(outbufadr)
+          obuf[olng  ] = $a                    ; Carriage Return
+          obuf[olng+1] = $d                    ; Line Feed
+          obuf[olng+2] = 0
+          olng = olng + 2
+          ; Sendedaten ber Schnittstelle bertragen
+          FRM_write(1,frmident,outbufadr,olng,wstatus)
+          if (wstatus <> 0) then
+              ; FEHLER-Auswertung: Im Fehlerfall Schreibpuffer freigeben
+              FRM_robuf(1,frmident,outbufadr,outbuflng,rostatus)
+          endif
+      endif
+                                                                     @001[ šbersicht ]
+.115
+    FRM_gbuf - Anfordern eines Sendepuffers (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion FRM_gbuf():
+    258     Treiber ist nicht geladen
+    3008    Treiber ist nicht geladen
+    8071    Kein Puffer verfgbar
+    8251    Device ist noch nicht ge”ffnet
+
+    Eine Liste aller m”glichen Fehlermeldungen der Frame-Treiber-Library finden
+    Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+
+                                      @110[ FRM_gbuf ]                     @001[ šbersicht ]
+.120
+    FRM_write - Daten im Sendepuffer senden
+
+    @121[FRM_write] (enable,ident,buffer,buflng,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  ident     : LONG          Treiberkennung der Schnittstelle
+                                  (von @020[FRM_xopen] oder @040[FRM_open])
+    ->  buffer    : LONG          Adresse des Sendepuffers
+    ->  buflng    : WORD          L„nge des Sendepuffers
+    <-  @125[status   ] : WORD          Fehlernummer (0 = kein Fehler)
+
+    Durch diese Funktion wird der Frame-Treiber veranlaát, die Daten im Sende-
+    puffer zu senden. Der Sendepuffer wird (falls m”glich) sofort bertragen.
+    Wurde der Sendepuffer mit der Funktion FRM_gbuf() angefordert, so wird er
+    nach dem Senden der Daten automatisch wieder freigegeben. Die Eingangs-
+    parameter "buffer" und "buflng" der Funktion FRM_write() mssen in diesem
+    Fall den Ausgangsparametern "@110[buffer]" und "@110[buflng]" von FRM_gbuf() ent-
+    sprechen.
+
+                                     @121[ Fortsetzung ]                   @001[ šbersicht ]
+.121
+    FRM_write - Daten im Sendepuffer senden (Fortsetzung)
+
+    Es k”nnen aber auch Puffer gesendet werden, welche nicht vom Frame-Treiber
+    verwaltet werden (sinnvoll bei konstanten Frames bzw. konstanten Texten).
+    In diesem Fall ist der Anwender jedoch selbst dafr verantwortlich, daá er
+    den Puffer vor der Abarbeitung durch den Treiber nicht manipuliert.
+
+    Achtung!
+    Ein Aufruf der Funktion FRM_write() aus mehreren verschiedenen Taskklassen
+    ist nicht zul„ssig!
+
+
+
+
+
+
+
+
+
+
+
+                                      @122[ Beispiel ]                     @001[ šbersicht ]
+.122
+    FRM_write - Daten im Sendepuffer senden (Beispiel)
+
+      ; Schreibpuffer beantragen
+      ; Daten nur bei korrekter Pufferreservierung senden (gbstatus = 0) !!
+      FRM_gbuf(1,frmident,gbstatus,outbufadr,outbuflng)
+      if (gbstatus = 0) then
+          ; Sendedaten aufbereiten - fixen String ausgeben
+          obuf access outbufadr
+          strcpy(outbufadr,"Frame-Treiber - Outputtest")
+          olng = strlen(outbufadr)
+          obuf[olng  ] = $a                    ; Carriage Return
+          obuf[olng+1] = $d                    ; Line Feed
+          obuf[olng+2] = 0
+          olng = olng + 2
+          ; Sendedaten ber Schnittstelle bertragen
+          FRM_write(1,frmident,outbufadr,olng,wstatus)
+          if (wstatus <> 0) then
+              ; FEHLER-Auswertung: Im Fehlerfall Schreibpuffer freigeben
+              FRM_robuf(1,frmident,outbufadr,outbuflng,rostatus)
+          endif
+      endif
+                                                                     @001[ šbersicht ]
+.125
+    FRM_write - Daten im Sendepuffer senden (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion FRM_write():
+    258     Treiber ist nicht geladen
+    3008    Treiber ist nicht geladen
+    8072    Falscher Puffer bergeben
+    8078    Der Auftrag wird abgelehnt, weil in der Sendewarteschlange
+            bereits die maximal erlaubte Anzahl von Sendepuffern (siehe
+            Funktion FRM_xopen() und FRM_open()) eingereiht ist
+    8251    Device ist noch nicht ge”ffnet
+
+    Eine Liste aller m”glichen Fehlermeldungen der Frame-Treiber-Library finden
+    Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+                                      @120[ FRM_write ]                    @001[ šbersicht ]
+.130
+    FRM_robuf - Freigeben des Sendepuffers
+
+    @131[FRM_robuf] (enable,ident,buffer,buflng,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  ident     : LONG          Treiberkennung der Schnittstelle
+                                  (von @020[FRM_xopen] oder @040[FRM_open])
+    ->  buffer    : LONG          Adresse des Sendepuffers
+    ->  buflng    : WORD          L„nge des Sendepuffers
+    <-  @135[status   ] : WORD          Fehlernummer (0 = kein Fehler)
+
+    Ist der von FRM_write() retournierte Status (Ausgangsparameter "status")
+    nicht 0, ist ein Schreibfehler aufgetreten und der Sendepuffer wird nicht
+    automatisch freigegeben. Sie mssen in diesem Fall den Sendepuffer manuell
+    mit der Funktion FRM_robuf() freigeben.
+    Die Eingangsparameter "buffer" und "buflng" der Funktion FRM_robuf() mssen
+    den Ausgangsparametern "@110[buffer]" und "@110[buflng]" von FRM_gbuf() entsprechen,
+    sonst wird am Ausgang "status" ein Fehler gemeldet.
+
+                                      @131[ Beispiel ]                     @001[ šbersicht ]
+.131
+    FRM_robuf - Freigeben des Sendepuffers (Beispiel)
+
+      ; Schreibpuffer beantragen
+      ; Daten nur bei korrekter Pufferreservierung senden (gbstatus = 0) !!
+      FRM_gbuf(1,frmident,gbstatus,outbufadr,outbuflng)
+      if (gbstatus = 0) then
+          ; Sendedaten aufbereiten - fixen String ausgeben
+          obuf access outbufadr
+          strcpy(outbufadr,"Frame-Treiber - Outputtest")
+          olng = strlen(outbufadr)
+          obuf[olng  ] = $a                    ; Carriage Return
+          obuf[olng+1] = $d                    ; Line Feed
+          obuf[olng+2] = 0
+          olng = olng + 2
+          ; Sendedaten ber Schnittstelle bertragen
+          FRM_write(1,frmident,outbufadr,olng,wstatus)
+          if (wstatus <> 0) then
+              ; FEHLER-Auswertung: Im Fehlerfall Schreibpuffer freigeben
+              FRM_robuf(1,frmident,outbufadr,outbuflng,rostatus)
+          endif
+      endif
+                                                                     @001[ šbersicht ]
+.135
+    FRM_robuf - Freigeben des Sendepuffers (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion FRM_robuf():
+    258     Treiber ist nicht geladen
+    3008    Treiber ist nicht geladen
+    8072    Falscher Puffer bergeben
+    8251    Device ist noch nicht ge”ffnet
+
+    Eine Liste aller m”glichen Fehlermeldungen der Frame-Treiber-Library finden
+    Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+
+                                      @130[ FRM_robuf ]                    @001[ šbersicht ]
+.140
+    FRM_close - Deinitialisieren einer Schnittstelle
+
+    @141[FRM_close] (enable,ident,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  ident     : LONG          Treiberkennung der Schnittstelle
+                                  (von @020[FRM_xopen] oder @040[FRM_open])
+    <-  @145[status   ] : WORD          Fehlernummer (0 = kein Fehler)
+
+    Jeder Device-Treiber ben”tigt bestimmte Ressourcen (z.B. Speicher). Wird
+    ein Ger„t (Device) nicht mehr ben”tigt, ist es sinnvoll, den entsprechenden
+    Device-Treiber zu deinitialisieren und den verwendeten Speicher wieder frei-
+    zugeben. Fr den Frame-Treiber DVFRAME.BR (bzw. DVFRAME3.BR) wird dazu die
+    Funktion FRM_close() verwendet.
+
+
+
+
+
+                                     @141[ Fortsetzung ]                   @001[ šbersicht ]
+.141
+    FRM_close - Deinitialisieren einer Schnittstelle (Fortsetzung)
+
+    Es besteht die M”glichkeit, eine Schnittstelle mehrfach zu verwenden, z.B.
+    die Schnittstelle, an der Ihr Programmierger„t angeschlossen ist.
+    Beim Initialisieren der Schnittstelle mit der Funktion FRM_open() kann die
+    sogenannte @070[Restore-Funktionalit„t] aktiviert werden. D.h., daá die einge-
+    stellten Schnittstellenparameter vor der Initialisierung (mit FRM_open())
+    gespeichert und nach dem Deinitialisieren (mit FRM_close()) wieder einge-
+    stellt werden (z.B. fr Kommunikation mit dem PG2000). Wenn also mit der
+    Funktion FRM_open() die Restore-Funktionalit„t aktiviert wurde, dann wird
+    auch die Schnittstelle so zurckkonfiguriert, daá ein Betreiben des alten
+    Protokolls unter gewissen Bedingungen m”glich ist.
+    Ab der Version V3.00 des Frame-Treibers und Version V1.91 des Betriebs-
+    systems RPSSW ist das Restore des ALI-Treibers eine Standardaktion. Andere
+    Konfigurationen k”nnen allerdings nicht rckgespeichert werden.
+
+
+
+
+
+
+                                     @142[ Fortsetzung ]                   @001[ šbersicht ]
+.142
+    FRM_close - Deinitialisieren einer Schnittstelle (Fortsetzung)
+
+    * Initialisierung der Schnittstelle:
+      Die Restore-Funktionalit„t wird in der erweiterten Parameterdefinition
+      mit "@064[arginfo]" und "@064[argliste]" eingeschaltet:
+
+        arginfo = 1
+        argliste[0] = 13
+        argliste[1] = $00000000
+
+      Beim ™ffnen der Schnittstelle mit FRM_open() werden die Schnittstellen-
+      einstellungen gespeichert.
+
+    * Deinitialisierung der Schnittstelle:
+      Beim Deinitialisieren der Schnittstelle mit der Funktion FRM_close())
+      werden die gespeicherten Schnittstelleneinstellungen wieder hergestellt.
+      Dadurch kann eine Schnittstelle mehrfach verwendet werden.
+
+
+
+
+                                      @143[ Beispiel ]                     @001[ šbersicht ]
+.143
+    FRM_close - Deinitialisieren einer Schnittstelle (Beispiel)
+
+      ; INIT-UP der Task - ™FFNEN der Schnittstelle
+      FRM_open(1,dvnr,frmdelim,baud,mode,rxbufcnt,txbufcnt,rxbuflng,txbuflng,
+               arginfo,adr(argliste),opnstatus,frmident)
+
+      ; Zyklischer Teil der Task - DEINITIALISIEREN der Schnittstelle
+      if (close_flag = 1) and (opnstatus = 0) then
+          close_flag = 0
+          FRM_close(1,frmident,clstatus)
+          if clstatus = 0
+              opnstatus = 0xFFFF               ; Schnittstelle DEINITIALISIERT
+          endif
+      endif
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.145
+    FRM_close - Deinitialisieren einer Schnittstelle (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion FRM_close():
+    258     Treiber ist nicht geladen
+    3008    Treiber ist nicht geladen
+    8072    Falscher Puffer bergeben
+    8251    Device ist noch nicht ge”ffnet
+
+    Eine Liste aller m”glichen Fehlermeldungen der Frame-Treiber-Library finden
+    Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+
+                                      @140[ FRM_close ]                    @001[ šbersicht ]
+.150
+    FRM_ctrl - Bedienen der Schnittstelle
+
+    @150[FRM_ctrl] (enable,ident,ioctrl,inarg,status,outarg)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  ident     : LONG          Treiberkennung der Schnittstelle
+                                  (von @020[FRM_xopen] oder @040[FRM_open])
+    ->  @155[ioctrl   ] : WORD          Kontrollauswahl
+    ->  inarg     : LONG          Inputargument
+    <-  @157[status   ] : WORD          Fehlernummer (0 = kein Fehler)
+    <-  outarg    : LONG          Ergebnis des Kontrollaufrufs
+
+    Mit Hilfe der Funktion FRM_ctrl() sind die DSR/DTR-Signale der modemf„higen
+    Schnittstellen durch den Anwender bedienbar. Auáerdem ist im Falle eines
+    RTS-Hardware-Handshakes mit dieser Funktion der Zustand der Kommunikation
+    auslesbar.
+
+
+
+                                                                     @001[ šbersicht ]
+.155
+    FRM_ctrl - Bedienen der Schnittstelle (Fortsetzung)
+
+    -> Parameter <ioctrl    >: WORD
+
+    Abh„ngig vom Wert dieses Parameters werden verschiedene Kommandos ausge-
+    fhrt:
+
+    - "ioctrl" = $10:
+      šberprft, ob das RTS-Hardware-Handshake gerade aktiv ist. Dies ent-
+      spricht der Funktion FRM_hshake_activ. Wenn das RTS-Hardware-Handshake
+      aktiv ist, kann der Anwender berprfen, ob berhaupt eine Gegenstelle
+      vorhanden ist.
+      "inarg" .... keine Bedeutung
+      "outarg" ... 1 (Handshake aktiv) oder 0 (Handshake inaktiv)
+
+    - "ioctrl" = $11:
+      Der Zustand des DSR-Signals wird ausgelesen. Funktioniert nur auf den
+      modemf„higen Schnittstellen!
+      "inarg" .... keine Bedeutung
+      "outarg" ... Zustand des DSR-Signals (0 oder 1)
+
+                                     @156[ Fortsetzung ]                   @001[ šbersicht ]
+.156
+    FRM_ctrl - Bedienen der Schnittstelle (Fortsetzung)
+
+    - "ioctrl" = $12:
+      Der Zustand des DTR-Signals wird entsprechend dem Wert in "inarg" gesetzt
+      bzw. rckgesetzt. Dieser Aufruf funktioniert nur auf den modemf„higen
+      Schnittstellen!
+      "inarg" .... 0 oder 1 fr DTR-Signal
+      "outarg" ... keine Bedeutung
+
+    Ab der Version V3.00 des Frame-Treibers und der Version V1.91 des Betriebs-
+    systems RPSSW sind weitere Funktionen verfgbar:
+    "ioctrl" = $21 ... Zustand der Steuerleitung DCD lesen
+    "ioctrl" = $22 ... RX aktiv (Ist ein Empfangspuffer ge”ffnet?)
+    "ioctrl" = $23 ... TX aktiv (Ist eine Framebertragung aktiv?)
+    "ioctrl" = $24 ... Steuerleitung DTR setzen/rcksetzen
+    "ioctrl" = $25 ... Funktionsnummer reserviert
+    "ioctrl" = $26 ... Zustand der Steuerleitung DSR lesen
+    "ioctrl" = $27 ... Steuerleitung RTS setzen/rcksetzen
+    "ioctrl" = $28 ... Zustand der Steuerleitung CTS lesen
+    "ioctrl" = $29 ... Zustand der Steuerleitung RI lesen
+
+                                      @150[ FRM_ctrl ]                     @001[ šbersicht ]
+.157
+    FRM_ctrl - Bedienen der Schnittstelle (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion FRM_ctrl():
+    258     Treiber ist nicht geladen
+    3008    Treiber ist nicht geladen
+    8073    Falsches bzw. ungltiges Kommando in "ioctrl"
+    8251    Device ist noch nicht ge”ffnet
+    14813   Steuerleitung ist auf der Schnittstelle nicht ausgefhrt oder wird
+            nicht bedient
+    14814   Steuerleitung wird nicht bedient
+
+    Eine Liste aller m”glichen Fehlermeldungen der Frame-Treiber-Library finden
+    Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+                                      @150[ FRM_ctrl ]                     @001[ šbersicht ]
+.200
+    ANHANG : LIBRARY-Informationen
+
+
+    @201[< Allgemeines       >]      Voraussetzungen etc.
+
+    @210[< Frame-Treiber     >]      Beschreibung des Frame-Treibers
+
+    @220[< Frame-Begrenzung  >]      Frame-Begrenzung beim Senden/Empfangen
+
+    @250[< Syntax            >]      Syntax fr die Erkl„rung der Funktionen
+
+    @300[< Fehlernummern     >]      Zusammenfassung aller Fehlernummern
+
+    @400[< History           >]      Neue Funktionalit„ten und Versions„nderungen
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.201
+    Frame-Treiber-Library : Allgemeines
+
+    Mit Hilfe des Frame-Treibers k”nnen Sie Daten mit externen Ger„ten (z.B.
+    Drucker, Bedientableaus, Bildschirmterminals, usw.), die nicht ber ein
+    Standard-Netzwerk kommunizieren k”nnen, austauschen.
+    Die Funktionsbl”cke der zum Frame-Treiber geh”rigen Frame-Treiber-Library
+    erm”glichen es, Daten als "Frame" zu senden und zu empfangen. Der Frame-
+    Treiber kmmert sich dabei um die hardware-m„áige Seite des Datenaus-
+    tausches, ohne die Daten im Frame zu ver„ndern. Damit k”nnen schnell und
+    einfach anwendungsspezifische Kommunikationen realisiert werden.
+    Detaillierte Informationen zum Thema "Frame-Treiber" finden Sie im Handbuch
+    "B&R System 2000 Programmieren fr Fortgeschrittene".
+
+
+
+
+
+
+
+
+
+                                     @202[ Fortsetzung ]                   @001[ šbersicht ]
+.202
+    Frame-Treiber-Library : Allgemeines (Fortsetzung)
+
+    Anmerkungen:
+    - Bevor Sie die Funktionen der Frame-Treiber-Library in Ihrem Projekt
+      verwenden k”nnen, mssen Sie die Library in die entsprechende Projekt-
+      Datenbank importieren.
+
+    - Die Funktionen dieser Library k”nnen nur verwendet werden, wenn der
+      Frame-Treiber DVFRAME.BR auf der CPU (Anwender-ROM) vorhanden ist!
+
+    - FRM_xopen():
+      Die Module IF050 und IF060 (passive Schnittstellenmodule) k”nnen nur be-
+      dient werden, wenn die FRAME-BASIS-Treiber FBIF050.BR (fr IF050) und
+      FBIF060.BR (fr IF060) auf der CPU (Anwender-ROM) vorhanden sind!
+
+    - FRM_open():
+      IF050-Module k”nnen nur bedient werden, wenn der Frame-Treiber
+      DVFRAME3.BR auf der CPU (Anwender-ROM) vorhanden ist!
+
+    - Alle Funktionen der Frame-Treiber-Library liefern im Fehlerfall als
+      Ergebnis eine @300[Fehlernummer].
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.210
+    Frame-Treiber-Library : Frame-Treiber
+
+    Allgemeines zum Frame-Treiber:
+
+    Der Frame-Treiber erm”glicht das Empfangen und Senden von Frames, ohne
+    daá der Treiber diese Frames (Byte-Str”me) manipuliert. Der Frame-Treiber
+    bildet somit die Basis zur hardware-unabh„ngigen Implementation von
+    einfachen Protokollen. Der Anwender muá lediglich die Mediumzugriffs-
+    verriegelung (Master-Slave, Master-Master), sowie das Protokoll-Framing
+    implementieren (Stationsadressen, Prfsummen, usw.). Weiters kann mit
+    Hilfe des Frame-Treibers ein Drucker, Bildschirmterminal oder Bedien-
+    tableau bedient werden. Der Frame-Treiber bernimmt folgende Funktionen:
+
+    * Hardware-Initialisierung der Schnittstelle im parametrierten Modus
+    * Puffermanagement fr die Schnittstelle (bis zu 8 Puffer in Empfangs- bzw.
+      Sende-Richtung, wobei die Empfangs- und Sendepuffer unterschiedliche
+      Gr”áen haben k”nnen).
+    * Glitchfreies Senden von Sendepuffern, d.h. zwischen den bertragenen
+      Zeichen gibt es keine Zeichenverzugszeit.
+
+
+                                     @211[ Fortsetzung ]                   @001[ šbersicht ]
+.211
+    Frame-Treiber-Library : Frame-Treiber (Fortsetzung)
+
+    Allgemeines zum Frame-Treiber (Fortsetzung):
+
+    * Zerlegung des empfangenen Byte-Stroms in einzelne Frames nach den Vor-
+      gaben des Anwenders (@220[Frame-Begrenzung]).
+    * Hardware-Handshake auf Basis der RTS/CTS-Signale (derzeit nur als
+      Sender).
+    * Software-Handshake XON/XOFF (wird ab RPSSW-Version V1.91 nicht mehr
+      untersttzt).
+    * Bedienung eines externen Kopplers mit RTS-Signal (z.B. RS485-
+      Umschaltung).
+    * Untersttzung von zwei IF050-Modulen im System B&R 2005.
+    * šberlagerung der PG-Schnittstelle mit der M”glichkeit des Wiederaufbaus
+      der PG-Kommunikation (@141[Restore-Funktionalit„t])
+    * Bedienung ber C-Toolbox durch Restzeit-Tasks.
+
+    Die zur Verfgung gestellten Funktionalit„ten sind unabh„ngig vom System
+    (B&R 2010, B&R 2005, B&R 2003).
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.220
+    Frame-Treiber-Library : Frame-Begrenzung
+
+    Wir unterscheiden zwischen der Frame-Begrenzung beim Empfangen und der
+    Frame-Begrenzung beim Senden:
+
+    * @221[Frame-Begrenzung beim Empfangen]
+    * @225[Frame-Begrenzung beim Senden   ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.221
+    Frame-Treiber-Library : Frame-Begrenzung (Fortsetzung)
+
+    Frame-Begrenzung beim Empfangen:
+
+    Ein Frame enth„lt eine Anzahl von zusammengeh”renden Bytes, die nachein-
+    ander bertragen werden. Um empfangene Frames voneinander unterscheiden zu
+    k”nnen, mssen sie entweder mit einem bekannten Zeichen abgeschlossen oder
+    ihre L„nge bekannt sein:
+
+    * @222[Frame-Abschluázeichen         ]
+    * @222[L„nge bekannt                 ]
+    * @223[Max. Leerzeit zwischen Zeichen]
+
+    Sie k”nnen bei der Parametrierung eine, zwei oder alle drei M”glichkeiten
+    der Frame-Begrenzung gleichzeitig angeben.
+
+
+
+
+
+
+                                     @222[ Fortsetzung ]                   @001[ šbersicht ]
+.222
+    Frame-Treiber-Library : Frame-Begrenzung (Fortsetzung)
+
+    Frame-Begrenzung beim Empfangen (Fortsetzung):
+
+    * Frame-Abschluázeichen:
+      Am Ende eines Frames wird ein bestimmtes Zeichen gesendet. Unabh„ngig
+      von der L„nge des Frames weiá der Frame-Treiber damit, daá der Frame
+      vollst„ndig empfangen wurde und beginnt mit dem n„chsten Frame. Mit den
+      Parametern "config" (Funktion FRM_xopen()) und "frmdelim" (Funktion
+      FRM_open()) k”nnen maximal 2 Frame-Abschluázeichen definiert werden,
+      obwohl der Frame-Treiber bis zu 4 Frame-Abschluázeichen haben kann.
+      Werden mehr als 2 Frame-Abschluázeichen ben”tigt, muá dies ber die
+      erweiterte Parameterdefinition mit "@064[arginfo]" und "@064[argliste]" (Funktion
+      FRM_open()) angegeben werden.
+
+    * L„nge bekannt:
+      Die Anzahl der empfangenen Zeichen entspricht der parametrierten maxi-
+      malen Zeichenanzahl in einem Puffer. Nachdem das letzte Zeichen empfangen
+      wurde, wird der ganze Frame in einem Empfangspuffer abgelegt. Das n„chste
+      empfangene Zeichen geh”rt zum n„chsten Frame.
+
+                                     @223[ Fortsetzung ]                   @001[ šbersicht ]
+.223
+    Frame-Treiber-Library : Frame-Begrenzung (Fortsetzung)
+
+    Frame-Begrenzung beim Empfangen (Fortsetzung):
+
+    * Max. Leerzeit zwischen Zeichen:
+      Die Zeit zwischen dem Empfang zweier aufeinanderfolgender Zeichen wird
+      "Leerzeit" oder "Idle-Zeit" genannt. šberschreitet diese Zeit den bei der
+      Parametrierung eingestellten Maximalwert, nimmt der Frame-Treiber an, daá
+      der Frame vollst„ndig ist. Als Einheit fr die Leerzeit wird die L„nge
+      eines Zeichens verwendet (Standard ist 4 Zeichen).
+
+
+
+
+
+
+
+
+
+
+
+                                     @224[ Fortsetzung ]                   @001[ šbersicht ]
+.224
+    Frame-Treiber-Library : Frame-Begrenzung (Fortsetzung)
+
+    Beispiel zur Frame-Begrenzung beim Empfangen:
+    Fr den Frame-Abschluá wurden bei der Parametrierung folgende Angaben
+    gemacht:
+
+         Anzahl Zeichen:                   10
+         Frame-Abschluázeichen:            $F1, $F2
+         Max. Leerzeit zwischen Zeichen:   3 Zeichen
+
+    Empfangene Daten:
+    - Station 1 sendet 10 Zeichen:
+      Die Anzahl der Zeichen eines Frames wurde erreicht. Der Frame ist voll-
+      st„ndig und wird im Empfangspuffer 1 abgelegt. Weiter mit Puffer 2.
+    - Station 2 sendet 3 Zeichen. 5 Zeichenl„ngen sp„ter werden 8 Zeichen von
+      Station 3 empfangen, das letzte Zeichen ist $F1:
+      Die maximale Leerzeit wird berschritten. Die Daten von Station 2 werden
+      im Empfangspuffer 2 abgelegt. Weiter mit Puffer 3.
+      $F1 ist ein Frame-Abschluázeichen. Die Daten von Station 3 werden im
+      Empfangspuffer 3 abgelegt. Weiter mit Puffer 4.
+
+                                       @220[ Zurck ]                      @001[ šbersicht ]
+.225
+    Frame-Treiber-Library : Frame-Begrenzung (Fortsetzung)
+
+    Frame-Begrenzung beim Senden:
+
+    * In Sende-Richtung wird ein Frame durch den entsprechenden Funktionsblock-
+      Aufruf definiert. Der bergebene Puffer wird ohne Zeichenverzugszeit
+      (d.h. ohne Schlupf) bertragen.
+
+    * Die Pufferl„nge muá kleiner als die parametrierte maximale L„nge des
+      Sendepuffers sein (siehe Parameter "config" der Funktion FRM_xopen()
+      bzw. Parameter "txbuflng" der Funktion FRM_open()).
+
+    * Der Anwender muá ber sein Protokoll sicherstellen, daá das šbertragungs-
+      medium (z.B. RS485) fr die šbertragung logisch (z.B. Master-Slave-
+      Protokoll) zur Verfgung steht. Der Frame-Treiber fhrt keine Kontrollen
+      durch. In einem Punkt-Punkt-Vollduplexbetrieb (RS232, RS422) gibt es hier
+      sowieso keine Probleme.
+
+
+
+
+                                       @220[ Zurck ]                      @001[ šbersicht ]
+.250
+    Frame-Treiber-Library : Syntaxbeschreibung
+
+    Datentypen:
+    Fr viele Funktionen sind bestimmte Gruppen von Datentypen zul„ssig. Um
+    bei der Funktionsbeschreibung nicht alle zul„ssigen Datentypen anfhren
+    zu mssen, werden folgende Gruppenbezeichnungen eingefhrt:
+    ÉÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍ»
+    º Gruppe º  BIT  ³ INT8  ³ BYTE  ³ INT16 ³ WORD  ³ INT32 ³ LONG  ³ FLOAT º
+    ÌÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍ¹
+    º BASIS  º       ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º NICHT  º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    º FLOAT  º       ³       ³       ³       ³       ³       ³       ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º ALLE   º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º FELD   º  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  º
+    ÈÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍ¼
+      x  Datentyp ist zul„ssig
+     [x] Datentyp ist zul„ssig als Feldvariable oder Zeichenkette (String)
+
+                                     @251[ Fortsetzung ]                   @001[ šbersicht ]
+.251
+    Frame-Treiber-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Pfeile:
+    Fr die Darstellung von Eingangs- und Ausgangsparametern werden Pfeile
+    verwendet. Dabei gilt folgende Vereinbarung:
+    ÉÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º  Pfeil  º  Bedeutung                                                   º
+    ÌÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º   ->    º  Eingangsparameter                                           º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <->   º  Ein-/Ausgangsparameter. Funktionell ist es ein Ausgangs-    º
+    º         º  parameter. šblicherweise wird er aber vor dem Aufruf der    º
+    º         º  Funktion mit einer bestimmten Information geladen (z.B.     º
+    º         º  einer Adresse). Meist wird die Adresse einer Variable mit   º
+    º         º  adr() [PL2000] oder einem Adreákontakt [KOP] angeschlossen. º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <-    º  Ausgangsparameter                                           º
+    ÈÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @252[ Fortsetzung ]                   @001[ šbersicht ]
+.252
+    Frame-Treiber-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Funktionsbl”cke:
+    Funktionsbl”cke sind in dieser Online-Hilfe nicht grafisch dargestellt.
+    Sie finden aber alle fr Funktionsbl”cke relevanten Informationen, wie
+    Eingangsparameter (->), Ein-/Ausgangsparameter (<->) und Ausgangsparameter
+    (<-) in der Online-Hilfe.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.300
+    Frame-Treiber-Library : Fehlernummern
+
+    Die folgende Liste ist eine Zusammenfassung aller m”glichen Fehlermeldungen
+    der Frame-Treiber-Library:
+
+    1       Keine Nachricht eingetroffen
+    60      Keine Nachricht eingetroffen
+    258     Frame-Treiber ist nicht geladen
+    3008    Frame-Treiber ist nicht geladen
+    8070    Falsche Konfiguration fr das Device
+    8071    Kein Puffer verfgbar
+    8072    Falscher Puffer bergeben
+    8073    Falsches bzw. ungltiges Kommando in "ioctrl"
+    8074    Referenziertes Device existiert nicht bzw. FRAME-BASIS-Treiber fr
+            die IF050/IF060 ist nicht geladen
+    8076    IF050: Device ben”tigt zuviel internen Speicher
+    8078    Der Auftrag wird abgelehnt, weil in der Sendewarteschlange
+            bereits die maximal erlaubte Anzahl von Sendepuffern (siehe
+            Funktion FRM_xopen() und FRM_open()) eingereiht ist
+    8079    Puffer war beim Empfang fehlerhaft
+
+                                     @301[ Fortsetzung ]                   @001[ šbersicht ]
+.301
+    Frame-Treiber-Library : Fehlernummern (Fortsetzung)
+
+    8210    8210 + x; Analyse des fehlerhaften Puffers. x liegt zwischen 1
+            und 31, und wird folgendermaáen aufgeschlsselt:
+            ÚÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄ¿
+            ³ ³ ³ ³F³P³B³O³ ³
+            ÀÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÙ
+            O ... Bit 1: Overrun-Error (Empf„ngerberlauf aufgetreten)
+            B ... Bit 2: Break empfangen
+            P ... Bit 3: Parity-Error (Zeichen mit falscher Parit„t erhalten)
+            F ... Bit 4: Framing-Error (kein Stoppbit erhalten)
+    8251    Device ist nicht ge”ffnet
+    8252    Syntax-Fehler im Device-String (siehe Parameter "device")
+    8253    Syntax-Fehler im Mode-String (siehe Parameter "mode")
+    8254    Die maximale Anzahl gleichzeitig ge”ffneter Devices wurde ber-
+            schritten
+    8255    RPSSW-Version zu alt (es muá eine RPSSW-Version gr”áer oder gleich
+            V1.91 verwendet werden)
+    14808   Eine Einstellung im Mode-String (siehe Parameter "mode") wird von
+            der Schnittstelle nicht untersttzt
+
+                                     @302[ Fortsetzung ]                   @001[ šbersicht ]
+.302
+    Frame-Treiber-Library : Fehlernummern (Fortsetzung)
+
+    14813   Steuerleitung ist auf der Schnittstelle nicht ausgefhrt oder wird
+            nicht bedient
+    14814   Funktion ist nicht verfgbar (im FBASE-Treiber nicht implementiert)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.400
+    Frame-Treiber-Library : History - Versions„nderungen
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V3.20 -> V3.30  ³ AKTUELLE VERSION: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Es besteht nun die M”glichkeit, das Parity-Bit zu forcen.               º
+  º   Die Einstellungen "h", "H", "l" und "L" sind gltige Einstellungen, um  º
+  º   das Parity-Bit auf HIGH bzw. LOW zu forcen. Die Funktion ist nur ber   º
+  º   die Funktionsbl”cke FRM_xopen() bzw. FRM_mode() erreichbar. Die Basis-  º
+  º   funktionalit„t ist derzeit nur auf der CP260 mit RPSSW V2.00 verfgbar. º
+  º - Fehlerkorrekturen:                                                      º
+  º   - Defekte Puffer werden nun standardm„áig nicht mehr an den Aufrufer    º
+  º     durchgereicht (Fehlverhalten der Frame-Treiber-Version V3.00 bis      º
+  º     V3.30 + RPSSW-Version gr”áer oder gleich V1.90).                      º
+  º   - Optional kann der Frame-Treiber jedoch so konfiguriert werden, daá    º
+  º     defekte Puffer zum Aufrufer durchgereicht werden (Parametrierung ber º
+  º     das Argument 16).                                                     º
+  º     Anmerkung: Generell sollte der Erhalt eines Puffers ber die Puffer-  º
+  º     l„nge > 0 geprft werden!                                             º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                     @401[ Fortsetzung ]                   @001[ šbersicht ]
+.401
+    Frame-Treiber-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V3.10 -> V3.20  ³ LTERE VERSIONEN: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º FRM_mode(): Mit Hilfe der Funktion FRM_mode() k”nnen w„hrend des Betriebs º
+  º die Schnittstellenparameter ge„ndert werden. Voraussetzung fr die Ver-   º
+  º wendung der Funktion FRM_mode() ist eine RPSSW-Version gr”áer oder gleich º
+  º V1.91.                                                                    º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º V3.00 -> V3.10  ³ LTERE VERSIONEN: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - FRM_xopen(): Mit Hilfe der Funktion FRM_xopen() k”nnen bis zu 16        º
+  º   Schnittstellen gleichzeitig betrieben werden. Voraussetzung fr die     º
+  º   Verwendung der Funktion FRM_xopen() ist eine RPSSW-Version gr”áer oder  º
+  º   gleich V1.91.                                                           º
+  º - Bei Verwendung der Funktion FRM_xopen() k”nnen die Module IF050 und     º
+  º   IF060 (passive Schnittstellenmodule) nur bedient werden, wenn die       º
+  º   FRAME-BASIS-Treiber FBIF050.BR (fr IF050) und FBIF060.BR (fr IF060)   º
+  º   auf der CPU (Anwender-ROM) vorhanden sind.                              º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+                                     @402[ Fortsetzung ]                   @001[ šbersicht ]
+.402
+    Frame-Treiber-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V3.00 -> V3.10  ³ LTERE VERSIONEN: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Der Treiber DVFRAME3.BR hat bei der Bedienung einer IF050-Schnittstelle º
+  º   mit der Funktion FRM_xopen() keinerlei Bedeutung mehr.                  º
+  º   Die Einschr„nkungen, die bei Verwendung der Funktion FRM_open() fr die º
+  º   IF050 gelten, sind bei Verwendung der Funktion FRM_xopen() hinf„llig.   º
+  º - Die Poll-Variablen zur USER-Verst„ndigung (RX-, TX-Poll-PV) werden nun  º
+  º   vom Frame-Treiber inkrementiert.                                        º
+  º - Fehlerkorrekturen:                                                      º
+  º   - BUS-Error mit NC154 + IF050 korrigiert.                               º
+  º   - "Totaler Zeitengpaá im System" (6002) mit IF050 korrigiert.           º
+  º   - IF050-Initialisierung (Port A-Behandlung) korrigiert.                 º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+                                     @403[ Fortsetzung ]                   @001[ šbersicht ]
+.403
+    Frame-Treiber-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V2.40 -> V3.00  ³ LTERE VERSION: Neue Funktionalit„ten/Fehlerbehebung    º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Untersttzung neuer CPU-Typen (XP152, IP151, IF152, CP472).             º
+  º - Ab der Version V1.19 der RPSSW werden s„mtliche Frame-Treiber-Aufrufe   º
+  º   auf "FBASE"-Funktionen abgebildet. Die FBASE-Treiber sind integrale     º
+  º   Bestandteile der RPSSW.                                                 º
+  º - Die Funktionalit„t "Software-Handshake" wurde aus dem Funktionsumfang   º
+  º   des Frame-Treibers gestrichen.                                          º
+  º - Die Funktionalit„t "Steuerung des INT1 Kopplers ber RTS mit Echo"      º
+  º   wurde aus dem Funktionsumfang des Frame-Treibers gestrichen.            º
+  º - Einfhrung einer "TX-Poll-PV". Dadurch kann die Beendigung einer Frame- º
+  º   šbertragung erkannt werden.                                             º
+  º - Erweiterung der Funktion FRM_ctrl().                                    º
+  º - Das "Restore" der ALI-Konfiguration nach einem FRM_close() ist eine     º
+  º   Standardaktion der FBASE-Treiber (Funktioniert nun ohne Ausnahme!).     º
+  º - Weiters wurden Fehlerkorrekturen im "alten" Code-Teil durchgefhrt.     º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                     @404[ Fortsetzung ]                   @001[ šbersicht ]
+.404
+    Frame-Treiber-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V2.30 -> V2.40  ³ LTERE VERSIONEN: Fehlerbehebung                        º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Fehlerkorrektur: Bei der Verwendung einer IF050 hat die Fehlerver-        º
+  º                  st„ndigung des Remote Masters an die RPS-CPU nicht       º
+  º                  funktioniert (System B&R 2005).                          º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º V2.20 -> V2.30  ³ LTERE VERSIONEN: Neue Funktionalit„ten                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - FRM_ctrl(): Die DSR/DTR-Signale der modemf„higen Schnittstellen sind    º
+  º   mit Hilfe dieses FUBs durch den Anwender bedienbar. Im Falle eines      º
+  º   RTS-Hardware-Handshakes ist der Zustand der Kommunikation auslesbar.    º
+  º - Die RTS-Option fr das Handshake mit einem RS485-Koppler wurde um die   º
+  º   M”glichkeit des Receiver-Disables erweitert (Argumentnummer 5).         º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+                                     @405[ Fortsetzung ]                   @001[ šbersicht ]
+.405
+    Frame-Treiber-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V2.10 -> V2.20  ³ LTERE VERSIONEN: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Neue Funktionalit„ten:                                                    º
+  º - FRM_read(): Das aufwendige Pollen des Inputs (ca. 300æs) ber den Auf-  º
+  º   ruf FRM_read() kann nun ber eine eigene Pollvariable auf eine if-      º
+  º   Abfrage reduziert werden (Argumentnummer 15).                           º
+  º                                                                           º
+  º Fehlerbehebung:                                                           º
+  º - Die RS485 hat am System 2005 (Haupt-CPU) nicht korrekt funktioniert,    º
+  º   und die entsprechende LED wurde nicht korrekt gesetzt. Dieser Fehler    º
+  º   ist behoben.                                                            º
+  º - Einbau einer entsprechenden Verriegelung um den Buserror (Fehler 9100), º
+  º   der bei einem FRM_read()/FRM_write() auf einen nicht ge”ffneten Treiber º
+  º   auftreten konnte, zu vermeiden.                                         º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @406[ Fortsetzung ]                   @001[ šbersicht ]
+.406
+    Frame-Treiber-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V2.00 -> V2.10  ³ LTERE VERSIONEN: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Neue Funktionalit„ten:                                                    º
+  º - FRM_close() ist implementiert, somit ist auch eine šberlagerung eines   º
+  º   anderen Treibers m”glich.                                               º
+  º - FRM_open(): Der Stackbedarf wurde in dieser Version reduziert.          º
+  º - FRM_read() enth„lt erweiterte Fehlermeldung fr fehlerhafte Puffer.     º
+  º - FRM_read() (C-Aufrufschnittstelle) untersttzt die Timeout/Receive-     º
+  º   Aktiv-Option.                                                           º
+  º - Das Schnittstellenmodul IF050 (System B&R 2005) muá erst vor dem Aufruf º
+  º   der Funktion FRM_open() gesteckt werden (nicht wie vorher bereits beim  º
+  º   URINIT).                                                                º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+                                     @407[ Fortsetzung ]                   @001[ šbersicht ]
+.407
+    Frame-Treiber-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V2.00 -> V2.10  ³ LTERE VERSIONEN: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Fehlerbehebung:                                                           º
+  º - Bei der Version V2.00 traten Probleme auf, wenn neben der IF050 ein     º
+  º   Remote Master bzw. eine Netzwerkkarte gesteckt wurde.                   º
+  º - Bei der gleichzeitigen Verwendung von zwei IF050-Modulen konnte es zum  º
+  º   Verlust von Interrupts kommen. Dieser Fehler ist fr die RPSSW V1.10    º
+  º   behoben, fr die RPSSW V1.05 muá der Bugfix 15 (F) geladen sein.        º
+  º - Die Funktion FRM_reloutbuf (C-Aufrufschnittstelle) funktionierte nicht  º
+  º   korrekt.                                                                º
+  º - Bei der Verwendung von mehreren Sendepuffern hat es Probleme gegeben.   º
+  º   Hier wurde der Fehler "kein Puffer verfgbar" zurckgegeben, obwohl     º
+  º   noch Sendepuffer verfgbar waren.                                       º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+                                     @408[ Fortsetzung ]                   @001[ šbersicht ]
+.408
+    Frame-Treiber-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.05.3 -> V2.00   ³ LTERE VERSIONEN: Neue Funktionalit„ten              º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Neue Funktionalit„ten:                                                    º
+  º - Untersttzung der RPSSW V1.10.                                          º
+  º - Zwei IF050-Module werden untersttzt.                                   º
+  º - IF050 muá beim Treiber-Download nicht vorhanden sein.                   º
+  º - Die Schnittstelle wird im FRM_open() voll initialisiert, d.h. man kann  º
+  º   sich ohne Probleme ber bereits existierende Treiber (z.B. PG-Treiber)  º
+  º   "drberlegen". Ein RESTORE des alten Treibers ist derzeit noch nicht    º
+  º   realisiert.                                                             º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+                                     @409[ Fortsetzung ]                   @001[ šbersicht ]
+.409
+    Frame-Treiber-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.05.2 -> V1.05.3 ³ LTERE VERSIONEN: Neue Funktionalit„ten              º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Neue Funktionalit„ten:                                                    º
+  º - Die neuen FUBs V1.05.3 funktionieren nicht mit dem alten Treiber        º
+  º   (Namens„nderung sfi auf frm).                                           º
+  º - FRM_open(): Die Schnittstelle des FUBs hat sich stark ver„ndert         º
+  º   (zus„tzliche und teilweise andere Parameter).                           º
+  º - HW- und SW-Handshake fr die RS232-Leitung.                             º
+  º - Vier Frame-Abschluázeichen werden untersttzt.                          º
+  º - Neue Dateien fr die Programmierung mit der C-Toolbox (C-Interface).    º
+  º   Neue Includedatei frame.e (vormals dvframe.e).                          º
+  º - Beispiel in Form einer exportierten Task (FRMTEST.XPE) zur leichteren   º
+  º   Bedienung/Einarbeitung in die FUBs mit darstellbaren Zeichen fr ein    º
+  º   Terminal bzw. eine Terminalemulation (PG-Version V1.25 Exportdatei).    º
+  º - Vorbereitungen fr den Multidropmode und fr Aussprnge aus dem Treiber º
+  º   (C-Programmierung) zur besseren Bedienung von Sondersituationen.        º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+
+.End

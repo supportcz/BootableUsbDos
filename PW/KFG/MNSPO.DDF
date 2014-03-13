@@ -1,0 +1,58 @@
+*
+*       Datatype Description File fuer MININET-SPOIO
+*
+13,                              * VNT: Anzahl der Variablentypen in der SPS
+BIT,1,1,0,                       * Klartextname, dattyps_sps, pvlen, swap
+BYTE,5,1,0,
+INT8,2,1,0,
+WORD,6,2,0,
+INT16,3,2,0,
+LONG,7,4,0,
+INT32,4,4,0,
+FLOAT,8,4,0,
+STRING,9,1,0,                    * hier pvlen als Multiplikator mit Stringlaenge
+BCD-8,16,4,0,
+BCD-6,17,3,0,
+BCD-4,15,2,0,
+BCD-2,14,1,0,
+8,                               * FVT: Anzahl der Feldparametertypen
+1,2,BIT,BYTE,                    * dattyp_bti, Anz- und Liste der zul. Variablentypen
+5,6,BIT,BYTE,INT8,BCD-2,WORD,INT16,
+6,5,WORD,INT16,BCD-4,BYTE,BIT,
+3,5,INT16,WORD,BCD-4,BYTE,INT8,
+7,4,LONG,INT32,BCD-8,BCD-6,
+4,4,INT32,LONG,BCD-8,BCD-6,
+8,1,FLOAT,
+9,1,STRING,
+28,                               * Anzahl der ABG-Eintr„ge
+* AVW,von,bis, op-code(0-kein Vergleich, 1-numerisch, 2-string, 3-B&R),
+* Anz. zul. PLC-Vartypen, ..Vartypen, 0, 0,
+D,0,32767,1,12,BYTE,INT8,WORD,INT16,LONG,INT32,FLOAT,STRING,BCD-2,BCD-4,BCD-6,BCD-8,0,0,
+d,0,32767,1,12,BYTE,INT8,WORD,INT16,LONG,INT32,FLOAT,STRING,BCD-2,BCD-4,BCD-6,BCD-8,0,0,
+G,0,32767,1,12,BYTE,INT8,WORD,INT16,LONG,INT32,FLOAT,STRING,BCD-2,BCD-4,BCD-6,BCD-8,0,0,
+g,0,32767,1,12,BYTE,INT8,WORD,INT16,LONG,INT32,FLOAT,STRING,BCD-2,BCD-4,BCD-6,BCD-8,0,0,
+C,0,7167,1,12,BYTE,INT8,WORD,INT16,LONG,INT32,FLOAT,STRING,BCD-2,BCD-4,BCD-6,BCD-8,0,0,
+c,0,7167,1,12,BYTE,INT8,WORD,INT16,LONG,INT32,FLOAT,STRING,BCD-2,BCD-4,BCD-6,BCD-8,0,0,
+R,0,7167,1,12,BYTE,INT8,WORD,INT16,LONG,INT32,FLOAT,STRING,BCD-2,BCD-4,BCD-6,BCD-8,0,0,
+r,0,7167,1,12,BYTE,INT8,WORD,INT16,LONG,INT32,FLOAT,STRING,BCD-2,BCD-4,BCD-6,BCD-8,0,0,
+M,0,999,1,1,BIT,0,0,
+m,0,999,1,1,BIT,0,0,
+F,0,999,1,1,BIT,0,0,
+f,0,999,1,1,BIT,0,0,
+FD,0,99,1,1,BIT,0,0,
+fd,0,99,1,1,BIT,0,0,
+TD,0,99,1,1,BIT,0,0,
+td,0,99,1,1,BIT,0,0,
+ZD,0,99,1,1,BIT,0,0,
+zd,0,99,1,1,BIT,0,0,
+SD,0,99,1,1,BIT,0,0,
+sd,0,99,1,1,BIT,0,0,
+E,000,3FN,3,1,BIT,0,0,
+e,000,3FN,3,1,BIT,0,0,
+I,000,3FN,3,1,BIT,0,0,
+i,000,3FN,3,1,BIT,0,0,
+A,000,3FN,3,1,BIT,0,0,
+a,000,3FN,3,1,BIT,0,0,
+O,000,3FN,3,1,BIT,0,0,
+o,000,3FN,3,1,BIT,0,0,
+

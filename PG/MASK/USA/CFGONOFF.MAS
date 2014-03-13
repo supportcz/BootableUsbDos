@@ -1,0 +1,7 @@
+#VAR 00 00 05 01 78 00 35 N N J N N 00 00 01 
+#TXT 00 00 05 78  _ON__
+#VAR 01 00 05 01 78 00 35 N N J N N 00 00 02 
+#TXT 01 00 05 78  _OFF_
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`

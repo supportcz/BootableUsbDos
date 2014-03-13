@@ -1,0 +1,879 @@
+%%
+1,0:1
+%%
+.1
+    Funktionen der Datenspeicher-Library
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º ACHTUNG: Da die Datenspeicher-Library AVT-Funktionen enth„lt, k”nnen      º
+  º          die Funktionen dieser Library nur verwendet werden, wenn das     º
+  º          B&R-Modul DM_LIB.BR im nullspannungssicheren Speicher (Anwender- º
+  º          Flash-PROM) der Steuerung vorhanden ist!                         º
+  º          Wenn mehrere 64-KByte-Bl”cke verwendet werden (siehe Funktion    º
+  º          DMxclear(), DMxstore() und DMxfree()), muá zus„tzlich das        º
+  º          Datenmodul CFGDMLIB.BR in den nullspannungssicheren Speicher     º
+  º          (Anwender-Flash-PROM) der Steuerung bertragen werden.           º
+  º          Nach dem šbertragen dieser Module in den nullspannungssicheren   º
+  º          Speicher muá ein KALTSTART (frher "TOTALINIT" genannt) durch-   º
+  º          gefhrt werden.                                                  º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+                                     @002[ Fortsetzung ]               @999[ HILFE beenden ]
+.2
+    Funktionen der Datenspeicher-Library (Fortsetzung)
+
+    Nach dem Importieren der Datenspeicher-Library stehen Ihnen folgende
+    Funktionen zur Verfgung:
+
+    @020[DMclear ] Datenspeicher im letzten 64-KByte-Block des Flash-PROMs l”schen
+    @030[DMstore ] Datenmodul im letzten 64-KByte-Block des Flash-PROMs ablegen
+    @040[DMfree  ] Gr”áe des verfgbaren Datenspeichers im letzten 64-KByte-Block
+             des Flash-PROMs feststellen
+    @050[DMxclear] Datenspeicher des x-ten 64-KByte-Blocks des Flash-PROMs l”schen
+    @060[DMxstore] Datenmodul im x-ten 64-KByte-Block des Flash-PROMs ablegen
+    @070[DMxfree ] Gr”áe des verfgbaren Datenspeichers im x-ten 64-KByte-Block
+             des Flash-PROMs feststellen
+
+    Mit den Funktionen der Datenspeicher-Library stehen dem Anwender (neben den
+    Datenmodul-Funktionen der BURTRAP-Library) somit zus„tzliche Funktionen fr
+    die Datenmodul-Behandlung zur Verfgung.
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.20
+    DMclear - Datenspeicher im letzten 64-KByte-Block l”schen
+
+    @020[DMclear] (enable,status)
+
+    Parameter-Datentypen :
+    ->  @025[enable    ]: BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    <-  @026[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit dem Funktionsblock DMclear() kann der Datenspeicher (DMEMORY) im
+    letzten 64-KByte-Block des Anwender-Flash-PROMs gel”scht werden. W„hrend
+    des L”schens des Anwender-Flash-PROMs sind alle anderen Funktionen der
+    RPS blockiert.
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.25
+    DMclear - Datenspeicher im letzten 64-KByte-Block l”schen (Fortsetzung)
+
+    -> Parameter <enable    >: BIT
+
+    Wenn der Eingangsparameter "enable" = 1 ist, wird der letzte 64 KByte groáe
+    Block des Anwender-Flash-PROMs gel”scht und alle darin eingetragenen Module
+    werden aus den Systemtabellen entfernt.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @020[ DMclear ]                     @001[ šbersicht ]
+.26
+    DMclear - Datenspeicher im letzten 64-KByte-Block l”schen (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion DMclear():
+    6383    Kein freier 64-KByte-Block im Anwender-Flash-PROM vorhanden
+            (-> Anwender-Flash-PROM l”schen)
+    6385    CPU-Typ wird nicht untersttzt
+    6386    Interner Fehler - keine Root-Task vorhanden
+    6389    Internes DMEMORY-Handle 0 oder ungltig (-> Speicherfehler)
+    6394    B&R-Modul DM_LIB.BR wurde gel”scht (-> neuerlich Laden, Brennen
+            und KALTSTART) oder es wurde nur ein WARMSTART durchgefhrt
+    6395    Datenspeicher (DMEMORY) wird gerade von einem anderen Funktions-
+            block der Datenspeicher-Library bearbeitet
+
+    Eine Liste aller m”glichen Fehlermeldungen der Datenspeicher-Library
+    finden Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+                                       @020[ DMclear ]                     @001[ šbersicht ]
+.30
+    DMstore - Datenmodul im letzten 64-KByte-Block ablegen
+
+    @031[DMstore] (enable,adr(name),data,size,ident,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  name      : BYTE (FELD)   Name des zu generierenden Datenmoduls als
+                                  String. Existiert bereits ein Modul mit
+                                  diesem Namen, so wird am Ausgang status
+                                  eine entsprechende Fehlermeldung ausgegeben.
+                                  Der String kann auf zwei verschiedene Arten
+                                  angegeben werden:
+                                  adr(name)  Adresse der BYTE-Feldvariable,
+                                             die den String enth„lt.
+                                  "name"     Konstanter String (muá in Anfh-
+                                             rungszeichen angegeben werden!).
+    ->  data      : LONG          Adresse auf die Daten, die in die Daten-
+                                  sektion des neuen Datenmoduls kopiert werden
+                                  sollen.
+
+                                     @031[ Fortsetzung ]                   @001[ šbersicht ]
+.31
+    DMstore - Datenmodul im letzten 64-KByte-Block ablegen (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    ->  size      : LONG          Mit diesem Parameter wird die Gr”áe der
+                                  Datensektion definiert.
+    ->  @035[ident     ]: LONG          Wird an diesem Eingang die gltige Ident-
+                                  Nummer eines Datenmoduls angegeben, so
+                                  werden alle Sektionen dieses Referenz-
+                                  moduls fr die Erzeugung des neuen Daten-
+                                  moduls herangezogen. Die Datensektion
+                                  des Moduls wird durch den (mit dem Parameter
+                                  data) angegebenen Datenbereich ersetzt.
+                                  Die Datenl„nge des Referenzmoduls muá der
+                                  (mit dem Parameter size) festgelegten Daten-
+                                  l„nge entsprechen.
+    <-  @036[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit dem Funktionsblock DMstore() kann ein Datenmodul im Datenspeicher
+    des letzten 64-KByte-Blocks abgelegt werden.
+
+
+                                     @032[ Fortsetzung ]                   @001[ šbersicht ]
+.32
+    DMstore - Datenmodul im letzten 64-KByte-Block ablegen (Fortsetzung)
+
+    Das Speichern im Flash-PROM erfolgt in 32-Byte-Bl”cken. Das Datenmodul
+    wird direkt im Flash-PROM generiert (kein zus„tzlicher Speicherbedarf).
+    W„hrend ein Block (32 Byte) ins Anwender-Flash-PROM gespeichert wird,
+    sind alle anderen Funktionen der RPS blockiert.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.35
+    DMstore - Datenmodul im letzten 64-KByte-Block ablegen (Fortsetzung)
+
+    -> Parameter <ident     >: LONG
+
+    Wird am Eingang "ident" die gltige Ident-Nummer eines existierenden Daten-
+    moduls angegeben, so werden alle Sektionen dieses Datenmoduls (Referenz-
+    moduls) fr die Erzeugung des neuen Datenmoduls herangezogen. Die Daten-
+    sektion des Moduls wird durch den (mit dem Parameter "data") angegebenen
+    Datenbereich ersetzt. Die Datenl„nge des Referenzmoduls muá der (mit dem
+    Parameter "size") festgelegten Datenl„nge entsprechen.
+
+    Anmerkung:
+    Die Ident-Nummer eines existierenden Datenmoduls kann mit der Funktion
+    DA_ident() der BURTRAP-Library ermittelt werden.
+
+
+
+
+
+
+
+                                       @030[ DMstore ]                     @001[ šbersicht ]
+.36
+    DMstore - Datenmodul im letzten 64-KByte-Block ablegen (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion DMstore():
+    6383    Kein freier 64-KByte-Block im Anwender-Flash-PROM vorhanden
+            (-> Anwender-Flash-PROM l”schen)
+    6385    CPU-Typ wird nicht untersttzt
+    6386    Interner Fehler - keine Root-Task vorhanden
+    6389    Internes DMEMORY-Handle 0 oder ungltig (-> Speicherfehler)
+    6390    DMEMORY voll -> Funktion DMclear() aufrufen
+    6391    Parameter "ident" nicht gltig oder falscher Modultyp
+    6392    Die Datenl„nge der Datensektion des Referenzmoduls stimmt nicht
+            mit dem Parameter "size" berein
+    6393    Es existiert bereits ein Modul mit dem angegebenen Namen
+    6394    B&R-Modul DM_LIB.BR wurde gel”scht (-> neuerlich Laden, Brennen
+            und KALTSTART) oder es wurde nur ein WARMSTART durchgefhrt
+    6395    Datenspeicher (DMEMORY) wird gerade von einem anderen Funktions-
+            block der Datenspeicher-Library bearbeitet
+
+
+                                     @037[ Fortsetzung ]                   @001[ šbersicht ]
+.37
+    DMstore - Datenmodul im letzten 64-KByte-Block ablegen (Fortsetzung)
+
+    6396    Fr den Parameter "data" wurde ein nichtinitialisierter Zeiger
+            (Null Pointer) bergeben
+    8022    Modultabelle voll -> vergr”áern Sie in der Systemkonfiguration
+            ("sysconf"-Modul) die maximale Anzahl der B&R-Module auf der RPS
+    9002    Syntax des Modulnamens nicht gltig (Sonderzeichen!)
+
+    Eine Liste aller m”glichen Fehlermeldungen der Datenspeicher-Library
+    finden Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+
+
+
+                                       @030[ DMstore ]                     @001[ šbersicht ]
+.40
+    DMfree - Gr”áe des verfgbaren Datenspeichers feststellen
+
+    @040[DMfree] (enable,size,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    <-  size      : LONG          Der hier angegebene Wert entspricht dem
+                                  freien Speicher im Datenspeicher des letzten
+                                  64-KByte-Blocks (Angabe in Byte).
+    <-  @045[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit dem Funktionsblock DMfree() kann die Gr”áe des freien Speichers im
+    Datenspeicher des letzten 64-KByte-Blocks festgestellt werden.
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.45
+    DMfree - Gr”áe des verfgbaren Datenspeichers feststellen (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion DMfree():
+    6383    Kein freier 64-KByte-Block im Anwender-Flash-PROM vorhanden
+            (-> Anwender-Flash-PROM l”schen)
+    6385    CPU-Typ wird nicht untersttzt
+    6386    Interner Fehler - keine Root-Task vorhanden
+    6389    Internes DMEMORY-Handle 0 oder ungltig (-> Speicherfehler)
+    6394    B&R-Modul DM_LIB.BR wurde gel”scht (-> neuerlich Laden, Brennen
+            und KALTSTART) oder es wurde nur ein WARMSTART durchgefhrt
+
+    Eine Liste aller m”glichen Fehlermeldungen der Datenspeicher-Library
+    finden Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+                                       @040[ DMfree ]                      @001[ šbersicht ]
+.50
+    DMxclear - Datenspeicher im x-ten 64-KByte-Block l”schen
+
+    @050[DMxclear] (enable,block_no,status)
+
+    Parameter-Datentypen :
+    ->  @055[enable    ]: BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  block_no  : BYTE          Mit diesem Parameter kann die Blocknummer des
+                                  64-KByte-Blocks im Anwender-Flash-PROM ange-
+                                  geben werden:
+                                  1 ... letzter 64-KByte-Block
+                                  2 ... vorletzter 64-KByte-Block
+                                  usw.
+    <-  @056[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit dem Funktionsblock DMxclear() kann der Datenspeicher (DMEMORY) eines
+    64-KByte-Blocks in Anwender-Flash-PROM gel”scht werden. W„hrend des
+    L”schens des Anwender-Flash-PROMs sind alle anderen Funktionen der RPS
+    blockiert.
+
+
+                                                                     @001[ šbersicht ]
+.55
+    DMxclear - Datenspeicher im x-ten 64-KByte-Block l”schen (Fortsetzung)
+
+    -> Parameter <enable    >: BIT
+
+    Wenn der Eingangsparameter "enable" = 1 ist, wird der (mit dem Parameter
+    "block_no") angegebene 64 KByte groáe Block des Anwender-Flash-PROMs ge-
+    l”scht und alle darin eingetragenen Module werden aus den Systemtabellen
+    entfernt.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @050[ DMxclear ]                     @001[ šbersicht ]
+.56
+    DMxclear - Datenspeicher im x-ten 64-KByte-Block l”schen (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion DMxclear():
+    6383    Kein freier 64-KByte-Block im Anwender-Flash-PROM vorhanden
+            (-> Anwender-Flash-PROM l”schen)
+    6385    CPU-Typ wird nicht untersttzt
+    6386    Interner Fehler - keine Root-Task vorhanden
+    6389    Internes DMEMORY-Handle 0 oder ungltig (-> Speicherfehler)
+    6394    B&R-Modul DM_LIB.BR wurde gel”scht (-> neuerlich Laden, Brennen
+            und KALTSTART) oder es wurde nur ein WARMSTART durchgefhrt
+    6395    Datenspeicher (DMEMORY) wird gerade von einem anderen Funktions-
+            block der Datenspeicher-Library bearbeitet
+    6396    In der Funktion DMxclear() ist intern ein Null Pointer (nicht-
+            initialisierter Zeiger) gesetzt
+    6398    Die angegebene Blocknummer ("block_no") ist gr”áer, als im Daten-
+            modul CFGDMLIB definiert
+
+
+
+                                     @057[ Fortsetzung ]                   @001[ šbersicht ]
+.57
+    DMxclear - Datenspeicher im x-ten 64-KByte-Block l”schen (Fortsetzung)
+
+    Eine Liste aller m”glichen Fehlermeldungen der Datenspeicher-Library
+    finden Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @050[ DMxclear ]                     @001[ šbersicht ]
+.60
+    DMxstore - Datenmodul im x-ten 64-KByte-Block ablegen
+
+    @061[DMxstore] (enable,block_no,adr(name),data,size,ident,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  block_no  : BYTE          Mit diesem Parameter kann die Blocknummer des
+                                  64-KByte-Blocks im Anwender-Flash-PROM ange-
+                                  geben werden:
+                                  1 ... letzter 64-KByte-Block
+                                  2 ... vorletzter 64-KByte-Block
+                                  usw.
+
+
+
+
+
+
+
+
+                                     @061[ Fortsetzung ]                   @001[ šbersicht ]
+.61
+    DMxstore - Datenmodul im x-ten 64-KByte-Block ablegen (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    ->  name      : BYTE (FELD)   Name des zu generierenden Datenmoduls als
+                                  String. Existiert bereits ein Modul mit
+                                  diesem Namen, so wird am Ausgang status
+                                  eine entsprechende Fehlermeldung ausgegeben.
+                                  Der String kann auf zwei verschiedene Arten
+                                  angegeben werden:
+                                  adr(name)  Adresse der BYTE-Feldvariable,
+                                             die den String enth„lt.
+                                  "name"     Konstanter String (muá in Anfh-
+                                             rungszeichen angegeben werden!).
+    ->  data      : LONG          Adresse auf die Daten, die in die Daten-
+                                  sektion des neuen Datenmoduls kopiert werden
+                                  sollen.
+    ->  size      : LONG          Mit diesem Parameter wird die Gr”áe der
+                                  Datensektion definiert.
+
+
+
+                                     @062[ Fortsetzung ]                   @001[ šbersicht ]
+.62
+    DMxstore - Datenmodul im x-ten 64-KByte-Block ablegen (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    ->  @065[ident     ]: LONG          Wird an diesem Eingang die gltige Ident-
+                                  Nummer eines Datenmoduls angegeben, so
+                                  werden alle Sektionen dieses Referenz-
+                                  moduls fr die Erzeugung des neuen Daten-
+                                  moduls herangezogen. Die Datensektion
+                                  des Moduls wird durch den (mit dem Parameter
+                                  data) angegebenen Datenbereich ersetzt.
+                                  Die Datenl„nge des Referenzmoduls muá der
+                                  (mit dem Parameter size) festgelegten Daten-
+                                  l„nge entsprechen.
+    <-  @066[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit dem Funktionsblock DMxstore() kann ein Datenmodul im Datenspeicher
+    eines 64-KByte-Blocks abgelegt werden.
+    Das Speichern im Flash-PROM erfolgt in 32-Byte-Bl”cken. Das Datenmodul
+    wird direkt im Flash-PROM generiert (kein zus„tzlicher Speicherbedarf).
+    W„hrend ein Block (32 Byte) ins Anwender-Flash-PROM gespeichert wird,
+    sind alle anderen Funktionen der RPS blockiert.
+                                                                     @001[ šbersicht ]
+.65
+    DMxstore - Datenmodul im x-ten 64-KByte-Block ablegen (Fortsetzung)
+
+    -> Parameter <ident     >: LONG
+
+    Wird am Eingang "ident" die gltige Ident-Nummer eines existierenden Daten-
+    moduls angegeben, so werden alle Sektionen dieses Datenmoduls (Referenz-
+    moduls) fr die Erzeugung des neuen Datenmoduls herangezogen. Die Daten-
+    sektion des Moduls wird durch den (mit dem Parameter "data") angegebenen
+    Datenbereich ersetzt. Die Datenl„nge des Referenzmoduls muá der (mit dem
+    Parameter "size") festgelegten Datenl„nge entsprechen.
+
+    Anmerkung:
+    Die Ident-Nummer eines existierenden Datenmoduls kann mit der Funktion
+    DA_ident() der BURTRAP-Library ermittelt werden.
+
+
+
+
+
+
+
+                                      @060[ DMxstore ]                     @001[ šbersicht ]
+.66
+    DMxstore - Datenmodul im x-ten 64-KByte-Block ablegen (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion DMxstore():
+    6383    Kein freier 64-KByte-Block im Anwender-Flash-PROM vorhanden
+            (-> Anwender-Flash-PROM l”schen)
+    6385    CPU-Typ wird nicht untersttzt
+    6386    Interner Fehler - keine Root-Task vorhanden
+    6389    Internes DMEMORY-Handle 0 oder ungltig (-> Speicherfehler)
+    6390    DMEMORY voll -> Funktion DMclear() aufrufen
+    6391    Parameter "ident" nicht gltig oder falscher Modultyp
+    6392    Die Datenl„nge der Datensektion des Referenzmoduls stimmt nicht
+            mit dem Parameter "size" berein
+    6393    Es existiert bereits ein Modul mit dem angegebenen Namen
+    6394    B&R-Modul DM_LIB.BR wurde gel”scht (-> neuerlich Laden, Brennen
+            und KALTSTART) oder es wurde nur ein WARMSTART durchgefhrt
+    6395    Datenspeicher (DMEMORY) wird gerade von einem anderen Funktions-
+            block der Datenspeicher-Library bearbeitet
+
+
+                                     @067[ Fortsetzung ]                   @001[ šbersicht ]
+.67
+    DMxstore - Datenmodul im x-ten 64-KByte-Block ablegen (Fortsetzung)
+
+    6396    Fr den Parameter "data" wurde ein nichtinitialisierter Zeiger
+            (Null Pointer) bergeben
+    6398    Die angegebene Blocknummer ("block_no") ist gr”áer, als im Daten-
+            modul CFGDMLIB definiert
+    8022    Modultabelle voll -> vergr”áern Sie in der Systemkonfiguration
+            ("sysconf"-Modul) die maximale Anzahl der B&R-Module auf der RPS
+    9002    Syntax des Modulnamens nicht gltig (Sonderzeichen!)
+
+    Eine Liste aller m”glichen Fehlermeldungen der Datenspeicher-Library
+    finden Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+
+                                      @060[ DMxstore ]                     @001[ šbersicht ]
+.70
+    DMxfree - Gr”áe des verfgbaren Datenspeichers feststellen
+
+    @071[DMxfree] (enable,block_no,size,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  block_no  : BYTE          Mit diesem Parameter kann die Blocknummer des
+                                  64-KByte-Blocks im Anwender-Flash-PROM ange-
+                                  geben werden:
+                                  1 ... letzter 64-KByte-Block
+                                  2 ... vorletzter 64-KByte-Block
+                                  usw.
+    <-  size      : LONG          Der hier angegebene Wert entspricht dem
+                                  freien Speicher im Datenspeicher des (mit
+                                  dem Parameter block_no) festgelegten
+                                  64-KByte-Blocks (Angabe in Byte).
+    <-  @075[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+
+
+                                     @071[ Fortsetzung ]                   @001[ šbersicht ]
+.71
+    DMxfree - Gr”áe des verfgbaren Datenspeichers feststellen (Fortsetzung)
+
+    Mit dem Funktionsblock DMxfree() kann die Gr”áe des freien Speichers im
+    Datenspeicher des angegebenen 64-KByte-Blocks festgestellt werden.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.75
+    DMxfree - Gr”áe des verfgbaren Datenspeichers feststellen (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion DMxfree():
+    6383    Kein freier 64-KByte-Block im Anwender-Flash-PROM vorhanden
+            (-> Anwender-Flash-PROM l”schen)
+    6385    CPU-Typ wird nicht untersttzt
+    6386    Interner Fehler - keine Root-Task vorhanden
+    6389    Internes DMEMORY-Handle 0 oder ungltig (-> Speicherfehler)
+    6394    B&R-Modul DM_LIB.BR wurde gel”scht (-> neuerlich Laden, Brennen
+            und KALTSTART) oder es wurde nur ein WARMSTART durchgefhrt
+    6398    Die angegebene Blocknummer ("block_no") ist gr”áer, als im Daten-
+            modul CFGDMLIB definiert
+
+    Eine Liste aller m”glichen Fehlermeldungen der Datenspeicher-Library
+    finden Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+                                       @070[ DMxfree ]                     @001[ šbersicht ]
+.200
+    ANHANG : LIBRARY-Informationen
+
+
+    @201[< Allgemeines            >]    Voraussetzungen etc.
+
+    @210[< Untersttzte Hardware  >]    Liste der untersttzten Hardware-Module
+
+    @220[< Datenmodul CFGDMLIB.BR >]    Datenmodul CFGDMLIB.BR
+
+    @250[< Syntax                 >]    Syntax fr die Erkl„rung der Funktionen
+
+    @300[< Fehlernummern          >]    Zusammenfassung aller Fehlernummern
+
+    @400[< History                >]    Neue Funktionalit„ten und Versions„nderungen
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.201
+    Datenspeicher-Library : Allgemeines
+
+    Bei den meisten Prozessoren mit Flash-PROM-Speicher (siehe Liste der
+    @210[untersttzten Hardware-Module]) wurde der Funktionsumfang des Betriebs-
+    systems RPSSW um einen Flash-PROM-Speicherbereich (Datenspeicher), der
+    von der Anwendung gel”scht werden kann, erweitert. Alle austauschbaren
+    Anwenderspeicher werden von dieser Betriebssystem-Erweiterung nicht
+    untersttzt.
+    Ist die Betriebssystem-Erweiterung (B&R-Modul DM_LIB.BR) fr diesen
+    Datenspeicher im Flash-PROM installiert, wird die letzte 64-KByte-Bank
+    des Anwender-Flash-PROMs aus der allgemeinen Verwaltung ausgeh„ngt.
+    Mit den DMx-Funktionsbl”cken (DMxclear(), DMxstore() und DMxfree())
+    k”nnen mehrere 64-KByte-Bl”cke am Ende des Anwender-Flash-PROMs bedient
+    werden. Die Anzahl der 64-KByte-Bl”cke, welche im Anwender-Flash-PROM
+    fr die Behandlung mit den DMx-Funktionsbl”cken reserviert werden, wird
+    mit dem Datenmodul @220[CFGDMLIB.BR] festgelegt.
+
+
+
+
+
+                                     @202[ Fortsetzung ]                   @001[ šbersicht ]
+.202
+    Datenspeicher-Library : Allgemeines (Fortsetzung)
+
+    šber die Funktionsbl”cke der Datenspeicher-Library kann der Anwender in
+    diesem Bereich B&R-Datenmodule installieren. Zus„tzlich hat der Anwender
+    auch die M”glichkeit, diesen Bereich mit einem Funktionsblock zu l”schen.
+    Mit dem PG2000 werden B&R-Datenmodule im Datenspeicher nicht explizit
+    ausgewiesen. Sie werden wie ein Modul im Flash-PROM behandelt. Aus diesem
+    Grund stehen dem Anwender die Funktionen "L”schen" und "Upload" zur Ver-
+    fgung. Ein Download in den Datenspeicher ist mit dem PG2000 jedoch nicht
+    m”glich.
+    Beim L”schen des Anwender-Flash-PROMs mit dem PG2000 wird auch die letzte
+    Bank (oder letzten B„nke) des Flash-PROMs gel”scht. Dadurch werden auch
+    die darin befindlichen Module gel”scht.
+
+
+
+
+
+
+
+
+                                     @203[ Fortsetzung ]                   @001[ šbersicht ]
+.203
+    Datenspeicher-Library : Allgemeines (Fortsetzung)
+
+    Anmerkungen:
+    - Bevor Sie die Funktionen der Datenspeicher-Library in Ihrem Projekt
+      verwenden k”nnen, mssen Sie die Library in die entsprechende Projekt-
+      Datenbank importieren.
+
+    - Da die Datenspeicher-Library AVT-Funktionen enth„lt, k”nnen die Funkti-
+      onen dieser Library nur verwendet werden, wenn das B&R-Modul DM_LIB.BR
+      im Anwender-Flash-PROM der CPU vorhanden ist.
+
+    - Wenn mehrere 64-KByte-Bl”cke (siehe Funktion DMxclear(), DMxstore() und
+      DMxfree()) verwendet werden, muá zus„tzlich das Datenmodul CFGDMLIB.BR
+      ins Anwender-Flash-PROM gespeichert werden.
+
+    - Voraussetzung fr die Verwendung der Datenspeicher-Library ist die
+      Version V1.90 des Betriebssystems RPSSW.
+
+    - Alle Funktionen der Datenspeicher-Library liefern im Fehlerfall als
+      Ergebnis eine @300[Fehlernummer].
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.210
+    Datenspeicher-Library : Untersttzte Hardware
+
+    Folgende Hardware-Module untersttzen die Funktionen der Datenspeicher-
+    Library:
+
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º System B&R 2010 º System B&R 2005 º System B&R 2003 º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º IF100           º CP260           º CP470           º
+    º IF101           º XP152           º CP474           º
+    º                 º IF260           º CP770           º
+    º                 º IF152           º CP774           º
+    º                 º IPxxx           º                 º
+    º                 º                 º                 º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.220
+    Datenspeicher-Library : Datenmodul CFGDMLIB.BR
+
+    Mit dem Datenmodul CFGDMLIB.BR wird die Anzahl (Datentyp BYTE) der 64-
+    KByte-Bl”cke, welche im Anwender-Flash-PROM fr die Behandlung mit den
+    DMx-Funktionsbl”cken (DMxclear(), DMxstore() und DMxfree()) reserviert
+    werden, konfiguriert. Dieses Datenmodul kann mit dem Programmiersystem
+    PG2000 erstellt werden und muá zusammen mit dem B&R-Modul DM_LIB.BR ins
+    Anwender-Flash-PROM bertragen werden. Nach dem šbertragen dieser Module
+    in den nullspannungssicheren Speicher muá ein KALTSTART (frher "TOTALINIT"
+    genannt) durchgefhrt werden.
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.250
+    Datenspeicher-Library : Syntaxbeschreibung
+
+    Datentypen:
+    Fr viele Funktionen sind bestimmte Gruppen von Datentypen zul„ssig. Um
+    bei der Funktionsbeschreibung nicht alle zul„ssigen Datentypen anfhren
+    zu mssen, werden folgende Gruppenbezeichnungen eingefhrt:
+    ÉÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍ»
+    º Gruppe º  BIT  ³ INT8  ³ BYTE  ³ INT16 ³ WORD  ³ INT32 ³ LONG  ³ FLOAT º
+    ÌÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍ¹
+    º BASIS  º       ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º NICHT  º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    º FLOAT  º       ³       ³       ³       ³       ³       ³       ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º ALLE   º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º FELD   º  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  º
+    ÈÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍ¼
+      x  Datentyp ist zul„ssig
+     [x] Datentyp ist zul„ssig als Feldvariable oder Zeichenkette (String)
+
+                                     @251[ Fortsetzung ]                   @001[ šbersicht ]
+.251
+    Datenspeicher-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Pfeile:
+    Fr die Darstellung von Eingangs- und Ausgangsparametern werden Pfeile
+    verwendet. Dabei gilt folgende Vereinbarung:
+    ÉÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º  Pfeil  º  Bedeutung                                                   º
+    ÌÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º   ->    º  Eingangsparameter                                           º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <->   º  Ein-/Ausgangsparameter. Funktionell ist es ein Ausgangs-    º
+    º         º  parameter. šblicherweise wird er aber vor dem Aufruf der    º
+    º         º  Funktion mit einer bestimmten Information geladen (z.B.     º
+    º         º  einer Adresse). Meist wird die Adresse einer Variable mit   º
+    º         º  adr() [PL2000] oder einem Adreákontakt [KOP] angeschlossen. º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <-    º  Ausgangsparameter                                           º
+    ÈÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @252[ Fortsetzung ]                   @001[ šbersicht ]
+.252
+    Datenspeicher-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Funktionsbl”cke:
+    Funktionsbl”cke sind in dieser Online-Hilfe nicht grafisch dargestellt.
+    Sie finden aber alle fr Funktionsbl”cke relevanten Informationen, wie
+    Eingangsparameter (->), Ein-/Ausgangsparameter (<->) und Ausgangsparameter
+    (<-) in der Online-Hilfe.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.300
+    Datenspeicher-Library : Fehlernummern
+
+    Die folgende Liste ist eine Zusammenfassung aller m”glichen Fehlermeldungen
+    der Datenspeicher-Library:
+
+    6380    Kein Speicher in der MEMCL_SPSSW
+    6381    Kein Anwender-Flash-PROM mit HW-Funktion MEM_CPU
+    6382    Kein Eintrag fr das Anwender-Flash-PROM in der CMEM Systemtabelle
+    6383    Kein freier 64-KByte-Block im Anwender-Flash-PROM vorhanden
+            (-> Anwender-Flash-PROM l”schen)
+    6384    Interner Fehler im Hardware-Aufruf ROM_getfreeptr
+    6385    CPU-Typ wird nicht untersttzt
+    6386    Interner Fehler - keine Root-Task vorhanden
+    6387    Interner Fehler - Funktion MO_search_p von der Systemsoftware
+            nicht gesetzt
+    6388    Feherhaftes Datenmodul im Hochlauf gefunden (ein defektes Daten-
+            modul entsteht z.B. bei einem Stromausfall w„hrend des Brennens) 
+    6389    Internes DMEMORY-Handle 0 oder ungltig (-> Speicherfehler)
+    6390    DMEMORY voll -> Funktion DMclear() aufrufen
+    6391    Parameter "ident" nicht gltig oder falscher Modultyp
+
+                                     @301[ Fortsetzung ]                   @001[ šbersicht ]
+.301
+    Datenspeicher-Library : Fehlernummern (Fortsetzung)
+
+    6392    Die Datenl„nge der Datensektion des Referenzmoduls stimmt nicht
+            mit dem Parameter "size" berein
+    6393    Es existiert bereits ein Modul mit dem angegebenen Namen
+    6394    B&R-Modul DM_LIB.BR wurde gel”scht (-> neuerlich Laden, Brennen
+            und KALTSTART) oder es wurde nur ein WARMSTART durchgefhrt
+    6395    Datenspeicher (DMEMORY) wird gerade von einem anderen Funktions-
+            block der Datenspeicher-Library bearbeitet
+    6396    Fr den Parameter "data" wurde ein nichtinitialisierter Zeiger
+            (Null Pointer) bergeben
+    6398    Die im Datenmodul CFGDMLIB angegebene Blocknummer ist zu groá fr
+            das vorhandene Anwender-Flash-PROM
+    6398    Die angegebene Blocknummer ("block_no") ist gr”áer, als im Daten-
+            modul CFGDMLIB definiert
+    8022    Modultabelle voll -> vergr”áern Sie in der Systemkonfiguration
+            ("sysconf"-Modul) die maximale Anzahl der B&R-Module auf der RPS
+    9002    Syntax des Modulnamens nicht gltig (Sonderzeichen!)
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.400
+    Datenspeicher-Library : History - Versions„nderungen
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.01           ³                                                         º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Erste Version der Online-Hilfe fr die Datenspeicher-Library.             º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+
+.End

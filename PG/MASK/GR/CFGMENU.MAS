@@ -1,0 +1,17 @@
+#VAR 00 00 21 01 78 00 35 N N J N N 00 00 01 
+#TXT 00 00 21 78  __Modem______________
+#VAR 01 00 21 01 78 00 35 N N J N N 00 00 02 
+#TXT 01 00 21 78  __DruckermenÅ________
+#VAR 02 00 21 01 78 00 35 N N J N N 00 00 03 
+#TXT 02 00 21 78  __Compare____________
+#VAR 03 00 21 01 78 00 35 N N J N N 00 00 04 
+#TXT 03 00 21 78  __Farben_____________
+#VAR 04 00 21 01 78 00 35 N N J N N 00 00 05 
+#TXT 04 00 21 78  __Startparameter_____
+#VAR 05 00 21 01 78 00 35 N N J N N 00 00 06 
+#TXT 05 00 21 78  __HW-Konfiguration___
+#VAR 06 00 21 01 78 00 35 N N J N N 00 00 07 
+#TXT 06 00 21 78  __COM1-Konfiguration_
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`

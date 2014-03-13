@@ -1,0 +1,12 @@
+#TXT 00 00 22 78  _Password_Level_1__:__
+#VAR 00 22 10 01 68 00 66 N N J N N 00 00 00 
+#TXT 00 32 01 78  _
+#TXT 01 00 22 78  _Acknowledgement___:__
+#VAR 01 22 10 01 68 00 66 N N J N N 00 00 01 
+#TXT 04 00 22 78  _Password_Level_2__:__
+#VAR 04 22 10 01 68 00 66 N N J N N 00 00 02 
+#TXT 05 00 22 78  _Acknowledgement___:__
+#VAR 05 22 10 01 68 00 66 N N J N N 00 00 03 
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~

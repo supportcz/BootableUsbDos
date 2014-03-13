@@ -1,0 +1,4173 @@
+$ Online Hilfe fuer die System 2000 Profibus Fubs -> Zeile 1236
+%%
+1,0:001
+%%
+.1
+    B&R Library Functions
+
+  ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ NOTE: The functions in this library can only be used if the library       บ
+  บ       runtime-module (B&R module BURTRAP.BR) is stored in non-volatile    บ
+  บ       memory (User-ROM) on the PCC!                                       บ
+  บ       Once the library runtime-module has beeen downloaded to             บ
+  บ       non-volatile memory, a cold restart must be carried out (previously บ
+  บ       known as "TOTALINIT").                                              บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+
+
+
+                                      @002[ Continue ]                      @999[ End HELP ]
+.2
+    B&R Library Functions (continued)
+
+    After the B&R library has been imported, the following function
+    groups are available:
+
+    @020[< AVT Handling            >] Access to dynamic libraries
+    @040[< Data Module Handling    >] Create/use data modules
+    @060[< Display Functions       >] Use CPU status display
+    @069[< Error Handling          >] Entries in the error logbook
+    @080[< Key Handling            >] Determine the status of the CPU module keys
+    @090[< Memory Management       >] Allocate/de-allocate memory
+    @110[< PCC Task Handling       >] Start/stop cyclic tasks 
+    @130[< Semaphore Handling      >] Exchange signals between tasks
+    @150[< System Functions        >] System information, reset
+    @190[< Time Functions          >] Time measurement/access to real time clock
+    @210[< Idle Time Task Handling >] Start/stop idle time tasks
+    @230[< Variable Utilities      >] Access to variables
+
+
+
+
+                                      @700[ APPENDIX ]                      @999[ End HELP ]
+.10
+    Character Strings as Parameters
+
+    Parameter name (see e.g. AVT Handling, Variable Utilities and
+    Data Module Handling):
+
+    - Character strings are always terminated with a zero (as in C programs).
+
+    - Character strings can be used as input parameters in three different ways:
+      adr(String) ... Address of the BYTE array variable which contains
+                      the string
+      String ........ String constants (see programming system PG2000)
+      "Constants" ... Constant string (must be entered in quotation marks!)
+
+    - If a function returns a character string, the address of a BYTE
+      array variable, in which the string is stored, must be given as 
+      the input/output parameter.
+
+
+
+
+
+                                                                      @001[ Overview ]
+.11
+    Object Group Numbers
+
+    Parameter group numbers (see e.g. AVT Handling, Data Module Handling
+    and Variable Utilities):
+
+    - Groups are not yet supported in PG2000. Therefore, 0 must
+      always be entered for the group number.
+
+    - In future, group number 0 will be used as the default value,
+      if no other value is entered.
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.20
+    B&R Library - AVT Handling
+
+    The address distributor table (AVT) is a central system table in which
+    user information can be entered. The AVT normally contains a list of
+    all AVT library modules and AVT data modules, which are stored on the PCC.
+    The AVT library modules and AVT data modules are automatically entered in
+    the AVT list when the application programs are downloaded to the PCC.
+    You can make entries in the AVT list or identify and read existing entries
+    using the AVT functions:
+
+    @025[AVT_create ]   Create AVT entry
+    @026[AVT_cancel ]   Delete AVT entry
+    @027[AVT_ident  ]   Request ID number of an AVT entry
+    @028[AVT_attach ]   Collect information about an AVT entry
+    @029[AVT_release]   Release AVT entry
+    @030[AVT_info   ]   Request information about an AVT entry
+
+
+
+
+
+                                      @021[ Continue ]                      @001[ Overview ]
+.21
+    B&R Library - AVT Handling (continued)
+
+    The AVT_create() function defines a LONG memory area (4 bytes) using the
+    entered, and stores this in the AVT under the name specified in the
+    function. Other tasks can then read the LONG entry in the AVT by using
+    this name. In this way, address information can be stored as AVT entries.
+
+    If the functions AVT_release() und AVT_attach() try to access an AVT entry
+    at the same time from different task classes, a link count error can occur.
+    Solution: Block access using the semaphore functions (see
+    @130[semaphore handling]).
+
+   
+
+
+
+
+
+
+
+
+    @031[ Example ]                       @020[ AVT Handling ]                    @001[ Overview ]
+.22
+    B&R Library - AVT Handling (error numbers)
+
+    The following errors can occur with AVT functions:
+
+    3306 ... ERR_BUR_EXISTS       Entry already exists (AVT_create)
+    3307 ... ERR_BUR_LCOUNT       AVT entry cannot be deleted, as the
+                                  link count is <> 0
+    3313 ... ERR_BUR_ILLVER       Invalid B&R library version
+    3315 ... ERR_BUR_LCOUNT       Link Count has reached the max. value (127)
+    3316 ... ERR_BUR_AVT_FREE     Link Count = 0 (AVT_release)
+    3324 ... ERR_BUR_ILLOBJ       Object not available
+    3332 ... ERR_BUR_NOENTRY      No more free entries
+    3336 ... ERR_BUR_ILLIDENT     Invalid ID number
+
+
+
+
+
+
+
+
+                                    @020[ AVT Handling ]                    @001[ Overview ]
+.25
+    AVT_create - Create AVT Entry
+
+    status = @025[AVT_create](adr(name),grupid,av_info,adr(av_ident))
+
+    Parameter Data Types :
+    ->  @010[name      ]: BYTE (ARRAY)  Name of the AVT entry (string)
+    ->  @011[grupid    ]: BYTE          Group number (default = 0)
+    ->  av_info   : LONG          AVT info (e.g. address of the data)
+    <-> av_ident  : LONG          AVT ID number
+    <-  @022[status    ]: WORD          Error number (0 = no error)
+
+    Creates an entry in the AVT with the specified name, and returns an
+    ID number as the result. This number is then used by other AVT functions.
+    The maximum number of AVT entries can be changed with the PCC 
+    configurator (or with PG2000).
+
+
+
+
+
+
+                                    @020[ AVT Handling ]                    @001[ Overview ]
+.26
+    AVT_cancel - Delete AVT Entry
+
+    status = @026[AVT_cancel](av_ident)
+
+    Parameter Data Types :
+    ->  av_ident  : LONG          AVT ID number returned by @025[AVT_create]
+                                  or @027[AVT_ident]
+    <-  @022[status    ]: WORD          Error number (0 = no error)
+
+    Deletes the entry with the specified AVT ID number from the AVT.
+
+
+
+
+
+
+
+
+
+
+
+                                    @020[ AVT Handling ]                    @001[ Overview ]
+.27
+    AVT_ident - Request the ID Number of an AVT Entry
+
+    status = @027[AVT_ident](adr(name),groupid,adr(av_ident))
+
+    Parameter Data Types :
+    ->  @010[name      ]: BYTE (ARRAY)  Name of the AVT entry (string)
+    ->  @011[groupid   ]: BYTE          Group number (standard = 0)
+    <-> av_ident  : LONG          AVT ID number
+    <-  @022[status    ]: WORD          Error number (0 = no error)
+
+    Returns the AVT ID number for an existing AVT entry. The AVT
+    ID number is needed for other AVT functions.
+
+
+
+
+
+
+
+
+
+                                    @020[ AVT Handling ]                    @001[ Overview ]
+.28
+    AVT_attach - Collect Information about an AVT Entry
+
+    status = @028[AVT_attach](av_ident,adr(av_info))
+
+    Parameter Data Types :
+    ->  av_ident  : LONG          AVT ID number returned by @025[AVT_create]
+                                  or @027[AVT_ident]
+    <-> av_info   : LONG          AVT info (e.g. address of the data)
+    <-  @022[status    ]: WORD          Error number (0 = no error)
+
+    Collects the AVT entry information. Each time this function is called,
+    the link count for the AVT entry is incremented by 1 (see parameter
+    "av_lnkct" for the function @030[AVT_info]). In this way information about
+    how often an AVT entry is used is collected.
+
+    Note:
+    If the functions AVT_release() und AVT_attach() try to access an AVT entry
+    at the same time from different task classes, a link count error can occur.
+    Solution: Block access using the semaphore functions (see
+    @130[semaphore handling]).
+
+                                    @020[ AVT Handling ]                    @001[ Overview ]
+.29
+    AVT_release - Release AVT Entry
+
+    status = @029[AVT_release](av_ident)
+
+    Parameter Data Types :
+    ->  av_ident  : LONG          AVT ID number returned by @025[AVT_create]
+                                  or @027[AVT_ident]
+    <-  @022[status    ]: WORD          Error number (0 = no error)
+
+    This function releases the AVT entry with the specified AVT ID number.
+    If, for example, you wish to delete an AVT entry (see function @026[AVT_cancel]),
+    you must first release this AVT entry by setting the link count to 0 (see
+    parameter "av_lnkct" for the function @030[AVT_info]). To do this, call the
+    AVT_release() function in all application programs which use this entry.
+
+    Note:
+    If the functions AVT_release() und AVT_attach() try to access an AVT entry
+    at the same time from different task classes, a link count error can occur.
+    Solution: Block access using the semaphore functions (see
+    @130[semaphore handling]).
+
+                                    @020[ AVT Handling ]                    @001[ Overview ]
+.30
+    AVT_info - Request Information about an AVT Entry
+
+    status = @030[AVT_info](av_ident,adr(av_lnkct))
+
+    Parameter Data Types :
+    ->  av_ident  : LONG          AVT ID number returned by @025[AVT_create] or
+                                  @027[AVT_ident]
+    <-> av_lnkct  : BYTE          Link count (number of accesses
+                                  to this AVT entry)
+    <-  @022[status    ]: WORD          Error number (0 = no error)
+
+    This sets how many links exist to the AVT entry with the 
+    AVT ID number specified; i.e. how often this AVT entry is used.
+
+
+
+
+
+
+
+
+                                    @020[ AVT Handling ]                    @001[ Overview ]
+.31
+    AVT Handling - Example
+
+    The following program makes a link to an existing AVT entry with the 
+    the name "Temprate", carries out a few changes and releases it again. The
+    task then deletes the AVT entry and waits half a second before creating a
+    new entry. The PL2000 code could look like this:
+
+      ; Wait until the application task is ready, i.e.: an AVT entry with the
+      ; name "Temprate" has been made.
+      if prot_state = 1 then
+          err_avtid = AVT_ident("Temprate",0,adr(avt_ident))
+          if err_avtid = 0 then
+              err_avtat = AVT_attach(avt_ident,adr(data_adr))
+              if err_avtat = 0 then
+                  prot_state = 2        ; DATA MODULE known
+                  prod_info access(data_adr)
+                  prod_no = prod_info.prod_no
+              endif
+          endif
+      endif
+
+                                      @032[ Continue ]                      @001[ Overview ]
+.32
+    AVT Handling - Example (continued)
+
+      ; Changes to the entry
+      ; FBK report() carries out the changes in the entry
+      if prot_state = 2 then
+          report(data_adr,prot_end)
+          if prot_end = 1 then
+              prot_state = 3
+          endif
+      endif
+      ; Release AVT entries when changes are complete
+      ; Release AVT entries enables new definition
+      if prot_state = 3 then
+          err_avtrel = AVT_release(avt_ident)
+          prot_state = 4             ; Wait until AVT entry is deleted
+      endif
+      ; Wait until AVT entry is deleted
+      ; The application task must guarantee that no AVT entry 
+      ; is made within 0.5 seconds (synchronization)
+
+
+                                      @033[ Continue ]                      @001[ Overview ]
+.33
+    AVT Handling - Example (continued)
+
+      if prot_state = 4 then
+          err_avtid = AVT_ident("Temprate",0,adr(avt_ident))
+          if err_avtid <> 0 then
+              prot_state = 1
+          endif
+      endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    @020[ AVT Handling ]                    @001[ Overview ]
+.40
+    B&R Library - Data Module Handling
+
+    These functions allow dynamic creation and manipulation of data modules
+    on the PCC (e.g. for dynamic recipes). The integrity of such data
+    modules is monitored with a checksum. They can also be protected
+    against cold restarts (previously known as "TOTALINIT").
+
+    @045[DA_create]     Create data module
+    @046[DA_ident ]     Request ID number of a data module
+    @047[DA_write ]     Write data to a data module
+    @048[DA_read  ]     Read data from a data module
+    @049[DA_burn  ]     Copy data module to application ROM
+    @050[DA_fix   ]     Copy data module to FIX RAM
+    @051[DA_info  ]     Request information about a data module
+    @052[DA_delete]     Deletes a data module
+    @053[DA_store ]     Stores a data module
+    @055[DA_copy  ]     Copies a data module
+
+
+
+
+                                                                      @001[ Overview ]
+.41
+    B&R Library - Data Module Handling (error numbers)
+
+    The following errors can occur with data module functions:
+
+    2063 ... ERR_BUR_WR_CHAR      Invalid ASCII character
+    3104 ... ERR_BUR_ILLPTR       E.g. Data address ZERO
+    3301 ... ERR_BUR_WROFFSET     Invalid offset for DA_write()
+    3302 ... ERR_BUR_ILLSTATE     Incorrect module status (e.g. download)
+    3305 ... ERR_BUR_DUPOBJ       Object already exists
+    3308 ... ERR_BUR_BURNING      Error occurred with DA_burn()/DA_fix()
+    3313 ... ERR_BUR_ILLVER       Invalid B&R library version
+    3314 ... ERR_BUR_ILLLEN       Invalid length entry
+    3324 ... ERR_BUR_ILLOBJ       Desired object not available
+    3328 ... ERR_BUR_ILLOBJTYP    Incorrect object type (module type)
+    3332 ... ERR_BUR_NOENTRY      No entry free in the module table
+    3336 ... ERR_BUR_ILLIDENT     Invalid ID number
+
+
+
+
+
+                                @040[ Handling Data Modules ]               @001[ Overview ]
+.45
+    DA_create - Create Data Module
+
+    status = @045[DA_create](adr(name),grp,spooladr,data_len,adr(data),
+                       adr(mo_datpt),adr(mo_ident))
+
+    Parameter Data Types :
+    ->  @010[name      ]: BYTE (ARRAY)  Data module name (string)
+    ->  @011[grp       ]: BYTE          Group number (standard = 0)
+    ->  spooladr  : WORD          Spool address (standard = 0)
+    ->  daten_len : LONG          Length of the data in bytes
+    ->  data      : BYTE (ARRAY)  Data to be written in the data module
+    <-> mo_datpt  : LONG          Address of the data in the data module
+    <-> mo_ident  : LONG          ID number of the data module
+    <-  @041[status    ]: WORD          Error number (0 = no error)
+
+    Creates a data module with the corresponding parameters in RAM. If the
+    LONG value 0 is given as the data address for DA_create(), all bytes of the
+    data module are written with 0. 0 is used for the spool address (spooladr)
+    by default. More detailed information can be found in the spooler 
+    on-line help.
+
+                                @040[ Handling Data Modules ]               @001[ Overview ]
+.46
+    DA_ident - Request the ID Number of a Data Module
+
+    status = @046[DA_ident](adr(name),grp,adr(mo_ident))
+
+    Parameter Data Types :
+    ->  @010[name      ]: BYTE (ARRAY)  Name of the data module (string)
+    ->  @011[grp       ]: BYTE          Group number (standard = 0)
+    <-> mo_ident  : LONG          ID number of the data module
+    <-  @041[status    ]: WORD          Error number (0 = no error)
+
+    This function returns the ID number of an existing data module. This
+    ID number is used in other data module functions for identification
+    purposes.
+
+
+
+
+
+
+
+
+                                @040[ Handling Data Modules ]               @001[ Overview ]
+.47
+    DA_write - Write Data to a Data Module
+
+    status = @047[DA_write](mo_ident,adr(data),data_len,mo_dat_off)
+
+    Parameter Data Types :
+    ->  mo_ident  : LONG          ID number returned by @045[DA_create] or @046[DA_ident]
+    ->  data      : BYTE (ARRAY)  Data area
+    ->  data_len  : LONG          Length of the data in bytes
+    ->  mo_dat_off: LONG          Offset in the module data area
+    <-  @041[status    ]: WORD          Error number (0 = no error)
+
+    Writes data to a data module in RAM or FIX RAM. In this way,
+    the checksum of the module will also be updated.
+
+
+
+
+
+
+
+
+                                @040[ Handling Data Modules ]               @001[ Overview ]
+.48
+    DA_read - Read Data from a Data Module
+
+    status = @048[DA_read](mo_ident,adr(data),data_len,mo_dat_off)
+
+    Parameter Data Types :
+    ->  mo_ident  : LONG          ID number returned by @045[DA_create] or @046[DA_ident]
+    ->  data      : BYTE (ARRAY)  Data area
+    ->  data_len  : LONG          Length of the data in bytes
+    ->  mo_dat_off: LONG          Offset in the module data area
+    <-  @041[status    ]: WORD          Error number (0 = no error)
+
+    Reads data from a module in RAM or FIX RAM.
+
+
+
+
+
+
+
+
+
+                                @040[ Handling Data Modules ]               @001[ Overview ]
+.49
+    DA_burn - Copy Data Module to Application ROM
+
+    status = @049[DA_burn](mo_ident)
+
+    Parameter Data Types :
+    ->  mo_ident  : LONG          ID number of @045[DA_create] or @046[DA_ident]
+    <-  @041[status    ]: WORD          Error number (0 = no error)
+
+    Transfers a data module to application ROM.
+
+    Note: The PCC (all tasks on the PCC) is automatically stopped during
+          programming.
+
+
+
+
+
+
+
+
+
+                                @040[ Handling Data Modules ]               @001[ Overview ]
+.50
+    DA_fix - Copy Data Module to FIX RAM
+
+    status = @050[DA_fix](mo_ident)
+
+    Parameter Data Types :
+    ->  mo_ident  : LONG          ID number returned by @045[DA_create] or @046[DA_ident]
+    <-  @041[status    ]: WORD          Error number (0 = no error)
+
+    Transfers a data module to FIX RAM. FIX RAM must be configured with
+    the PCC configurator (or PG2000).
+
+
+
+
+
+
+
+
+
+
+
+                                @040[ Handling Data Modules ]               @001[ Overview ]
+.51
+    DA_info - Request Information about a Data Module
+
+    status = @051[DA_info](mo_ident,adr(mo_datpt),adr(dat_lng),adr(mem_typ))
+
+    Parameter Data Types :
+    ->  mo_ident  : LONG          ID number of @045[DA_create] or @046[DA_ident]
+    <-> mo_datpt  : LONG          Address of the data in the data module
+    <-> dat_lng   : LONG          Length of the data in bytes
+    <-> mem_typ   : BYTE          Memory Type:
+                                  1 ... RAM
+                                  2 ... Application ROM
+                                  4 ... MEMCARD (PCMIA memory card)
+                                  5 ... FIX RAM
+    <-  @041[status    ]: WORD          Error number (0 = no error)
+
+    This function returns information about the data module (start address of
+    the data, number of bytes in the data module, type of memory etc.). This
+    information can be used, amongst other things, to set a pointer to the data
+    (e.g. for ACCESS with a dynamic variable).
+
+
+                                @040[ Handling Data Modules ]               @001[ Overview ]
+.52
+    DA_delete - Delete Data Module
+
+    status = @052[DA_delete](mo_ident)
+
+    Parameter Data Types :
+    ->  mo_ident  : LONG          ID number returned by @045[DA_create] or @046[DA_ident]
+    <-  @041[status    ]: WORD          Error number (0 = no error)
+
+    Deletes a data module from the memory (RAM, application ROM or FIX RAM).
+
+
+
+
+
+
+
+
+
+
+
+
+                                @040[ Handling Data Modules ]               @001[ Overview ]
+.53
+    DA_store - Store Data Module
+
+    status = @053[DA_store](mo_ident,mem_typ,adr(dat_pt),adr(dat_lng))
+
+    Parameter Data Types :
+    ->  mo_ident  : LONG          ID number returned by @045[DA_create] or @046[DA_ident]
+    ->  mem_typ   : BYTE          Memory Type:
+                                  1 ... RAM
+                                  2 ... User-ROM
+                                  4 ... MEMCARD (PCMCIA memory card)
+                                  5 ... FIX-RAM
+    <-  dat_pt    : LONG          Data address in the new data module
+    <-  dat_lng   : LONG          Data length in the new data module (in bytes)
+    <-  @041[status    ]: WORD          Error number (0 = no error)
+
+    The function DA_store() stores the data module in the memory type entered 
+    (RAM, User ROM, MEMCARD oder FIX-RAM).
+
+
+
+
+                                      @054[ Continue ]                      @001[ Overview ]
+.54
+    DA_store - Store Data Module (continued)
+
+    Note:
+    The function DA_store() can only be used if the size of the supervisor
+    stack for the task class used is larger than 1100 bytes.
+    The supervisor stack can be configured by placing the cursor on the
+    "sysconf" symbol in the task level of the GDM, and calling the function
+    <Object><Parameter>. Next, open the pop-up menu in the <Configure> field
+    and select the required task class. A dilog box will open where you can  
+    set task class parameters. Select <Stack Size><Interrupt> to configure
+    the supervisor stack size.
+
+
+
+
+
+
+
+
+
+
+                                @040[ Handling Data Modules ]               @001[ Overview ]
+.55
+    DA_copy - Copying Data Modules
+
+    status = @055[DA_copy](mo_ident,adr(new_name),mem_typ,adr(dat_id),adr(dat_pt),
+                     adr(dat_lng))
+
+    Parameter Data Types :
+    ->  mo_ident  : LONG          ID number returned by @045[DA_create] or @046[DA_ident]
+    ->  @010[new_name  ]: BYTE (ARRAY)  Name of the new data module (string)
+    ->  mem_typ   : BYTE          Memory Type:
+                                  1 ... RAM
+                                  2 ... User-ROM
+                                  4 ... MEMCARD (PCMCIA memory card)
+                                  5 ... FIX-RAM
+    <-  dat_id    : LONG          ID number of the copied data module
+    <-  dat_pt    : LONG          Data address of the new data module
+    <-  dat_lng   : LONG          Data length in the new data module (in bytes)
+    <-  @041[status    ]: WORD          Error number (0 = no error)
+
+
+
+
+                                      @056[ Continue ]                      @001[ Overview ]
+.56
+    DA_copy - Copy data module (continued)
+
+    The function DA_copy() copie a data module under the name "new_name"
+    to the memory type specified (RAM, User-ROM, MEMCARD or FIX-RAM).
+    If no name is entered, the module will be stored again under the same name.
+    The new module can be accessed straight away by the application using the
+    ID number given by "dat_id".
+
+    Note:
+    The function DA_copy() can only be used if the size of the supervisor
+    stack for the task class used is larger than 1100 bytes.
+    The supervisor stack can be configured by placing the cursor on the
+    "sysconf" symbol in the task level of the GDM, and calling the function
+    <Object><Parameter>. Next, open the pop-up menu in the <Configure> field
+    and select the required task class. A dilog box will open where you can  
+    set task class parameters. Select <Stack Size><Interrupt> to configure
+    the supervisor stack size.
+
+
+
+
+                                @040[ Handling Data Modules ]               @001[ Overview ]
+.60
+    B&R Library - Display Functions
+
+    Use these functions to display characters or character strings on the
+    status display of the CPU (B&R 2010 System only!).
+
+    @065[DIS_clr]       Delete status display
+    @066[DIS_chr]       Display a character on the status display
+    @067[DIS_str]       Display a character string on the status display
+
+    The status display of the CPUs B&R 2010 has two lines (0 and 1)
+    each with 8 characters (0 to 7). Since there is no status display on 
+    B&R 2005 and B&R 2003 systems, these display functions have no effect
+    with them.
+ 
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.61
+    B&R Library - Display Functions (error numbers)
+
+    The following errors can occur for the display functions:
+
+    2061 ... ERR_BUR_WRROW        Invalid line entry
+    2062 ... ERR_BUR_WRCOL        Invalid column entry
+    2063 ... ERR_BUR_WR_CHAR      Invalid ASCII character
+    3313 ... ERR_BUR_ILLVER       Invalid B&R library version
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  @060[ Display Functions ]                 @001[ Overview ]
+.65
+    DIS_clr - Delete Status Display 
+
+    status = @065[DIS_clr]()
+
+    Parameter Data Types :
+    <-  @061[status    ]: WORD          Error number (0 = no error)
+
+    Deletes the CPU status display (B&R 2010 system only!).
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  @060[ Display Functions ]                 @001[ Overview ]
+.66
+    DIS_chr - Display Character on the Status Display
+
+    status = @066[DIS_chr](line,column,character)
+
+    Parameter Data Types :
+    ->  line      : LONG          Line number (0 or 1) where the
+                                  ASCII character is to be displayed.
+    ->  column    : LONG          Column number (0 to 7), where the
+                                  ASCII character is to be displayed.
+    ->  character : BYTE          ASCII character to be displayed on the
+                                  status display. The character can be entered
+                                  either directly (in quotation marks) or
+                                  as a string constant or variable. The value
+                                  of the variable is interpreted as the ASCII
+                                  code of the character to be displayed.
+    <-  @061[status    ]: WORD          Error number (0 = no error)
+
+    The ASCII character "character" is displayed on the CPU status display
+    (B&R 2010 only!). The parameters "line" and "column" define the
+    position of the character on the display.
+
+                                  @060[ Display Functions ]                 @001[ Overview ]
+.67
+    DIS_str - Display Character String on the Status Display
+
+    status = @067[DIS_str](line,column,adr(string))
+
+    Parameter Data Types :
+    ->  line      : LONG          Line number (0 or 1) where the
+                                  ASCII character is to be displayed.
+    ->  column    : LONG          Column number (0 to 7), where the
+                                  ASCII character is to be displayed.
+    ->  string    : BYTE (ARRAY)  String (terminated with ZERO) to be displayed
+                                  on the status display. The string can either
+                                  be entered as a constant string (in quotation
+                                  marks) or as a string constant
+                                  or as an address pointer to a BYTE array.
+    <-  @061[status    ]: WORD          Error number (0 = no error)
+
+    The character string "string" is displayed on the CPU status display (only
+    for B&R 2010!). The parameters "line" and "column" define the start
+    position of the character string on the display.
+
+
+                                      @068[ Continue ]                      @001[ Overview ]
+.68
+    DIS_str - Display Character String on the Status Display (continued)
+
+    If there is not enough room to display the whole character string on the
+    status display (starting from the given start position), the extra
+    characters will be ignored. A zero within the string will terminate the
+    data output, enabling strings with less than 8 characters to be displayed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  @060[ Display Functions ]                 @001[ Overview ]
+.69
+    B&R-Library - Error handling
+
+    This function handles critical conditions which may arise during task
+    runtime.
+
+    @071[ERR_warning]   Enters an error message in the error logbook
+    @072[ERRxwarning]   Enters an error message (with additional string) in the error
+                  logbook
+    @073[ERR_fatal  ]   Enter an error message in the error logbook and trigger and
+                  emergency stop of the system.
+    @074[ERR_read   ]   Read logbook entry
+    @077[ERRxread   ]   Read logbook entry (with additional string)
+
+    The functions ERRxwarning() and ERRxread() are first available from version
+    2.00 of the PCC SW operating system! 
+
+
+
+
+
+
+                                                                     @001[ Overview ]
+.70
+    B&R Library - Error Handling (error numbers)
+
+The following errors can occur with these functions:
+
+    3313 ... ERR_BUR_ILLVER       Invalid B&R library version
+    3332 ... ERR_BUR_NOENTRY      Entry not found
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   @069[ Error Handling ]                   @001[ Overview ]
+.71
+    ERR_warning - Enter Error Message in Error Logbook
+
+    status = @071[ERR_warning](errorno,errorinfo)
+
+    Parameter Data Types :
+    ->  errorno   : WORD          Error number (> 14999!) to be entered in 
+                                  the error logbook
+    ->  errorinfo : LONG          Optional extra information (detailed error)
+    <-  @070[status    ]: WORD          Error number (0 = no error)
+
+    This function makes an entry (logbook entry) in the error logbook.
+    However, the application continues to run. Since error numbers in the
+    range 0000 to 14999 are reserved for PCCSW errors, the error number for
+    the logbook entry must be greater than 14999.
+
+
+
+
+
+
+
+                                   @069[ Error Handling ]                   @001[ Overview ]
+.72
+    ERRxwarning - Enter Error Message in Error Logbook (with Additional String) 
+
+    status = @072[ERRxwarning](errornr,errorinfo,adr(string))
+
+    Parameter Data Types :
+    ->  errornr   : WORD         Error number (> 14999!) to be entered in the
+                                 error logbook
+    ->  errorinfo : LONG         Optional extra information (error details)
+    ->  @010[string    ]: BYTE (ARRAY) Null terminated string (max. 32 characters)
+    <-  @070[status    ]: WORD         Error number (0 = No error)
+
+    This function makes an entry in the error logbook. The application,
+    however, continues to run. From version 2.00 of the PCC SW operating
+    system, a string of maximum length, 32 characters (see parameter "string")
+    can be added to the logbook.
+    Since error numbers in the range 0000 to 14999 are reserved for PCCSW
+    errors, the error number for the logbook entry must be greater than 14,999.
+    The ERRxwarning() function is first available from version 2.00 of the
+    operating system! 
+
+
+                                   @069[ Error Handling ]                   @001[ Overview ]
+.73
+    ERR_fatal - Enter Error Message in Error Logbook and Trigger Emergency Stop
+
+    status = @073[ERR_fatal](errorno,errorinfo)
+
+    Parameter Data Types :
+    ->  errorno   : WORD          Error number (> 14999!) to be entered in the
+                                  error logbook
+    ->  errorinfo : LONG          Optional extra information (error details)
+    <-  @070[status    ]: WORD          Error number (0 = no error)
+
+    This function makes an entry in the error logbook and triggers an emergency
+    stop of the PCC system, i.e. the controller reboots in ERROR mode and then
+    goes into SERVICE mode (you can find detailed information on ERROR and
+    SERVICE modes in "B&R System 2000 System SOFTWARE Reference handbook").
+    Since error numbers in the range 0000 to 14999 are reserved for PCCSW
+    errors, the error number for the logbook entry must be greater than 14999.
+
+
+
+
+
+                                   @069[ Error Handling ]                   @001[ Overview ]
+.74
+    ERR_read - Read Logbook Entry
+
+    status = @074[ERR_read](entry_no,adr(err))
+
+    Parameter Data Types :
+    ->  entry_no  : LONG             Number of the logbook entry to be read
+    <-> @075[err       ]: Info Structure   Structure where the logbook entry 
+                                     information is to be written
+    <-  @077[status    ]: WORD             Error number (0 = no error)
+
+    Reads an error logbook entry and writes this entry information in a 
+    structure (info). To read the most recent logbook entry, enter the value 0
+    for the input parameter "entry_no".
+
+
+
+
+
+
+
+
+                                   @069[ Error Handling ]                   @001[ Overview ]
+.75
+    ERR_read - Read Logbook Entry (continued)
+
+    <-> Parameter <err       >: Info structure
+
+    Elements of the structure "Info":
+    Err_No     : WORD           Error number
+    Err_Info   : LONG           Extra information (detailed error)
+    Err_TC     : 5 BYTE (ARRAY) Name of the task class or system task,
+                                which causes the error. Here are the names
+                                of the most important task classes and
+                                system tasks:
+                                syss   System server for task manipulation
+                                varz   Variable access task
+                                sysm   System manager
+                                IDLE   Idle time applications
+                                tc#x   Task class x (x = 1 to 4)
+                                HS#x   High speed task class x (x = 1 to 4)
+                                EXC    Exception task class
+                                IRQ    Interrupt task class
+
+
+                                      @076[ Continue ]                      @001[ Overview ]
+.76
+    ERR_read - Read Logbook Entry (continued)
+
+    Elements of the structure "Info" (continued):
+    Err_Type   : BYTE           Error Type:
+                                1      Fatal error
+                                2      Warning
+                                3      Information
+    Year       : WORD           Year (time of error)
+    Month      : BYTE           Month (time of error)
+    Day        : BYTE           Day (time of error)
+    Reserve    : BYTE           Reserve
+    Hour       : BYTE           Hour (time of error)
+    Minute     : BYTE           Minute (time of error)
+    Second     : BYTE           Second (time of error)
+    Milli      : WORD           Milliseconds (time of error)
+    Micro      : WORD           Microsecond (time of error)
+
+
+
+
+
+                                      @074[ ERR_read ]                      @001[ Overview ]
+.77
+    ERRxread - Read Logbook Entry (with additional string)
+
+    status = @077[ERRxread](entry_nr,adr(err_x))
+
+    Parameter Data Types :
+    ->  entry_nr  : LONG           Number of the logbook entry to be read                                  
+    <-> @078[err_x     ]: Info structure Structure to which the logbook information 
+                                   should be written
+    <-  @070[status    ]: WORD           Error number (0 = no error)
+
+    Reads a logbook entry (with additional string) and writes the information
+    in this entry to a structure (info). In order to read the most recent
+    logbook entry, the value 0 should be entered in the input parameter
+    "entry_nr".
+    The function ERRxread() is first available from version 2.00 of the PCC SW
+    operating system! 
+
+
+
+
+
+                                   @069[ Error Handling ]                   @001[ Overview ]
+.78
+    ERRxread - Read Logbook Entry (with additional string) (continued)
+
+    <-> Parameter <err       >: Info structure
+
+    Elements of the structure "Info":
+    Err_No     : WORD           Error number
+    Err_Info   : LONG           Extra information (detailed error)
+    Err_TC     : 5 BYTE (ARRAY) Name of the task class or system task,
+                                which causes the error. Here are the names
+                                of the most important task classes and
+                                system tasks:
+                                syss   System server for task manipulation
+                                varz   Variable access task
+                                sysm   System manager
+                                IDLE   Idle time applications
+                                tc#x   Task class x (x = 1 to 4)
+                                HS#x   High speed task class x (x = 1 to 4)
+                                EXC    Exception task class
+                                IRQ    Interrupt task class
+
+
+                                      @079[ Continue ]                      @001[ Overview ]
+.79
+    ERRxread - Read Logbook Entry (with additional string) (continued)
+
+    Elements of the structure "Info" (continued):
+    Err_Type   : BYTE            Error Type:
+                                 1      Fatal error
+                                 2      Warning
+                                 3      Information
+    Year       : WORD            Year (time of error)
+    Month      : BYTE            Month (time of error)
+    Day        : BYTE            Day (time of error)
+    Reserve    : BYTE            Reserve
+    Hour       : BYTE            Hour (time of error)
+    Minute     : BYTE            Minute (time of error)
+    Second     : BYTE            Second (time of error)
+    Milli      : WORD            Milliseconds (time of error)
+    Micro      : WORD            Microsecond (time of error)
+    String     : 34 BYTE (ARRAY) Max. 32 characters + Null termination in
+                                 byte 33
+
+
+
+                                      @077[ ERRxread ]                     @001[ Overview ]
+.80
+    B&R Library - Key Handling
+
+    These functions evaluate the operating keys of the CPU
+    (System B&R 2010 and System B&R 2005).
+
+    @085[KEY_enadis]    Set type of operation
+    @086[KEY_read  ]    Determine the states of the keys
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.81
+    B&R Library - Key Handling (error numbers)
+
+    The following errors can occur with these functions:
+
+    3313 ... ERR_BUR_ILLVER       Invalid B&R library version
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    @080[ Key Handling ]                    @001[ Overview ]
+.85
+    KEY_enadis - Set Type of Operation
+
+    status = @085[KEY_enadis](enable)
+
+    Parameter Data Types :
+    ->  enable    : BIT           Type of Operation:
+                                  0 ... Key handling via the operating system
+                                  1 ... Key handling via an application program
+    <-  @081[status    ]: WORD          Error number (0 = no error)
+
+    With this function, key handling can be switched off by the operating
+    system (operating mode 0), in order to evaluate the keys in an application
+    program (operating mode 1).
+
+
+
+
+
+
+
+
+                                    @080[ Key Handling ]                    @001[ Overview ]
+.86
+    KEY_read - Determine the States of the Keys
+
+    status = @086[KEY_read](keys)
+
+    Parameter Data Types :
+    <-> @087[keys      ]: 4 BYTE (ARRAY) Array variable for storing key states.
+                                   The following are valid for every element
+                                   of the array variable:
+                                   0 ... Key not pressed
+                                   1 ... Key pressed
+    <-  @081[status    ]: WORD           Error number (0 = no error)
+
+    The function KEY_read() reads the states of the keys on the CPU 
+    (prerequisite: operation mode 1, see function @085[KEY_enadis]).
+
+
+
+
+
+
+
+                                    @080[ Key Handling ]                    @001[ Overview ]
+.87
+    KEY_read - Determine the States of the Keys (continued)
+
+    <-> Parameter <keys    >: 4 BYTES (ARRAY)
+
+    Each element (byte) of the array variable "keys" contains the
+    status of a key. Elements of the array variable "keys":
+
+    ษออออออออออออออออออออออหออออออออออออออหอออออออออออออออออออออออออออออออออป
+    บ Index of the Element บ CPU B&R 2010 บ CPU B&R 2005                    บ
+    ฬอออออออออออออ ออออออออฮออออออออออออออฮอออออออออออออออออออออออออออออออออน
+    บ          0           บ UP key       บ TOTALINIT (cold restart key)    บ
+    บ          1           บ ENTER key    บ Reserved                        บ
+    บ          2           บ Reserved     บ Reserved                        บ
+    บ          3           บ Reserved     บ Reserved                        บ
+    ศออออออออออออออออออออออสออออออออออออออสอออออออออออออออออออออออออออออออออผ
+
+    The array variable "keys" must be 4 bytes long, even though the B&R 2005
+    and 2010 CPUs only offer one or two keys (which are used), at the moment.
+
+
+
+                                      @086[ KEY_read ]                      @001[ Overview ]
+.90
+    B&R Library - Memory Management
+
+    Allocate or de-allocate memory for dynamic variables using
+    this function:
+
+    @095[MEM_alloc]     Allocate memory in permanent memory area
+    @096[MEM_free ]     De-allocate memory in permanent memory area
+    @097[TMP_alloc]     Allocate memory in temporary memory area
+    @099[TMP_free ]     Deallocate memory in temporary memory area
+
+
+
+
+
+
+
+
+
+
+
+
+    @100[ Example ]                                                         @001[ Overview ]
+.91
+    B&R Library - Memory Management (error numbers)
+
+    The following errors can occur with these functions:
+
+    3030 ... ERR_BUR_NOMEM        No memory available (PCCSW V1.05)
+    3104 ... ERR_BUR_ILLPTR       Invalid pointer for MEM_free (PCCSW V1.05)
+    3313 ... ERR_BUR_ILLVER       Invalid B&R library version
+    3324 ... ERR_BUR_ILLOBJ       Object not available
+    3600 ... ERR_BUR_MEM_ALLOC    No memory available (PCCSW V1.10)
+    3601 ... ERR_BUR_TMP_ALLOC    No memory available 
+    3700 ... ERR_BUR_MEM_FREE     Invalid pointer for MEM_free (PCCSW V1.10)
+    3701 ... ERR_BUR_TMP_FREE     Invalid pointer for TMP_free
+
+
+
+
+
+
+
+
+
+                                  @090[ Memory Management ]                 @001[ Overview ]
+.95
+    MEM_alloc - Allocate Memory in Permanent Memory Area
+
+    status = @095[MEM_alloc](memlng,adr(memptr))
+
+    Parameter Data Types :
+    ->  memlng    : LONG          Size of the requested memory area in bytes
+    <-> memptr    : LONG          Address of the requested memory area 
+    <-  @091[status    ]: WORD          Error number (0 = no error)
+
+    This function allocates memory in the permanent memory area
+    (system RAM or application RAM). Memory allocated in this way is only
+    lost if a cold restart (previously called: TOTALINIT) occurs.
+
+
+
+
+
+
+
+
+
+                                  @090[ Memory Management ]                 @001[ Overview ]
+.96
+    MEM_free - De-allocate Memory in Permanent Memory Area
+
+    status = @096[MEM_free](memlng,memptr)
+
+    Parameter Data Types :
+    ->  memlng    : LONG          Size (in bytes) of the memory area to
+                                  be released
+    ->  memptr    : LONG          Address of the memory area to be released
+    <-  @091[status    ]: WORD          Error number (0 = no error)
+
+    This function de-allocates a memory area which was allocated
+    with MEM_alloc().
+
+
+
+
+
+
+
+
+
+                                  @090[ Memory Management ]                 @001[ Overview ]
+.97
+    TMP_alloc - Allocate Memory in Temporary Memory Area
+
+    status = @097[TMP_alloc](memlng,adr(memptr))
+
+    Parameter Data Types :
+    ->  memlng    : LONG          Size of the requested memory area in bytes
+    <-> memptr    : LONG          Address of the requested memory area 
+    <-  @091[status    ]: WORD          Error number (0 = no error)
+
+    The function TMP_alloc() allocates memory in the temporary memory area
+    (only system RAM). Memory allocated in this way will be lost each time
+    the PCC is booted. The advantage of allocating temporary memory (as opposed
+    to allocating permanent memory with the MEM_alloc() function) is the short
+    execution time for the TMP_alloc() function. The temporary memory
+    area must be configured with the PCC configurator (or PG2000).
+
+    Note: The temporary memory area is that part of the system RAM
+          which is used for serial communication.
+
+
+
+                                      @098[ Continue ]                      @001[ Overview ]
+.98
+    TMP_alloc - Allocate Memory in Temporary Memory Area (continued)
+
+             Communication via serial interfaces is only possible if there is
+             enough free temporary memory! For example, with three configured
+             interfaces, the operating system needs approximately 10 KBytes 
+             of temporary memory for serial communication. The amount of free
+             temporary memory can be determined using PG2000.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  @090[ Memory Management ]                 @001[ Overview ]
+.99
+    TMP_free - De-allocate Memory in the Temporary Memory Area
+
+    status = @099[TMP_free](memlng,memptr)
+
+    Parameter Data Types :
+    ->  memlng    : LONG          Size (in bytes) of the memory area
+                                  to be released
+    ->  memptr    : LONG          Address of the memory area to be released
+    <-  @091[status    ]: WORD          Error number (0 = no error)
+
+    This function de-allocates a memory area, which was allocated with
+    the TMP_alloc() function.
+
+
+
+
+
+
+
+
+
+                                  @090[ Memory Management ]                 @001[ Overview ]
+.100
+    Memory Management - Example
+
+      ; Allocating memory
+      if MEM_alloc(256,adr(address)) <> 0 then
+          ; error handling (e.g. Sp_OK = 0)
+      else
+          ; Dynamic access of a variable to the allocated memory.
+          ; The data type of the variable sets the structure of the requested
+          ; memory.
+          Sp_Struc access address
+          Sp_OK = 1
+      endif
+      :
+      ; Use the allocated memory
+      if Sp_OK = 1 then
+          if Sp_Struc.Update = 1 then         ; Update requested ?
+              Sp_Struc.value[0] = value1      ; Carry out update !
+              Sp_Struc.value[1] = value2      ; etc.
+              :
+          endif
+      endif
+                                  @090[ Memory Management ]                 @001[ Overview ]
+.110
+    B&R Library - PCC Task Handling
+
+    With these functions, the run time behavior of the cyclic task can be
+    manipulated. Cyclic tasks which have been transferred to the PCC with
+    PG2000 can be identified, started and stopped.
+
+    @115[ST_ident      ]    Request ID number of a task
+    @116[ST_resume     ]    Start a stopped task (permanent)
+    @117[ST_tmp_resume ]    Start a stopped task (temporary)
+    @118[ST_suspend    ]    Stop a running task (permanent)
+    @119[ST_tmp_suspend]    Stop a running task (temporary)
+    @121[ST_allsuspend ]    Stop all running tasks (temporary)
+    @122[ST_info       ]    Request task information
+    @124[ST_name       ]    Request task name
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.111
+    B&R Library - PCC Task Handling (error numbers)
+
+    The following errors can occur with these functions:
+
+    3302 ... ERR_BUR_ILLSTATE     Incorrect task status
+                                  (e.g. with Stop on a stopped task)
+    3313 ... ERR_BUR_ILLVER       Invalid B&R library version
+    3324 ... ERR_BUR_ILLOBJ       Desired Object not available
+    3336 ... ERR_BUR_ILLIDENT     Invalid ID number
+
+
+
+
+
+
+
+
+
+
+
+
+                                  @110[ PCC-Task Handling ]                 @001[ Overview ]
+.115
+    ST_ident - Request ID number of a Task
+
+    status = @115[ST_ident](adr(st_name),st_grp,adr(st_ident))
+
+    Parameter Data Types :
+    ->  @010[st_name   ]: BYTE (ARRAY)  Name of the task (string)
+    ->  @011[st_grp    ]: BYTE          Group number of the task (standard = 0)
+    <-> st_ident  : LONG          ID number of the task 
+    <-  @111[status    ]: WORD          Error number (0 = no error)
+
+    This function returns the ID number of a task. This ID number is used
+    in the other PCC task handling functions for identification purposes. So 
+    that the performance of the system is not affected, this function should
+    only be called from an initialization sub-program (INIT-SP).
+
+
+
+
+
+
+
+                                  @110[ PCC-Task Handling ]                 @001[ Overview ]
+.116
+    ST_resume - Permanently Start Stopped Task
+
+    status = @116[ST_resume](st_ident)
+
+    Parameter Data Types :
+    ->  st_ident  : LONG          ID number of the task from @115[ST_ident]
+    <-  @111[status    ]: WORD          Error number (0 = no error)
+
+    With the ST_resume() function, a stopped (cyclic) task is permanently
+    activated (started). The task remains activated until the next cold
+    restart (previously called: TOTALINIT), i.e. the task continues to run
+    after a warm restart (previously called: INIT) or Halt (previously
+    called: RESET).
+    Permanent and temporary activation/suspension cannot be combined!
+    If a task is temporarily stopped, it must also be temporarily started!
+
+
+
+
+
+
+                                  @110[ PCC-Task Handling ]                 @001[ Overview ]
+.117
+    ST_tmp_resume - Temporarily Start a Stopped Task
+
+    status = @117[ST_tmp_resume](st_ident)
+
+    Parameter Data Types :
+    ->  st_ident  : LONG          ID number of the task from @115[ST_ident]
+    <-  @111[status    ]: WORD          Error number (0 = no error)
+
+    With the function ST_tmp_resume(), a stopped (cyclic) task is temporarily
+    activated (started). The task only remains activated until the next warm
+    restart (previously called: INIT) or Halt (previously called: RESET). The
+    ST_tmp_resume() function has a significantly shorter execution time than
+    the ST_resume() function, therefore, temporary activation is much faster
+    than permanent activation.
+    Permanent and temporary activation/suspension cannot be combined!
+    If a task is temporarily stopped, it must also be temporarily started!
+
+
+
+
+
+                                  @110[ PCC-Task Handling ]                 @001[ Overview ]
+.118
+    ST_suspend - Permanently Stop a Running Task
+
+    status = @118[ST_suspend](st_ident)
+
+    Parameter Data Types :
+    ->  st_ident  : LONG          ID number of the task from @115[ST_ident]
+                                  (0 = task suspends itself)
+    <-  @111[status    ]: WORD          Error number (0 = no error)
+
+    With the ST_suspend() function, a cyclic task is permanently suspended
+    (stopped). When the function is called, the current task cycle will
+    complete correctly, and the suspension will take effect in the next task
+    cycle.  When a task is suspended, it is removed from the cyclic runtime
+    system and no longer executed. The task is not deleted. It is simply
+    stopped and can be restarted at any time (activated).
+    A permanently stopped task remains suspended until the next cold restart
+    (previously called: TOTALINIT).
+    Permanent and temporary activation/suspension cannot be combined!
+    If a task is temporarily stopped, it must also be temporarily started!
+
+
+                                  @110[ PCC-Task Handling ]                 @001[ Overview ]
+.119
+    ST_tmp_suspend - Temporarily Stop Running Task
+
+    status = @119[ST_tmp_suspend](st_ident)
+
+    Parameter Data Types :
+    ->  st_ident  : LONG          ID number of the task from @115[ST_ident]
+                                  (0 = task suspends itself)
+    <-  @111[status    ]: WORD          Error number (0 = no error)
+
+    With the ST_tmp_suspend() function, a cyclic task is temporarily suspended
+    (stopped). When the function is called, the current task cycle will
+    complete correctly, and the suspension will take effect in the next task
+    cycle.  When a task is suspended, it is removed from the cyclic runtime
+    system and no longer executed. The task is not deleted. It is simply
+    stopped and can be restarted at any time (activated).
+    A temporarily stopped task remains suspended until the next warm restart
+    (previously called: INIT) or Halt (previously called: RESET).
+    The ST_tmp_suspend() function has a significantly shorter execution time
+    than the ST_suspend() function, and is therefore much faster.
+
+
+                                      @120[ Continue ]                      @001[ Overview ]
+.120
+    ST_tmp_suspend - Temporarily Stop Running Task (continued)
+
+    In INIT SPs, only the ST_tmp_suspend() function can be used to stop
+    a cyclic task, the ST_suspend() function returns the error number 
+    3302 when it is used in an INIT SP.
+    Permanent and temporary activation/suspension cannot be combined!
+    If a task is temporarily stopped, it must also be temporarily started!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  @110[ PCC-Task Handling ]                 @001[ Overview ]
+.121
+    ST_allsuspend - Temporarily Stop All Running Tasks
+
+    status = @121[ST_allsuspend]()
+
+    Parameter Data Types :
+    <-  @111[status    ]: WORD          Error number (0 = no error)
+
+    With the ST_allsuspend() function, all cyclic tasks are temporarily
+    suspended (stopped). The tasks temporarily stopped with the ST_allsuspend()
+    function only remain suspended until the next warm restart (previously 
+    called: INIT) or Halt (previously called: RESET).
+  
+
+
+
+
+
+
+      
+
+
+                                  @110[ PCC-Task Handling ]                 @001[ Overview ]
+.122
+    ST_info - Request Task Information
+
+    status = @122[ST_info](st_ident,adr(state),adr(tcno))
+
+    Parameter Data Types :
+    ->  st_ident  : LONG          ID number of the task from @115[ST_ident]
+                                  (0 = task suspends itself)
+    <-> state     : BYTE          Status of the task:
+                                  1            Task installed
+                                  2            Task is running (started)
+                                  3            Task stopped
+                                  $90          Task temporarily stopped
+                                  0, $82-$88   Temporary status during
+                                               installation    
+    <-> tcno      : INT8          Task Class Information:
+                                  1 to 4       Standard task class 1 to 4
+                                  -1 to -4     High-speed task class 1 to 4
+                                  -8           Exception task class
+                                  -9           Interrupt task class
+    <-  @111[status    ]: WORD          Error number (0 = no error)
+
+                                      @123[ Continue ]                      @001[ Overview ]
+.123
+    ST_info - Request Task Information (continued)
+
+    The ST_info() function returns information about the task referenced
+    with the task ID number.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  @110[ PCC-Task Handling ]                 @001[ Overview ]
+.124
+    ST_name - Request Task Name
+
+    status = @124[ST_name](st_ident,adr(st_name),adr(st_grp))
+
+    Parameter Data Types :
+    ->  st_ident  : LONG          ID number of the task from @115[ST_ident]
+                                  (0 = own task)
+    <-> @010[st_name   ]: BYTE (ARRAY)  Name of the task (string)
+    <-> @011[st_grp    ]: BYTE          Group number of the task (standard = 0)
+    <-  @111[status    ]: WORD          Error number (0 = no error)
+
+    The ST_name() function returns the name and group number of the
+    task referenced with the task ID number.
+
+
+
+
+
+
+
+
+                                  @110[ PCC-Task Handling ]                 @001[ Overview ]
+.130
+    B&R Library - Semaphore Handling
+
+    Semaphores are "variables" with which, for example, access to data areas which
+    are used by more than one task, can be blocked.
+
+    @135[SM_create ]    Create semaphore
+    @136[SM_ident  ]    Request ID number of a semaphore
+    @137[SM_delete ]    Delete semaphore
+    @138[SM_attach ]    Request semaphore
+    @139[SM_release]    Release semaphore
+
+    If a semaphore is used by tasks from different task classes, and the
+    faster task requests the semaphore very often, the faster task can
+    continuously block the semaphore at certain task change frequencies.
+    To avoid this problem, semaphores should not be blocked for longer than one
+    task cycle, i.e. the time between SM_attach() and SM_release() should be
+    as short as possible.
+
+
+
+
+                                                                      @001[ Overview ]
+.131
+    B&R Library - Semaphore Handling (error numbers)
+
+    The following errors can occur with these functions:
+
+    3304 ... ERR_BUR_TIMEOUT      Timeout occurred with SM_attach()
+    3306 ... ERR_BUR_EXISTS       Semaphore exists already
+    3313 ... ERR_BUR_ILLVER       Invalid B&R library version
+    3320 ... ERR_BUR_OBJDEL       Semaphore deleted during WAIT
+    3324 ... ERR_BUR_ILLOBJ       Desired object not available
+    3328 ... ERR_BUR_ILLOBJTYP    Incorrect object type
+    3332 ... ERR_BUR_NOENTRY      No other semaphores possible
+    3336 ... ERR_BUR_ILLIDENT     Invalid ID number
+    3560 ... ERR_BUR_NOSMBUF      No buffer available
+    3564 ... ERR_BUR_NOSM         Semaphore not available
+    3568 ... ERR_BUR_SMDEL        Semaphore already deleted
+
+
+
+
+
+
+                                 @130[ Semaphore Handling ]                 @001[ Overview ]
+.135
+    SM_create - Create Semaphore
+
+    status = @135[SM_create](adr(sm_name),sm_count,adr(sm_ident))
+
+    Parameter Data Types :
+    ->  @010[sm_name   ]: BYTE (ARRAY)  Name of the semaphore (string)
+                                  4 significant characters
+    ->  sm_count  : LONG          Number of accesses simultaneously possible
+                                  via the semaphore (standard = 1)
+    <-> sm_ident  : LONG          Semaphore ID number
+    <-  @131[status    ]: WORD          Error number (0 = no error)
+
+    This function creates a semaphore with the given parameters and then 
+    returns the semaphore ID number which is needed for the other semaphore
+    handling functions. The input parameter "sm_count" sets how many parallel
+    accesses are possible via the semaphore.
+    Exclusive access to data is set with sm_count=1. 
+    The number of semaphores can be changed using the PCC configurator
+    (or PG2000).
+
+
+                                 @130[ Semaphore Handling ]                 @001[ Overview ]
+.136
+    SM_ident - Request Semaphore ID Number
+
+    status = @136[SM_ident](adr(sm_name),adr(sm_ident))
+
+    Parameter Data Types :
+    ->  @010[sm_name   ]: BYTE (ARRAY)  Name of the semaphore (string)
+                                  4 significant characters
+    <-> sm_ident  : LONG          Semaphore ID number
+    <-  @131[status    ]: WORD          Error number (0 = no error)
+
+    This function returns the ID number of an existing semaphore. This
+    ID number is used in the other semaphore handling functions for
+    identification purposes.
+
+
+
+
+
+
+
+
+                                 @130[ Semaphore Handling ]                 @001[ Overview ]
+.137
+    SM_delete - Delete Semaphore
+
+    status = @137[SM_delete](sm_ident)
+
+    Parameter Data Types :
+    ->  sm_ident  : LONG          ID number of the semaphore
+                                  from @135[SM_create] or @136[SM_ident]
+    <-  @131[status    ]: WORD          Error number (0 = no error)
+
+    Deletes the semaphore with the given ID number.
+
+
+
+
+
+
+
+
+
+
+
+                                 @130[ Semaphore Handling ]                 @001[ Overview ]
+.138
+    SM_attach - Request Semaphore
+
+    status = @138[SM_attach](sm_ident,timeout,flags)
+
+    Parameter Data Types :
+    ->  sm_ident  : LONG          ID number of the semaphore from @135[SM_create]
+                                  or @136[SM_ident]
+    ->  timeout   : LONG          Timeout time in 10 msec units
+                                  (0 = unlimited timeout time)
+    ->  flags     : LONG          0 ... Wait until timeout occurs
+                                  1 ... Do not wait the timeout occurs (in 
+                                        cyclic tasks, flags = 1 must always be
+                                        set, or a cycle time violation occurs)
+    <-  @131[status    ]: WORD          Error number (0 = no error)
+
+    SM_attach() requests a semaphore for use. The number of parallel accesses
+    possible via the semaphore is set with SW_create(). If this number is
+    reached, no further accesses can occur until a task releases the semaphore
+    (see SM_release() function).
+
+
+                                 @130[ Semaphore Handling ]                 @001[ Overview ]
+.139
+    SM_release - Release Semaphore
+
+    status = @139[SM_release](sm_ident)
+
+    Parameter Data Types :
+    ->  sm_ident  : LONG          ID number of the semaphore from @135[SM_create]
+                                  or @136[SM_ident]
+    <-  @131[status    ]: WORD          Error number (0 = no error)
+
+    The SM_release() function releases the semaphore with the given ident
+    number. The number of possible parallel accesses via the semaphore is
+    set with SM_create(). If this number is reached, no further accesses
+    can occur until a task releases the semaphore.
+
+
+
+
+
+
+
+
+                                 @130[ Semaphore Handling ]                 @001[ Overview ]
+.150
+    B&R Library - System Functions
+
+    The system functions enable you to trigger a boot-up, request
+    system information etc.
+
+    @155[SYSreset   ]   Trigger boot-up on the PCC
+    @156[SYS_info   ]   Request system information
+    @158[SYSxinfo   ]   Request extended system information
+    @161[SYS_battery]   Request status from battery and rechargeable battery
+    @162[FORCE_info ]   Force function active/inactive?
+    @164[MO_list    ]   Search all B&R modules on the PCC
+    @167[PMEM_put   ]   Store data in the "fixed memory"
+    @169[PMEM_get   ]   Collect data from the "fixed memory"
+    @171[Bit2Byte   ]   Convert BIT array into BYTE array
+    @176[Byte2Bit   ]   Convert BYTE array into BIT array
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.151
+    B&R Library - System Functions (error numbers)
+
+    The following errors can occurs with the system functions:
+
+    3300 ... ERR_BUR_ILLTKNR      Incorrect task class number
+    3313 ... ERR_BUR_ILLVER       Invalid B&R library version
+    3332 ... ERR_BUR_NOENTRY      Entry not found
+   21002 ... ERR_PMEM_OFFSET      Offset not allowed
+   21003 ... ERR_PMEM_CPUTYP      CPU type has no "fixed memory"
+
+
+
+
+
+
+
+
+
+
+
+
+                                  @150[ System Functions ]                  @001[ Overview ]
+.155
+    SYSreset - Trigger Boot-Up on the PCC
+
+    status = @155[SYSreset](enable,mode)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function is only executed if 
+                                  enable = 1
+    ->  mode      : BYTE          Boot Mode:
+                                  1 ... Warm restart (previously called: INIT)
+                                  2 ... Cold restart (previously: TOTALINIT)
+    <-  @151[status    ]: WORD          Error number (0 = no error)
+
+    This function triggers a boot-up on the PCC, in the stated mode 
+    (warm or cold restart).
+
+
+
+
+
+
+
+                                  @150[ System Functions ]                  @001[ Overview ]
+.156
+    SYS_info - Request System Information
+
+    status = @156[SYS_info](adr(init_cnt),adr(init_des),adr(tickcnt),adr(version),
+                      adr(ov_vers))
+
+    Parameter Data Types :
+    <-> init_cnt  : LONG          Number of warm restarts executed until now
+                                  (warm restart previously known as: INIT)
+    <-> init_des  : LONG          Last boot-up Mode:
+                                  1 .... Warm restart
+                                         (previously called: INIT)
+                                  2 .... Cold restart
+                                         (previously called: TOTALINIT)
+                                  4 .... PCC Halt/Watchdog
+                                         (PCC Halt previously called: RESET)
+                                  8 .... RECONFIG
+                                  32 ... DIAGNOSE
+                                  64 ... ERROR
+    <-> tickcnt   : LONG          Tick counter
+
+
+                                      @157[ Continue ]                      @001[ Overview ]
+.157
+    SYS_info - Request System Information (continued)
+
+    <-> version   : 4 BYTE (ARRAY)  Operating system version number
+                                    (non-null-terminated string)
+    <-> ov_vers   : LONG            Object directory version number
+    <-  @151[status    ]: WORD            Error number (0 = no error)
+
+    This function returns information about the system (reason for boot-up,
+    PCCSW version number etc.). The tick counter (parameter "tickcnt") is
+    incremented (increased by 1) every 10 msec. The tick counter does not
+    work on a realtime basis, so it can only be used for relative time
+    measurement.
+    The object directory version number ("ov_vers") is incremented each time
+    a download occurs, or an object (B&R module) is deleted.
+
+
+
+
+
+
+
+                                  @150[ System Functions ]                  @001[ Overview ]
+.158
+    SYSxinfo - Request Extended System Information
+
+    status = @158[SYSxinfo](adr(sx))
+
+    Parameter Data Types :
+    <-> @159[sx        ]: sx structure  Structure where the extended system
+                                  information is to be placed
+    <-  @151[status    ]: WORD          Error number (0 = no error)
+
+    Reads the extended system information and writes this
+    information in a structure (sx).
+
+
+
+
+
+
+
+
+
+
+                                  @150[ System Functions ]                  @001[ Overview ]
+.159
+    SYSxinfo - Request Extended System Information (continued)
+
+    <-> Parameter <sx        >: sx structure
+
+    Elements of the structure "sx":
+    amm_name   : 6 BYTE (ARRAY) Name of the application memory used
+                                (e.g. "ME950")
+    amm_type   : 2 BYTE (ARRAY) Type of application memory (APM):
+                                "E"   APM with EPROM memory 
+                                "F"   APM with Flash PROM memory 
+    cpu_info   : LONG           Processor Type:
+                                0     B&R System 2010 CPU
+                                1     B&R System 2005 CPU
+                                13    B&R System 2010 multiprocessor
+    ma_globl   : WORD           Size of the PCC global analog data area
+                                in bytes.
+    md_globl   : WORD           Size of the PCC global digital data area
+                                in bits.
+
+
+
+                                      @160[ Continue ]                      @001[ Overview ]
+.160
+    SYSxinfo - Request Extended System Information (continued)
+
+    Elements of the structure "sx" (continue):
+    os_len     : LONG           Size of the free memory area (in bytes!)
+                                for operating system data as well as global
+                                data and stacks of non-cyclic application tasks
+    user_len   : LONG           Free memory in application RAM (in bytes!)
+    tmp_len    : LONG           Free temporary memory area in system RAM
+                                (in bytes!)
+    eprom      : LONG           Free memory in application ROM (in bytes!)
+    fix_ram    : LONG           Free memory in FIX RAM (in bytes!)
+
+
+
+
+
+
+
+
+
+
+                                      @158[ SYSxinfo ]                      @001[ Overview ]
+.161
+    SYS_battery - Request Status of Battery and Rechargeable Battery
+
+    status = @161[SYS_battery]()
+
+    Parameter Data Types :
+    <-  battery   : BYTE          Status of ) battery and rechargeable battery.
+                                  Bit 0 displays the status of the rech. battery
+                                  or the status of the battery in the CPU:
+                                  BIT 0 = 0 ... Rech. bat./battery (CPU) = OK
+                                  BIT 0 = 1 ... Rech. bat./Battery (CPU) = EMPTY
+                                  Bit 1 displays the status of the battery
+                                  in the APM:
+                                  BIT 1 = 0 ... Battery (APM) = OK
+                                  BIT 1 = 1 ... Battery (APM) = NO CHARGE
+                                  Bits 2 and 3 show if a rech. bat. or a
+                                  battery is available:
+                                  BIT 2 = 1 ... Rech. bat. available
+                                  BIT 3 = 1 ... No battery available
+
+    Returns the status of the rechargeable battery and normal battery in the CPU,
+    and the status of the battery in the APM.
+                                  @150[ System Functions ]                  @001[ Overview ]
+.162
+    FORCE_info - Force Function Active/Inactive?
+
+    status = @162[FORCE_info](tc_no,adr(force))
+
+    Parameter Data Types :
+    ->  tc_no     : INT8          Task class to be checked:
+                                  1 to 4 .....  Normal task classes 1 to 4
+                                  -1 to -4 ...  High-speed task classes 1 to 4
+                                  -9 .......... Interrupt task class
+    <-> force     : BYTE          force = 1 ... The force function is active,
+                                                i.e. one variable is forced
+                                                in at least one task of the 
+                                                given task class
+                                  force = 0 ... The force function is inactive,
+                                                i.e. no variables in the tasks
+                                                of the given task class are
+                                                forced.
+    <-  @151[status    ]: WORD          Error number (0 = no error)
+
+
+
+                                      @163[ Continue ]                      @001[ Overview ]
+.163
+    FORCE_info - Force Function Active/Inactive? (continued)
+
+    Determines whether a variable is forced or not in any of the tasks in the
+    specified task class ("tc_no") .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  @150[ System Functions ]                  @001[ Overview ]
+.164
+    MO_list - Search All B&R Modules on the PCC
+
+    status = @164[MO_list](prev_index,adr(index),adr(mo_struct))
+
+    Parameter Data Types :
+    ->  prev_index: WORD           Index of the B&R module where the search is
+                                   to begin. If $FFFF is entered, the search
+                                   starts at the first B&R module.
+    <-> index     : WORD           Index of the B&R module found
+    <-> @165[mo_struct ]: list structure Structure where the module info of the
+                                   B&R module should be stored
+    <-  @151[status    ]: WORD           Error number (0 = no error)
+
+    With the MO_list() function, all B&R modules on the PCC can be searched.
+    To search all B&R modules the parameter "prev_index" must be set to 
+    $FFFF at the first call. For all further calls, the value of the parameter
+    "index" must be used for the new "prev_index".
+    The module info from the B&R module found will be written in the structure
+    "list".
+
+
+                                  @150[ System Functions ]                  @001[ Overview ]
+.165
+    MO_list - Search All B&R Modules on the PCC (continued)
+
+    <-> Parameter <mo_struct >: list structure
+
+    Elements of the "list" structure:
+    mo_name    : 14 BYTE (ARRAY) Name of the B&R module
+    mo_grp     : BYTE            Group number of the B&R module
+    mo_typ     : BYTE            Type of B&R module:
+                                 $11  Task belonging to a standard task class
+                                 $12  System task
+                                 $13  Idle time task
+                                 $14  Task belonging to a high-speed task class
+                                 $15  Interrupt task
+                                 $16  Exception task
+                                 $21  AVT library
+								 $25  Mathtrap-Library
+								 $26  Trap-Library
+								 $28  Add-Trap
+                                 $31  Optimized I/O module
+                                 $41  Data module
+								 $45  NC-Driver
+                                 $81  PCC configuration module
+                                 $82  Network configuration module
+                 
+				 All other modules are "internal" B&R modules 
+
+
+                                      @166[ Continue ]                      @001[ Overview ]
+.166
+    MO_list - Search All B&R Modules on the PCC (continued)
+
+    Elements of the structure "list":
+    mo_state   : BYTE           Status of the B&R modules:
+                                0     exist
+                                1     ready
+                                >$80  temporary status (e.g. download)
+    reserve    : BYTE           Reserved
+    mo_adr     : LONG           Physical address of the B&R module
+    mo_mem     : LONG           B&R module memory:
+                                0=SYSROM, 1=SYSRAM, 2=USRROM, 3=USRRAM
+                                4=MEMCARD, 5=FIXRAM
+
+
+
+
+
+                                       @164[ MO_list ]                      @001[ Overview ]
+.167
+    PMEM_put - Store Data in "Fixed Memory"
+
+    @167[PMEM_put](enable,dataptr,datalng,offset,status)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if
+                                  enable = 1
+    ->  dataptr   : LONG          Address of the data
+    ->  datalng   : BYTE          Length of data in bytes
+    ->  offset    : BYTE          Offset in the fixed memory
+    <-  @151[status    ]: WORD          Error number (0 = no error)
+
+    In addition to application ROM and FIX RAM (in application memory), there
+    is another "cold-restart-proof" memory area (cold restart previously
+    called: TOTALINIT) on the CPU, which can be used by the user for storing
+    data. This 256 byte memory area is known as fixed memory. Only the functions
+    PMEM_get() and PMEM_put() can access the fixed memory. Dynamic variables
+    cannot be stored in this memory area.
+
+
+
+                                      @168[ Continue ]                      @001[ Overview ]
+.168
+    PMEM_put - Store Data in "Fixed Memory" (continued)
+
+    The PMEM_put() function copies (taking into account the specified offset,
+    "offset") the data (normally a structure or an array variable) defined by
+    the parameters "dataptr" (data address) and "datalng" (data length) from
+    "normal" memory to the fixed memory.
+
+    Note!
+    The PMEM_put() function cannot be used on processors which don't have
+    a fixed memory area (e.g. XP152, IP151 and C220). If the function is
+    used anyway, error number 21003 is returned.
+
+
+
+
+
+
+
+
+
+
+                                  @150[ System Functions ]                  @001[ Overview ]
+.169
+    PMEM_get - Collect Data from the "Fixed Memory"
+
+    @169[PMEM_get](enable,dataptr,datalng,offset,status)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if
+                                  enable = 1
+    ->  dataptr   : LONG          Address of the data
+    ->  datalng   : BYTE          Length of  the data in bytes
+    ->  offset    : BYTE          Offset in the fixed memory
+    <-  @151[status    ]: WORD          Error number (0 = no error)
+
+    In addition to application ROM and FIX RAM (in application memory), there
+    is another "cold-restart-proof" memory area (cold restart previously
+    called: TOTALINIT) on the CPU, which can be used by the user for storing
+    data. This 256 byte memory area is known as fixed memory. Only the
+    functions PMEM_get() and PMEM_put() can access the fixed memory. Dynamic
+    variables cannot be stored in this memory area.
+
+
+
+                                      @170[ Continue ]                      @001[ Overview ]
+.170
+    PMEM_get - Collect Data from the "Fixed Memory" (continued)
+
+    The PMEM_get() function reads data (taking into account the specfied
+    offset "offset" ) from the fixed memory and copies it to the area in the
+    "normal" memory defined by the parameters "dataptr" (address of the data)
+    and "datalng" (data length).
+
+    Note!
+    The PMEM_get() function cannot be used for processors which don't have
+    a fixed memory area (e.g. XP152, IP151 and C220). If the function is
+    used anyway, error number 21003 is returned.
+
+
+
+
+
+
+
+
+
+
+                                  @150[ System Functions ]                  @001[ Overview ]
+.171
+    Bit2Byte - Convert BIT Array to BYTE Array
+
+    @171[Bit2Byte](bitadr,length,byteadr)
+
+    Parameter Data Types :
+    ->  bitadr    : LONG          Address of the BIT array
+    ->  length    : WORD          BYTE array length (1 to 128)
+    <-  byteadr   : LONG          Address of the BYTE array (access or memcpy()
+                                  necessary).
+                                  In case of error (e.g. length > 128), the
+                                  function returns the address 0.
+
+    The Bit2Byte() function converts a BIT array with the address "bitadr" and
+    the length "length" into a BYTE array in which every data bit corresponds
+    to an element of the BIT array. This means that the first element of the
+    BIT array (element with index 0) is copied to data bit 0 in the first 
+    element (index 0) of the BYTE array. The second element of the BIT array
+    (element with index 1) is copied to data bit 1 in the first element 
+    (index 0) of the BYTE array etc. The BIT array is compressed in this way.
+    The BYTE array (address "byteadr") returned is stored in the FBK internal
+    memory.
+                                      @172[ Continue ]                      @001[ Overview ]
+.172
+    Bit2Byte - Convert BIT Array to BYTE Array (continued)
+
+    The Bit2Byte() function must be called once per cycle, but only
+    when the BYTE array is actually used.
+
+    Note!
+    With the Bit2Byte() function, WORD alignment is not used, i.e.
+    if the BYTE array returned has more than one element 
+    (two or more bytes), the user must copy the BYTE array with the
+    memcpy() function to an even address!
+
+    The main use for the Bit2Byte() and Byte2Bit() functions is to
+    simplify I/O card handling, where values used may be digital
+    (unpacked) or analog (packed). By doing this, inconsistencies due
+    to double data-transfers (double shoveling) can be prevented.
+
+
+
+
+
+
+                                      @173[ Example 1 ]                     @001[ Overview ]
+.173
+    Bit2Byte - Convert BIT Array to BYTE Array (example 1)
+
+    Example 1:
+    The 16 inputs (bit_array[0] to bit_array[15]) of a digital input
+    module are to be converted into a BYTE array (byte_array[0],
+    byte_array[1]):
+         ฺฤยฤยฤยฤยฤยฤยฤยฤยฤยฤยฤยฤยฤยฤยฤยฤฟ
+         ณ1ณ0ณ1ณ0ณ1ณ1ณ1ณ1ณ0ณ0ณ1ณ1ณ0ณ0ณ0ณ1ณ bit_array
+         ภยมฤมฤมฤมฤมฤมฤมฤมฤมฤมฤมฤมฤมฤมฤมยู
+          ณ                             ณ
+     bit_array[15]                   bit_array[0]
+                         ๕
+                     Bit2Byte()
+                         ๕
+       ฺฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฟ
+       ณ 1 0 1 0 1 1 1 1 ณ 0 0 1 1 0 0 0 1 ณ byte_array
+       ภฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤู
+                ณ                 ณ
+           byte_array[1]       byte_array[0]
+
+
+                                @174[ Continue - Example 1 ]                @001[ Overview ]
+.174
+    Bit2Byte - Convert BIT Array to BYTE Array (example 1 - continued)
+
+      ; Convert BIT array into BYTE array
+      Bit2Byte(adr(bit_array[0]),16,byteadr)
+      ; Copy with memcpy(), as the WORD alignment was not used with
+      ; the address "byteadr"
+      memcpy(adr(byte_array[0]),byteadr,sizeof(byte_array))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @175[ Example 2 ]                     @001[ Overview ]
+.175
+    Bit2Byte - Convert BIT Array to BYTE Array (example 2)
+
+    Example 2:
+      ; A digital input card (16 channels) is in use, and 2 bits are checked.
+      ; The 16 channels are compressed (packed) and linked to an analog output.
+      ; The digital inputs are used bits.
+      ;      "digin16" ....... Bit array - digital input module (16 channels)
+      ;      "anaout" ........ INT16 - analog output
+      if (digin16[0] = 1) and (digin16[15] = 1) then
+          digin16[8] = 0
+      endif
+      Bit2Byte(adr(digin16[0],16,byteadr)
+      ; Copy with memcpy(), as WORD alignment was not used
+      ; for the address "byteadr".
+      memcpy(adr(anaout),byteadr,sizeof(anaout))
+
+
+
+
+
+
+                                  @150[ System Functions ]                  @001[ Overview ]
+.176
+   Byte2Bit - Convert BYTE Array to BIT Array 
+
+    @176[Byte2Bit](byteadr,length,bitadr)
+
+    Parameter Data Types :
+    ->  byteadr   : LONG          Address of the BYTE array
+    ->  length    : WORD          Length of the BYTE array (1 to 16)
+    <-  bitadr    : LONG          Address of the BIT array (access necessary).
+                                  In case of error (e.g. length > 16), address
+                                  0 is returned by the function.
+
+    The Byte2Bit() function converts a BYTE array with address "byteadr" and
+    length "length" into a BIT array. The BYTE array is therefore decompressed.
+    The BIT array returned (address "bitadr") is placed in the FBK internal
+    memory.
+    The Byte2Bit() function must be called once per cycle, but only
+    when the BIT array is actually used.
+
+
+
+
+                                      @177[ Continue ]                      @001[ Overview ]
+.177
+    Byte2Bit - Convert BYTE Array to BIT Array (continued)
+
+    The main use for the Bit2Byte() and Byte2Bit() functions is to
+    simplify I/O card handling, where values used may be digital
+    (unpacked) or analog (packed). By doing this, inconsistencies due
+    to double data-transfers (double shoveling) can be prevented.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @178[ Example 1 ]                     @001[ Overview ]
+.178
+    Byte2Bit - Convert BYTE Array to BIT Array (example 1)
+
+    Example 1:
+    A BYTE array with two elements (byte_array[0], byte_array[1])
+    are to be copied to a BIT array (bit_array[0] to bit_array[15]):
+
+      ; Convert BYTE array to BIT array
+      Byte2Bit(adr(byte_array[0]),2,bitadr)
+      bit_array access bitadr
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @179[ Example 2 ]                     @001[ Overview ]
+.179
+    Byte2Bit - Convert BYTE Array to BIT Array (example 2)
+
+    Example 2:
+      ; A digital input card (16 channels) is in use, and 2 bits are checked.
+      ; The 16 channels are compressed (packed) and linked to an analog output.
+      ;      "digin16p" ...... digital values read compressed as WORD
+      ;      "digin16" ....... Bit array reference (dynamic PV)
+      if digin16p <> 0 then
+          Byte2Bit(adr(digin16p),2,bit_arrayadr)
+          digin16 access bit_arrayadr
+          if digin16[7] = 1 then
+              ERR_warning(15000,7)
+          else if digin16[10] = 1 then
+              ERR_warning(15000,10)
+          endif
+      endif
+
+
+
+
+
+                                  @150[ System Functions ]                  @001[ Overview ]
+.190
+    B&R Library - Time Functions
+
+    These functions enable the CPU or multiprocessor clock to be accessed.
+    The CPU has a real time clock, a software clock, and a hardware timer for
+    time measurements with higher resolution. A multiprocessor has a software
+    clock, but no real time clock.
+
+    @195[RTC_gettime]   Read real time clock
+    @197[RTC_settime]   Set real time clock
+    @199[SW_gettime ]   Read software clock
+    @201[SW_settime ]   Set software clock
+    @203[TIM_musec  ]   Number of microseconds in the current tick
+    @204[TIM_ticks  ]   Number of ticks in the current second
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.191
+    B&R Library - Time Functions (error numbers)
+
+    The following errors can occur with time functions:
+
+    2073 ... ERR_BUR_NORTC        RTC not initialized
+    3313 ... ERR_BUR_ILLVER       Invalid B&R library version
+    3584 ... ERR_BUR_NOTIME       No time available
+    3588 ... ERR_BUR_ILLDATE      Invalid date
+    3592 ... ERR_BUR_ILLTIME      Invalid time
+    3596 ... ERR_BUR_ILLTICKS     Invalid number of ticks
+
+
+
+
+
+
+
+
+
+
+
+                                   @190[ Time Functions ]                   @001[ Overview ]
+.195
+    RTC_gettime - Read Real Time Clock
+
+    status = @195[RTC_gettime](adr(rtctime))
+
+    Parameter Data Types :
+    <-> @196[rtctime   ]: Time structure   Structure where time and date are placed
+    <-  @191[status    ]: WORD             Error number (0 = no error)
+
+    Reads the time and date from the real time clock and writes this
+    information to a structure (time).
+
+
+
+
+
+
+
+
+
+
+
+                                   @190[ Time Functions ]                   @001[ Overview ]
+.196
+    RTC_gettime - Read Real Time Clock (continued)
+
+    <-> Parameter <rtctime   >: Time Structure
+
+    Elements of the Structure "time":
+    Year       : WORD           Year
+    Month      : BYTE           Month (1 to 12)
+    Day        : BYTE           Day (1 to 31)
+    Reserve    : BYTE           Reserved
+    Hour       : BYTE           Hour (0 to 23)
+    Minute     : BYTE           Minute (0 to 59)
+    Seconds    : BYTE           Seconds (0 to 59)
+    Millisec   : WORD           Milliseconds (0 to 999)
+    Microsec   : WORD           Microseconds (0 to 999)
+
+    For systems in which the real time clock values can only be a whole number
+    of seconds, (e.g. systems B&R 2003 and B&R 2005), the structure elements
+    for microseconds and milliseconds always have the value 0.
+
+
+
+                                     @195[ RTC_gettime ]                    @001[ Overview ]
+.197
+    RTC_settime - Set Real Time Clock
+
+    status = @197[RTC_settime](adr(rtctime))
+
+    Parameter Data Types :
+    ->  @198[rtctime   ]: Time Structure   Structure where time and date are placed
+    <-  @191[status    ]: WORD             Error number (0 = no error)
+
+    The real time clock can be set to a particular value (structure time)
+    with this function.
+
+
+
+
+
+
+
+
+
+
+
+                                   @190[ Time Functions ]                   @001[ Overview ]
+.198
+    RTC_settime - Set Real Time Clock (continued)
+
+    ->  Parameter <rtctime   >: Time Structure
+
+    Elements of the Structure "time":
+    Year       : WORD           Year
+    Month      : BYTE           Month (1 to 12)
+    Day        : BYTE           Day (1 to 31)
+    Reserve    : BYTE           Reserved
+    Hour       : BYTE           Hour (0 to 23)
+    Minute     : BYTE           Minute (0 to 59)
+    Seconds    : BYTE           Seconds (0 to 59)
+    Millisec   : WORD           Milliseconds (0 to 999)
+    Microsec   : WORD           Microseconds (0 to 999)
+
+
+    For systems in which the real time clock values can only be a whole number
+    of seconds, (e.g. systems B&R 2003 and B&R 2005), the structure elements
+    for microseconds and milliseconds always have the value 0.
+
+
+                                     @197[ RTC_settime ]                    @001[ Overview ]
+.199
+    SW_gettime - Read Software Clock
+
+    status = @199[SW_gettime](adr(sw_time))
+
+    Parameter Data Types :
+    <-> @200[sw_time   ]: Time Structure   Structure where time and date are placed
+    <-  @191[status    ]: WORD             Error number (0 = no error)
+
+    Reads the time and date from the software clock and writes this information
+    in a structure (time).
+
+    Note:
+    The precision of the software clock depends on the accuracy of the
+    SW timer which in turn is derived from the CPU clock rate.
+
+
+
+
+
+
+
+                                   @190[ Time Functions ]                   @001[ Overview ]
+.200
+    SW_gettime - Read Software Clock (continued)
+
+    <-> Parameter <sw_time   >: Time Structure
+
+    Elements of the Structure "time":
+    Year       : WORD           Year
+    Month      : BYTE           Month (1 to 12)
+    Day        : BYTE           Day (1 to 31)
+    Reserve    : BYTE           Reserved
+    Hour       : BYTE           Hour (0 to 23)
+    Minute     : BYTE           Minute (0 to 59)
+    Second     : BYTE           Second (0 to 59)
+    Millisec   : WORD           Millisecond (0 to 999)
+    Microsec   : WORD           Microsecond (always 0!)
+
+
+
+
+
+
+
+                                     @199[ SW_gettime ]                     @001[ Overview ]
+.201
+    SW_settime - Set Software Clock
+
+    status = @201[SW_settime](adr(sw_time))
+
+    Parameter Data Types :
+    ->  @202[sw_time   ]: Time Structure   Structure where time and date are stored
+    <-  @191[status    ]: WORD             Error number (0 = no error)
+
+    You can set the software clock to a particular value (structure time)
+    using this function.
+
+    Note:
+    The precision of the software clock depends on the accuracy of the
+    SW timer which in turn is derived from the CPU clock rate.
+
+
+
+
+
+
+
+                                   @190[ Time Functions ]                   @001[ Overview ]
+.202
+    SW_settime - Set Software Clock (continued)
+
+    ->  Parameter <sw_time   >: Time Structure
+
+    Elements of the Structure "time":
+    Year       : WORD           Year
+    Month      : BYTE           Month (1 to 12)
+    Day        : BYTE           Day (1 to 31)
+    Reserve    : BYTE           Reserve
+    Hour       : BYTE           Hour (0 to 23)
+    Minute     : BYTE           Minute (0 to 59)
+    Second     : BYTE           Second (0 to 59)
+    Millisec   : WORD           Millisecond (0 to 999)
+    Microsec   : WORD           Microsecond (always 0!)
+
+
+
+
+
+
+
+                                     @201[ SW_gettime ]                     @001[ Overview ]
+.203
+    TIM_musec - Number of Microseconds in the Current Tick
+
+    microsec = @203[TIM_musec]()
+
+    Parameter Data Types :
+    <-  microsec  : WORD          Microseconds in the current tick
+
+    This function returns the (approximate) number of microseconds in the 
+    current tick (1 tick = 10 msec). The microsecond counter is set to 0
+    at the start of every tick (every 10 msec).
+    One unit with the TIM_musec() function does not exactly correspond to a
+    microsecond, but to 960 nanoseconds!
+
+
+
+
+
+
+
+
+
+                                   @190[ Time Functions ]                   @001[ Overview ]
+.204
+    TIM_ticks - Number of Ticks in the Current Second
+
+    ticks = @204[TIM_ticks]()
+
+    Parameter Data Types :
+    <-  ticks     : LONG          Ticks in the current second
+
+    This function returns the number of ticks (1 tick = 10 msec) in the 
+    current second. The tick counter is set to 0 every second, and so can
+    only be used for short-time measurement (time < 1 second). The tick
+    counter in the function SYS_info() is available for time measurements
+    of more than 1 second.
+
+
+
+
+
+
+
+
+
+                                   @190[ Time Functions ]                   @001[ Overview ]
+.210
+    B&R Library - Idle Task Handling
+
+    Non-cyclic tasks (also called idle time tasks) use system idle time. This
+    means that: idle time tasks are only executed if both the operating system
+    and the cyclic tasks don't need the remaining CPU time (system time).
+
+    @215[UT_ident  ]    Request ID number of an idle time task
+    @216[UT_suspend]    Stop a running idle time task
+    @217[UT_resume ]    Start a stopped idle time task
+    @218[UT_sleep  ]    Stop an idle time task for a certain time
+    @219[UT_exit   ]    End an idle time task
+    @220[UT_sendmsg]    Send message to another task
+    @222[UT_recmsg ]    Receive message from another task
+    @224[UT_freemsg]    Release memory which was used by a message
+
+    Idle time tasks can only be created with the C toolbox!
+    Idle time tasks can be identified, started and stopped with the idle time
+    task functions. Data can also be exchanged between idle time tasks and
+    cyclic tasks by sending/receiving messages.
+
+
+                                                                      @001[ Overview ]
+.211
+    B&R Library - Idle Task Handling (error numbers)
+
+    The following errors can occur with the idle time task functions:
+
+    3303 ... ERR_BUR_NOMSG        No message for UT_recmsg()
+    3309 ... ERR_BUR_INVALIDMBX   There is no valid mailbox
+    3313 ... ERR_BUR_ILLVER       Invalid B&R library version
+    3324 ... ERR_BUR_ILLOBJ       Undesired object not available
+    3336 ... ERR_BUR_ILLIDENT     Invalid ID number
+
+
+
+
+
+
+
+
+
+
+
+
+                               @210[ Idle Time Task Handling ]              @001[ Overview ]
+.215
+    UT_ident - Request ID number of an Idle Time Task
+
+    status = @215[UT_ident](adr(ut_name),ut_grp,ut_proc,adr(ut_pcc),adr(ut_ident))
+
+    Parameter Data Types :
+    ->  @010[ut_name   ]: BYTE (ARRAY)  Name of the idle time task (string)
+    ->  @011[ut_grp    ]: BYTE          Group number (standard = 0)
+    ->  ut_proc   : BYTE          Processor number
+                                  (standard: 0 = current processor)
+    ->  ut_pcc    : BYTE (ARRAY)  PCC name
+                                  (standard: adr(ut_pcc) = 0 (LONG) = curr. PCC)
+    <-> ut_ident  : LONG          ID number of the idle time task
+    <-  @211[status    ]: WORD          Error number (0 = no error)
+
+    This function Returns the ID number of an idle time task. This
+    ID number is used in the other idle time task functions for 
+    identification purposes.
+
+
+
+
+                               @210[ Idle Time Task Handling ]              @001[ Overview ]
+.216
+    UT_suspend - Stop Running Idle Time Task
+
+    status = @216[UT_suspend](ut_ident)
+
+    Parameter Data Types :
+    ->  ut_ident  : LONG          ID number of @215[UT_ident]
+                                  (0 = task suspends itself)
+    <-  @211[status    ]: WORD          Error number (0 = no error)
+
+    With the UT_suspend() function, the idle time task with the given
+    ID number is stopped immediately.
+
+
+
+
+
+
+
+
+
+
+                               @210[ Idle Time Task Handling ]              @001[ Overview ]
+.217
+    UT_resume - Start Stopped Idle Time Task
+
+    status = @217[UT_resume](ut_ident)
+
+    Parameter Data Types :
+    ->  ut_ident  : LONG          ID number of @215[UT_ident]
+                                  (0 = task suspends itself)
+    <-  @211[status    ]: WORD          Error number (0 = no error)
+
+    The UT_resume() function starts a stopped idle time task.
+
+
+
+
+
+
+
+
+
+
+
+                               @210[ Idle Time Task Handling ]              @001[ Overview ]
+.218
+    UT_sleep - Stop an Idle Time Task for a Certain Time
+
+    status = @218[UT_sleep](tickcount)
+
+    Parameter Data Types :
+    ->  tickcount : LONG          Number of ticks (1 tick = 10 msec), for which
+                                  the execution of the idle time task is
+                                  interrupted
+    <-  @211[status    ]: WORD          Error number (0 = no error)
+
+    The idle time task interrupts itself for a set time (number of ticks).
+    As a result, the CPU is released for use by other idle time tasks.
+
+
+
+
+
+
+
+
+
+                               @210[ Idle Time Task Handling ]              @001[ Overview ]
+.219
+    UT_exit - End Idle Time Task
+
+    status = @219[UT_exit](exitinfo)
+
+    Parameter Data Types :
+    ->  exitinfo  : LONG          Exit information (standard = 0)
+    <-  @211[status    ]: WORD          Error number (0 = no error)
+
+    This function ends the idle time task. The exit information ("exitinfo")
+    is no longer entered in the error logbook from version 1.10 onwards
+    of the PCC SW operating system. If necessary, the user can still do this
+    using the ERR_warning() function.
+
+
+
+
+
+
+
+
+
+                               @210[ Idle Time Task Handling ]              @001[ Overview ]
+.220
+    UT_sendmsg - Send Message to Another Task
+
+    status = @220[UT_sendmsg](ut_ident,msgadr,msglng,flags)
+
+    Parameter Data Types :
+    ->  ut_ident  : LONG          ID number of the task to which the message
+                                  is to be sent (from @215[UT_ident])
+    ->  msgadr    : LONG          Address of the message to be sent
+    ->  msglng    : LONG          Length of the message to be sent (in bytes)
+    ->  flags     : LONG          Bit 1 = 1 ... Do not wait for UT_recmsg()
+                                                (for cyclic tasks, this bit
+                                                must always be set, or a cycle
+                                                time violation occurs)
+    <-  @211[status    ]: WORD          Error number (0 = no error)
+
+    Sends a message to another task (may also be cyclic tasks). The message
+    must be received from the other task with the UT_recmsg() function.
+
+
+
+
+                                      @221[ Continue ]                      @001[ Overview ]
+.221
+    UT_sendmsg - Send Message to Another Task (continued)
+
+    The functions UT_sendmsg() and UT_recmsg() can only be used if the idle
+    time task has a queue for message exchange.
+    By default, every idle time task needs a queue to act as a mailbox. The
+    number of queues can be set with the PCC configurator (or PG2000).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                               @210[ Idle Time Task Handling ]              @001[ Overview ]
+.222
+    UT_recmsg - Receive Message from Another Task
+
+    status = @222[UT_recmsg](adr(ut_ident),adr(msgadr),adr(msglng),flags)
+
+    Parameter Data Types :
+    <-> ut_ident  : LONG          ID number of the task which sent the
+                                  message
+    <-> msgadr    : LONG          Address where the received message is
+                                  to be stored
+    <-> msglng    : LONG          Length of the received message (in bytes)
+    ->  flags     : LONG          Bit 0 = 1 ... Do'nt wait for UT_sendmsg()
+                                                (for cyclic tasks, this bit
+                                                must always be set, or a
+                                                cycle time violation occurs)
+    <-  @211[status    ]: WORD          Error number (0 = no error)
+
+    This function receives a message sent with the UT_sendmsg() function.
+    The sender of the message can be determined via the ID number received
+    (e.g. to send a response).
+
+
+                                      @223[ Continue ]                      @001[ Overview ]
+.223
+    UT_recmsg - Receive Message from Another Task (continued)
+
+    The functions UT_sendmsg() and UT_recmsg() can only be used if the 
+    idle time task has a queue for message exchange.
+    By default, every idle time task needs a queue as mailbox. The number
+    of queues can be set with the PCC configurator (or with PG2000).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                               @210[ Idle Time Task Handling ]              @001[ Overview ]
+.224
+    UT_freemsg - Release Memory which was Used by a Message
+
+    status = @224[UT_freemsg](msglng,msgadr)
+
+    Parameter Data Types :
+    ->  msglng    : LONG          Length of the memory to be released (in bytes)
+    ->  msgadr    : LONG          Address of the memory to be released
+    <-  @211[status    ]: WORD          Error number (0 = no error)
+
+    This function de-allocates the memory which was used by a received message.
+
+
+
+
+
+
+
+
+
+
+        
+                               @210[ Idle Time Task Handling ]              @001[ Overview ]
+.230
+    B&R Library - Variable Utilities
+
+    The variable utilities are used for manipulating the process variables
+    (PVs) in the PCC.
+
+    @235[PV_ident  ]    Request ID number of a PV
+    @239[PV_getadr ]    Request address of a PV
+    @243[PV_xgetadr]    Request address of a complex PV
+    @246[PV_setval ]    Write to a PV with a certain value
+    @247[PV_getval ]    Request value of a PV
+    @248[PV_xsetval]    Write to a complex PV with a value
+    @249[PV_xgetval]    Request value of a complex PV
+    @250[PV_info   ]    Request information about a complex PV (via ident)
+    @253[PV_list   ]    Search all PVs
+    @255[PV_ninfo  ]    Request information about a complex PV (via name)
+    @260[PV_item   ]    Request the name of a structure element
+
+
+
+
+
+                                                                      @001[ Overview ]
+.231
+    B&R Library - Variable Utilities (error numbers)
+
+    The following errors can occur with the variable utilities:
+    3300 ... ERR_BUR_ILLTKNR      Incorrect task class number
+    3310 ... ERR_BUR_ILLBPTR      Access to an inactive area
+    3311 ... ERR_BUR_ILLTYP       Invalid area code
+    3312 ... ERR_BUR_ILLEXT       Invalid extension bit
+    3313 ... ERR_BUR_ILLVER       Invalid B&R library version
+    3314 ... ERR_BUR_ILLLEN       Invalid length entry
+    3324 ... ERR_BUR_ILLOBJ       Desired object not available
+    3332 ... ERR_BUR_NOENTRY      PV not found
+    3336 ... ERR_BUR_IILIDENT     Invalid ID number
+    9133 ... ERR_EXC_NIL_POINTER  Nil pointer usage with dynamic PVs
+   14700 ... ERR_PV_PVNAME        Invalid PV name
+   14702 ... ERR_PV_WRONG_ARRAY   Invalid array index
+   14703 ... ERR_PV_WRONG_ELEM    Invalid structure element
+   14704 ... ERR_PV_WRONG_KOMP    Invalid components
+   14710 ... ERR_PV_NOTFOUND      PV not found
+   14713 ... ERR_PV_NODETAIL      No PV description available
+   14714 ... ERR_PV_AIXTOOBIG     Array index too large
+
+                                 @230[ Variable Utilities ]                 @001[ Overview ]
+.235
+    PV_ident - Request ID Number of a PV
+
+    status = @235[PV_ident](adr(pv_name),pv_tcno,pv_grpno,adr(pv_ident))
+
+    Parameter Data Types :
+    ->  @237[pv_name   ]: BYTE (ARRAY)  Name of the process variable (string)
+    ->  pv_tcno   : BYTE          Task class of the process variable:
+                                  1 ..... TC#1, HS#1, HS#2, HS#3, HS#4
+                                          (as all high-speed task classes
+                                          use the same data area as TC#1)
+                                  2 ..... TC#2
+                                  3 ..... TC#3
+                                  4 ..... TC#4
+                                  $FE ... Task class irrelevant
+                                  $FF ... Task class and group irrelevant
+    ->  @011[pv_grpno  ]: BYTE          Group number (standard = 0)
+    <-> pv_ident  : LONG          ID number of the process variable
+    <-  @231[status    ]: WORD          Error number (0 = no error)
+
+
+
+                                      @236[ Continue ]                      @001[ Overview ]
+.236
+    PV_ident - Request ID Number of a PV (continued)
+
+    This function returns the ID number of a process variable (PV). This
+    ID number is used in the other variable utilities for identification 
+    purposes. If two or more PVs exist with the same name and different scopes
+    (local, tc_global, pcc_global etc.), the task class of the desired variable
+    (input parameter "pv_tcno") must be entered for clear identification. If
+    two PVs exist with the same name and scopes, and if the value $FE 
+    ($FE = task class irrelevant) is entered for the task class, the PV_ident()
+    function always returns the ID number of the variable with the wider
+    scope.
+
+
+
+
+
+
+
+
+
+
+                                 @230[ Variable Utilities ]                 @001[ Overview ]
+.237
+    PV_ident - Request ID Number of a PV (continued)
+
+    ->  Parameter <pv_name   >: BYTE (ARRAY)
+
+    Name of the variable as a string. The following points should be noted:
+
+    - Strings are always null terminated (as with the C programming language).
+
+    - Strings can be used for three different types of input parameter:
+      adr(string) ... Address of the BYTE array variable contained by the string
+      "constants" ... Constant string (must be in quotation marks!)
+
+    - The string should take the following form:
+      [<Task Name>":"]<PV Name>["["<Number>"]"]["."<Element Name>]
+      <Task Name>     Name of the cyclic task (optional input!)
+      <PV Name>       Name of the process variable
+      <Number>        Index of the array element (optional input!)
+      <Element Name>   Name of the structure element (optional input!)
+
+
+
+                                      @238[ Continue ]                      @001[ Overview ]
+.238
+    PV_ident - Request ID Number of a PV (continued)
+
+    - The contents of dynymic variables can be accessed by entering the
+      character "*" before the PV name (e.g. "*pv_name").
+
+    - Example for PV name:
+      test:data       Variable "data" of the task "test"
+      F_Tank[3]       4th element of the array variable "F_Tank"
+      Point.x         Element "x" of the structure variable "Point"
+      *dyn_var        Contents of the dynamic variable "dyn_var"
+
+
+
+
+
+
+
+
+
+
+
+                                      @235[ PV_ident ]                      @001[ Overview ]
+.239
+    PV_getadr - Request the Address of a PV
+
+    status = @237[PV_getadr](adr(pv_name),pv_tcno,pv_grpno,adr(pv_adr))
+
+    Parameter Data Types :
+    ->  @241[pv_name   ]: BYTE (ARRAY)  Name of the process variable (string)
+    ->  pv_tcno   : BYTE          Task class of the process variable:
+                                  1 ..... TC#1, HS#1, HS#2, HS#3, HS#4
+                                          (as all high-speed task classes
+                                          use the same data area as TC#1)
+                                  2 ..... TC#2
+                                  3 ..... TC#3
+                                  4 ..... TC#4
+                                  $FE ... Task class irrelevant
+                                  $FF ... Task class and group irrelevant
+    ->  @011[pv_grpno  ]: BYTE          Group number (standard = 0)
+    <-> pv_adr    : LONG          Address of the PV for dynamic access
+    <-  @231[status    ]: WORD          Error number (0 = no error)
+
+
+
+                                      @240[ Continue ]                      @001[ Overview ]
+.240
+    PV_getadr - Request the Address of a PV (continued)
+
+    This function returns the address of a process variable. The address
+    can be used for dynamic access.
+
+    In order to avoid a reduction in system performance, this function should
+    only be used in the initialization sub-program!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 @230[ Variable Utilities ]                 @001[ Overview ]
+.241
+    PV_getadr - Request the Address of a PV (continued)
+
+ ->  Parameter <pv_name   >: BYTE (ARRAY)
+
+    Name of the variable as a string. The following points should be noted:
+
+    - Strings are always null terminated (as with the C programming language).
+
+    - Strings can be used for three different types of input parameter:
+      adr(string) ... Address of the BYTE array variable contained by the string
+      "constants" ... Constant string (must be in quotation marks!)
+
+    - The string should take the following form:
+      [<Task Name>":"]<PV Name>["["<Number>"]"]["."<Element Name>]
+      <Task Name>     Name of the cyclic task (optional input!)
+      <PV Name>       Name of the process variable
+      <Number>        Index of the array element (optional input!)
+      <Element Name>   Name of the structure element (optional input!)
+
+
+
+                                      @242[ Continue ]                      @001[ Overview ]
+.242
+    PV_getadr - Request the Address of a PV (continued)
+
+    - The contents of dynymic variables can be accessed by entering the 
+      character "*" before the PV name (e.g. "*pv_name").
+
+    - Example for PV name:
+      test:data       Variable "data" of the task "test"
+      F_Tank[3]       4th element of the array variable "F_Tank"
+      Point.x         Element "x" of the structure variable "Point"
+      *dyn_var        Contents of the dynamic variable "dyn_var"
+
+
+
+
+
+
+
+
+
+
+
+                                      @239[ PV_getadr ]                    @001[ Overview ]
+.243
+    PV_xgetadr - Request Address of a Complex PV
+
+    status = @243[PV_xgetadr](adr(pv_name),adr(pv_adr),adr(pv_len))
+
+    Parameter Data Types :
+    ->  @244[pv_name   ]: BYTE (ARRAY)  Name of the process variable (string)
+    <-> pv_adr    : LONG          Address of the PV for dynamic access
+    <-> pv_len    : LONG          Length of the process variable in bytes
+    <-  @231[status    ]: WORD          Error number (0 = no error)
+
+    This function returns the address and length of a variable, in which 
+    structure or array variables as well as structure or array elements
+    can be entered. The address can be used for dynamic access.
+    If you need the address and length of a particular structure or array
+    element, you can enter the name or index of the desired element directly
+    via the input parameter "pv_name".
+    In order to avoid a reduction in system performance, this function should
+    only be used in the initialization sub-program!
+
+
+
+                                 @230[ Variable Utilities ]                 @001[ Overview ]
+.244
+    PV_xgetadr - Request Address of a Complex PV (continued)
+
+ ->  Parameter <pv_name   >: BYTE (ARRAY)
+
+    Name of the variable as a string. The following points should be noted:
+
+    - Strings are always null terminated (as with the C programming language).
+
+    - Strings can be used for three different types of input parameter:
+      adr(string) ... Address of the BYTE array variable contained by the string
+      "constants" ... Constant string (must be in quotation marks!)
+
+    - The string should take the following form:
+      [<Task Name>":"]<PV Name>["["<Number>"]"]["."<Element Name>]
+      <Task Name>     Name of the cyclic task (optional input!)
+      <PV Name>       Name of the process variable
+      <Number>        Index of the array element (optional input!)
+      <Element Name>   Name of the structure element (optional input!)
+
+
+
+                                      @245[ Continued ]                     @001[ Overview ]
+.245
+    PV_xgetadr - Request Address of a Complex PV (continued)
+
+    - The contents of dynymic variables can be accessed by entering the
+      character "*" before the PV name (e.g. "*pv_name").
+
+    - Example for PV name:
+      test:data       Variable "data" of the task "test"
+      F_Tank[3]       4th element of the array variable "F_Tank"
+      Point.x         Element "x" of the structure variable "Point"
+      *dyn_var        Contents of the dynamic variable "dyn_var"
+
+
+
+
+
+
+
+
+
+
+
+                                     @243[ PV_xgetadr ]                     @001[ Overview ]
+.246
+    PV_setval - Write a Value to a PV
+
+    status = @246[PV_setval](pv_ident,value)
+
+    Parameter Data Types :
+    ->  pv_ident  : LONG          ID number of the process variable
+                                  from @235[PV_ident]
+    ->  value     : LONG          Value assigned to the PV
+    <-  @231[status    ]: WORD          Error number (0 = no error)
+
+    This function assigns a certain value to a process variable. Only variables
+    with simple data types (BIT, INT8, INT16, INT32, BYTE, WORD, LONG or FLOAT)
+    can be written to with this function. For BIT, BYTE and INT8 variables, the
+    value of the PV is always copied to the lowest value byte of the long
+    variable. In the case of WORD and INT16 variables, the PV value is always
+    copied to the least significant word of the long variable.
+    Process variables with complex data types (array or structure variables)
+    can be written to using the PV_xsetval() function.
+
+
+
+                                 @230[ Variable Utilities ]                 @001[ Overview ]
+.247
+    PV_getval - Request the Value of a PV
+
+    status = @247[PV_getval](pv_ident,adr(value))
+
+    Parameter Data Types :
+    ->  pv_ident  : LONG          ID number of the process 
+                                  variable from @235[PV_ident]
+    <-> value     : LONG          Determined PV value 
+    <-  @231[status    ]: WORD          Error number (0 = no error)
+
+    This function reads the value of a process variable. Only the values of
+    variables with simple data types (BIT, INT8, INT16, INT32, BYTE, WORD,
+    LONG or FLOAT) can be read with this function. For BIT, BYTE and INT8
+    variables, the PV value obtained is always copied to the lowest value
+    byte of the long variable. In the case of WORD and INT16 variables, the
+    PV value is copied to the least significant word of the long variable.
+    Variables with complex data types (array or structure variables) can be 
+    be read with the PV_xgetval() function.
+
+
+
+                                 @230[ Variable Utilities ]                 @001[ Overview ]
+.248
+    PV_xsetval - Write a Value to a Complex PV
+
+    status = @248[PV_xsetval](pv_ident,subindex,adr(data),data_len)
+
+    Parameter Data Types :
+    ->  pv_ident  : LONG          ID number of the process variable
+                                  from @235[PV_ident]
+    ->  subindex  : WORD          Element index:
+                                  0 ... Whole array/structure
+                                  1 ... 1. Element of the array/structure
+                                  2 ... 2. Element of the array/structure
+                                  3 ... etc.
+    ->  data      : BYTE (ARRAY)  Data assigned to the PV
+    ->  data_len  : BYTE          Length of the data in bytes
+    <-  @231[status    ]: WORD          Error number (0 = no error)
+
+    Assigns a certain value to a process variable with a complex data type
+    (array variable or structure variable).
+    The PV_xsetval() function can only be used from version 1.10 of the PCC SW
+    onwards! It is not supported by version 1.05 of the PCC SW operating
+    system!
+                                 @230[ Variable Utilities ]                 @001[ Overview ]
+.249
+    PV_xgetval - Request the Value of a Complex PV
+
+    status = @249[PV_xgetval](pv_ident,subindex,adr(data),data_len)
+
+    Parameter Data Types :
+    ->  pv_ident  : LONG          ID number of the process variable
+                                  from @235[PV_ident]
+    ->  subindex  : WORD          Element index:
+                                  0 ... Whole array/structure
+                                  1 ... 1. Element of the array/structure
+                                  2 ... 2. Element of the array/structure
+                                  3 ... etc.
+    <-> data      : BYTE (ARRAY)  Data read
+    ->  daten_len : BYTE          Length of the data to be read in bytes
+    <-  @231[status    ]: WORD          Error number (0 = no error)
+
+    This function reads data from a process variable with a complex data type
+    (array or structure variable).
+    The PV_xgetval() function can only be used from version 1.10 of the PCCSW
+    onwards! It is not supported by version 1.05 of the PCC SW operating
+    system!
+                                 @230[ Variable Utilities ]                 @001[ Overview ]
+.250
+    PV_info - Request Information about a Complex PV (via the ID)
+
+    status = @250[PV_info](pv_ident,adr(data_type),adr(data_len),adr(dimens))
+
+    Parameter Data Types :
+    ->  pv_ident  : LONG          ID number of the process 
+                                  variable from @235[PV_ident]
+    <-> @251[daten_typ ]: LONG          PV data type
+    <-> daten_len : LONG          Length of the PV in bytes
+    <-> @252[dimens    ]: WORD          Number of array or structure elements
+    <-  @231[status    ]: WORD          Error number (0 = no error)
+
+    Reads data from a process variable with a complex data type
+    (array or structure variable).
+
+
+
+
+
+
+
+                                 @230[ Variable Utilities ]                 @001[ Overview ]
+.251
+    PV_info - Request Information about a Complex PV (via the ID)
+
+    <-> Parameter <data_type >: LONG
+
+    Values for the input parameter "data_type":
+
+    ษอออออออออออออัอออออออออออออออออออออหอออออออออออออัอออออออออออออออออออออป
+    บ "data_type" ณ   Corresponding     บ "data_type" ณ   Corresponding     บ
+    บ             ณ     Data Type       บ             ณ      Data Type      บ
+    ฬอออออออออออออุอออออออออออออออออออออฮอออออออออออออุอออออออออออออออออออออน
+    บ      0      ณ Structure           บ      8      ณ FLOAT               บ
+    บ      1      ณ BIT                 บ      9      ณ Visible String      บ
+    บ      2      ณ INT8                บ     10      ณ Octet String        บ
+    บ      3      ณ INT16               บ     11      ณ Date                บ
+    บ      4      ณ INT32               บ     12      ณ Time of Day         บ
+    บ      5      ณ BYTE                บ     13      ณ Time Difference     บ
+    บ      6      ณ WORD                บ     14      ณ Bit String          บ
+    บ      7      ณ LONG                บ     15      ณ Array of Structures บ
+    ศอออออออออออออฯอออออออออออออออออออออสอออออออออออออฯอออออออออออออออออออออผ
+
+
+                                       @250[ PV_info ]                      @001[ Overview ]
+.252
+    PV_info - Request Information about a Complex PV (via the ID)
+
+    <-> Parameter <dimens    >: WORD
+
+    In the case of structures, the "dimens" parameter represents the number
+    of structure elements ("data_type" = 0). For all other data types, this
+    parameter represents the number of array elements.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @250[ PV_info ]                      @001[ Overview ]
+.253
+    PV_list - Search All PVs
+
+    status = @253[PV_list](prev_index,adr(index),adr(pv_struct))
+
+    Parameter Data Types :
+    ->  prev_index: WORD            Index of the PV where the search is to 
+                                    start. If $FFFF is entered, the search
+                                    starts at the first PV.
+    <-> index     : WORD            Index of the PV found
+    <-> @254[pv_struct ]: list structure  Structure where the PV information about
+                                    the PV found is placed
+    <-  @231[status    ]: WORD            Error number (0 = no error)
+
+    The PV_list() function enables all variables to be searched. To do this,
+    the parameter "prev_index" must be set to $FFFF at the first 
+    call. For all other calls, the parameter "index" must be used as new 
+    "prev_index".
+
+
+
+
+                                 @230[ Variable Utilities ]                 @001[ Overview ]
+.254
+    PV_list - Search All PVs (continued)
+
+    <-> Parameter <pv_struct >: list structure
+
+    The PV information about the process variable found is written in the 
+    structure "list". Elements for the structure "list":
+    name       : 14 BYTE (ARRAY)  PV name
+    tc         : BYTE             PV task class
+    group      : BYTE             PV group number
+    ident      : BYTE             PV ID number
+    address    : BYTE             Physical address of the PV
+                                  (for dynamic access)
+
+
+
+
+
+
+
+
+
+                                       @253[ PV_list ]                      @001[ Overview ]
+.255
+    PV_ninfo - Request Information about a Complex PV (via name)
+
+    status = @255[PV_ninfo](adr(pv_name),adr(dat_typ),adr(dat_len),adr(dimens))
+
+    Parameter Data Types :
+    ->  @256[pv_name   ]: BYTE (ARRAY)  Name of the process variable (string)
+    <-> @258[daten_typ ]: LONG          PV data type
+    <-> daten_len : LONG          Length of the PV in bytes
+    <-> @259[dimens    ]: WORD          Number of array and structure elements
+    <-  @231[status    ]: WORD          Error number (0 = no error)
+
+    PV_ninfo() returns the same information as PV_info(). Via name
+    access, structure and array elements can also be accessed 
+    (e.g. "pv.elem[1].subelem").
+
+
+
+
+
+
+
+                                 @230[ Variable Utilities ]                 @001[ Overview ]
+.256
+    PV_ninfo - Request Information about a Complex PV (via name)
+
+    ->  Parameter <pv_name   >: BYTE (ARRAY)
+
+    Name of the variable as a string. The following points should be noted:
+
+    - Strings are always null terminated (as with the C programming language).
+
+    - Strings can be used for three different types of input parameter:
+      adr(string) ... Address of the BYTE array variable contained by the string
+      "constants" ... Constant string (must be in quotation marks!)
+
+    - The string should take the following form:
+      [<Task Name>":"]<PV Name>["["<Number>"]"]["."<Element Name>]
+      <Task Name>     Name of the cyclic task (optional input!)
+      <PV Name>       Name of the process variable
+      <Number>        Index of the array element (optional input!)
+      <Element Name>   Name of the structure element (optional input!)
+
+
+
+                                      @257[ Continue ]                      @001[ Overview ]
+.257
+    PV_ninfo - Request Information about a Complex PV (via name)
+
+    - The contents of dynymic variables can be accessed by entering the
+      character "*" before the PV name (e.g. "*pv_name").
+
+    - Example for PV name:
+      test:data       Variable "data" of the task "test"
+      F_Tank[3]       4th element of the array variable "F_Tank"
+      Point.x         Element "x" of the structure variable "Point"
+      *dyn_var        Contents of the dynamic variable "dyn_var"
+
+
+
+
+
+
+
+
+
+
+
+                                      @255[ PV_ninfo ]                      @001[ Overview ]
+.258
+    PV_ninfo - Request Information about a Complex PV (via name)
+
+    <-> Parameter <dat_typ >: LONG
+
+    Values for the input parameter "dat_typ":
+
+    ษอออออออออออออัอออออออออออออออออออออหอออออออออออออัอออออออออออออออออออออป
+    บ "dat_typ"   ณ   Corresponding     บ "dat_typ"   ณ   Corresponding     บ
+    บ             ณ      Data Type      บ             ณ      Data Type      บ
+    ฬอออออออออออออุอออออออออออออออออออออฮอออออออออออออุอออออออออออออออออออออน
+    บ      0      ณ Structure           บ      8      ณ FLOAT               บ
+    บ      1      ณ BIT                 บ      9      ณ Visible string      บ
+    บ      2      ณ INT8                บ     10      ณ Octet string        บ
+    บ      3      ณ INT16               บ     11      ณ Date                บ
+    บ      4      ณ INT32               บ     12      ณ Time of day         บ
+    บ      5      ณ BYTE                บ     13      ณ Time difference     บ
+    บ      6      ณ WORD                บ     14      ณ Bit string          บ
+    บ      7      ณ LONG                บ     15      ณ Array of structures บ
+    ศอออออออออออออฯอออออออออออออออออออออสอออออออออออออฯอออออออออออออออออออออผ
+
+
+                                      @255[ PV_ninfo ]                      @001[ Overview ]
+.259
+    PV_ninfo - Request Information about a Complex PV (via name)
+
+    <-> Parameter <dimens    >: WORD
+
+    In the case of structures, the "dimens" parameter represents the number
+    of structure elements ("data_type" = 0). For all other data types, this
+    parameter represents the number of array elements.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @255[ PV_ninfo ]                      @001[ Overview ]
+.260
+    PV_item - Request the Name of a Structure Element
+
+    status = @260[PV_item](adr(pv_name),index,adr(itemname))
+
+    Parameter Data Types :
+    ->  @261[pv_name   ]: BYTE (ARRAY)  Name of the process variable (string)
+    ->  index     : WORD          Index of the structure element:
+                                  0 ... 1st structure element 
+                                  1 ... 2nd structure element
+                                  2 ... etc.
+    <-> itemname  : BYTE (ARRAY)  Name of the structure elements (ASCII)
+    <-  @231[status    ]: WORD          Error number (0 = no error)
+
+    The names of structure elements can be determined with the PV_item()
+    function.
+
+
+
+
+
+
+                                 @230[ Variable Utilities ]                 @001[ Overview ]
+.261
+    PV_item - Request the Name of a Structure Element (continued)
+
+    ->  Parameter <pv_name   >: BYTE (ARRAY)
+
+    Name of the variable as a string. The following points should be noted:
+
+    - Strings are always null terminated (as with the C programming language).
+
+    - Strings can be used for three different types of input parameter:
+      adr(string) ... Address of the BYTE array variable contained by the string
+      "constants" ... Constant string (must be in quotation marks!)
+
+    - The string should take the following form:
+      [<Task Name>":"]<PV Name>["["<Number>"]"]["."<Element Name>]
+      <Task Name>     Name of the cyclic task (optional input!)
+      <PV Name>       Name of the process variable
+      <Number>        Index of the array element (optional input!)
+      <Element Name>   Name of the structure element (optional input!)
+
+
+
+                                      @262[ Continue ]                      @001[ Overview ]
+.262
+    PV_item - Request the Name of a Structure Element (continued)
+
+    - The contents of dynymic variables can be accessed by entering the
+      character "*" before the PV name (e.g. "*pv_name").
+
+    - Example for PV name:
+      test:data       Variable "data" of the task "test"
+      F_Tank[3]       4th element of the array variable "F_Tank"
+      Point.x         Element "x" of the structure variable "Point"
+      *dyn_var        Contents of the dynamic variable "dyn_var"
+
+
+
+
+
+
+
+
+
+
+
+                                       @260[ PV_item ]                      @001[ Overview ]
+.700
+    APPENDIX : LIBRARY Information
+
+
+    @701[< General Information >]     Requirements etc.
+
+    @750[< Syntax              >]     Syntax for function explanations
+
+    @800[< Error Numbers       >]     Summary of all error numbers
+
+    @850[< Execution Times     >]     Execution times and stack requirements
+
+    @900[< History             >]     New functions and version changes
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.701
+    B&R Library : General Information
+
+    Note:
+    - Before you can use the B&R library functions in your project, you must
+      import the library into the appropriate project data bank.
+
+    - These library functions can only be used if the library runtime module
+      (B&R module BURTRAP.BR) exists on the PCC (application ROM)!
+
+    - In order to prevent a reduction in system performance, functions which
+      return an identification number (ID number) should only be called
+      once in the INIT SP (initialization sub-program) of the cyclic task.
+      The ID number should not be changed by the application program!
+
+    - Almost all B&R library functions return an @800[Error Number] in the event of
+      an error.
+
+
+
+
+
+                                      @700[ APPENDIX ]                      @001[ Overview ]
+.750
+    B&R Library : Syntax Description
+
+    Data Types:
+    Certain groups of data types are valid for many functions. In order to
+    avoid the need to enter all these data types in a function description,
+    the following group names have been introduced:
+    ษออออออออออหอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออป
+    บ Group    บ  BIT  ณ INT8  ณ BYTE  ณ INT16 ณ WORD  ณ INT32 ณ LONG  ณ FLOAT บ
+    ฬออออออออออฮอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออน
+    บ INTEGRAL บ       ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    วฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ NOT      บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    บ FLOAT    บ       ณ       ณ       ณ       ณ       ณ       ณ       ณ       บ
+    วฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ ALL      บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   บ
+    วฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ ARRAY    บ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  บ
+    ศออออออออออสอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออผ
+      x  Data type is allowed
+     [x] Data type is allowed as array variable or character string 
+
+                                      @751[ Continue ]                      @001[ Overview ]
+.751
+    B&R Library : Syntax Description (continued)
+
+    Arrows:
+    Arrows are used to display input and output parameters. The
+    following arrangement is used for this arrangement:
+    ษอออออออออหออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ  Arrow  บ  Meaning                                                     บ
+    ฬอออออออออฮออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ   ->    บ  Input parameter                                             บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <->   บ  Input/output parameter. Functionally it is an output        บ
+    บ         บ  parameter, but usually carries certain information before   บ
+    บ         บ  the function is called (e.g. address) which may be used as  บ
+    บ         บ  an input to the function. The address is normally a variableบ
+    บ         บ  with adr() [PL2000], or relates to a contact address [LAD]. บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <-    บ  Output parameter                                            บ
+    ศอออออออออสออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                      @752[ Continue ]                      @001[ Overview ]
+.752
+    B&R Library : Syntax Description (continued)
+
+    Function Blocks:
+    Function blocks are not graphically represented in this Online Help.
+    However, you can find all the relevant information about function blocks
+    (i.e. input parameters (->), input/output parameters (<->) and output
+    parameters (<-) in the Online Help).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @700[ APPENDIX ]                      @001[ Overview ]
+.800
+    B&R Library : Error Numbers
+
+    The following list is a summary of all possible B&R library error messages:
+
+    2061 ... ERR_BUR_WRROW        Invalid line entry
+    2062 ... ERR_BUR_WRCOL        Invalid column entry
+    2063 ... ERR_BUR_WR_CHAR      Invalid ASCII character
+    2073 ... ERR_BUR_NORTC        RTC not initialized
+    3030 ... ERR_BUR_NOMEM        No memory available (PCCSW V1.05)
+    3104 ... ERR_BUR_ILLPTR       Invalid pointer for MEM_free (PCCSW V1.05)
+    3300 ... ERR_BUR_ILLTKNR      Incorrect task class number
+    3301 ... ERR_BUR_WROFFSET     Invalid offset for DA_write()
+    3302 ... ERR_BUR_ILLSTATE     Incorrect module/task status
+    3303 ... ERR_BUR_NOMSG        No message for UT_recmsg()
+    3304 ... ERR_BUR_TIMEOUT      Timeout occurred for SM_attach() 
+    3305 ... ERR_BUR_DUPOBJ       Object already exists
+    3306 ... ERR_BUR_EXISTS       Entry/semaphore already exists
+    3307 ... ERR_BUR_LCOUNT       AVT entry cannot be deleted, 
+                                  as the link count <> 0
+
+
+                                      @801[ Continue ]                      @001[ Overview ]
+.801
+    B&R Library : Error Numbers (continued)
+
+    3308 ... ERR_BUR_BURNING      Error occurred with DA_burn()/DA_fix() 
+    3309 ... ERR_BUR_INVALIDMBX   No valid mailbox exists
+    3310 ... ERR_BUR_ILLBPTR      Access to an inactive area
+    3311 ... ERR_BUR_ILLTYP       Invalid area code
+    3312 ... ERR_BUR_ILLEXT       Invalid extension bit
+    3313 ... ERR_BUR_ILLVER       Invalid B&R library version
+    3314 ... ERR_BUR_ILLLEN       Invalid length entry
+    3315 ... ERR_BUR_LCOUNT       Link Count has reached the max. value (127)
+    3316 ... ERR_BUR_AVT_FREE     Link Count = 0 (AVT_release)
+    3320 ... ERR_BUR_OBJDEL       Semaphore deleted during WAIT
+    3324 ... ERR_BUR_ILLOBJ       Desired object not available
+    3328 ... ERR_BUR_ILLOBJTYP    Incorrect object type (module type)
+    3332 ... ERR_BUR_NOENTRY      Object not found
+    3336 ... ERR_BUR_ILLIDENT     Invalid ID number
+    3560 ... ERR_BUR_NOSMBUF      Buffer no longer available
+    3564 ... ERR_BUR_NOSM         Semaphore not available
+    3568 ... ERR_BUR_SMDEL        Semaphore already deleted
+    3584 ... ERR_BUR_NOTIME       No available time
+
+                                      @802[ Continue ]                      @001[ Overview ]
+.802
+    B&R Library : Error Numbers (continued)
+
+    3588 ... ERR_BUR_ILLDATE      Invalid date
+    3592 ... ERR_BUR_ILLTIME      Invalid time
+    3596 ... ERR_BUR_ILLTICKS     Invalid number of ticks
+    3600 ... ERR_BUR_MEM_ALLOC    No memory available (PCCSW V1.10)
+    3601 ... ERR_BUR_TMP_ALLOC    No memory available 
+    3700 ... ERR_BUR_MEM_FREE     Invalid pointer for MEM_free (PCCSW V1.10)
+    3701 ... ERR_BUR_TMP_FREE     Invalid pointer for TMP_free
+    9133 ... ERR_EXC_NIL_POINTER  Nil pointer usage for dynamic PVs
+   14700 ... ERR_PV_PVNAME        Invalid PV name
+   14702 ... ERR_PV_WRONG_ARRAY   Invalid array index
+   14703 ... ERR_PV_WRONG_ELEM    Invalid structure element
+   14704 ... ERR_PV_WRONG_KOMP    Invalid components
+   14710 ... ERR_PV_NOTFOUND      PV not found
+   14713 ... ERR_PV_NODETAIL      No PV description available
+   14714 ... ERR_PV_AIXTOOBIG     Array index too large
+   21002 ... ERR_PMEM_OFFSET      Offset not allowed
+   21003 ... ERR_PMEM_CPUTYP      CPU type has no "fixed memory"
+
+
+                                      @700[ APPENDIX ]                      @001[ Overview ]
+.850
+    B&R Library : Execution Times
+
+    The following table shows execution times for the B&R library functions 
+    and their stack requirements. Since with the exception of the functions
+    Bit2Byte(), Byte2Bit(), PMEM_get(), PMEM_put() and SYS_battery(), all
+    B&R library functions need a max. of 20 bytes user stack, the user stack
+    is not givn in the table! The times were measured on a CP1xx (ME91x,
+    ME96x).
+
+    ษออออออออออออออออหออออออออออออออัออออออออออออออัออออออออออออออออออออออออออป
+    บ Function       บ Execution    ณ Supervisor   ณ Additional Information   บ
+    บ                บ Times [ๆsec] ณ Stack [Bytes]ณ                          บ
+    ฬออออออออออออออออฮออออออออออออออุออออออออออออออุออออออออออออออออออออออออออน
+    บ AVT_attach     บ        415   ณ        244   ณ                          บ
+    บ AVT_cancel     บ        380   ณ        232   ณ                          บ
+    บ AVT_create     บ     > 2440   ณ        350   ณ                          บ
+    บ AVT_ident      บ     >  710   ณ        208   ณ                          บ
+    บ AVT_info       บ        140   ณ        144   ณ                          บ
+    บ AVT_release    บ        410   ณ        240   ณ                          บ
+    ศออออออออออออออออสออออออออออออออฯออออออออออออออฯออออออออออออออออออออออออออผ
+
+                                      @851[ Continue ]                      @001[ Overview ]
+.851
+    B&R Library : Execution Times (continued)
+
+   ษอออออออออออออหออออออออออออออัออออออออออออออัออออออออออออออออออออออออออออออป
+   บ Function    บ Execution    ณ Supervisor   ณ Additional Information       บ
+   บ             บ Times [ๆsec] ณ Stack [Bytes]ณ                              บ
+   ฬอออออออออออออฮออออออออออออออุออออออออออออออุออออออออออออออออออออออออออออออน
+   บ Bit2Byte    บ     >   55   ณ          -   ณ User stack: 52 bytes         บ
+   บ Byte2Bit    บ     >   55   ณ          -   ณ User stack: 56 bytes         บ
+   บ DA_burn     บ   Stop PCC   ณ        416   ณ                              บ
+   บ DA_create   บ     > 4930   ณ        416   ณ                              บ
+   บ DA_delete   บ       1665   ณ        338   ณ                              บ
+   บ DA_fix      บ   Stop PCC   ณ        416   ณ                              บ
+   บ DA_ident    บ     >  805   ณ        204   ณ Dependent on no. of modules  บ
+   บ DA_info     บ        435   ณ        164   ณ                              บ
+   บ DA_read     บ     >  315   ณ        168   ณ Dependent on data length     บ
+   บ DA_write    บ     >  505   ณ        292   ณ Dependent on data length     บ
+   บ DA_store    บ              ณ  300 - 960   ณ Dependent on memory type     บ 
+   บ DA_copy     บ              ณ  300 - 960   ณ Dependent on memory type     บ 
+   ศอออออออออออออสออออออออออออออฯออออออออออออออฯออออออออออออออออออออออออออออออผ
+
+
+                                      @852[ Continue ]                      @001[ Overview ]
+.852
+    B&R Library : Execution Times (continued)
+
+    ษอออออออออออออหออออออออออออออัออออออออออออออัอออออออออออออออออออออออออออออป
+    บ Function    บ Execution    ณ Supervisor   ณ Additional Information      บ
+    บ             บ Times [ๆsec] ณ Stack [Bytes]ณ                             บ
+    ฬอออออออออออออฮออออออออออออออุออออออออออออออุอออออออออออออออออออออออออออออน
+    บ DIS_chr     บ        135   ณ         30   ณ                             บ
+    บ DIS_clr     บ       1570   ณ         18   ณ                             บ
+    บ DIS_str     บ        380   ณ         30   ณ                             บ
+    บ ERR_fatal   บ     E-stop   ณ     E-stop   ณ                             บ
+    บ ERR_read    บ        870   ณ        172   ณ                             บ
+    บ ERR_warning บ       1750   ณ        298   ณ                             บ
+    บ FORCE_info  บ        145   ณ        148   ณ                             บ
+    บ KEY_enadis  บ        115   ณ         88   ณ                             บ
+    บ KEY_read    บ         80   ณ         76   ณ                             บ
+    บ MEM_alloc   บ        540   ณ        198   ณ at   128 bytes              บ
+    บ             บ       1090   ณ        198   ณ at  1024 bytes              บ
+    บ             บ       6380   ณ        198   ณ at 10042 bytes              บ
+    ศอออออออออออออสออออออออออออออฯออออออออออออออฯอออออออออออออออออออออออออออออผ
+
+
+                                      @853[ Continue ]                      @001[ Overview ]
+.853
+    B&R Library : Execution Times (continued)
+
+    ษอออออออออออออหออออออออออออออัออออออออออออออัอออออออออออออออออออออออออออออป
+    บ Function    บ Execution    ณ Supervisor   ณ Additional Information      บ
+    บ             บ Times [ๆsec] ณ Stack [Bytes]ณ                             บ
+    ฬอออออออออออออฮออออออออออออออุออออออออออออออุอออออออออออออออออออออออออออออน
+    บ MEM_free    บ        460   ณ        178   ณ at   128 bytes              บ
+    บ             บ        690   ณ        178   ณ at  1024 bytes              บ
+    บ             บ       2420   ณ        178   ณ at 10042 bytes              บ
+    บ MO_list     บ     >  615   ณ        168   ณ Dependent on no. of modules บ
+    บ PMEM_get    บ         90   ณ          -   ณ User stack: 44 Byte         บ
+    บ PMEM_put    บ         90   ณ          -   ณ User stack: 44 Byte         บ
+    บ PV_getadr   บ     > 1690   ณ        516   ณ Dependent on PV number      บ
+    บ PV_getval   บ        510   ณ        272   ณ                             บ
+    บ PV_ident    บ     > 1730   ณ        512   ณ Dependent on PV number      บ
+    บ PV_info     บ        290   ณ        224   ณ Elementary PV               บ
+    บ             บ  300 - 550   ณ        224   ณ Structure / array           บ
+    บ PV_item     บ     > 1900   ณ        400   ณ User stack: 96 Byte         บ
+    บ PV_list     บ     > 3670   ณ        596   ณ Dependent on PV number      บ
+    ศอออออออออออออสออออออออออออออฯออออออออออออออฯอออออออออออออออออออออออออออออผ
+
+                                      @854[ Continue ]                      @001[ Overview ]
+.854
+    B&R Library : Execution Times (continued)
+
+    ษออออออออออออออออหออออออออออออออัออออออออออออออัออออออออออออออออออออออออออป
+    บ Function       บ Execution    ณ Supervisor   ณ Additional Information   บ
+    บ                บ Times [ๆsec] ณ Stack [Bytes]ณ                          บ
+    ฬออออออออออออออออฮออออออออออออออุออออออออออออออุออออออออออออออออออออออออออน
+    บ PV_ninfo       บ     > 1550   ณ        416   ณ User stack: 176 Byte     บ
+    บ PV_setval      บ        510   ณ        272   ณ                          บ
+    บ PV_xgetadr     บ     > 2250   ณ        544   ณ Dependent on PV number   บ
+    บ PV_xgetval     บ  365 - 490   ณ        282   ณ Dependent on data length บ
+    บ PV_xsetval     บ  365 - 490   ณ        282   ณ Dependent on data length บ
+    บ RTC_gettime    บ  125 / 490   ณ         22   ณ 2010 / 2005              บ
+    บ RTC_settime    บ  185 / 520   ณ         22   ณ 2010 / 2005              บ
+    บ SM_attach      บ         80   ณ         30   ณ                          บ
+    บ SM_create      บ        130   ณ         46   ณ                          บ
+    บ SM_delete      บ        125   ณ         62   ณ                          บ
+    บ SM_ident       บ        100   ณ         38   ณ                          บ
+    บ SM_release     บ         70   ณ         26   ณ                          บ
+    บ ST_allsuspend  บ        500   ณ        108   ณ                          บ
+    ศออออออออออออออออสออออออออออออออฯออออออออออออออฯออออออออออออออออออออออออออผ
+
+                                      @855[ Continue ]                      @001[ Overview ]
+.855
+    B&R Library : Execution Times (continued)
+
+    ษออออออออออออออออหออออออออออออออัออออออออออออออัออออออออออออออออออออออออออป
+    บ Function       บ Execution    ณ Supervisor   ณ Additional Information   บ
+    บ                บ Times [ๆsec] ณ Stack [Bytes]ณ                          บ
+    ฬออออออออออออออออฮออออออออออออออุออออออออออออออุออออออออออออออออออออออออออน
+    บ ST_ident       บ     > 1035   ณ        212   ณ Dependent on task number บ
+    บ ST_info        บ        145   ณ        152   ณ                          บ
+    บ ST_name        บ        385   ณ        144   ณ                          บ
+    บ ST_resume      บ        430   ณ        244   ณ                          บ
+    บ ST_suspend     บ        425   ณ        244   ณ                          บ
+    บ ST_tmp_resume  บ        145   ณ        144   ณ                          บ
+    บ ST_tmp_suspend บ        145   ณ        144   ณ                          บ
+    บ SW_gettime     บ        115   ณ         96   ณ                          บ
+    บ SW_settime     บ        260   ณ        132   ณ                          บ
+    บ SYS_battery    บ          7   ณ          -   ณ User stack: 4 bytes      บ
+    บ SYS_info       บ         70   ณ         42   ณ                          บ
+    บ SYSreset       บ    PCC Reset ณ  PCC Reset   ณ                          บ
+    บ SYSxinfo       บ       1180   ณ        208   ณ                          บ
+    ศออออออออออออออออสออออออออออออออฯออออออออออออออฯออออออออออออออออออออออออออผ
+
+                                      @856[ Continue ]                      @001[ Overview ]
+.856
+    B&R Library : Execution Times (continued)
+
+    ษออออออออออออออออหออออออออออออออัออออออออออออออัออออออออออออออออออออออออออป
+    บ Function       บ Execution    ณ Supervisor   ณ Additional Information   บ
+    บ                บ Times [ๆsec] ณ Stack [Bytes]ณ                          บ
+    ฬออออออออออออออออฮออออออออออออออุออออออออออออออุออออออออออออออออออออออออออน
+    บ TIM_musec      บ         25   ณ         16   ณ                          บ
+    บ TIM_ticks      บ         60   ณ         22   ณ                          บ
+    บ TMP_alloc      บ        305   ณ        202   ณ at   128 bytes           บ
+    บ                บ        315   ณ        202   ณ at  1024 bytes           บ
+    บ                บ        320   ณ        202   ณ at 10042 bytes           บ
+    บ TMP_free       บ        320   ณ        202   ณ at   128 bytes           บ
+    บ                บ        325   ณ        202   ณ at  1024 bytes           บ
+    บ                บ        330   ณ        202   ณ at 10042 bytes           บ
+    บ UT_freemsg     บ        115   ณ         62   ณ                          บ
+    บ UT_ident       บ      > 935   ณ        220   ณ Dependent on task number บ
+    บ UT_recmsg      บ  Idle time t.ณ  Idle time t.ณ                          บ
+    บ UT_resume      บ        520   ณ        248   ณ                          บ
+    บ UT_sendmsg     บ        305   ณ        148   ณ                          บ
+    บ UT_suspend     บ        495   ณ        248   ณ                          บ
+    ศออออออออออออออออสออออออออออออออฯออออออออออออออฯออออออออออออออออออออออออออผ
+                                      @700[ APPENDIX ]                      @001[ Overview ]
+.900
+    B&R-Library : History - Version Changes
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.19 -> V1.20  ณ CURRENT VERSION: New functions                          บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Extension: DA_store() and DA_copy()                                     บ
+  บ - Extension: SYS_reset() now generates an entry in the error module       บ
+  บ - Extension: ERRxread() and ERRxwarning() available with RPSSW >= V2.00   บ
+  บ - Error correction: PV_list() when using dynamic variables                บ
+  บ - Error correction: DA_info() now regognizes the memory type DMEMORY      บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V1.18 -> V1.19  ณ PREVIOUS VERSIONS: Error correction                     บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ Errors corrected in PV functions for the CP260, CP200 and CP210.          บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+                                      @901[ Continue ]                      @001[ Overview ]
+.901
+    B&R Library : History - Version Changes
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.17 -> V1.18  ณ PREVIOUS VERSIONS: New functions                        บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ Error correction with the functions PV_ninfo() and PV_item().             บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V1.16 -> V1.17  ณ PREVIOUS VERSIONS: New functions                        บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - The functions Bit2Byte() and Byte2Bit() are now supported on all CPUs   บ
+  บ - PV_ninfo() and PV_item() integrated as functions.                       บ
+  บ - Error correction for PV_getadr() with local bit variables.              บ
+  บ - Error correction for PV_xgetadr() with dynamic PVs.                     บ
+  บ - Change of PV functions (stack requirement and run times).               บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V1.15 -> V1.16  ณ PREVIOUS VERSIONS: New functions                        บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Support of the new CPU CP200 (MO_list(), PV functions).                 บ
+  บ - Error correction for the functions PV_info() and PV_xgetadr().          บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+                                      @902[ Continue ]                      @001[ Overview ]
+.902
+    B&R Library : History - Version Changes (continue)
+
+  ษอออออออออออออออออัออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.14 -> V1.15  ณ PREVIOUS VERSIONS: New functions                         บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Extension: SW_gettime(), SW_settime()                                    บ
+  บ - Supports the new CPU XP152.                                              บ
+  ฬอออออออออออออออออัออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V1.13 -> V1.14  ณ PREVIOUS VERSIONS: New functions                         บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ DA_read() couldn't read the last byte of a data module.                    บ
+  ฬอออออออออออออออออัออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V1.12 -> V1.13  ณ PREVIOUS VERSIONS: New functions                         บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - PV_list() doesn't function correctly after tasks are removed.            บ
+  บ - ST services incorrectly returned an error status with "ITSELF".          บ
+  บ - For PCCSW V1.05, the errors in version BURTRAP V1.07 have been corrected.บ
+  ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                      @903[ Continue ]                      @001[ Overview ]
+.903
+    B&R Library : History - Version Changes (continue)
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.11 -> V1.12  ณ PREVIOUS VERSIONS: New functions                        บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - The number of functions has been expanded with the functions            บ
+  บ   PV_xgetadr(), PV_list(), DA_read(), ERR_read(), SYSxinfo(), MO_list(),  บ
+  บ   PMEM_get(), PMEM_put(), Bit2Byte() and Byte2Bit().                      บ
+  บ - The function DA_ident() only returns the status 0 = ERR_OK, when the    บ
+  บ   module completely exists on the PCC (e.g. during download).             บ
+  บ - For arrays, the PV_info() function returns the data type of the array   บ
+  บ   element. For arrays of structures, the number of array elements.        บ
+  บ - The run time and stack requirements of the functions was documented.    บ
+  บ - For PCCSW V1.05, the functions were updated, and version BURTRAP V1.06  บ
+  บ   was created, which corresponds to version V1.12, apart from the         บ
+  บ   functions PV_xgetval(), PV_xsetval() and DA_fix(), which are not        บ
+  บ   supported.                                                              บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                      @904[ Continue ]                      @001[ Overview ]
+.904
+    B&R Library : History - Version Changes (continue)
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.10 -> V1.11  ณ PREVIOUS VERSIONS: New functions                        บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - The new function SYS_battery() determines the status of the battery     บ
+  บ   and rech. battery status.                                               บ
+  บ - The functions MEM_alloc(), MEM_free(), TMP_alloc(), TMP_free(),         บ
+  บ   SM_create(), SM_ident() and TIM_ticks() were corrected, so that they    บ
+  บ   can also be used in user-defined FBKs.                                  บ
+  บ Note: The module "burtrap.br" has not changed from version V1.10 to V1.11.บ
+  บ Only the PG library module "burtrap.slb", this Help file and the          บ
+  บ C interface libraries for idle time tasks have been revised!              บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+                                      @905[ Continue ]                      @001[ Overview ]
+.905
+    B&R Library : History - Version Changes (continue)
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.05 -> V1.10  ณ PREVIOUS VERSIONS: New functions                        บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ New Function Groups:                                                      บ
+  บ - KEY functions for switching on/off CPU key handling via the system      บ
+  บ   software or for reading the key status.                                 บ
+  บ - SYS functions for resetting the PCC or for reading system information.  บ
+  บ - FORCE function which determines if a task class is being forced.        บ
+  บ - TMP functions for allocating temporary RAM, which must be re-allocated  บ
+  บ   after a POWER FAIL.                                                     บ
+  บ Function Group Extensions:                                                บ
+  บ - DA function for fixing in FIX RAM.                                      บ
+  บ - PV functions for accessing arrays and structures.                       บ
+  บ - ST functions for determining the name of a PCC task.                    บ
+  บ The service group PIO_*() for explicit data-transfers (shoveling) no      บ
+  บ longer exists, it has been replaced by the directIO FBKs, which are more  บ
+  บ efficient and easier to use.                                              บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+                                      @700[ APPENDIX ]                      @001[ Overview ]
+
+
+
+.End

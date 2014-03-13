@@ -1,0 +1,163 @@
+reserviertreserviertreserviertreserviertreserviertreserviert** Fehler %u** Fehler %u:%s
+** Fehler %u : %s
+ ** Fehler %u auf der RPS :
+ %s
+ ** Lade-Fehler %s Neueintrag - nur Mitteilung     Falsche Verwendung              Nicht der richtige Record       schlechter Attributvergleich    keinen Label mehr eintragen     Falsche Namensliste             Falscher Index fr Namensliste  Eintrag bereits vorhanden       Eintrag nicht gefunden          Eintrag an Pos. index gel”scht  Fehler in der Hash-Table        PV nicht gefunden        Datentyp nicht gefunden  IO-Modul nicht gefunden  Unbekannte Taskklasse        Unbekannter IO-Typ           Keine Teiladresse vorhanden  unbekannter Typ              unerlaubte Feldl„nge         Schachtelungstiefe ueberschritten  Unteschiedliche Typen        Bit- u. Byte gemischt        Maximalanzahl der Komponenten ueberschritten  Unterschiedliche Anzahl      Unterschiedliche L„ngen      ungltige PV-Deklaration     Keine Verkettung der Prozessorseite  Ungltiger Offset einer FUB-Alias Variablen.
+ => Optimieren notwendig ! Fehler bei INTISAM            Pfadname existiert nicht      DB-File wurde nicht creiert   DB-File wurde nicht geschl.   DB-File wurde nicht ge”ffnet  Fehler beim Wiederherstellen  Unerlaubter Zugriff           Bei ungltiger DB-Aktion      Noch kein READ_FIRST gemacht  Zweites READ_FIRST gemacht    Kein Aktionsende durchgefhrt  Max. Prozessoranzahl berschritten  Die RPS existiert nicht       Der Processor existiert nicht  DB-File ist bereits ge”ffnet  DB-File bei Zugriff nicht ge”ffnet  unbekannter Modus        Fehler beim Write        Fehler beim Read         Fehler beim Update       Fehler beim Delete       falscher oder unerlaubter Modus  falsche Spezifikation    Eintrag darf nicht ge„ndert werden  Falscher SRC-Typ  Fehler bei ”ffnen des Files      Versionsnummer nicht gelesen     Versionsnummer nicht geschrieben  Unterschiedliche Versionen       Achtung: Upgedatete Version      Fehler beim allocate       Kein Platz mehr im Memory  Kein Name angegeben        Keine oder falsche Nummer  File kann nicht ge”ffnet werden  Logfile kann nicht ge”ffnet werden  Keine Benutzerrechte fr die Aktion  Keine nderungen erlaubt   Position nicht gefunden oder falsch  Kein Record vorhanden  PV-Verkettung darf nicht ge„ndert werden  N„chster Processor gefunden  Datentypen passen nicht zusammen  Die Feldl„ngen passen nicht zusammen  Bitnummer berschreitet Processorbereich  Falscher Processor eingestellt  Hardwareinitialisierung fehlerhaft!
+ Programmstart nicht m”glich! Programmabbruch!
+ Fensterer”ffnung nicht m”glich! CSCAPE - Fehler                           Hardwareinitialisierung fehlgeschlagen    Fehler im Userverzeichnisfile  user.pri   Fehler in den Directoryangaben user.pri   Speicherplatzbedarf ist zu hoch.
+ Programm beendet! Konfigurationsdatei ging verloren.
+ Programm beendet! Help-Konfiguration paát nicht.
+Hilfstextanzeige nicht m”glich. Menkonfiguration fehlerhaft.
+ Programm beendet! Fensterkonfiguration nicht in Ordnung.
+ Programm beendet! Standardfenster nicht konfigurierbar.
+ Programm beendet! Sonderfenster nicht konfigurierbar.
+ Programm beendet! Fensterfarbenkonfiguration fehlerhaft Konfiguration Errorhandler fehlerhaft Tabedikonfiguration fehlerhaft Recordaufbau fehlerhaft Unbekannte Tabellenfunktion Datenbanklesefehler Fenster wird zu klein  Fenster wird zu groá  Speichermangel beim Aufbau der Fileselektorbox Speichermangel beim Aufbau eines Sonderfensters Speichermangel beim Setzen des Seitenumbruch-Raster Texte fehlen !
+ Programm beendet! FV_TOO_MANY_ATWIN  FV_NO_ATWIN  FV_NO_PARENT  gewnschter File nicht vorhanden II_MAC_NOTFOUND  II_MAC_FATAL  II_MAC_FILEKAPUTT  II_MAC_MEM  II_MAC_FOPEN  Disk voll oder falscher Pfad
+ Aktion fehlgeschlagen! Fehlerhafter Eintrag im Projektfile !
+ Projekt l”schen abgebrochen ! Fehlerhafte DBK-Initialisierung!
+ Projekt wird nicht ge”ffnet. Zu wenig Speicherplatz fr Menzeile.
+ Programm beendet! Menkonfiguration fehlerhaft.
+ Programm beendet! Menkonfiguration fehlt.
+ Programm beendet! Anzahl der Menpunkte falsch Konfiguration Tabelleneditor fehlerhaft Zu viele PV's - 
+ Suche wird abgebrochen ! Keine PV's gefunden -
+ Suchmaske „ndern ! Keine Prozessoren zur Auswahl ! Keine PV's zur Verkettung
+ vorhanden !CPU-PV darf nicht ge„ndert werden ! Sourcefile ”ffnen schiefgegangen. Konfiguration ”ffnen schiefgegangen. Speicher ist aus. Dokument kann nicht erstellt werden. Ausgabe-Datei fr Druck kann nicht ge”ffnet werden Nicht definierte Variable. Konfiguration fr Drucker fehlt. Zeilenzahl zu klein Druckertreiber PRINT nicht geladen, Ausdruck nicht direkt moeglich. Ausdruck nicht moeglich. Aufruffehler - Applikationsunterstuetzung anrufen ! Datei bzw. Directory nicht gefunden, bitte Namen pruefen. Drucker (Laufwerksbezeichnung) nicht gefunden. Zuviele Dateien in Warteschlange. Bitte warten und wieder versuchen. Druckerwarteschlange ist nicht leer.                                  Operation erfolgreich abgeschlossen keine Antwort von RPS w„hrend Wartezeit ein Auftrag wurde mit einem unerwarteten Message-Code beantwortet falscher Typ Objekt existiert nicht auf der RPS Objektverzeichnis ist unleserlich malloc failed Verbindung fehlt Benutzer hat Operation abgebrochen maximale Anzahl der Eintr„ge erreicht unbekannter Lade-Fehler: %s Modul ist bereits vorhanden Modul ist kein BR-Modul Modultyp oder -Gruppe sind inkonsistent Modul-Name oder -Index sind inkonsistent Modul-Name ist inkonsistent Kein Speicher im RAM oder FLASH oder zuwenig FIXRAM konfiguriert Modul Checksummen-Fehler beim Modul installieren :
+ %s Segment-Fehler 9 im Download Message-Fehler 10 im Download Message-Fehler 11 im Download Message-Fehler 12 im Upload Modul-Gruppe ist inkonsistent Datenl„nge ist inkonsistent Versionsnummer ist inkonsistent Falscher Zustand der Verbindung Fehler beim Speichern (Schreibschutz ?) NC-Update nicht m”glich, eventuell NC-Manager nicht aktuell Fehler beim NC-Update ---- Keine Verbindung zur RPS ----
+ RPS-Reset nicht m”glich Modem meldet sich nicht !
+ Bitte Verbindung berprfen. Bootmanager
+ Falsches Port wird referenziert Bootmanager
+ Handle ist falsch Bootmanager
+ ist schon aktiv Bootmanager
+ ist nicht aktiv Bootmanager
+ Keine Information fr diesen Flashspeicher Bootmanager
+ Kommando ist aktiv Bootmanager
+ Fehler bei Filebehandlung Bootmanager
+ Fehler bei L”schen des Flash Bootmanager
+ Verlorene Verbindung Bootmanager
+ Falsche Baudrate Bootmanager
+ Kaputte Nachricht Bootmanager
+ Fehler in Kommando aus DL-File Bootmanager
+ Fehler in Kommando aus DL-File Bootmanager
+ keine Check Callback (fatal) Bootmanager
+ falsches Tag Bootmanager
+ zuwenig Daten Bootmanager
+ interner Fehler - Daten inkonsistent Bootmanager
+ Ungltige Dateneingabe Bootmanager
+ Kein gueltiges Systemfile zur Auswahl ! Bootmanager
+ šbertragung aktiv Bootmanager
+ Unglitiger šbertragungsstatus Bootmanager
+ Fehler bei Verbindungsaufbau !
+ (SPS m”glicherweise gerade im L”schmodus
+ Bitte Systemdownload wiederholen)   Zu wenig Speicherplatz  Falsche Listenkennung beim Verlaengern der Liste  Falsche Objekttabellenkennung  Ungueltige Datenbaumposition  Keine PVs im Datenbaum  Schleife im Datenbaum  Fehler beim Initialisieren eines GDM-Fensters  Fehler beim Oeffnen eines NV-Files zu einem Task  Fehler beim Initialisieren der NV zu einem Task  Fehler beim Make aufgetreten
+ Compile-Vorgang abgebrochen Undeklarierte Variablen
+ Compile-Vorgang abgebrochen PG- und GDM-Version stimmen nicht
+ berein. Bitte konvertieren ! Symbol ohne Namem
+ Projektbearbeitung abgebrochen Task auf der RPS nicht verfgbar.
+ Kein Statustest m”glich. Rebuild nicht m”glich !
+ Keine RB-Info im Datenmodul Speicher mangel
+ gewnschte Funktion nicht ausfhrbar. TB_WRONG_MODE  Rebuild nicht m”glich !
+ Keine RB-Info im Task I PV-Definition in RB-Info fehlt.  I kein Textbuffer vorhanden  I keine FUB-Info im RB-Block  Maximaler Offset fr Variable berschritten  Falsche oder inkompatible Rebuild-Information Falscher Modultyp,
+ kein Rebuild m”glich ! Maximale Codelaenge berschritten B doppelte Vergabe eines Label-Index I Referenzierter Label nicht definiert BI Overflow des Label-Offset Maximale Laenge fuer Variable berschritten  I Adressregister fr den Taskbuilder gesperrt I Illegale Registerkennung fr den Taskbuilder B Ungltiger Character in einem PV-Namen B Definition mehrerer PV's auf einen analogen
+ (transp.) Ausgang B Auf einem HW-Modul kommt es zu einer šberlagerung
+ mehrerer PV's. Kann auch bei nderungen passieren.
+ In diesem Fall hilft Neuinit. B Offset-Liste voll, zu viele verschiedene
+ IO-Typen (>50) V darf ab Version V1.06 nicht mehr auftreten I Falscher SuperAWL-Code fr den Taskbuilder B Adressierungsart absolut long fr die RPS nicht erlaubt I zwei <eA> bei Befehlsklasse 17 B nicht erlaubter IO-Typ fr SSTask I nicht erlaubter Operanden-Typ I Befehl bei NOTBIT-Emulation noch nicht untersttzt   Neukonfiguration oder Neuinit. der   DB mit Generieren und S„ubern notw. V Noch nicht untersttzer IO-Typ B Nicht erlaubter IO-Typ fr diese Taskklasse Descriptorfile nicht gefunden
+ bzw. zu viele offene Files falsche Reihenfolge der Zeilen im Descriptorfile
+ bzw. fehlender Variableneintrag :I - Zeile an falscher Pos. :O - Zeile an falscher Pos. :S - Zeile an falscher Pos. :T - Zeile an falscher Pos. Syntaxfehler im Descriptorfile :
+ ':<falscher Character>' FUB-Name nicht als erste Anweisungszeile
+ bzw. Kommentarzeile ohne ';' FUB-Name zu lang Definitionsfehler !
+ Datentypdefinition zu sp„t ! :U oder :F an falscher Pos. :K<A|I|L>; Kennung an falscher Pos. Definitionsfehler !
+ unbekannter Datentyp ! B unbekannter Datentyp B Fehler bei Stringeingabe B Fehler bei der Nummerneingabe B  Zuwenig Platz fr die ben”tigten Bl”cke im RIO - DPR I  Offset und Block passen nicht zusammen BI Blockoverflow, Neuinit und Generieren kann helfen I  falsche RIO-Blocknummer B kein Offset am IP definiert I  ungltiges Handle B  Initialisierung bei laufender RPS I  Lesen einer nicht aktiven PV nicht m”glich B  zu viele PV's fr den Profibus-Frame B  zu viele Listen ge”ffnet I  falscher PV-Index fr die PS-Funktionen B  PV noch nicht vom Taskbuilder bearbeitet
+ bzw. durch Neuinit rckgesetzt !! B  Noch keine PV's in die Liste eingetragen I  PV-Anzahl stimmt nicht mit Liste berein BI Definition der Liste auf der RPS fehlerhaft I  Block fr einmaligen Zugriff zu groá B  Lokale PV's nur fr einen Task m”glich B  dasselbe gilt fr's FUB-Memory
+ V  Inline-FUB's in bis V1.08 nicht untersttzt. B  L”schen und Einfgen ganzer Struktren nicht untersttzt. B  Feldindex berschritten Abbruch einer Aktion durch den Benutzer Task auf der RPS nicht vorhanden !
+ Statustest nicht m”glich. Falscher Task-Status; Dienst wird nicht ausgefhrt Falscher Modus bei Aufruf der Funktion Status: Bildschirmupdate durchfhren Task auf RPS ga„ndert ! Reload keine Verbindung mit der RPS Status: Variable geforcet Keine Liste mehr verfgbar ungltige Adresse max. Anzahl an geforcten PVs erreicht Fehler beim Laden des Moduls
+ von der RPS Fehler beim String-Upload NULL-Pointer Zugriff ! Fehler beim Laden der optimierten
+ Schaufeltabelle von der RPS ! Subfunction not yet implemented To many locked areas VM-Blocksize exceeds maximum size to many open VM-Blocks VW-Files attached VM-Block not free'd invalid handle or closed handle invalid File ID invalid Block ID Failure moving to/from extended Memory Nonsens Argument to function no indirect memory available not enough core memory (malloc failed) not enough upper memory block not enough high memory area not enough LIM-EMS memory not enough LIM-XMS memory not enough extended memory not enough Swapfile invalid Filename File is not a valid Data-File Error: VM-offset to big Error: VM-length to big Error: Object is write-protected Failure mapping in expanded Memory storage class limit exceeded Warning: area was not locked Fatal: Error in Block-Directory Error: unable to open message file Error: message file too big Error: no memory for messages Error: no memory for tables Warning: multiple used text number Warning: cant interpret message line Fatal: not enough core for init (DOS fn 0x48) Fatal: out of disk space Fatal: swap file not opened Warning: File did not exist, was created Warning: File existing Warning: Block already exists Error: File locked by another user Error: DOS returns error: check errno Error: Failed sopen(handle,...) Fehler bei Datei ”ffnen.
+ Invalid function number Fehler bei Datei ”ffnen.
+ No such file or directory Fehler bei Datei ”ffnen.
+ Path not found Fehler bei Datei ”ffnen.
+ Too many open files Fehler bei Datei ”ffnen.
+ Permission denied Fehler bei Datei ”ffnen.
+ Bad file number Fehler bei Datei ”ffnen.
+ Memory arena trashed Fehler bei Datei ”ffnen.
+ Not enough memory Fehler bei Datei ”ffnen.
+ Invalid memory block address Fehler bei Datei ”ffnen.
+ Invalid environment Fehler bei Datei ”ffnen.
+ Invalid format Fehler bei Datei ”ffnen.
+ Invalid access code Fehler bei Datei ”ffnen.
+ Invalid data Fehler bei Datei ”ffnen.
+ No such device Fehler bei Datei ”ffnen.
+ Attempted to remove current directory Fehler bei Datei ”ffnen.
+ Not same device Fehler bei Datei ”ffnen.
+ No more files Fehler bei Datei ”ffnen.
+ Invalid argument Fehler bei Datei ”ffnen.
+ Arg list too big Fehler bei Datei ”ffnen.
+ Exec format error Fehler bei Datei ”ffnen.
+ Cross-device link Fehler bei Datei ”ffnen.
+ Math argument Fehler bei Datei ”ffnen.
+ Result too large Fehler bei Datei ”ffnen.
+ File already exists Fehler bei Datei ”ffnen.
+ Possible deadlock Error: Failed close(handle) Fehler bei Datei schlieáen.
+ Invalid function number Fehler bei Datei schlieáen.
+ Bad file number Error: Failed seek(handle,...) Error: Failed read(handle,...) Fehler bei Datei lesen.
+ Invalid function number. Fehler bei Datei lesen.
+ Bad file number Fehler bei Datei lesen.
+ Path not found Fehler bei Datei lesen.
+ Too many open files Fehler bei Datei lesen.
+ Permission denied Fehler bei Datei lesen.
+ Bad file number Fehler bei Datei lesen.
+ Memory arena trashed Fehler bei Datei lesen.
+ Not enough memory Error: Failed write(handle,...) Fehler bei Datei schreiben.
+ Invalid function number. Fehler bei Datei schreiben.
+ Bad file number Fehler bei Datei schreiben.
+ Path not found Fehler bei Datei schreiben.
+ Too many open files Fehler bei Datei schreiben.
+ Permission denied Fehler bei Datei schreiben.
+ Bad file number Fehler bei Datei schreiben.
+ Memory arena trashed Fehler bei Datei schreiben.
+ Not enough memory Error: Failed changesize(handle,...) Error: Failed access() Error; Failed lock(handle,...) Zu wenig Speicherplatz. Konfiguration fehlerhaft Falsche Objekttabellenkennung Ungueltige ObjektID Falscher Objektstrukturindex Keine gueltige Polygonlinie Kein Objekt an der angegebenen Stelle Kein selektiertes Objekt Keine gueltige Gruppe Kein gueltiger KOP-Symbolindex Kein gueltiger GDM-Symbolindex Ungueltige Richtung bei Cursorbewegung Negative Rasterkoordinaten Negative Charakterkoordinaten ted-Textbuffer voll Keine gueltige Linie Ungueltiger Liniencharakter Ungueltiger Editortyp Zu loeschende Zeile nicht leer Kein Pointer auf eine Objekttabelle GE-Kern-Text zu lang Kein gueltiger GRAFCET-Symbolindex Block kann nicht eingefgt werden.
+ Andere Symbole wrden ueberzeichnet Markiermodus eingeschaltet oder Blockbuffer leer  Versionen stimmen nicht ueberein  Zu wenig Speicherplatz Hier darf keine Linie stehen,
+ n„chstes Kommando eingeben. In Spalte 1 bitte keinen
+ Ausgang setzen Linientypen passen nicht zusammen Analoge Kontakte drfen nur in der
+ ERSTEN Spalte stehen. KOP enth„lt Fehler. Bitte ausbessern
+ sonst wird nicht compiliert. In analogen Linien sind keine
+ Verzweigungen m”glich. Feld enth„lt schon ein Symbol FUB hat hier keinen Platz Ausgang ben”tigt Name,
+ keine Konstante Das ist keine dig. Konstante Konstante enth„lt unerlaubte Zeichen Ungltiger PV - Name ungltiger Name  falscher FUB-Index  kein Positionsindex gefunden  Kontaktplan ist leer Datenbank enth„lt keine Fubs UPs k”nnen im KOP noch nicht
+ verwendet werden Die maximale Spaltenanzahl ist erreicht ! Kein analoger Eingang fr die Stringkonstante Keine dynamischen Variablen erlaubt Zu wenig Speicher IL_LONG_ERR  Kein Editor verfgbar. Fehler bei šberprfung gefunden. Fehler bei Initialisierung
+ der Variablendeklaration externer AWL-Quelltext nicht lesbar undeklarierte PV's, Schlieáen abgebrochen  AWL-Quelltext ist zerst”rt.
+ Fehlerhafte Zeichen. Versuch, im FOLLOW-Mode den Text zu verlassen ERR_CG_UNKNOWN  ERR_CGAO_SWITCH  I  Fehler beim Lesen eines Token ERR_CG_ESTCK_NOT_EMPTY  ERR_CG_NO_EMIT_OP  ERR_CG_LSTCK_NOT_EMPTY  ERR_CG_LSTACK  B  Einfache Pv wird als Feld verwendet B  Bereich der ACTIONS berschreitet
+ Maximalanzahl! (512 ?) B  Bereich der ACTIONS berschneidet sich B  Erster Parameter der Function muá ein Inparameter (AKKU) sein B  Parameteranzahl fr Fub zu groá  ERR_CG_FUB_PARAM  B  Es wird Versucht einen Wert auf einen Ausdruck zuzuweisen.
+ Vorsicht bei Fub-Outparametern IB Kein freies D-Register fr Offsetberechnung:
+ Feld-Schachtelungstiefe zu hoch ERR_CG_NO_FREE_REG  I  Zuwenig Speicher IB ev. zu tief verschachtelter Ausdruck ERR_CG_ESTACK_UNDERFLOW  ERR_CG_WRONG_DYN_MOD  B  Links vom Access-Operator steht keine dynamische Variable ERR_CG_WRONG_FUB_MOD  IB Fehler beim Interpretieren des Inlinefubcodes.
+ (Status des Interpreters als Message) B  Case-Auswahl = Konstant ERR_FKT_STACK_OVERFLOW  Zuweisung auf eine Konstante  I  Befehl bei NOTBIT-Emulation noch nicht untersttzt I  Adressoperator auf nicht <ea> I  Zuwenig Speicher B  Datentyp der linken Seite einer Zuweisung ist
+  B  Datentypen nicht zusammenpassend B  Operation auf diesen Datentyp nicht erlaubt    Feldindex kein Integraler Datentyp B  Zeilentyp noch nicht implementiert B  Exitif ohne Loop-Block I  Zuviele Labels I  Zuwenig Speicher B  Zeilen- oder Tokenblock kann nicht ge”ffnet werden I  Zuwenig Speicher I  Operation mit 2 Effektivadressen ERR_AG_ADR_NOT_LONG  ERR_AG_MULDIV  ERR_AG_FATAL  ERR_AG_CLOSE  ERR_AG_EXG_REG  ERR_AG_DEBUG  ERR_AG_T1  B  Akku nicht durch eine LADE-OPERATION definiert B  AWL-Block ist nicht geschlossen! (Klammerebenen!) B  Action-Bereich nicht zul„ssig I  Zuwenig Speicher I  Zuwenig Speicher ZP_ERR_ZEILE_ZU_GROSS  B  Negation einer Float-Konstante ZP_ERR_STRING_UPDATE  B  Logische Op. auf Float od String ZP_ERR_NO_INTEGRAL_KONST  IB Zu tief verschachtelte Zeile B  Warning: Negative Konstante die |absolut| > (2 hoch 31) B  Entsteht bei Konstantenverknpfung Zuviele Labels B  Zweimal derselbe Label B  ELSE ohne IF B  ENDIF ohne IF B  EXITIF ohne LOOP-Block B  ENDLOOP ohne LOOP B  ENDCASE ohne CASE B  ACTION ohne CASE I  Zeilentyp nicht Implementiert I  Fataler Fehler B  Blockkonstrukt nicht abgeschlossen I  Zuwenig Speicher B  Label nicht vorhanden B  Statelabel mit gew”hnlichem Label verwechselt B  Fehler in Selectblock B  Anweisung nicht in Action_block Fehler beim Laden Task nicht verfgbar Task nicht installierbar keine Verbindung zur RPS Fehler in INIT-Phase Falscher Source-Typ Source-File kann nicht ge”ffnet werden Altes Debug-Info-Format Zuwenig Blockspeicher, andere Fenster schlieáen Keine Debug-Info, einzeiliger Task Source-Block nicht lesbar Debug-Domain nicht verfgbar Debuggerfile nicht verfgbar Zuwenig Speicherplatz anderer Fehler beim Laden Bur-File kann nicht ge”ffnet werden br-File nicht vorhanden oder zu alt B  Klemmbrett voll, L”schen hilft IB kein Eintrag im Klemmbrett gefunden I Blockgr”áe berschritten I  falsches Klemmbrett-Handle I  falscher Sub-Eintrag I  zuviele Sub-Eintr„ge (> 16) I  falscher Subeintrag FUB-Editor konnte nicht initialisiert werden Curser steht im FUB Fehler beim verschieben eines Kontaktes kein Name fuer I/O_Variable Doch nicht aussteigen Fehler beim sichern Keine Elemente in der Ein-/Ausgangsliste Eingabe wurde mit <ESC> o. <CANCEL> beendet gewaehlter Name ist bereits in FUB ungueltiger Variablenname Kein FUB-Block im File VD wird doch nicht verlassen ungueltiger Parameter wurde uebergeben Keine Prozessoren vorhanden Fehler beim Initialisieren der VM-Liste Falscher IO-Typ Prozessor wurde bei inakt. VD umgeschaltet Keine PV's zur Bearbeitung vorhanden Falsche IP-Verkettung Falscher Modus Keine Datentypen vorhanden Abbruch der TD durch Benutzer Keine Komponenten vorhanden Rekursive Strukturdefinitionen
+ sind nicht erlaubt! Fehler beim Sichern der Struktur Fehlerhaftes o. falsches Exportfile Fehler beim Exportieren eines Datentyps Fehler beim Importieren eines Datentyps Falscher Listenindex Filekennung o. Versionsnr. stimmen nicht Abbruch der Aktion durch den Benutzer Eingabe wurde mit ESC verlassen TE_TOOBIG  Falscher Feldtyp bei Subtabellen Cursor nicht ber Feld (Maus) Fehler beim setzen eines Filters TAB-Editor konnte nicht initialisiert werden Falscher Modus fr diese Aktion Fehler beim Drucken einer Liste VM-Liste nicht initialisiert Fehler beim Schreiben der Liste in einen File Fehler beim Auslesen der Liste aus einen File Fehler beim ™ffnen einer Datei. Diesen KOP gibt es nicht VW Stack ist voll Fehler im KOP: Verzweigung am Anfang Fehler in KP_getInhalt->fehlerhafte Matrix VWRW Stack ist voll Verzw.stack wurde nicht vollst.abgearbeitet kein Register mehr frei Fehler im KOP: Richtungs„nderung Verzw.substack ist voll Kurzschluá Dieser Ausgang wird nie erreicht Diese Verzweigung wird nie erreicht KOP enth„lt sinnloses Linienkonstrukt Verzweigung hat keinen
+ Vorw„rtsast -> Ergebnis geht verloren Kontakte mit nicht zusammenpassenden
+ Typen werden miteinander verknpft In diesem KOP hat bereits der Editor
+ Fehler gefunden FUB hat entweder keine Ein- 
+ oder keine Ausparameter Fehler, den der Editor finden muá KOP wurde im alten Format erstellt
+ Bitte zuerst konvertieren Kontakt hat keinen Namen INLINE-FUB darf keine offenen Inputs haben Initialisierung wurde abgebrochen keine PV's gefunden Fehler bei PV-Check ungltiger Bereich Speichermangel Keine Verbindung verfgbar Hilfedatei nicht gefunden.
+ Hilfstextanzeige nicht m”glich. Angegebene Datei ist keine Hilfedatei.
+ Hilfstextanzeige nicht m”glich. Speicherplatz ist zu knapp.
+ Hilfstextanzeige nicht m”glich. Konfiguration der Hilfedatei fehlt.
+ Hilfstextanzeige ist nicht m”glich. Maustreiber nicht geladen.
+ Bedienung ber Tastatur m”glich. Gr”átm”gliche Fensterzahl erreicht. Maximale Tabellenrecordzahl erreicht ALI l„át sich nicht starten Datenbankschreibfehler Lesefehler bei Datenbankinterface Lesefehler bei Namenslisteninterface Konfiguration Variablendeklaration fehlerhaft Erlaubte Strukturkomponentenzahl erreicht Erlaubte Strukturebenenzahl erreicht Speicher reicht nicht fr Deklaration Fehler im Tabedi - Stack Speicher reicht nicht mehr fr Tabelle 
+      
+ 
+    
+     
+     
+ (    
+ 2     <    
+ H   	  R   
+  W      i     ‰   -  œ   .  ¼   /  Ü   0  ü   1    2  <  3  \  4  |  5  œ  6  ¼  7  Ü  @ ü  A   B .  J G  K d  L   M   N »  O# Ø  P û  Q   R. 5  S c  T €  U   V% º  WH ß  ^ '  _ E  ` c  a   b Ÿ  c ½  d Û  e ù  f   g 5  h S  i$ r  j –  k ´  l Ó  m$ ñ  r   s .  t G  u `  v y  w! ’  x ³  y$ Ì  z ğ  †!   ‡! #  ˆ" D  ‰! f  Š! ‡   ¨  ‘ Ã  ’ Ş  “ ù  ”!   •$ 5  –% Y  — ~  ˜% ™  ™ ¾  ¤* Õ  ¥ ÿ  ¦" 	  §& >	  ¨* d	  ©  	  éB ®	  ò2 ğ	  ó* "
+  ô* L
+  õ* v
+  ö*  
+  ü4 Ê
+  ı6 ş
+  ş? 4  ÿ1 s   : ¤  9 Ş  7   & N  & t   š   ¹   Ñ   í        / .  0 ]  4   " Á  $ ã  % ö  &   '!   V 2  W C  X Q  Y d  Z p  l5 ~  mE ³  n? ø  Ú9 7  Û1 p  Ü, ¡  İ Í  Ş( ê  Ö+   Ø* =  Ş  g  à' ‡  ô# ®  ¹" Ñ  º% ó  »   ¼% *  ½3 O  ¾ ‚  ¿!   Â ¾  D Ò     4 /  : c   /   !E Ì  "F   h$ W  i( {  jB £  k å  l# ò  m"   n 7  o E  r# V  “& y  0 Ÿ  1 »  2 ×  3( ï  4)   5 @  6A \  7   8 ¶  9 Ô  : ñ  ;   < -  = I  > g  ?  ƒ  @  £  A( Ã  B< ë  C '  ®< =  %8 y  .- ±  / Ş  0 ı  1   28 7  3  o  4'   5* ¶  8" à  9   :    ;, ?  <, k  =* —  > Á  ? Û  @2 ö  A$ (  `5 L  a   b,    cy Ì  ‡ E  ˆ G  ‰2 _  Š ‘   °   Î   æ  ’/ ı  œ2 ,  1 ^  :   Ÿ5 É  ÷A ş  ;2 ?  I< q  5 ­  p7 â  q   r/ (  s# W  t z  u —  v- µ  w. â  x+   y" ;  z% ]  {' ‚  | ©  }- Æ  „. ó  …/ !   ) P   ˜A y   ™‡ º   ¢; A!  ¬- |!  ­- ©!  ¯: Ö!  ±! "  ²$ 1"  ³  U"  ´5 u"  Õ% ª"  Ö& Ï"  ×! õ"  Ø. #  : D#  R ~#   Ğ#  	 ì#  
+ $   $$  : @$  G z$   Á$  2 Ò$   %  $  %  , D%   p%   ‡%    ¢%  88 Â%  9* ú%  :5 $&  ; Y&  B t&  d ’&  e% §&  f. Ì&  g( ú&  h "'  i+ >'  jO i'  k, ¸'  l, ä'  m/ (  n( ?(  x* g(  yS ‘(  z< ä(  {  )  Œ( ;)  > c)  3 ¡)  ' Ô)  % û)  ‘  *  ’ ?*  “ \*  ” v*  • ‘*  –& £*  —* É*  ˜ ó*  ™ +  šA $+  X  e+  Y …+  Z" š+  [  ¼+  \ Ü+  ]  ù+  ^ ,  _ ),  `' :,  a a,  b ~,  c' ›,  d Â,  e à,  f ü,  g -  h 0-  i K-  j _-  k p-  l -  m ¦-  n! ¾-  o# ß-  v .  € .  Š  <.  ”# \.  • .  – ›.  — ¹.  œ# Õ.  % ø.  ¹. /  º K/  » d/  ¼) €/  ½ ©/  ¾ À/  Ã# Ş/  & 0     '0  !2 G0  "4 y0  #) ­0  $. Ö0  %, 1  &* 01  '/ Z1  (, ‰1  )7 µ1  *. ì1  +) 2  ,. C2  -' q2  /) ˜2  0@ Á2  1* 3  2( +3  3+ S3  4+ ~3  5, ©3  6, Õ3  A( 4  B+ )4  C. T4  D, ‚4  „ ®4  …5 Ê4  Š- ÿ4  è ,5  L K5  M2 j5  N) œ5  O( Å5  P- í5  Q+ 6  R) E6  S. n6  T+ œ6  °  Ç6  ±6 ç6  ²- 7  ³, J7  ´1 v7  µ/ §7  ¶- Ö7  ·2 8  ¸/ 58  % d8  x ‰8  Ü  8  @ ¿8  A ×8  B ğ8  C 9  D "9  E ?9  F& [9  G 9  H š9  I °9  J Ï9  K' î9  L :  M 0:  N N:  O b:  P w:  Q “:  R ©:  S$ È:  T ì:  ^# ;  hH $;  i2 l;  r" ;  ¥ À;  ¦; ×;  §) <  ¨" ;<  ©: ]<  ªC —<  «6 Ú<  ¬ =  ­ .=  ®( H=  ¯ p=  °% =  ± ²=  ² Ç=  ³ Ø=  ´ ì=  µ 
+>  ¶ >  ·/ <>  ¸* k>  Õ. •>  Ö$ Ã>  0  ç>  1  ù>  2  ?  3 ! ?  4 5 >?  5 $ s?  6 + —?  : 2 Â?  l . ô?  (# "@  )# 2@  *#! C@  .# d@  /# |@  0# @  1# §@  2#' ¶@  3#= İ@  4#* A  5#A DA  <#$ …A  =# ©A  >#^ »A  ?#Q B  @# jB  A# ~B  B#( ’B  C# ºB  D# ÓB  E#= éB  F# &C  G#Y <C  H# •C  I# °C  J# ÈC  K#6 æC  P#! D  # =D  #3 QD  —#$ „D  ¡#/ ¨D  «#& ×D  ñ#& ıD  ò# #E  ó# =E  ¹$ OE  º$6 cE  % ™E  %$ ­E  % ÑE   % æE  '% õE  |% F  }% F  ~% !F  % /F  %2 :F  ‚%5 lF  K&! ¡F  M& ÂF  N& ÖF  O& êF  P&" G  Q& #G  R&$ 9G  S& ]G  V&  wG  ¬&; —G  ­&5 ÒG  ®& H  ¯& !H  °& 1H  ±& BH  ²& \H  ³& qH  ´& †H  ¶&! šH  ·& »H  ¸&& ÍH  ¹& óH  º& I  ¼&1  I  ½& QI  ¾&# jI  ' I  ' ŸI  ' ´I  ' ÍI  ' æI  1' ûI  2'' J  3' 6J  4'0 NJ  5'# ~J  6' ¡J  7' »J  8' ØJ  9' õJ  :' K  ;'$ %K  >'$ IK  ø*" mK  ù*' K  + ¶K  + ÑK  + ïK  + L  + &L  á.- =L  â. jL  ã.( ~L  ä. ¦L  å. ÂL  æ. ØL  ç.) ìL  è., M  é.# AM  ê. dM  ë. ~M  É2 •M  Ê2' ²M  Ë2 ÙM  Ì2( õM  Í2 N  Î2+ -N  Ï2% XN  Ğ2 }N  Ñ2 “N  3 ¢N  ‘3 ½N  “3 ÛN  ”34 ÷N  •3! +O  –3$ LO  —3( pO  ˜3( ˜O  ±6 ÀO  ²6) ÕO  ³6& şO  ´6  $P  µ6 DP  ¶6! OP  ·6 pP  ¸6! P  ¹6- ¯P  º6  ÜP  »6  üP  ¼6 Q  ½6. 9Q  ¾6. gQ  ™:  •Q  š: µQ  ›: ÎQ  œ:% àQ  :+ R  : 0R  Ÿ:, DR   : pR  ¡:! ˆR  ¢: ©R  £: ÁR  ¤:! ÌR  ¥:$ íR  ¦:& S  §:> 7S  ¨:I uS  ©:6 ¾S  ª:6 ôS  «:" *T  ¬:> LT  ­: ŠT  ®:+ £T  >" ÎT  ‚> ğT  ƒ> U  „> U  hB +U  iB :U  	R< UU  
+RH ‘U  R= ÙU  RI V  R= _V  R$ œV  R% ÀV  R åV  lR W  mR" W  nR% :W  oR. _W  pR* W  vR% ·W  ĞR& ÜW  ÛR X  TV' X  zĞBX  

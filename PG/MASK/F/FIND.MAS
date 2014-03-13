@@ -1,0 +1,6 @@
+#TXT 00 01 14 78  Recherche__?_:
+#VAR 00 16 24 01 78 00 66 N N J N N 00 00 00 
+#TXT 00 40 01 78  _
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ !@#$%^&*(){}[]-+=;,.<>?:
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890

@@ -1,0 +1,11 @@
+#TXT 00 00 01 78  _
+#VAR 00 02 06 01 78 00 35 N N J N N 00 00 40 
+#TXT 00 02 06 78  _CP40_
+#TXT 00 09 01 78  _
+#TXT 01 00 01 78  _
+#VAR 01 02 06 01 78 00 35 N N J N N 00 00 80 
+#TXT 01 02 06 78  _CP80_
+#TXT 01 09 01 78  _
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~

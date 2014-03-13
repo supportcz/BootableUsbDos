@@ -1,0 +1,3799 @@
+#0 ########## Einstiegsbild ####################
+PANELWARE KONFIGURATIONS-SOFTWARE                                <0000>
+
+        PANELWARE Hilfesystem                 Hilfeseite <0001>
+        Projekt Erstellen                     Hilfeseite <0100>
+        Bild Erstellen                        Hilfeseite <0200>
+        Tastaturbelegung Definieren           Hilfeseite <0400>
+        Textgruppen  Erstellen                Hilfeseite <0500>
+        Verbindungs-Editor                    Hilfeseite <0600>
+        Protokollsystem                       Hilfeseite <0800>
+        Mehrsprachensystem                    Hilfeseite <0950>
+        Alarmsystem                           Hilfeseite <1000>
+        Rezeptsystem                          Hilfeseite <1300>
+        Warnungen und Fehlermeldungen         Hilfeseite <1700>
+#0 ########## Helpsystem beschreiben #######################
+PANELWARE HILFESYSTEM                                            <0001>
+
+ Das PANELWARE Hilfesystem kann jederzeit mit ALT+F5 oder ALT+H auf-
+ gerufen werden. Es wird immer die, dem aktiven Eingabefenster zu-
+ geh”rige Hilfeseite aufgerufen. Mit Hilfe der Tasten <PgUp> oder 
+ <PgDn> kann um eine ganze Hilfeseite vor- bzw. zurckgebl„ttert 
+ werden. Wird eine Hilfeseite aus Platzgrnden nicht vollst„ndig auf 
+ dem Bildschirm dargestellt, so kann mit Hilfe der Cursor Up/Down 
+ Tasten innerhalb der Hilfeseite zeilenweise gescrollt werden. 
+ Das Hilfefenster kann jederzeit mit der <ESC> Taste geschlossen 
+ werden.
+#0 ########## Helpsystem Fortsetzung #######################
+PANELWARE HILFESYSTEM                                            <0002>
+ 
+ Manche Hilfeseiten enthalten Querverweise zu anderen Hilfeseiten.
+ Solche Querverweise sind durch die jeweilige Hilfeseitennummer
+ eingerahmt durch die Zeichen "<" und ">" gekennzeichnet (z.B. Hilfe-
+ system Index <0000>). Solche Querverweise k”nnen mittels der <TAB>
+ Taste bzw. der vorhergehende Querverweis mittels der <SHIFT>+<TAB>
+ Tastenkombination selektiert werden. Durch das Drcken der <ENTER>
+ Taste wird in die selektierte Hilfeseite verzweigt. Durch das 
+ Drcken der Tastenkombination <ALT>+<F1> gelangt man zurck in die
+ aufrufende Hilfeseite. Mit <F10> kann jederzeit der Hilfesystem
+ Index <0000> aufgerufen werden. 
+#0 ########## Einstiegsbild Fortsetzung ####################
+Der Bildschirm der PANELWARE KONFIGURATIONS-SOFTWARE             <0005>
+
+ In der obersten Zeile steht links die Versionsnummer der Software,
+ in der Mitte der Name des aktuellen Projektes und rechts die
+ Bezeichnung des Tableaucontrollers.
+
+ Die n„chste Zeile stellt die Pulldown Mens dar.
+
+ In der vorletzten Zeile werden die aktuellen Belegungen der
+ Funktionstasten dargestellt.
+
+ Die letzte Zeile enth„lt Fehlermeldungen und wichtige Mitteilungen
+ fr Sie.
+#0 ########## Einstiegsbild-Fortsetzung ####################
+Allgemeine Hinweise zur Projekterstellung                        <0010>
+
+Ihre Visualisierungsprojekte k”nnen mit PANELWARE Bedientableaus 
+ohne Programmieraufwand in der SPS erstellt werden. Der modulare
+Hardwareaufbau von PANELWARE macht eine auf die jeweiligen Bedrfnisse
+zugeschnittene Projektierung m”glich.
+
+Das Tableauprojekt besteht aus den folgenden Elementen:
+  - Bilder
+  - Verbindungsdefinition
+  - Textgruppen
+  - Tastaturbelegung
+  - Alarmsystem
+#0 ########## Einstiegsbild-Fortsetzung ####################
+Allgemeine Hinweise zur Projekterstellung                        <0011>
+
+Zuerst werden die Hardwaredaten des Projektes eingegeben. Dann mssen
+die Elemente des Projektes (Bilder, Verbindungen, Tastaturbelegung,
+Alarme, usw.) erstellt werden. Zum Schluá wird das Projekt compiliert.
+Nach erfolgreichem Compilieren kann das Projekt ins Tableau bertragen
+werden.
+#0 ########## Einstiegsbild-Fortsetzung ####################
+Allgemeine Hinweise zur Projekterstellung                        <0012>
+
+Die Menzeile
+
+ Die Menzeile besteht aus fnf Pulldown-Mens. Diese Mens k”nnen
+ mittels ALT+Funktionstaste oder ALT+Anfangsbuchstabe des Mens
+ aktiviert werden. Manche Funktionen k”nnen auch mit der Tasten-
+ kombination CTRL+Buchstabe direkt aktiviert werden.
+#0 ########## Einstiegsbild-Fortsetzung ####################
+Allgemeine Hinweise zur Projekterstellung                        <0013>
+
+Men Datei - Funktion Neu <^N>
+ Mit dieser Funktion k”nnen Sie neue Bilder, Tastaturbelegungen,
+ Textgruppen, usw. erzeugen.
+
+Men Datei - Funktion Neues Projekt
+ Mit dieser Funktion k”nnen Sie neue Projekte erstellen.
+
+Men Datei - Funktion Neues Slaveprojekt.
+ Mit dieser Funktion k”nnen Sie Slaveprojekte fr einen C300 Kontroller
+ erstellen.
+#0 ########## Einstiegsbild-Fortsetzung ####################
+Allgemeine Hinweise zur Projekterstellung                        <0014>
+
+Men Datei- Projekt Laden
+ Mit dieser Funktion k”nnen Sie bestehende Projekte laden.
+
+Men Datei - Funktion Projekt L”schen
+ Benutzen Sie diese Funktion, wenn Sie ein Projekt vollst„ndig l”schen
+ wollen. Beachten Sie, daá damit s„mtliche Projektdaten, Bilder,
+ usw. verlorengehen.
+
+Men Datei - Funktion Laden <^L>
+ Mit dieser Funktion k”nnen Sie Projekte, Bilder, Textgruppen, usw.
+ laden. Wissen Sie nicht genau wie das Objekt heiát, das Sie laden
+ m”chten, so bet„tigen Sie nur die <ENTER> Taste. Am Bildschirm
+ erscheint ein Selektorfenster, wo Sie das Objekt ausw„hlen k”nnen.
+#0 ########## Einstiegsbild-Fortsetzung ####################
+Allgemeine Hinweise zur Projekterstellung                        <0015>
+
+Men Datei - Funktion Speichern <^S>
+ Mit dieser Funktion werden Bilder, Textgruppen, usw. gespeichert.
+
+Men Datei - Funktion Speichern als
+ Mit dieser Funktion k”nnen Sie Bilder, Textgruppen, usw. (aber keine
+ Projekte) unter einem neuen Namen speichern. So k”nnen Sie auch z.B.
+ Bilder kopieren, indem Sie das Bild laden, und unter einem anderen
+ Namen speichern.
+
+Men Daten - Funktion Import <^I>
+ Mit dieser Funktion k”nnen Sie Projekte oder Teile davon in ein
+ anderes Projekt importieren.
+#0 ########## Einstiegsbild-Fortsetzung ####################
+Allgemeine Hinweise zur Projekterstellung                        <0016>
+
+Men Datei - Funktion Export <^E>
+ Mit dieser Funktion k”nnen sie die Variablenzuordnungsliste in
+ ASCII Dateiformat exportieren.
+
+Men Datei - Funktion Beenden <F10>
+ Mit dieser Funktion oder mit F10 verlassen Sie die
+ PANELWARE KONFIGURATIONS-SOFTWARE.
+#0 ########## Einstiegsbild-Fortsetzung ####################
+Allgemeine Hinweise zur Projekterstellung                        <0017>
+
+Men Bearbeiten - Funktion Projekt <^P>
+ Mit dieser Funktion k”nnen Sie bestehende Projekte bearbeiten. Bitte
+ beachten Sie, daá der Name des aktuellen Projektes immer in der Mitte
+ der ersten Zeile auf Ihrem Bildschirm steht.
+
+ Projekte werden nach der Bearbeitung immer automatisch gespeichert.
+
+ Beim Laden von Projekten, bei dem noch Daten zu einer erfolgreichen
+ Compilierung fehlen, erscheint eine Meldung "Unvollst„ndige
+ Projektdefinition" in der Fehlermeldezeile.
+#0 ########## Einstiegsbild-Fortsetzung ####################
+Allgemeine Hinweise zur Projekterstellung                        <0018>
+
+Men Bearbeiten - Funktion Bild <^B>
+ Mit dieser Funktion k”nnen Sie Bilder erstellen und „ndern.
+
+Men Bearbeiten - Funktion Tastatur <^K>
+ Mit dieser Funktion k”nnen Sie die Belegung Ihrer Tastatur definieren.
+
+Men Bearbeiten - Funktion Textgruppe <^T>
+ Mit dieser Funktion k”nnen Sie Textgruppen fr Ihre Output Text Felder
+ definieren.
+#0 ########## Einstiegsbild-Fortsetzung ####################
+Allgemeine Hinweise zur Projekterstellung                        <0019>
+
+Men Bearbeiten - Funktion Verbindung <^C>
+ Mit dieser Funktion k”nnen Sie SPS Adressen zu Ihren symbolischen
+ Variablennamen zuordnen.
+
+Men Bearbeiten - Funktion Alarmsystem <^A>
+ Mit dieser Funktion k”nnen Sie Alarme definieren und das Verhalten des
+ Alarmsystems bestimmen.
+
+Men Bearbeiten - Funktion Protokolle <^O>
+ Mit dieser Funktion k”nnen Sie Protokolle erstellen.
+#0 ########## Einstiegsbild-Fortsetzung ####################
+Allgemeine Hinweise zur Projekterstellung                        <0020>
+
+Men Bearbeiten - Funktion Rezepte <^R>
+ Mit dieser Funktion k”nnen Sie Rezepte erstellen, und das Verhalten
+ des Rezeptsystems parametrieren.
+
+Men Bearbeiten - Funktion Tableau-Drucker
+ Hier k”nnen Sie die Parameter des am Tableau angeschlossenen Drucker
+ einstellen.
+#0 ########## Einstiegsbild-Fortsetzung ####################
+Allgemeine Hinweise zur Projekterstellung                        <0021>
+
+Men Funktionen - Funktion Compilieren <^Q>
+ Mit dieser Funktion k”nnen Sie Ihr Projekt bersetzen.
+
+Men Funktionen - Funktion šbertragen <^X>
+ Mit dieser Funktion k”nnen Sie erfolgreich compilierte Projekte in das
+ Tableau bertragen.
+
+Men Funktionen - Funktion Rckladen
+ Mit dieser Funktion k”nnen Sie das Projekt aus dem Tableau zurck-
+ laden.
+#0 ########## Einstiegsbild-Fortsetzung ####################
+Allgemeine Hinweise zur Projekterstellung                        <0022>
+
+Men Funktion - System bertragen
+ Mit dieser Funktion k”nnen Sie das Betriebssystem in den Tableau-
+ controller bertragen. Momentan wird diese Funktion nur fr den
+ Tableaucontroller C200 untersttzt. 
+
+Men Funktion - Projekt Starten
+ Mit dieser Funktion k”nnen Sie das Projekt im Tableau auch in Teach
+ Mode starten.
+#0 ########## Einstiegsbild-Fortsetzung ####################
+Allgemeine Hinweise zur Projekterstellung                        <0024>
+
+Men Funktion - Projekt anhalten		
+ Mit dieser Funktion k”nnen Sie das Projekt im Tableau anhalten.
+
+Men Funktion - Tableau resetieren
+ Mit dieser Funktion k”nnen Sie das Tableau resetieren.
+
+#0 ########## Einstiegsbild-Fortsetzung ####################
+Allgemeine Hinweise zur Projekterstellung                        <0025>
+
+Men Funktion - Rezept rckladen
+ Mit dieser Funktion k”nnen Sie Rezeptwerte aus dem Tableau zurck-
+ laden und als Rezeptinitialisierungswerte zum Projekt abspeichern.
+
+Men Funktion - Rezept Backup
+ Diese Funktion erstellt einen Backup von den Rezepten im Tableau
+ auf die Harddisk Ihres PCs
+
+Men Funktion - Rezept Restore
+ Mit dieser Funktion k”nnen Sie Rezept Backups ins Tableau zurck-
+ laden.
+#0 ########## EInstiegsbild-Fortsetzung ####################
+Allgemeine Hinweise zur Projekterstellung                        <0026>
+
+Men Einstellungen - Funktion Einst. Anzeigen
+ Diese Funktion zeigt die aktuellen Einstellungen der PANELWARE
+ KONFIGURATIONS-SOFTWARE an.
+
+Men Einstellungen - Funktionen Bildschirmtyp, Sprache, Anwenderpfad
+ Mit dieser Funktion k”nnen Sie den Typ des Bildschirmes, die Sprache
+ der Software und den Anwenderpfad einstellen.
+
+Men Einstellungen - Funktion Kanal #1
+ Mit dieser Funktion k”nnen Sie die Schnittstelle ausw„hlen, die bei
+ der šbertragung von Projekten in BRIT... Tableaus verwendet wird.
+#0 ########## EInstiegsbild-Fortsetzung ####################
+Allgemeine Hinweise zur Projekterstellung                        <0027>
+
+Men Einstellungen - Funktion Kanal #2
+ Mit dieser Funktion k”nnen Sie die Schnittstelle ausw„hlen, die bei
+ der šbertragung von Projekten oder des Betriebssystems (momentan 
+ nur C200) in PANELWARE Tableaucontroller verwendet wird.
+
+Men Einstellungen - Funktion Drucker
+ Mit dieser Funktion k”nnen Sie das Druckformat der PANELWARE
+ KONFIGURATIONS-SOFTWARE einstellen.
+
+Men Einstellungen - Funktion Compiler Option
+ Mit dieser Funktion k”nnen Sie Optionen des Compilers einstellen.
+#0 ########## Einstiegsbild-Fortsetzung ####################
+Allgemeine Hinweise zur Projekterstellung                        <0028>
+
+Men Hilfe - Funktion Hilfe <ALT+F5>
+ Hier k”nnen Sie das Hilfesystem aktivieren.
+
+Men Hilfe - Funktion Info
+ Hier sehen Sie Angaben ber die PANELWARE KONFIGURATIONS-SOFTWARE.
+
+Men Hilfe - Funktion Freier Speicher
+ Hier sehen Sie wieviel Speicher Ihr PC frei hat.
+
+#0 ########## Einstiegsbild-Fortsetzung ####################
+Allgemeine Hinweise zur Projekterstellung                        <0029>
+Men Hilfe - Funktion DOS-Shell
+ Hier k”nnen Sie die DOS-Shell aufrufen. Sie kehren mit <EXIT>
+ in die PANELWARE KONFIGURATIONS-SOFTWARE zurck.
+
+Men Hilfe - Funktion Meldungen
+ Diese Funktion zeigt Ihnen das zuletzt gltige Meldefenster. Sie
+ k”nnen sich hier das Ergebnis des letzten Compilerlaufes oder der
+ letzten Projektbertragung ansehen.
+# 190 ######### Neues Projekt ####################
+Neues Projekt                                                    <0080>
+
+Sie mssen einen Namen fr das neue Projekt vergeben und den Typ des
+verwendeten Controllers mittels Selektorfenster ausw„hlen.
+
+Haben Sie einen modularen PANELWARE Tableaucontroller ausgew„hlt, so
+erscheint eine weitere Maske, wo Sie den Typ des Displays, sowie die
+Anzahl und den Typ der verwendeten Tastenbl”cke eingeben k”nnen.
+
+Mit F4 bernehmen Sie das neue Projekt, mit ESC k”nnen Sie die Maske
+verlassen, ohne ein neues Projekt erstellt zu haben.
+########## Neues Projekt - Fortsetzung ####################
+Neues Projekt                                                    <0081>
+
+Vergewissern Sie sich, daá Sie den richtigen Controller und Display
+ausgew„hlt haben, diese Angaben lassen sich sp„ter nicht mehr „ndern!
+
+Die Anzahl der Tastenbl”cke l„át sich nachtr„glich „ndern.
+
+Bei der Verwendung von BRIT... Tableaus entfallen die Angabe ber
+Display und Tastenbl”cke.
+# 085 ########## Neues Slave Projekt ###################
+Neues Slave Projekt                                              <0085>
+
+Sie mssen einen Namen fr das neue Slaveprojekt vergeben. Der
+Controller Type ist bei Slave Projekten automatisch "C110".
+
+Als Slave Controller Nummer mssen sie eine Nummer zwischen 1 und 3
+vergeben. Sie mssen die selbe Nummer an den C110 Slave Controller als
+Stationsnummer einstellen. Haben Sie mehrere Slaveprojekte, so mssen
+Sie fr jedes Slaveprojekt unterschiedliche Slave Controller Nummer
+vergeben.
+
+Weiterhin mssen Sie den Typ des Displays, sowie die Anzahl und den Typ
+der verwendeten Tastenbl”cke eingeben.
+
+Mit F4 bernehmen Sie das neue Slaveprojekt, mit ESC k”nnen Sie die
+Maske verlassen, ohne ein neues Slaveprojekt erstellt zu haben.
+
+Vergewissern Sie sich, daá Sie das richtige Display ausgew„hlt haben,
+dieser Parameter l„át sich sp„ter nicht mehr „ndern!
+
+Die Anzahl der Tastenbl”cke l„át sich nachtr„glich „ndern.
+# 100 ########## Projekt Bearbeiten ####################
+Projekt Bearbeiten                                               <0100>
+
+Um ein Projekt bearbeiten zu k”nnen, mssen Sie es zuerst laden
+(Men Datei - Funktion Laden). Sie sehen den Namen des geladenen
+Projektes immer in der Mitte der obersten Zeile ihres Bildschirmes.
+
+Sie k”nnen nur Projekte bearbeiten, die mit der Funktion
+"Neues Projekt" erstellt wurden.
+# 100 ########## Projekt Bearbeiten - Fortsetzung ####################
+Projekt Bearbeiten - Projektdaten                                <0101>
+
+Mit F1 k”nnen Sie die wichtigsten Daten des Projektes eingeben, bzw.
+bearbeiten:
+
+Bild bei Kommunikationsfehler:
+ Hier geben Sie den Namen des Bildes ein, das bei einer unterbrochenen
+ Kommunikation zu der SPS dargestellt werden soll. In diesem Bild
+ k”nnen Sie Hinweise fr das Bedienpersonal hinterlegen, und die
+ Fehlerursache darstellen (siehe PANELWARE Software Anwenderhandbuch).
+
+ Diesen Namen mssen Sie bei jedem Projekt definieren, und Sie mssen
+ dieses Bild auch immer einbinden.
+# 100 ########## Projekt Bearbeiten - Fortsetzung ####################
+Projekt Bearbeiten - Projektdaten                                <0102>
+
+F-Taste fr Fehlerquittierung:
+ Sie k”nnen hier eine Funktionstaste definieren, mit der das Bedien-
+ personal Kommunikationsfehler quittieren kann. Die Fehlerquittier-
+ taste ist nur im Fehlerbild aktiv.
+
+Tastenpufferung:
+ Wenn Sie hier JA eingeben, merkt das Tableau jeden Tastendruck, und
+ fhrt sie aus, auch wenn es l„nger dauert. Wenn Sie NEIN einstellen,
+ werden Tastendrcke ber einen Bildwechsel hinaus nicht gemerkt. Damit
+ k”nnen Sie verhindern, daá der Bediener mit "Vortippen" versehentlich
+ unerwnschte Aktionen in Gang setzt.
+# 100 ########## Projekt Bearbeiten - Fortsetzung ####################
+Projekt Bearbeiten - Projektdaten                                <0103>
+
+Hintergrundbeleuchtung dauernd ein:
+ Geben Sie JA ein, wenn Sie die Beleuchtung des Displays dauernd
+ einschalten wollen. Geben Sie NEIN ein, und definieren Sie die
+ Abschaltzeit, wenn Sie das automatische Abschalten der Hintergrund-
+ beleuchtung aktivieren wollen.
+ Das Tableau schaltet die Beleuchtung bei jedem Tastendruck und bei
+ jedem Bildwechsel automatisch wieder ein.
+ Diese Funktion ist bei VFD Displays wirkungslos.
+# 100 ########## Projekt Bearbeiten - Fortsetzung ####################
+Projekt Bearbeiten - Projektdaten                                <0104>
+                                                                      
+Alarmsystem verwenden:
+ Geben Sie hier JA ein, wenn Sie das Alarmsystem benutzen, und NEIN,
+ wenn Sie keine Alarme in Ihrem Projekt verwenden.
+ (Siehe Alarmsystem ab Seite <1000>)
+
+Tastenmatrix bertragen:
+ Geben Sie hier JA ein, und definieren Sie die SPS Adresse nur dann,
+ wenn Sie die Tastenmatrix in ihrer SPS auswerten wollen.
+ (siehe PANELWARE Software Anwenderhandbuch). 
+ Geben Sie NEIN ein, wenn Sie diese Funktion nicht benutzen.
+# 100 ########## Projekt Bearbeiten - Fortsetzung ####################
+Projekt Bearbeiten - Projektdaten                                <0105>
+
+Aktuelle Bildnummer bertragen:
+ Geben Sie hier JA ein, und definieren Sie die SPS-Adresse, wenn Sie
+ die Nummer des aktuellen Bildes in die SPS bertragen wollen.
+ Geben Sie NEIN ein, wenn Sie diese Funktion nicht benutzen.
+
+LED Matrix bertragen:
+ Geben Sie hier JA ein, wenn Sie die Tasten LEDs ber ein Bitfeld aus
+ der SPS steuern wollen. Sie sollen die Tasten LEDs entweder ber diese
+ Funktion, oder mit Hilfe der Tasten-LED Befehle (Bildeditor - F5)
+ steuern. Das Mischen beider Methoden wird nicht empfohlen.
+# 100 ########## Projekt Bearbeiten - Fortsetzung ####################
+Projekt Bearbeiten - Projektdaten                                <0106>
+
+Bildwechsel aus der SPS erlaubt:
+ Geben Sie hier JA ein, und definieren Sie die Adresse, wenn Sie aus
+ der SPS einen Bildwechsel ausl”sen wollen. Die SPS muá die Nummer des
+ gewnschten Bildes auf diese Adresse schreiben, um den Bildwechsel
+ auszul”sen. (Siehe PANELWARE Software Anwenderhandbuch)
+ Geben Sie NEIN ein, wenn Sie diese Funktion nicht benutzen.
+
+Mehrsprachensystem verwenden:
+ Geben Sie JA ein, wenn Sie das Mehrsprachensystem verwenden wollen.
+ Wenn Sie hier NEIN eingeben, werden keine zus„tzlichen Textebenen
+ kompiliert, auch dann nicht, wenn der Schalter "Sprachumschaltung
+ aktiv" auf JA steht. Die zus„tzlichen Textebenen vergr”áern den
+ Platzbedarf des kompilierten Projektes.
+
+# 100 ########## Projekt Bearbeiten - Fortsetzung ####################
+Projekt Bearbeiten - Projektdaten                                <0107>
+                                                                      
+Sprachumschaltung aktiv:
+ Geben Sie hier JA ein, und definieren Sie eine SPS-Adresse um die
+ Sprachumschaltung im Tableau zu aktivieren. Die Nummer der aktiven
+ Textebene muá auf die hier angegebene SPS-Adresse stehen. Sie k”nnen
+ auch tableauinterne Variablen fr diesen Zweck benutzen.
+
+Uhrzeit aus der SPS bernehmen
+ Geben Sie hier JA ein, wenn Sie die SPS-Uhrzeit auf dem Tableau 
+ bernehmen wollen. Zus„tzlich muá noch die SPS-Uhrzeitadresse und
+ die Uhrzeit Triggeradresse angegeben werden.
+ Die Funktion der Uhrzeitsynchronisation ist im PANELWARE Software
+ Anwenderhandbuch (Version 2.1) beschrieben.
+
+# 100 ########## Projekt Bearbeiten - Fortsetzung ####################
+Projekt Bearbeiten - Projektdaten                                <0108>
+
+Uhrzeit Triggeradresse
+ Hier muá eine SPS-Adresse eingegeben werden. Durch Beschreiben dieser
+ Adresse von der SPS wird der Synchronisationsvorgang gestartet.
+
+Uhrzeitadresse
+ Hier muá die Uhrzeitadresse eingegeben werden. Die SPS-Uhrzeit muá in
+ einem 20 Zeichen groáen BYTE-Feld vorliegen und hat folgenden Aufbau:
+
+   J J _ M M _ T T _ H H : M M : S S _ W W 
+
+ Die Angaben im String sind ASCII Zahlenwerte (0x30 bis 0x39).
+ Es ist m”glich, die Leerzeichen, Doppelpunkte und den Wochentag weg-
+ zulassen. Jahreszahlen < 80 gelten fr das n„chste Jahrtausend.
+# 100 ########## Projekt Bearbeiten - Fortsetzung ####################
+Projektdefinition I/O                                            <0109>
+
+Lebenszeichen
+ Geben Sie hier JA ein und definieren Sie eine SPS-Adresse, wenn das 
+ Tableau ein Lebenszeichen an die SPS senden soll. 
+
+Lebenszeichen Intervall (Sek.)
+ Hier mssen Sie eintragen, in welchem Zeitintervall das Lebens-
+ zeichen an die SPS bertragen wird.
+# 110 ########## Projekt Bearbeiten - Bild Einbinden ################
+Projekt Bearbeiten - Bild Einbinden                              <0110>
+
+Sie sehen in dieser Maske Ihre Bildverzweigungsstruktur in grafischer
+Darstellung.
+
+Links geben Sie den Namen des Bildes ein, das Sie gerade einbinden
+m”chten. Rechts k”nnen Sie bis acht Verzweigungen (Nachbarbilder)
+definieren.
+
+Solange Sie im Feld fr das einzubindende Bild stehen, k”nnen Sie mit
+F1 die Initialisierung des Bildes ausschalten, oder mit F2 einen aus
+der SPS ausgel”sten Bildwechsel sperren. Schalten Sie die Initialisie-
+rung des Bildes nur dann aus, wenn Sie mit dessen Folgen vertraut sind!
+
+Rechts unten sehen Sie, ob ein Bildwechsel aus der SPS generell erlaubt
+ist. Um einen Bildwechsel aus der SPS zu erm”glichen, mssen Sie diesen
+in der Maske "Projekt Bearbeiten" freigeben.
+# 110 ########## Projekt Bearbeiten - Bild Einbinden #################
+Projekt Bearbeiten - Bild Einbinden                              <0111>
+
+In den Feldern in der Mitte und rechts auf Ihrem Bildschirm k”nnen Sie
+die Verzweigungen (Nachbarbilder) eingeben. Ben”tigen Sie mehr als die
+beiden Standardverzweigungen, so k”nnen Sie mit F2 weitere Verzweigun-
+gen erstellen. Mit F3 k”nnen Sie die Funktionstasten definieren, die
+den Bildwechsel ausl”sen sollen.
+
+Wissen Sie nicht wie die Bilder genau heiáen, so k”nnen Sie mit F5
+ein Selektorfenster aufrufen, wo alle Bilder Ihres Projektes aufge-
+listet sind.
+
+# 110 ########## Projekt Bearbeiten - Bild Einbinden ##################
+Projekt Bearbeiten - Bild Einbinden                              <0112>
+
+Wichtige Hinweise:
+ Sie mssen bei allen Bildern Ihres Projektes die Nachbarbilder
+ definieren. Sie k”nnen kein Projekt compilieren, welches nicht
+ eingebundene Bilder beinhaltet.
+
+ šberlegen Sie Ihre Verzweigungsstruktur vorher, und halten Sie sie
+ bersichtlich!
+# 120 ########## Projekt Bearbeiten - Bildverzeichnis #################
+Projekt Bearbeiten - Bildverzeichnis                             <0120>
+
+Im Bildverzeichnis sind alle Bilder Ihres Projektes aufgelistet.
+Sie k”nnen neue (F2) oder bestehende (F1) Bilder direkt aus dem
+Bildverzeichnis einbinden.
+Mit F3 k”nnen Sie Bilder aus dem Bildverzeichnis l”schen. Die Bilder
+selber werden dadurch nicht gel”scht, Sie k”nnen sie sp„ter wieder
+einbinden.
+Mit F6 und F7 k”nnen Sie die Reihenfolge der Bilder beeinflussen.
+
+Bilder, die nicht eingebunden sind (die noch keine Nachbarn haben),
+sind gekennzeichnet. Sie mssen alle Bilder einbinden bevor Sie das
+Projekt compilieren.
+# 130 ########## Projekt Bearbeiten - Bild Init.texte Def. ############
+Projekt Bearbeiten - Bild-Initialisierungstexte Definieren       <0130>
+
+Bei jedem Bildwechsel wird der Bildschirm des Tableaus initialisiert.
+Die Initialisierung erfolgt durch die Ausgabe sog. Initialisierungs-
+texte.
+Der default Initialisierungstext beinhaltet einen Befehl zum L”schen
+des Bildschirmes, und einen zum Ausschalten aller Tasten-LEDs.
+
+Sie k”nnen optionell andere und mehrere Initialisierungstexte
+definieren. In dieser Maske mssen Sie die Textnummer und die Position
+der zus„tzlich gewnschten Initialisierungstexte eingeben. Diese
+werden vom Tableau bei jedem Bildwechsel automatisch ausgegeben.
+Die Bild-Initialisierungstexte mssen in der Textgruppe GLOBAL
+definiert werden.
+# 130 ########## Projekt Bearbeiten - Bild Init.texte Def. ############
+Projekt Bearbeiten - Bild-Initialisierungstexte Definieren       <0131>
+
+Wichtige Hinweise:
+
+ Sie k”nnen bei jedem Bild die Initialisierung sperren (Maske Bild
+ Einbinden).
+
+ Gehen Sie mit dieser Funktion vorsichtig um, sperren Sie die Bild-
+ Initialisierung nur dann, wenn Sie mit deren Wirkung vertraut sind.
+
+ L”schen Sie den Text #0 aus der Textgruppe GLOBAL nicht! Sie bein-
+ haltet Funktionen, die den Bildschirm bei jedem Bildwechsel l”schen.
+#
+Projekt Laden - Versionskontrolle                                <0140>
+
+Sie haben versucht ein Projekt zu laden, das mit einer „lteren Version
+der PKS fr eine „ltere Version des Tableaukontrollers erstellt wurde.
+Wenn Sie das Projekt laden, aktualisiert es ihr PKS fr die Version
+2.2. Sie mssen nachher das Projekt neu kompilieren.
+
+Wichtiger Hinweis:
+ Das fr die Version 2.2 aktualisierte Projekt k”nnen Sie nur in
+ Tableaukontrollern mit Betriebssystemen gr”áer oder gleich 2.2 laden,
+ in Tableaukontrollern mit „lteren Betriebssystemen ist dieses Projekt
+ nicht mehr lauff„hig.
+
+Wenn Sie das Projekt nicht aktualisieren, k”nnen Sie es zwar nicht
+bearbeiten, Sie k”nnen es aber nach wie vor in Kontroller mit „lteren
+Betriebssystemen laden.
+
+Sie k”nnen das Betriebssystem eines „lteren Tableaukontrollers mit der
+Funktion "System šbertragen" aus der Men "F3 Funktionen" zu jeder Zeit
+auf den neuesten Stand bringen.
+#
+Projekt Laden - Versionskonflikt                                 <0145>
+
+Sie haben versucht ein Projekt zu laden, die mit einem neueren Version
+der PKS erstellt worden ist. Sie k”nnen dieses Projekt nur mit der PKS
+bearbeiten, womit Sie es erstellt haben.
+
+šberprfen Sie gegebenfalls, ob Sie gleichzeitig mehrere Versionen der
+PANELWARE KONFIGURATIONS-SOFTWARE an Ihrem PC haben, und entfernen Sie
+die „lteren Versionen, oder berzeugen Sie sich, ob Sie mit der
+richtigen Software arbeiten.
+#
+Projekt šbertragen - Versionskontrolle                           <0150>
+
+Sie haben versucht ein Projekt, das fr eine „ltere Version des
+Tableaukontroller erstellt wurde, in ein Tableaukontroller mit neuerem
+Betriebssystem zu laden.
+
+Das Projekt ist in dem neueren Kontroller uneingeschr„nkt lauff„hig.
+
+Wenn Sie die erweiterte Funktionalit„t des neuen Kontrollers ausntzen
+wollen, oder wenn sie das Projekt „ndern wollen, mssen Sie es durch
+Laden und Kompilieren fr das neue Betriebssystem einrichten.
+Weitere Hinweise finden Sie auf der Hilfeseite <0140>.
+#
+Projekt šbertragen - Versionskonflikt                            <0155>
+
+Sie haben versucht ein Projekt, das fr einen PANELWARE Kontroller mit
+Betriebssystemversion 1.8 erstellt wurde in einen „lteren Kontroller zu
+laden.
+
+Um dieses Projekt laden und ausfhren zu k”nnen, mssen Sie zuerst das
+Betriebssystem 1.8 in den Kontroller laden.
+
+Mehr Information darber bekommen Sie auf der Hilfeseite <1430>
+# 200 ########## Bild Bearbeiten ########################
+Bild Bearbeiten                                                  <0200>
+
+Das Bild ist das Grundelement des Tableauprojektes. Bilder bestehen
+aus Texten, Linien, Feldern, Tasten- und Ledfunktionen. 
+Texte und Linien bilden die sog. Bildmaske, in den Feldern werden
+Werte aus der SPS dargestellt, bzw. eingegeben.
+Die Anzahl der pro Bild verwendbaren Felder, Tasten und Ledfunktionen
+ist vom verwendeten Controller abh„ngig.
+
+Mit den Funktionen "Speichern" oder "Speichern als" k”nnen Sie Bilder
+speichern, mit der Funktion Laden k”nnen Sie bestehende Bilder
+zur Bearbeitung laden. Mit der Funktion Neu k”nnen Sie ein neues
+Bild erzeugen.
+# 200 ########## Bild Bearbeiten ########################
+Bild Bearbeiten                                                  <0201>
+
+Auf dem Bildschirm sehen Sie die bei der Projekterstellung ausgew„hl-
+te Anzeige. Texte und Linien werden in der Form dargestellt, wie sie
+am Tableau auch erscheinen, Felder werden mit Platzhaltern ersetzt.
+
+Wird im Bild mit dem Cursor ein Bildelement ausgew„hlt, wird der 
+Name des Bildelementes (Text, Linie oder Feld) rechts unten angezeigt,
+und das Bildelement wird markiert.
+
+In diesem Zustand kann das Bildelement mit <DEL> gel”scht, oder mit der
+Tastenkombination <CTRL> + <Cursortasten> im Bild bewegt werden. 
+# 200 ########## Bild Bearbeiten ########################
+Bild Bearbeiten - Darstellung der Inputfelder                    <0202>
+
+Inputfelder werden mit ihrer Nummer dargestellt. Diese Nummern stellen
+die Bearbeitungsreihenfolge (wie der Bediener die Inputs bet„tigen
+kann) der Inputfelder dar.
+
+Im selektierten Zustand kann das Inputfeld mit den Funktionstasten
+'vor' und 'zurck' in der Input-Reihenfolge vor- oder zurckgereiht
+werden.
+
+Ist das Feld zu kurz, so wird die Nummer nur im rechten unteren Bereich
+des Bildschirms dargestellt.
+# 210 ########## Bild Bearbeiten Texteingabemodus ##########
+Bild Bearbeiten - Texteingabe                                    <0210>
+
+Texteingabe:       <F1>  oder <beliebiger Buchstabe>
+Abschluá   :       <ENTER>
+
+Die Maskentexte k”nnen Sie an der Position eingeben, wo Sie ihn am
+Tableaubildschirm sehen wollen. Die Texteingabe muá immer mit der
+<ENTER> Taste abgeschlossen werden.
+
+Bestehende Texte mssen Sie zuerst markieren und dann F1 drcken, um
+etwas einzufgen oder korrigieren zu k”nnen.
+# 220 ########## Bild Bearbeiten bei Feldklasse&Feldtyp ausw„hlen #####
+Bild Bearbeiten - Allgemeines ber Felder                        <0220>
+
+Feldeingabe:      <F2>
+
+Um ein Feld in das Bild einfgen zu k”nnen, mssen Sie zuerst die
+Feldklasse w„hlen. Es gibt drei Feldklassen:
+
+  Output Felder
+     stellen Werte aus der SPS auf dem Tableaubildschirm dar.
+  Input Felder
+     lassen den Bediener Werte eingeben oder einstellen.
+  Alarm Felder
+     k”nnen Zust„nde des Alarmsystems darstellen.
+# 220 ########## Bild Bearbeiten bei Feldklasse&Feldtyp ausw„hlen #####
+Bild Bearbeiten - Die Feldtypen                                  <0221>
+
+  Numerische Output Felder:
+
+        Output Byte                              Hilfeseite <0300>
+        Output Wort ohne Vorzeichen              Hilfeseite <0301>
+        Output Wort mit Vorzeichen               Hilfeseite <0302>
+        Output Byte als Balken                   Hilfeseite <0303>
+        Output Wort als Balken                   Hilfeseite <0303>
+        Output Long ohne Vorzeichen              Hilfeseite <0305>
+        Output Long mit Vorzeichen               Hilfeseite <0312>
+        Output Float                             Hilfeseite <0306>
+# 220 ######### Bild Bearbeiten bei Feldklasse&Feldtyp ausw„hlen ######
+Bild Bearbeiten - Die Feldtypen                                  <0222>
+
+  Nichtnumerische Output Felder:
+
+        Output Text                              Hilfeseite <0307>
+        Output Text Advanced                     Hilfeseite <0308>
+        Output String                            Hilfeseite <0310>
+        Output Datum/Zeit                        Hilfeseite <0311>
+# 220 ########## Bild Bearbeiten bei Feldklasse&Feldtyp ausw„hlen #####
+Bild Bearbeiten - Die Feldtypen                                  <0223>
+
+  Input Felder:
+
+        Input Byte                               Hilfeseite <0350>
+        Input Wort ohne Vorzeichen               Hilfeseite <0351>
+        Input Wort mit Vorzeichen                Hilfeseite <0352>
+        Input String                             Hilfeseite <0355>
+        Input Long ohne Vorzeichen               Hilfeseite <0353>
+        Input Long mit Vorzeichen                Hilfeseite <0357>
+        Input Passwort                           Hilfeseite <0356>
+        Input Float                              Hilfeseite <0354>
+# 220 ########## Bild Bearbeiten bei Feldklasse&Feldtyp ausw„hlen #####
+Bild Bearbeiten - Die Feldtypen                                  <0224>
+
+  Alarmfelder:
+
+        Erster („ltester ) anst. Alarm           Hilfeseite <1200>
+        Letzter (jngster) anst. Alarm           Hilfeseite <1203>
+        Anstehender Alarm                        Hilfeseite <1210>
+        Alarm                                    Hilfeseite <1220>
+        Hist. Alarmlisteneintrag                 Hilfeseite <1230>
+
+  (siehe Alarmsystem ab Hilfeseite <1000>)
+# 220 ########## Bild Bearbeiten bei Feldklasse&Feldtyp ausw„hlen #####
+Bild Bearbeiten - Allgemeine Feldparameter - SPS Adresse         <0230>
+
+Als SPS Adresse wird ein symbolischer Variablenname eingegeben. Die 
+Zuweisung zur SPS-Adresse erfolgt im Verbindungseditor. 
+Variablennamen k”nnen max. 10 Zeichen lang sein. Anschlieáend kann noch
+eine 2 Zeichen lange Verbindungsidentifikation (ID), mit '/' getrennt,
+angegeben werden. Wird keine ID eingegeben, so bekommt die Variable
+automatisch die default ID '/dd'.
+z.B.:       SPS-Adresse:    VARIABLE1/m1   -> ID= m1
+            SPS-Adresse:    VARIABLE1      -> ID= dd
+
+Sie mssen zuerst die Verbindungs-ID definieren, um eine SPS Adresse zu
+dieser Verbindung eingeben zu k”nnen! (siehe Hilfeseite <0601>)
+Beim Ger„tetyp BRIT... mssen Sie die Counteradresse der SPS-Speicher-
+stelle direkt angeben.
+Sie k”nnen auch Rezeptelemente anstatt SPS-Adressen anschlieáen, indem
+Sie den Namen des Rezeptelementes und den Rezept-ID angeben.
+# 220 ########## Bild Bearbeiten bei Feldklasse&Feldtyp ausw„hlen #####
+Bild Bearbeiten - Allgemeine Feldparameter - Stellenanzahl       <0231>
+
+Anzahl der Stellen : 
+ Sie gibt die Gesamtbreite von Vor- und Nachkommastellen ohne Dezimal-
+ punkt und Vorzeichen an.
+
+Anzahl der Nachkommastellen : 
+ Sie gibt die Anzahl der Stellen nach dem Dezimalpunkt an.
+
+# 220 ########## Bild Bearbeiten bei Feldklasse&Feldtyp ausw„hlen #####
+Bild Bearbeiten - Allg. Feldparameter - Zeichengr”áe, Feldbreite <0232>
+
+Zeichengr”áe :
+ Die Zeichengr”áe kann nur bei grafikf„higen Displays eingestellt
+ werden. 
+ M”gliche Eingaben: 1=normal, 2=doppelt, 3=vierfach groáe Schrift
+
+Feldbreite :
+ Sie gibt die Breite des Feldes in Zeichen an, und wird automatisch
+ berechnet. Die Feldbreite wird von der Stellenanzahl, Dezimalpunkt,
+ Vorzeichen und Zeichengr”áe beeinfluát.
+# 220 ########## Bild Bearbeiten bei Feldklasse&Feldtyp ausw„hlen #####
+Bild Bearbeiten - Allg. Feldparameter - SPS-Adresse              <0233>
+
+SPS-Adresse:
+ Die Felder lesen ihren Wert oder Parameter von der hier angegebenen
+ SPS-Adresse. Manche Felder und Funktionen (z.B. die Tastenfunktionen)
+ fhren Lese- und auch Schreibzugriffe auf die SPS-Adresse durch.
+
+SPS-Zieladresse:
+ Inputfelder speichern den eingegebenen Wert an die SPS-Zieladresse.
+
+Hinweise fr die Adressangabe finden Sie auf der Hilfeseite <0230>.
+Beim Ger„tetyp BRIT... mssen Sie die Counteradresse der SPS-Speicher-
+stelle direkt angeben.
+# 220 ########## Bild Bearbeiten bei Feldklasse&Feldtyp ausw„hlen #####
+Bild Bearbeiten - Allg. Feldparameter -SPS Abschluáadr. und Wert <0234>
+
+SPS-Abschluáadresse :  (nur bei Inputfeldern)
+ Die Abschluáadresse wird nach Abschlieáen einer Eingabe mit dem
+ Abschluáwert berschrieben. Die Adressangabe erfolgt wie auf der
+ Hilfeseite <0230> beschrieben.
+
+SPS-Abschluáwert:
+ Der Wert, der auf die Abschluáadresse geschrieben wird. Zul„ssiger
+ Wertebereich: 0..255
+
+Wenn Sie die SPS-Abschluáadresse nicht verwenden wollen, so lassen Sie
+den Eintrag leer, die Abschluáfunktion wird nicht durchgefhrt.
+# 221 ########## Bild Bearbeiten bei Feldklasse&Feldtyp ausw„hlen #####
+Bild Bearbeiten - Allgemeine Feldparameter - Normierung          <0235>
+
+0 % Wert in der SPS; 100% Wert in der SPS:
+ Hier mssen Sie das untere bzw. obere Ende des darstellbaren
+ Wertebereichs in der SPS angeben.
+
+0 % Wert am Tableau; 100 % Wert am Tableau:
+ Hier geben Sie die Werte an, die in technischen Einheiten am Tableau
+ erscheinen.
+
+Umrechnung:    0 % Wert in der SPS =>   0 % Wert am Tableau 
+             100 % Wert in der SPS => 100 % Wert am Tableau
+Zwischenwerte: linear
+# 221 ########## Bild Bearbeiten bei Feldklasse&Feldtyp ausw„hlen #####
+Bild Bearbeiten - Allg. Feldparameter - Normierung, Inputfelder  <0236>
+
+Minimalwert am Tableau; Maximalwert am Tableau:
+ Diese Werte dienen neben der Normierung auch zur Begrenzung der
+ Eingabe. Das Tableau l„át keine Werte eingeben, die kleiner sind als
+ der Minimalwert oder gr”áer als der Maximalwert.
+# 222 ########## Bild Bearbeiten bei Feldklasse&Feldtyp ausw„hlen #####
+Bild Bearbeiten - Allg. Feldparameter - Inputverriegelung        <0237>
+
+Inputfelder k”nnen verriegelt werden. Ein verriegeltes Inputfeld
+verh„lt sich wie ein Outputfeld, eine Eingabe ist nicht m”glich.
+
+SPS-Adresse fr Verriegelungswert:
+ Das Inputfeld liest diese Adresse bevor eine Eingabe erm”glicht wird.
+ Anhand des gelesenen Wertes und der Verriegelungskondition wird ent-
+ schieden, ob eine Eingabe m”glich ist. Bei passwortgeschtzten Input-
+ feldern wird hier die Adresse eingetragen, die beim 'Input Passwort'
+ fr den Passwortwert definiert wurde.
+# 222 ########## Bild Bearbeiten bei Feldklasse&Feldtyp ausw„hlen #####
+Bild Bearbeiten - Allg. Feldparameter - Passwortschutz fr Inputs<0238>
+
+Verriegelung ist aktiv wenn (Verriegelungskondition):
+SPS-Wert = 0
+ Eine Eingabe ist nur m”glich, wenn aus der SPS ein Wert ungleich Null
+ gelesen wurde. Bei Null bleibt der Input verriegelt. Mit dieser Kondi-
+ tion k”nnen Sie Inputfelder von Ihrem SPS-Programm aus verriegeln und
+ freigeben. Die Konstante hat in diesem Fall keine Bedeutung.
+SPS-Wert < Konstante
+ Ist der Wert in der SPS kleiner als die Konstante, so ist kein Input
+ m”glich. Ist der Wert gleich oder gr”áer, so ist die Eingabe m”glich.
+ Diese Kondition wird bei passwortgeschtzten Inputfeldern benutzt.
+SPS-Wert >= Konstante
+ Ist der Wert in der SPS gr”áer oder gleich als die Konstante, so ist
+ kein Input m”glich.
+# 222 ########## Bild Bearbeiten bei Feldklasse&Feldtyp ausw„hlen #####
+Bild Bearbeiten - Allg. Feldparameter - Passwortschutz fr Inputs<0239>
+
+Verriegelungskonstante:
+ Bei Inputfeldern mit Passwortschutz wird hier die Paáwortebene einge-
+ tragen, ab der die Eingabe freigegeben ist.
+# 222 ########## Bild Bearbeiten bei Feldklasse&Feldtyp ausw„hlen #####
+Bild Bearbeiten - Allg. Feldparameter - Passwortschutz fr Inputs<0240>
+
+Sie mssen die folgenden Schritte fr passwortgeschtzte Inputfelder
+setzen:
+
+- Alle Inputfelder, die geschtzt werden sollen, bekommen die gleiche
+  SPS-Adresse fr den Verriegelungswert.
+- Das Feld 'Input Passwort' bekommt auch diese Adresse als Zieladresse.
+- Die Inputfelder werden mit 
+  'Verriegelung aktiv wenn SPS-Wert < Konstante' programmiert.
+- Bei den Feldern wird die gewnschte Passwortebene als Verriegelungs-
+  konstante eingetragen.
+# 223 ########## Bild Bearbeiten bei Feldklasse&Feldtyp ausw„hlen #####
+Bild Bearbeiten - Allg. Feldparameter - Verstellinput            <0241>
+
+Verstellinputs lassen numerische Werte in der SPS mit Hilfe von zwei
+Funktionstasten einstellen.
+Alle numerischen Inputfelder mit Ausnahme des Input Floats k”nnen als
+Verstellinput konfiguriert werden.
+
+Zu jedem Verstellinput werden zwei Funktionstasten definiert, mit denen
+eine Wert„nderung aufw„rts und abw„rts erfolgt.
+W„hrend der Einstellung l„uft der Wert in der SPS parallel mit.
+Die Abschluáadresse wird bei Loslassen der Verstelltaste berschrieben.
+# 223 ########## Bild Bearbeiten bei Feldklasse&Feldtyp ausw„hlen #####
+Bild Bearbeiten - Allg. Feldparameter - Vornullen darstellen     <0242>
+
+Vornullen darstellen
+ Geben Sie hier JA ein, wenn Sie Vornullen darstellen wollen.
+# 240 ######### LED/Tasten Funktion ###############
+Bild Bearbeiten - LED/Tasten Funktion                            <0280>
+
+Tastenfunktionen:
+        Set Bit/Byte                             Hilfeseite <0370>
+        Set Wort                                 Hilfeseite <0371>
+        Toggle Bit/Byte                          Hilfeseite <0372>
+        Toggle Wort                              Hilfeseite <0373>
+        Tip Bit/Byte                             Hilfeseite <0374>
+        Input weiterschalten                     Hilfeseite <0375>
+
+Wichtiger Hinweis:
+ Sie mssen alle Tasten, die mit Tastenfunktionen behaftet werden, in
+ der Tastaturbelegung als Funktionstaste definieren!
+# 240 ######### LED/Tasten Funktion ###############
+Bild Bearbeiten - LED/Tasten Funktion                            <0281>
+
+LED Funktionen:
+        Tasten-LED einschalten                   Hilfeseite <0380>
+        Tasten-LED ausschalten                   Hilfeseite <0380>
+        Tasten-LED langsam blinken               Hilfeseite <0380>
+        Tasten-LED schnell blinken               Hilfeseite <0380>
+        LED von SPS schalten                     Hilfeseite <0381>
+
+Die LED Funktionen mit Ausnahme der 'LED von SPS schalten' werden nach
+einem Bildwechsel ausgefhrt. Die Funktion 'LED von SPS schalten' wird
+wie ein Feld, zyklisch ausgefhrt.
+# 230 ########## Bild Bearbeiten Linieneingabemodus ###############
+Bild Bearbeiten - Linieneingabe                                  <0290>
+
+Linieneingabe:     <F3>
+Abschluá     :     <ENTER>
+
+Die Linie wird mit den Cursortasten gezeichnet.
+Die Ecken werden nach Abschluá der Linie automatisch eingesetzt.
+Linien k”nnen nur als Ganzes gel”scht werden.
+# 250 ######### Eingabemaske Output Byte ###############
+Output Byte                                                      <0300>
+
+Dieses Feld l„át Datenbytes aus der SPS numerisch darstellen.
+Wollen Sie eine Bitvariable numerisch darstellen (0 oder 1), so mssen
+Sie ebenso dieses Feld verwenden.
+Zu den Feldparametern Stellenanzahl, Nachkommastellen, Zeichengr”áe
+und SPS-Adresse bekommen Sie weitere Hilfe ab Hilfeseite <0230>.
+
+Dieses Feld kann normiert werden (siehe ab Hilfeseite <0235>).
+# 251 ######### Eingabemaske Output Wort ohne VZ ###############
+Output Wort ohne Vorzeichen                                      <0301>
+
+Dieses Feld l„át Datenworte aus der SPS numerisch darstellen.
+Zu den Feldparametern Stellenanzahl, Nachkommastellen, Zeichengr”áe
+und SPS-Adresse bekommen Sie weitere Hilfe ab Hilfeseite <0230>.
+
+Dieses Feld kann normiert werden (siehe ab Hilfeseite <0235>).
+# 252 ######### Eingabemaske Output Wort mit VZ ###############
+Output Wort mit Vorzeichen                                       <0302>
+
+Dieses Feld l„át Datenworte aus der SPS numerisch darstellen.
+Zu den Feldparametern Stellenanzahl, Nachkommastellen, Zeichengr”áe
+und SPS-Adresse bekommen Sie weitere Hilfe ab Hilfeseite <0230>.
+
+Dieses Feld kann normiert werden (siehe ab Hilfeseite <0235>).
+# 253 ######### Eingabemaske Output Byte oder Wort als Balken #########
+Output Byte/Wort als Balken                                      <0303>
+
+Mit diesem Feld k”nnen Sie Datenbytes/Worte in Balkenform darstellen.
+Pixelkoordinaten, Richtung des Balkens:
+ Die Pixelkoordinaten werden anhand der Cursorposition vorgeschlagen,
+ Sie k”nnen sie aber ver„ndern, um den Balken genau zu plazieren.
+ Der Bezugspunkt des Balkens ist von dessen Richtung abh„ngig:
+ - Richtung 0  -> Balken nach rechts,     Bezugspunkt links, unten
+ - Richtung 1  -> Balken aufw„rts,        Bezugspunkt links, unten
+ - Richtung 2  -> Balken nach links,      Bezugspunkt rechts, unten
+ - Richtung 3  -> Balken abw„rts,         Bezugspunkt links, oben
+
+ Das linke obere Eck der Anzeige hat die Koordinaten 0,0.
+# 253 ######### Eingabemaske Output Byte oder Wort als Balken #########
+Output Byte/Wort als Balken                                      <0304>
+
+Balkenbreite:
+ Die Balkenbreite gibt die zur Balkenrichtung senkrechte Dimension des
+ Balkens in Pixel an.
+
+Balkenl„nge:
+ Die Balkenl„nge gibt die Maximall„nge des Balkens (bei 100% SPS Wert)
+ in Pixel an.
+
+Zur SPS-Adresse bekommen Sie weitere Hilfe ab Hilfeseite <0230>.
+Balken sind normierbar (siehe ab Hilfeseite <0235>).
+# 255 ######### Eingabemaske Output Long ohne VZ###########
+Output Long ohne Vorzeichen                                      <0305>
+
+Dieses Feld l„át Longworte aus der SPS darstellen.
+Zu den Feldparametern Stellenanzahl, Nachkommastellen, Zeichengr”áe
+und SPS-Adresse bekommen Sie weitere Hilfe ab Hilfeseite <0230>.
+
+
+Dieses Feld kann normiert werden (siehe ab Hilfeseite <0235>).
+# 256 ######### Eingabemaske Output Float ###########
+Output Float                                                     <0306>
+
+Dieses Feld l„át Flieákommazahlen aus der SPS darstellen. Die Zahlen
+mssen in IEEE Format in der SPS vorliegen.
+Zu den Feldparametern Stellenanzahl, Nachkommastellen, Zeichengr”áe
+und SPS-Adresse bekommen Sie weitere Hilfe ab Hilfeseite <0230>.
+
+Dieses Feld kann normiert werden (siehe ab Hilfeseite <0235>).
+
+Bitte beachten Sie bei der Parametrierung der Nachkommastellen, daá
+das IEEE Float Format max. sieben signifikante Stellen darstellen l„át.
+# 257 ######### Eingabemaske Output Text ###############
+Output Text                                                      <0307>
+
+Mit diesem Feld k”nnen Sie Texte aus der Textgruppe GLOBAL darstellen.
+Es wird immer der Text dargestellt, dessen Textnummer auf der SPS-
+Adresse steht.
+Es werden maximal so viele Zeichen ausgegeben, wie bei 'Stellenanzahl'
+definiert wurden.
+Zur SPS-Adresse bekommen Sie weitere Hilfe ab Hilfeseite <0230>.
+
+Wollen Sie Texte aus anderen Textgruppen darstellen oder Textattri-
+bute verwenden, benutzen Sie das Feld 'Output Text Advanced'.
+# 258 ######### Eingabemaske Output Text Advanced ###########
+Output Text Advanced                                             <0308>
+
+Mit diesem Feld k”nnen Sie Texte aus einer Textgruppe darstellen.
+Die Textgruppe k”nnen Sie nach Bet„tigung der <ENTER> Taste aus
+dem Textgruppenverzeichnis mit F5 ausw„hlen.
+Es wird immer der Text dargestellt, dessen Textnummer auf der SPS-
+Adresse steht.
+Es werden maximal so viele Zeichen ausgegeben, wie bei 'Stellenanzahl'
+definiert wurden.
+# 258 ######### Eingabemaske Output Text Advanced ###########
+Output Text Advanced                                             <0309>
+
+Von der SPS-Adresse fr Attribut wird ein Attributwort gelesen, dessen
+Bits die folgende Bedeutung haben:
+ Bit 0 -> Textausgabe invers
+ Bit 1 -> Textausgabe blinkend
+ Die restlichen Bits haben keinen Einfluá auf die Textdarstellung.
+Wird die SPS-Adresse fr Attribut nicht angeschlossen, so erfolgt die
+Textausgabe ohne Attribut (normal, nichtblinkend).
+
+Bitte beachten Sie, daá nicht alle Displaytypen alle Attribute
+darstellen k”nnen.
+Zur SPS-Adresse bekommen Sie weitere Hilfe ab Hilfeseite <0230>.
+# 259 ######### Eingabemaske Output String ###########
+Output String                                                    <0310>
+
+Mit diesem Feld k”nnen Sie ASCII Zeichenketten aus der SPS darstellen.
+Es werden ab der SPS-Adresse so viele Zeichen gelesen, wie in der
+Stringl„nge angegeben wurde.
+Ein Null-Abschluá des Strings ist nicht erforderlich.
+
+Die erweiterten Codes ($20 bis $FF) des ASCII Zeichensatzes sind im
+PANELWARE Hardware Installationshandbuch beschrieben.
+Zur SPS-Adresse bekommen Sie weitere Hilfe ab Hilfeseite <0230>.
+# 260 ######### Eingabemaske Output Datum/Zeit ###########
+Output Datum/Zeit                                                <0311>
+
+Dieses Feld l„át die interne Uhrzeit des Tableaus darstellen.
+
+Nach Bet„tigung der <ENTER> Taste k”nnen Sie das gewnschte Uhrzeit-
+format ausw„hlen.
+
+Die Uhrzeit kann bei jeder Projektbertragung vom PC aus gesetzt 
+werden.
+
+Zum ndern der internen Uhrzeit bekommen Sie weitere Informationen in
+dem PANELWARE Software Benutzerhandbuch.
+#
+Output Long mit Vorzeichen                                      <0312>
+
+Dieses Feld l„át Longworte aus der SPS darstellen.
+Zu den Feldparametern Stellenanzahl, Nachkommastellen, Zeichengr”áe
+und SPS-Adresse bekommen Sie weitere Hilfe ab Hilfeseite <0230>.
+
+Dieses Feld kann normiert werden (siehe ab Hilfeseite <0235>).
+# 261 ######### Eingabemaske Input Byte ###########
+Input Byte                                                       <0350>
+
+Mit diesem Feld k”nnen Sie numerische Werteingaben realisieren.
+
+Zu den Feldparametern Stellenanzahl, Nachkommastellen, Zeichengr”áe
+und SPS-Adresse bekommen Sie weitere Hilfe ab Hilfeseite <0230>.
+Zu den Feldparametern Abschluáadresse und Abschluáwert bekommen Sie
+weitere Hilfe ab Hilfeseite <0234>.
+
+Dieses Feld kann normiert werden. Die Normierungsparameter 'Minimalwert
+am Tableau' und 'Maximalwert am Tableau' begrenzen die Eingabe. Weitere
+Hilfe zur Normierung finden Sie auf der Hilfeseite <0235>.
+Dieses Feld kann verriegelt werden (siehe ab Hilfeseite <0237>).
+# 262 ######### Eingabemaske Input Wort ohne VZ ###########
+Input Wort ohne Vorzeichen                                       <0351>
+
+Mit diesem Feld k”nnen Sie numerische Werteingaben realisieren.
+
+Zu den Feldparametern Stellenanzahl, Nachkommastellen, Zeichengr”áe
+und SPS-Adresse bekommen Sie weitere Hilfe ab Hilfeseite <0230>.
+Zu den Feldparametern Abschluáadresse und Abschluáwert bekommen Sie
+weitere Hilfe ab Hilfeseite <0234>.
+
+Dieses Feld kann normiert werden. Die Normierungsparameter 'Minimalwert
+am Tableau' und 'Maximalwert am Tableau' begrenzen die Eingabe. Weitere
+Hilfe zur Normierung finden Sie auf der Hilfeseite <0235>.
+
+Dieses Feld kann verriegelt werden (siehe ab Hilfeseite <0237>).
+# 263 ######### Eingabemaske Input Wort mit VZ ###########
+Input Wort mit Vorzeichen                                        <0352>
+
+Mit diesem Feld k”nnen Sie numerische Werteingaben realisieren.
+
+Zu den Feldparametern Stellenanzahl, Nachkommastellen, Zeichengr”áe
+und SPS-Adresse bekommen Sie weitere Hilfe ab Hilfeseite <0230>.
+Zu den Feldparametern Abschluáadresse und Abschluáwert bekommen Sie
+weitere Hilfe ab Hilfeseite <0234>.
+
+Dieses Feld kann normiert werden. Die Normierungsparameter 'Minimalwert
+am Tableau' und 'Maximalwert am Tableau' begrenzen die Eingabe. Weitere
+Hilfe zur Normierung finden Sie auf der Hilfeseite <0235>.
+Dieses Feld kann verriegelt werden (siehe ab Hilfeseite <0237>).
+# 264 ######### Eingabemaske Input Long ohne VZ ###########
+Input Long ohne Vorzeichen                                       <0353>
+
+Mit diesem Feld k”nnen Sie numerische Werteingaben fr LONG Variablen
+realisieren.
+
+Zu den Feldparametern Stellenanzahl, Nachkommastellen, Zeichengr”áe
+und SPS-Adresse bekommen Sie weitere Hilfe ab Hilfeseite <0230>.
+Zu den Feldparametern Abschluáadresse und Abschluáwert bekommen Sie
+weitere Hilfe ab Hilfeseite <0234>.
+
+Dieses Feld kann normiert werden. Die Normierungsparameter 'Minimalwert
+am Tableau' und 'Maximalwert am Tableau' begrenzen die Eingabe. Weitere
+Hilfe zur Normierung finden Sie auf der Hilfeseite <0235>.
+
+Dieses Feld kann verriegelt werden (siehe ab Hilfeseite <0237>).
+# 265 ######### Eingabemaske Input Float ###########
+Input Float                                                      <0354>
+
+Mit diesem Feld k”nnen Sie numerische Werteingaben fr FLOAT
+Variablen realisieren.
+
+Zu den Feldparametern Stellenanzahl, Nachkommastellen, Zeichengr”áe
+und SPS-Adresse bekommen Sie weitere Hilfe ab Hilfeseite <0230>.
+Zu den Feldparametern Abschluáadresse und Abschluáwert bekommen Sie
+weitere Hilfe ab Hilfeseite <0234>.
+Dieses Feld kann normiert werden. Die Normierungsparameter 'Minimalwert
+am Tableau' und 'Maximalwert am Tableau' begrenzen die Eingabe. Weitere
+Hilfe zur Normierung finden Sie auf der Hilfeseite <0235>.
+Dieses Feld kann verriegelt werden (siehe ab Hilfeseite <0237>).
+# 266 ######### Eingabemaske Input String ###########
+Input String                                                     <0355>
+
+Mit diesem Feld k”nnen Sie ASCII Zeichenketten eingeben und in die
+SPS bertragen. Es werden immer so viele Zeichen in die SPS bertragen,
+wie in der Stringl„nge definiert wurde. Der String wird nicht mit Null
+abgeschlossen, leere Stellen werden mit Leerzeichen aufgefllt.
+
+Zu den Feldparametern Abschluáadresse und Abschluáwert bekommen Sie
+weitere Hilfe ab Hilfeseite <0234>.
+# 267 ######### Eingabemaske Input Passwort ###########
+Input Passwort                                                   <0356>
+
+Mit diesem Feld k”nnen Sie den Bediener auffordern ein Passwort ein-
+zugeben.
+
+Das Feld setzt die Zieladresse der eingegebenen Passwortebene
+entsprechend. Wird ein falsches Passwort eingegeben, so wird die
+Zieladresse auf Null gesetzt. Die Ebene #0 hat somit kein Passwort.
+W„hrend der Eingabe erscheint immer das Echozeichen anstatt dem einge-
+gebenen Zeichen.
+Zu den Feldparametern Abschluáadresse und Abschluáwert bekommen Sie
+weitere Hilfe ab Hilfeseite <0234>.
+#
+Input Long mit Vorzeichen                                        <0357>
+
+Mit diesem Feld k”nnen Sie numerische Werteingaben fr LONG Variablen
+realisieren.
+
+Zu den Feldparametern Stellenanzahl, Nachkommastellen, Zeichengr”áe
+und SPS-Adresse bekommen Sie weitere Hilfe ab Hilfeseite <0230>.
+Zu den Feldparametern Abschluáadresse und Abschluáwert bekommen Sie
+weitere Hilfe ab Hilfeseite <0234>.
+
+Dieses Feld kann normiert werden. Die Normierungsparameter 'Minimalwert
+am Tableau' und 'Maximalwert am Tableau' begrenzen die Eingabe. Weitere
+Hilfe zur Normierung finden Sie auf der Hilfeseite <0235>.
+
+Dieses Feld kann verriegelt werden (siehe ab Hilfeseite <0237>).
+# 270 ######### Eingabemaske Set Byte ###########
+Set Bit/Byte                                                     <0370>
+
+Diese Funktion setzt auf Tastendruck ein Datenbyte oder ein Datenbit in
+der SPS auf einen bestimmten Wert.
+Fr SPS-Adresse, Abschluáadresse und Abschluáwert bekommen Sie weitere
+Hilfe ab Hilfeseite <0230>.
+Als Operand 1 mssen Sie den zu setzenden Wert eintragen.
+
+Die Abschluáadresse (falls angegeben) wird nach jedem Tastendruck 
+beschrieben.
+Sie mssen alle Tasten, die mit Tastenfunktionen behaftet werden, in
+der Tastaturbelegung als Funktionstaste definieren!
+# 271 ######### Eingabemaske Set Wort ###########
+Set Wort                                                         <0371>
+
+Diese Funktion setzt auf Tastendruck ein Datenwort in der SPS auf einen
+bestimmten Wert.
+Fr SPS-Adresse, Abschluáadresse und Abschluáwert bekommen Sie weitere
+Hilfe ab Hilfeseite <0230>.
+Als Operand 1 mssen Sie den zu setzenden Wert eintragen.
+
+Die Abschluáadresse (falls angegeben) wird nach jedem Tastendruck 
+beschrieben.
+Sie mssen alle Tasten, die mit Tastenfunktionen behaftet werden, in
+der Tastaturbelegung als Funktionstaste definieren!
+# 272 ######### Eingabemaske Toggle Byte ###########
+Toggle Bit/Byte                                                  <0372>
+
+Mit dieser Funktion k”nnen Sie ein Datenbyte oder ein Datenbit in der
+SPS zwischen zwei Werte hin- und herschalten.
+Als Operand 1 und Operand 2 mssen Sie die zwei Werte eintragen.
+Fr SPS-Adresse, Abschluáadresse und Abschluáwert bekommen Sie weitere
+Hilfe ab Hilfeseite <0230>.
+Das Feld vergleicht den Inhalt der SPS-Adresse mit dem Operand 1.
+Bei Gleichheit wird Operand 2 auf die SPS-Adresse geschrieben, bei
+Ungleichheit Operand 1.
+
+Die Abschluáadresse (falls angegeben) wird nach jedem Tastendruck 
+beschrieben.
+Sie mssen alle Tasten, die mit Tastenfunktionen behaftet werden, in
+der Tastaturbelegung als Funktionstaste definieren!
+# 273 ######### Eingabemaske Toggle Wort ###########
+Toggle Wort                                                      <0373>
+
+Mit dieser Funktion k”nnen Sie ein Datenwort in der SPS zwischen zwei
+Werte hin- und herschalten.
+Als Operand 1 und Operand 2 mssen Sie die zwei Werte eintragen.
+Fr SPS-Adresse, Abschluáadresse und Abschluáwert bekommen Sie weitere
+Hilfe ab Hilfeseite <0230>.
+Der Befehl vergleicht den Inhalt der SPS-Adresse mit dem Operand 1.
+Bei Gleichheit wird Operand 2 auf die SPS-Adresse geschrieben, bei
+Ungleichheit Operand 1.
+
+Die Abschluáadresse (falls angegeben) wird nach jedem Tastendruck 
+beschrieben.
+Sie mssen alle Tasten, die mit Tastenfunktionen behaftet werden, in
+der Tastaturbelegung als Funktionstaste definieren!
+# 274 ######### Eingabemaske Tip Byte ###########
+Tip Byte                                                         <0374>
+
+Mit dieser Funktion k”nnen Sie den Zustand einer Taste in die SPS
+bertragen. Solange die Taste niedergehalten wird, steht der Operand 1
+auf der SPS-Adresse, wird die Taste losgelassen, so wird Null auf die
+SPS-Adresse geschrieben.
+Der Abschluáwert wird erst nach Loslassen der Taste auf die Abschluá-
+adresse geschrieben.
+Fr SPS-Adresse, Abschluáadresse und Abschluáwert bekommen Sie weitere
+Hilfe ab Hilfeseite <0230>.
+Sie mssen alle Tasten, die mit Tastenfunktionen behaftet werden, in
+der Tastaturbelegung als Funktionstaste definieren!
+# 274 ######### Eingabemaske Input weiterschalten ###########
+Input weiterschalten                                             <0375>
+
+Mit dieser Funktion k”nnen Sie dem Bediener eine einfache M”glichkeit
+zum Hin- und Herwechseln zwischen Inputfeldern in einem Bild anbieten.
+Diese Tastenfunktion arbeitet unabh„ngig von der sog. Input-Reihenfolge
+(siehe Hilfeseite <0202>), sie findet den n„chsten Feld anhand dessen
+geometrischer Position im Bild.
+
+Als Parameter mssen Sie die Richtung definieren, in welche die Tasten-
+funktion den n„chsten Inputfeld sucht.
+
+Sie mssen alle Tasten, die mit Tastenfunktionen behaftet werden, in
+der Tastaturbelegung als Funktionstaste definieren!
+# 275 ######### Eingabemaske LED Funktion definieren ######
+LED Funktionen                                                   <0380>
+
+LED einschalten:
+ Die LED der ausgew„hlten Taste wird eingeschaltet.
+LED ausschalten:
+ Die LED der ausgew„hlten Taste wird nicht eingeschaltet. Das ist auch
+ der Initialzustand jeder Tasten-LED.
+LED langsam blinken:
+ Die LED der ausgew„hlten Taste blinkt langsam.
+LED schnell blinken:
+ Die LED der ausgew„hlten Taste blinkt schnell.
+
+Es k”nnen maximal 48 LEDs gleichzeitig beleuchtet werden. 
+# 276 ######### Eingabemaske LED Funktion definieren ######
+LED Funktion - LED aus der SPS schalten                          <0381>
+
+Mit diesem Befehl k”nnen Sie den Zustand einer Tasten-LED aus der SPS
+steuern. Die LED wird abh„ngig vom Wert auf der SPS-Adresse geschaltet:
+
+   0  -> LED wird ausgeschaltet
+   1  -> LED wird eingeschaltet
+   2  -> LED blinkt langsam
+   3  -> LED blinkt schnell
+
+Zur SPS-Adresse bekommen Sie weitere Hilfe ab Hilfeseite <0230>.
+# 300 ######### Eingabemaske Tastenbelegung bearbeiten ######
+Tastenbelegung Bearbeiten                                        <0400>
+
+Zu jedem Projekt werden zwei Tastenbelegungen definiert. Die numerische
+Tastenbelegung wird bei numerischen Inputfeldern benutzt. Die Tasten-
+belegung fr Stringeingabe wird bei den Feldern 'Input String' und
+'Input Passwort' verwendet.
+
+Die Tastenbl”cke werden am Bildschirm so dargestellt, wie sie in der
+Projekt-Hardwaredefinition angegeben sind. Der rechte obere Tastenblock
+ist der Block #1, den Sie als ersten an den Tableaucontroller an-
+schlieáen mssen.
+# 300 ######### Eingabemaske Tastenbelegung bearbeiten ######
+Tastenbelegung Bearbeiten                                        <0401>
+Steuertasten:
+ Mit Steuertasten kann der Bediener das Verhalten des Tableaus direkt
+ beeinflussen. Es gibt die folgenden Steuertasten:
+  +N+ Next              -> Wechsel in das n„chste Bild
+  +P+ Previous          -> Wechsel in das vorherige Bild
+  +E+ Enter             -> Eingabe Abschluátaste
+  +n+ nEXT INPUT        -> N„chste Eingabe
+  +C+ Clear             -> Eingabefeld l”schen
+  +B+ Backspace         -> Vorheriges Zeichen l”schen
+  +S+ Sign change       -> Vorzeichen wechseln
+  +p+ pREVIOUS INPUT    -> Vorherige Eingabe
+  +G+ Group Acknowledge -> Sammelquittierung fr Alarme
+ Es besteht keine zwingende Notwendigkeit in einem Projekt alle Steuer-
+ tasten zu definieren. Die Steuertasten werden immer automatisch in
+ beide Tastaturbelegungen eingetragen.
+# 300 ######### Eingabemaske Tastenbelegung bearbeiten ######
+Tastenbelegung Bearbeiten                                        <0402>
+Funktionstasten:
+
+ Mit Funktionstasten kann der Bediener die sog. Tastenfunktionen
+ aktivieren. Die Funktionstasten sind von F1 bis F99 numeriert.
+ Beim Ger„tetyp BRIT... sind nur 22 Funktionstasten zul„ssig.
+
+ Sie mssen jede Taste, die in mindestens einem Bild eine Tasten-
+ funktion hat, oder zum Bildwechsel verwendet wird, als Funktions-
+ taste definieren.
+# 400 ###### Eingabemaske Textgruppenverzeichnis ################
+Textgruppenverzeichnis                                           <0500>
+
+Im Textgruppenverzeichnis k”nnen Sie Textgruppen erstellen und be-
+arbeiten. Bestehende Textgruppen k”nnen mit F6 und F7 umgereiht, oder
+mit F3 gel”scht werden. Die Textgruppe GLOBAL kann nicht gel”scht
+werden.
+
+Hinweis:
+ L”schen Sie den Text #0 aus der Textgruppe GLOBAL nicht! Sie bein-
+ haltet Funktionen, die den Bildschirm bei jedem Bildwechsel l”schen.
+# 410 ##### Eingabemaske Textgruppen Bearbeiten  ######
+Textgruppen Bearbeiten                                           <0501>
+
+Der Text, den Sie bearbeiten k”nnen, wird im mittleren, markierten
+Bereich des Bildschirmes dargestellt. Sie k”nnen hier den Text belie-
+big editieren. Mit den Cursortasten k”nnen sie den n„chsten oder den
+vorherigen Text in den markierten Bereich bewegen.
+
+Mit F1 k”nnen Sie einen Text einfgen, mit F2 k”nnen Sie einen Text
+l”schen.
+Mit F3 k”nnen Sie Sonderfunktionen, wie Bildschirm l”schen oder LEDs
+ausschalten in den Text aufnehmen.
+Die maximale L„nge eines jeden Textes betr„gt 40 Zeichen.
+Die bearbeitete Textgruppe muá mit 'F4 šbernehmen' bernommen werden.
+# 500 ##### Eingabemaske Verbindungsliste ######
+Verbindungsliste                                                 <0600>
+
+In der Verbindungsliste erfolgt die Zuweisung von symbolischen
+Variablennamen auf SPS-en und SPS-Adressen.
+
+Die Verbindungsliste muá jede an das Tableau angeschlossene SPS beinhal-
+ten. Eine neue Verbindung k”nnen Sie mit F2 (Einfgen) oder F1 (Edit)
+erstellen. (siehe Hilfeseite <0601>)
+Sie k”nnen bestehende Verbindungen mit F3 l”schen, wenn die Verbindung
+keine Variablenzuweisungen enth„lt.
+
+Mit F5 k”nnen Sie in die Variablenzuordnungstabelle wechseln, und Ihre
+symbolischen Prozessvariablen zu SPS Adressen zuordnen.
+# 510 ##### Eingabemaske Verbindungsdefinition ######
+Verbindungsdefinition                                            <0601>
+
+Jede Verbindung (d.h. jede SPS Unterstation) bekommt eine zwei
+Zeichen lange Verbindungsidentifikation (ID).
+
+Die Verbindung selber wird nach <ENTER> aus einem Auswahlfenster
+selektiert. Sie k”nnen in Ihrem Projekt SPS-en anschlieáen die in
+diesem Fenster angeboten werden.
+
+Wenn Sie bei der Feldparametrierung keine Verbindung zu einem symboli-
+schen Variablennamen angegeben haben, so wird die Verbindung '/dd'
+verwendet.
+# 520 ##### Eingabemaske Protokoll Parameter Definition ######
+Protokoll Parameter Definition                                   <0602>
+
+Hier mssen Sie die SPS-spezifischen Kommunikationsparameter und andere
+von der jeweiligen SPS abh„ngigen Werte einstellen.
+
+Sie finden in Ihrem PANELWARE Applikationshandbuch eine ausfhrliche
+Beschreibung aller SPS-spezifischen Parameter.
+
+Wichtiger Hinweis:
+ šberprfen Sie zuerst diese Parameter, wenn Ihr Projekt im Run-Mode
+ immer wieder ins Fehlerbild wechselt oder gar nicht gestartet werden
+ kann.
+# 530 ###### Eingabemaske Variablenzuordnugstabelle ######
+Variablenzuordnungstabelle (VZT)                                 <0603>
+
+In der VZT werden zu Ihren symbolischen Variablen konkrete SPS-Adressen
+zugeordnet. Die VZT besteht aus vier Eintr„gen:
+ - Symbolischer Variablenname
+   Das ist der Name, den Sie in einem Feld als SPS-Adresse angegeben
+   haben.
+ - Bedientableau (BTI) Datentyp
+   Hier wird der Datentyp des Feldes automatisch angegeben, den die
+   Variable benutzt. (z.B. bei Output Byte steht hier BYTE unsigned)
+ - SPS Adresse
+   Hier mssen Sie die SPS-Adresse angeben mit Syntax und Schreib-
+   weise, wie es die angeschlossene SPS verlangt.
+# 530 ##### Eingabemaske Variablenzuordnugstabelle ######
+Variablenzuordnungstabelle (VZT) - Fortsetzung                   <0604>
+
+ - SPS Datentyp
+   Hier mssen Sie den Datentyp der Variable in der SPS angeben.
+   Er ist in den meisten F„llen mit BTI Datentyp identisch, es gibt
+   aber M”glichkeiten zur Datenkonvertierung. Es werden Ihnen bei der
+   Auswahl nur diejenigen Datentypen angeboten, die das Tableau
+   darstellen bzw. konvertieren kann.
+
+Sie finden eine ausfhrliche Beschreibung des Zusammenhangs zwischen
+BTI Datentypen und SPS Datentypen in Ihrem PANELWARE Applikations-
+handbuch.
+# 530 ##### Eingabemaske Variablenzuordnugstabelle ######
+Variablenzuordnungstabelle (VZT) - Fortsetzung                   <0605>
+
+Alle symbolischen Variablen, die Sie bei der Projektierung verwendet
+haben, werden automatisch in die VZT aufgenommen. Die Zuordnungen
+mssen Sie selber erstellen. (Funktionstaste F1 Edit)
+Sie mssen immer alle Variablen zuordnen, um das Projekt erfolgreich
+compilieren zu k”nnen.
+Sie k”nnen mit F2 neue Eintr„ge erstellen, oder mit F3 Variablen aus
+der VZT l”schen.
+Mit F5 werden die im Projekt nicht benutzten Variablen gekennzeichnet.
+Sie k”nnen diese sp„ter l”schen, wenn keine Verwendung beabsichtigt
+ist. Achtung! Die Kennzeichnung ist nur nach erfolgreicher (fehler-
+freier) Compilierung gltig!
+# 700 ##### Import Projekt ###########
+Import Projekt                                                   <0700>
+
+Mit dieser Funktion k”nnen Sie ein ganzes Projekt in ein anderes
+(meistens neu erstelltes) Projekt importieren. Es werden s„mtliche
+Projektdaten, Bilder, Verbindungen, Variablen, usw. des Quellprojektes
+ins Zielprojekt bernommen. Teile des Zielprojektes k”nnen dadurch
+berschrieben werden.
+
+Generelle Regeln zum Projekt Import:
+
+- Hardwareabh„ngige Projektdaten werden nur dann bernommen, wenn diese
+  am Zielhardware ausfhrbar sind.
+- Bildverzeichnis und Textgruppen werden ohne nderung, im Ganzen
+  bernommen.
+- Es werden alle Bilder nach den Regeln des Bildimportes (siehe
+  Hilfeseite <0701>) bernommen.
+- Die Tastencodetabelle des Zielprojektes wird mit dem des
+  Quellprojektes berschrieben.
+- Alarmfelder und das Alarmsystem werden nur importiert, wenn die
+  Zielhardware ber ein Alarmsystem verfgt.
+#
+Import Bild                                                      <0701>
+
+Mit dieser Funktion k”nnen Sie andere Bilder oder Teile davon ins
+aktuelle Bild importieren.
+
+Maskentexte, Linien und Felder werden nur dann importiert, wenn sie
+zur G„nze auf dem Display des Zielger„tes passen. Bildelemente, die aus
+dem Display hinausragen wrden, werden nicht importiert.
+
+Die Variablen, die das Bild enth„lt, werden in die gleiche Verbindung
+des Zielprojektes eingefgt. Existiert diese Verbindung im Zielprojekt
+nicht, so werden die Variablen in die Verbindung /DD des Zielprojektes
+eingefgt.
+#
+Import VZT                                                       <0702>
+
+Mit dieser Funktion k”nnen Sie Variablen und ihre Zuordnungen in die
+VZT Ihres Projektes importieren.
+
+Generelle Regeln zum VZT Import:
+
+- Sie k”nnen Variablen nur in eine existierende VZT importieren.
+- Bei Variablen, die in dem VZT bereits vorhanden sind, werden nur
+  SPS-Adresse und SPS Datentyp importiert, bzw. berschrieben.
+- Die SPS-Adresse und die SPS-Datentyp werden bei jeder importierten
+  Variable auf Gltigkeit berprft, und falls ungltig, gel”scht.
+#
+Export VZT                                                       <0703>
+
+Mit dieser Funktion k”nnen Sie Variablen und Variablenzuordnungen Ihres
+Projektes exportieren. PKS liegt die exportierten Daten in eine Datei
+mit Extension .DIF in Ihrem Projektverzeichnis ab. Es wird immer die
+ganze VZT exportiert.
+# 602 #### zu keiner Maske zugeordnet ######
+Protokollsystem Allgemein                                        <0800>
+
+Das Protokoll ist ein Ausdruck, der vom Tableau selber erzeugt wird.
+Protokolle k”nnen fixe Maskenteile und Felder beinhalten. Der Protokoll-
+ausdruck wird durch das Beschreiben der Protokollsystem Steueradresse
+mit der Protokollnummer gestartet. Nach Fertigstellung des Protokolls
+wird diese Adresse vom Tableau gel”scht.
+
+Die Gr”áe des Protokolls sollen Sie nach dem Papierformat des am Tableau
+angeschlossenen Druckers richten. Es sind max. 64 Zeilen und 132 Spalten
+erlaubt.
+# 602 #### Maske Protokollverzeichnis ######
+Protokollverzeichnis                                             <0810>
+
+Im Protokollverzeichnis sind alle Protokolle mit ihren wichtigsten
+Parameter aufgelistet. Sie k”nnen hier die Protokolle vor und zurck-
+reihen, damit alle Protokolle die fr sie vorgesehene Nummer bekommen.
+Die Nummer wird in der ersten Spalte der Liste angezeigt. Diese Nummer
+muá auf die Steueradresse geschrieben werden um einen Protokollausdruck
+zu starten.
+
+Die fr alle Protokolle gemeinsam gltige Steueradresse wird im
+Protokollverzeichnis angezeigt, und kann mit F5 eingegeben, bzw. modi-
+fiziert werden.
+# 602 #### Maske Protokollverzeichnis ######
+Protokollverzeichnis - Fortsetzung                               <0811>
+
+Mit F2 k”nnen Sie ein neues Protokoll anlegen, mit F1 k”nnen Sie die
+Parameter eines bestehenden Protokolls „ndern und mit F3 k”nnen Sie 
+ein Protokoll l”schen.
+
+Mit F4 kommen Sie in das Protokoll-Bearbeitungsfenster, wo Sie das
+Protokoll eingeben k”nnen.
+# 602 #### Maske Protokollparameter-Definition ######
+Protokollparameter-Definition                                    <0820>
+
+Protokollname:
+ Sie k”nnen einen achtstelligen Namen fr jedes Protokoll vergeben.
+
+Anzahl der Zeilen/Spalten:
+ Hier k”nnen Sie die Gr”áe des Protokolls definieren. Sie sollen diese
+ Parameter nach der Papiergr”áe des Druckers einstellen.
+ Maximal sind 64 Zeilen und 132 Spalten erlaubt.
+# 602 #### Maske Protokollparameter-Definition ######
+Protokollparameter-Definition - Fortsetzung                      <0821>
+
+Seitenvorschub vorher:
+ Dieser Parameter bestimmt ob vor dem Ausdruck des Protokolls ein
+ Seitenvorschub am Drucker ausgel”st wird. Wenn sie "bedingt" angeben,
+ so wird nur dann ein Seitenvorschub ausgel”st, wenn die Zeilenanzahl
+ des Protokolls gr”áer ist als die Anzahl der noch freien Zeilen auf
+ dem Papier.
+ Bitte beachten Sie, daá die L„nge des Papiers (Zeilen pro Seite) unter
+ den "Allgemeinen Druckerparameter Tableau" (Men Bearbeiten) einge-
+ stellt werden kann. Siehe Hilfeseite <0860>
+# 602 #### Maske Protokollparameter-Definition ######
+Protokollparameter-Definition - Fortsetzung                      <0822>
+
+Seitenvorschub nachher:
+ Dieser Parameter bestimmt ob nach dem Protokoll ein Seitenvorschub
+ ausgegeben werden soll.
+
+Abschluáadresse und Abschluáwert:
+ Nach Fertigstellung des Protokolls wird die Abschluáadresse mit dem
+ Abschluáwert beschrieben. Die Angabe ist optional, wenn Sie keine
+ Abschluáadresse angeben, wird die Funktion nicht ausgefhrt.
+ Protokolle mit Folgeprotokoll k”nnen keine Abschluávariable
+ beschreiben.
+# 602 #### Maske Protokollparameter-Definition ######
+Protokollparameter-Definition - Fortsetzung                      <0823>
+
+Folgeprotokoll:
+ Hier k”nnen Sie den Namen eines anderen Protokolls angeben. Das Folge-
+ protokoll wird unmittelbar nach dem ausl”senden Protokoll gedruckt.
+ Protokolle, die eine Abschluávariable bedienen, k”nnen keine Folge-
+ protokolle haben.
+
+Init Sequenz:
+ Wenn Sie fr den Protokollausdruck Ihren Drucker in einen besonderen
+ Betriebsmodus setzen wollen, k”nnen Sie hier die dafr notwendigen
+ Steuerzeichen eintragen. Die Init Sequenz wird vor dem Protokoll an
+ den Drucker geschickt.
+# 602 #### Maske Protokollsys. Steueradresseingabe ######
+Protokollsystem Steueradresse                                    <0830>
+
+Protokolle werden ber die Protokollsystem Steueradresse gestartet,
+indem die Nummer des zu startenden Protokolls auf die Steueradresse
+geschrieben wird. Ist das Protokoll fertig ausgedruckt, setzt das
+Tableau die Steueradresse auf Null zurck.
+Sie k”nnen hier SPS-Adressen oder interne Variablen anschlieáen. Das
+Tableau erwartet eine Variable mit Datentyp WORT UNSIGNED auf die
+Steueradresse.
+Sie k”nnen die Steueradresse entweder direkt aus dem SPS-Programm oder
+mit einem Set Wort Tastenbefehl aus dem Tableau beschreiben.
+# 602 #### Maske Protokoll Bearbeiten ######
+Protokoll Bearbeiten                                             <0840>
+
+Die Bedienung des Prokolleditors gleicht der dem Bildeditor. Sie k”nnen
+Maskentexte (F1) oder Felder (F2) definieren. Es sind alle Outputfelder,
+welche in einem Bild vorkommen k”nnen, auch fr Protokolle zugelassen.
+
+Da der Prokotollbereich wesentlich gr”áer sein kann als der Bildschirm-
+bereich, wird das Editorfenster beim Erreichen des Randes automatisch
+gescrollt. In den Eckbereichen zeigen Pfeile, an ob und in welcher
+Richtung das Protokollfenster gescrollt werden kann.
+
+Rechts unten wird die aktuelle Cursorposition angezeigt.
+# 602 #### Maske Allgemeine Druckerparameter ######
+Allgemeine Druckerparameter                                      <0860>
+
+Hier k”nnen Sie allgemeine Parameter fr Drucker und Drucker-
+schnittstelle des Tableaus eingeben:
+Zeilen pro Seite, Zeichen pro Zeile:
+ Diese beiden Parameter mssen Sie entsprechend dem Papierformat Ihres
+ Druckers einstellen.
+Seitenvorschub:
+ Hier k”nnen Sie angeben, ob der Seitenvorschub mit dem Steuerzeichen
+ 'FF' (Form Feed) oder mit der entsprechende Anzahl von 'LF' (Line
+ Feed) Zeichen ausgel”st werden soll. Das Benutzerhandbuch Ihres
+ Druckers gibt Auskunft ber die notwendigen Steuerzeichen.
+# 602 #### Maske Allgemeine Druckerparameter ######
+Allgemeine Druckerparameter - Fortsetzung                        <0861>
+
+Drucker - Schnittstelle:
+ Sie k”nnen hier ausw„hlen, an welche Schnittstelle der Drucker ange-
+ schlossen wird. Drucker k”nnen an die Tableauschnittstellen 0 oder 1 
+ angeschlossen werden.
+Baud-Rate:
+ Hier mssen Sie die serielle šbertragungsgeschwindigkeit einstellen.
+ Der Drucker muá fr die gleiche Baudrate eingestellt werden.
+Parit„t, Anzahl Datenbits, Anzahl Stopbits:
+ Diese Parameter beschreiben die Funktionsweise der seriellen Drucker-
+ schnittstelle. Bitte entnehmen Sie die notwendigen Einstellungen aus
+ dem Benutzerhandbuch Ihres Druckers.
+# 602 #### Maske Allgemeine Druckerparameter ######
+Allgemeine Druckerparameter - Fortsetzung                        <0862>
+
+Kopfzeilentext:
+ Es wird auf jede Seite eine Kopfzeile gedruckt, deren Inhalt Sie hier
+ angeben k”nnen.
+HandShakemodus:
+ Dieser Parameter beschreibt die Funktionsweise der seriellen Drucker-
+ schnittstelle. Bitte entnehmen Sie die notwendige Einstellung aus dem
+ Benutzerhandbuch Ihres Druckers.
+# 602 #### Maske Allgemeine Druckerparameter ######
+Allgemeine Druckerparameter - Fortsetzung                        <0863>
+
+Init-Sequenz fr Drucker:
+ Hier k”nnen Sie Steuersequenzen definieren, die den Drucker in die
+ gewnschte Betriebsart setzen. Diese Sequenzen werden nach dem
+ Einschalten, bzw. Reset des Tableaus als erste zum Drucker gesendet.
+
+Init-Sequenz fr Seitenwechsel:
+ Hier k”nnen Sie Steuersequenzen definieren, die bei einem Seiten-
+ wechsel an den Drucker gesendet werden sollen. Diese Sequenzen werden
+ mit jedem Seitenwechsel an den Drucker gesendet.
+# #### Maske Textebenen Editor ######
+Textebenen Editor                                                <0900>
+
+Auf der linken Bildh„lfte sehen Sie die sog. Defaulttexte. Defaulttexte
+werden mit dem jeweiligen Editor (z.B. Bildmaske, Alarmtexte, usw.)
+eingegeben. Es werden alle Texte des betroffenen Bildes, Alarmgruppe, 
+usw. aufgelistet.
+Auf der rechten Bildh„lfte k”nnen Sie fr jede Textebene eine šber-
+setzung des Textes eingeben.
+
+Bitte beachten Sie, daá die šbersetzung nie l„nger werden darf, als der
+Text in der Defaultsprache. Reicht der Platz fr die šbersetzung nicht,
+so mssen Sie den Defaultsprachentext in dem jeweiligen Editor mit Leer-
+zeichen verl„ngern, um Platz fr die šbersetzung zu schaffen.
+# #### Maske Textebenen Editor ######
+Textebenen Editor - Fortsetzung                                  <0901>
+
+Wenn Ihr Projekt mehr als eine Textebene hat, k”nnen Sie mit F1
+zwischen den Textebenen umschalten.
+
+Mit F2 k”nnen sie einen Text markieren, und dessen šbersetzung k”nnen
+Sie mit F3 auf eine andere Stelle kopieren.
+# #### Maske Textebenen Editor ######
+Textebenen Editor - Fortsetzung                                  <0902>
+
+Bitte beachten Sie, wenn Sie den Text in der Defaultsprache „ndern, so
+mssen Sie auch die šbersetzung fr den ge„nderten Text neu eingeben, da
+PKS nicht selber entscheiden kann, ob die alte šbersetzung korrekt ist.
+
+Nach einer nderung des Textes in der Defaultsprache, steht Ihnen die
+šbersetzung im Textebenen Editor in der letzten Zeile noch zur
+Verfgung.
+# #### Maske Textebenen Editor ######
+Textebenen Editor - Fortsetzung                                  <0903>
+
+Fr Textebenen, fr die nie der Textebenen Editor aufgerufen wurde,
+bekommen Sie eine Warnung beim Compilieren, daá die šbersetzung fehlt.
+
+Leerstrings sind als šbersetzungen erlaubt. Wird der Textebeneneditor
+einmal aufgerufen, bekommen Sie keine Warnungen mehr,auch nicht, 
+wenn die šbersetzung nur aus Leerstrings besteht.
+
+Es wird empfohlen, alle šbersetzungen auf einmal, nach Fertigstellung
+des Projektes einzugeben.
+# #### Maske Textebenen šbersicht ######
+Textebenen šbersicht                                             <0950>
+
+Die Textebenen erm”glichen eine online Umschaltung der Dialogsprache
+fr das Bedienpersonal. In der Textebenen šbersicht, werden alle 
+Textebenen des Projektes aufgelistet.
+Die PKS numeriert die Textebenen automatisch, Sie k”nnen aber zu jeder
+Textebene eine sog. "Nr. Tableau" eingeben. Die hier eingegebene Zahl
+wird zur Ansteuerung einer Textebene, bzw. zum Dialogsprachenwechsel
+aus der SPS benutzt (SPS Adresse fr Sprachumschaltung).
+
+Auf jeder Stelle in der PKS, wo Sie Texte eingeben, k”nnen Sie mit F8
+in den Textebenen Editor wechseln, wo sie die šbersetzungen fr alle
+Textebenen eingeben k”nnen. Siehe Hilfeseite <0900>.
+# #### Maske Textebenen šbersicht ######
+Textebenen šbersicht - Fortsetzung                               <0951>
+
+Um den Textebenen Editor aktivieren zu k”nnen, mssen Sie zuerst die
+Textebene definieren. (Projekt Bearbeiten -> F1 -> F8)
+# #### Maske Textebenen Definition ######
+Textebenen Definition                                            <0960>
+
+Textebenen Nr.:
+ Diese Nummer wird automatisch von der PKS vergeben.
+
+Textebenen Beschreibung:
+ Sie k”nnen hier der Textebene einen Namen geben. Meistens wird hier
+ die Bezeichnung der jeweiligen Sprache (deutsch, englisch) ein-
+ getragen.
+
+Textebenen Nr. Tableau:
+ Sie mssen hier angeben, mit welcher Nummer die Textebene aktiviert
+ wird. Alle Textebenen, die compiliert werden, mssen eine unter-
+ schiedliche Nummer bekommen. Das SPS-Programm oder der entsprechende 
+ Tastenbefehl, muá diese Zahl auf die SPS-Adresse fr Sprachumschaltung 
+ schreiben, um die Textebene zu aktivieren.
+# #### Maske Textebenen Definition ######
+Textebenen Definition - Fortsetzung                              <0961>
+
+Textebene compilieren:
+ Die Textebene wird nur dann zum Projekt compiliert, wenn Sie hier JA
+ einstellen. Die Anzahl der compilierten Textebenen ist nur durch die
+ Gr”áe des Anwenderspeichers im Tableau begrenzt. Sie k”nnen Projekte
+ mit beliebig vielen Textebenen erstellen, und immer nur diejenigen
+ compilieren, welche Sie brauchen.
+ Die max. Anzahl der Textebenen ist 64.
+# ##### Importieren von Textebenen #####################
+Allgemeines ber Textebenen Import                               <0970>
+
+Textebenen Import
+ Der Textebenen Import wird aus der Textebenen šbersicht aufgerufen. 
+ Der Import wird mittels <CTRL>+<I> oder ber das Men <Datei> / 
+ <Import> gestartet. 
+ Beim Import werden alle bersetzten Texte (durch Tabulator von der 
+ Defaultsprache getrennt) gelesen und in die entsprechenden PKS Ele-
+ mente (z.B. Bild, Alarmteste,...) bernommen. Defaulttexte werden bei 
+ einem Bildimport nicht bernommen.
+ Stimmen die Defaulttexte im Projekt mit den Defaulttexten der šber-
+ setzungsdatei berein, wird die šbersetzung aus der Datei gelesen und
+ der vorhandene šbersetzungstext berschrieben. Ist der šbersetzungs-
+ text l„nger als der Defaulttext, wird der šbersetzungstext abge-
+ schnitten.
+# ##### Importieren von Textebenen #####################
+Allgemeines ber Textebenen Import                               <0971>
+
+Meldeseite bei Textebenen Import
+ W„hrend des Textebenen Imports wird eine Meldeseite erstellt („hnlich
+ wie beim Import von Variablenzuordnungstabellen), wo folgende Punkte
+ eingetragen werden:
+ - Ein Bild, Protokoll, ... wurde vollst„ndig importiert, d.h. im 
+   Projekt und in der Textdatei sind die Defaulttexte gleich.
+ - Ein Bild, Protokoll, ... wurde unvollst„ndig importiert, d.h. in 
+   der Datei oder im Projekt befinden sich Texte, zu denen keine
+   šbersetzung zu finden war.
+# ##### Importieren von Textebenen #####################
+Allgemeines ber Textebenen Import                               <0972>
+ 
+ - Ein Bild, Protokoll, ... wurde nicht importiert, d.h. in der Datei
+   gibt es ein Bild, welches nicht existiert.
+ - In der Textdatei wurde ein Bild, Protokoll, ... nicht gefunden.
+ - Ungltige Beschreibungszeile. Wird beim Import eine Zeile gefunden,
+   die zwar mit # anf„ngt, aber sonst keine gltige Beschreibung be-
+   inhaltet, wird dies auf der Meldezeile vermerkt. Alle Zeilen bis 
+   zur n„chsten gltigen Beschreibungszeile werden ignoriert.
+# ##### Exportieren von Textebenen #####################
+Allgemeines ber Textebenen Export                               <0980>
+
+Der Textebenen Export wird aus der Textebenen šbersicht aufgerufen und
+exportiert alle Bilder, Protokolle, Alarmtexte usw. aus der selek-
+tierten Textebene. Die Defaultsprache kann nicht exportiert werden 
+(wird automatisch bei allen anderen Textebenen mit exportiert).
+
+Um eine Textebene exportieren zu k”nnen, muá die gewnschte Textebene
+mittels Cursortasten selektiert werden. Der Export wird mittels 
+<CTRL>+<E> oder ber das Men <Datei> / <Export> gestartet. Sie mssen
+einen Dateinamen eingeben. Diese Datei wird mit der Extension *.TXT
+abgespeichert.
+
+Ihr PANELWARE Software Anwenderhandbuch gibt Auskunft ber den Aufbau
+der exportierten Textdatei.
+# 600 ##### Maske Alarmsystem Grundkonfiguration ###########
+Allgemeines ber das Alarmsystem                                 <1000>
+
+Das Alarmsystem 
+Die Alarme werden in der SPS als Alarmbits repr„sentiert. Die Alarmbits
+mssen in der SPS in einem kontinuierlichen Bitfeld vorliegen.
+Das Tableau liest das Alarmbitfeld aus der SPS mit der eingestellten
+Scan-Rate, tr„gt die nderungen in die Alarmliste ein und erzeugt einen
+Ausdruck.
+
+Die Alarme werden in Alarmgruppen eingeteilt. Jede Gruppe hat ihr
+eigenes Alarmbitfeld, Scan-Rate und Priorit„t. Es k”nnen max. 252
+Alarmgruppen definiert werden. Die Alarmgruppen 'System Alarme' und 
+'Summenalarme' sind immer automatisch vorhanden.
+# 600 ##### Maske Alarmsystem Grundkonfiguration ###########
+Allgemeines ber das Alarmsystem - Fortsetzung                   <1001>
+
+Die Alarme werden intern in die sog. AKTUELLE ALARMLISTE eingetragen.
+Diese Liste enth„lt alle Alarme, die anstehen, oder ohne Quittierung
+gegangen sind. Die Konditionen, wann ein Alarm aus dieser Liste ent-
+fernt wird, sind parametrierbar.
+
+Bei jeder Alarmbit„nderung, die zur Ein- oder Austragung aus der
+aktuellen Alarmliste fhrt, wird dieses Ereignis in der sog.
+HISTORISCHEN ALARMLISTE dokumentiert. Diese Liste bildet die Basis
+fr den Ausdruck auf den Alarmdrucker.
+# 600 ##### Maske Alarmsystem Grundkonfiguration ###########
+Allgemeines ber das Alarmsystem - Fortsetzung                   <1002>
+
+Die Alarme und die Alarmlisten werden mit Hilfe von Alarmfeldern auf
+dem Display des Tableaus dargestellt.
+Es gibt die folgenden Alarmfelder:
+
+        Erster („ltester ) anstehender Alarm
+        Letzter (jngster) anstehender Alarm
+        Anstehender Alarm
+        Alarm
+        Hist. Alarmlisteneintrag
+
+Die Alarmfelder sind ab Hilfeseite <1200> beschrieben.
+# 601 ### Maske Alarmsys. Grundkonfig., wenn das Editieren m”glich ist.
+Alarmsystem Grundkonfiguration                                   <1030>
+
+Hier k”nnen Sie allgemeine Parameter des Alarmsystems einstellen:
+Angezeigter Text, wenn kein Alarm:
+ Dieser Text wird in den Alarmfeldern, die sonst einen anstehenden
+ Alarm anzeigen wrden, dann angezeigt, wenn kein einziger Alarm im
+ System ansteht, bzw. die aktuelle Alarmliste leer ist.
+Ausgedruckter Text bei Sammelquittierung:
+ Wird die Sammelquittiertaste bet„tigt, so wird am Drucker statt dem
+ Alarmtext dieser Text ausgegeben.
+# 601 ### Maske Alarmsys. Grundkonfig., wenn das Editieren m”glich ist.
+Alarmsystem Grundkonfiguration                                   <1031>
+
+L„nge der historischen Alarmliste:
+ Sie k”nnen bestimmen, wieviel Ereignisse in der historischen
+ Alarmliste gespeichert werden sollen. Dieser Eintrag ist besonders
+ wichtig, wenn kein Drucker am Tableau angeschlossen ist.
+Drucker vorhanden:
+ Hier k”nnen Sie angeben, ob Sie einen Drucker am Tableau angeschlos-
+ sen haben. Stellen Sie diesen Eintrag immer auf NEIN, wenn Sie keinen
+ Drucker verwenden.
+# 602 #### Maske Allgemeine Druckerparameter ######
+Allgemeine Druckerparameter Alarmsystem                          <1040>
+
+Sequenz bei Gekommen:
+ Falls Ihr Drucker mehrere Farben oder Schriftarten hat, k”nnen Sie
+ bestimmte Meldungen hervorheben. Sie k”nnen hier die Steuersequenz
+ eingeben, die vor dem Ausdruck eines gekommenen Alarmes ausgegeben
+ werden soll. Lassen Sie diese Eingabe leer, wenn Sie die Funktion
+ nicht ben”tigen. Die Steuerzeichen k”nnen Sie folgendermaáen eingeben:
+ <NUL>  00                               <ESC>  27
+ ^A     01                               <FS>   28
+ ^B     02                               <GS>   29
+ ...    CTRL-Zeichen                     <RS>   30 
+ ^Z     26                               <US>   31
+ ab 32 bis 126 sichtbare ASCII Zeichen
+ <DEL> 127
+(Beispiel: <ESC>^A entspricht dem Code 27 01)
+# 602 #### Maske Allgemeine Druckerparameter ######
+Allgemeine Druckerparameter Alarmsystem - Fortsetzung            <1041>
+
+Sequenz bei Gegangen:
+ Sie k”nnen hier die Steuersequenz eingeben, die vor dem Ausdruck
+ eines gegangenen Alarmes ausgegeben werden soll.
+Sequenz bei Quittieren:
+ Sie k”nnen hier die Steuersequenz eingeben, die vor dem Ausdruck
+ einer Quittierung ausgegeben werden soll.
+Sequenz bei Brcken:
+ Sie k”nnen hier die Steuersequenz eingeben, die vor dem Ausdruck
+ einer Brckung ausgegeben werden soll.
+# 603 #### Maske Druckformat Definition ######
+Druckformat Definition                                           <1050>
+
+Der Drucker erzeugt bei jedem Ereignis im Alarmsystem einen einzeiligen
+Ausdruck. Diese Zeile k”nnen Sie hier parametrieren.
+
+Uhrzeitformat:
+ Sie k”nnen nach <ENTER> eine der angebotenen Uhrzeitformate ausw„hlen.
+Gruppennummer, Alarmnummer:
+ Sie k”nnen ausw„hlen, ob und wie die Gruppennummer und die Alarmnummer
+ ausgedruckt werden sollen.
+Alarmtext:
+ Sie k”nnen ausw„hlen, ob der Alarmtext ausgedruckt werden soll.
+# 603 #### Maske Druckformat Definition ######
+Druckformat Definition - Fortsetzung                             <1051>
+
+Ereignis:
+ Das Ereignis kann in Textform oder als Zeichen ausgedruckt werden
+ oder kann unterdrckt werden. Als Ereignis gelten, wenn ein Alarm
+ gekommen, gegangen, quittiert, gebrckt oder entbrckt worden ist.
+ Der Ausdruck in Textform verwendet die Alarmzustandstexte, die Sie
+ in der Alarmgruppen Definition eingegeben haben.
+ (siehe Hilfeseite <1113>).
+ Der Ausdruck als Zeichen verwendet die Zeichen aus dem Zustandskrzel,
+ die Sie in der Alarmgruppen Definition eingegeben haben.
+ (siehe Hilfeseite <1115>)
+# 603 #### Maske Druckformat Definition ######
+Druckformat Definition - Fortsetzung                             <1052>
+
+Quittierstatus:
+ Der Quittierstatus kann in Textform oder als Zeichen ausgedruckt
+ werden oder kann unterdrckt werden.
+ Der Quittierstatus wird nur bei den Ereignissen Gegangen und Gebrckt
+ ausgegeben.
+Trennzeichen:
+ Die Trennzeichen dienen zur Gliederung der Ausdruckzeile. Als Trenn-
+ zeichen k”nnen ein Leerzeichen, Punkt oder ein Bindestrich ausgegeben
+ werden.
+
+Die Vorschau im unteren Bereich des Fensters stellt die Druckerzeile in
+der Form dar, wie sie auf dem Drucker erscheinen wird.
+# 610 #### Maske Alarmgruppenverzeichnis ######
+Alarmgruppenverzeichnis                                          <1100>
+
+Im Alarmgruppenverzeichnis bekommen Sie einen šberblick ber alle
+Alarmgruppen des Projektes. Die Alarmgruppen werden mit den folgenden
+Angaben dargestellt:
+
+Alarmgruppennummer:
+ Das ist die Nummer der Alarmgruppe. Die Gruppe #0 ist fr System-
+ Alarme, die Gruppe #253 fr Summenalarme reserviert.
+Anzahl der Alarme in der Gruppe:
+ Hier sehen Sie, wieviel Alarme die Gruppe beinhaltet. Regul„re
+ Gruppen k”nnen max. 128 Alarme beinhalten.
+# 610 #### Maske Alarmgruppenverzeichnis ######
+Alarmgruppenverzeichnis - Fortsetzung                            <1101>
+
+Alarm-Adresse:
+ Das ist die symbolische Adresse (mit Verbindungs-ID) des Alarmbit-
+ feldes.
+Scan Rate:
+ Die Scan Rate gibt an, wie oft das Alarmbitfeld aus der SPS gelesen
+ wird.
+Priorit„t:
+ Das ist die Priorit„tszahl der Gruppe.
+# 610 #### Maske Alarmgruppenverzeichnis ######
+Alarmgruppenverzeichnis - Fortsetzung                            <1102>
+
+Summenalarmadresse:
+ Hier steht eine symbolische Adresse, falls das Summenalarmbit in die
+ SPS zurckgeschrieben wird. Wird diese Funktion nicht verwendet, so
+ ist dieser Eintrag leer.
+Zustandskrzel:
+ Das sind Zeichen, die in den Alarmfelder oder am Drucker fr
+ Zustandsanzeigen verwendet werden (siehe Hilfeseite <1115>).
+# 610 #### Maske Alarmgruppenverzeichnis ######
+Alarmgruppenverzeichnis - Fortsetzung                            <1103>
+
+Im Alarmgruppenverzeichnis k”nnen Sie Alarmgruppen editieren (F1), neue
+Gruppen einfgen (F2), Alarmgruppen l”schen (F3) oder die Reihenfolge
+der Gruppen ver„ndern (F6 und F7).
+
+Mit F4 k”nnen Sie einen neuen Alarm zu der Gruppe definieren, mit F5
+wechseln Sie in das Alarmverzeichnis der Gruppe.
+# 611 #### Maske Alarmgruppen Definition ######
+Alarmgruppen Definition                                          <1110>
+
+In der Alarmgruppen Definition k”nnen Sie die Parameter der Gruppe
+einstellen:
+
+Gruppennummer, max. Alarmanzahl
+ Diese beiden Angaben werden nur zur Information dargestellt.
+SPS-Adresse des Alarmbitfeldes:
+ Hier mssen Sie die symbolische Adresse (mit Verbindungs-ID) des
+ Alarmbitfeldes eintragen.
+# 611 #### Maske Alarmgruppen Definition ######
+Alarmgruppen Definition - Fortsetzung                            <1111>
+
+SPS-Adresse des Summenalarms:
+ Hier k”nnen Sie eine SPS-Adresse (mit Verbindungs-ID) eintragen.
+ Das Summenalarmbit wird auf diese Adresse bertragen. Lassen Sie
+ diesen Eintrag leer, wenn Sie keine Summenalarme ben”tigen oder den
+ Summenalarm nicht in die SPS zurckbertragen wollen.
+ Der Datentyp des Summenalarmes ist BYTE, bertragen wird 0 oder 1
+ abh„ngig von dem Zustand des Summenalarms.
+SPS-Adresse des Brckungsabbilds:
+ Hier k”nnen Sie eine SPS-Adresse (mit Verbindungs-ID) eintragen.
+ Diese Adresse muá in der SPS auf ein Bitfeld fhren, wohin der aktu-
+ elle Status der Brckungen bertragen wird. Lassen Sie diesen Eintrag
+ leer, wenn Sie die Brckungsfunktion nicht benutzen oder das
+ Brckungsabbild nicht in die SPS bertragen wollen.
+# 611 #### Maske Alarmgruppen Definition ######
+Alarmgruppen Definition - Fortsetzung                            <1112>
+
+SPS-Adresse des Quittierungsabbildes:
+ Hier k”nnen Sie eine SPS-Adresse (mit Verbindungs-ID) eintragen.
+ Das Quittierungsabbild wird beim Quittieren eines unquittierten
+ Alarmes oder beim Ausl”sen einer Sammelquittierung in die SPS ber-
+ tragen. Somit kann in der SPS ein Quittieren eines Alarmes erkannt
+ werden. Lassen Sie diesen Eintrag leer, wenn Sie das Quittierungs-
+ sabbild nicht in die SPS bertragen wollen.
+
+ Das Quittierungsabbild hat den gleichen Aufbau und die gleiche
+ Gr”áe wie das Alarmbitfeld.
+# 611 #### Maske Alarmgruppen Definition ######
+Alarmgruppen Definition - Fortsetzung                            <1113>
+
+Alarm Scan Rate:
+ Hier mssen Sie eintragen, wie oft die Alarmbits aus der SPS gelesen
+ werden sollen. Sie k”nnen nach <ENTER> eine der angebotenen Scan-Rates
+ ausw„hlen. Definieren Sie nur so hohe Scan-Rates, wie Ihre Applikation
+ es wirklich braucht. Schnelle Scan-Rates k”nnen die Kommunikation
+ zwischen Tableau und SPS sehr belasten.
+Priorit„t:
+ Hier mssen Sie die Priorit„t der Gruppe eingeben. Je gr”áer die Prio-
+ rit„tszahl ist, desto h”here Priorit„t hat die Alarmgruppe.
+# 611 #### Maske Alarmgruppen Definition ######
+Alarmgruppen Definition - Fortsetzung                            <1114>
+
+Alarmzustandstexte:
+ Diese Texte werden im Ausdruck verwendet. Sie k”nnen fr jede
+ Alarmgruppe und fr jedes Ereignis einen eigenen Text definieren.
+  Text [0]:  Alarm ist gekommen         Vorbelegung: gekommen
+  Text [1]:  Alarm ist gegangen         Vorbelegung: gegangen
+  Text [2]:  Alarm wurde/ist quittiert  Vorbelegung: quittiert
+  Text [3]:  Alarm ist unquittiert      Vorbelegung: nicht quittiert
+  Text [4]:  Alarm wurde gebrckt       Vorbelegung: gebrueckt
+  Text [5]:  Alarm wurde entbrckt      Vorbelegung: entbrueckt
+# 611 #### Maske Alarmgruppen Definition ######
+Alarmgruppen Definition - Fortsetzung                            <1115>
+
+šbersicht der verwendeten Zustandstexte im Ausdruck:
+  Text [0], [1], [2], [4] oder [5]      als Ereignis
+  Text [2] oder [3]                     als Quittierstatus
+
+Hinweis:
+ Der Quittierstatus wird im Ausdruck nur bei den Ereignissen Gegangen
+ und Gebrckt ausgegeben.
+# 611 #### Maske Alarmgruppen Definition ######
+Alarmgruppen Definition - Fortsetzung                            <1116>
+
+Zustandskrzel:
+ Das Zustandskrzel ist ein 10 Zeichen langer String, der in den Alarm-
+ feldern und im Ausdruck verwendet wird. Die Zeichen werden zur
+ Darstellung von Zust„nden und Vorg„ngen in der folgenden Reihenfolge
+ hergenommen:
+  Zeichen[0]:  Alarm gekommen (Ereignis)           Vorbelegung: K
+  Zeichen[1]:  Alarm gegangen (Ereignis)           Vorbelegung: G
+  Zeichen[2]:  Alarm wurde/ist quittiert           Vorbelegung: Q
+  Zeichen[3]:  Alarm ist unquittiert               Vorbelegung: <Space>
+  Zeichen[4]:  Alarm steht an  (Zustand)           Vorbelegung: 1
+  Zeichen[5]:  Alarm steht nicht an (Zustand)      Vorbelegung: 0
+  Zeichen[6]:  Alarm ist gebrckt (Zustand)        Vorbelegung: B
+  Zeichen[7]:  Alarm ist nicht gebrckt (Zustand)  Vorbelegung: <Space>
+  Zeichen[8]:  Alarm wurde gebrckt (Ereignis)     Vorbelegung: B
+  Zeichen[9]:  Alarm wurde entbrckt (Ereignis)    Vorbelegung: E
+# 611 #### Maske Alarmgruppen Definition ######
+Alarmgruppen Definition - Fortsetzung                            <1117>
+
+šbersicht Alarmfelder und verwendete Zustandskrzel:
+ Feld fr ersten oder letzten anst. Alarm:
+    Zeichen [2] oder [3]                    als Quittierzustand.
+ Feld fr anstehenden Alarm:
+    Zeichen [2], [3] oder [1]               als Info.
+ Feld fr Alarm:
+    Zeichen [2] oder [3]                    als Quittierstatus
+    Zeichen [4] oder [5]                    als Alarmstatus
+    Zeichen [6] oder [7]                    als Brckungsstatus
+ Feld fr hist. Alarmlisteneintrag:
+    Zeichen [0], [1], [2], [8] oder [9]     als Ereignis
+    Zeichen [2] oder [3]                    als Quittierstatus
+# 612 #### Maske Default Alarmkonfiguration ######
+Default Alarmkonfiguration                                       <1118>
+
+Sie k”nnen fr jede Alarmgruppe eine Vorgabe erstellen, wie die einzel-
+nen Alarme der Gruppe konfiguriert werden sollen. Wenn Sie sp„ter die
+Alarme eintragen, bekommen diese die hier eingestellte default Alarm-
+konfiguration.
+Die Bedeutung der Konfigurationsparameter ist ab der Hilfeseite <1121>
+beschrieben.
+# 613 #### Maske Summenalarmdefinition ######
+Summenalarmdefinition                                            <1119>
+
+Zu jeder Alarmgruppe ist ein spezieller Alarm, der sog. Summenalarm
+zugeordnet. Dieser Alarm wird ausgel”st, wenn mindestens ein (fr
+Summenalarmbildung zugelassener) Alarm aus der Gruppe ansteht.
+Sie k”nnen bei jedem einzelnen Alarm angeben, ob er den Summenalarm
+ausl”sen soll.
+
+Summenalarme k”nnen nicht gebrckt werden, k”nnen keine weiteren
+Summenalarme ausl”sen und k”nnen auch nicht "latched" sein.
+
+Wird der Summenalarm quittiert, so werden auch alle Alarme mitquit-
+tiert, die den Summenalarm ausgel”st haben.
+# 614 #### Maske Alarmdefinition ######
+Alarmdefinition                                                  <1120>
+
+In der Alarmdefinition k”nnen Sie die Parameter jedes einzelnen Alarmes
+einstellen.
+Gruppennummer, Alarmnummer:
+ Die Gruppennummer wird zur Information angezeigt, die Alarmnummer wird
+ automatisch vergeben. Sie k”nnen die Alarmnummer im Alarmverzeichnis
+ umrangieren. (siehe Hilfeseite <1130>)
+Alarmtext:
+ Hier mssen Sie den Alarmtext eingeben. Dieser Text erscheint in jedem
+ Feld und am Drucker.
+# 614 #### Maske Alarmdefinition ######
+Alarmdefinition                                                  <1121>
+
+Alarmkonfiguration:
+ Die Alarmkonfiguration beinhaltet die folgenden elf Parameter. Sie
+ k”nnen jeden Parameter fr jeden Alarm einzeln vergeben. Als Vorgabe-
+ wert wird die Default Alarmkonfiguration hergenommen, die Sie bei der
+ Alarmgruppe eingetragen haben. (siehe Hilfeseite <1117>)
+Quittierung m”glich:
+ Sie mssen hier angeben, ob der Alarm quittierbar ist.
+Quittierung erforderlich:
+ Wenn Sie hier JA eintragen, wird der Alarm nur nach einer Quittierung
+ aus der aktuellen Alarmliste entfernt. Dieser Alarm bleibt so lange
+ angezeigt, bis der Bediener ihn quittiert, unabh„ngig davon, ob der
+ Alarm (bzw. das Alarmbit) selber bereits gegangen ist.
+# 614 #### Maske Alarmdefinition ######
+Alarmdefinition                                                  <1122>
+
+Ausdruck des Kommens unterdrcken:
+Ausdruck des Gehens unterdrcken:
+Ausdruck des quit. Gehens unterdr.:
+Ausdruck des Quittierens unterdr.:
+ Sie k”nnen bestimmte Ausdruckfunktionen unterdrcken. šberall,
+ wo Sie JA eintragen, entsteht kein Ausdruck.
+Brcken des Alarms erlaubt:
+ Der Bediener kann nur Alarme brcken (d.h. ausschalten), die hier mit
+ JA gekennzeichnet sind.
+# 614 #### Maske Alarmdefinition ######
+Alarmdefinition                                                  <1123>
+
+Summenalarm bilden:
+ Fr die Bildung des Summenalarmes werden nur Alarme zugelassen, die
+ hier mit JA gekennzeichnet sind.
+Ausdruck des Brckens unterdrcken:
+Ausdruck des Entbrckens unterdr.:
+ Sie k”nnen die Ausdruckfunktion beim Brcken und Entbrcken unter-
+ drcken.
+# 614 #### Maske Alarmdefinition ######
+Alarmdefinition                                                  <1124>
+
+Latched Alarm:
+ Der latched Alarm ist ein Alarm dessen erstes Auftreten in der
+ aktuellen Alarmliste vermerkt bleibt. Tragen Sie hier JA ein, wenn
+ Sie wollen, daá das erste Auftreten angezeigt wird, auch dann, wenn
+ der Alarm nachher ”fter kommt und geht. Solche Alarme mssen sie als
+ 'Quittierung erforderlich' kennzeichnen.
+# 620 #### Maske Alarmverzeichnis ######
+Alarmverzeichnis                                                 <1130>
+
+Im Alarmverzeichnis sehen Sie eine Liste der Alarme in der Alarmgruppe.
+
+Sie k”nnen mit F1 den Alarmtext und die gesamte Definition des Alarmes
+editieren, mit F2 k”nnen sie neue Alarme hinzufgen, mit F3 k”nnen Sie
+Alarme aus der Gruppe l”schen.
+
+Mit F6 und F7 k”nnen Sie die Reihenfolge der Alarme, und damit die
+Alarmnummer beeinflussen.
+# 650 #### Maske Erster („ltester) anst. Alarm #########
+Erster („ltester) anstehender Alarm                              <1200>
+
+Dieses Feld zeigt den „ltesten unquittierten Alarm im System an.
+Sind alle Alarme quittiert, so wird der „lteste quittierte Alarm
+angezeigt.
+Ist im gesamten System kein einziger Alarm aktiv, so wird der in der
+Alarmsystem Grundkonfiguration fr diesen Fall eingetragene Text ange-
+zeigt. (siehe Hilfeseite <1030>)
+Sie mssen eine Funktionstaste zur Quittierung des angezeigten Alarmes
+angeben.
+Dieses Feld arbeitet ohne Rcksicht auf Priorit„ten.
+Dieses Feld drfen Sie nur einmal pro Bild verwenden.
+# 651 #### Maske Erster („ltester) anst. Alarm, Feldformat ########
+Erster („ltester) anstehender Alarm - Feldformat                 <1201>
+
+Uhrzeitformat:
+ Sie k”nnen nach <ENTER> eine der angebotenen Uhrzeitformate ausw„hlen.
+Gruppennummer, Alarmnummer:
+ Sie k”nnen ausw„hlen, ob und wie die Gruppennummer und die Alarmnummer
+ dargestellt werden sollen.
+Alarmtext:
+ Sie k”nnen ausw„hlen, ob der Alarmtext dargestellt werden soll.
+# 651 #### Maske Erster („ltester) anst. Alarm, Feldformat ########
+Erster („ltester) anstehender Alarm - Feldformat                 <1202>
+
+Quittierstatus:
+ Sie k”nnen ausw„hlen, ob der Quittierstatus dargestellt werden soll.
+ Zur Darstellung der Quittierstatus werden die Zeichen [2] oder [3]
+ des Zustandskrzels verwendet. (siehe Hilfeseite <1116>)
+Trennzeichen:
+ Die Trennzeichen dienen zur Gliederung des Feldes. Als Trennzeichen
+ k”nnen ein Leerzeichen, Punkt oder ein Bindestrich ausgegeben werden.
+
+Die Vorschau im unteren Bereich des Fensters stellt das Feld in der
+Form dar, wie es auf dem Display erscheinen wird.
+# 653 #### Maske Letzter (jngster) anst. Alarm #########
+Letzter (jngster) anstehender Alarm                             <1203>
+
+Dieses Feld zeigt den jngsten unquittierten Alarm mit der h”chsten
+Priorit„t an.
+Sind alle Alarme quittiert, so wird der jngste quittierte Alarm mit
+der h”chsten Priorit„t angezeigt.
+Ist im gesamten System kein einziger Alarm aktiv, so wird der in der
+Alarmsystem Grundkonfiguration fr diesen Fall eingetragene Text ange-
+zeigt. (siehe Hilfeseite <1030>)
+Sie mssen eine Funktionstaste zur Quittierung des angezeigten Alarmes
+angeben.
+Dieses Feld drfen Sie nur einmal pro Bild verwenden.
+# 654 #### Maske Letzter (jngster) anst. Alarm, Feldformat ########
+Letzter (jngster) anstehender Alarm - Feldformat                <1204>
+
+Uhrzeitformat:
+ Sie k”nnen nach <ENTER> eine der angebotenen Uhrzeitformate ausw„hlen.
+Gruppennummer, Alarmnummer:
+ Sie k”nnen ausw„hlen, ob und wie die Gruppennummer und die Alarmnummer
+ dargestellt werden sollen.
+Alarmtext:
+ Sie k”nnen ausw„hlen, ob der Alarmtext dargestellt werden soll.
+# 654 #### Maske Letzter (jngster) anst. Alarm, Feldformat ########
+Letzter (jngster) anstehender Alarm - Feldformat                <1205>
+
+Quittierstatus:
+ Sie k”nnen ausw„hlen, ob der Quittierstatus dargestellt werden soll.
+ Zur Darstellung des Quittierstatus werden die Zeichen [2] oder [3]
+ des Zustandskrzels verwendet. (siehe Hilfeseite <1116>)
+Trennzeichen:
+ Die Trennzeichen dienen zur Gliederung des Feldes. Als Trennzeichen
+ k”nnen ein Leerzeichen, Punkt oder ein Bindestrich ausgegeben werden.
+
+Die Vorschau im unteren Bereich des Fensters stellt das Feld in der
+Form dar, wie es auf dem Display erscheinen wird.
+# 656 #### Maske Anstehender Alarm ########
+Anstehender Alarm                                                <1210>
+
+Dieses Feld zeigt einen anstehenden Alarm an. Sie drfen dieses Feld
+mehrmals nacheinander in einem Bild verwenden. Somit bekommen Sie eine
+Liste der aktiven Alarme. Stehen mehr Alarme an, als Sie Felder im Bild
+haben, so k”nnen Sie in der Liste hin- und herbl„ttern.
+Sie mssen eine Funktionstaste zum Quittieren, und zwei weitere zum
+Selektieren eines Alarms und hin- und herbl„ttern in der Liste angeben.
+In Bildern, wo Sie dieses Feld verwenden, drfen Sie keine Felder fr
+ersten oder letzten anst. Alarm verwenden.
+# 657 #### Maske Anstehender Alarm, Feldformat #######
+Anstehender Alarm - Feldformat                                   <1211>
+
+Selektorzeichen:
+ Der ausgew„hlte Alarm wird mit diesem Zeichen gekennzeichnet. Sie k”n-
+ nen auch INVERS w„hlen, dann wird der ausgew„hlte Alarm invers darge-
+ stellt. Sie k”nnen nach <ENTER> das Selektorzeichen aus einem Auswahl-
+ fenster w„hlen.
+Uhrzeitformat:
+ Sie k”nnen nach <ENTER> eine der angebotenen Uhrzeitformate ausw„hlen.
+Gruppennummer, Alarmnummer:
+ Sie k”nnen ausw„hlen, ob und wie die Gruppennummer und die Alarmnummer
+ dargestellt werden sollen.
+# 657 #### Maske Anstehender Alarm, Feldformat ########
+Anstehender Alarm - Feldformat                                   <1212>
+
+Alarmtext:
+ Sie k”nnen ausw„hlen, ob der Alarmtext dargestellt werden soll.
+Info:
+ Sie k”nnen ausw„hlen, ob die Info dargestellt werden soll. Als Info
+ wird die folgenden Information ausgegeben:
+ Zeichen [1], wenn der Alarm unquittiert gegangen ist (nur bei quitt.
+              pflichtige Alarme).
+ Zeichen [2], wenn der Alarm quittiert ansteht.
+ Zeichen [3], wenn der Alarm unquittiert ansteht, oder nicht quittier-
+              bar ist.
+ Die Zeichen [1], [2] oder [3] werden aus dem Zustandskrzel genommen.
+# 657 #### Maske Anstehender Alarm, Feldformat ########
+Anstehender Alarm - Feldformat                                   <1213>
+
+Trennzeichen:
+ Die Trennzeichen dienen zur Gliederung des Feldes. Als Trennzeichen
+ k”nnen ein Leerzeichen, Punkt oder ein Bindestrich ausgegeben werden.
+
+Die Vorschau im unteren Bereich des Fensters stellt das Feld in der
+Form dar, wie es auf dem Display erscheinen wird.
+# 659 #### Maske Alarm ###########
+Alarm                                                            <1220>
+
+Dieses Feld zeigt einen Alarm unabh„ngig von dessen Zustand an. Sie
+drfen dieses Feld mehrmals nacheinander in einem Bild verwenden. Somit
+bekommen Sie eine Liste aller Alarme des Projektes. Sie k”nnen sich mit
+zwei Funktionstasten in der Liste hin- und herbewegen.
+In diesem Feld kann der Bediener den Alarm brcken.
+Sie mssen eine Funktionstaste zum Brcken und zwei weitere zum Selek-
+tieren eines Alarms und zum Hin- und Herbl„ttern in der Liste angeben.
+
+SPS-Adresse Gruppennummerfilter          Hilfeseite   <1251>
+SPS-Adresse Alarmnummerfilter            Hilfeseite   <1251>
+# 660 #### Maske Alarm, Feldformat ########
+Alarm, Feldformat                                                <1221>
+
+Selektorzeichen:
+ Der ausgew„hlte Alarm wird mit diesem Zeichen gekennzeichnet. Sie k”n-
+ nen auch INVERS w„hlen, dann wird der ausgew„hlte Alarm invers darge-
+ stellt. Sie k”nnen nach <ENTER> das Selektorzeichen aus einem Auswahl-
+ fenster w„hlen.
+Gruppennummer, Alarmnummer:
+ Sie k”nnen ausw„hlen, ob und wie die Gruppennummer und die Alarmnummer
+ dargestellt werden sollen.
+Alarmtext:
+ Sie k”nnen ausw„hlen, ob der Alarmtext dargestellt werden soll.
+# 660 #### Maske Alarm, Feldformat ########
+Alarm, Feldformat                                                <1222>
+
+Alarmstatus:
+ Sie k”nnen ausw„hlen, ob der Alarmstatus dargestellt werden soll. Als
+ Alarmstatus wird in diesem Feld der Zustand des Alarmbits vor der
+ Brckung dargestellt, der Bediener sieht also auch, ob ein gebrckter
+ Alarm sonst anstehen wrde. Zur Darstellung werden die Zeichen [4] und
+ [5] des Zustandskrzels verwendet. (siehe Hilfeseite <1116>)
+Quittierstatus:
+ Sie k”nnen ausw„hlen, ob der Quittierstatus dargestellt werden soll.
+ Zur Darstellung des Quittierstatus werden die Zeichen [2] oder [3]
+ des Zustandskrzels verwendet. (siehe Hilfeseite <1116>)
+# 660 #### Maske Alarm, Feldformat ########
+Alarm, Feldformat                                                <1223>
+
+Brckungsstatus:
+ Sie k”nnen ausw„hlen, ob der Brckungsstatus dargestellt werden soll.
+Priorit„t:
+ Sie k”nnen ausw„hlen, ob die Priorit„t dargestellt werden soll. Sie
+ wird immer als einstellige Zahl dargestellt.
+Trennzeichen:
+ Die Trennzeichen dienen zur Gliederung des Feldes. Als Trennzeichen
+ k”nnen ein Leerzeichen, Punkt oder ein Bindestrich ausgegeben werden.
+Die Vorschau im unteren Bereich des Fensters stellt das Feld in der
+Form dar, wie es auf dem Display erscheinen wird.
+# 662 #### Maske Alarm, Hist. Alarmlisteneintrag ########
+Historischer Alarmlisteneintrag                                  <1230>
+
+Das Tableau bildet parallel zum Alarmausdruck die sog. historische
+Alarmliste. In diese Liste werden die gleichen Eintr„ge aufgenommen,
+die auch ausgedruckt werden.
+
+Dieses Feld stellt einen Eintrag aus der historischer Liste dar. Sie
+drfen dieses Feld mehrmals nacheinander in einem Bild verwenden. Somit
+bekommen Sie eine Liste aller Alarme des Projektes. Sie k”nnen sich mit
+zwei Funktionstasten in der Liste hin- und herbewegen.
+Sie mssen zwei Funktionstasten zum Hin- und Herbl„ttern in der Liste
+angeben.
+
+Filtersperre                            Hilfeseite <1270>
+SPS-Adresse Filtersteuerbyte            Hilfeseite <1250>
+SPS-Adresse Gruppennummerfilter         Hilfeseite <1251>
+SPS-Adresse Alarmnummerfilter           Hilfeseite <1251>
+SPS-Adresse Priorit„tsfilter            Hilfeseite <1252>
+SPS-Adresse Zeitfilter                  Hilfeseite <1253>
+# 663 #### Maske Alarm, Hist. Alarmlisteneintrag, Feldformat ########
+Historischer Alarmlisteneintrag, Feldformat                      <1231>
+
+Selektorzeichen:
+ Der ausgew„hlte Alarm wird mit diesem Zeichen gekennzeichnet. Sie k”n-
+ nen auch INVERS w„hlen, dann wird der ausgew„hlte Alarm invers darge-
+ stellt. Sie k”nnen nach <ENTER> das Selektorzeichen aus einem Auswahl-
+ fenster w„hlen.
+Uhrzeitformat:
+ Sie k”nnen nach <ENTER> eine der angebotenen Uhrzeitformate ausw„hlen.
+Gruppennummer, Alarmnummer:
+ Sie k”nnen ausw„hlen, ob und wie die Gruppennummer und die Alarmnummer
+ dargestellt werden sollen.
+# 663 #### Maske Alarm, Hist. Alarmlisteneintrag, Feldformat ########
+Historischer Alarmlisteneintrag, Feldformat                      <1232>
+
+Alarmtext:
+ Sie k”nnen ausw„hlen, ob der Alarmtext dargestellt werden soll.
+Ereignis:
+ Als Ereignis gelten, wenn ein Alarm gekommen, gegangen, quittiert,
+ gebrckt oder entbrckt worden ist. Zur Darstellung werden die
+ Zeichen [0], [1], [2], [8] oder [9] des Zustandkrzels verwendet.
+Quittierstatus:
+ Hier wird immer der Quittierstatus zum Zeitpunkt des Ereignisses aus-
+ gegeben. Sie k”nnen ausw„hlen, ob der Quittierstatus dargestellt wer-
+ den soll. Zur Darstellung des Quittierstatus werden die Zeichen [2]
+ oder [3] des Zustandskrzels verwendet. (siehe Hilfeseite <1116>)
+# 663 #### Maske Alarm, Hist. Alarmlisteneintrag, Feldformat ########
+Historischer Alarmlisteneintrag, Feldformat                      <1233>
+
+Trennzeichen:
+ Die Trennzeichen dienen zur Gliederung des Feldes. Als Trennzeichen
+ k”nnen ein Leerzeichen, Punkt oder ein Bindestrich ausgegeben werden.
+
+Die Vorschau im unteren Bereich des Fensters stellt das Feld in der
+Form dar, wie es auf dem Display erscheinen wird.
+# 665 #### Erkl„rung der Filterfunktionen ##########################
+Filterfunktionen                                                 <1250>
+
+SPS-Adresse Filtersteuerbyte: 
+ Durch die Filtersperre (siehe Hilfeseite <1270>) wurde festgelegt,
+ ber welche Filterarten das Feld verfgt. Welcher von diesen Filtern
+ wirklich aktiv ist, wird durch ein Byte in der SPS festgelegt. Dieses
+ Filtersteuerbyte wird zyklisch aus der SPS-Adresse gelesen. Damit ein
+ Filter aktiv ist, muá er sowohl in der Filtersperre freigegeben, als
+ auch durch das Filtersteuerbyte angew„hlt sein.
+ Die zul„ssigen Codes fr das Filtersteuerbyte siehe Hilfeseite <1260>.
+# 666 #### Erkl„rung der Filterfunktionen ##########################
+Filterfunktionen Fortsetzung                                     <1251>
+
+SPS-Adresse Gruppennummerfilter:
+ Eine Gruppennummer wird von dieser SPS-Adresse gelesen. Ist die ge-
+ lesene Nummer eine gltige Gruppennummer (1 bis Anzahl Gruppen) 
+ werden nur Alarme dieser Gruppe angezeigt. Andernfalls ist dieser 
+ Filter deaktiviert. 
+SPS-Adresse Alarmnummerfilter:
+ Die von der SPS-Adresse gelesene Alarmnummer wird „hnlich der Grup-
+ pennummernfilter behandelt. Durch diese Vorgangsweise k”nnen Alarme
+ bestimmter Nummern aller Gruppen oder andere Kombinationen angezeigt
+ werden.
+# 668 #### Erkl„rung der Filterfunktionen ##########################
+Filterfunktionen Fortsetzung                                     <1252>
+
+SPS-Adresse Priorit„tsfilter:
+ Eine Priorit„tsnummer wird von der SPS gelesen. Ist die gelesene
+ Nummer gltig (0-9) so werden nur Eintr„ge dargestellt, welche die 
+ gleiche oder eine h”here Priorit„t haben angezeigt. Wird eine un-
+ gltige Nummer von der SPS gelesen, so werden alle Alarme angezeigt. 
+# 669 #### Erkl„rung der Filterfunktionen ##########################
+Filterfunktionen Fortsetzung                                     <1253>
+
+SPS-Adresse Zeitfilter:
+ Eine Uhrzeit (6 Byte) wird von der SPS gelesen. Je nach Inhalt des
+ Filtersteuerbytes (siehe Hilfeseite <1260>) werden nur Alarme, die
+ entweder jnger oder „lter als der von der SPS gelesene Zeitpunkt
+ sind, angezeigt.
+
+# 680 #### Filtercodes Beschreibung ################################     
+Filterfunktionen Fortsetzung                                     <1260>
+
+   1   Zeitfilter "jnger als" 
+   2   Zeitfilter "„lter als"
+   3   Gruppenfilter
+   4   Priorit„tsfilter
+   5   Zeitfilter "jnger als" und Gruppenfilter
+   6   Zeitfilter "„lter als" und Gruppenfilter
+   7   Zeitfilter "jnger als" und Priorit„tsfilter
+   8   Zeitfilter "„lter als" und Priorit„tsfilter
+   9   Zeitfilter "jnger als" und Gruppenfilter und Priorit„tsfilter
+   10  Zeitfilter "„lter als" und Gruppenfilter und Priorit„tsfilter
+   11  Gruppen und Priorit„tsfilter
+# 690 #### Filtersperre ############################################
+Filtersperre                                                     <1270>
+
+Filterfunktion freigegeben:
+ Mit dieser Eingabe wird die gesamte Filterfunktion freigegeben oder
+ gesperrt. Ist die Filterfunktion nicht freigegeben, so werden alle
+ Alarme angezeigt.
+
+Uhrzeitformat SPS:
+ Mit dieser Eingabe wird festgelegt, ob die Zeit in der SPS im Bin„r- 
+ oder BCD Format abgelegt ist. Diese Zeit wird fr den Zeitfilter 
+ verwendet.
+# 691 #### Filtersperre ############################################ 
+Filtersperre Fortsetzung                                         <1271> 
+
+Zeitfilter auswerten:
+ Mit dieser Eingabe wird festgelegt, ob das Alarmfeld ber einen Zeit-
+ filter verfgt.
+
+Gruppenfilter auswerten:
+ Mit dieser Eingabe wird festgelegt, ob das Alarmfeld ber einen 
+ Gruppen- und/oder Alarmnummernfilter verfgt.
+
+Priorit„tsfilter auswerten:
+ Mit dieser Eingabe wird festgelegt, ob das Alarmfeld ber einen
+ Priorit„tsfilter verfgt.
+# 700 #### zu keiner Maske zugeordnet #################################
+Rezeptsystem Allgemein                                           <1300>
+
+Das Rezeptsystem verwaltet SPS-Daten mit zusammengeh”rigen Datens„tzen.
+Die Daten werden im Tableau gespeichert, und k”nnen von dort in die SPS
+bertragen werden.
+
+Die Rezeptstruktur (Daten, aus welchen ein Rezept besteht) und die
+Anzahl der Datens„tze (wie oft die gleiche Struktur im Tableau
+gespeichert werden kann), wird w„hrend des projektierens in der PKS
+festgelegt.
+# 700 #### zu keiner Maske zugeordnet #################################
+Rezeptsystem Allgemein - Fortsetzung                             <1301>
+
+Der Tableaukontroller stellt 10 kB nullspannungssicheren Speicher fr
+die Rezeptdaten zur Verfgung. šber Sicherungsm”glichkeiten von Rezept-
+daten erhalten Sie mehr Information auf den Hilfeseiten <1360>, <1370>
+und <1380>.
+
+Rezepte sind „hnlich wie SPS Verbindungen organisiert. Sie haben eine
+Rezept-ID, und der Name des Rezeptelementes kann wie eine symbolische
+SPS Variable verwendet werden. So k”nnen Rezeptwerte auf dem Tableau
+dargestellt oder eingegeben werden, indem statt einer SPS-Variable ein
+Rezeptelement an einem Feld (als SPS-Adresse) angeschlossen wird.
+# 700 #### zu keiner Maske zugeordnet #################################
+Rezeptsystem Allgemein - Fortsetzung                             <1302>
+
+Jedes Rezept verwaltet eine vordefinierte Variable, mit dem Namen
+INDEX. Wird eine Zahl auf diese Variable geschrieben, wird der ent- 
+sprechende Datensatz aus dem Rezept selektiert. 
+S„mtliche Verweise auf Rezeptelemente, sowie die šbertragungsfunktion 
+arbeiten immer mit dem, ber den INDEX selektierten Datensatz.
+# 700 #### zu keiner Maske zugeordnet #################################
+Rezeptsystem Allgemein - Fortsetzung                             <1303>
+
+Die Rezeptbertragung in und aus der SPS wird ber die Rezept Steuer-
+adresse gestartet. Das SPS-Programm oder eine entsprechende Tastenfunk-
+tion kann Befehle auf die Rezept Steueradesse schreiben. Diese Befehle
+l”sen dann die šbertragung aus. Das Tableau erwartet ein WORT UNSIGNED
+als Rezept Steuervariable. Die folgenden Befehle sind zul„ssig:
+
+Befehlscode  Beschreibung
+0x0001       Download des selektierten Datesatzes
+             Der ber den INDEX selektierte Datensatz wird in die SPS
+             geschrieben.
+# 700 #### zu keiner Maske zugeordnet #################################
+Rezeptsystem Allgemein - Fortsetzung                             <1304>
+
+Befehlscode  Beschreibung
+0x0002       Upload des selektierten Datensatzes
+             Der Datensatz wird aus der SPS gelesen und auf den durch
+             den INDEX selektierten Datensatz geschrieben.
+0x01nn       Download eines bestimmten Datensatzes
+             Es wird der Datensatz Nr. 'nn' in die SPS geschrieben.
+             Dieser Befehl arbeitet unabh„ngig vom INDEX. Mit diesem
+             Befehl kann das SPS Programm selber entscheiden, welcher
+             Datensatz in die SPS geladen werden soll.
+             (Bitte beachten Sie, daá es keine M”glichkeit gibt den
+             INDEX von der SPS aus zu setzen.)
+# 700 #### zu keiner Maske zugeordnet #################################
+Rezeptsystem Allgemein - Fortsetzung                             <1305>
+
+šber den Zustand der Rezeptbertragung und ber m”gliche Fehler geben
+einige internen Variablen Auskunft:
+
+Variable     Datentyp
+R_STATUS     WORT UNSIGNED
+
+Die Werte im R_STATUS:
+0   Das Rezeptsystem ist bereit, es findet keine šbertragung statt.
+1   Es ist ein Download im Gange
+2   Es ist ein Upload im Gange
+3   Es ist ein Kommunikationsfehler w„hrend der Datenbertragung
+    aufgetreten. Das Rezeptsystem versucht die šbertragung solange zu
+    wiederholen bis sie entweder fehlerfrei stattfindet, oder bis die
+    Rezept Steueradresse auf Null zurckgesetzt wird.
+4   Steueradressenfehler. Das Rezeptsystem kann die Steueradresse nicht
+    lesen.
+5   Befehl fehlerhaft. Das Rezeptsystem hat einen fehlerhaften Befehl
+    empfangen, oder der Befehl verweist auf einen nicht existierenden
+    Datensatz.
+# 700 #### zu keiner Maske zugeordnet #################################
+Rezeptsystem Allgemein - Fortsetzung                             <1306>
+
+Variable     Datentyp   Beschreibung
+R_NAME       STRING[8]  Name des Rezeptes, worauf sich die Information
+                        von R_STATUS bezieht.
+R_ERR_CODE   WORD UNS.  Error Code, nimmt die selben Werte an, wie die
+                        interne Variable ERR_NR, siehe PANELWARE
+                        SOFTWARE ANWENDERHANDBUCH.
+R_ERR_NODE   STRING[2]  Verbindungs-ID des fehlerhaften Knoten.
+R_ERR_NAME   STRING[10] Name der Fehlerhaften Variable.
+# 700 #### Maske Rezeptliste ##########################################
+Rezeptliste                                                      <1310>
+
+In der Rezeptliste werden alle Rezepte des Systems aufgelistet.
+ID:
+ Rezept ID. Sie verwenden diese ID als Knoten-ID, wenn Sie einen
+ Rezeptwert an einem Feld anschlieáen wollen. (z.B. BACKZEIT/R1 ver-
+ weist auf den Rezeptelement "BACKZEIT" im Rezept "R1")
+
+Rezept:
+ Hier wird der Rezeptname angezeigt.
+
+Anz. Ds„tze:
+ Anzahl der Datens„tze. Zeigt an wieviel Datens„tze das Rezept
+ speichern kann.
+# 700 #### Maske Rezeptliste ##########################################
+Rezeptliste - Fortsetzung                                        <1311>
+
+SPS-Steueradresse:
+ Zeigt die SPS-Adresse an, die zur Ausl”sung eines Rezept Down- oder
+ Uploads verwendet wird.
+
+Gr”áe/Dsatz:
+ Die Gr”áe eines Datensatzes in Bytes
+
+Gesamtgr”áe:
+ Die Gr”áe des Rezeptes, mit allen Datens„tzen und sonstige Informa-
+ tionen. Bitte beachten Sie, daá insgesamt 10240 Bytes fr die Rezepte
+ zur Verfgung stehen.
+# 700 #### Maske Rezeptliste ##########################################
+Rezeptliste - Fortsetzung                                        <1312>
+
+Mit F1 k”nnen Sie die Parameter eines Rezeptes „ndern, mit F2 k”nnen
+Sie ein neues Rezept hinzufgen und mit F3 ein Rezept l”schen. Mit F5
+kommen Sie in ein Fenster, indem Sie die Elemente des Rezeptes definieren
+k”nnen.
+
+Weitere Informationen ber das Rezeptsystem finden Sie
+ab Hilfeseite <1300>.
+# 700 #### Maske Rezept Definition ####################################
+Rezept Definition                                                <1320>
+
+ID:
+ Hier mssen Sie eine Rezept-ID fr das Rezept definieren. Sie mssen
+ fr alle Rezepte und alle SPS Verbindungen unterschiedliche IDs ver-
+ geben. Rezept-IDs drfen zwei Zeichen lang sein, und mssen mit einem
+ Buchstaben beginnen.
+
+Rezeptname:
+ Sie mssen einen Namen fr jedes Rezept vergeben. Des Rezept wird bei
+ der Erstellung von Backups mit dem PC anhand dieses Namens identifi-
+ ziert. Der Name darf 8 Stellen lang sein, und muá mit einem Buchstaben
+ beginnen.
+# 700 #### Maske Rezept Definition ####################################
+Rezept Definition - Fortsetzung                                  <1321>
+
+Anzahl Datens„tze:
+ Sie mssen hier definieren, wieviele Datens„tze das Rezept speichern
+ soll. Es sind Angaben zwischen 1 und 255 zul„ssig.
+
+SPS-Steueradresse:
+ Sie mssen hier die SPS-Adresse angeben, die zur Steuerung des Up- und
+ Downloadvorganges verwendet wird. Interne Variablen sind erlaubt.
+# 700 #### Maske Rezeptelementliste ###################################
+Rezeptelementliste                                               <1330>
+
+Die Rezeptelementliste dient zur Darstellung und Definition der Rezept-
+struktur. Hier k”nnen Sie definieren, aus welchen Elementen das Rezept
+bestehen soll und auf welche SPS-Adresse die Elemente bei einem Rezept
+Download bertragen werden sollen.
+
+Sie k”nnen die Rezeptelemente in der Liste vor und zurckreihen. Die
+Reihenfolge in der Liste entspricht der Reihenfolge bei der Rezeptber-
+tragung in die SPS.
+Rezeptelemente ohne SPS-Adressangabe werden nicht in die SPS bertragen,
+sie k”nnen z.B. Informationen fr das Bedienpersonal beinhalten.
+# 700 #### Maske Rezeptelement Definition #############################
+Rezeptelement Definition                                         <1340>
+
+Name:
+ Sie mssen fr jedes Rezeptelement einen Namen vergeben. Beim Anschluá
+ an Feldern, referenzieren Sie mit diesem Namen das Rezeptelement. Es
+ gelten die gleichen Syntaxregeln, wie fr symbolische SPS-Adressen.
+
+Datentyp:
+ Sie mssen hier eingeben was fr ein Datentyp das Rezeptelement haben
+ soll. Nach ENTER erhalten Sie eine Liste des m”glichen Datentypen.
+
+Gr”áe:
+ Falls Sie den Datentyp 'String' gew„hlt haben, mssen Sie hier die
+ L„nge des Strings eingeben. Bei allen anderen Datentypen tr„gt PKS die
+ L„nge selber ein.
+
+SPS-Adresse:
+ Sie k”nnen hier eine SPS-Adresse definieren, auf welche das Rezept-
+ element bei einem Rezept Download bertragen wird. Die SPS-Adress-
+ angabe ist optional, es werden nur diejenige Rezeptelemente in die 
+ SPS bertragen, wo Sie eine SPS-Adresse definiert haben.
+ Rezeptelemente ohne SPS-Adresse, vorzglich Strings, k”nnen als
+ Bedienerhinweis verwendet werden.
+# 700 #### Maske Rezeptinitialisierung ################################
+Rezeptinitialisierung                                            <1350>
+
+Sie k”nnen jedes Rezeptelement in jedem Datensatz mit einem Initialwert
+versehen. Dieser Wert wird als aktueller Rezeptwert bei einer Projekt-
+bertragung ins Tableau geschrieben wenn:
+-  sich im Tableau noch kein Rezept befindet, oder
+-  Der Parameter "Rezeptwerte bertragen" im Men "Einstellungen
+   - Kanal 2" auf "Rezept mit Initwerte berschreiben" steht.
+# 700 #### Maske Rezeptinitialisierung ################################
+Rezeptinitialisierung - Fortsetzung                              <1351>
+
+Mit den Funktionstasten F6 und F7 k”nnen Sie zwischen die Datens„tze
+hin- und herbl„ttern, mit F5 k”nnen Sie die Nummer des Datensatzes
+dessen Initialwerte Sie definieren m”chten, direkt eingeben.
+
+Mit der Funktionstaste F3 k”nnen Sie alle Werte des Datensatzes l”schen.
+Zahlenwerte werden auf Null gesetzt, Strings werden zu Leerstrings.
+
+Bitte beachten Sie, das die Initialwerte direkte SPS-Werte ohne
+Normierung sind.
+# 700 #### Maske Rezept Backup ########################################
+Rezept Backup                                                    <1360>
+
+Sie k”nnen diese Funktion nur durchfhren, wenn Sie ein Tableau an
+Ihrem PC angeschlossen haben. PKS liest die Rezeptdaten aus dem Tableau
+und stellt eine Liste der Rezepte auf dem Bildschirm dar.
+
+Mit den Cursortasten k”nnen Sie eines der aufgelisteten Rezepte aus-
+w„hlen, und mit F1 ein Backup erstellen. Wenn Sie keinen Dateinamen
+definiert haben, wird der Rezeptname als Dateiname verwendet.
+
+Als aktueller Pfad wird Ihr Projektpfad vorgeschlagen wenn ein Projekt
+geladen ist; wenn kein Projekt geladen ist, wird der User Pfad der PKS
+vorgeschlagen. Sie k”nnen jedoch mit F3 einen anderen Pfad w„hlen, und
+auch einen Dateinamen definieren.
+# 700 #### Maske Rezept Restore #######################################
+Rezept Restore                                                   <1370>
+
+Sie k”nnen diese Funktion nur durchfhren, wenn Sie ein Tableau an
+Ihrem PC angeschlossen haben.
+
+Sie mssen zuerst eine Rezept-Backupdatei (.REC) selektieren. PKS ver-
+gleicht das in der Backupdatei gespeicherte Rezept mit dem im Tableau.
+Wenn die Rezeptnamen in der Backupdatei und im Tableau bereinstimmen,
+wird die Datei als gltige Backupdatei identifiziert, Sie k”nnen das
+Backup durchfhren. Enth„lt die Backupdatei und das Rezept im Tableau
+unterschiedliche Rezeptelemente, so werden nur diejenige wiederherge-
+stellt, dessen Name bereinstimmt.
+# 700 #### Maske Rezept Restore #######################################
+Rezept Restore - Fortsetzung                                     <1371>
+
+Bitte beachten Sie, daá die Rezept Restore Funktion den Flash Anwender-
+speicher im Tableau l”schen muá. Um das Projekt im Tableau nicht zu
+zerst”ren wird dieses vor dem L”schen in den PC geladen, und nachher
+wieder ins Tableau gebrannt.
+# 700 #### zu keiner Maske zugeordnet #################################
+Rezept Sicherungskopien                                          <1380>
+
+Das Tableau kann Sicherungskopien der Rezeptdaten im Flash-Anwender-
+speicher erstellen. Die Erstellung von Sicherungskopien wird nach
+nderung der Rezeptdaten empfohlen, weil bei einem Fehler der Batterie
+die im nullspannungssicheren RAM gespeicherten Rezeptdaten verloren
+gehen k”nnen.
+Stellt das Tableau anhand der Checksummenprfung fest, daá die Rezept-
+daten besch„digt sind, stellt es mit Hilfe der letzten Sicherungskopie
+die Rezeptdaten wieder her. Um den Bediener darber zu informieren,
+wird nach dem Hochlaufen sofort ins Fehlerbild gewechselt, und die 
+Variable ERR_NR, bzw. ERR_CODE haben den Wert 6.
+# 700 #### zu keiner Maske zugeordnet #################################
+Rezept Sicherungskopien - Fortsetzung                            <1381>
+
+Die Erstellung der Sicherungskopie wird ber die folgenden internen
+Variablen gesteuert:
+Variable     Datentyp   Beschreibung
+R_TRIGGER    WORD UNS.  Triggert die Erstellung der Sicherungskopie.
+                        Ein Wert ungleich Null auf diese Variable ge-
+                        schrieben, l”st die Erstellung der Sicherungs-
+                        kopie aus.
+R_SIZE       LONG UNS.  Gr”áe des fr eine Sicherungskopie notwendigen
+                        Speichers. Ist R_SIZE Null, so ist die letzte
+                        Sicherungskopie aktuell, sie entspricht den
+                        Rezeptdaten im RAM.
+# 700 #### zu keiner Maske zugeordnet #################################
+Rezept Sicherungskopien - Fortsetzung                            <1382>
+
+Variable     Datentyp   Beschreibung
+R_FREE       LONG UNS.  Gr”áe des fr Sicherungskopien verwendbaren
+                        freien Speichers.
+R_FREE_NO    WORD UNS.  Entspricht R_FREE / R_SIZE, und gibt an wie-
+                        viele Sicherungskopien im freien Speicher
+                        noch Platz haben. Ist R_SIZE Null, so ist
+                        R_FREE_NO auch Null.
+# 700 #### zu keiner Maske zugeordnet #################################
+Rezept Sicherungskopien - Fortsetzung                            <1383>
+
+Nach der Erstellung einer Sicherungskopie, wird R_SIZE auf Null
+gesetzt. Es wird damit signalisiert, daá die Sicherungskopien aktuell 
+sind. Werden Rezeptdaten ver„ndert, so „ndert sich auch R_SIZE, und 
+zeigt an, wieviel Speicher die n„chste Sicherungskopie brauchen wrde.
+
+Ein Rezept Backup mit dem PC l”scht alle alten Sicherungskopien, beh„lt
+nur die neueste, und schafft damit Platz fr weitere Sicherungskopien.                        
+# 700 #### Maske Projekt šbertragen ###################################
+Projekt šbertragen                                               <1400>
+
+Um das Projekt bertragen zu k”nnen, mssen Sie das Tableau in den
+Teach Mode schalten, und Ihren PC mit dem Tableau verbinden.
+
+Weitere Hinweise ber Kabel und Schalterstellungen finden Sie in Ihrem
+PANELWARE HARDWARE INSTALLATIONSHANDBUCH.
+# 701 #### Maske Projekt Rckladen ########
+Projekt Rckladen                                                <1410>
+
+Um eine Rckbertragung zu erm”glichen, mssen Sie ein Dummyprojekt
+(Projekt ohne Bilder und sonstigen Angaben) mit den Hardwareparametern
+ihres Tableaus erstellen und ausw„hlen.
+Sie sehen den Namen des ausgew„hlten Projektes in der Mitte der
+obersten Zeile des Bildschirmes.
+Benutzen Sie die Rckbertragungsfunktion nicht, wenn ein anderes
+Projekt als das Dummyprojekt ausgew„hlt ist!
+
+Das rckbertragene Projekt k”nnen Sie in ein anderes Tableau ber-
+tragen. Eine Rckbersetzung der Bilder und sonstigen Parameter ist
+nicht m”glich.
+#
+System šbertragen                                                <1430>
+
+Mit dieser Funktion k”nnen Sie das Betriebssystem in einen PANELWARE
+C200 oder C300 Tableaukontroller bertragen.
+
+Sie brauchen diese Funktion wenn Sie das Betriebssystem von „lteren
+Kontrollern auf den neuesten Stand bringen wollen.
+
+Wichtige Hinweise:
+ Sie mssen den Modeschalter des C200 Kontrollers auf Stellung 6
+ schalten um das Betriebssystem bertragen zu k”nnen.
+
+ Es ist m”glich, daá Sie nach dem Betriebssystem Update das Projekt
+ neu bertragen mssen.
+
+Sie k”nnen mit der Funktion "Kanal 2 - Konfiguration" im Men
+"Einstellungen" die šbertragungsgeschwindigkeit fr Betriebssystem
+Update erh”hen. Am Kontroller wird die šbertragungsgeschwindigkeit
+automatisch eingestellt.
+# 720 #### Maske Konfiguration ########
+Konfiguration                                                    <1500>
+
+In diesem Fenster wird die aktuelle Konfiguration der PANELWARE
+KONFIGURATIONS-SOFTWARE angezeigt:
+Bildschirmtyp, Sprache:
+ Es werden Bildschirmtyp (farbig, mono, LCD, usw.) und Benutzersprache
+ angezeigt.
+Anwenderpfad:
+ Hier sehen Sie den aktuellen Anwenderpfad.
+Kanal #1:
+ Diese Schnittstelle ist fr zuknftige Erweiterungen der PANELWARE 
+ KONFIGURATIONS-SOFTWARE reserviert.                               
+# 720 #### Maske Konfiguration ########
+Konfiguration                                                    <1501>
+
+Kanal #2:
+ šber Kanal #2 werden die Projekte in die modularen PANELWARE
+ Tableaucontroller (C200, C300, usw.) geladen. Hier sehen Sie, an
+ welcher Schnittstelle Ihres PCs Sie die Tableaucontroller an-
+ schlieáen mssen.
+
+Es ist zul„ssig, fr Kanal #1 und Kanal #2 die selbe Schnittstelle
+zu konfigurieren. Die Kanalauswahl erfolgt beim šbertragen des Pro-
+jektes automatisch.
+# 721 #### Maske Bildschirmtyp ausw„hlen  ########
+Bildschirmtyp Ausw„hlen                                          <1502>
+
+Hier k”nnen Sie angeben, ber welchen Bildschirm Ihr PC verfgt.
+# 722 #### Maske Sprache ausw„hlen  ########
+Sprache Ausw„hlen                                                <1503>
+
+Hier k”nnen Sie die Benutzersprache der PANELWARE KONFIGURATIONS-
+SOFTWARE ausw„hlen.
+Die Benutzersprache hat keinen Einfluá auf Ihre Projekte.
+# 723 #### Maske Anwenderpfad eingeben  ########
+Anwenderpfad Eingeben                                            <1504>
+
+Hier k”nnen Sie einen neuen Anwenderpfad eingeben.
+
+Die PANELWARE KONFIGURATIONS-SOFTWARE legt fr jedes neu erstellte
+Projekt ein Unterverzeichnis unter diesem Pfad an.
+
+Benutzen Sie diese Funktion vorsichtig und nur dann, wenn Sie mit der
+Verzeichnisstruktur des DOS Betriebssystems vertraut sind!
+Sie k”nnen diese Funktion dazu verwenden, mehrere Projektgruppen
+voneinander zu trennen.
+# 724 #### Maske Kanal #1 Schnittstelle ausw„hlen  ########
+Kanal #1 Schnittstelle konfigurieren                             <1505>
+
+Diese Schnittstelle ist fr zuknftige Erweiterungen der PANELWARE
+KONFIGURATIONS-SOFTWARE reserviert.
+
+Sie k”nnen ausw„hlen, ob Sie fr diesen Kanal die Schnittstelle COM1
+oder COM2 Ihres PCs verwenden wollen.
+# 725 #### Maske Kanal #2 Schnittstelle ausw„hlen  ########
+Kanal #2 Schnittstelle konfigurieren                             <1506>
+
+Schnittstelle:
+ Die PANELWARE KONFIGURATIONS-SOFTWARE l„dt die Projekte und (falls
+ erforderlich) das Betriebssystem ber den Kanal #2 in die modularen 
+ PANELWARE Tableaucontroller.
+ Sie k”nnen ausw„hlen, ob Sie fr diesen Kanal die Schnittstelle COM1
+ oder COM2 Ihres PCs verwenden wollen.
+Uhrzeit setzen:
+ Es kann angegeben werden, ob die Echtzeituhr des Tableaucontrollers 
+ bei der Projektbertragung mit der Uhr des PC's synchronisiert werden 
+ soll.
+Baud-Rate fr "System bertragen" (derzeit nur fr C200):
+ Vor der šbertragung des Betriebssystems in den Tableaucontroller muá
+ die šbertragungsgeschwindigkeit eingestellt werden. Die maximal ver-
+ wendbare Baudrate ist abh„ngig von der Leistungsf„higkeit des ver-
+ wendeten PC's. 
+ Kann das Betriebssystem mit der eingestellten Baudrate nicht ber-
+ tragen werden, so ist eine kleinere zu verwenden. Der Tableaucontrol-
+ ler paát sich automatisch der eingestellten Baudrate an.
+Rezeptwerte bertragen
+ Hier k”nnen sie einstellen, wie PKS reagieren soll, wenn sie bei der
+ šbertragung eines Projektes feststellt, daá im Zielger„t gltige
+ Rezeptwerte gespeichert sind. Diese Werte k”nnen entweder behalten
+ werden, oder mit den Werten der Rezeptinitialisierung berschrieben
+ werden.
+# 726 #### Maske Drucker Einstellungen  ########
+Drucker Einstellungen                                            <1507>
+
+Hier k”nnen Sie die Parameter des an Ihrem PC angeschlossenen Druckers
+einstellen.
+Zeilen pro Seite:
+ Hier mssen Sie angeben, wieviel Zeilen Ihr Drucker auf eine Seite
+ drucken kann.
+Linker Rand:
+ Hier k”nnen Sie angeben, wieviel Stellen am linken Rand freigelassen
+ werden sollen.
+Seitenvorschub (LF/FF):
+ Hier k”nnen Sie angeben, ob der Seitenvorschub mit dem Steuerzeichen
+ 'FF' (Form Feed) oder mit der entsprechende Anzahl von 'LF' (Line
+ Feed) Zeichen ausgel”st werden soll. Das Benutzerhandbuch Ihres
+ Druckers gibt Auskunft ber die notwendigen Steuerzeichen.
+# 727 #### Maske Compiler Option  ########
+Compiler Option                                                  <1508>
+
+Dokumentation erzeugen:
+ Hier k”nnen Sie angeben, ob der Compiler eine Dokumentation ber das
+ Projekt erstellen soll.
+ 
+ W„hlen Sie 'JA', so erstellt der Compiler eine DOS Textdatei, mit dem
+ Namen <Projektname>.PRT in dem aktuellen Projektverzeichnis. Diese
+ Datei k”nnen Sie mit einem beliebigen Textverarbeitungsprogramm
+ weiterverarbeiten oder direkt ausdrucken.
+ 
+ Das Format der .PRT Datei entspricht den unter 'Drucker Einstellungen'
+ eingegebenen Parametern.
+
+Slaveprojekt compilieren:                      
+ Wenn diese Option auf NEIN steht, wird das Hauptprojekt und das
+ aktuelle Slaveprojekt compiliert. Ist das Hauptprojekt als aktuelles
+ Projekt geladen, so werden keine Slaveprojekte mitcompiliert.
+ 
+ Sie sehen den Namen des aktuellen Haupt- und Slaveprojektes in der
+ Mitte der obersten Zeile am Bildschirm der PKS.
+ 
+ Steht die Option auf JA, so werden alle Slaveprojekte mitcompiliert,
+ die zum Hauptprojekt geh”ren.
+
+# 728 #### Maske Freier Speicher  ########
+Freier Speicher                                                  <1600>
+
+Es wird der frei verfgbare konventionelle Speicher Ihres PCs ange-
+zeigt.
+
+Diese Information kann Ihnen helfen, wenn Sie Probleme mit der
+Speicherverwaltung Ihres PCs haben.
+
+šber Speicher, Speicherarten und Speicherbedarf bekommen Sie weitere
+Informationen in Ihrem DOS Betriebssystem Benutzerhandbuch.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1700>
+
+Adresse fr Feldtyp nicht zugelassen!
+  Die eingegebene Adresse ist fr diesen Feldtyp nicht zugelassen.
+  Kontrollieren Sie die Adressangabe und geben Sie eine andere Adresse
+  ein. Ihr PANELWARE Applikationshandbuch gibt weitere Auskunft ber
+  zul„ssige SPS-Adressen und Feldtypen.
+Adresse fr SPS-Datentyp nicht zugelassen!
+  Die eingegebene Adresse ist fr den definierten SPS-Datentyp nicht
+  zugelassen. Sie erhalten Informationen ber SPS-Datentypen und zu-
+  l„ssige Adressangaben im jeweiligen PANELWARE Applikationshandbuch.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1701>
+
+Alarmsystem nicht importiert
+  Bei Import Projekt Funktion konnte PKS das Alarmsystem des Quellpro-
+  jektes nicht importieren. Vergewissern Sie sich, ob das Zielger„t
+  ber ein Alarmsystem verfgt!
+Allgemeine Druckerparameter nicht importiert
+  An der Zielhardware kann man keinen Drucker anschlieáen, aus diesem
+  Grund werden die Allgemeinen Druckerparameter nicht importiert.
+Angew„hltes Tableau untersttzt diesen Feldtyp nicht!
+  Gewisse Felder werden nicht von allen Tableaus untersttzt.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1702>
+
+Anwendermodul nicht vorhanden
+  Sie haben versucht ein Projekt aus einem Tableau zurckzuladen, das
+  kein Projekt enth„lt. Sie k”nnen aus diesem Tableau kein Projekt
+  zurckladen.
+Backup nicht durchgefhrt (Datei kann nicht ge”ffnet werden)
+  PKS konnte den Backupdatei nicht anlegen. Sie mssen Pfade und Ver-
+  zeichnisse angeben die existieren, und Sie mssen Dateinamen defi-
+  nieren, die den MS-DOS Syntaxregeln entsprechen.
+Bild enth„lt Feld mit Verweis auf unbekannte Textgruppe:
+  Kontrollieren Sie, ob alle Textgruppen vorhanden sind. Korrigieren
+  Sie die Angabe oder erstellen Sie die fehlende Textgruppe!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1703>
+
+Bild nicht/teilweise importiert
+  Das Bild enth„lt Bildelemente, die im Zielger„t nicht zur Verfgung
+  stehen. Solche Elemente (z.B. Balken, Linien, usw.) werden bei einem
+  Bildimport ignoriert.
+Bildverzeichnis fehlt!
+  Sie haben kein Bildverzeichnis und keine Bildverzweigungsstruktur
+  erstellt. Sie mssen bei jedem Projekt ein Bildverzeichnis erstellen
+  und die Bilder einbinden!
+Bitte zuerst Bearbeitungsmodus w„hlen (Projekt, Bild, Textgruppe)!
+  Bevor Sie eine Lade- oder Speicherfunktion aktivieren, mssen Sie aus
+  dem Men Bearbeiten einen Bearbeitungsmodus ausw„hlen.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1704>
+
+Bitte zuerst das Projekt definieren!
+  Editierfunktionen (z.B. Bild editieren) k”nnen Sie nur ausfhren,
+  wenn sie ein Projekt definiert haben. Erstellen Sie ein neues Projekt
+  oder laden Sie ein bestehendes mit der Projekt... Funktion aus dem
+  Men Datei!
+BTI Datentyp zu lang!
+  Bei einer VZT-Import enth„lt die Quelldatei unzul„ssige oder zu lange
+  BTI-Datentyp Beschreibungen. šberprfen Sie die Quelldatei!
+Controllername fehlt!
+  Sie mssen einen Controller selektieren, wenn sie ein neues Projekt
+  erstellen.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1705>
+
+Das Bild fr Kommunikationsfehler fehlt in der Projektdefinition!
+  Sie mssen bei jedem Projekt ein Bild erstellen, das w„hrend eines
+  Kommunikationsfehlers mit der SPS angezeigt wird. Den Namen diesen
+  Bildes mssen sie in der Projektdefinition eintragen.
+Das letzte Bild kann nicht gel”scht werden!
+  Sie k”nnen das letzte Bild nicht aus dem Bildverzeichnis l”schen.
+Das Tableau hat keine Ausg„nge!
+  Sie k”nnen die Ein- und Ausgangsfunktionen nur an Tableaus
+  selektieren, die diese Funktionen untersttzen. Sie bekommen weitere
+  Informationen ber Ein- und Ausg„nge in dem jeweiligen 
+  Hardware-Manual.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1706>
+
+Das Tableau hat keine Eing„nge!
+  Sie k”nnen die Ein- und Ausgangsfunktionen nur an Tableaus
+  selektieren, die diese Funktionen untersttzen. Sie bekommen weitere
+  Informationen ber Ein- und Ausg„nge in dem jeweiligen
+  Hardware-Manual.
+Datei, Directory nicht vorhanden oder Zugriff verweigert!
+  Sie haben versucht ein Projekt zu l”schen, wobei das Verzeichnis,
+  in dem das Projekt gespeichert ist, fr Sie schreibgeschtzt oder
+  nicht vorhanden ist. Entfernen Sie den Schreibschutz und berprfen
+  Sie Ihre Zugriffsrechte!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1707>
+
+Defaultsprache kann nicht gel”scht werden!
+  Die haben versucht die Defaultsprache zu l”schen. Sie k”nnen nur die
+  zus„tzlichen Textebenen l”schen, aber nicht die Defaultsprache.
+Der Name des einzubindenden Bildes kann nur mit <F1> ge„ndert werden!
+  Wollen Sie ein anderes Bild einbinden, als das was gerade angezeigt
+  wird, drcken Sie die Funktionstaste F1!
+Die ausgew„hlte Datei hat eine falsche Versionsnummer!
+  Die ausgew„hlte Datei wurde mit einer neueren PKS erstellt.
+  Installieren Sie die neueste Version von PKS!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1708>
+
+Die ausgew„hlte Datei ist keine Bilddatei/Projektdatei/...
+  Sie haben bei der Funktion Laden vermutlich die Datei Extension ver-
+  „ndert, und eine falsche Datei angew„hlt.
+Die Datei hat eine falsche Kennung!
+  Die ausgew„hlte Datei wurde h”chstwahrscheinlich von anderen
+  Programmen besch„digt oder geh”rt nicht zu einem PANELWARE Projekt.
+Diese Verzweigung kann nicht gel”scht werden!
+  Sie k”nnen die beiden ersten Verzweigungen "Next" und "Previous"
+  nicht l”schen. Brauchen Sie diese Verzweigungen nicht, definieren
+  Sie diese als Verzweigung auf sich selbst. (Geben Sie den gleichen
+  Namen wie links oben ein!)
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1709>
+
+Dieses Tableau untersttzt kein Alarmsystem!
+  Mit diesem Tableau k”nnen Sie keine Alarme auswerten.
+Dieses Tableau untersttzt kein Protokollsystem!
+  Mit diesem Tableau k”nnen Sie keine Protokolle drucken.
+Dieses Tableau untersttzt kein Rezeptsystem!
+  Mit diesem Tableau k”nnen Sie keine Rezepte verwalten.
+Dieses Tableau untersttzt keine Balken
+  Balken k”nnen Sie nur auf grafikf„higen Displays darstellen.
+Dieses Tableau untersttzt keine Felder im Fehlerbild!
+  Sie drfen bei diesem Tableau NUR Maskentexte im Fehlerbild verwenden.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1710>
+
+Dieses Tableau untersttzt keine Grafikfunktionen
+  Tableaus, die ber kein grafikf„higes Display verfgen, untersttzen
+  keine Grafikfunktionen wie Balken oder Linien.
+Dieses Tableau untersttzt keine LED Funktionen
+  Das Tableau hat keine beleuchteten Tasten.
+Dieses Tableau untersttzt keine LONG Felder
+  Sie k”nnen mit diesem Tableau keine Felder, die den Datentyp LONG
+  haben darstellen oder eingeben. Das war bei „lteren Ger„ten und
+  Betriebssystemversionen der Fall. Vergewissern Sie sich ob Sie die
+  neueste PKS Version und Tableaubetriebssystem haben.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1711>
+
+Dieses Tableau untersttzt keine Previous-Input Taste!
+  Diese Taste ist bei „lteren Tableaus nicht vorhanden. 
+Dieses Tableau untersttzt keine Sammelquittiertaste!
+  Auf diesem Tableau ist diese Taste nicht verfgbar. (Tableaus ohne
+  Alarmsystem)
+Dieses Tableau untersttzt keine Slaveprojekte!
+  Slaveprojekte k”nnen Sie nur an einen C300 Tableaukontroller
+  projektieren.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1712>
+
+Dieses Tableau ben”tigt keine Verbindungsliste!
+  Dieses Tableau k”nnen Sie nur mit einer MININET-Station mit 
+  direkter Counter-Adressierung verbinden. Sie ben”tigen daher keine
+  Verbindungsliste.
+Dieses Tableau untersttzt keinen Bildwechsel aus der SPS!
+  Die Funktion "Bildwechsel aus der SPS" ist auf diesem Tableau
+  nicht verfgbar!
+Elementname 'INDEX' ist reserviert
+  Sie drfen kein Rezeptelement mit dem Namen 'INDEX' definieren, weil
+  das Wort 'INDEX' fr die Datensatz-Auswahl reserviert ist.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1713>
+
+enth„lt Tasten Funktion auf unzul„ssiger Taste
+  Das geladene/compilierte Projekt, Bild oder Protokoll enth„lt
+  Tastenfunktionen fr nicht existierende Tasten.
+Es sind nur Funktionstasten von F1 bis F22 m”glich!
+  Das Tableau untersttzt nur 22 Funktionstasten.
+Es sind nur Funktionstasten von F1 bis F99 m”glich!
+  Das Tableau untersttzt nur 99 Funktionstasten.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1714>
+
+ESC-Sequenz der šbersetzung berschreitet die L„nge in der
+Defaultsprache
+  šbersetzungen (Textebenentexte) drfen nicht l„nger sein als die 
+  Texte in der Defaultsprache. Falls die šbersetzung durch das Compi-
+  lieren von ESC-Sequenzen doch l„nger geworden ist, fgen Sie Leer-
+  zeichen in der Defaultsprache ein. Damit schaffen sie Platz fr die 
+  l„ngere šbersetzung.
+F-Taste bereits verwendet!
+  Sie k”nnen jeder Funktionstaste nur eine Funktion zuordnen.
+Fehlende Alarmdefinition!
+  Ihr Projekt enth„lt eine Alarmgruppe ohne Alarme.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1715>
+
+Fehler bei FlashProm l”schen: 
+  Ihr Tableau-Controller hat einen fehlerhaften FlashProm-Speicher
+  oder eine ungltige Betriebssystemversion.
+Fehler beim Compilieren der Tastenbelegung
+  Diesen Fehler k”nnen Sie zusammen mit folgenden Fehlern bekommen:
+  -  Die Tastenbelegungsdatei kann nicht gelesen werden (Lesefehler)
+  -  Sie verwenden ein Tastenbelegungsdatei „lterer Version.
+  -  Ihr PC hat nicht gengend Arbeitsspeicher. (Ihr PKS Software
+     Manual gibt Auskunft ber den Speicherbedarf.)
+  -  Die verwendete Tastenbelegungsdatei geh”rt zu einem anderen Projekt
+  -  Das compilierte Programm wird zu lang.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1716>
+
+Fehler beim Compilieren der Textgruppen
+  Diesen Fehler k”nnen Sie zusammen mit folgenden Fehlern bekommen:
+  -  Eine Globale Text Datei kann nicht gelesen werden (Lesefehler)
+  -  Sie verwenden eine Globale Text Datei „lterer Version.
+  -  Ihr PC hat nicht gengend Arbeitsspeicher. (Ihr PKS Software
+     Manual gibt Auskunft ber den Speicherbedarf.)
+  -  Die verwendete Global Text Datei geh”rt zu einem anderen Projekt
+  -  Das compilierte Programm wird zu lang.
+  -  Sie haben die max. zugelassenen Anzahl der Texte berschritten.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1717>
+
+Fehler beim Compilieren des Bildes
+  Diesen Fehler k”nnen Sie zusammen mit folgenden Fehlern bekommen:
+  -  Eine Bild-Datei kann nicht gelesen werden (Lesefehler)
+  -  Sie verwenden ein Bild „lterer Version.
+  -  Ihr PC hat nicht gengend Arbeitsspeicher. (Ihr PKS Software
+     Manual gibt Auskunft ber den Speicherbedarf.)
+  -  Das verwendete Bild geh”rt zu einem anderen Projekt
+  -  Das compilierte Programm wird zu lang.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1718>
+
+Fehler beim Speichern der Object Datei
+  Ihre PKS kann beim Compilieren die Object-Datei nicht speichern, weil
+  entweder der Platz auf dem Laufwerk nicht ausreicht oder Sie keine
+  Berechtigung haben eine bestehende Object-Datei zu berschreiben.
+Fehler! Fehlerbild und erstes Bild drfen nicht gleich sein!
+  Sie haben den Namen des ersten Bildes (Startbild) als Bild fr
+  Kommunikationsfehler in der Projektdefinition angegeben. Kontrollieren
+  Sie diese Eingabe oder ver„ndern Sie die Bildreihenfolge im
+  Bildverzeichnis.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1719>
+
+Fehler! SPS-Abschluáadresse und Folgeprotokoll schlieáen einander aus!
+  Sie k”nnen bei einem Protokoll entweder ein Folgeprotokoll definieren,
+  oder (beim letzten Protokoll) eine Abschluáadresse definieren.
+Fehler! Unvollst„ndige Projektdefinition!
+  Es fehlen Angaben in ihrer Projektdefinition. Sie k”nnen das Projekt
+  in diesem Zustand nicht compilieren. Kontrollieren Sie, ob Sie alle
+  notwendigen Angaben ausgefllt haben!
+Feld existiert bereits, nur 1x pro Bild erlaubt!
+  Sie drfen dieses Feld nur einmal pro Bild verwenden!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1720>
+
+Feld ist zu breit und hat keinen Platz auf der Anzeige!
+  Das Feld, das sie gerade erstellt haben, ist zu breit und hat keinen
+  Platz an der vorgesehenen Position auf der Anzeige. Fgen Sie das
+  Feld weiter links in die Anzeige ein!
+FFA/FLA und FAA in einem Bild nicht zugelassen!
+  Sie drfen in einem Bild, in dem sie die Felder "Erster anstehender
+  Alarm" oder "Letzter anstehender Alarm" verwendet haben, kein Feld
+  "Anstehender Alarm" verwenden.
+Funktion fr diesen Tableautyp nicht m”glich!
+  Sie wollten eine PKS Funktion durchfhren, die fr das projektierte
+  oder angeschlossene Tableau nicht erlaubt oder m”glich ist.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1721>
+
+Funktion fr dieses Tableau nicht ben”tigt!
+  Sie k”nnen fr BRIT... Ger„te keine Hardwaredefinition vornehmen,
+  weil diese nicht modular oder erweiterbar sind.
+Funktion in diesem Bearbeitungsmodus nicht m”glich!
+  Verlassen sie den aktuellen Bearbeitungsmodus. Es gibt PKS Funktionen,
+  die nur ber das Hauptmen erreichbar sind.
+Funktion nur aus dem Hauptmen m”glich!
+  Verlassen sie den aktuellen Bearbeitungsmodus. Es gibt PKS Funktionen,
+  die nur ber das Hauptmen erreichbar sind.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1722>
+
+Fr diese Alarmgruppe nicht erlaubt!
+  Diese Funktion ist fr die Alarmgruppe Systemalarme und/oder
+  Summenalarme nicht erlaubt.
+Fr diese Textgruppe nicht erlaubt!
+  Sie k”nnen die Textgruppe #0 nicht l”schen. Sie enth„lt die Funktionen
+  die bei einem Bildwechsel das Bildschirm l”schen und die Tasten-LEDs
+  ausschalten.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1723>
+
+Hintergrundbeleuchtung fr dieses Tableau nicht einstellbar!
+  Das Tableau hat entweder keine Hintergrundbeleuchtung oder sie ist
+  immer eingeschaltet.
+ID bereits fr ein Rezept verwendet!
+  Sie wollten eine neue Verbindung mit einer fr ein Rezept bereits
+  verwendeten ID erstellen. Alle Verbindungen und Rezepte mssen
+  unterschiedliche IDs bekommen.
+ID bereits fr eine Verbindung verwendet!
+  Sie wollten ein neues Rezept mit einer fr eine Verbindung bereits
+  verwendeten ID erstellen. Alle Verbindungen und Rezepte mssen
+  unterschiedliche IDs bekommen.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1724>
+
+ID existiert bereits!
+  Sie wollten eine neue Verbindung mit einer bereits existierenden ID
+  erstellen. Benutzen Sie unterschiedliche IDs fr alle Verbindungen!
+Im Fehlerbild sind nur INTERNE Variablen zul„ssig!
+  Sie drfen nur Variablen auf die Verbindungsart "Intern" im
+  Fehlerbild verwenden! Sie finden dafr ein Beispiel im Demoprojekt,
+  zusammen mit Ihrer PANELWARE KONFIGURATIONS-SOFTWARE geliefert wurde.
+In einem Projekt sind max. 250 Bilder m”glich! Bild wird nicht
+bernommen.
+  Die Einbindung weiterer Bilder ist nicht m”glich. Versuchen Sie, Ihr
+  Projekt mit weniger Bildern zu realisieren!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1725>
+
+Interner Compiler Fehler!
+  Jede Software kann trotz sorgf„ltigster Prfung und Tests Fehler
+  beinhalten. Tritt diese Fehlermeldung auf, so bitten wir Sie das
+  ganze Projekt an Ihren PANELWARE Lieferanten zu schicken. Sie
+  erhalten eine Ersatzsoftware, nachdem wir den Fehler behoben     
+  haben.
+Kein Bild eingebunden!
+  Sie mssen alle Bilder Ihres Projektes einbinden. Sie k”nnen in der
+  Projektdefinitionsmaske mit der Funktionstaste F2 oder F3 die Bilder
+  einbinden.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1726>
+
+Kein Bildelement angew„hlt
+  Sie haben eine Funktion (z.B. L”schen <Del>) ausgefhrt, ohne
+  vorher ein Bildelement angew„hlt zu haben.
+Kein Object Code erzeugt!
+  Der Compiler meldet diese Meldung, wenn er aufgrund anderer Fehler
+  keinen Code erzeugt hat.
+Kein Objekt angew„hlt!
+  Sie haben die Funktion Speichern durchgefhrt, in einem Betriebsmodus,
+  wo PKS nichts zum Speichern hat.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1727>
+
+Kein Speicher verfgbar! Funktion kann nicht ausgefhrt werden!
+  Ihr PC hat zuwenig Arbeitsspeicher, um eine Funktion auszufhren.
+  Kontrollieren Sie, ob der vorgeschriebene Speicher vor dem Starten
+  der PKS vorhanden ist. Entfernen Sie alle unn”tigen speicherresidenten
+  Programme aus Ihrem PC!
+Kein weiteres Feld mehr in diesem Bild/Protokoll m”glich
+  Sie haben die max. zul„ssige Anzahl der Felder im Bild oder im
+  Protokoll erreicht.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1728>
+
+Keine Textebenen eingeschaltet!
+  Der Compiler meldet diesen Fehler, wenn Sie den Schalter fr
+  Compilieren bei allen Textebenen auf 'Nein' gestellt haben. Sie mssen
+  mindestens eine Textebene compilieren lassen.
+Keine weitere Tasten/LED Funktion in diesem Bild m”glich
+  Sie haben die max. zul„ssige Anzahl der Tasten oder LED Funktionen
+  im Bild oder im Protokoll erreicht.
+LED-Funktion fr Taste ohne LED nicht m”glich!
+  Sie k”nnen LED Funktionen nur auf Tasten aktivieren, die mit einer
+  LED bestckt sind.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1729>
+
+L”schen abgelehnt, da noch Alarme definiert!
+  Sie k”nnen Alarmgruppen nur l”schen, wenn Sie vorher alle Alarme
+  aus der Gruppe gel”scht haben.
+L”schen abgelehnt, da noch Slaveprojekte definiert!
+  Um ein Projekt l”schen zu k”nnen, mssen Sie zuerst die Slaveprojek-
+  te des Hauptprojektes l”schen.
+L”schen abgelehnt, da noch Variablenzuordnungen definiert!
+  Sie k”nnen eine Verbindung nur l”schen, wenn Sie vorher alle Variablen
+  aus der Variablenzuordnungstabelle dieser Verbindung entfernt haben.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1730>
+
+L”schen abgelehnt, da Rezept noch Rezeptelemente enth„lt!
+  Um ein Rezept l”schen zu k”nnen, mssen Sie zuerst alle Elemente des
+  Rezeptes entfernen.
+Max. Anzahl Textebenen erreicht
+  Sie k”nnen keine weiteren Textebenen erstellen. Die max. Anzahl der
+  Textebenen ist 64.
+Maximal 3 Slaveprojekte je Hauptprojekt m”glich!
+  Sie k”nnen nicht mehr als drei Slaveprojekte fr ein Hauptprojekt
+  definieren. Wollen Sie mehr als 4 Tableaus (Haupt-, und 3 Slaves)
+  an einem Netzwerk betreiben, mssen Sie weitere C300 Kontroller
+  einsetzen.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1731>
+
+Maximale Alarmanzahl erreicht!
+  Sie k”nnen in diesem Projekt keine weiteren Alarme definieren.
+Maximale Alarmanzahl je Gruppe erreicht!
+  Sie k”nnen in dieser Gruppe keine weiteren Alarme definieren.
+Maximale Anzahl Linien erreicht, keine weiteren m”glich
+  Sie haben die max. zul„ssige Anzahl der Linien im Bild erreicht. Sie
+  k”nnen keine weiteren Linien zeichnen. Kontrollieren Sie, ob die
+  Linien nicht zerstckelt sind, d.h., aus mehreren Teilen bestehen.
+  L”schen Sie zerstckelte Linien und ersetzen Sie diese mit einer
+  durchgehenden Linie.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1732>
+
+Maximale Anzahl Rezepte erreicht!
+  Sie k”nnen in einem Projekt max. 4 unterschiedliche Rezepte
+  definieren.
+Maximale Anzahl Rezeptelemente erreicht!
+  Sie k”nnen fr dieses Rezept keine weitere Rezeptelemente mehr
+  definieren.
+Maximale Anzahl Texte erreicht, keine weiteren m”glich
+  Sie haben die max. zul„ssige Anzahl der Maskentexte im Bild erreicht.
+  Abhilfe k”nnen Sie schaffen, indem Sie mehrere Texte in der selben
+  Zeile zu einem Text zusammenfgen.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1733>
+
+Maximale Gruppenanzahl erreicht!
+  Sie k”nnen in diesem Projekt keine weiteren Alarmgruppen erstellen.
+Maximale Textanzahl je Textgruppe erreicht!
+  Sie drfen max. 2000 Texte pro Textgruppe definieren! Gliedern Sie
+  ihre Texte in mehrere Textgruppen!
+Maximale Variablenanzahl erreicht!
+  Sie k”nnen in einem PANELWARE Projekt max. 500 SPS Variablen, inkl.
+  Rezeptelemente verwenden.
+Maximale Variablenanzahl je Verbindung erreicht!
+  Sie k”nnen fr diese Verbindung keine weitere Variable mehr
+  definieren.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1734>
+
+Maximale Verbindungsanzahl erreicht!
+  Sie k”nnen bei diesem Tableau keine weiteren Verbindungen definieren.
+Modul konnte nicht gebrannt werden!
+  Ihr Tableau-Controller hat einen fehlerhaften FlashProm-Speicher
+  oder eine ungltige Betriebssystemversion.
+Name der Textgruppe fehlt!
+  Sie mssen bei einem Output Text Advanced Feld den Namen der zugeh”-
+  rigen Textgruppe immer eintragen.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1735>
+
+Neues Slaveprojekt nur im Rahmen eines Hauptprojektes m”glich!
+  Sie haben versucht ein Slaveprojekt zu erstellen, ohne vorher ein
+  Hauptprojekt erstellt oder geladen zu haben. Sie mssen ein Haupt-
+  projekt laden (Men Datei - Projekt laden)
+Nur eine Textebene m”glich!
+  Das Tableau wofr Sie das Projekt erstellt haben, untersttzt keine
+  Sprachumschaltungsfunktion. Sie k”nnen zwar fr das Projekt mehrere
+  Textebenen erstellen, Sie k”nnen aber nur eine davon compilieren.
+  Stellen Sie den Schalter fr Compilieren nur bei einer Textebene auf
+  'Ja' und bei allen anderen auf 'Nein'!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1736>
+
+Programm zu groá!
+  Die Gr”áe Ihres Projektes berschreitet die des Anwenderspeichers im
+  Tableau. Wenn Sie mehrere Textebenen definiert haben, versuchen Sie
+  das Projekt mit wenigen Textebenen zu compilieren!
+Projekt enth„lt zu viele Prozessvariablen!
+  Ihr Projekt enth„lt mehr als 500 Prozessvariablen. Bitte beachten Sie
+  daá das Rezeptsystem intern einige zus„tzlichen Prozessvariablen
+  verwendet, die Sie in der VZT nicht sehen.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1737>
+
+Projekt enth„lt zu viele verschiedene Treiber!
+  Die Tableaucontroller P150 und C200 k”nnen gleichzeitig nur einen
+  Treiber untersttzen. Entfernen Sie die anderen Verbindungen aus der
+  Verbindungsliste!
+Projekt ist noch nicht compiliert!
+  Sie mssen, um ein Projekt ins Tableau bertragen zu k”nnen, dieses
+  vorher erfolgreich compilieren. (Compiler fertig. Fehler: 0)
+Protokoll enth„lt Feld mit Verweis auf unbekannte Textgruppe:
+  Kontrollieren Sie, ob alle Textgruppen vorhanden sind. Korrigieren
+  Sie die Angabe oder erstellen Sie die fehlende Textgruppe!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1738>
+
+Protokoll nicht importiert
+  Ihr Zielsystem untersttzt keine Protokolle, daher hat PKS bei einem
+  Projekt Import das Protokoll des Quellprojektes nicht importiert.
+Protokoll enth„lt Verweis auf unbekanntes Folgeprotokoll!
+  Sie mssen um das Projekt erfolgreich compilieren zu k”nnen alle
+  als Folgeprotokoll angegebenen Protokolle erstellen.
+Protokoll verweist auf unerlaubtes Folgeprotokoll (Rekursion)
+  Kontrollieren Sie, ob Sie aus Folgeprotokolle keine Schleife auf-
+  gebaut haben!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1739>
+
+Protokoll teilweise importiert
+  Das Protokoll aus dem Quellprojekt enth„lt Felder die das Zielsystem
+  nicht untersttzt. Diese werden bei einem Import ignoriert.
+Protokollname fehlt!
+  Sie mssen, wenn Sie ein Protokoll erstellen, einen eindeutigen
+  Namen vergeben.
+Quelle enth„lt keine/weniger Textebenen
+  Die Textebenen im Zielprojekt bleiben leer. Sie mssen sie entweder
+  l”schen oder mit šbersetzungen ausfllen.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1740>
+
+Referenz auf undefinierte Verbindungs-ID!
+  Das compilierte Projekt enth„lt eine Variable mit einer undefinierten
+  ID. Kontrollieren Sie Ihre Verbindungs- und Variablenzuordnungslisten!
+Rezeptdefinition unvollst„ndig!
+  Sie finden Information ab Hilfeseite <1320> welche Rezeptparameter
+  Sie unbedingt definieren mssen.
+Rezepte ben”tigen mehr Speicher als verfgbar (10240 Byte)
+  Reduzieren Sie die Anzahl der Datens„tze! Die PANELWARE Tableaucont-
+  roller reservieren 10 kByte nullspannungssicheren Speicher fr
+  Rezepte.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1741>
+
+Rezeptelement fr Feld nicht zugelassen! Datentypkonflikt!
+  Sie drfen den Datentyp eines Rezeptelementes nachtr„glich ge„ndert
+  haben. Weil Sie das Element vorher an einem Feld angeschlossen haben
+  kann PKS den Datentypkonflikt nicht mehr aufl”sen. Kontrollieren Sie
+  den Feld und tragen Sie einen Feld mit fr das Rezeptelement passen-
+  den Feldtyp ein!
+Rezeptelement Definition unvollst„ndig
+  Sie finden Information ab Hilfeseite <1340> welche Rezeptelement-
+  Parameter Sie unbedingt definieren mssen.
+Rezeptelement Name bereits verwendet!
+  Sie mssen fr alle Rezeptelemente eindeutige Namen vergeben.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1742>
+
+Rezeptname bereits fr ein anderes Rezept verwendet!
+  Sie mssen fr alle Rezepte eindeutige Rezeptnamen vergeben.
+Rezeptsystem nicht importiert
+  Ihr Zielsystem untersttzt keine Rezepte, daher hat PKS bei einem
+  Projekt Import die Rezepte des Quellprojektes nicht importiert.
+Rezeptverbindung an dieser Stelle nicht erlaubt!
+  Sie k”nnen hier als SPS-Adresse nur wirkliche SPS-Variablen an-
+  schlieáen, aber keine Rezeptelemente.
+Schreibfehler beim Abspeichern der Konfiguration!
+  Kontrollieren Sie Ihre Diskette! Erfolgt der Schreibfehler auf ihrer
+  Festplatte, kontaktieren Sie Ihren PC-Techniker!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1743>
+
+Slave Controller Nummer bereits fr andere Slaveprojekt definiert!
+  Sie mssen fr alle Slaveprojekte unterschiedliche Slave Controller
+  Nummer vergeben.
+Slaveproj. laden nur im Rahmen der Haupt-Proj. m”glich
+  Laden Sie zuerst das Hauptprojekt um Slaveprojekte laden zu k”nnen.
+Speicher im Tableau nicht beschreibbar!
+  Ihr Tableau hat einen fehlerhaften Speicher oder eine ungltige
+  Betriebssystemversion.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1744>
+
+Spracheditor fr -KEINNAME- nicht m”glich!
+  Speichern Sie das Bild ab! Beim Speichern mssen Sie einen dem Bild
+  einen Namen geben. Das Mehrsprachensystem braucht diesen Namen um
+  die Texte zuordnen zu k”nnen.
+Sprachfile nicht/teilweise importiert
+  Ihr Zielprojekt hat weniger Texte oder Textebenen. PKS hat daher
+  die Files mit den šbersetzungen aus dem Quellprojekt nicht oder
+  nur unvollst„ndig importieren k”nnen.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1745>
+
+SPS-Adresse zu lang!
+  Bei einem VZT Import enth„lt die Quelldatei eine SPS-Adresse, die
+  eine unzul„ssige L„nge oder falschen Syntax hat. Kontrollieren Sie
+  die Quelldatei!
+SPS-Datentyp fr diese Verbindung unbekannt!
+  Dieser Fehler kann vom Compiler gemeldet werden, wenn das Projekt SPS
+  Datentypen enth„lt, die Ihre Software nicht verwalten kann. šberzeugen
+  Sie sich, ob sie die neueste Version der PKS besitzen. Ist dies nicht
+  der Fall, installieren Sie diese!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1746>
+
+SPS-Variablentyp zu lang!
+  Bei einem VZT Import enth„lt die Quelldatei einen SPS-Datentyp, die
+  eine unzul„ssige L„nge oder falschen Syntax hat. Kontrollieren Sie
+  die Quelldatei!
+Start Projekt nicht m”glich
+  PKS kann das Projekt im Tableau nicht starten. Kontrollieren Sie
+  ob sich das Tableau im Teach Mode befindet!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1747>
+
+Tableau enth„lt keine gleichnamigen Rezepte!
+  Bei einem Rezept Restore haben Sie es versucht Rezepte wiederherzu-
+  stellen, die vorher nicht im Tableau gespeichert waren. Neue Rezepte
+  k”nnen Sie nur so definieren, indem Sie diese in die Rezeptliste
+  aufnehmen.
+Tastencodetabelle nicht importiert, da Tableautypen ungleich
+  Bei einem Projekt Import werden die Daten des Tastatur nur dann ber-
+  nommen, wenn Quell- und Zielger„t die gleiche Tastatur haben.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1748>
+
+Tempor„res File kann nicht ge”ffnet werden
+  Ihr PC drfte Probleme mit seinem Filesystem haben. Kontrollieren
+  Sie ob Ihre Festplatte nicht voll ist, oder ob andere Fehler das
+  erstellen von Dateien auf der Festplatte nicht verhindern.
+Textebene 0 (Default) nicht angegeben
+  Sie mssen fr eine Textebene die Nummer Null als Textebenennummer
+  im Tableau vergeben. Diese Textebene wird beim Hochfahren verwendet
+  und wenn die Sprachumschaltung nicht aktiv ist.
+Textebenen mehrfach belegt!
+  Sie mssen fr alle Textebenen, die Sie compilieren lassen unter-
+  schiedliche Nummer vergeben.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1749>
+
+Textebenen teilweise importiert
+  Bei einem Bild Import werden nur so viele Textebenen importiert, wie
+  im Zielprojekt vorhanden. Wenn das Quellprojekt mehr Textebenen
+  gehabt hat, kommt diese Meldung.
+Textspeicher voll! Max. 20 kByte Text pro Textgruppe m”glich!
+  Sie k”nnen max. 20 000 Zeichen pro Textgruppe eingeben! Gliedern Sie
+  ihre Texte in mehrere Textgruppen!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1750>
+
+Un-Used Kennzeichen nur nach fehlerfreiem Compiler-Lauf gltig !
+  Wenn Sie in der Variablenzuordnungstabelle "F6 Used" bet„tigen,
+  werden Variablen, die im ganzen Projekt zu keinem Feld zugeordnet
+  sind, gekennzeichnet. Die Kennzeichnung kann jedoch ungltig sein,
+  wenn Sie nach dem letzten fehlerlosem Compilieren das Projekt
+  ge„ndert haben. Benutzen Sie die "F6 Used" Funktion unmittelbar nach
+  einem fehlerfreien Compilieren!
+Ungltige/fehlende SPS-Type
+  Bei manchen SPS-Treibern mssen Sie nach der Auswahl des Treibers
+  die SPS-Type definieren. Fehlt die Definition, so kommt diese Fehler-
+  meldung.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1751>
+
+ungltige Adressvorwahl!
+  Sie haben fr eine SPS-Adresse einen ungltigen Adressvorwahl einge-
+  geben. Information ber Adressensyntax finden Sie im jeweiligen
+  Applikationshandbuch.
+Ungltige Hardware!
+  Sie haben versucht ein Betriebssystem in einen Controller zu laden
+  wo dieses nicht laufen kann. PKS verweigert das Laden des Betriebs-
+  systems mit dieser Meldung.
+Ungltige SPS-Adresse oder Verbindungs-ID
+  Die eingegebene SPS-Adresse enth„lt ungltigen Namen oder
+  Verbindungs-ID! Kontrollieren Sie den eingegebenen Namen!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1752>
+
+Ungltige Verbindung!
+  Sie mssen, bevor Sie eine Verbindungsdefinition bernehmen k”nnen,
+  eine gltige Verbindung ausw„hlen.
+Ungltiger Adressbereich
+  Sie haben fr eine SPS-Adresse eine ungltige Adresse eingegeben.
+  Information ber Adressensyntax finden Sie im jeweiligen
+  Applikationshandbuch.
+Ungltiger Projektname!
+  Projektnamen drfen 8 Zeichen lang sein, um mssen mit einem
+  Buchstaben beginnen.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1753>
+
+Ungltiger Variablenname!
+  Kontrollieren Sie den Variablennamen!
+Ungltiger/fehlender Netzwerkparameter
+  Bitte entnehmen Sie die Information, welche Netzwerk und Knoten-
+  parameter fr ein SPS-Treiber wie eingestellt werden muá aus dem
+  jeweiligen Applikationshandbuch!
+Ungltiger/fehlender Parameter
+  Bitte entnehmen Sie die Information, welche Netzwerk und Knoten-
+  parameter fr ein SPS-Treiber wie eingestellt werden muá aus dem
+  jeweiligen Applikationshandbuch!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1754>
+
+Ungltiges/fehlendes PPF-File!
+  Ihre PANELWARE KONFIGURATIONS-SOFTWARE ist nicht vollst„ndig.
+  Installieren Sie sie von einer Original-Installationsdiskette neu!
+Unzul„ssige Dateinamen bzw. Wildcards!
+  Alle Dateinamen, die in der PKS verwendet werden, mssen den
+  Vorschriften des MS-DOS Betriebssystems entsprechen. Sie drfen
+  max. acht Zeichen lang sein, und mssen mit einem Buchstaben
+  beginnen.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1755>
+
+Unzul„ssige Mehrfachverwendung von Funktionstasten
+  Sie drfen pro Bild und Funktionstaste nur eine Funktion zuordnen.
+  Entfernen sie die Mehrfachzuordnung (z.B. fr eine Taste wurde ein
+  Bildwechsel UND eine Tastenfunktion definiert)
+Variablenname existiert bereits mit anderem Feldparametertyp
+  Sie haben versucht einen Namen fr eine Variable zu vergeben, die
+  bereits existiert. Geben Sie der Variable einen anderen Namen!
+Variable existiert bereits!
+  Die Variable, die Sie erstellen wollten, existiert.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1756>
+
+Variable noch keinem Feld zugeordnet!
+  Sie haben eine (neue) Variable in der VZT erstellt, die noch in
+  keinem Feld verwendet wird. Sie k”nnen diese Variable erst zuordnen,
+  wenn Sie sie in einem Feld verwendet haben, weil dazu der Datentyp
+  des Feldes bekannt sein muá.
+Variable noch keinem SPS-Datentyp zugeordnet!   
+  Sie haben eine symbolische SPS-Adresse (Variable) verwendet, die in
+  der VZT nicht zugeordnet ist. Tragen Sie die Zuordnungen in der VZT
+  ein!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1757>
+
+Variable noch keiner SPS-Adresse zugeordnet!
+  Sie k”nnen den SPS-Variablentyp erst angeben, wenn Sie die Variable
+  in einem Feld verwendet haben.
+Variablenname enth„lt unbekannte Verbindung
+  Sie k”nnen Variablen nur mit existierender Verbindungs-ID angeben.
+  W„hlen Sie "F5 Verbindungen", um bestehende Verbindungen auszuw„hlen
+  oder eine neue zu erstellen!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1758>
+
+Variablenname enth„lt unbekannte Rezeptelement!
+  Sie haben versucht ein nicht existierendes Rezeptelement aus einem
+  Rezept anzuschlieáen. Sie k”nnen nur vorhandene Rezeptelemente
+  anschlieáen, oder Sie haben irrtmlich eine Rezeptverbindung statt
+  einer SPS-Verbindung angegeben.
+Variablenname existiert bereits mit anderem Feldparametertyp
+  Den angegebenen Variablennamen haben Sie bereits fr ein anderes Feld
+  mit unterschiedlichem Datentyp verwendet. W„hlen Sie einen anderen
+  Variablennamen oder l”schen Sie die nicht verwendeten Variablennamen
+  aus der Variablenzuordnungstabelle!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1759>
+
+Variablenname zu lang!
+  Bei einem VZT Import enth„lt die Quelldatei einen Variablennamen,
+  die eine unzul„ssige L„nge oder falschen Syntax hat. Kontrollieren Sie
+  die Quelldatei!
+Variablenzuordnung(en) unvollst„ndig importiert!
+  PKS hat bei einer Import Funktion nicht alle Daten fr die Variablen-
+  zuordnungen bernehmen k”nnen. So werden, z.B. SPS-Adressen und SPS-
+  Datentypen nicht bernommen, wenn im Zielprojekt eine andere SPS-
+  Treiber definiert ist, als im Quellprojekt.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1760>
+
+Verbindung mit dem Tableau kann nicht aufgebaut werden!
+  Der PC kann keine serielle Verbindung mit dem Tableau aufbauen.
+  Kontrollieren Sie die Kabel, Stecker und die Einstellungen
+  (Kanal #1 oder Kanal #2).
+Versionskonflikt Protokoll
+  Die Protkolldatei hat eine falsche Versionskennung. Dieser Fehler
+  kann nur auftreten, wenn die Datei besch„digt ist, oder sie wurde
+  nicht mit der PKS zum Projekt erstellt. Beachten Sie, daá Sie keine
+  Dateien auf DOS Ebene in das Projektverzeichnis kopieren drfen.
+  Benutzen Sie die Import Funktionen wenn Sie Teile eines anderen
+  Projektes bernehmen wollen.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1761>
+
+Versionskonflikt: Bitte Projekt laden und abspeichern!
+  Sie haben ein Projekt „lterer Version geladen. Um weiterarbeiten zu
+  k”nnen, mssen Sie zuerst das Projekt abspeichern.
+Versionskonflikt: Bitte Tastenbelegung laden und abspeichern!
+  Sie haben ein Projekt „lterer Version bearbeitet. Um weiterarbeiten
+  zu k”nnen, mssen Sie zuerst die Tastenbelegung abspeichern.
+Versionskonflikt: Datei kann nicht bearbeitet werden!
+  Der Compiler hat bei einem Bild einen Versionskonflikt entdeckt.
+  Verwenden Sie dieses Bild nicht oder erstellen Sie es neu!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1762>
+
+Verzweigungen nicht vollst„ndig definiert! Bild wird nicht bernommen.
+  Sie mssen alle dargestellten Zweige der Verzweigungsstruktur mit
+  einem Bildnamen ausfllen.
+VZT enthielt ungltige SPS-Adressen oder Datentypen
+  Bei einem VZT Import werden SPS-Adressen und Datentypen auf Richtig-
+  keit geprft. Ungltige Angaben werden nicht importiert, sie mssen
+  die richtigen Angaben h„ndisch nachtragen.
+Warnung - Textebenen unvollst„ndig
+  Es fehlen eine oder mehrere šbersetzungen in der Textebene. Das
+  Projekt wird zwar compiliert, das Tableau zeigt einen Leertext
+  anstelle der šbersetzung dar.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1763>
+
+Warnung - Textebenenfile fehlt
+  Fr die Textebene fehlen alle šbersetzungen. Sie mssen in allen
+  Bilder, Protokolle, Alarme, usw. die šbersetzungen eintragen, oder
+  die Textebene als nicht zu compilierende bezeichnen.
+Warnung - Textebenenfile ungltig
+  Ihr Projekt enth„lt ein Textebenenfile, die entweder besch„digt ist,
+  oder mit einem „lteren Version der PKS erstellt wurde, und nicht
+  mit der Import Funktion ins Projekt aufgenommen wurde. Sie mssen
+  die Textebenen (die šbersetzungen) mit der PKS eintragen. Benutzen
+  Sie keine andere Textverarbeitungsprogramme um Textebenenfiles
+  zu erstellen oder zu modifizieren!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1764>
+
+Warnung! Das Bild fr Kommunikationsfehler fehlt in der
+Projektdefinition!
+  Sie mssen in der Projektdefinitionsmaske den Namen fr das Bild
+  angeben, das bei einem Kommunikationsfehler angezeigt wird.
+Warnung! Es fehlen angesprochene Bilder aus dem Bildverzeichnis!
+  Ihre Bildverzweigungsstruktur spricht Bilder an (als Ziel), die nicht
+  im Bildverzeichnis vorkommen. Sie mssen alle angesprochenen Bilder
+  in das Bildverzeichnis aufnehmen und einbinden!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1765>
+
+Warnung! Nicht alle verwendeten Bilder sind eingebunden!
+  Ihr Projekt enth„lt Bilder, die im Bildverzeichnis nicht
+  vorkommen, oder nicht eingebunden sind. Sie mssen alle Bilder im
+  Bildverzeichnis einbinden (d.h. die Nachbarn definieren). Sie mssen
+  jedoch NICHT alle Bilder, die Sie erstellt haben, im Projekt
+  verwenden.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1766>
+
+Warnung! Speicher zerstckelt - Programm erneut starten!
+  Interner Programmfehler. Unsere Software ist sorgf„ltigst getestet,
+  Fehler sind trotzdem nie auszuschlieáen. Sie k”nnen sich kurzfristig
+  helfen, indem Sie PKS verlassen und erneut starten. Weiterhin bitten
+  wir Sie das Projekt aufzuheben und uns kontaktieren. Wir werden den
+  Softwarefehler schnellstm”glich beheben.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1767>
+
+Warnung! Variable nicht als INTERN bekannt!
+  Sie haben einen Variablennamen mit der Verbindung INTERN verwendet,
+  die das Tableau nicht als interne Variable kennt. Entfernen Sie diese
+  Variable oder korrigieren Sie den Namen. Achten Sie auf Groá- und
+  Kleinschreibung! Eine Liste der internen Variablen finden Sie
+  im Anhang D des PANELWARE Software-Anwenderhandbuches.
+Warnung: Bild enth„lt berlappende Felder
+  Ihr Bild enth„lt Felder, die einander berlappen. Das fhrt im
+  Run-Modus zu undefinierten Anzeigen. Entfernen Sie diese Felder!
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1768>
+
+Warnung: Textgruppen enthalten Zeichen und Esc-Sequenzen
+  Die Textgruppe enth„lt ESC-Sequenzen. Verwenden Sie diese nur,
+  wenn Sie mit deren Wirkung vertraut sind. Kontrollieren Sie mit Hilfe
+  des Hardware Manuals, welche Auswirkungen die Sequenzen haben. Sie
+  k”nnen auch jede Funktion des PANELWARE Systems ausnutzen, ohne daá
+  Sie ESC-Sequenzen benutzen mssen.
+Warnung: Unvollst„ndige Steuertastendefinition!
+  Diese Warnung erscheint, weil Sie nicht alle Funktionstasten
+  definiert haben. Beachten Sie, daá Sie NICHT alle Funktionstasten
+  definieren mssen, um ein funktionstchtiges Projekt zu erhalten.
+# 900 #### aus keiner Maske erreichbar, nur mit F9 ########
+Warnungen und Fehlermeldungen                                    <1769>
+
+Zu l”schende Zeilen/Spalten mssen leer sein! Anzahl wird nicht
+akzeptiert!
+  Sie haben versucht ein Protokoll kleiner zu machen. Das k”nnen Sie
+  nur dann, wenn Sie vorher alle Texte und Felder aus den zu l”schen-
+  den Zeilen und Spalten entfernen.
+# 900 #### Ende ########
+                                                                 <9999>
+
+
+
+
+                        ENDE DER HILFEDATEI
+
+
+
+
+

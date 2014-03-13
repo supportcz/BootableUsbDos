@@ -1,0 +1,83 @@
+                        INFORMATION
+                NET2000 - Treiber V1.30 fÅr
+             PANELWARE KONFIGURATIONS SOFTWARE
+
+
+A. Auf dieser Diskette sind folgende Programme enthalten
+
+        Automatische Installation aller benîtigten Dateien auf die
+        Harddisk
+
+        Kommunikationstreiber fÅr NET2000
+
+B. Benîtigte Version der PANELWARE KONFIGURATIONS SOFTWARE
+
+   FÅr die Installation der NET2000 - Treiber Diskette V1.30 ist eine 
+   PANELWARE KONFIGURATIONS SOFTWARE ab Rev.: 01.80 notwendig. 
+
+C. Um alle Dateien auf die Harddisk zu installieren, (z.B. Laufwerk C: ) 
+   mÅssen Sie das automatische Installationsprogramm von dieser Diskette 
+   verwenden. Um dieses Programm auszufÅhren, mu· diese Diskette in das 
+   Diskettenlaufwerk (z.B. Laufwerk A: ) eingelegt werden. Folgende Be-
+   fehlszeile ist am PC einzugeben:
+
+        C:> A:SETUP
+
+   WICHTIG:  Um die FunktionalitÑt des NET2000-Treiber zu garantieren, 
+             mÅssen alle benîtigten Dateien mit dem SETUP-PROGRAMM auf 
+             die Harddisk installiert werden. 
+
+D. Hinweise bei der Installation
+
+   Bei der Installation mu· der Zielpfad mit der bei der Installation der
+   PANELWARE KONFIGURATIONS SOFTWARE angegebene Zielpfad Åbereinstimmen.
+
+        z.B.    Installation der PANELWARE KONFIGURATIONS SOFTWARE:
+
+                Zielpfad:       C:\PW\
+
+                Installation der NET2000 - Treiber Diskette
+
+                Zielpfad:       C:\PW\
+
+E. Neuinstallation von NET2000-Treiber
+
+   Bei der Installation des NET2000-Treibers wird ein neuer Eintrag in die 
+   bestehende Verbindungsliste eingefÅgt.
+   Alle benîtigten Dateien werden in das Verzeichnis \Zielpfad\kfg kopiert.
+
+F. Benîtigte Software in der SPS (System 2005/2010)
+
+   Um auf der SPS NET2000 verwenden zu kînnen, wird die Software "1A0200.01"
+   ab Revision 01.14 benîtigt. Diese Software enthÑlt die NET2000-Library
+   fÅr die SPS
+
+G. EinschrÑnkungen NET2000 Treiber
+
+   Version V1.0
+
+        -       kein Slave-Slave Querverkehr (nicht getestet)
+        -       kein Netzwerkbetrieb (nicht getestet)
+
+   Version V1.10 / V1.20 / V1.30
+
+        -       keine
+
+H. énderungen NET2000 Treiber
+
+   Version V1.00 auf V1.10
+
+       -        Die BIT-BYTE Konvertierung war fehlerhaft
+       -        Eine Alarmgruppe mit einer Alarmanzahl von ungleich n*8
+                Alarme wurde fehlerhaft dargestellt
+
+   Version V1.10 auf V1.20
+
+       -        Erweiterung Multiple Get_OV (ab PKS Betriebssystem V2.11)
+
+   Version V1.20 auf V1.30
+
+        -       Fehlerbehebung Multiple Get_OV (ab PKS Betriebssystem V2.30)
+	-	Fehlerbehebung Alarmsystem Bit-Byte Konvertierung
+
+   24.1.1997

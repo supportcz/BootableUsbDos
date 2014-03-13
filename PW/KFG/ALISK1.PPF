@@ -1,0 +1,16 @@
+*           
+*   Protocol Parameter File for ALI-SK 
+*
+#PARA "Interface:"                  slot    1   0    0   0   descript    STR    20   1   NODE
+#PARA "Data interface service:"     dstyp   1   0    0   0   node_info   BIT    16   1	 NODE
+*  key  name         anz  Item-len  typ(1..Int/0..String)  len-erg(falls Typ 0)
+#SELECT dstyp        2    10            1                       0
+* Item-Text      Result-Int
+   dynamic          0
+   read_write       1 
+*  key  name         anz  Item-len  typ(1..Int/0..String)  len-erg(falls Typ 0)
+#SELECT slot         3     11           0                       1
+* Item-Text      Result-Int
+   Interface-0       1
+   Interface-1       2
+   Interface-2       3

@@ -1,0 +1,443 @@
+Erweiterungen und Korrekturen in der V2.24
+
+Export und Import
+=================
+Ø Der gesamte Bereich Ex/Import wurde Åberarbeitet und die AblÑufe
+  beim Exportieren und Importieren von Objekten (Tasks, FUBs, 
+  Datentypen, ...) vereinheitlicht und Åbersichtlicher gestaltet.
+
+Ø Ist im File PG.INI der Eintrag "EXPORT_PATH=<pfad>" vorhanden, dann
+  wird der Eintrag <PFAD> als Default Vorschlag in das Feld zur 
+  Eingabe des Exportpfades beim Export Åbernommen. 
+
+Ø Ist im File PG.INI der Eintrag "IMPORT_PATH=<pfad>" vorhanden, dann
+  wird der Eintrag <PFAD> als Default Vorschlag in das Feld zur 
+  Eingabe des Importpfades beim Import Åbernommen.
+
+Ø Konstanten kînnen im ASCII-Format exportiert werden.
+
+Ø Init Werte von Variablen werden im ASCII-Format unterstÅtzt.
+
+Ø Der Vergleich auf neuere ASCII Files wird nicht nur fÅr Task
+  Sourcen, sondern auch fÅr FUB Sourcen durchgefÅhrt.
+
+Ø Bei PVs deren Langnamen die maximal mîgliche LÑnge auswiesen, konnte
+  es vorkommen, da· beim Import die Gleichheit nicht erkannt wurde und 
+  die Box zur Nachfrage "öberschreiben, Belassen, ...." geîffnet 
+  wurde.
+
+Ø Beim Import von fehlerhaften RIO Variablen wird jetzt der Fehler 322
+  gemeldet.
+
+Ø Nach dem Import von Projekten konnte es beim nachfolgenden Make zu
+  einem signifikanten Anstieg des Speicherbedarfs fÅr rps_globale PVs 
+  kommen.
+
+Ø Globale PVs kînnen nun im ASCII-Format auch auf einem PP exportiert
+  und importiert werden.
+
+Ø Wenn mîglich wird die Prozessor Verkettung fÅr PVs beim PV Import
+  erhalten.
+
+Ø Beim ASCII Export eines Projektes mit vielen KOP Tasks konnte es zum
+  Fehler 7003 bzw. 6000 kommen.
+
+Ø énderungen von Datentypen, die durch ein Datentyp Import erfolgten,
+  wurden beim Make nicht berÅcksichtigt.
+Ø Beim Konstanten Import konnte es vorkommen, da· der Wert der 
+  Konstanten immer Åberschrieben wurde.
+
+GDM
+===
+Ø Analog zu den Objektlisten wurde die Behandlung von FUB Listen 
+  implementiert. öber die GDM (Editor - Pop Up "FUB Liste") kann eine 
+  FUB - Liste erstellt und alle eingetragenen FUBs Åbersetzt werden. 
+  In die Liste werden alle FUBs, zu denen Sourcen vorhanden sind 
+  (*.FUB), aufgenommen. Das Compile der FUBs wird Åber das Make 
+  gefÅhrt.
+
+Ø Durch eine Umstellung in der Behandlung der PPs in der GDM kam es
+  beim Portieren von Projekten, die mit der Version V2.22 erstellt 
+  wurden, auf V2.23 bei Verwendung einer XP152 zum Fehler "Fehlende 
+  Systembus Komponente" beim Zugriff auf die XP152.
+
+Ø Einzeilige Kommentare in der GDM konnten fallweise nicht mehr
+  vollstÑndig verÑndert werden.
+
+Ø Der Eintrag zum Verschieben von Symbolen in der GDM war gesperrt.
+
+Ø Unter bestimmten Voraussetzungen konnte es zu Offset
+  öberschneidungen von verketteten PVs (CPU <-> IP) kommen.
+
+Ø Die EinschrÑnkung bei der Vergabe der Moduladressen fÅr PPs / MPs
+  (maximale Adresse 8) wurde aufgehoben.
+
+Ø Beim PrÅfen der GDM konnte es bei umfangreichen Projekten zu einem
+  Absturz des PG kommen.
+
+Ø Das PrÅfen der GDM kann Åber Eingabe von <ESC> unterbrochen werden.
+
+Ø Das Compilieren Åber FUB Listen kann Åber Eingabe von <ESC>
+  unterbrochen werden.
+
+Ø Beim Optimieren auf einem SPS Symbol mit mehreren Prozessoren konnte
+  es vorkommen, das die Offsets von gemeinsam verwendeten Variablen 
+  (verkettet oder rps_global) nicht mehr richtig waren.
+
+Ø Die Bezeichnungen fÅr die Taskklassen Symbole in der GDM wurden von
+  TK#1 - TK#4, SS#1 - SS#4 auf TC#1 - TC#4, HS#1 - HS#4 geÑndert.
+
+Codegenerierung
+===============
+Ø Zuweisungen auf Konstante wurden nicht immer mit einer Fehlermeldung
+  abgewiesen.
+
+Ø Bei Einstellung "optimierte Bitbehandlung" wurde die Anweisung
+  bit_var XOR bit_var (bit_var vom Typ BIT) nicht richtig Åbersetzt.
+
+Ø Beim Rebuild von Tasks wurde die LÑnge von Alias PVs immer mit 0
+  wiederhergestellt.
+
+Ø In einzelnen Fehlersituationen beim öbersetzten von Tasks wurde der
+  Speicher fÅr die Stacks nicht mehr freigegeben.
+
+Ø Sinnvolle Fehlermeldung wenn die Rebuild Info 64k Åberschreitet.
+  Datenbank
+
+Ø Die wenig aussagekrÑftige Meldung "Datentypnr > nr < in der
+  Datenbank nicht vorhanden" wurde durch "Datentyp der (ALIAS-)PV > 
+  pvname < mit der Typnr (nr) in der Datenbank nicht vorhanden"
+  ersetzt.
+
+Ø Beim Versuch eine Library in einem Projekt zu lîschen, in dem keine
+  Library vorhanden war, ist es zu einem Absturz mit CSCAPE Fehler 
+  gekommen.
+
+Ø Beim éndern des GÅltigkeitsbereiches einer PV in der VD werden die
+  Åbrigen Parameter der PV nun nicht mehr gelîscht.
+
+Ø Beim Ausdruck der VD wurde die Spalte fÅr die Init Werte der PVs
+  unnîtigerweise zu breit bemessen.
+
+Ø Bei Projekten mit vielen Datentypen konnte es vorkommen, da· in der
+  VD in der Datentypspalte auf Eingabe von 'T' die Typdeklaration fÅr 
+  einen falschen Datentyp geîffnet wurde.
+  Kontaktplan
+
+Ø KOPs, die mit einer PG Version <= 2.23 erstellt wurden, wurden nach
+  dem ôffnen und Schlie·en im Editor (ohne énderungen) immer wieder 
+  Åbersetzt.
+
+Ø Beim EinfÅgen einer Leerzeile in der ersten Zeile eines KOPs, konnte
+  es vorkommen, da· fÑlschlicherweise Querverbindungen gezogen wurden.
+
+Ø Beim Rebuild von KOP Tasks wurden Datentypen nicht
+  wiederhergestellt, die im Init UP verwendet wurden.
+
+Ø Beim Eintragen von dreizeiligen Kommentaren im KOP konnte es, wenn
+  die drei Zeilen gleich lang waren, zu einem Absturz des PG kommen.
+
+Ø Nach einem Ausschneiden oder Lîschen eines markierten Bereiches im
+  KOP Editor konnte es zu diversen Fehlern kommen (Kontakte wurden 
+  nicht mehr zugewiesen, sichtbare Kontakte wurden nicht mehr erkannt
+  -> offene Linien, der Name von Kontakten wurde nicht mehr richtig 
+  dargestellt, ...).
+
+Datenmodule
+===========
+Ø Datenmodule werden jetzt wie Tasks beim Make nur dann Åbersetzt,
+  wenn énderungen durchgefÅhrt wurden.
+
+Ø Die Anzeige der Modulparameter aus dem Datenmodul Editor ist nun
+  mîglich.
+
+Ø Das Speichern auf die SPS aus dem Datenmodul Editor ist nun mîglich.
+
+Ø Das öbersetzen von Datenmodulen kann Åber Compilereinstellungen
+  erzwungen werden.
+
+PV-Monitor
+==========
+Ø Im PV-Monitor kann nun der vollstÑndige IEC String fÅr I/O Variablen
+  angezeigt werden.
+
+Ø Beim Ausstieg aus dem PV-Monitor konnte es zu einem Absturz des PG
+  kommen.
+
+Ø Der Wert von Konstanten wurde in PV Statustest fallweise falsch
+  angezeigt.
+
+Ø Die Genauigkeit der Anzeige von FLOAT PVs im PV Statustest wurde
+  erhîht.
+
+Sonstiges
+=========
+Ø In den Dialogboxen, die nach Auswahl vom "Projekt Erzeugen",
+  "Projekt Kopieren" und "Projekt Durchsuchen" geîffnet wurden, kann 
+  Åber eine SchaltflÑche ein Pfad Browser zur Auswahl eines 
+  Verzeichnisses aufgeblendet werden.
+
+Ø In der Anzeige des Fehlermoduls wird der Programm Counter als LONG
+  ausgegeben.
+
+Ø Die Auswahl des Betriebssystems beim OS Download funktionierte nicht
+  ordnungsgemÑ· (Es wurde immer das zuerst gefundene geladen).
+
+Ø Wenn beim Start des PG kein *.INI File existiert, dann wird ein
+  solcher angelegt.
+
+Ø Bei Eingabe eines Pfades mit Åber 30 Zeichen LÑnge Åber die File
+  Auswahl Box ist es zu einem CSCAPE Fehler gekommen.
+
+Erweiterungen und Korrekturen in der V2.25
+
+Kontaktplan
+===========
+Ø Durch einen Fehler im KOP in den PG-Versionen < V2.24 war es notwendig, in
+  die V2.24 eine Fehlerkorrektur der KOP-Files beim Laden in den Editor
+  einzubauen. Dadurch dauert das Laden von langen KOPs verhÑltnismÑ·ig lang. Die
+  Fehlerkorrektur wurde auch nach einem Sichern des KOPs beim nÑchsten Laden
+  wieder durchgefÅhrt. Die Fehlerkorrektur wird jetzt nur einmal durchgefÅhrt.
+
+  ACHTUNG : Das Sichern mu· mit einern V-Version >= V2.25 ausgefÅhrt werden.
+            Bei ·-Versionen greift die énderung noch nicht.
+
+PL 2000
+=======
+Ø In der PL2000 werden Charakterkonstanten ('x') unterstÅtzt;
+
+Ø In die PL2000 wurde ASSERT als neues Syntaxelement eingefÅhrt :
+        Syntax : ASSERT(<log. Ausdruck>)
+  fÅhrt zum einem Fehlerzustand auf der RPS (RPS wird angehalalten) wenn der 
+  log. Ausdruck 0 wird;
+
+Ø Bei zu gro·er Zeilenanzahl in der PL2000 konnte es vorkommen, da· beim
+  öbersetzen keine korrekte Klartextmeldung sondern nur der Fehler 7021
+  ausgegeben wurde;
+
+Konstanten
+==========
+Ø Die Zuweisung auf symbolische Konstanten wurde nicht immer mit einer
+  Fehlermeldung abgewiesen;
+
+Ø Symbolische Konstanten kînnen jetzt auch in ACTION-Statements verwendet
+  werden;
+
+Kommunikation
+=============
+Ø Bei bestimmten Notebooks (z. B. : Qompaq Contura) konnte es zu Problemen
+  bis zum Absturz des PG bei AktivitÑten auf der Onlineverbindung zur RPS
+  kommen;
+
+Erweiterungen und Korrekturen in der V2.26
+
+Kommunikation
+=============
+Ø Das gesamte Meldungswesen in Zusammenhang mit der Kommunikation zwischen
+  PC und SPS wurde grundlegend Åberarbeitet : 
+  * In der Fu·zeile wird rechts unten der Zustand der Verbindung, sowie 
+    Information Åber die SPS ausgegeben (Kommunikationspartner, 
+    Schnittstelle, SPSSW-Version, Zustand der SPS). 
+  * Bei lÑnger dauernden Diensten (Download, ...) wird in der Fu·zeile 
+    zusÑtzlich eine Fortschrittsanzeige ausgegeben.
+  * FehlerzustÑnde auf der Verbindung werden entweder verhindert oder
+    Åber sinnvolle Ausgaben gemeldet.
+  * Die Meldungen Åber Systemprobleme (Schreibschutz am EPROM, Fehlende 
+    Systemerweiterungen, ...) wurden Åberarbeitet, um die Fehleranalyse
+    zu erleichtern.
+  * Erfolgs- und Mi·erfolgsmeldungen wurden vereinheitlicht und mit mehr
+    Information versehen. 
+  * Sinnlose Meldungen oder Meldungen, die fÅr den Anwender keine 
+    Bedeutung haben, wurden gestrichen.
+
+Ø Das Lîschen der Datenbankinformation beim Objekt optimieren kann
+  benutzergesteuert verhindert werden.
+
+Ø Der lokale Speicherbedarf (analog und digital) eines Tasks wird in der
+  Modulparameterbox ausgegeben. Da erst nach dem Taskbuilderlauf der 
+  tatsÑchliche Speicherbedarf feststeht (Reihenfolge der Offsetvergabe,
+  Alignment), stimmt die Anzeige erst nach dem öbersetzen.
+ 
+Fehlerkorrekturen
+=================
+Ø Wenn die Anzahl der eingestellten B&R Module niedriger war als die Anzahl
+  der benîtigten, konnte es zu einer nichtsaussagenden Fehlermeldung kommen.
+
+Ø Unsinnige Fehlermeldungen, welche beim Modul Download auftreten konnten
+  wurden durch Meldungen ersetzt, die einen exakten RÅckschlu· auf die
+  Fehlerursache zulassen.
+
+Ø Wurde der DL durch ESC abgebrochen, konnte es vorkommen, da· im
+  Meldungsfenster ein falscher Text ausgegeben wurde.
+
+Ø Wenn es bei der Taskauswahl fÅr den PV-Monitor zu einer
+  Verbindungsunterbrechung kam, konnte ein rotes Meldungsfenster mit den
+  Fehlernummern 4012 bzw. 4252 erscheinen .
+
+Ø Im PV-Monitor konnte es vorkommen, da· bei Strukturen die aus mehreren
+  Byte Feldern bestanden, falsche Werte angezeigt wurden.
+
+Ø Bei einem Force Auftrag  Åber den PV-Monitor und anschlie·endem globalen
+  "FORCE AUS", blieb der Status "f" im PV-Monitor erhalten.
+
+Ø Beim Beenden des PG mit ALT-F4 wÑhrend man sich im INIT-UP eines Tasks
+  befand konnte es zu einem Absturz des PG kommen.
+
+Ø Beim DL des Spoolers auf die SPS konnte es, wenn dort bereits eine Version
+  des Spoolers vorhanden war, zu der Fehlermeldung "Service State Conflict"
+  kommen.
+
+Ø Beim VerknÅpfen von analogen Kontakten im KOP durch drÅcken der Taste F6
+  konnte es zu einer falschen LinienfÅhrung kommen.
+
+Ø Durch das Einziehen und spÑtere Entfernen einer Prozessorebene konnte es
+  vorkommen, da· im Projektpfad immer noch die Prozessorebene angezeigt
+  wurde.
+
+Ø Wurde versucht ein Modul ins FIX RAM zu spielen in dem nicht genÅgend
+  Speicher zur VerfÅgung stand, kam es zu einer wenig aussagekrÑftigen
+  Fehlertext.
+
+Ø Ein Abgleichen der GDM mit einer XP152 war nicht mîglich.
+
+Ø Wurde die Fehleranalyse wÑhrend der Kommunikation abgebrochen konnte es zu
+  einem Absturz des PG kommen.
+
+Ø Module die im Namen ein $ Zeichen enthalten haben wurden bei einem DL in
+  der GDM nicht gefunden.
+
+Ø Nach einem TOTAL INIT auf der CP200 konnte es zu den Meldungen
+  "AuftragsÅberlauf bei Verbindung" oder "ALI:FEHLER 2" kommen, obwohl die
+  Verbindung aktiv war.
+
+Ø Wurde eine PV als Struktur deklariert die grî·er als 65535 Byte war
+  (z. B. 260 x 256 Byte)kam es zu keiner Fehlermeldung.
+
+Ø Wurde versucht ein Modul auf eine Steuerung zu brennen bei dem der AWS auf
+  WRITE PROTECT war, kam es zu einer falschen Fehlermeldung.
+
+Ø Wurde versucht das FLASH einer Steuerung zu lîschen bei der der AWS auf
+  WRITE PROTECT war, kam es zu einer falschen Fehlermeldung.
+
+Ø Bei Libraries die sich im Projekt befanden wurden nur die ersten Zeichen
+  des Library Namen als signifikant betrachtet.
+
+Ø Wurde im KOP die Funktion SUCHEN aufgerufen, so wurde im MenÅpunkt Symbol
+  kein Defaulteintrag ausgegeben.
+
+Ø Es konnte vorkommen, da· Kommentare im KOP teilweise nicht sichtbar waren.
+
+Ø Es konnte vorkommen, da· Konstanten im KOP nicht als solche erkannt wurden
+  und dadurch falsche Werte hatten.
+
+Ø Der Eingabebereich des Offset im Bereichseditor war auf 3 Stellen limitiert.
+
+Ø Bei X- oder T-Versionen der SPSSW kleiner als 1.10 (z. B.: X0.53) war es
+  nicht mîglich, FIXRAM zu konfigurieren.
+
+Ø Durch einen Fehler in der Codegenerierung konnte es in seltenen FÑllen 
+  bei Verwendung von rps-globalen FUB Alias dazu kommen, dass die FUB-
+  AusgÑnge nicht richtig beschrieben wurden.
+
+Ø Die Fehlermeldung beim Versuch, ein Modul auf einen schreibgeschÅtzten
+  AWS zu brennen, war falsch (nur bei SPSSW V1.xx).
+
+Ø Die Fehlermeldung beim Versuch, ein Modul in ein nicht konfiguriertes
+  FIX-RAM zu schreiben, war falsch (nur bei SPSSW V1.xx).
+·61125
+Ø Bei Aufrufen von FUBs/Funktionen in FUBs konnte es vorkommen, dass in 
+  seltenen FÑllen falscher Code fÅr den FUB erzeugt wurde.
+
+Ø Bei Verwendung von rps-globalen Variablen auf MPs/PPs wurde bei der
+  Deklaration dieser Variablen auf der MP Seite fÑlschlicherweise die 
+  Meldung "CPU-PV darf nicht geÑndert werden" gebracht. Wenn fÅr die PV im
+  Bereichseditor auf der CPU-Seite ein Offset vergeben war, dann war es
+  darÅberhinaus unmîglich die PV auf der MP Seite zu verwenden.
+
+Erweiterungen und Korrekturen in der V2.30
+On-Line
+=======
+Ø Die Einbindung der Kommunikation mit der SPS wurde grundlegend ueber-
+  arbeitet. Die Menueleiste "System" wurde neu organisiert und der 
+  Objektmonitor eingefÅhrt. Der Objektmonitor ist ein Standardfenster, in
+  dem in Tabellenform die Module auf der SPS aufgelistet sind und 
+  manipuliert werden kînnen bzw. ein Download oder Upload von Modulen
+  durchgefÅhrt werden kann (NÑheres siehe PA V2.30). Der Objektmonitor 
+  kann auch in der GDM auf einem SPS-Symbol Åber "Objekt"-"Monitor"
+  aktiviert werden. In der Menueleiste "Einstellungen" wurde ein eigener
+  Menuepunkt fÅr den Objektmonitor eingefÅhrt.
+
+Ø Der Dialog der RPS-Info wurde Åberarbeitet und bietet neben erweiterter
+  Information die Mîglichkeit, das Forcen global auszuschalten und die
+  RPS-Zeit zu manipulieren.
+
+       RestmÑngel : Die Information Åber die belegten Speicherbereiche kann
+                    in der aktuellen Vorversion der RPSSW V2.0 nicht gelesen
+                    werden.
+Ø Das PG fÅhrt jetzt alle notwendigen Schritte beim FIXRAM Lîschen 
+  automatisch aus (Diagnose Mode - FIXRAM Lîschen - Totalinit).
+
+Ø Das PG erkennt jetzt einen Hochlauf im Diagnose Mode und bietet Åber
+  einen Dialog von sich aus die Mîglichkeit, defekte Module zu lîschen.
+
+Ø Der bisher im PG vorhandene RPSSW-Konfigurator wurde gestrichen und die
+  FunktionalitÑt des externen Tools "RPSSWCFG" in das PG integriert. Die
+  Einbindung wurde beibehalten (Arbeiten auf dem sysconf-Modul, Behandlung
+  des sysconf-Moduls Åber die GDM). NÑheres siehe PA V2.30.
+
+Ø Beim Verbindungsaufbau wird die im Projekt vorhandene Systemkonfiguration
+  mit jener auf der SPS verglichen und dem Anwender die Mîglichkeit
+  geboten, ein Up- oder Download durchzufÅhren. Ebenso wird das Pa·wort
+  kontrolliert und bei unterschiedlichen Pa·wîrten im Projekt und auf der
+  SPS das Pa·wort fuer die SPS eingefordert. Ist das Pa·wort nicht bekannt,
+  kann keine Verbindung zur SPS aufgenommen werden.
+
+
+GDM
+===
+Ø FÅr IPs kînnen jetzt fÅr 2005 I/O, 2010 I/O und Remote I/O die
+  Parameter zur Bestimmung der Spooladresse eingegeben werden. Die richtige
+  Spooladresse wird auch ohne Compile-Lauf in die br-Module eingetragen.
+
+Ø Beim Eintragen eines br-Symboles in die GDM wird die Dateiauswahlbox zur
+  Auswahl eines br-Files geîffnet. Der File wird in das Projektverzeichnis
+  umkopiert. Damit ist sichergestellt, da· das Modul als File vorhanden ist.
+
+Ø Bei Tasks wird die Position in der GDM und ein bis zu 60 Zeichen langer
+  Kommentar in die Rebuild-Info mitaufgenommen. Damit ist das Erscheinungs-
+  bild der GDM mit EinschrÑnkungen wiederherstellbar.
+
+Ø Das Abgleichen in der GDM ist jetzt wahlweise nicht nur von der SPS,
+  sondern auch von einem frei wÑhlbaren Verzeichnis mîglich.
+
+Ø Die Parameterdialoge wurden grundlegend Åberarbeitet. FÅr SPS-Symbole
+  gibt es jetzt einen eigenen Dialog. Das Einschalten des Projektstempelns
+  wird in diesem Dialog neben diversen Infos zur SPS angeboten. In den 
+  Åbrigen Dialogen ist es jetzt je nach Objekttyp mîglich, erweiterte 
+  Parameter einzustellen, die von der SPSSW V2.0 unterstÅtzt werden
+  (direktes Spoolen beim Download, PV-Konsitenzcheck beim Install und
+  optimierte I/O-Emulation). Diese Parameter kînnen wie die Rebuild-Info
+  global und objektspezifisch ein- und ausgeschaltet werden.
+
+Datenmodule
+===========
+Ø Datenmodule kînnen jetzt mit Rebuild-Info Åbersetzt werden, soda· ein
+  RÅckÅbersetzen aus dem br-Modul mîglich ist.
+       RestmÑngel : keine;
+Ø Bei Busfehlern am I/O wird die Fehlerhafte I/O Adresse durch einen
+  Klartext in der Fehleranalyse gemeldet.
+       RestmÑngel : keine;
+Variablen Deklaration
+=====================
+Ø VollstÑndige UnterstÅtzung des Systems 2003. Zuordnung der I/O-Punkte
+  Åber die VD, Wiederherstellen der I/O-Punkte beim Import und Rebuild.
+
+Service Konfiguration
+=====================
+Ø Es ist jetzt mîglich, das PG in einer Minimalkonfiguration zu starten.
+  In dieser Konfiguration wird Åber ein reduziertes Hauptmenue nur Monitor-
+  funktionalitÑt angeboten. Dazu ist es notwendig eigene Konfigurations-
+  files (pg-mcol.cfg fÅr Farbmonitore, pg-mmon.cfg fÅr Monchrommonitore) 
+  und als AnwenderprioritÑt eine Zahl kleiner als 9 und grî·er als 4 im 
+  File pg.ini einzutragen.
+

@@ -1,0 +1,764 @@
+%%
+1,0:1
+%%
+.1
+    Functions of the IEC 1131 Library
+
+  ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ WARNING: As the IEC 1131 library only contains inline functions and local บ 
+  บ          function blocks (no AVT function blocks!), no library runtime    บ 
+  บ          module needs to be transferred to the controller.                บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+    All functions which are defined in the IEC 1131 Standard are offered in
+    this library.
+    After importing the IEC 1131 library, the following functions can be used:
+
+    @020[< Edge Recognition   >]     Positive and negative edges
+    @030[< Bistable Functions >]     Conditional setting/resetting
+    @040[< Counter Functions  >]     Up, down and bi-directional counters
+    @050[< Shifting Operations>]     Bit-wise data shifting
+    @060[< Timer Functions    >]     On/Off delay
+
+
+
+
+                                      @200[ APPENDIX ]                      @999[ End HELP ]
+.20
+    IEC 1131-Library - Edge Recognition
+
+    Edge Recognition:
+    Set to logic 1 for one task cycle if the input signal changes from 0 to 1.
+
+    @021[R_TRIG] Positive edge (change from 0 to 1)
+    @022[F_TRIG] Negative edge (change from 1 to 0)
+
+    Edge recognition functions must be called in every task cycle; i.e. avoid
+    using edge recognition functions in conditional expressions such as "if"
+    statements (see @023[Example])!
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.21
+    IEC 1131 Library - Edge Recognition (continued)
+
+    Q = @021[R_TRIG](CLK)
+
+    Parameter data types :
+    ->  CLK       : BIT           Input signal which is monitored for changes.
+    <-  Q         : BIT           Set to log. 1 for one task cycle if the 
+                                  input signal changes from 0 to 1.
+
+    If the "CLK" input changes from 0 to 1 (positive edge), the "Q" output is 
+    set to logical 1 for one task cycle. This function must be called in each 
+    task cycle, (see @023[Example])!
+
+
+
+
+
+
+
+
+
+                                   @020[ Edge Functions ]                   @001[ Overview ]
+.22
+    IEC 1131-Library - Edge Recognition (Continued)
+
+    Q = @022[F_TRIG](CLK)
+
+    Parameter data types:
+    ->  CLK       : BIT           Input signal which is monitored for changes.
+    <-  Q         : BIT           Set to log. 1 for one task cycle if the input
+                                  signal changes from 0 to 1
+                                  
+    If the "CLK" input changes from 1 to 0 (negative edge), the "Q" output is 
+    set to log. 1 for one task cycle. This function must be called in every 
+    task cycle(see @023[Example])!
+
+
+
+
+
+
+
+
+
+                                   @020[ Edge Functions ]                   @001[ Overview ]
+.23
+    IEC 1131-Library - Edge Recognition (example)
+
+    Example:
+
+      if R_TRIG(switch_1) = 1 then     ; switch_1 0->1 ?
+          LED = not LED                ; if yes, invert LED 
+          Var = F_TRIG(switch_2)       ; Attention!
+      endif
+
+    Look Out!
+    The function F_TRIG() in the previous example can return unexpected
+    results, as it is in an "if" statement, and is only called if the condition
+    is met. This type of use should be avoided, as edge recognition functions
+    must be called in every task cycle.
+
+
+
+
+
+
+
+                                   @020[ Edge Functions ]                   @001[ Overview ]
+.30
+    IEC 1131 Library - Bistable Functions
+
+    Bistable latch:
+    These functions are used to set/reset flags.
+
+    @031[RS] Bistable latch, reset dominant
+    @032[SR] Bistable latch, set dominant
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.31
+    IEC 1131-Library - Bistable latch (continued)
+
+    @031[RS](S,R1,Q1)
+
+    Parameter data types:
+    ->  S         : BIT           Set input
+    ->  R1        : BIT           Reset input (dominant)
+    <-  Q1        : BIT           Output
+
+    The "Q1" output is set if the "S" input is logic 1 and can only be reset
+    with the reset input "R1". If both inputs ("S" and "R1") are set, the reset
+    input is dominant and the output set.
+
+
+
+
+
+
+
+
+
+                                 @030[ Bistable Functions ]                 @001[ Overview ]
+.32
+    IEC 1131-Library - Bistable latch (continued)
+
+    @032[SR](S1,R,Q1)
+
+    Parameter data types:
+    ->  S1        : BIT           Set input (dominant)
+    ->  R         : BIT           Reset input
+    <-  Q1        : BIT           Output
+
+    The "Q1" output is set if the "S1" input is logical 1 and can only be reset
+    with the reset input "R". If both inputs ("S1" and "R") are set, the set
+    input is dominant and the output is set.
+
+
+
+
+
+
+
+
+
+                                 @030[ Bistable Functions ]                 @001[ Overview ]
+.40
+    IEC 1131-Library - Counter Functions
+
+    Counter functions:
+    The IEC 1131 Library contains three counter functions:
+
+    @041[CTU ] Up counter
+    @042[CTD ] Down counter
+    @043[CTUD] Bi-directional counter
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.41
+    IEC 1131-Library - Counter Functions (continued)
+
+    @041[CTU](CU,R,PV,Q,CV)
+
+    Parameter data types:
+    ->  CU        : BIT           Counter input
+    ->  R         : BIT           Reset input
+    ->  PV        : INT16         Compare value
+    <-  Q         : BIT           Set to 1 if CV is greater than or equal to PV
+    <-  CV        : INT16         Current counter value
+
+    Up counter. If the "CU" input is logical 1, the counter value ("CV") is
+    raised by 1. Output "Q" is 1 if "CV" is greater than or equal to "PV".
+    The counter is reset if there is a 1 on the reset input "R" ("CV" = 0).
+
+
+
+
+
+
+
+                                  @040[ Counter Functions ]                 @001[ Overview ]
+.42
+    IEC 1131-Library - Counter Functions (continued)
+
+    @042[CTD](CD,LD,PV,Q,CV)
+
+    Parameter-Datentypen :
+    ->  CD        : BIT           Counter input
+    ->  LD        : BIT           Load counter with preset value
+    ->  PV        : INT16         Preset value
+    <-  Q         : BIT           Set to 1 if CV is less than or equal to 0
+    <-  CV        : INT16         Current counter value
+
+    Down counter. If the "CD" input is logical 1, the counter value "CV" is
+    lowered by 1. Output "Q" is 1 when the counter reaches value 0 ("CV" less
+    than or equal to 0). The counter is loaded with a preset value if there
+    is a 1 on the "LD" input ("CV" = "PV").
+
+
+
+
+
+
+                                  @040[ Counter Functions ]                 @001[ Overview ]
+.43
+    IEC 1131-Library - Counter Functions (continued)
+
+    @044[CTUD](CU,CD,R,LD,PV,QU,QD,CV)
+
+    Parameter-Datentypen :
+    ->  CU        : BIT           Counter input "up"
+    ->  CD        : BIT           Counter input "down"
+    ->  R         : BIT           Set counter to 0 (reset input)
+    ->  LD        : BIT           Load counter with preset value
+    ->  PV        : INT16         Preset value
+    <-  QU        : BIT           Set to 1 if CV is greater than or equal to PV
+    <-  QD        : BIT           Set to 1 if CV is less than or equal to 0
+    <-  CV        : INT16         Current counter value
+
+    Bi-directional counter. The counter is...
+    ... incremented (increased by 1) if "CU" is logical 1,
+    ... decremented (reduced by 1) if "CD" is logical 1,
+    ... set to 0 if the "R" input is logical 1,
+    ... loaded with the preset value "PV" if "LD" is logical 1.
+
+
+                                      @044[ Continue ]                      @001[ Overview ]
+.44
+    IEC 1131-Library - Counter Functions (continued)
+
+    The "QU" output is logical 1 if the counter reaches the preset value
+    ("CV" greater than or equal to "PV"). The "QD" output is logical 1 if
+    the counter becomes 0 ("CV" less than or equal to 0). If both counter
+    inputs ("CU" and "CD") are logical 1, the counter is incremented (IEC 1131
+    Standard).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  @040[ Counter Functions ]                 @001[ Overview ]
+.50
+    IEC 1131-Library - Shifting Operations
+
+    Shifting Operations:
+    Variables can be manipulated bit-wise with shifting operations:
+
+    @051[SHL] Shift the input variable N bits to the left
+    @052[SHR] Shift the input variable N bits to the right
+    @053[ROL] Rotate the input variable N bits to the left
+    @054[ROR] Rotate the input variable N bits to the right
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.51
+    IEC 1131-Library - Shifting Operations (continued)
+
+    erg = @051[SHL](IN,N)
+
+    Parameter data types:
+    ->  IN        : @250[BASIS]         Variable to be manipulated bit-wise
+    ->  N         : BYTE          Number of bits
+    <-  erg       : @250[BASIS]         Variable after shifting operation
+
+    The contents of the variable "IN" is shifted "N" bits to the left. The
+    empty bit positions are filled with 0. The data type of the variable
+    "erg" is identical to the input variable "IN".
+
+
+
+
+
+
+
+
+
+                                 @050[ Shifting Operations ]                @001[ Overview ]
+.52
+    IEC 1131-Library - Shifting Operations (continued)
+
+    erg = @052[SHR](IN,N)
+
+    Parameter data types:
+    ->  IN        : @250[BASIS]         Variable to be manipulated bit-wise
+    ->  N         : BYTE          Number of bits
+    <-  erg       : @250[BASIS]         Variable after shifting operation
+
+    The contents of the variable "IN" is shifted "N" bits to the right. The
+    empty bit positions are filled with 0. The data type of the variable
+    "erg" is identical to the input variable "IN".
+
+
+
+
+
+
+
+
+
+                                 @050[ Shifting Operations ]                @001[ Overview ]
+.53
+    IEC 1131-Library - Shifting Operations (continued)
+
+    erg = @053[ROL](IN,N)
+
+    Parameter data types :
+    ->  IN        : @250[BASIS]         Variable to be manipulated bit-wise
+    ->  N         : BYTE          Number of bits
+    <-  erg       : @250[BASIS]         Variable after shifting operation
+
+    The contents of the variable "IN" is rotated "N" bits to the left. The
+    empty bit positions are filled with those bits shifted out of the
+    "other side". The data type of the variable "erg" is identical to the
+    input variable "IN".
+
+
+
+
+
+
+
+
+                                 @050[ Shifting Operations ]                @001[ Overview ]
+.54
+    IEC 1131-Library - Shifting Operations (continued)
+
+    erg = @054[ROR](IN,N)
+
+    Parameter data types:
+    ->  IN        : @250[BASIS]         Variable to be manipulated bit-wise
+    ->  N         : BYTE          Number of bits
+    <-  erg       : @250[BASIS]         Variable after shifting operation
+
+    The contents of the variable "IN" is rotated "N" bits to the right. The
+    empty bit positions are filled with those bits shifted out of the
+    "other side". The data type of the variable "erg" is identical to the
+    input variable "IN".
+
+
+
+
+
+
+
+
+                                 @050[ Shifting Operations ]                @001[ Overview ]
+.60
+    IEC 1131-Library - Timer Functions
+
+    Timer Functions:
+    These functions are used to create delay timers (timers).
+
+    @061[TON] On delay
+    @063[TOF] Off delay
+    @065[TP ] Pulse
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.61
+    IEC 1131-Library - Timer Functions (continued)
+
+    @062[TON](IN,PT,Q,ET)
+
+    Parameter data types:
+    ->  IN        : BIT           Input signal (see diagram)
+    ->  PT        : LONG          Delay time in system ticks 
+                                  (1 system tick = 10 msec
+    <-  Q         : BIT           Output signal (see diagram)
+    <-  ET        : LONG          Current timer value
+
+    The TON() function can switch on the "IN" signal after time delay "PT" has 
+    passed. The time unit used for the delay time is a system tick (1 system 
+    tick = 10 msec). If the set time delay passes, the "Q" output is set. 
+    The current timer value is given on the "ET" output.
+
+
+
+
+
+
+                                      @062[ Continue ]                      @001[ Overview ]
+.62
+    IEC 1131-Library - Timer Functions (continued)
+
+    Time diagram
+    for TON():       +--------+        +---+   +--------+
+                 IN  |        |        |   |   |        |
+                   --+        +--------+   +---+        +-------
+                     t0       t1       t2  t3  t4       t5
+
+                          +---+                     +---+
+                 Q        |   |                     |   |
+                   -------+   +---------------------+   +-------
+                      t0+PT   t1                t4+PT   t5
+
+                  PT      +---+            +        +---+
+                   :     /    |           /|       /    |
+                ET :    /     |          / |      /     |
+                   :   /      |         /  |     /      |
+                   :  /       |        /   |    /       |
+                   0-+        +-------+    +---+        +--------
+                     t0       t1     t2    t3  t4      t5
+
+                                   @060[ Timer Functions ]                  @001[ Overview ]
+.63
+    IEC 1131-Library - Timer Functions (continued)
+
+    @064[TOF](IN,PT,Q,ET)
+
+    Parameter data types:
+    ->  IN        : BIT           Input signal (see diagram)
+    ->  PT        : LONG          Delay time in system ticks
+                                  (1 system tick = 10 msec)
+    <-  Q         : BIT           Output signal (see diagram)
+    <-  ET        : LONG          Current timer value
+
+    The TOF() function can switch off the "IN" signal after time delay "PT"
+    has passed. The time unit used for the delay time is a system tick
+    (1 system tick = 10 msec). If the set time delay passes, the "Q" output is
+    set. The current timer value is given on the "ET" output.
+
+
+
+
+
+
+                                      @064[ Continue ]                      @001[ Overview ]
+.64
+    IEC 1131-Library - Timer Functions (continued)
+
+    Time diagram
+    for TOF():       +--------+        +---+   +--------+
+                 IN  |        |        |   |   |        |
+                   --+        +--------+   +---+        +---------
+                     t0       t1       t2  t3  t4       t5
+
+                     +-------------+   +---------------------+
+                 Q   |             |   |                     |
+                   --+             +---+                     +----
+                     t0          t1+PT t2                  t5+PT
+
+                  PT               +---+                 +--------
+                   :              /    |       +        /
+                ET :             /     |      /|       /
+                   :            /      |     / |      /
+                   :           /       |    /  |     /
+                   0----------+        +---+   +----+
+                     t0       t1     t2    t3  t4   t5
+
+                                   @060[ Time Functions ]                   @001[ Overview ]
+.65
+    IEC 1131-Library - Time Functions (continued)
+
+    @066[TP](IN,PT,Q,ET)
+
+    Parameter data types:
+    ->  IN        : BIT           Input signal (see diagram)
+    ->  PT        : LONG          Delay time in system ticks 
+    (1 system tick = 10 msec)
+    <-  Q         : BIT           Output signal (see diagram)
+    <-  ET        : LONG          Current timer value
+
+    The function creates a pulse with a width which can be set (input "PT").
+    If the "IN" input is logical 1, the "Q" output is also set. The output
+    remains set irrespective of the input until the time ("PT") has passed.
+
+
+
+
+
+
+
+                                      @066[ Continue ]                      @001[ Overview ]
+.66
+    IEC 1131 Library - Timer Functions (continued)
+
+    Time diagram
+    for TP():        +--------+     ++ ++   +-------+
+                 IN  |        |     || ||   |       |
+                   --+        +-----++-++---+       +-----------
+                     t0       t1    t2 t3   t4      t5
+
+                     +----+         +----+  +----+
+                 Q   |    |         |    |  |    |
+                   --+    +---------+    +--+    +--------------
+                     t0   t0+PT    t2 t2+PT t4  t4+PT
+
+                  PT      +---+          +       +--+
+                   :     /    |         /|      /   |
+                ET :    /     |        / |     /    |
+                   :   /      |       /  |    /     |
+                   :  /       |      /   |   /      |
+                   0-+        +-----+    +--+       +-----------
+                     t0       t1    t2      t4      t5
+
+                                   @060[ Timer functions ]                  @001[ Overview ]
+.200
+    APPENDIX : LIBRARY Information
+
+
+    @201[< General Information >]    Requirements etc.
+
+    @250[< Syntax              >]    Syntax for function descriptions
+
+    @350[< Execution Times     >]    Execution times and stack requirements
+
+    @400[< History             >]    New Functions and version changes
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.201
+    IEC 1131 Library : General Informatioon
+
+    All functions which are defined in the IEC 1131 Standard are offered in
+    this library.
+
+    Notes:
+    - Before you can use these IEC 1131 library functions in your project, you
+      must import the library into the corresponding project data bank.
+
+    - As the IEC 1131 library only contains inline functions and local function
+      blocks (no AVT function blocks!), no library runtime module needs to be
+      transferred to the controller.
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.250
+    IEC 1131-Library : Syntax Description
+
+    Data types:
+    Certain groups of data types are allowed for many functions. So that not
+    all the allowed data types have to be stated in the function description,
+    the following group names will be used:
+    ษออออออออหอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออป
+    บ Group  บ  BIT  ณ INT8  ณ BYTE  ณ INT16 ณ WORD  ณ INT32 ณ LONG  ณ FLOAT บ
+    ฬออออออออฮอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออน
+    บ BASIS  บ       ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ NOT    บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    บ FLOAT  บ       ณ       ณ       ณ       ณ       ณ       ณ       ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ ALL    บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ ARRAY  บ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  บ
+    ศออออออออสอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออผ
+      x  Data type is allowed
+     [x] Data type is allowed as an array variable or string
+
+                                      @251[ Continue ]                      @001[ Overview ]
+.251
+    IEC 1131 Library : Syntax Description (continued)
+
+    Arrows:
+    Arrows are used for representing input and output parameters, and are 
+    assigned in the following way:
+    ษอออออออออหออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ  Arrow  บ  Represents                                                  บ
+    ฬอออออออออฮออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ   ->    บ  Input parameter                                             บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <->   บ  Input/output parameter. Functions as an output parameter,   บ
+    บ         บ  but is normally loaded with specific information (e.g. an   บ
+    บ         บ  address before the function is called. The address of the   บ
+    บ         บ  variable is ususally connected using adr() [PL2000] or an   บ
+    บ         บ  address contact for LAD.                                    บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <-    บ  Output parameter                                            บ
+    ศอออออออออสออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                      @252[ Continue ]                      @001[ Overview ]
+.252
+    IEC 1131 Library : Syntax Description(Continued)
+
+    Funktion blocks:
+    Function blocks are not displayed graphically in this document, but you
+    will find all relevant information about function blocks such as input
+    parameters (->), input/output (<->) and output parameters (<-).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.350
+    IEC 1131 Library : Execution Times
+
+    The following table shows execution times for the IEC 1131 library
+    functions as well as their stack needs:
+
+  ษออออออออออหอออออออออออออออัอออออออออออัอออออออออออออออัออออออออออออออออออออป
+  บ Function บ  Execution    ณ Userstack ณ  Supervisor   ณ Notes              บ
+  บ          บ  Times [ๆsec] ณ  [Bytes]  ณ stack [Bytes] ณ                    บ
+  ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุออออออออออออออออออออน
+  บ R_TRIG   บ       9.8     ณ      -    ณ       -       ณ                    บ
+  บ F_TRIG   บ      10.9     ณ      -    ณ       -       ณ                    บ
+  ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุออออออออออออออออออออน
+  บ RS, SR   บ      18.4     ณ      8    ณ       -       ณ                    บ
+  ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุออออออออออออออออออออน
+  บ CTU      บ  24.1 - 27.2  ณ      8    ณ       -       ณ                    บ
+  บ CTD      บ  21.7 - 24.7  ณ      4    ณ       -       ณ                    บ
+  บ CTUD     บ  35.0 - 38.3  ณ      8    ณ       -       ณ                    บ
+  ศออออออออออสอออออออออออออออฯอออออออออออฯอออออออออออออออฯออออออออออออออออออออผ
+
+
+
+                                      @351[ Continue ]                      @001[ Overview ]
+.351
+    IEC 1131 Library : Execution Times(continued)
+
+  ษออออออออออหอออออออออออออออัอออออออออออัอออออออออออออออัออออออออออออออออออออป
+  บ Function บ  Execution    ณ Userstack ณ  Supervisor   ณ Notes              บ
+  บ          บ  Times [ๆsec] ณ  [Bytes]  ณ stack [Bytes] ณ                    บ
+  ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุออออออออออออออออออออน
+  บ SHL, SHR บ       6.3     ณ      -    ณ       -       ณ MIN: IN=BYTE, N=1  บ
+  บ          บ      10.9     ณ      -    ณ       -       ณ MAX: IN=LONG, N=31 บ
+  บ ROL, ROR บ       6.3     ณ      -    ณ       -       ณ MIN: IN=BYTE, N=1  บ
+  บ          บ      10.9     ณ      -    ณ       -       ณ MAX: IN=LONG, N=31 บ
+  ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุออออออออออออออออออออน
+  บ TON      บ  34.0 - 40.2  ณ     24    ณ       -       ณ                    บ
+  บ TOF      บ  34.0 - 40.2  ณ     24    ณ       -       ณ                    บ
+  บ TP       บ  34.3 - 38.9  ณ     24    ณ       -       ณ                    บ
+  ศออออออออออสอออออออออออออออฯอออออออออออฯอออออออออออออออฯออออออออออออออออออออผ
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.400
+    IEC 1131 Library : History - Version Changes
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.01           ณ Current version of the IEC 1131 Library                 บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ Versions of the IEC 1131 Library are delivered with PG2000.               บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+
+.End

@@ -1,0 +1,2696 @@
+%%
+1,0:1
+%%
+.1
+    SPSSW V1.10 : Neue Funktionalit„ten
+
+    @010[< Hochlaufverhalten      >]    Unterschiedliche Hochlaufmodi
+    @030[< SPSIO                  >]    Initialisierung und Beauftragung
+    @050[< Taskklassen            >]    SS-Taskklassen, Interrupttaskklasse
+    @070[< Exceptions             >]    Exceptiontasks / EXC-Protokollierung
+    @080[< Konfiguration          >]    Erweiterte M”glichkeiten
+    @095[< FIX-RAM                >]    Batteriegepufferte Datenablage im RAM
+    @100[< CP102                  >]    2010 Low-End CPU
+    @105[< Batterietest           >]    Auswertungsm”glichkeiten
+    @110[< Schlsselschalter      >]    Verhalten bei unterschiedl. Stellungen
+    @115[< Variablenzugriff       >]    Erweiterter Zugriff (Panelware)
+    @120[< Profibus               >]    Konfiguration
+    @125[< PG-Kommunikation       >]    alle seriellen Schnittstellen nutzbar
+    @130[< Firmware-Erweiterungen >]    Nachladbare Systemmodule
+    @140[< Multiprozessor         >]    MP mit SPSSW
+    @131[< B&R-Library            >]    neue Funktionen
+    @136[< Remote-IO              >]    Firmwareerweiterung
+    @145[< SPSIO-Konfiguration    >]    Disable-Modul "spsio"
+    @160[< Profiler V1.10         >]    Erweiterungen
+
+    @002[ Allgemeines ]               @200[ Unterschiede zu V1.05 ]
+.2
+    SPSSW V1.10
+
+    Die SPSSW-Version V1.10 als Nachfolgeversion von V1.05 wurde funktionell
+    deutlich erweitert. Auáerdem unterscheidet sie sich teilweise auch im
+    Verhalten bzw. der Bedienung.
+    Alle diese Erweiterungen und Unterschiede zur Version V1.05 werden hier
+    beschrieben.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @001[ Neue Funktionalit„ten ]     @200[ Unterschiede zu V1.05 ]              @001[ šbersicht ]
+.10
+    Hochlaufverhalten
+
+    Auf der SPS-CPU unterscheiden wir 6 unterschiedliche Hochlauf-Modi,
+    wobei 2 Modi in V1.10 neu sind :
+
+    @011[ TOTALINIT        ]           V1.05 : URINIT
+    @015[ INIT             ]
+    @017[ RESET / Watchdog ]
+    @018[ RECONFIG         ]
+    @019[ ERROR            ]           neu ab V1.10
+    @020[ DIAGNOSE         ]           neu ab V1.10
+
+    Eine m”gliche Folge des Hochlaufs ist der SERVICE-Modus. Die SPS geht in
+    den SERVICE-Modus, wenn im Hochlauf ein Fehler auftritt, oder wenn der
+    Hochlaufgrund RESET/Watchdog oder ERROR oder DIAGNOSE war bzw. der
+    Schlsselschalter in der Stellung SERVICE steht.
+
+
+    @026[ FUB-Erkennung ]             Erkennung von INIT / TOTALINIT im FUB
+
+
+    @022[ SERVICE-Mode ]              @025[ Probleme im Hochlauf ]               @001[ šbersicht ]
+.11
+    Hochlaufmodus TOTALINIT
+
+    Bei TOTALINIT (URINIT in V1.05) wird die ganze SPSSW neu aufgesetzt, alle
+    RAM-Inhalte gehen verloren, insbesondere auch Module, die nur in das RAM
+    geladen wurden. Die System- und Applikations-Software wird nur mit Hilfe
+    der in den nicht flchtigen Speichern (OTP, EPROM, FIX-RAM V1.10) abge-
+    legten Module aufgebaut.
+
+    Alle PVs (Merker, Input, Output) sowie die statischen Bereiche von
+    globalen FUBs werden mit dem Wert 0 initialisiert.
+
+    Alle gesteckten Systembuskarten werden gefunden, die notwendigen
+    Initialisierungen durchgefhrt.
+
+    Am Ende des Hochlaufs wird die Applikation in folgender Reihenfolge
+    gestartet :
+
+
+
+
+
+    @012[ Fortsetzung ]                 @010[ Hochlaufverhalten ]                @001[ šbersicht ]
+.12
+    Hochlaufmodus TOTALINIT (Fortsetzung)
+
+    - Aufruf der Init-UPs aller Exception-Tasks und Freigabe der
+      EXC-Taskklasse. Damit werden ab diesem Zeitpunkt alle Exceptions
+      durch optional vorhandene Anwender-Exceptiontasks behandelt.
+    - Aufruf der INIT-UPs aller anderen SPS-Tasks in der Reihenfolge SS#1,
+      SS#2, SS#3, SS#4, TK#1, TK#2, TK#3, TK#4 und IRQTK; falls bei den
+      SPS-Tasks eine Reihenfolgenummer angegeben wurde, werden innerhalb
+      einer Taskklasse auch die INIT-UPs in genau dieser Reihenfolge durch-
+      laufen; bei den INIT-UPs erfolgt noch keine Zykluszeit-berwachung,
+      d.h., sie k”nnen beliebig lange dauern !
+      Mit dem Aufruf der INIT-UPs von Interrupt-Tasks wird auch der
+      Interrupt freigegeben. Damit werden ab diesem Zeitpunkt alle
+      auftretenden Interrupts durch Interrupt-Tasks behandelt.
+    - Anziehen des NOTAUS-Relais und setzen der RUN-Led
+    - Starten der zyklischen Applikation: SS-Taskklassen 1-4,
+      Taskklassen 1-4 und nicht zyklische Applikation (User-Tasks,
+      Kommunikation)
+
+
+
+    @013[ Fortsetzung ]                 @010[ Hochlaufverhalten ]                @001[ šbersicht ]
+.13
+    Hochlaufmodus TOTALINIT (Fortsetzung)
+
+    Damit ist ab V1.10 gew„hrleistet, daá alle INIT-UPs aller SPS-Tasks durch-
+    laufen werden, bevor der 1. zyklische Teil eines SPS-Task bzw. ein
+    Interrupt-Task durchlaufen wird. Eine Ausnahme bilden Exceptiontasks. Da
+    Exceptions bereits in der INIT-UP-Behandlung der SPS-Tasks auftreten k”nnen,
+    werden Exceptionstasks so frh wie m”glich freigegeben, um ein anwender-
+    definiertes Verhalten zu erm”glichen.
+
+    Hinweis zum Start der Taskklassen : Die Taskklassen 1-4 werden jeweils um
+    einen Systemzyklus (10 Millisekunden) versetzt gestartet. Damit wird bei
+    entsprechender Konfiguration der Zykluszeiten (z.B. Konfiguration mit 
+    10/50/100/500 Millisekunden) verhindert, daá m”glichst wenige Taskklassen
+    gleichzeitig einen Zyklus beginnen und die Restzeit wird im System gleich-
+    m„áiger zu verteilen (default l„uft die TK#1 in jedem Zyklus, wobei in den
+    Zyklen 2, 7, 12, 17 etc. auch die TK#2 einen Zyklus beginnt, in den
+    Zyklen 3, 13, 23 etc. auch die TK#3, in den Zyklen 4, 54, 104 etc. auch
+    die TK#4).
+
+
+
+    @014[ Fortsetzung ]                 @010[ Hochlaufverhalten ]                @001[ šbersicht ]
+.14
+    Hochlaufmodus TOTALINIT (Fortsetzung)
+
+    Grnde fr TOTALINIT :
+
+    - TOTALINIT ber Kommunikation (PG)
+    - Auswahl ber Tasten, sofern nicht Schlsselschalterstellung RUN:
+        2010 =>  Auswahl von "T"=Totalinit mit Modus, dann SELECT;
+        2005 =>  Drcken des oberen Tasters
+    - AWS-Wechsel, wenn sich der AWS-Inhalt ge„ndert hat
+    - Schwerwiegender Fehler beim Probieren eines neue Konfigurationsmoduls
+      (Systemkonfigurator)
+    - Aufruf von SYSreset() mit Modus TOTALINIT
+    - doppeltes RESET (wenn man nach drcken den RESET-Tasters in der
+      Hochlaufphase noch einmal RESET drckt, l„uft die SPS mit TOTALINIT
+      hoch)
+    - Jeder Hochlauf aus dem Diagnose-Modus (auáer wieder Diagnose-Modus)
+
+    Display-Kennung auf 2010-Systemen : "TI"
+
+
+
+                                  @010[ Hochlaufverhalten ]                @001[ šbersicht ]
+.15
+    Hochlaufmodus INIT
+
+    Beim INIT werden alle batteriegepufferten Daten bernommen (alle Module,
+    die sich im RAM befinden, alle Merker lokal und global, SPSIO, FUB-Daten).
+    Damit sind alle SPS-Tasks, User-Tasks, TKs, SS_TKs etc. im selben Zustand
+    wie vor dem INIT (RUNNING oder STOP).
+
+    ACHTUNG : Da das Remote-IO bzw. der MP nicht batteriegepuffert sind (am
+    MP ist nur der AWS gepuffert, daher verliert der MP bei ziehen des AWS
+    seine Daten), werden diese Daten auch bei INIT neu initialisiert.
+
+    ACHTUNG : Da die SPSIO-Werte batteriegepuffert sind, bleiben auch Ausg„nge
+    erhalten. Die Initialisierung mit einem speziellen Wert (z.B. NULL) muá
+    ber das INIT-UP erfolgen.
+
+    Alle INIT-UPs der SPS-Tasks werden in der gleichen Reihenfolge wie bei
+    TOTALINIT aufgerufen, und zwar auch dann, wenn der SPS-Task oder die
+    Taskklasse gestoppt ist; wenn der SPS-Task oder die TK sp„ter wieder
+    gestartet wird, wird nur mehr der zyklische SPS-Task-Code durchlaufen.
+
+
+    @016[ Fortsetzung ]                 @010[ Hochlaufverhalten ]                @001[ šbersicht ]
+.16
+    Hochlaufmodus INIT (Forsetzung)
+
+    Bei Verwendung von IPs (Intelligenter Peripherie) werden auch im INIT
+    die Module auf das entsprechende Modul gespoolt.
+
+    ACHTUNG: Neu gesteckte Systembuskarten werden bei INIT nicht gefunden.
+    Sie werden erst beim folgenden TOTALINIT gefunden und initialisiert.
+
+    Grnde fr INIT :
+
+    - INIT ber Kommunikation (PG)
+    - Auswahl ber Tasten, sofern nicht Schlsselschalterstellung RUN
+      (nur 2010 : Kennung "I" mit Modus w„hlen, dann SELECT)
+    - POWERFAIL / Spannungsausfall
+    - Aufruf von SYSreset() mit Modus INIT
+    - Wechsel der Schlsselschalterstellung von SERVICE auf  PROGRAM
+
+    Display-Kennung auf 2010-Systemen : "IN"
+
+
+
+                                  @010[ Hochlaufverhalten ]                @001[ šbersicht ]
+.17
+    Hochlaufmodus RESET / WATCHDOG
+
+    Bei RESET / WATCHDOG werden wie im INIT alle Daten aus dem RAM bernommen.
+    Allerdings werden weder USER-Tasks noch SPS-Tasks gestartet und es wird
+    immer der SERVICE-Modus gesetzt. Damit ist die gesamte USER-Applikation
+    inaktiv. Im Fehlermodul erfolgt ein Eintrag mit der Kennung "Hochlauf
+    durch Reset/Watchdog".
+
+    Grnde fr Reset / Watchdog :
+
+    - WATCHDOG wurde durch die System-SW nicht rechtzeitig aufgezogen, also
+      fataler HW- oder SW-Fehler
+    - Drcken des RESET-Knopfes am CPU-Modul 2010 / 2005
+    - Wechsel der Schlsselschalterstellung von  PROGRAM auf SERVICE
+
+    Display-Kennung auf 2010-Systemen : "RS"
+
+
+
+
+
+                                  @010[ Hochlaufverhalten ]                @001[ šbersicht ]
+.18
+    Hochlaufmodus RECONFIG
+
+    Der Reconfig-Modus hat einen Sonderstatus. Er wird nur beim Probieren eines
+    neuen SPSSW-Konfigurationsmodul (Systemkonfigurator) verwendet, um ohne
+    Brennen ein neues Konfigurationsmodul zu testen. Er entspricht dem TOTAL-
+    INIT-Modus, nur wird das neue Konfigurationsmodul aus dem RAM bernommen.
+    Tritt beim Probieren ein schwerwiegender Fehler auf, erfolgt sofort ein
+    automatischer Hochlauf im Modus TOTALINIT, ber die Fehleranalyse kann man
+    den durch das neue Konfigurationsmodul verursachten Fehler analysieren und
+    korrigieren.
+
+    Grnde fr Reconfig :
+
+    - Probieren eines neuen Konfigurationsmoduls mit Systemkonfigurator
+
+    Display-Kennung auf 2010-Systemen : "RE"
+
+
+
+
+
+                                  @010[ Hochlaufverhalten ]                @001[ šbersicht ]
+.19
+    Hochlaufmodus ERROR
+
+    Tritt auf der SPS ein schwerwiegender Fehler auf (im Hochlauf oder im zy-
+    klischen System), so wird der Fehler im Fehlermodul eingetragen, auf 2010-
+    Systemen auch am Display angezeigt. Anschlieáend l„uft die SPS automatisch
+    mit Modus ERROR hoch und geht in den SERVICE-Modus. Das Verhalten bei ERROR
+    ist gleich wie bei RESET/Watchdog, zus„tzlich wird aber bei 2010-Systemen
+    am Ende des Hochlaufs der schwerwiegende Fehler noch einmal am Display an-
+    gezeigt. Damit kann man auf 2010-Systemen wie bisher die Fehlerursache am
+    Display ablesen, hat aber auf jeden Fall ber die Kommunikation Zugriff auf
+    die SPS, um z.B. die Fehleranalyse durchzufhren.
+
+    Dieser Modus wurde in V1.10 neu eingefhrt.
+
+    Grnde fr ERROR :
+
+    - schwerwiegender Fehler im Hochlauf oder im zykischen System
+
+    Display-Kennung auf 2010-Systemen : "ER"
+
+
+                                  @010[ Hochlaufverhalten ]                @001[ šbersicht ]
+.20
+    Hochlaufmodus DIAGNOSE
+
+    Bei DIAGNOSE werden nur die Firmwaremodule (= leerer AWS !) installiert,
+    alle Module im EPROM und im FIXRAM werden nicht installiert. Damit kann ein
+    Fehler, der von einem nachgeladenen Modul verursacht wird und einen TOTAL-
+    INIT-Hochlauf mit EPROM / FIX-RAM verhindert, umgangen werden, ohne daá das
+    ganze EPROM/FIX-RAM gel”scht werden muá.
+    Auáerdem kann nur in diesem Modus das ganze FIX-RAM gel”scht werden,
+    da beim L”schen gew„hrleistet sein muá, daá kein Modul im FIXRAM vor-
+    handen ist.
+
+    Im Diagnose-Modus wird immer der SERVICE-Modus gesetzt.
+
+    Mit Hilfe von Systemkonfigurator k”nnen im Diagnose-Modus alle im
+    EPROM / FIX-RAM vorhandenen Module angezeigt werden (Kennung "defekt", 
+    falls die Checksumme des Moduls nicht stimmt), wobei die M”glichkeit be-
+    steht, die Module einzeln zu entfernen, damit das System wieder korrekt
+    hochlaufen kann.
+    Nach einem Hochlauf im DIAGNOSE-Modus kann nur mehr mit TOTALINIT oder
+    nochmals DIAGNOSE hochgefahren werden, ein INIT ist nicht m”glich.
+
+    @021[ Fortsetzung ]                 @010[ Hochlaufverhalten ]                @001[ šbersicht ]
+.21
+    Hochlaufmodus DIAGNOSE (Fortsetzung)
+
+    Dieser Modus wurde in V1.10 neu eingefhrt.
+
+    Grnde fr Diagnose :
+
+    - DIAGNOSE ber die Kommunikation (PG)
+    - Gleichzeitiges Drcken des RESET-Knopfes und der Tasten des CPU-Moduls,
+      dann loslassen des RESET-Knopfes;
+      dabei darf der Schlsselschalter nicht auf RUN stehen;
+      bei 2010-Systemen mssen beide Tasten gleichzeitig gedrckt werden,
+      bevor der RESET-Knopf losgelassen werden kann, die SPS l„uft sofort im
+      Diagnose-Modus hoch;
+      bei 2005-Systemen muá die einzige Taste 5 Sekunden lang nach dem
+      Loslassen des Resetknopfs gedrckt werden, bis nur mehr die Leds READY
+      und ERROR leuchten, da erst dann die SPS im Diagnose-Modus hochl„uft.
+
+    Display-Kennung auf 2010-Systemen : "DI"
+
+
+
+                                  @010[ Hochlaufverhalten ]                @001[ šbersicht ]
+.22
+    SERVICE-Modus
+
+    Wie oben beschrieben, wird bei einem Fehler im Hochlauf bzw. in den Modi
+    RESET, ERROR und DIAGNOSE sowie in der Schlsselschalterstellung SERVICE
+    der SERVICE-Modus gesetzt. Der SERVICE-Modus ist also kein Hochlauf-Modus,
+    sondern nur die Folge eines Hochlaufs, bei dem die Applikation nicht
+    gestartet wird. Im SERVICE-Modus l„uft nur die Systemsoftware, die gesamte
+    User-Applikation ist inaktiv.
+
+    Wird im SERVICE-Modus ein INIT ausgel”st, so l„uft die SPS im Modus INIT
+    hoch und startet die gesamte User-Applikation, sofern sie vor dem
+    SERVICE-Modus aktiv war. Alle Objekte befinden sich nach dem INIT im
+    gleichen Zustand wie vor dem SERVICE-Modus. Damit kann die Applikation
+    z.B. nach einem Fehler mit INIT wieder gestartet werden.
+
+
+
+
+
+
+
+    @023[ Fortsetzung ]                 @010[ Hochlaufverhalten ]                @001[ šbersicht ]
+.23
+    SERVICE-Modus (Fortsetzung)
+
+    Bei SERVICE werden auch die LEDs bzw. das Notaus-Relais speziell gesetzt:
+
+    2010           ³  Service          sonst (Applikation l„uft)
+    ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+    RUN            ³                   grn
+    READY          ³                   gelb
+    ERROR          ³  rot
+    NOTAUS-Relais  ³  abgefallen
+
+
+    2005           ³  Service          sonst (Applikation l„uft)
+    ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+    RUN            ³                   grn
+    READY          ³  gelb
+    ERROR          ³  rot
+    NOTAUS-Relais  ³  abgefallen
+
+
+
+    @024[ Fortsetzung ]                 @010[ Hochlaufverhalten ]                @001[ šbersicht ]
+.24
+    SERVICE-Modus (Fortsetzung)
+
+    Grnde fr Service-Modus :
+
+    - Fehler im aktuellen Hochlauf (Auslesen des Fehlermoduls)
+    - fataler Fehler und dadurch ausgel”ster ERROR-Hochlauf (Auslesen des
+      Fehlermoduls)
+    - Watchdog bzw. Drcken des Reset-Tasters
+    - DIAGNOSE-Hochlauf
+    - Schlsselschalter  auf  SERVICE
+
+    Display-Kennung auf 2010-Systemen : "SERVICE" in 2. Zeile
+
+
+
+
+
+
+
+
+
+                                  @010[ Hochlaufverhalten ]                @001[ šbersicht ]
+.25
+    Probleme im Hochlauf
+
+    Im Folgenden sind einige der h„ufigsten Probleme, die im Hochlauf
+    auftreten k”nnen, angegeben :
+
+   * IO-Modul bzw. Erweiterungsmodul fehlt oder ist defekt
+     Beim Zugriff auf das IO-Modul kommt es zu einer Exception, die im
+     Fehlermodul eingetragen wird, die SPS l„uft im ERROR-Modus hoch und geht
+     in den SERVICE-Modus. Sobald das IO-Modul / Erweiterungsmodul gesteckt
+     ist, kann durch Ausl”sen eines INIT die Applikation wieder gestartet
+     werden.
+
+   * Modul defekt, Checksumme stimmt nicht mehr
+     Der Fehler mit der Adresse des Moduls wird im Fehlermodul eingetragen,
+     das Modul kann mit dem Diagnose-Tool (Systemkonfigurator) gesucht (Kennung
+     "defekt") und gel”scht werden.
+
+   * Kein Speicher
+     Im Fehlermodul wird die Speicherklasse eingetragen, eventuell kann mit
+     Systemkonfigurator der Speicher umkonfiguriert werden !
+
+                                  @010[ Hochlaufverhalten ]                @001[ šbersicht ]
+.26
+    Erkennung von INIT / TOTALINIT / DOWNLOAD in einem FUB
+
+    In einem FUB kann wegen des remanenten FUB-Ged„chtnisses (Werte sind
+    nach einem INIT-Hochlauf unver„ndert) der erste Aufruf nach einem INIT
+    nicht direkt am Ged„chtnis abgelesen werden.
+    Folgende Vorgangsweise ist zum Erkennen des 1. FUB-Aufrufs nach einem
+    INIT bzw. TOTALINIT oder DOWNLOAD m”glich :
+
+    * Wenn das FUB-Ged„chtnis im tasklokalen Bereich liegt, wird es bei jedem
+      TOTAL-INIT bzw. bei jedem DOWNLOAD des Task, nachdem der Task zuvor
+      entfernt wurde, mit NULL initialisiert. Damit kann man an einem
+      statischen FUB-Merker, der immer auf einen Wert ungleich NULL gesetzt
+      wird, sofort ableiten, daá im Fall des Wertes NULL ein TOTALINIT oder
+      ein DOWNLOAD erfolgt ist.
+
+    * Wenn das FUB-Ged„chtnis im SPS-globalen Bereich liegt, wird es bei
+      jedem TOTAL-INIT mit NULL initialisiert. Damit kann man an einem
+      statischen FUB-Merker, der immer auf einen Wert ungleich NULL gesetzt
+      wird, sofort ableiten, daá im Fall des Wertes NULL ein TOTALINIT
+      erfolgt ist.
+
+    @027[ Fortsetzung ]                                                    @001[ šbersicht ]
+.27
+    Erkennung von INIT / TOTALINIT / DOWNLOAD in einem FUB (Fortsetzung)
+
+      Allerdings ist bei SPS-globalem Ged„chtnis nur beim Download des
+      1. Task, der das globale FUB-Ged„chtnis verwendet, gew„hrleistet, daá
+      es mit NULL initialisiert ist. Damit kann nach dem Entfernen des Task
+      und dem neuerlichen Download nicht mehr erkannt werden, daá der Task
+      neu geladen wurde. Das "alte" globale FUB-Ged„chtnis steht aber
+      natrlich unver„ndert zur Verfgung.
+
+    * Um den ersten FUB-Aufruf nach einem INIT-Hochlauf der SPS zu erkennen,
+      muá der INIT-Z„hler ausgelesen (SYS_info) und im FUB-Ged„chtnis zwischen-
+      gespeichert werden. Sobald der aktuelle INIT-Z„hler ungleich dem ge-
+      speicherten INIT-Z„hler ist, ist ein INIT-Hochlauf erfolgt. Diese Vor-
+      gangsweise fhrt sowohl bei tasklokalem als auch bei SPS-globalem FUB-
+      Ged„chtnis zum Ziel !
+
+
+
+
+
+
+                                      @028[ Beispiel ]                     @001[ šbersicht ]
+.28
+    Beispiel fr die Erkennung von INIT / TOTALINIT / DOWNLOAD in einem FUB
+
+    ;* FUB mit lokalem FUB-Ged„chtnis
+    ;* beim 1.Aufruf nach TOTAL_INIT / DOWNLOAD wird Speicher allokiert
+    ;* beim 1.Aufruf nach INIT wird der Speicher nur mehr initialisiert
+    SYS_info (adr(init_count), adr(dummy), adr(dummy), adr(dummy),
+    adr(dummy))
+    if mem_ptr = 0 then
+        ;* TOTAL_INIT oder DOWNLOAD, weil mem_ptr sonst immer ungleich 0
+        status = MEM_alloc (mem_len, adr(mem_ptr))
+        init_flag = 1
+    else if init_count <> last_count then
+        init_flag = 1        ;* INIT, weil der INIT-Z„hler ungleich ist
+    else
+        init_flag = 0        ;* weder INIT noch TOTAL_INIT nach DOWNLOAD
+    endif
+    last_count = init_count  ;* Merken des aktuellen INIT-Count
+    if init_flag = 1 then
+        memset (mem_ptr, 0, mem_len)
+    endif
+
+                                  @010[ Hochlaufverhalten ]                @001[ šbersicht ]
+.30
+    SPSIO-Initialisierung und Beauftragung
+
+    @031[ SPSIO im Hochlauf                 ]
+    @032[ SPSIO im zyklischen Betrieb       ]
+    @035[ SPSIO beim Download von SPS-Tasks ]
+    @037[ Merkergr”áen                      ]
+    @038[ 2005-IO-Emulation                 ]
+    @041[ Systemmerker                      ]
+
+    * Es wird auch auf 2005-Systemen automatisch erkannt, ob ein optional
+      vorhandener Schaufelprozessor, vorhanden ist und entsprechend die
+      Initialisierung durchgefhrt.
+    * Die Behandlung des SPSIO wird fr die Phasen Hochlauf, zyklisches
+      System und Download getrennt beschrieben, um die Unterschiede
+      herauszustreichen.
+    * Weiters werden die Merkergr”áen auf den Systemen 2010 und 2005
+      angegeben.
+    * Fr die 2005-IO-Emulation kann mit einer Formel die dafr verbrauchte
+      CPU-Zeit berechnet werden.
+    * Alle Systemmerker und deren Bedeutung wird beschrieben.
+
+                                                                     @001[ šbersicht ]
+.31
+    SPSIO im Hochlauf
+
+    Die Initialisierung der IO-Daten beim Hochlauf beim Aufruf der INIT-UPs
+    von SPS-Tasks erfolgt auf folgende Weise:
+
+    - Vor dem Aufruf der INIT-UPs der SPS-Tasks einer Taskklasse bzw.
+      Interrupt-Taskklasse werden die Inputs von den Input-Modulen geholt;
+      bei SPS-Tasks in SS-Taskklassen steht durch das gemeinsame IO-Abbild
+      im INIT-UP noch kein aktueller Input-Wert zur Verfgung.
+    - Anschlieáend werden alle INIT-UPs aller SPS-Tasks durchlaufen.
+    - Dann werden die Outputs auf die Outputkarten gelegt.
+    - Bei IRQ-Tasks wird der Interrupt am IRQ-Modul enabled, also k”nnen ab
+      diesem Zeitpunkt Interrupts auftreten und durch Interrupt-Tasks
+      behandelt werden.
+    - Damit ist die Hochlaufphase abgeschlossen und das zyklische sowie das
+      nicht-zyklische System wird gestartet
+
+
+
+
+
+    @032[ SPSIO im zykl. Betrieb ]       @030[ SPSIO šbersicht ]                 @001[ šbersicht ]
+.32
+    SPSIO im zyklischen Betrieb
+
+    - Am Beginn eines Taskklassen-Zyklus wird berprft, ob die am Beginn des
+      vorigen Zyklus beauftragten Inputs korrekt geholt wurden; falls nicht,
+      wird eine Verletzung der maximalen Input-Zykluszeit gemeldet; auáerdem
+      wird berprft, ob die Outputs, die am Ende des letzten Zyklus
+      beauftragt wurden, korrekt auf die Outputmodule gelegt wurden;
+      falls nicht, wird eine Verletzung der maximalen Output-Zykluszeit
+      gemeldet; falls alles OK ist, wird abwechselnd eines der beiden
+      Input-Abbilder IN und IN' beauftragt.
+
+      Bei SS-Taskklassen wird bei gemeinsamem IO-Abbild der Input erst mit
+      dem Output am Ende des SSTK-Zyklus beauftragt. Hier am Beginn des SSTK-
+      Zyklus wird nur berprft, ob die gemeinsame Tabelle korrekt
+      abgearbeitet wurde.
+
+      In der Interrupt-Taskklasse werden unmittelbar beim Ausl”sen des
+      Interrupt die Inputs geholt, wobei auf das Ende der Abarbeitung durch
+      den Schaufelprozessor gewartet wird.
+
+
+    @033[ Fortsetzung ]                  @030[ SPSIO šbersicht ]                 @001[ šbersicht ]
+.33
+    SPSIO im zyklischen Betrieb (Fortsetzung)
+
+    - In Taskklassen wird der beauftragte Input so schnell wie m”glich
+      verknpft, indem unmittelbar vor dem Aufruf des 1. SPS-Task geprft
+      wird, ob die am Beginn des Zyklus beauftragte Inputschaufeltabelle
+      bereits durch den Schaufelprozessor abgearbeitet wurde (zwischen
+      Beauftragung des Inputs und Aufruf des 1. SPS-Task liegt eine
+      System-Management-Aktivit„t; in dieser Zeit kann der Schaufelprozessor
+      parallel die Inputs holen); im Normalfall ist dieser aktuelle Input
+      bereits vorhanden und kann verknpft werden, damit ist die Inputtotzeit
+      vom Zyklusbeginn bis zur SPS-Taskexecution im schlechtesten Fall ein
+      Zyklus. Nur falls der Inputauftrag noch nicht abgearbeitet wurde (nur
+      bei sehr groáen Inputmengen m”glich), wird das alte Inputabbild, das
+      im vorigen Zyklus geschaufelt wurde, verknpft und ein Flag gesetzt
+      (Systemmerker _PIO_OLD = 1).
+
+      In der Interrupt-TK wird, wie bereits oben beschrieben, synchron auf
+      den Input gewartet, erst dann werden die SPS-Tasks aufgerufen.
+
+
+
+    @034[ Fortsetzung ]                  @030[ SPSIO šbersicht ]                 @001[ šbersicht ]
+.34
+    SPSIO im zyklischen Betrieb (Fortsetzung)
+
+    - Nach dem Aufruf der SPS-Tasks wird am Ende der Taskklasse und der
+      Interrupt-TK die Outputschaufeltabelle beauftragt, die am Beginn des
+      n„chsten Zyklus abgearbeitet sein muá.
+
+      Bei SS-Taskklassen wird bei gemeinsamer Ablage von Input und Output in
+      einer Tabelle der Output und damit auch der Input fr den n„chsten
+      Zyklus beauftragt.
+
+
+
+
+
+
+
+
+
+
+
+
+    @035[ SPSIO beim Download ]          @030[ SPSIO šbersicht ]                 @001[ šbersicht ]
+.35
+    SPSIO beim Download von SPS-Tasks
+
+    Beim Download erfolgt die Initialisierung des SPSIO in einigen Punkten
+    anders als beim Hochlauf ( INIT / TOTALINIT), daher wird dieses Verhalten
+    hier getrennt beschrieben :
+
+    - Im Kontext des Downloads erfolgt parallel zum bisher laufenden
+      zyklischen System die Installation des Tasks inklusive der SPSIO-
+      Tabelle, die mit der vorher vorhandenen SPSIO-Tabelle der TK/SSTK
+      zusammengeh„ngt wird. Durch das Zusammenh„ngen der Schaufeltabellen
+      wird der Input bzw. Output des Task bereits im zyklischen System
+      beauftragt. Damit ist keine asynchrone Beauftragung, die das restliche
+      zyklisch laufende System beeintr„chtigen k”nnte, notwendig.
+    - Durch die IO-Beauftragung im zyklischen System steht bei Taskklassen
+      und auch bei SS-Taskklassen bereits im INIT-UP der Input zur Verfgung.
+      Bei der Interrupt-Taskklasse wird der Input getrennt beauftragt, da
+      nicht bekannt ist, wann der n„chste Interrupt auftreten wird.
+    - Dann wird das INIT-UP dieses einen SPS-Task aufgerufen (Systemmerker
+      _DOWNLOAD = 1)
+
+
+    @036[ Fortsetzung ]                  @030[ SPSIO šbersicht ]                 @001[ šbersicht ]
+.36
+    SPSIO beim Download (Fortsetzung)
+
+    - Abschlieáend wird wieder gewartet, bis der Output automatisch im Kontext
+      der Taskklasse bzw. SS-Taskklasse geschaufelt wird.
+      Bei der Interrupt-Taskklasse wird auch der Output explizit beauftragt.
+    - Erst jetzt wird der SPS-Task im zyklischen System integriert, sodaá der
+      zyklische Teil des Task im Rahmen der Taskklasse bzw. SSTK oder IRQ-TK
+      abgearbeitet wird.
+
+    ACHTUNG: Alle lokalen Variablen des SPS-Tasks werden mit NULL
+    initialisiert, alle globalen Datenpunkte behalten den alten Wert (z.B.
+    bei OVERLOAD) !
+
+
+
+
+
+
+
+
+
+                                   @030[ SPSIO šbersicht ]                 @001[ šbersicht ]
+.37
+    Merkergr”áen
+
+    Auf den 2010-Systemen mit CP100 stehen 84.3 kByte Analog-Merker-Pool
+    (aufgeteilt in 3 B„nke mit 25.3 / 29.5 / 29.5 kB) sowie 48 kBit
+    Digital-Merker-Pool (3 B„nke mit je 16 kBit) zur Verfgung. Dieser Pool
+    wird jeweils unter den konfigurierten Taskklassen / SPS-Tasks aufgeteilt
+    werden (SPS-globale Merker, taskklassenglobale Merker fr jede Taskklasse,
+    lokale Merker fr jeden SPS-Task). Die Merker sind nur innerhalb einer
+    Bank linear adressierbar, dh. es sind max. 29.5 kB analoge SPS-globale
+    Merker konfigurierbar.
+
+    Auf 2005-Systemen bzw. auf dem 2010-System mit CP102 stehen wie in V1.05
+    25.3 kByte Analog-Merker-Pool und 16 kBit Digital-Merker-Pool zur
+    Verfgung.
+
+
+
+
+
+
+
+                                   @030[ SPSIO šbersicht ]                 @001[ šbersicht ]
+.38
+    2005-IO-Emulation
+
+    Die Bearbeitungszeit der IO-Emulation auf 2005 Basissystemen wurde in
+    V1.10 gegenber der SPSSW V1.05 um ca. 35%% verbessert. Die Zeit der
+    Emulation in der SPSSW V1.10 l„át sich nach folgender Formel berechnen :
+
+    t_IO =  82æs             +           (a)
+            n_SC   *  3.0 æs +           (b)
+            n_IO   * 18.5 æs +           (c)
+            n_Byte *  2.3 æs             (d)
+
+    (a)   Overhead fr IO-Beauftragung allgemein
+    (b)   Overhead pro Eintrag in der Schaufeltabelle, wobei jeder SPS-Task
+          bzw. jedes IO-Modul (optimierte IO-Tabellen) einen zus„tzlichen
+          Verwaltungseintrag ben”tigt
+    (c)   Basisoverhead fr einen I/O-Transfer
+    (d)   Zeitbedarf pro Byte, wobei bei Digitalkarten 8-Bit-Gruppen zu einem
+          Byte zusammen gefaát sind
+
+
+
+    @039[ Fortsetzung ]                  @030[ SPSIO šbersicht ]                 @001[ šbersicht ]
+.39
+    2005-IO-Emulation (Fortsetzung)
+
+    ACHTUNG : Eine unmittelbare Konsequenz der Optimierung ist, daá die alten
+    DirektIO-FUBs fr die SPSSW V1.10 nicht mehr funktionieren, man muá die
+    Updateversion V1.10 verwenden (directio.br).
+
+    BEISPIELE:
+
+    SS-Taskklasse mit 8 Analogkan„len (jeweils WORD, also 16 Byte) definiert
+    ber ein Feld (!) und 16 Digitalkan„le auch definiert ber ein Feld (zwei
+    8-Bit-Gruppen). Die IO-Daten werden nur ber eine SPS-Task referenziert,
+    also ergeben sich 3 Eintr„ge in der Tabelle, davon 2 Eintr„ge fr
+    I/O-Transfer :
+
+    t_IO  =  82æs  +   3 * 3 æs  +   2 * 18.5 æs  +  18 * 2.3 æs  =  169æs
+
+    Gleiches Datenvolumen wie oben, aber die Digital- undd Analogkan„le sind
+    nicht als Felder, sondern als Einzel-PVs definiert :
+
+    t_IO  =  82æs  +  11 * 3 æs  +  10 * 18.5 æs  +  18 * 2.3 æs  =  341.4æs
+
+    @040[ Fortsetzung ]                  @030[ SPSIO šbersicht ]                 @001[ šbersicht ]
+.40
+    2005-IO-Emulation (Fortsetzung)
+
+    Dieses Beispiel zeigt, daá auf 2005-Basissystemen die Verwendung von
+    Feldern, insbesondere bei Analog-IO, eine groáe Zeitersparnis bringt.
+
+    ACHTUNG : Um die SPS 2005 durch die IO-Emulation m”glichst wenig zu
+    belasten, sollten folgende Richtlinien bei der Applikationserstellung
+    eingehalten werden :
+
+    - Jeder IO-Punkt soll nur in einer Taskklasse verwendet werden, damit er
+      nicht mehrfach geschaufelt werden muá.
+    - Die IO-Punkte eines digitalen IO-Moduls mit mehr 8 Kan„len bzw. jedes
+      analogen IO-Moduls sollten nach M”glichkeit gruppiert in einem Feld
+      zusammengefaát werden, damit der Overhead fr die Schaufeltabellen-
+      eintr„ge m”glichst gering ist.
+    - Beim Projekt-Generieren mit dem PG sollte die Option "Optimierte
+      IO-Tabellen" gew„hlt werden, um den Overhead fr SPS-Tasks bzw.
+      IO-Punkte, die innerhalb einer Taskklasse in mehreren SPS-Tasks
+      verwendet werden, zu minimieren.
+
+
+                                   @030[ SPSIO šbersicht ]                 @001[ šbersicht ]
+.41
+    Systemmerker
+
+    Systemmerker sind Merker, die fix im System definiert und dem PG bekannt
+    sind. Sie k”nnen nur im INIT-UP verwendet werden (2 Ausnahmen, siehe
+    unten). Die Namen aller Systemmerker beginnen mit einen "Umterstrich".
+
+    _INIT            Flag, ob INIT-UP nach einem INIT ausgefhrt wird
+    _URINIT          Flag, ob INIT-UP nach einem URINIT ausgefhrt wird
+    _TOTAL_INIT      -"-
+    _DOWNLOAD        Flag, ob INIT-UP beim Download ausgefhrt wird
+    _T_ZYKLUS        Zykluszeit der TK/SSTK in Einheiten zu 100 Microsekunden
+                     (ACHTUNG : bisher in Millisekunden), daher max. 6,5 Sek.
+                     als Zykluszeit m”glich fr korrekte Funktion von _T_ZYKLUS
+    _TC_TIME         -"-
+    _TKNR            Taskklassennummer 1 bis 4 bei TK 1-4, -1 bis -4 bei
+                     SSTK 1-4, -8 bei EXCTK, -9 bei IRQTK
+    _TC_No           -"-
+    _N_SPSTASK       Anzahl der SPS-Tasks in der akt. TK bzw. SSTK/EXCTK/IRQTK
+
+
+
+    @042[ Fortsetzung ]                  @030[ SPSIO šbersicht ]                 @001[ šbersicht ]
+.42
+    Systemmerker (Fortsetzung)
+
+    _TC_TSK_No       -"-
+    _DEBUG           Flag, ob INIT-UP beim Debug ausgefhrt wird
+
+
+    Im zyklischen Betrieb k”nnen nur die folgenden Systemmerker abgefragt
+    werden :
+
+    _PIO_OLD         Flag, ob in der Taskklasse der alte Input (1 Zyklus alt)
+                     verwendet wird : 0 = neuer Input, 1 = alter Input
+                     (ACHTUNG : nur gltig in TK, nicht in SSTK)
+    _DEBUG           Flag, ob Task in Debugtaskklasse liegt
+
+
+
+
+
+
+
+
+                                   @030[ SPSIO šbersicht ]                 @001[ šbersicht ]
+.50
+    Taskklassen, SS-Taskklassen, Interrupttaskklasse
+
+   @051[ Interrupttasks            ]    Tasks fr asynchrone Ereignisse
+   @054[ Default-Zykluszeit TK 4   ]    "so schnell wie m”glich" ab V1.10
+   @056[ Interrupt-Priorisierung   ]    SS-Taskklassen und Interrupttaskklasse
+   @057[ TK-Kommunikationsrestzeit ]    Verteilung der Restzeit im System
+
+    * Fr asynchrone Ereignisse am SPSIO-Bus k”nnen Interrupttasks
+      erstellt werden.
+    * Ohne Vergabe von Taskparametern im PG bzw. ohne Zykluszeitvorgabe
+      laufen Tasks in der Taskklasse 4 "so schnell wie m”glich".
+    * SS-Taskklassen und Interrupttaskklasse k”nnen priorisiert werden,
+      um m”glichst zeitkonstante Abarbeitung zu gew„hrleisten.
+    * Die Restzeit im System kann fr reaktionsschnellere Kommunikation
+      verteilt werden.
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.51
+    Interrupttasks
+
+    Mit Hilfe der Interrupttaskklasse kann ein eigener Task bezogen auf ein
+    asynchrones Ereignis (Interrupt) auf dem SPSIO-Bus geschrieben werden.
+
+    Voraussetzung fr Interrupttasks ist das Interruptf„hige 2010-CPU-Modul
+    CP100 ab Revision 30.xx. Das Ausl”sen von SPSIO-Interrupts ist nur durch
+    spezielle Hardware m”glich (CSI-Karte, IP-Module, ...), wobei pro Interrupt-
+    Modul ein Interrupttask m”glich ist. Die T„tigkeit des Interrupttasks wird
+    nur einmal pro Interrupt durchgefhrt. Auf 2005 Systemen sind keine
+    Interrupttasks m”glich.
+
+    Unter der Vorraussetzung, daá nur ein Interrupttask und keine SS-Taskklasse
+    mit einem Interruptlevel gr”áer als 5 verwendet wird, ergibt sich die
+    Interrupt-Latenzzeit (Zeit vom Auftreten des Interrupt am IO-Modul bis zur 
+    ersten Codezeile im entsprechenden Interrupttask) aus der Summe der HW-
+    Interrupt-Latenzzeit (siehe HW-Modulbeschreibung) plus 100 Microsekunden.
+    Die Zeit vom Ausl”sen des Interrupt am IO-Modul bis zum Setzen von Outputs,
+    die im Interrupttask gesetzt werden, betr„gt 200 Microsekunden plus Lauf-
+    zeit des Interrupttask plus HW-Interrupt-Latenzzeit.
+
+    @052[ Fortsetzung ]                    @050[ Taskklassen ]                   @001[ šbersicht ]
+.52
+    Interrupttasks (Fortsetzung)
+
+    ACHTUNG : Da Interrupttasks asynchron zum Zyklus-Verhalten des restlichen
+    Systems aufgerufen werden, k”nnen sie bei entsprechend hoher Frequenz der
+    Interrupts bzw. bei starker zyklischer Last das zyklisch laufende System
+    stark st”ren, der Zeitpunkt der Interrupts kann nicht vorherbestimmt
+    werden. Sollte ein anderer Teil der Applikation bereits in einer
+    ausreichend schnellen Taskklasse laufen, ist ein Pollen des Input zu
+    empfehlen, da ein zus„tzlicher IO-Punkt durch den Schaufelprozessor im
+    Prinzip keine Zeit kostet und auch eine Abfrage im Programm weniger als
+    10 Microsekunden dauert, anderseits aber der Overhead fr eine eigene
+    Taskklasse (in diesem Fall IRQ) entf„llt. Bei šberlastung des Systems mit
+    IO-Interrupts (zu hohe Frequenz) kann es im schlimmsten Fall zu einem
+    Reset der SPS (Watchdog) kommen.
+
+    ACHTUNG : L”st ein IO-Modul, fr das kein Interrupt-Task vorhanden ist,
+    trotzdem Interrupts aus, so wird dieser Interrupt ignoriert.
+
+
+
+
+    @053[ Fortsetzung ]                    @050[ Taskklassen ]                   @001[ šbersicht ]
+.53
+    Interrupttasks (Fortsetzung)
+
+    Interrupt-Tasks k”nnen wie zyklische Tasks mit dem PG erstellt werden
+    (ab PG V1.20), wobei bei Taskklasse IRQ = Interrupt angegeben werden muá.
+    Statt der Reihenfolgenummer muá die Nummer des Interrupt-IO-Moduls, das
+    vom IRQ-Task behandelt wird, angegeben werden. Pro Interrupt-Modul ist
+    ein Interrupttask m”glich, sollten von einem Modul mehrere Interrupts
+    ausgel”st werden k”nnen (z.B. mehrere CSI-Kan„le), so muá der Interrupt-
+    kanal im Task festgestellt werden. Wie in den zyklischen Anwendungen kann
+    auch hier ein InitUP programmiert werden. Die Standardquittierung am
+    SPSIO-Bus bernimmt die Systemsoftware, Spezialquittierungen (z.B.
+    kanalbezogene Quittierung) muá der Anwender selbst„ndig durchfhren. Wie
+    bei den SS-Taskklassen verwendet die Interrupttaskklasse die Merker der
+    Taskklasse #1.
+
+
+
+
+
+
+
+                                     @050[ Taskklassen ]                   @001[ šbersicht ]
+.54
+    Neue Default-Zykluszeit Taskklasse 4 ("so schnell wie m”glich")
+
+    Im Default-Konfigurationsmodul ist die Zykluszeit der Taskklasse 4 ab
+    V1.10 mit 10 Millisekunden konfiguriert, wobei die maximal erlaubte
+    Zykluszeit 30 Sekunden ist (erst dann max. Zykluszeitverletzung !).
+    Damit ist es ohne Eingabe von Task-Parametern im PG (ab V2.0 default
+    Taskklasse 4) und ohne Erstellung eines SPS-Konfigurationsmoduls (Analyse
+    der notwendigen Zykluszeiten bzw. der Laufzeiten der Applikation)
+    m”glich, die Anwendung quasi so schnell wie m”glich laufen zu lassen.
+    Dabei kann die Zykluszeit, die defaultm„áig nicht berwacht wird, bis zu
+    maximal 30 Sekunden dauern, im schnellsten Fall ist sie 10 Millisekunden
+    (sofern die Anwendung entsprechend wenig Zeit pro Zyklus ben”tigt).
+    Ist ein Zyklus fertig, wird die Applikation sofort im n„chsten System-
+    zyklus (10 Millisekunden) wieder gestartet. Die Restzeit bis dorthin
+    bleibt fr niederpriore Tasks (Kommunikation bzw. Usertasks). Wird nur
+    die Taskklasse 4 verwendet und bleibt zu wenig Zeit fr niederpriore
+    Tasks, vor allen fr die Kommunikation, so hilft nur ein Umkonfigurieren
+    der Zykluszeit der Taskklasse 4 bzw. ein Verlagern von Tasks in andere
+    Taskklassen, damit wieder mehr Applikations-Restzeit vorhanden ist.
+    ACHTUNG : Die Zykluszeitberwachung darf in diesem Fall nicht (!)
+              aktiviert werden (ZykVL_enable) !
+    @055[ Fortsetzung ]                    @050[ Taskklassen ]                   @001[ šbersicht ]
+.55
+    Default-Zykluszeit Taskklasse 4 (Fortsetzung)
+
+    Die Konfiguration von Taskklassenrestzeit fr die Taskklasse 4 bringt
+    nichts, da die Kommunikationsrestzeit bis maximal zum Ende des
+    Systemzyklus dauert, diese Zeit aber in jedem Fall zur Verfgung
+    steht, im Gegenteil, der Overhead fr die Kommunikationsrestzeit kostet
+    sogar Zeit.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     @050[ Taskklassen ]                   @001[ šbersicht ]
+.56
+    Interrupt-Priorisierung von SSTK und IRQTK
+
+    Bei allen SS-Taskklassen sowie auch bei der Interrupttaskklasse kann der
+    Interruptlevel, in dem die Taskklasse executiert wird, konfiguriert
+    werden. Damit kann man eine Taskklasse auszeichnen (z.B. SS-Taskklasse 1),
+    daá sie in jedem Fall sofort executiert wird. Dieser konfigurierte
+    Interruptlevel wird allerdings erst am Beginn der Softwarebehandlung des
+    Interrupt gesetzt, da der Hardware-Interruptlevel nicht konfigurierbar
+    ist. Von der HW werden alle SS-Taskklassen auf IRL4, die IRQ-TK auf IRL6
+    ausgel”st.
+    Werden 2 SS-Taskklassen verwendet und soll eine davon nicht unterbrochen
+    werden k”nnen, sie ihrerseits aber sehr wohl die andere SSTK unterbrechen
+    k”nnen, so muá die h”herpriore SSTK auf einen IRL gr”áer gleich 4, die
+    niederpriore SSTK auf einen IRL kleiner als 4 konfiguriert werden.
+    Sobald eine Interrupttaskklasse verwendet wird, kann fr eine
+    SS-Taskklasse nicht mehr gew„hrleistet werden, daá sie in jedem Fall
+    ohne Verzug executiert wird, weil der Interrupt von der HW auf
+    Interruptlevel 6 ausgel”st wird und damit jede SS-Taskklasse, die von
+    der Hardware auf IRL 4 ausgel”st wird, unterbrechen kann !
+
+
+                                     @050[ Taskklassen ]                   @001[ šbersicht ]
+.57
+    Taskklassen-Kommunikationsrestzeit
+
+    Bei Systemen mit Kommunikations-Zeitproblemen (z.B. Panelware) kann in
+    V1.10 fr eine schnellere Kommunikationsreaktion in nicht leeren
+    Taskklassen (!) eine Kommunikationsrestzeit konfiguriert werden. Dabei
+    wird innerhalb eines Taskklassenzyklus am Ende diese Zeit fr nieder-
+    priore Tasks, z.B. Kommunikation, zur Verfgung gestellt, und zwar in
+    jedem Fall (!), nicht nur bei Bedarf. Somit kann die im System vorhandene
+    Applikationsrestzeit (siehe PROFILER) gleichm„áiger auf die Taskklassen-
+    zyklen aufgeteilt werden. Ist keine Applikationsrestzeit mehr vorhanden,
+    so hilft nur mehr ein Umkonfigurieren der Zykluszeiten der Taskklassen
+    bzw. ein Verlagern von Tasks in langsamere Taskklassen. Enth„lt eine
+    Taskklasse keine SPS-Tasks, so ist sie inaktiv, und es bringt nichts,
+    wenn fr diese Taskklasse Kommunikationsrestzeit konfiguriert wird.
+
+
+
+
+
+
+
+    @058[ Fortsetzung ]                    @050[ Taskklassen ]                   @001[ šbersicht ]
+.58
+    Taskklassen-Kommunikationsrestzeit (Fortsetzung)
+
+    Die Kommunikationsrestzeit kann in Einheiten von halben Millisekunden
+    angegeben werden. Falls innerhalb der Kommunikationsrestzeit das Ende des
+    Systemzyklus (10 Millisekunden) erreicht wird, wird die Kommunikations-
+    restzeit beendet. Damit kann die Kommunikationsrestzeit nur kleiner als
+    10 Millisekunden sein. Im schlechtesten Fall, wenn die Taskklasse knapp
+    vor Ende des Systemzyklus fertig ist, bleibt fast keine Kommunikations-
+    restzeit. Hauptanwendungsgebiet ist daher die Taskklasse 1 (siehe
+    Beispiel).
+
+    ACHTUNG : Die TK-Kommunikationsrestzeit sollte nur bei Systemen mit
+    Kommunikations-Reaktionszeitproblemen, aber gengend Applikations-
+    restzeit (wie im Beispiel beschrieben) verwendet werden. Der Nachteil
+    der Kommunikationsrestzeit ist der zus„tzliche Systemoverhead (siehe Zeit
+    von IOTim im Profiler). Dadurch wird die vorhandene Restzeit kleiner.
+    Der Vorteil liegt in der fr die Kommunikation bessere Verteilung der
+    Restzeit.
+
+
+
+    @059[ Fortsetzung ]                    @050[ Taskklassen ]                   @001[ šbersicht ]
+.59
+    Taskklassen-Kommunikationsrestzeit (Fortsetzung)
+
+    Beispiel :  System ohne Kommunikationsrestzeit, TK#1 mit 10 msec, TK#3
+                mit 100 msec (ohne Bercksichtigung des Systemoverhead, Rest
+                umfaát alle Kommunikationstasks sowie USER-Tasks und den
+                IDLE-Task)
+
+                Wegen der Priorisierung im Multitaskingsystem ist ab dem 
+                Beginn des Zyklus der TK#3 fr fast 50 msec nur die Appli-
+                kation aktiv, es ist keine Kommunikation m”glich.
+
+          0     10    20    30    40    50    60    70    80    90   100
+          ÃÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄ´
+      TK#1ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´
+      TK#3  ÃÄÄÄ   ÄÄÄ   ÄÄÄ   ÄÄÄ   Ä´
+      Rest                            ÃÄ´ ÃÄÄÄ´ ÃÄÄÄ´ ÃÄÄÄ´ ÃÄÄÄ´ ÃÄÄÄ´
+
+
+
+
+
+    @060[ Fortsetzung ]                    @050[ Taskklassen ]                   @001[ šbersicht ]
+.60
+    Taskklassen-Kommunikationsrestzeit (Fortsetzung)
+
+    Beispiel :  System mit Kommunikationsrestzeit in TK#1, TK#1 mit 10 msec,
+                TK#3 mit 100 msec (ohne Bercksichtigung des Systemoverhead,
+                Rest umfaát alle Kommunikationstasks sowie USER-Tasks und
+                den IDLE-Task)
+
+                Die reichlich vorhandene Restzeit wird teilweise aufgeteilt,
+                alle 10 msec steht eine kleine Restzeitscheibe zur Verfgung.
+
+          0     10    20    30    40    50    60    70    80    90   100
+          ÃÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄ´
+      TK#1ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´
+      TK#3   ÃÄÄ    ÄÄ    ÄÄ    ÄÄ    ÄÄ    ÄÄ    Ä´
+      Rest  Ã´    Ã´    Ã´    Ã´    Ã´    Ã´    Ã´ Ã´ ÃÄÄÄ´ ÃÄÄÄ´ ÃÄÄÄ´
+
+
+
+
+
+
+                                     @050[ Taskklassen ]                   @001[ šbersicht ]
+.70
+    Exceptiontasks / Exceptionprotokollierung
+
+    @071[ Exceptiontasks           ]
+    @073[ Exceptionprotokollierung ]
+
+    * Mit Exceptiontasks hat man die M”glichkeit, alle Arten von Exceptions
+      anwenderspezifisch zu behandeln, falls die Default-Behandlung der
+      Exceptions nicht Ihren Wnschen entspricht.
+    * Exceptiontasks k”nnen wie zyklische Tasks mit dem PG erstellt werden
+      (ab PG V1.20), wobei als Taskklasse EXC = Exception angegeben werden
+      muá. Statt der Reihenfolgenummer muá bei den Task-Parametern die
+      Exceptionnummer eingegeben werden, pro Exception ist nur ein EXC-Task
+      m”glich. Wie bei den SS-Taskklassen verwendet die Exceptiontaskklasse
+      die Merker der Taskklasse #1.
+    * Bei Verwendung von Exceptiontasks ist es notwendig das Modul
+      "exermo.br" zu brennen oder zu fixieren.
+
+    * Falls KEIN (!) benutzerdefinierter Exceptiontask fr eine aufgetretene
+      Exception vorhanden ist, erfolgt die Protokollierung im Fehlermodul
+      sowie bei 2010-Systemen auch am Display.
+
+                                                                     @001[ šbersicht ]
+.71
+    Exceptiontasks
+
+    Folgende Exceptionnummern werden untersttzt :
+
+    EXC-Nr.    ³ EXC-Name                        ³ Display-Kennung 2010
+    ÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+    2          ³ Bus Error                       ³ BE
+    3          ³ Adress Error                    ³ AE
+    4          ³ Illegal Instruction             ³ II
+    5          ³ Divide Zero                     ³ DZ
+    8          ³ Privilege Violation             ³ PV
+    10 (0x0A)  ³ Unimplemented Instruction       ³ UI
+    24 (0x18)  ³ Spurious Interrupt              ³ SI
+    128 (0x80) ³ Perieller Error                 ³ PE
+    144 (0x90) ³ TK-Zykluszeitverletzung         ³ TC viCycle
+    145 (0x91) ³ TK-Max.Zykluszeitverletzung     ³ TC mxCycle
+    146 (0x92) ³ TK-Input-Zykluszeitverletzung   ³ TC inCycle
+    147 (0x93) ³ TK-Output-Zykluszeitverletzung  ³ TC ouCycle
+    160 (0xA0) ³ SSTK-Max.Zykluszeitverletzung   ³ HS mxCycle
+    161 (0xA1) ³ SSTK-Zykluszeitverletzung (IO)  ³ HS viCycle
+    162 (0xA2) ³ Systemzyklusverletzung (6002)   ³ SYSM Err mxCycle
+    @072[ Fortsetzung ]                    @070[ Exceptions ]                    @001[ šbersicht ]
+.72
+    Exceptiontasks (Fortsetzung)
+
+    Um im Fall einer Exception den Verursacher feststellen zu k”nnen, kann
+    die Funktion EXC_info() aus der Systemlibrary aufgerufen werden. Damit
+    kann die Taskklassennummer sowie der Identifier des SPS-Task bestimmt
+    werden, sofern die Exception im entsprechenden Kontext aufgetreten ist.
+    Mit den ST-Diensten der B&R-Library (burtrap.br) kann der SPS-Task-
+    Identifier weiterverwendet werden, z.B. zur Bestimmung des SPS-Task--
+    Namens.
+
+
+
+
+
+
+
+
+
+
+
+
+                                     @070[ Exceptions ]                    @001[ šbersicht ]
+.73
+    Exceptionprotokollierung
+
+    ACHTUNG: Die Exceptionprotokollierung im Fehlermodul erfolgt nur, wenn
+    kein Exceptiontask fr die aufgetretene Exception definiert ist !
+
+    Wir unterscheiden die Default- und die erweiterte Protokollierung.
+
+    Bei der Default-Protokollierung (ohne "exermo.br") erfolgt immer nur ein
+    Fehlermoduleintrag, in dem die wichtigsten Prozessor-Exceptions durch
+    eindeutige Fehlernummern ersichtlich sind, alle anderen Exceptions, vor
+    allem max. Zykluszeitverletzungen, werden mit der Kennung "Default-
+    Exceptionhandler" eingetragen.
+
+    Fr die erweiterte Exceptionprotokollierung ist es notwendig das Modul
+    "exermo.br" zu brennen oder zu fixieren. Die erweiterte Protokollierung
+    im Fehlermodul wurde fr alle Prozessor-Exceptions (Nummern 2 bis 24)
+    ausgebaut :
+    - Der Name der verursachenden Taskklasse wird jetzt auch bei SS-Task-
+      klassen und Interrupt-Taskklasse eingetragen (ss#1, ss#2, ss#3, ss#4,
+      irq). Bei Zykluszeitverletzungen ist damit nicht nur ber den Code,
+      sondern auch ber den Tasknamen die verursachende Taskklasse abzulesen.
+    @074[ Fortsetzung ]                    @070[ Exceptions ]                    @001[ šbersicht ]
+.74
+    Exceptionprotokollierung (Fortsetzung)
+
+    Zus„tzlich wird bei jedem Eintrag im Fehlermodul eine Kennung einge-
+    tragen, die den Typ des Fehlermoduleintrags definiert :
+      E     Exception        Exception, die zum Hochlauf im Errormodus fhrt
+      F     Fataler Fehler   Schwerwiegender Fehler, der zum Errormodus fhrt
+      W     Warning          Warnung, daá etwas nicht stimmt
+      I     Info             Zusatzinformationen zu anderen Eintr„gen
+
+    - Zuerst wird wie in V1.05 ein Fehlermoduleintrag mit dem Exceptioncode
+      und Exceptionabh„ngiger Info gemacht.
+    - Im 2. Fehlermoduleintrag wird bei gleichem Code die Codeadresse zum
+      Zeitpunkt der Exception mit dem Tasknamen "PC"=ProgramCounter
+      eingetragen.
+    - Im 3. Fehlermoduleintrag wird bei gleichem Code die Program-Counter-
+      Information aufgeschlsselt, wobei im HIGH-WORD der Info der Modulindex
+      des fehlerverursachenden Moduls, im LOW-WORD der Codeoffset in diesem
+      Modul eingetragen wird.
+
+
+
+    @075[ Fortsetzung ]                    @070[ Exceptions ]                    @001[ šbersicht ]
+.75
+    Exceptionprotokollierung (Fortsetzung)
+
+    - Falls die Exception im Kontext eines SPS-Task aufgetreten ist, der
+      Programcounter aber nicht im SPS-Task-Modul liegt (z.B. bei Aufruf
+      eines AVT-FUB im entsprechenden AVT-Modul), wird ein 4. Fehlermodul-
+      eintrag generiert, wobei im HIGH-WORD der Index des SPS-Task, im
+      LOW-WORD immer NULL eingetragen wird.
+
+      Beispiel : Bei Division durch NULL werden z.B. folgende Fehlermodul-
+                 eintr„ge generiert:
+
+      Fehlercode Info     Task   Kennung
+      9104       000004   ss#1   E      1. Eintrag der Exception
+      9104       C03000   PC     I      Codeadr. der Division (absolut)
+      9104       11012A   ss#1   I      Codeoff. 0x12A im Modul mit Index 0x11
+      9104       080000   ss#1   I      SPS-Task mit Index 0x08
+
+
+
+
+
+    @076[ Fortsetzung ]                    @070[ Exceptions ]                    @001[ šbersicht ]
+.76
+    Exceptionprotokollierung (Fortsetzung)
+
+    Bei allen Exceptions, die nicht durch Exceptiontasks behandelt werden,
+    erfolgt nach der Exceptionprotokollierung ein Stackcheck, bei dem alle
+    Systemtasks sowie alle Taskklassen berprft werden. Wird ein Stackfehler
+    festgestellt, so erfolgt ein Eintrag im Fehlermodul.
+
+    Bei einem Periellen Error (fataler Fehler des Schaufelprozessors) erfolgt
+    in V1.10 eine leichter lesbare Protokollierung am Display 2010 :
+
+    ÚÄÄÄÄÄÄÄÄ¿    xx : "TI"=Timeout, "RP"=Repeat
+    ³PE xx yy³    yy : Schaufeltabellenpriorit„t
+    ³Mzz  abc³    zz : Moduladresse, bei der der Fehler aufgetreten ist
+    ÀÄÄÄÄÄÄÄÄÙ     a : R=Read(Input),  W=Write(Output)
+                   b : N=Normal,  S=Statusbereich des Moduls
+                   c : M=Moduladr., K=Kurzkennung, I=Intern Adr. D=Daten
+
+
+
+
+
+    @077[ Fortsetzung ]                    @070[ Exceptions ]                    @001[ šbersicht ]
+.77
+    Exceptionprotokollierung (Fortsetzung)
+
+    Unabh„ngig vom Display kann aber mit dem Fehlermoduleintrag der Perielle
+    Fehler entschlsselt werden, und zwar enth„lt das LONG info folgende
+    Informationen in den 4 Byte des LONG :
+
+    ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ³Moduladresse ³Kurzkennung  ³Interne Adr.  ³L„nge in Byte³
+    ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+    In der Kurzkennung wird das Bit 5 fr Read/Write verwendet (0=Write,
+    1=Read), das Bit 6 fr Status/Normal (0=Normal, 1=Status). Die interne
+    Adresse gibt den Offset am IO-Modul an. Bei der L„nge werden nur die
+    Bits 0-6 fr die L„nge verwendet.
+
+
+
+
+
+
+
+                                     @070[ Exceptions ]                    @001[ šbersicht ]
+.80
+    Erweiterte Konfigurationsm”glichkeiten
+
+    Mit dem Tool Systemkonfigurator kann die SPSSW V1.10 konfiguriert werden,
+    wobei einige Erweiterungen zur Verfgung stehen. Der gesamte Funktionsum-
+    fang ist in der Online-Hilfe von Systemkonfigurator beschrieben.
+    ACHTUNG : Das Tool Systemkonfigurator V1.10 ist nicht kompatibel zur
+    SPSSW V1.05. Die Modulbasis "moduls.db" V1.05 kann aber mit "cfgconv.exe"
+    auf das Format von V1.10 konvertiert werden !
+
+    @081[ Taskklassen                            ]
+    @082[ SS-Taskklassen                         ]
+    @083[ Interrupttaskklasse                    ]
+    @084[ Exception-Taskklasse                   ]
+    @095[ FIX-RAM                                ]
+    @085[ Temor„res RAM                          ]
+    @086[ Erlaubte Systemzykluszeitverletzung    ]
+    @087[ Timeout fr POWERFAIL                  ]
+    @088[ 2005-CPU ohne IO-Emulation             ]
+    @120[ Konfigurierbare Profibus-Indexbereiche ]
+    @089[ Gr”áe Stack/Globale Daten              ]
+    @090[ System- und Userstackerh”hung          ]
+                                                                     @001[ šbersicht ]
+.81
+    Konfiguration von Taskklassen
+
+    In Taskklassen kann das verwendete IO-System angegeben werden, wobei bei
+    kleinem IO-System zus„tzlicher Speicher zur Verfgung steht :
+    - Basis-System     nur Basis-IO 2010 / 2005
+    - Remote-IO        Basis-IO 2010 / 2005 plus Remote-IO
+    - MP               Basis-IO 2010 / 2005 plus Remote-IO plus MP
+
+    Auáerdem kann eine Taskklassen-Kommunikationsrestzeit angegeben werden
+
+
+
+
+
+
+
+
+
+
+
+
+    @057[ TK-Kommunikationsrestzeit ]     @080[ Konfiguration ]                  @001[ šbersicht ]
+.82
+    Konfiguration von SS-Taskklassen
+
+    Bei SS-Taskklassen kann ab V1.10 der Interruptlevel, in dem die SPS-Tasks
+    der SSTK abgearbeitet werden, konfiguriert werden. Damit kann man z.B.
+    erreichen, daá eine SS-Taskklasse andere SS-Taskklassen unterbrechen kann,
+    selbst aber nicht von anderen SS-Taskklassen unterbrochen werden kann.
+    Fr diesen Fall ist die h”herpriore SS-Taskklasse am besten auf Level 7,
+    die niederpriore SS-Taskklasse auf einen Level kleiner als 4 zu
+    konfigurieren, auáerdem darf kein Interrupttask im System existieren.
+
+    Anmerkung: Der Timerinterrupt fr die Erzeugung des Systemtaktes (Tick)
+    wird auf Interruptlevel 4 generiert, wobei anschlieáend sofort auf
+    Interruptlevel 1 maskiert wird, um die SS-Taskklassen so wenig wie
+    m”glich zu beeinflussen.
+
+
+
+
+
+
+
+                                    @080[ Konfiguration ]                  @001[ šbersicht ]
+.83
+    Konfiguration der Interrupttaskklasse
+
+    Mit Systemkonfigurator kann konfiguriert werden, ob berhaupt eine
+    Interrupttaskklasse installiert wird. Fr die Interrupttaskklasse kann wie
+    bei SS-Taskklassen die Gr”áe des User- und Supervisor-Stack konfiguriert
+    werden, wobei die Defaultwerte im Normalfall ausreichen (die Stackaus-
+    lastung kann im PROFILER kontrolliert werden). Zus„tzlich muá bei der
+    Interrupttaskklasse angegeben werden, wieviele interruptf„hige IO-Module
+    im System durch Interrupttasks betreut werden sollen. Wie bei SS-Task-
+    klassen kann auch der Interruptlevel, in dem der Interrupttask exekutiert
+    wird, konfiguriert werden. Dabei sei darauf hingewiesen, daá fr die
+    sofortige Abarbeitung des Interrupttask ohne Unterbrechung durch andere
+    Objekte die Konfiguration auf Level 7 notwendig ist, wobei keine SS-Task-
+    klasse mit Interruptlevel gr”áer als 5 im System vorhanden sein darf.
+
+
+
+
+
+
+
+                                    @080[ Konfiguration ]                  @001[ šbersicht ]
+.84
+    Konfiguration der Exception-Taskklasse
+
+    Auch die Exception-Taskklasse kann konfiguriert werden, wobei neben den
+    Stackgr”áen (User-Stack und System-Stack) auch die Anzahl der maximal
+    m”glichen Exceptiontasks angegeben werden muá.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    @080[ Konfiguration ]                  @001[ šbersicht ]
+.85
+    Konfiguration des Temor„ren RAM
+
+    Das tempor„re RAM wird fr die serielle Kommunikation verwendet, kann
+    aber mit Hilfe der B&R-Libraryfunktionen TMP_alloc() und TMP_free() auch
+    in Anwendungen verwendet werden. Es unterscheidet sich vom Anwender-RAM
+    (MEM_alloc(), MEM_free()) dadurch, daá dieser Speicher nach einem INIT-
+    Hochlauf (POWERFAIL) verloren ist und neu allokiert werden muá.
+    Dieses tempor„re RAM kann in Einheiten zu 4 kB konfiguriert werden, wobei
+    das System fr die serielle Kommunikation bei 3 konfigurierten Schnitt-
+    stellen ca. 10 kB ben”tigt.
+    Default sind 20 kB tempor„res RAM konfiguriert.
+
+    ACHTUNG : Ist kein Speicher im tempor„ren RAM mehr verfgbar, so ist
+    keine serielle Kommunikation mehr m”glich.
+
+    Das tempor„re RAM wird vom System-RAM genommen, es steht entsprechend
+    weniger Speicher (Download, Speicherallokation mit MEM_alloc) zur
+    Verfgung.
+
+
+
+                                    @080[ Konfiguration ]                  @001[ šbersicht ]
+.86
+    Konfiguration der Erlaubten Systemzykluszeitverletzung
+
+    Der Systemzyklus betr„gt 10 Millisekunden, diese Zeit wird wie die
+    Taskklassenzykluszeit berwacht. Wie die Taskklassenzykluszeit kann auch
+    die Systemzykluszeit optional erlaubterweise verl„ngert werden, und zwar
+    um zus„tzlich bis zu 5 Systemzyklen. Damit kann bei kurzzeitigem Zeit-
+    Engpaá (SS-Taskklassen oder Interrupttaskklasse) verhindert werden, daá
+    sofort eine Systemzykluszeitverletzung gemeldet wird (fatale Exception,
+    die allerdings durch einen Exceptiontask abgefangen werden kann).
+    In der Defaultkonfiguration ist eine erlaubte Systemzykluszeitverletzung
+    von 10 Millisekunden (1 Zyklus) parametriert. Wird keine Systemzykluszeit-
+    verletzung konfiguriert, so wird bei jeder Verletzung des Systemzyklus
+    sofort die entsprechende Exception ausgel”st.
+
+    ACHTUNG : Die Verletzung des Systemzyklus verz”gert den Zyklus der davon
+    abgeleiteten Taskklassen nicht, die Taskklassen mssen ihren Zyklus
+    unver„ndert abschlieáen, sonst kommt es zu einer Zykluszeitverletzung.
+    Ist die šberwachung der Taskklassenzykluszeit aktiviert, wird die
+    Zykluszeitverletzungs-Exception ausgel”st, sonst erst bei Erreichen der
+    maximlen Zykluszeit die entsprechende Exception.
+
+                                    @080[ Konfiguration ]                  @001[ šbersicht ]
+.87
+    Konfiguration des Timeout fr POWERFAIL
+
+    Fr einen fatalen Fehler bzw. Exception kann eine Zeit parametriert
+    werden, die gewartet wird, ob nicht ein POWERFAIL Ursache des Fehlers ist,
+    z.B in verteilten Systemen mit IO-Erweiterungen bzw. Remote-IO. Hier kann
+    bei verteilter Stromversorgung und unterschiedlich hoher Belastung der
+    einzelnen Netzteile bei POWERFAIL die Stromversorgung der Peripherie
+    bereits zusammengebrochen sein, w„hrend die SPS-CPU noch versorgt wird.
+    Stellt nun die SPS-CPU einen Fehler fest, z.B. daá die Peripherie nicht
+    mehr funktioniert, wird eine Exception ausgel”st und die SPS l„uft
+    automatisch im ERROR-Modus wieder hoch und geht in den SERVICE-Modus, die
+    Applikation ist inaktiv.
+    Ist aber ein POWERFAIL-Timeout konfiguriert, so wird der Fehler zwar im
+    Fehlermodul eingetragen, wenn aber innerhalb der Zeit auch die CPU ein
+    POWERFAIL erreicht, so erfolgt der n„chste Hochlauf nach Wiederein-
+    schalten der Spannung mit INIT, die Applikation wird wieder gestartet.
+    Im Fehlermodul wird dabei auch ein Eintrag fr POWERFAIL mit Code 9200
+    generiert, wobei man durch die eingetragene Zeit den Zusammenhang von
+    fatalem Fehler und POWERFAIL ablesen kann.
+
+
+                                    @080[ Konfiguration ]                  @001[ šbersicht ]
+.88
+    Konfiguration der 2005-CPU ohne IO-Emulation
+
+    Bei Verwendung der 2005-CPU CP152 mit dem Netzteil PS477 und dem
+    Buserweiterungskabel kann das Basis-IO 2005 ohne IO-Emulation betrieben
+    werden. Dabei entspricht das Basis-IO der ersten Erweiterung in einem
+    normalen 2005-System und muá auch entsprechend angesprochen werden (PG),
+    das IO-Abbild wird durch den Schaufelprozessor zur Verfgung gestellt,
+    die CPU nicht durch die IO-Emulation belastet.
+    Eine Einschr„nkung dieses Betriebs ohne IO-Emulation ist, daá keine
+    Systembuskarten eingesetzt werden k”nnen (Remote-IO, Profibus,
+    IF050 Schnittstellenkarte).
+
+
+
+
+
+
+
+
+
+
+                                    @080[ Konfiguration ]                  @001[ šbersicht ]
+.89
+    Konfiguration der Gr”áe von Stack/Globalen Daten
+
+    Die Speichergr”áe fr Stacks und globale Daten von User-Tasks kann wie
+    in V1.05 ("Region 0") erh”ht werden, falls ein Usertask nicht installiert
+    werden kann (Fehler 3602).
+
+    Um in diesem Fall aber nicht immer das Konfigurationsmodul „ndern zu
+    mssen, hat man in der C-Toolbox bei BRMODTSK mit der Option "-a" die
+    M”glichkeit, Stack und globale Daten des User-Task in das AWS-RAM zu
+    legen.
+
+
+
+
+
+
+
+
+
+
+
+                                    @080[ Konfiguration ]                  @001[ šbersicht ]
+.90
+    Konfiguration von System- und Userstackerh”hung
+
+    Sowohl die interne Stackerh”hung als auch die Interrupt-Stackerh”hung fr
+    User- und System-Stack fr alle Systemtasks und Usertasks sind nur fr
+    Spezialanforderungen vorgesehen. Sie sollten daher nur nach Rcksprache
+    mit dem Support verwendet werden.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    @080[ Konfiguration ]                  @001[ šbersicht ]
+.95
+    FIX-RAM
+
+    Fr die batteriegepufferte Ablage von Datenmodulen, die dynamisch
+    ver„ndert werden k”nnen, bzw. fr den RAM-Transport von Modulen gibt es
+    ab V1.10 die M”glichkeit, Module im FIX-RAM zu fixieren. Module, die sich
+    im FIX-RAM befinden, werden wie Module im EPROM auch nach TOTALINIT
+    wiedergefunden und installiert. Daten im FIX-RAM mssen in Modulform mit
+    dem PG oder ber die Funktion DA_fix() der B&R-Library fixiert werden.
+    Mit der Funktion DA_write() k”nnen die Daten dynamisch ver„ndert werden.
+    Da Daten nur in Modulform im FIX-RAM abgelegt werden k”nnen, sind sie
+    download- bzw. upload-f„hig oder k”nnen auch zum IP gespoolt werden.
+
+    Das FIX-RAM wird ber das Konfigurationsmodul (Systemkonfigurator) in Ein-
+    heiten zu 16 kB konfiguriert, wobei dieser Speicher vom AWS-RAM genommen 
+    wird und entsprechend weniger Speicher (Download, Speicherallokation mit 
+    MEM_alloc) zur Verfgung steht. Wird ein AWS in eine andere CPU gesteckt,
+    bleiben alle Module im FIX-RAM des AWS erhalten.
+
+
+
+
+    @096[ Fortsetzung ]                   @080[ Konfiguration ]                  @001[ šbersicht ]
+.96
+    FIX-RAM (Fortsetzung)
+
+    L”schen des ganzen FIX-RAM
+
+    Das FIX-RAM kann mit dem PG gel”scht werden (SPS-Sonderfunktionen,
+    FIX-RAM l”schen). Da aber zu diesem Zeitpunkt gew„hrleistet sein muá,
+    daá keine Module im FIX-RAM referenziert werden, muá zuerst ein SPS-Reset
+    im DIAGNOSE-Modus erfolgen, anschlieáend muá im Diagnose-Modus der SPS
+    das FIX-RAM gel”scht werden. Nach einem SPS-Reset im TOTALINIT-Modus
+    k”nnen wieder Module fixiert werden.
+
+    Wird ein Modul entfernt, so bleibt dieser Bereich belegt, die Gr”áe
+    des freien Bereichs im FIX-RAM bleibt unver„ndert. Erst nach dem L”schen
+    des FIX-RAM steht der ganze FIX-RAM-Bereich wieder zur Verfgung.
+
+
+
+
+
+
+
+                                    @080[ Konfiguration ]                  @001[ šbersicht ]
+.100
+    CP102
+
+    Der AWS mit SPSSW V1.10 kann auch auf 2010-Systemen mit CP102 verwendet
+    werden, im Default-Fall ist kein eigenes Konfigurationsmodul erforderlich
+    (Systemkonfigurator). Die CP102 hat nur 64kB System-RAM (Betriebssystem mit
+    Stacks, Systemverwaltung, tempor„res RAM) und einen kleinen Merker-Pool
+    analog (25.3 kByte) und digital (32 kByte). Es k”nnen auch keine Systembus-
+    module gesteckt werden (Remote-IO, Profibus, Multiprozessor) Auáerdem wird
+    wie auf 2005-Systemen ein RTC mit Sekundenaufl”sung eingesetzt.
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.105
+    Batterietest / Akkutest
+
+    Auf allen SPS-Systemen wird ab V1.10 zyklisch ein Batterietest bzw.
+    Akkutest durchgefhrt. Das Testergebnis ist im PG unter SPS-Sonder-
+    funktionen-SPS-Info auszulesen, auáerdem werden die Batterie- und
+    Akku-Leds der CPU entsprechend gesetzt bzw. gel”scht. Da wegen der
+    m”glichst geringen Batteriebelastung der Test nur jede Minute einmal
+    durchgefhrt wird, ist nach einem Batterie- bzw. Akku-Wechsel im
+    schlechtesten Fall erst nach einer Minute ersichtlich, ob alles OK ist.
+    Beim Hochlauf der SPS wird immer sofort ein Test durchgefhrt.
+
+    Bei 2010-Systemen existiert sowohl fr die Batterie als auch fr den
+    Akku ein Led, das leuchtet, wenn der entsprechende Teil nicht mehr
+    funktionstchtig ist.
+    Bei 2005-Systemen gibt es nur eine LED, die bei Fehlerfunktion mindestens
+    eines der beiden Teile leuchtet.
+
+    Einschr„nkung SPS 2010 : Die LEDs der CP100 leuchten bei Fehlfunktion von
+    Batterie bzw. Akku erst ab Revision 30.xx dauerhaft. Bei allen CPUs mit
+    kleinerer Revision als 30.xx leuchten sie bei Fehlfunktion nur fr die
+    Zeit des Batterie-Test, dh. sie blinken jede Minute kurz auf.
+                                                                     @001[ šbersicht ]
+.110
+    Schlsselschalterbehandlung
+
+    Die Schlsselschalterbehandlung bei den SPS-Systemen 2010 und 2005
+    erfolgt ab V1.10 wie folgt :
+
+    Stellung PROGRAM
+      In der Stellung PROGRAM sind alle Kommunikatonsdienste m”glich, im
+      speziellen das Laden und Brennen / Fixieren von Modulen.
+    Stellung SERVICE
+      Beim Wechsel in die Stellung SERVICE l„uft die SPS automatisch (!) mit
+      RESET hoch und geht in den SERVICE-Modus. Damit ist ist die Applikation
+      inaktiv. Jeder Hochlauf in der Stellung SERVICE fhrt automatisch zum
+      SERVICE-Modus.
+      Beim Wechsel von SERVICE auf PROGRAM l„uft die SPS automatisch (!) mit
+      INIT hoch, die Applikation wird wieder gestartet.
+    Stellung RUN
+      In der Stellung RUN ist nur das Lesen von Variablen bzw. die Behandlung
+      von Variablenlisten ber die Kommunikation m”glich, aber kein Laden von
+      Modulen. Auch die Bedienung der Tasten am CPU-Modul ist nicht m”glich
+      (auáer dem HW-Reset).
+
+                                                                     @001[ šbersicht ]
+.115
+    Erweiterter Variablenzugriff
+
+    Speziell fr die Verwendung von Panelware stehen in der SPSSW V1.10
+    erweiterte M”glichkeiten fr den Variablenzugriff zur Verfgung, ohne daá
+    Module nachgeladen werden mssen :
+
+    - Zugriff auf Felder und Strukturen (im ganzen bzw. ber Subindex)
+    - Zugriff auf dynamische Variablen
+    - Zugriff auf FUB-Strukturen
+    - Zugriff auf lokale Variablen
+    - dynamische Variablenlisten fr einmaligen Zugriff auf mehrere Variablen
+      in einem Auftrag
+    - multiples GetOV fr schnellere Initialisierungen beim Variablenzugriff
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.120
+    Profibus
+
+    Bei Profibuskommunikation k”nnen fr die Profibusobjekte (ausgenommen
+    Index 0 und die Standarddatentypen 1-14) die Profibus-Indizes ber das
+    Konfigurationsmodul (Systemkonfigurator) konfiguriert werden. Die Default-
+    Konfiguration entspricht unserer bisherigen Vereinbarung, die auch bei
+    serieller Konfiguration weiterhin gltig ist. Die dynamisch konfigurierten
+    Profibusindizes k”nnen ber das Objekt 0 (Objektverzeichnisbeschreibung) 
+    mittels GetOV bestimmt werden.
+
+    Weiters sind ab V1.10 mehrere Netzwerkkarten (Profibus) in einem System
+    bedienbar.
+
+
+
+
+
+
+
+
+
+                                    @080[ Konfiguration ]                  @001[ šbersicht ]
+.125
+    PG-Kommunikation
+
+    In der Standard-Firmware sind ab V1.10 alle seriellen Schnittstellen
+    konfiguriert (3 bei CP100, 2 bei CP102, 2 am MP, 2 bei 2005-Systemen).
+
+    Damit sind alle seriellen Schnittstellen fr die PG-Kommunikation
+    verfgbar.
+
+    Bei RS485/422 Schnittstellen ist ein 422/232 Umsetzer zu verwenden.
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.130
+     Nachladbare Systemmodule / Firmware-Erweiterungen
+
+     Folgende Systemmodule stehen fr Firmwareerweiterungen in V1.10 zur
+     Verfgung :
+
+     @131[ burtrap.br  ]            B&R-Library
+     @132[ mathtrap.br ]            Mathematik-Library
+     @133[ exermo.br   ]            Exceptionbehandlung, Zykluszeitberwachung
+     @134[ spooler.br  ]            Spooler fr Intelligente Peripherie
+     @135[ mpserver.br ]            MP-Server
+     @136[ riotrap.br  ]            Remote-IO Funktionalit„t
+     @137[ debugger.br ]            Debugger
+     @138[ diagnose.br ]            Diagnose-Tool
+     @139[ profiler.br ]            Profiler-Modul
+
+     ACHTUNG: Bis auf die Mathematik-Library sind alle nachladbaren System-
+     module inkompatibel zur SPSSW V1.05 !
+
+
+
+
+                                                                     @001[ šbersicht ]
+.131
+    B&R-Library (burtrap.br)
+
+    Die B&R-Library wurde um einige Funktionsgruppen erweitert :
+    - KEY-Funktionen zum Ein-/Ausschalten der Tastenbehandlung des CPU-Moduls
+      durch die Systemsoftware bzw. zum Auslesen des Tastenzustands
+    - SYS-Funktionen zum Resetieren der SPS bzw. zum Auslesen von System-
+      information
+    - TMP-Funktionen zum Allokieren von tempor„rem RAM, das nach einem POWER-
+      FAIL neu allokiert werden muá
+    - FORCE-Funktion, die feststellt, ob in einer Taskklasse geforced wird
+    - DA-Funktion zum Fixieren im FIX-RAM
+
+    Auáerdem wurden einige Funktionsgruppen ausgebaut :
+    - PV-Funktionen zum Zugriff auf Felder und Strukturen
+    - ST-Funktion zur Bestimmung des Namens eines SPS-Task
+
+    Die Dienstgruppe PIO_*() fr das explizite Schaufeln wurde gestrichen,
+    sie wird durch die DirektIO-FUBs abgedeckt, die effizienter und leichter
+    zu bedienen sind.
+    ACHTUNG : Im KOP k”nnen einige Dienste der B&R-Library nicht aufgerufen
+    werden, weil STRINGs bzw. bedingte Aufrufe nicht m”glich sind.
+                               @130[ Firmware-Erweiterungen ]              @001[ šbersicht ]
+.132
+    Mathematik-Library (mathtrap.br)
+
+    Die Mathematik-Library V1.10 wurde erweitert und umfaát nun alle
+    Standard-Mathematik- Funktionen, auch trigonometrische Funktionen etc.
+
+    Das Modul kann sowohl in der SPSSW V1.10 als auch in der SPSSW V1.05
+    nachgeladen werden.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                               @130[ Firmware-Erweiterungen ]              @001[ šbersicht ]
+.133
+    Exceptionbehandlung, Zykluszeitberwachung (exermo.br)
+
+    Das Modul exermo.br gew„hrleistet die ausfhrliche Exceptionproto-
+    kollierung am Display 2010 und im  Fehlermodul inklusive Protokollierung
+    der Zykluszeitverletzungen. Es ist fr USER-definierte Exception-Tasks
+    unbedingt erforderlich.
+
+    Die Zykuszeitberwachung ist default desaktiviert, sie muá ber die
+    Funktion ZykVL_enable() aktiviert werden. Die maximalen Zykluszeiten
+    sowie der Systemzyklus werden immer berwacht !
+
+
+
+
+
+
+
+
+
+
+
+    @070[ Exceptions ]               @130[ Firmware-Erweiterungen ]              @001[ šbersicht ]
+.134
+    Spooler (spooler.br)
+
+    Das Modul spooler.br muá bei Verwendung der Spool-Funktionalit„t am IP
+    nachgeladen werden.
+
+    Die Funktionalit„t des Spoolers umfaát das Spoolen von Modulen im
+    Hochlauf sowie Spoolauftr„ge ber FUBs im zyklischen System fr
+    Downspool und Upspool von Daten und Modulen.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                               @130[ Firmware-Erweiterungen ]              @001[ šbersicht ]
+.135
+    MP-Server (mpserver.br)
+
+    Das Modul mpserver.br wurde in V1.10 neu eingefhrt. Dieses Modul fhrt
+    das MP-SPSSW-Hochlauf-Handshake durch.
+
+    Es ist notwendig bei Verwendung eines MP-SPSSW.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @140[ Multiprozessor ]           @130[ Firmware-Erweiterungen ]              @001[ šbersicht ]
+.136
+    Remote-IO (riotrap.br)
+
+    Bei Verwendung von Remote-IO ist es notwendig, das Modul riotrap.br zu
+    brennen bzw. zu fixieren. Ist dieses Modul auf der SPS nicht vorhanden,
+    werden SPS-Tasks, die Remote-IO verwenden, nicht installiert.
+
+    Das Deinstall von Remote-IO, das in V1.05 nicht implementiert war, ist
+    nun in vollem Umfang implementiert.
+
+    Auch das Debuggen von SPS-Tasks mit Remote-IO ist ab V1.10 m”glich.
+
+    Beim Hochlauf der SPS kann fr Remote-Slaves ein Timeout konfiguriert
+    werden (Systemkonfigurator). Damit ist es m”glich, im Hochlauf eine 
+    konfigurierbare Zeit zu warten, bevor Remote-Slaves referenziert werden.
+    Dies ist eventuell bei getrennter Stromversorgung notwendig.
+
+
+
+
+
+
+                               @130[ Firmware-Erweiterungen ]              @001[ šbersicht ]
+.137
+    Debugger (debugger.br)
+
+    Das Debuggermodul ist Bestandteil des PG, es wird vom PG beim Debuggen
+    automatisch bei Bedarf geladen.
+
+    In V1.10 ist im Debugger auch das FORCEN von IO m”glich.
+
+    Das Debugger-Modul kann im PG mit SPS-Module-Entfernen gel”scht werden.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                               @130[ Firmware-Erweiterungen ]              @001[ šbersicht ]
+.138
+    Diagnose-Tool (diagnose.br)
+
+    Das Diagnose-Modul ist Bestandteil von Systemkonfigurator und dient der
+    Diagnose von Modulen im EPROM / FIX-RAM (siehe Hochlauf).
+
+    Das Modul wird von Systemkonfigurator automatisch geladen und am Ende
+    wieder entfernt, es kann aber auch im PG mit SPS-Module-Entfernen gel”scht
+    werden.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                               @130[ Firmware-Erweiterungen ]              @001[ šbersicht ]
+.139
+    Profiler-Modul (profiler.br)
+
+    Das Profiler-Modul ist Bestandteil des PROFILER, es fhrt das Profiling
+    auf der SPS durch.
+
+    Das Modul wird vom PROFILER automatisch geladen und am Ende wieder
+    entfernt, es kann aber auch im PG mit SPS-Module-Entfernen gel”scht
+    werden.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                               @130[ Firmware-Erweiterungen ]              @001[ šbersicht ]
+.140
+    Multiprozessor SPSSW 2010
+
+    Firmwareerweiterung : mpserver.br
+
+    @141[ Hochlauf des MP     ]
+    @142[ Applikationen am MP ]
+
+    Die SPSSW V1.10 l„uft auch am Multiprozessor 2010, der AWS kann sowohl in
+    die SPS-CPU als auch in den MP gesteckt werden, es ist im Normalfall kein
+    eigenes Konfigurationsmodul erforderlich. Allerdings gibt es am MP nur
+    eine SS-Taskklasse, keine Interrupttaskklasse und auch kein Display. Es
+    sind aber 4 Taskklassen und die Exceptiontaskklasse konfigurierbar.
+
+    Voraussetzung fr den korrekten Hochlauf des MP ist das Modul "mpserver.br",
+    das am AWS der SPSCPU (!) gebrannt oder fixiert sein muá. Auáerdem muá eine
+    Systembusadresse gr”áer als NULL am MP-Modul eingestellt werden.
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.141
+    Hochlauf des MP
+
+    Das Hochlaufverhalten des MP (Multiprozessor) leitet sich immer vom
+    Hochlauf der SPS-CPU ab, dh. der Hochlaufmodus des MP ist immer gleich
+    wie der bei der SPS-CPU. Wird allerdings auf der SPS-CPU ein neues
+    Konfigurationsmodul probiert (RECONFIG), so ist der Hochlaufmodus am MP
+    TOTALINIT. Wird andererseits am MP ein neues Konfigurationsmodul probiert,
+    geht der MP immer in den SERVICE-Modus, da durch den alleinigen Hochlauf
+    des MP ohne die SPS-CPU kein Handshake abgewickelt werden kann.
+    Fr den korrekten Hochlauf des MP ist auf der SPS-CPU das Modul
+    "mpserver.br" erforderlich, der das Handshake zum MP abwickelt. Ohne
+    MP-Server geht der MP in den SERVICE-Modus, die SPS-CPU kommt korrekt hoch.
+    Tritt im Handshake zwischen  MP und SPS-CPU ein Fehler auf, so gehen
+    beide in den SERVICE-Modus und auf keinem der beiden wird die User-
+    Applikation gestartet.
+    Durch den im WORSTCASE sehr lange dauernden Hochlauf der SPSCPU bei
+    Firmwareerweiterungen (Spooler, ...) ist das Hochlauf-Timeout auf
+    MP-Seite mit 15 Sekunden definiert. Tritt ein Fehler im Handshake auf,
+    schlieát der MP erst nach dieser Zeit seinen Hochlauf ab und geht in den
+    SERVICE-Modus, damit ist erst ab diesem Zeitpunkt Kommunikation zum MP
+    m”glich.
+    @142[ Applikationen am MP ]          @140[ Multiprozessor ]                  @001[ šbersicht ]
+.142
+    Applikationen am MP
+
+    Wie auf der SPS-CPU k”nnen auch am MP zyklische SPS-Tasks in 4 Taskklassen
+    bzw. 1 SS-Taskklasse laufen, auch Exceptiontasks sind m”glich. Dabei
+    laufen die Taskklassen der SPS-CPU und des MP nicht synchron.
+    Interrupttasks werden nicht untersttzt.
+    In SPS-Tasks, die am MP laufen, k”nnen lokale, taskklassenglobale,
+    MP-globale und SPS-globale Merker verknpft werden, aber kein SPSIO. Der
+    Datenaustausch zur SPS-CPU kann ber MP-Globale sowie ber SPS-Globale
+    erfolgen.
+    MP-Globale haben den Vorteil, daá die Verknpfung am MP die SPS-CPU nicht
+    belastet. Sie sind aber von anderen MPs nicht zugreifbar.
+    SPS-Globale haben den Nachteil, daá sie bei Verknpfung am MP auch die
+    SPS-CPU belasten (gemeinsamer Bus), andererseits aber den Vorteil, daá
+    sie, wie der Name schon sagt, SPS-global und von allen MPs zugreifbar
+    sind.
+    Die Programmierung des MP erfolgt ber eine RS232 Schnittstelle, ein
+    Programmieren des MP ber die SPS-CPU ist zur Zeit nicht m”glich.
+    ACHTUNG : Sowohl MP-globale Merker als auch SPS-globale Merker sind bei
+    Zugriff parallel vom MP und von der SPS-CPU nur WORD-konsistent, aber
+    nicht LONG-konsistent !
+                                   @140[ Multiprozessor ]                  @001[ šbersicht ]
+.145
+    SPSIO-Konfiguration / Disable-Modul "spsio"
+
+    Durch Brennen bzw. Fixieren eines speziellen Datenmoduls mit dem fixen
+    Namen "spsio" ist es m”glich, das IO-Schaufeln auf beliebige IO-Module zu
+    disablen. Der Vorteil dieses SPSIO-Disablen ist, daá auch ohne physika-
+    lisch vorhandene IO-Module von der Applikation IO-Module adressiert werden
+    k”nnen, ohne daá ein Fehler auftritt (z.B. PE=Perieller Error).
+    Das Datenmodul kann entweder mit dem PG in der GDM, mit der C-Toolbox oder
+    mittels B&R-Libraryfunktionen (DA_create, DA_burn) generiert werden. Damit
+    es aktiv wird, muá es gebrannt bzw. im FIX-RAM fixiert und TOTALINIT aus-
+    gel”st werden.
+
+    * Aufbau der Datensection
+      Jeder Disable-Eintrag besteht aus 6 Bytes, das Ende der Disable-Tabelle
+      wird mit einem WORD $FFFF gekennzeichnet.
+
+
+
+
+
+
+    @146[ Fortsetzung ]                @145[ SPSIO-Konfiguration ]               @001[ šbersicht ]
+.146
+    SPSIO-Konfiguration (Fortsetzung)
+
+    * Aufbau eines Disable-Eintrags :
+
+      Normierter SPSIO-Typ         (BYTE)
+      Stationsnummer               (BYTE)
+      Moduladresse                 (BYTE)
+      Interne Adresse Start        (BYTE)
+      Interne Adresse Ende         (BYTE)
+      Erg„nzungen                  (BYTE)
+
+    * Normierter SPSIO-Typ:     Bit 7            4 3            0
+                                   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+                                   ³IO-Controller ³ IOC-Nummer  ³
+                                   ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+      Oberes Nibbel : Remote     = 1
+                      Periell    = 0
+      Unteres Nibbel: Unterscheidung bei mehreren IO-Controllern eines Typs
+                      (momentan wird nur die IOC-Nummer 0 untersttzt)
+      Damit stehen zur Zeit die SPSIO-Typen $00 fr Periell_1 bzw. $10 fr
+      Remote_1 zur Auswahl.
+    @147[ Fortsetzung ]                @145[ SPSIO-Konfiguration ]               @001[ šbersicht ]
+.147
+    SPSIO-Konfiguration (Fortsetzung)
+
+    * Stationsnummer:  Perielles IO :   immer 0
+                       RemoteIO     :   Nummer der Slavestation
+    * Moduladresse:
+      a) 2010-System perieller Bus:
+         Die Moduladresse entspricht der Moduladresse, welche am I/O-Modul
+         angezeigt wird.
+         ACHTUNG: Der angezeigte Wert ist ein BCD-Wert (z.B. "13" = $13)
+      b) 2010-System -Remote-I/O-Slave :
+         Moduladresse wie bei a)
+      c) 2005-System Basisrcksystem (Rckwand 0) :
+         Die Moduladresse ist fr alle I/O-Module = $F0, die Unterscheidung
+         erfolgt ber die interne Adresse (siehe weiter unten)
+      d) 2005-System Erweiterung (Rckwandplatte 1-4) :
+         Die Moduladresse ist fr alle I/O-Module einer Rckwandplatte n
+         gleich $Cn, z.B. $C1 bei Rckwandplatte 1, die Unterscheidung der
+         Module in nerhalb der Rckwandplatte erfolgt wieder ber die interne
+         Adresse
+      e) 2005-System Remote-I/O-Slave :
+         Moduladresse wie bei c)
+    @148[ Fortsetzung ]                @145[ SPSIO-Konfiguration ]               @001[ šbersicht ]
+.148
+    SPSIO-Konfiguration (Fortsetzung)
+
+    * Interne Adresse Start (IAS), Interne Adresse Ende (IAE)
+      Es werden die Eintr„ge der Module mit IAS <= interne Adresse <= IAE
+      disabled. Damit k”nnen auch einzelne Kan„le eines Moduls disabled
+      werden. Fr die bliche Anwendung des Disable-Moduls, n„mlich das
+      Disablen eines ganzen IO-Moduls, mssen folgende Internen Adressen
+      Start / Ende angegeben werden :
+
+      - Fr die obigen Punkte a) und b) ist immer IAS = 0 und IAE = $FF zu
+        setzen.
+      - Fr die Punkte c), d), e) gilt :
+        Das Modul rechts vom Netzteil habe den Steckplatz 1, wobei bei c) die
+        CPU die Steckpl„tze 1 und 2 belegt. Pro Steckplatz sind 16 Byte
+        Datenbereich ("Normal") und 8 Byte Statusbereich reserviert :
+
+
+
+
+
+
+    @149[ Fortsetzung ]                @145[ SPSIO-Konfiguration ]               @001[ šbersicht ]
+.149
+    SPSIO-Konfiguration (Fortsetzung)
+
+    * Schreiben/Lesen Datenbereich (je 16 Byte):
+
+        Steckplatz 1 rechts vom Netzteil beginnt ab interner Adresse $00,
+        Steckplatz 2 rechts vom Netzteil beginnt ab interner Adresse $10,
+        Steckplatz 3 rechts vom Netzteil beginnt ab interner Adresse $20, usw.
+
+        Damit beginnt das 1. IO-Modul bei c) bei IAS $20 (Steckplatz 3).
+
+    * Schreiben/Lesen Statusbereich (je 8 Byte):
+
+        Steckplatz 1 rechts vom Netzteil beginnt ab interner Adresse $00,
+        Steckplatz 2 rechts vom Netzteil beginnt ab interner Adresse $08,
+        Steckplatz 3 rechts vom Netzteil beginnt ab interner Adresse $10, usw.
+
+        Damit beginnt das 1. IO-Modul bei c) bei IAS $10.
+
+
+
+
+    @150[ Fortsetzung ]                @145[ SPSIO-Konfiguration ]               @001[ šbersicht ]
+.150
+    SPSIO-Konfiguration (Fortsetzung)
+
+    * Erg„nzungen
+
+      Fr Erg„nzungen steht ab V1.10 ein Byte zur Verfgung, daá momentan
+      folgende M”glichkeiten bietet :
+
+      0 ... Sowohl "normaler" Datenbereich als auch Statusbereich werden
+            disabled (Default)
+      1 ... Nur der Datenbereich wird disabled, aber nicht der Statusbereich
+      2 ... Nur der Statusbereich wird disabled, aber nicht der Datenbereich
+      4 ... Disablen des gesamten RIO-Slaves mit der angegeben Stationsnummer
+            (Moduladresse, IAS und IAE sind in diesem Fall nicht von
+            Bedeutung !)
+
+      Mit den Werten 1 und 2 sollten 2005-Module bei c), d), e)  disabled
+      werden, da mit der Defaultkennung 0 Fehler passieren k”nnen.
+
+
+
+
+    @151[ Fortsetzung ]                @145[ SPSIO-Konfiguration ]               @001[ šbersicht ]
+.151
+    SPSIO-Konfiguration (Fortsetzung)
+
+    Ein Beispiel fr einen solchen Fehler wird hier fr die C-Tool-Box,
+    BRMODDAT, BRT-Format angegeben :
+
+      #Syntax: X1 ... Hexadezimaldaten mit der L„nge 1 Byte
+      #        '#'... Kommentarzeichen
+
+      #  1. Tabelleneintrag
+      X1    0     #Normierter SPSIO-Typ
+      X1    0     #Stationsnumer
+      X1    F0    #Moduladress
+      X1    30    #Interne Adresse Start
+      X1    3F    #Interne Adresse Ende
+      X1    0     #Erg„nzung : Daten+Status
+
+      X2    FFFF  #Endekennung
+
+      Damit wird auf einem Basissystem 2005 der Datenbereich des IO-Moduls am
+      Steckplatz 4, aber der Statusbereich des IO-Moduls auf den Steckpl„tzen
+      7 und 8 disabled --> wahrscheinlich ein Fehler !!!
+    @152[ Fortsetzung ]                @145[ SPSIO-Konfiguration ]               @001[ šbersicht ]
+.152
+    SPSIO-Konfiguration (Fortsetzung)
+
+      Korrektes Disablen des Moduls am Steckplatz 4 (Daten + Status):
+
+      #  1. Tabelleneintrag
+      X1    0     #Normierter SPSIO-Typ
+      X1    0     #Stationsnumer
+      X1    F0    #Moduladresse
+      X1    18    #Interne Adresse Start
+      X1    1F    #Interne Adresse Ende
+      X1    2     #Erg„nzung : Status
+
+      #  2. Tabelleneintrag
+      X1    0     #Normierter SPSIO-Typ
+      X1    0     #Stationsnumer
+      X1    F0    #Moduladresse
+      X1    30    #Interne Adresse Start
+      X1    3F    #Interne Adresse Ende
+      X1    1     #Erg„nzung : Daten
+
+      X2    FFFF  #Endekennung
+    @153[ Fortsetzung ]                @145[ SPSIO-Konfiguration ]               @001[ šbersicht ]
+.153
+    SPSIO-Konfiguration (Fortsetzung)
+
+    * Sortierung
+
+      Die einzelnen Tabelleneintr„ge des Disable-Moduls mssen in sortierter
+      Form vorliegen:
+
+      1) Sortiere nach SPSIO-Typ
+      2) Sortiere alle Eintr„ge mit dem selben SPSIO-Typ nach Moduladressen
+      3) Sortiere alle Eintr„ge mit der selben Moduladresse nach
+         Stationsnummern
+      4) Sortiere alle Eintr„ge mit der selben Stationsnummer nach Interner
+         Adresse Start
+
+    * Beispiele
+
+      Disablen des Moduls mit Moduladresse 5 auf einem 2010-System sowie des
+      Moduls am Steckplatz 2 rechts vom Netzteil auf einem angeschlossenen
+      RIO-Slave 2005 (Stationsnummer 2), sowie des ganzes RIO-Slaves 3
+      (Format fr Erzeugung des Disable-Moduls mit dem PG in der GDM) :
+
+    @154[ Fortsetzung ]                @145[ SPSIO-Konfiguration ]               @001[ šbersicht ]
+.154
+    SPSIO-Konfiguration (Fortsetzung)
+
+         ; SPSIO-Typ: PERIELL_1                (BYTE)
+         0
+         ; Stationsnummer: immer 0             (BYTE)
+         0
+         ; Moduladresse: 5                     (BYTE)
+         5
+         ; Interne Adresse Start: ganzes Modul (BYTE)
+         0
+         ; Interne Adresse Ende : ganzes Modul (BYTE)
+         $FF
+         ; Daten und Status                    (BYTE)
+         0
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+         ; SPSIO-Typ: Remote_1                 (BYTE)
+         $10
+         ; Stationsnummer: 2                   (BYTE)
+         2
+         ; Moduladresse: F0 wegen 2005-Slave   (BYTE)
+         $F0
+    @155[ Fortsetzung ]                @145[ SPSIO-Konfiguration ]               @001[ šbersicht ]
+.155
+    SPSIO-Konfiguration (Fortsetzung)
+
+         ; Interne Adresse Start:Status 2      (BYTE)
+         8
+         ; Interne Adresse Ende :Status 2      (BYTE)
+         $0F
+         ; nur Status                          (BYTE)
+         2
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+         ; SPSIO-Typ: Remote_1                 (BYTE)
+         $10
+         ; Stationsnummer: 2                   (BYTE)
+         2
+         ; Moduladresse: F0 wegen 2005-Slave   (BYTE)
+         $F0
+         ; Interne Adresse Start:Daten 2       (BYTE)
+         $10
+         ; Interne Adresse Ende :Daten 2       (BYTE)
+         $1F
+         ; nur Daten                           (BYTE)
+         1
+    @156[ Fortsetzung ]                @145[ SPSIO-Konfiguration ]               @001[ šbersicht ]
+.156
+    SPSIO-Konfiguration (Fortsetzung)
+
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+         ; SPSIO-Typ: Remote_1                 (BYTE)
+         $10
+         ; Stationsnummer: 3                   (BYTE)
+         3
+         ; Moduladresse: egal, ganzer Slave    (BYTE)
+         0
+         ; Interne Adresse Start: -"-          (BYTE)
+         0
+         ; Interne Adresse Ende : -"-          (BYTE)
+         0
+         ; ganzer RIO-Slave                    (BYTE)
+         4
+         ; Ende-Kennung
+         $FFFF
+
+
+
+
+    @157[ Fortsetzung ]                @145[ SPSIO-Konfiguration ]               @001[ šbersicht ]
+.157
+    SPSIO-Konfiguration (Fortsetzung)
+
+    * Beispiel fr fehlerhafte Eintr„ge :
+
+      Fehler:  Der 2.Tabelleneintrag wrde nicht disabled werden, da die
+               Moduladresse bei Stationsnummer 0 nicht sortiert ist
+               (Format fr C-Toolbox : BRMODDAT, BRT-Format) :
+
+         #  1. Tabelleneintrag
+         X1    0     #Normierter SPSIO-Typ periell
+         X1    0     #Stationsnumer RIO
+         X1    4     #Moduladresse.
+         X1    0     #Interne Adresse Start
+         X1    ff    #Interne Adresse Ende
+         X1    0     #Reserve
+
+
+
+
+
+
+    @158[ Fortsetzung ]                @145[ SPSIO-Konfiguration ]               @001[ šbersicht ]
+.158
+    SPSIO-Konfiguration (Fortsetzung)
+
+         #  2.Tabelleneintrag
+         X1    0     #Spsiotyp
+         X1    0     #Stationsnummer
+         X1    3     #Moduladresse
+         X1    0     #Interne Adresse Start
+         X1    ff    #Interne Adresse Ende
+         X1    0     #Reserve
+
+         X2    ffff  #Endekennung
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.160
+    Profiler V1.10
+
+    Die Profiling-Funktionalit„t gliedert sich ab V1.10 in die vier Gruppen
+    B&R-Objekte, SPS-Tasks, SS-Tasks und Stackauslastung.
+    Bei B&R-Objekte werden die Zeiten aller Systemtasks, aller Taskklassen
+    inkl. SSTK, EXC-TK und IRQ-TK sowie aller Interrupts gemessen. Die dabei
+    ermittelten Zeiten sind Nettozeiten, werden Objekte in einem Zyklus durch
+    h”herpriore Objekte oder Interrupts unterbrochen, so werden diese Zeiten
+    herausgemessen. Die Angabe von Ticks bezieht sich auf die Bruttolaufzeit
+    des Objekts in Vielfachen des Systemzyklus (1 Tick = 10 Millisekunden),
+    dh. bei Ticks=5 dauerte der Zyklus des Objektes brutto 50 Millisekunden,
+    die Differenz zur Nettolaufzeit ergibt sich durch die Verdr„ngung durch
+    h”herpriore Tasks im Multitaskingsystem.
+    Bei SPS-Tasks k”nnen alle SPS-Tasks in Taskklassen, bei SS-Tasks alle
+    SPS-Tasks in SS-Taskklassen einem Profiling unterzogen werden. Diese
+    Gruppen sind nur getrennt meábar, da aus Performancegrnden ein paralleles
+    Profiling zu kritisch w„re.
+    Bei diesen 3 Gruppen wird nach Auswahl der Gruppe das Profiling
+    einheitlich bedient, indem zuerst die Profiling-Daten initialisiert, dann
+    das Profiling gestartet, sp„ter gestoppt und ausgewertet wird.
+
+    @161[ Fortsetzung ]                  @160[ Profiler V1.10 ]                  @001[ šbersicht ]
+.161
+    Profiler V1.10 (Fortsetzung)
+
+    Neben der numerischen Auswertung gibt es auch eine semigraphische
+    Auswertung, in der die prozentuelle CPU-Auslastung durch die einzelnen
+    Objekte angezeigt wird.
+    Natrlich kann auch ohne Stop zwischendurch eine Auswertung erfolgen,
+    wobei aus Profiling-Konsistenzgrnden fr die Zeit der Auswertung das
+    Profiling gestoppt und anschlieáend automatisch wieder gestartet wird.
+    Auch bei der zyklischen Auswertung wird fr die Zeit der Auswertung das
+    Profiling intern gestoppt.
+    Bei der Auswertung der B&R-Objekte wird neben den Zeiten fr die
+    einzelnen Objekte auch die Restzeit prozentuell angegeben. Dabei werden
+    die Systemrestzeit bzw. die Applikationsrestzeit wie folgt berechnet :
+                                            Systemrestzeit
+                                       ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+    ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+    ³ zykl. SPS-Tasks ³ Kommunikation  ³ IDLE-Task        ³
+    ³ Systemmanagment ³ Usertasks      ³ Profileroverhead ³
+    ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+                      ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+                                 Applikationsrestzeit
+    @162[ Fortsetzung ]                  @160[ Profiler V1.10 ]                  @001[ šbersicht ]
+.162
+    Profiler V1.10 (Fortsetzung)
+
+    Da fr die Profiling-Messung Software-Overhead erforderlich ist, der in
+    der Profiling-Messung auch ausgewiesen wird, wird w„hrend der Profiling-
+    Messung die Zykluszeitberwachung (ZykVL_enable) ausgeschalten. Tritt
+    w„hrend des Profiling eine maximale Zykluszeitverletzung auf, so wird das
+    Profiling gestoppt und bei der Auswertung eine entsprechende Meldung
+    ausgegeben. Die bis zur max. Zykluszeitverletzung gemessenen Zeiten
+    werden aber angezeigt.
+    Im Extremfall ist bei stark ausgelasteten Systemen gar kein PROFILING
+    m”glich.
+
+    Mit Stackauslastung kann der konfigurierte und der davon noch freie Stack
+    aller Systemtasks und aller Taskklassen ermittelt werden, um einen
+    Anhaltspunkt bei der Konfiguration der Stackgr”áen zu haben.
+
+
+
+
+
+
+    @163[ Fortsetzung ]                  @160[ Profiler V1.10 ]                  @001[ šbersicht ]
+.163
+    Profiler V1.10 (Fortsetzung)
+
+    Der PROFILER V1.10 ist auch fr die SPSSW V1.05 einsetzbar, allerdings
+    mit der Einschr„nkung, daá nur B&R-Objekte und Stackauslastung untersttzt
+    werden. SPS-Tasks und SS-Tasks k”nnen in der SPSSW V1.05 nur mit dem
+    PROFILER V1.05 gemessen werden, wobei diese Version Interrupts nicht
+    herausmiát, sondern den Objekten, die durch den Interrupt unterbrochen
+    werden, zuschl„gt.
+
+    Beim Profiling wird vom PROFILER das Modul "profiler.br" in die SPS
+    geladen, beim Ausstieg aus dem Profiler wird dieses Modul automatisch
+    wieder entfernt. Das Modul "profiler.br" kann aber auch mit dem PG
+    (SPS-Module-Entfernen) entfernt werden.
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.200
+    Unterschiede zur Version V1.05
+
+    @210[< Hochlaufverhalten      >]   Neue Hochlaufmodi
+    @220[< SPSIO                  >]   Neue Initialisierung und Beauftragung
+    @230[< Taskklassen            >]   inklusive SS-Taskklassen
+    @240[< Exceptions             >]   Exception-Protokollierung
+    @250[< Konfiguration          >]   Ge„nderte Konfigurationen
+    @260[< Firmware-Erweiterungen >]   Ge„nderte Systemmodule
+    @261[< B&R-Library            >]   ge„nderter Funktionsumfang
+    @262[< Remote-IO              >]   ausgelagerte Funktionalit„t
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.210
+    Hochlaufverhalten
+
+    * Hochlauf der Applikation
+      In V1.05 konnte nicht garantiert werden, daá alle INIT-UPs aller
+      SPS-Tasks aufgerufen werden, bevor der zyklische Teil eine SPS-Tasks
+      erstmals durchlaufen wird. Fr jede Taskklasse wurden in der Reihenfolge
+      SS#1, SS#2, SS#3, SS#4, TK#1, TK#2, TK#3, TK#4 die INIT-UPs der SPS-
+      Tasks dieser Taskklasse durchlaufen und anschlieáend die Taskklasse
+      sofort gestartet.
+
+    * SERVICE-Modus
+      In V1.05 konnte der SERVICE-Modus nur durch TOTALINIT verlassen werden,
+      damit wurden aber alle Module im RAM verworfen und muáten neu geladen
+      werden. Wurde im SERVICE-Modus ein INIT ausgel”st, so ging die SPS
+      wieder in den SERVICE-Modus.
+
+    * Verhalten bei einem fatalen Fehler
+      Bei einem fatalen Fehler ging die SPS ins Notaus, ohne automatisch zu
+      booten. Es muáte ein Reset der SPS durch drcken des Reset-Knopfes oder
+      ein POWERFAIL ausgel”st werden, damit die SPS im RESET-Hochlauf in den
+      SERVICE-Modus ging und wieder Kommunikation zur SPS m”glich war.
+                                                                     @001[ šbersicht ]
+.220
+    SPSIO-Initialisierung und Beauftragung
+
+    * SPSIO Konfiguration
+      Auf 2005-Systemen muáte ber das Konfigurationsmodul (SPSSWCFG)
+      festgelegt werden, ob nur das Basissystem oder auch eine Erweiterungs-
+      rckwand (Schaufelprozessor) vorhanden war. Damit muáte bei Verwendung
+      einer Erweiterung das Konfigurationsmodul ge„ndert werden.
+
+    * SPSIO im zyklischen Betrieb
+      In den Taskklassen wurde immer das einen Taskklassenzyklus alte
+      Inputabbild verknpft: Im Zyklus "i" wurde IN beauftragt, aber IN'
+      verknpft, das im Zyklus "i-1" beauftragt worden war; im Zyklus "i+1"
+      wurde IN' beauftragt, aber IN verknpft, das im Zyklus "i" beauftragt
+      worden war. Damit war die Inputtotzeit vom Start eines Zyklus bis zur
+      SPS-Task-Execution im darauffolgenden Zyklus, im schlechtesten Fall
+      also 2 Zyklen.
+
+
+
+
+
+    @221[ Fortsetzung ]                  @220[ SPSIO šbersicht ]                 @001[ šbersicht ]
+.221
+    SPSIO-Initialisierung und Beauftragung (Fortsetzung)
+
+    * Merkergr”áen 2010
+      In V1.10 stehen auf den 2010-Systemen mit CP100 84.3 kByte Analog-
+      Merker-Pool sowie 48 kBit Digital-Merker-Pool zur Verfgung, in V1.05
+      standen in der CP100 nur 25.3 kByte Analog-Merker-Pool und 16 kBit
+      Digital-Merker-Pool zur Verfgung.
+      Auf 2005-Systemen stehen weiterhin 25.3 kByte Analog-Merker-Pool und
+      16 kBit Digital-Merker-Pool zur Verfgung.
+
+    * 2005-IO-Emulation
+      Die Bearbeitungszeit der IO-Emulation auf 2005 Basissystemen wurde in
+      V1.10 gegenber der SPSSW V1.05 um ca. 35%% verbessert.
+
+
+
+
+
+
+
+
+    @222[ Fortsetzung ]                  @220[ SPSIO šbersicht ]                 @001[ šbersicht ]
+.222
+    SPSIO-Initialisierung und Beauftragung (Fortsetzung)
+
+    * Systemmerker
+      In V1.05 wurden Systemmerker nur in Taskklassen untersttzt, in
+      SS-Taskklassen konnten sie nicht verwendet werden. In V1.10 sind die
+      Systemmerker in allen Taskklassen (auch SSTK, EXC-TK, IRQ-TK)
+      verwendbar, allerdings nur im INIT-UP.
+
+      Der Systemmerker _FORCE wird nicht mehr untersttzt, weil er nur im
+      zyklischen Betrieb abgefragt werden k”nnte, der TK#1-Datenbereiches
+      aber auch von den SSTK sowie der EXC-TK und IRQ-TK verwendet wird. Es
+      besteht aber die M”glichkeit, ber die neue B&R-Library-Funktion
+      "FORCE_info()" festzustellen, ob in der TK bzw. SSTK geforced wird.
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.230
+    Taskklassen, SS-Taskklassen
+
+    * neue Default-Zykluszeit Taskklasse 4
+      Im Default-Konfigurationsmodul ist die Zykluszeit der Taskklasse 4 ab
+      V1.10 mit 10 Millisekunden konfiguriert, wobei die maximal erlaubte
+      Zykluszeit 30 Sekunden ist. Damit ist es ohne Eingabe von Task-
+      Parametern im PG und ohne Erstellung eines SPS-Konfigurationsmoduls
+      m”glich, die Anwendung quasi so schnell wie m”glich laufen zu lassen.
+
+      In V1.05 war die Default-Zykluszeit der Taskklasse 4 mit 500 Milli-
+      sekunden parametriert.
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.240
+    Exceptionprotokollierung
+
+    Bei der Default-Protokollierung (ohne "exermo.br") wurde in V1.05 durch
+    den Default-Exceptionhandler ein Fehlermoduleintrag generiert, wobei der
+    Prozessor-Status als Fehlercode eingetragen wurde. Dadurch wurden je nach
+    Fehlerkontext unterschiedlicher und schwer deutbarer Code eingetragen, der
+    auch nicht protokolliert waren.
+    In V1.10 sind die wichtigsten Prozessor-Exceptions durch eindeutige
+    Fehlernummern ersichtlich, alle anderen Exceptions, vor allem maximale
+    Zykluszeitverletzungen, werden mit der eindeutigen Kennung "Default-
+    Exceptionhandler" eingetragen.
+
+    Bei der erweiterten Exceptionprotokollierung (mit "exermo.br") wurde in
+    V1.05 bei einem Fehler in einer SS-Taskklasse immer der von der SS-Task-
+    klasse unterbrochene Task im Fehlermodul eingetragen, sodaá nicht
+    ersichtlich war, daá der Fehler in einer SS-Taskklasse aufgetreten ist.
+    Auáerdem wurde bei der Codeadresse des Fehlers immer der Taskname einge-
+    tragen, sodaá die Codeadresse nicht als solche ersichtlich war.
+
+
+
+    @241[ Fortsetzung ]                    @240[ Exceptions ]                    @001[ šbersicht ]
+.241
+    Exceptionprotokollierung (Fortsetzung)
+
+    In V1.10 wird die SS-Taskklasse (ss#1, ss#2, ss#3, ss#4) im Fehlermodul
+    eingetragen. Bei der Codeadresse wird als Taskname "PC"=ProgramCounter
+    eingetragen. Auáerdem wurde in V1.10 die Displayausgabe bei einem
+    periellen Fehler (Fehler des Schaufelprozessors, z.B. IO-Modul nicht
+    vorhanden) bersichtlicher gestaltet, um das fehlerverursachende IO-Modul
+    bestimmen zu k”nnen.
+
+    Die Zykluszeitberwachung wurde in V1.10 erweitert auf die konfigurier-
+    bare Systemzyklusberrwachung (Fehlercode 6002) sowie auf die maximale
+    Zykluszeit von SS-Taskklassen.
+    Die Verletzung der max. Zykluszeit von SS-Taskklassen wird gemeldet, wenn
+    die SS-Taskklasse ihre ganze konfigurierte Zykluszeit verbraucht und
+    damit dem restlichen System inklusive dem Systemmanagement fr die Task-
+    klassen keine Zeit l„át.
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.250
+    Konfigurationsm”glichkeiten
+
+    * Speicherkonfiguration
+      Die Speicher-Konfiguration des Modulbereichs bzw. des tempor„ren RAM
+      erfolgte in V1.05 prozentuell, dh. der Speicher konnte prozentuell
+      zwischen Modulbereich (Download) und tempor„ren RAM (Kommunikation)
+      aufgeteilt werden.
+      In V1.10 wird die Gr”áe des tempor„ren RAM absolut in Einheiten zu 4 kB
+      konfiguriert. Der Rest des RAM, das sich auf der CPU befindet, wird fr
+      den Modulbereich verwendet. Ist im RAM, in dem auch Stacks und globale
+      Daten liegen, nicht mehr genug Speicher fr das konfigurierte tempor„re
+      RAM frei, so ist entsprechend weniger tempor„res RAM verfgbar, es wird
+      aber kein Fehler gemeldet. In diesem Fall steht gar kein Modulbereich in
+      diesem RAM zur Verfgung. Da der Modulbereich aber auch das AWS-RAM
+      umfaát, steht trotzdem Speicher fr Download zur Verfgung.
+      Das konfigurierte tempor„re RAM kann ab V1.10 auch vom Anwender ver-
+      wendet werden, fr n„here Information siehe TMP-Funktionen in der
+      B&R-Library.
+
+
+
+    @251[ Fortsetzung ]                   @250[ Konfiguration ]                  @001[ šbersicht ]
+.251
+    Konfigurationsm”glichkeiten (Fortsetzung)
+
+    * 2005 Basissystem / Erweiterung
+      In V1.05 muáte mit dem Systemkonfigurator konfiguriert werden, ob ein
+      2005-System mit Erweiterung betrieben wurde oder ob es sich um eine 
+      Basissystem handelt.
+      In V1.10 wird automatisch erkannt, ob eine Erweiterung vorhanden ist,
+      daher entf„llt die Konfiguration.
+      Neu konfiguriert werden kann allerdings ein 2005-System ohne Emulation
+      bzw. ohne Systembusf„higkeit (siehe Erweiterte Konfiguration).
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.260
+    Nachladbare Systemmodule / Firmware-Erweiterungen
+
+    Alle nachladbaren Systemmodule wurden funktionell erweitert. Sie sind in
+    der Version V1.10 nicht kompatibel zur SPSSW V1.05, bzw. sind die
+    nachladbaren Module der Version V1.05 nicht kompatibel zur SPSSW V1.10.
+    Eine Ausnahme ist die Mathematik-Library, die sowohl in der SPSSW V1.05
+    alsauch in der SPSSW V1.10 einsetzbar ist.
+
+    * Mathematik-Library (mathtrap.br)
+      Die Mathematik-Library V1.10 wurde erweitert und umfaát nun auch
+      trigonometirsche Funktionen etc. Das Modul kann sowohl in der SPSSW
+      V1.10 als auch in der SPSSW V1.05 nachgeladen werden.
+
+    * Exceptionbehandlung, Zykluszeitberwachung (exermo.br)
+      In V1.05 konnte die Zykluszeitberwachung durch Brennen des Moduls
+      "zykexmo.br" aktiviert werden, default war die Zykluszeitberwachung
+      desaktiviert.
+      Da in V1.10 wegen der Exceptiontasks alle Exceptionhandler im Modul
+      "exermo.br" zusammengefaát werden, muá die Zykuszeitberwachung, die
+      weiterhin defaultm„áig desaktiviert ist, ber die Funktion ZykVL_enable()
+      aktiviert werden.
+    @261[ Fortsetzung ]                   @260[ Systemmodule ]                   @001[ šbersicht ]
+.261
+    Nachladbare Systemmodule (Fortsetzung)
+
+    * B&R-Library (burtrap.br)
+      Die B&R-Library V1.05 kann in der SPSSW V1.10 nicht mehr installiert
+      werden (Fehler 8034 beim Download). Umgekehrt liefert jede Funktion
+      der B&R-Library V1.10 den Fehler 3313, wenn die Funktion in der SPSSW
+      V1.05 aufgerufen wird.
+
+      Die Dienstgruppe PIO_*() fr das explizite Schaufeln wurde in V1.10
+      gestrichen, sie wird durch die DirektIO-FUBs abgedeckt (directio.br
+      bzw. directio.slb), die effizienter und leichter zu bedienen sind.
+
+      ACHTUNG : Jede Manipulation eines Identifier bei B&R-Library-Funktionen
+      ist unzul„ssig, die Funktion kann sonst nicht garantiert werden. Im
+      speziellen Fall wurde die interne Bedeutung des PV-Identifier von V1.05
+      auf V1.10 ge„ndert, um auch auf Felder und Strukturen zugreifen zu
+      k”nnen.
+
+
+
+
+    @262[ Fortsetzung ]                   @260[ Systemmodule ]                   @001[ šbersicht ]
+.262
+    Nachladbare Systemmodule (Fortsetzung)
+
+    * Remote-IO (riotrap.br)
+      In V1.05 war das Remote-IO Bestandteil der Standard-Firmware, es muáte
+      kein Modul als Firmwareerweiterung nachgeladen werden.
+      In V1.10 wurde die Remote-Funktionalit„t in das Modul "riotrap.br"
+      ausgelagert, das als Firmware-Erweiterung nachgeladen und gebrannt bzw.
+      fixiert werden muá.
+
+    * Spooler (spooler.br)
+      Die Funktionalit„t des Spoolers (Spoolen der Module im Hochlauf sowie
+      Spoolauftr„ge ber FUBs im zyklischen System fr Downspool und Upspool
+      von Daten und Modulen) wurde fr V1.10 in einem Modul "spooler.br"
+      verpackt.
+      In V1.05 waren zwei Module ("su_spool.br", "m_spool.br") erforderlich.
+
+
+
+
+
+
+    @263[ Fortsetzung ]                   @260[ Systemmodule ]                   @001[ šbersicht ]
+.263
+    Nachladbare Systemmodule (Fortsetzung)
+
+    * Debugger (debugger.br)
+      Das vom PG beim Debuggen automatisch geladene Debugger-Modul wurde um
+      die FORCE-Funktionalit„t erweitert.
+      Da die Version V1.05 des Debuggers nicht kompatibel ist zur SPSSW-
+      Version V1.10 und umgekehrt, wird vom PG automatisch der entsprechende
+      Debugger geladen.
+
+    * Profiler-Modul (profiler.br)
+      Dieses Modul ist Bestandteil des PROFILER und fhrt das Profiling auf
+      der SPS durch. Das Modul wird vom PROFILER automatisch geladen und am
+      Ende wieder entfernt, es kann aber auch im PG mit Module-Entfernen
+      gel”scht werden.
+      In V1.05 wurden die Module "profiler.br", "ssprofil.br" und "info.br"
+      verwendet, in V1.10 ist die ganze Funktionalit„t in einem Modul
+      zusammengefaát.
+
+
+
+
+                                                                     @001[ šbersicht ]
+
+.End

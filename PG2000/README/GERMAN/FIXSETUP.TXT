@@ -1,0 +1,78 @@
+
+
+                             Dokumentation
+
+                               FIXSETUP
+
+     Setup des FIXRAM im Hochlauf, wenn fixiertes Modul kaputt ist
+
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ Datum      :      8. September 1997
+ Version    :      V2.00
+ Verfasser  :      Bernhard Hochstrasser
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+
+ Seit der SPSSW-Version V1.10 besteht die M”glichkeit, Module im FIXRAM
+zu fixieren. Diese Module werden wie Module im EPROM auch nach einem
+TOTALINIT installiert, k”nnen andererseits aber ber die DA-Funktionen
+der B&R-Library dynamisch manipuliert werden.
+
+ Im Fehlerfall, wenn ein fixiertes Modul zerst”rt wird, z.B. durch
+unbeabsichtigtes šberschreiben ohne Checksummenadaption oder bei Ausfall
+der Batteriepufferung, wird in der SPSSW V1.10 im Hochlauf der Fehler
+6402 (Checksumme eines B&R-Moduls ist falsch) bzw. der Fehler 3017
+(Checksumme des B&R-Moduls nicht in Ordnung) im Fehlermodul eingetragen
+und in den SERVICE-Mode gegangen. Bei jedem weiteren Hochlauf auáer bei
+Diagnose wird der Fehler wieder gemeldet, die SPS geht immer in den
+SERVICE-Mode. Die SPS kann in diesem Fall nur mit Hilfe des PG durch
+einen Hochlauf im Diagnose-Mode und das L”schen des FIXRAM wieder in
+Gang gebracht werden.
+
+ Das Modul FIXSETUP.BR bietet in diesem Fall die M”glichkeit, ohne PG
+automatisch wieder mit TOTALINIT hochzulaufen, das FIXRAM wird gel”scht,
+die Applikation wird wieder gestartet, man sieht nur am Eintrag im
+Fehlerlogbuch, daá der Fehler aufgetreten ist.
+
+Achtung : Das Modul FIXSETUP.BR muá gebrannt werden, damit es aktiv
+          ist. Ein Download ohne Brennen reicht nicht. Da das Modul
+          im Fehlerfall das FIXRAM l”scht, darf es auch nicht fixiert
+          werden, es wrde sich im Fehlerfall selbst l”schen, was
+          unweigerlich zu einem fatalen Fehler fhrt !
+          Da das FIXRAM erst ab SPSSW V1.10 untersttzt wird, hat das
+          Modul in V1.05 keine Funktion !
+
+
+
+ Hier die detailierte Vorgangsweise von FIXSETUP :
+
+ - In jedem Hochlauf wird geprft, ob sich im FIXRAM ein fehlerhaftes
+   Modul befindet.
+
+ - Wenn ein Modul gefunden wird, dessen Checksumme nicht korrekt ist,
+   wird von FIXSETUP der Fehler 6434 (Totalinit, weil FIXRAM defekt)
+   im Fehlerlogbuch eingetragen, die Info im Fehlerlogbuch entspricht
+   der Adresse des kaputten Moduls.
+   Der Fehler 6402 bzw. 3017 wird ebenfalls eingetragen, dh. bei
+   Verwendung von FIXSETUP wird der Fehler 6434 zus„tzlich eingetragen !
+
+ - Das FIX-RAM wird ganz gel”scht, dh. es gehen alle fixierten Module
+   verloren. Dies ist aufgrund der Speicherverwaltung nicht anders
+   m”glich !!!
+
+ - Abschlieáend wird ein TOTALINIT ausgel”st. Damit l„uft die SPS neu
+   hoch, alle Module werden neu installiert, der Fehler tritt nicht
+   mehr auf, daher wird die Applikation gestartet. šber die DA-Funktionen
+   kann festgestellt werden, daá die fixierten Module nicht mehr
+   vorhanden sind, sie mssen durch die Applikation neu erstellt und
+   fixiert werden !
+
+
+History:
+ÄÄÄÄÄÄÄÄ
+ V2.00  08.09.97  Adaption fr RPSSW ab V1.90 wegen ge„nderter Behandlung bei
+                  defekten Modulen (Diagnose-Mode)
+ V1.10  07.07.94  Erstversion
+
+

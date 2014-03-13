@@ -1,0 +1,57 @@
+Applications
+============
+PG2000                                          V2.44   Update   
+Profiler                                        V1.91  
+PCC Software Configurator                       V1.41
+PCC Software Configurator     (for PCCSW V1.05) V1.05
+Library Manager                                 V1.10
+
+Tools
+=====
+DL Tools                                        V3.10   Update   
+IL to FBD                                       V2.50
+
+Libraries
+=========
+B&R Trap                                        V1.37   
+CAN Library                                     V2.00 
+DM Library                                      V1.01
+Data Object                                     V1.01   
+Frame Driver Library                            V3.41   
+INAclnt                                         V1.12   
+I/O Library                                     V2.31 
+I/O Ctrl                                        V1.00   
+I/O Processor Library                           V2.11 
+IEC 1131 Library                                V1.01
+Mathematic Library                              V1.20
+Mininet                                         V2.10
+Modem Library                                   V1.70
+Multi Processor Library                         V1.20
+NET 2000 Library                                V2.23 
+Profibus Library                                V3.30   
+Remote I/O Library                              V5.10
+PPdpr                                           V1.00   
+PP Manager                                      V1.10
+PCC Library                                     V1.01
+System Library                                  V2.23
+B&R Trap                      (for PCCSW V1.05) V1.08
+Remote I/O Library            (for PCCSW V1.05) V3.40
+TCP/IP Library                                  V1.20      
+IF661                                           V2.03
+
+System Software
+===============
+CAN I/O Manager                                 V1.04
+CAN I/O Master                                  V1.20   
+EM150 AMM Copy Station                          V1.10
+Extended Exeption Handling                      V1.40
+FBASE IF050                                     V1.01   
+FBASE IF060                                     V1.02   
+FBASE Profibus                                  V2.00
+FBASE TCPIP                                     V1.11   
+Profibus Index Manager                          V1.01
+Diagnose Module                                 V1.91
+PCC Operating System Update (BUGFIX)            V1.28
+PCC Source Level Debugger                       V1.90
+PCC Source Level Debugger      (for PCCSW 1.05) V1.05
+Add Ons for PCCSW 1.05                          V1.05.18

@@ -1,0 +1,51 @@
+#TXT 00 00 27 78  _1)_Type_d'UC____________:_
+#VAR 00 28 04 01 78 00 42 N N J N N 00 00 88 
+#TXT 00 32 41 78  ÿ________________________________________
+#TXT 01 00 30 78  _2)_No_de_rappel_d'alarme_1_:_
+#VAR 01 31 30 01 78 01 66 N N J N N 00 00 01 
+#TXT 02 00 30 78  _3)_No_de_rappel_d'alarme_2_:_
+#VAR 02 31 30 01 78 01 66 N N J N N 00 00 02 
+#TXT 03 00 38 78  _4)_Temps_balayage_d'alarme/esclaves:_
+#VAR 03 39 03 01 78 00 78 N N J N N 00 00 03 
+#TXT 03 44 05 78  (sec)
+#TXT 04 00 38 78  _5)_Temps_balayage_d'alarme/Online__:_
+#VAR 04 39 03 01 78 00 78 N N J N N 00 00 04 
+#TXT 04 44 05 78  (sec)
+#TXT 05 00 38 78  _6)_Adresse_alarme_dans_AP__________:_
+#TXT 05 39 01 73  C
+#VAR 05 40 04 01 78 00 78 N N J N N 00 00 05 
+#TXT 06 00 38 78  _7)_Adresse_table_de_LOGIN_dans_AP__:_
+#TXT 06 39 01 73  C
+#VAR 06 40 04 01 78 00 78 N N J N N 00 00 06 
+#TXT 07 00 38 78  _8)_Texte_d'alarme_pour_ERREUR_AP___:_
+#VAR 07 39 10 01 78 00 66 N N J N N 00 00 07 
+#TXT 08 00 23 78  _9)_Param‚tres_alarme_:
+#TXT 09 00 53 78  ___10)_Attente_pour_transmission_apr‚s_CONNEXION___:_
+#VAR 09 53 02 01 78 00 78 N N J N N 00 00 08 
+#TXT 09 57 08 78  (sec*10)
+#TXT 10 00 53 78  ___11)_Transmettre_texte_d'alarme_en_tant_que_trame:_
+#VAR 10 53 01 01 78 03 66 N N J N N 00 00 09 
+#TXT 10 57 05 78  (O/N)
+#TXT 11 00 53 78  ___12)_Demande_d'acquittement_externe______________:_
+#VAR 11 53 01 01 78 03 66 N N J N N 00 00 10 
+#TXT 11 57 05 78  (O/N)
+#TXT 12 00 53 78  ___13)_Noeud_esclave_transmet_via_propre_RS232_____:_
+#VAR 12 53 01 01 78 03 66 N N J N N 00 00 11 
+#TXT 12 57 05 78  (O/N)
+#TXT 13 00 53 78  ___14)_Temps_pour_d‚connexion/acquittement_________:_
+#VAR 13 53 03 01 78 00 78 N N J N N 00 00 12 
+#TXT 13 57 08 78  (sec*10)
+#TXT 14 00 53 78  ___15)_Nombre_d'essais_de_composition______________:_
+#VAR 14 53 02 01 78 00 78 N N J N N 00 00 13 
+#TXT 14 57 06 78  (1-15)
+#TXT 15 00 53 78  ___16)_Attente_entre_chaque_appel__________________:_
+#VAR 15 53 02 01 78 00 78 N N J N N 00 00 14 
+#TXT 15 57 08 78  (sec*10)
+#TXT 16 00 53 78  ___17)_Alarme_aprŠs_mise_sous_tension______________:_
+#VAR 16 53 01 01 78 03 66 N N J N N 00 00 15 
+#TXT 16 57 05 78  (O/N)
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~
+#KS ONon
+#KS 0123456789TPW:=><;/SR@!&*#~

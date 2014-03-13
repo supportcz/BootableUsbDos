@@ -1,0 +1,52 @@
+New System Variables SPSSW V1.10 (DB_SYSPV.INP) :
+==============================================
+
+The new system variables have been extended in SPSSW version 1.10. No the
+following system variables are available in INIT-SPs (!!!):
+
+    _TOTAL_INIT    BIT   Flag, if a TOTAL INIT was executed last cycle
+                         (previously _URINIT)
+    _INIT          BIT   Flag, if an INIT was executed last cycle
+    _DOWNLOAD      BIT   Flag, if this task was downloaded last cycle
+    _DEBUG         BIT   Flag, if this task is be debugged
+                         (ATTENTION : Offset was changed, therefore the task
+                         for V1.05 to be used in V1.10, must be recompiled
+                         after the new system variables have been added to the
+                         database.)
+
+    _TC_TIME       WORD  Cycle time of the TC/HSTC in units of 100 microsecs
+                         max. 6.5 Sec. cycle time possible
+                         ATTENTION : in V1.05 was in milli secs.
+                         (previously _T_ZYKLUS)
+    _TC_No         BYTE  Task class number 1 to  4 for TC 1-4,
+                                          -1 to -4 for HSTC 1-4
+                                          -8 for EXCTC
+                                          -9 for IRQTC
+                         (previously _TKNR)
+    _TC_TSK_No     BYTE  Number of PLC tasks in the current TC or
+                         HSTC/EXCTC/IRQTC
+                         (previously _N_SPSTASK)
+
+
+In cyclic operation, the following system variables can be requested:
+
+    _PIO_OLD       BIT   Flag, if the old input will be used in the task class
+                         (1 cycle old, corresponding to V1.05):
+                             0 = new (updated) input,
+                             1 = old input
+                         (ATTENTION: only valid in TC, not in HSTC)
+    _DEBUG         BIT   Flag, if this task is being debugged
+
+In V1.05, the sytem variables were not correctly supported in the HS task
+classes. In V1.10, the system variables can be read even in an INIT-SP,
+independent on the task class.
+
+The system variable _FORCE is NO longer supported (!!!) in V1.10, because it
+could only be checked in cyclic operation. This was because the TC#1 data area
+for all HS task classes, but no clear differentiation was made.There is a new
+B&R library FBK "FORCE(tc_no)" to check if a TC or HSTC is being forced.
+
+Note :      The system variables can also be added to the existing database
+            with "DBTOOL.EXE". To do this you have to copy the file
+            "DB_SYSPV.INP" into the ROOT directory of the correcsponding
+            database and the call the DBTOOL - PLC->Variables.

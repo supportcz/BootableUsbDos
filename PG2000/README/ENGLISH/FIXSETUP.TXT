@@ -1,0 +1,69 @@
+
+
+                      Documentation
+
+                        FIXSETUP
+
+     Setting the FIXRAM in boot up, if a module stored in FIXRAM is corrupted.
+
+
+
+ Date       :      9. October 1997
+ Version    :      V2.00
+ Author     :      Bernhard Hochstrasser
+
+
+It has been possible to store modules in FIXRAM since PCCSW version V1.1.
+These modules are installed after a COLD RESTART, like modules in the EPROM.
+However there modules can also be dynamically manipulated using the
+DA functions in the B&R library.
+
+If, in a case of error, a module stored in FIXRAM should be corrupted, e.g.
+by unintentional overwriting without checksum adaption, or the battery
+backup fails, error 6402 (B&R module checksum is incorrect) or 3017
+(checksum of the B&R module is not right) are entered in the error module
+at boot up (PCCSW V1.10). The CPU then goes into SERVICE mode. With every
+boot up after this, except in DIAGNOSE mode, the error is re-registered and
+the PCC always goes into SERVICE mode. The PCC can only be restarted by
+booting up in DIAGNOSE mode using PG2000 and erasing the FIXRAM.
+
+In this case, the FIXSETUP.BR module enables you to automatically reboot
+up with a COLD RESTART, without PG2000. The FIXRAM is deleted, the
+application is started again. Only the entry in the error log book shows
+that the error occurred.
+
+Attention: The FIXSETUP.BR module must be burned so that it is active. A
+           download without burning is not enough. As the module deletes the
+           FIXRAM if an error occurs, it cannot be stored in FIXRAM
+           or it would delete itself and cause a fatal error !
+           The FIXRAM is only supported from PCCSW V1.10 onwards, so
+           this module has no function in V1.05 !
+
+
+
+ Here is the detailed sequence description of FIXSETUP :
+
+ - At every boot up, a check for defective modules is made in the FIXRAM.
+
+ - If a module with an incorrect checksum is found, the error 6434 (COLD
+   RESTART, because FIXRAM is defective), is entered in the error log book
+   by FIXSETUP. The info in the error log book corresponds to the address
+   of the defective module.
+   Errors 6402 or 3017 are entered as well, i.e. when using FIXSETUP, error
+   6434 is also entered !
+
+ - The FIXRAM is completely erased, i.e. all modules in the FIXRAM are lost.
+   Nothing else is possible due to memory management reasons !!!
+
+ - Then, a COLD RESTART is triggered. Then the PCC boots up, all modules
+   are reinstalled, the error no longer occurs and the application is
+   started. The DA functions determine that the modules in FIXRAM no
+   longer exist; they must be re-created by the application, and put
+   in FIXRAM again !
+
+
+History:
+컴컴컴컴
+ V2.00  08.09.97  Adaption for PCCSW from V1.90 onwards due to different
+                  handling of the defective modules (diagnose mode)
+ V1.10  07.07.94  First version

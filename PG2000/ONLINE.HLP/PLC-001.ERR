@@ -1,0 +1,17 @@
+****************************************************************
+*  Text file to separate the PCC error messages into chapters  *
+*  and paragraphs. (For help file sps_err.txt)                 *
+****************************************************************
+*ErrorNo. ,Chap:Par
+*from - to
+
+1000 - 1999 , 2:1  ; General Errors
+2000 - 2999 , 3:1  ; HW-Trap Library Errors
+3000 - 3999 , 4:1  ; SW-SysTrap Library Errors
+4000 - 4999 , 5:1  ; ALI-Trap Library Errors
+5000 - 5999 , 6:1  ; Task Class Errors
+6000 - 6999 , 7:1  ; System Errors
+7000 - 7499 , 8:1  ; Boot Errors
+7500 - 7999 , 9:1  ; Operator Interface Panel-Trap Library Errors
+8000 - 8999 , 10:1 ; Installation Errors
+9000 - 9999 , 11:1 ; Other Errors

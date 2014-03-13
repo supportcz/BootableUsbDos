@@ -1,0 +1,1017 @@
+%%
+1,0:1      Hilfe zu PG-Fehlernummern
+%%
+.1
+    Beschreibung zu den PG FEHLER-NUMMERN
+    öBERSICHT
+
+    003xx @030[< Datenbank-Namensverwaltung >]  11xxx @1100[< Klemmbrett                 >]
+    004xx @040[< Allgememeine Fehler        >]  12xxx @1200[< Funtionsbaustein Editor    >]
+    01xxx @100[< Ausgabe-Interface          >]  15xxx @1500[< Kontaktplan Parser         >]
+    02xxx @200[< Input-Interpreter          >]  20xxx @2000[< Behandlungscodes           >]
+    03xxx @300[< Dokutools                  >]
+    04xxx @400[< Aplication Layer Interface >]
+    05xxx @500[< Graphische Design Methode  >]
+    06xxx @600[< Taskbuilder                >]
+    065xx @650[< Statustest & Debugger      >]
+    07xxx @700[< Speicher & Datei           >]
+    080xx @800[< Graphik Editor Kernel      >]
+    081xx @810[< Kontaktplan Editor         >]
+    082xx @820[< AWL Editor                 >]
+    09xxx @900[< Codegenerator              >]
+    098xx @980[< Zeilenparser               >]
+    099xx @990[< Blockparser                >]
+
+
+                                                                 @999[ HILFE beenden ]
+.30
+    Beschreibung zu den PG FEHLER-NUMMERN
+    D A T E N B A N K - N A M E N S V E R W A L T U N G
+
+    301   ERR_NEW_ONE         ..... Neueintrag - nur Mitteilung
+    302   ERR_WRONG_USE       ..... Falsche Verwendung
+    303   ERR_NOT_THIS        ..... Nicht der richtige Record
+    304   ERR_BAD_CHECK       ..... schlechter Attributvergleich
+    305   ERR_NO_MORE_LABEL   ..... keinen Label mehr eintragen
+    306   ERR_WRONG_LIST      ..... Falsche Namensliste
+    307   ERR_WRONG_INDEX     ..... Falscher Index fÅr Namensliste
+
+    DATENBANK - nach einer Suche
+    ------------------------------------------------------------------------
+    320   ERR_PV_NOT_FOUND    ..... PV nicht gefunden
+    321   ERR_DATTYP_NOT_FOUND..... Datentyp nicht gefunden
+    322   ERR_IOMO_NOT_FOUND  ..... IO-Modul nicht gefunden
+
+
+
+
+
+    @031[ Namensverwaltung ]                                               @001[ öbersicht ]
+.31
+    Beschreibung zu den PG FEHLER-NUMMERN
+    D A T E N B A N K - N A M E N S V E R W A L T U N G
+
+    Fehler bei diversen Vergleichen
+    ------------------------------------------------------------------------
+    330   ERR_TASKKL_UNKNOWN  ..... Unbekannte Taskklasse
+    331   ERR_IOTYP_UNKNOWN   ..... Unbekannter IO-Typ
+    332   ERR_NO_TEILADRESSE  ..... Keine Teiladresse vorhanden
+    333   ERR_UNKNOWN_TYP     ..... unbekannter Typ
+    334   ERR_WRONG_FIELD_LEN ..... unerlaubte FeldlÑnge
+    335   ERR_EXCEEDS_DEPTH   ..... Schachtelungstiefe Åberschritten
+    336   ERR_DIFFRENT_TYPES  ..... Unteschiedliche Typen
+    337   ERR_BIT_BYTE_TYPES  ..... Bit- u. Byte gemischt
+    338   ERR_INOUT_ANZ       ..... Anzahl der Ein/Ausg. Åberschritten
+
+
+
+
+
+
+
+    @032[ Namensverwaltung ]                                               @001[ öbersicht ]
+.32
+    Beschreibung zu den PG FEHLER-NUMMERN
+    D A T E N B A N K - N A M E N S V E R W A L T U N G
+
+    DATENBANK - beim Init und bei Relationsfilemanipulation
+    ----------------------------------------------------------------------
+    350   ERR_INIT_DB         ..... Fehler bei INTISAM
+    351   ERR_NO_DBKPFAD      ..... Pfadname existiert nicht
+    352   ERR_RELFILE_CREATE  ..... DB-Datei wurde nicht erstellt
+    353   ERR_RELFILE_CLOSE   ..... DB-Datei wurde nicht geschlossen
+    354   ERR_RELFILE_OPEN    ..... DB-Datei wurde nicht geîffnet
+    355   ERR_RELFILE_REBUILD ..... Fehler beim Wiederherstellen
+    356   ERR_WRONG_USER      ..... Unerlaubter Zugriff
+    357   ERR_WRONG_AKTION    ..... Bei ungÅltiger DB-Aktion
+    358   ERR_NO_READFIRST    ..... Noch kein READ_FIRST gemacht
+    359   ERR_2ND_READFIRST   ..... Zweites READ_FIRST gemacht
+    360   ERR_NO_END_AKTION   ..... Kein Aktionsende durchgefÅhrt
+    361   ERR_EXCEEDS_PROC_ANZ..... Max. Prozessoranzahl Åberschritten
+    362   ERR_NOT_EXISTING_SPS..... Die SPS existiert nicht
+    363   ERR_NOT_EXISTING_PRO..... Der Prozessor existiert nicht
+
+
+    @033[ Namensverwaltung ]                                               @001[ öbersicht ]
+.33
+    Beschreibung zu den PG FEHLER-NUMMERN
+    D A T E N B A N K - N A M E N S V E R W A L T U N G
+
+    DATENBANK - diverse Fehler
+    ------------------------------------------------------------------------
+    370   ERR_DBMODE_UNKNOWN  ..... unbekannter Modus
+    371   ERR_DBK_WRITE       ..... Fehler beim Write
+    372   ERR_DBK_READ        ..... Fehler beim Read
+    373   ERR_DBK_UPDATE      ..... Fehler beim Update
+    374   ERR_DBK_DELETE      ..... Fehler beim Delete
+    375   ERR_WRONG_DBMODE    ..... falscher oder unerlaubter Modus
+    376   ERR_FALSCHE_ANGABE  ..... falsche Spezifikation
+    377   ERR_READ_ONLY       ..... Eintrag darf nicht geÑndert werden
+
+    DATENBANK - Fehler die bei der öberprÅfung der Version auftreten kînnen
+    ------------------------------------------------------------------------
+    390   ERR_OPEN_VER_FILE   ..... Fehler bei ôffnen der Datei
+    391   ERR_GET_VERSION     ..... Versionsnummer nicht gelesen
+    392   ERR_PUT_VERSION     ..... Versionsnummer nicht geschrieben
+    393   ERR_WRONG_VERSION   ..... Unterschiedliche Versionen
+
+    @040[ Allgemeine Fehler ]                                              @001[ öbersicht ]
+.40
+    Beschreibung zu den PG FEHLER-NUMMERN
+    A L L G E M E I N E - F E H L E R
+
+    400   ERR_NO_MORE_MEMORY  ..... Fehler beim Allocate
+    401   ERR_NO_SPACE        ..... Kein Platz mehr im Memory
+    402   ERR_NO_NAME         ..... Kein Name angegeben
+    403   ERR_NO_NUMBER       ..... Keine oder falsche Nummer
+    404   ERR_OPEN_FILE       ..... Datei kann nicht geîffnet werden
+    405   ERR_OPEN_LOG_FILE   ..... LogDatei kann nicht geîffnet werden
+    406   ERR_NO_RIGHTS       ..... Keine Benutzerrechte fÅr die Aktion
+    407   ERR_NO_CHANGE_ALLOWE..... Keine énderungen erlaubt
+    408   ERR_WRONG_POSITION  ..... Position nicht gefunden oder falsch
+    409   ERR_NO_RECORD       ..... Kein Record vorhanden
+    410   ERR_DIFFRENT_ANZ    ..... Unterschiedliche Anzahl
+
+
+
+
+
+
+
+    @100[ Ausgabe-Interface ]                                              @001[ öbersicht ]
+.100
+    Beschreibung zu den PG FEHLER-NUMMERN
+    A U S G A B E - I N T E R F A C E
+
+    Bereiche 1 und 0: Kategorie Fehler, die zum Abbruch fÅhren
+    -------------------------------------------------------------------------
+    1001   AIE_INTINITGETNET   ..... Interfaceinitialisierung fehlgeschlagen
+    1010   AIE_WININITGETNET   ..... Fensterinitialisierung fehlgeschlagen
+    1011   AIE_EICHENLANDFEHLER..... CSCAPE - Fehler
+    1012   AIE_INITGEHTNET     ..... Hardwareinitialisierung fehlgeschlagen
+    1013   ERR_IN_USER_PRI     ..... Fehler i Userverzeichnis-Datei user.pri
+    1014   ERR_IN_USER_DIR     ..... Fehler in den Directoryangaben user.pri
+    1020   AIE_MENUOPENFEHLER  ..... CSCAPE MenÅerîffnung nicht mîglich
+    1021   AIE_CFGFILE_FEHLT   ..... Konfigurationsdatei fehlt
+    1022   AIE_HELPCFG_FEHLER  ..... Helpkonfiguration fehlerhaft
+    1023   AIE_HMENUCFG_FEHLER ..... HauptmenÅkonfiguration fehlerhaft
+    1024   AIE_BACKCFG_FEHLER  ..... Konfiguration Hintergrundfenster fehlerhaft
+    1025   AIE_STDWINCFG_FEHLER..... Konfiguration Standardfenster fehlerhaft
+    1026   AIE_SONWINCFG_FEHLER..... Konfiguration Sonderfenster fehlerhaft
+    1027   AIE_WINFARBCFG_FEHLE..... Fensterfarbenkonfiguration fehlerhaft
+    1028   AIE_ERRCFG_FEHLER   ..... Konfiguration Errorhandler fehlerhaft
+
+    @101[ Ausgabe-Interface ]                                              @001[ öbersicht ]
+.101
+    Beschreibung zu den PG FEHLER-NUMMERN
+    A U S G A B E - I N T E R F A C E
+
+    1029   AIE_TABEDCFG_FEHLER ..... Tabedikonfiguration fehlerhaft
+    1030   AIE_TABRECORD_FEHLER..... Recordaufbau fehlerhaft
+    1031   AIE_TABFKTGIBTSNET  ..... Unbekannte Tabellenfunktion
+    1032   VDE_DBKLESEFEHLER   ..... Datenbanklesefehler
+
+    Resize/Move
+    -------------------------------------------------------------------------
+    1040   AIE_FENSTERZKLEIN   .....
+    1041   AIE_FENSTERZGROS    .....
+
+    Dateiauswahlbox und Sonderfensterkonfiguration
+    -------------------------------------------------------------------------
+    1042   AIE_FSEL_ERR        ..... Speichermangel beim Aufbau der
+                                     Dateiauswahlbox
+    1043   AIE_SONWIN_ERR      ..... Speichermangel beim Aufbau eines
+                                     Sonderfensters
+
+
+    @102[ Ausgabe-Interface ]                                              @001[ öbersicht ]
+.102
+    Beschreibung zu den PG FEHLER-NUMMERN
+    A U S G A B E - I N T E R F A C E
+
+    Setzen des Seitenumbruch-Raster
+    -------------------------------------------------------------------------
+    1045   AIE_RASTER_ERR      ..... Speichermangel beim Setzen des
+                                     Seitenumbruch-Raster
+    1050   WO_SIND_HM_TEXTE    .....
+
+    Fehlermeldungen fÅr attached windows
+    -------------------------------------------------------------------------
+    1060   FV_TOO_MANY_ATWIN   .....
+    1061   FV_NO_ATWIN         .....
+    1062   FV_NO_PARENT        .....
+
+
+
+
+
+
+
+    @103[ Ausgabe-Interface ]                                              @001[ öbersicht ]
+.103
+    Beschreibung zu den PG FEHLER-NUMMERN
+    A U S G A B E - I N T E R F A C E
+
+    Fehlermeldungen der Macro-Bearbeitung
+    -------------------------------------------------------------------------
+    1110   II_MAC_NOTFOUND     .....
+    1111   II_MAC_FATAL        .....
+    1112   II_MAC_FILEKAPUTT   .....
+    1113   II_MAC_MEM          .....
+    1114   II_MAC_FOPEN        .....
+
+
+
+
+
+
+
+
+
+
+
+    @104[ Ausgabe-Interface ]                                              @001[ öbersicht ]
+.104
+    Beschreibung zu den PG FEHLER-NUMMERN
+    A U S G A B E - I N T E R F A C E
+
+    Bereiche 3 und 2: Kategorie Quittierungspflichtige Meldungen
+    -------------------------------------------------------------------------
+    21001   AIW_HELPFILEFEHLT   ..... Hilfstext-Datei nicht gefunden
+    21002   AIW_MIESERFILE      ..... Angeg. Datei ist kein Hilfstext-Datei
+    21003   AIW_SPEICHERMANGEL  ..... Zu wenig Speicher fÅr Hilfstextanzeige
+    21004   AIW_NOHELPKONF      ..... Helpkonfiguration fehlt
+    21010   AIE_MAUSTREIBERFEHLT..... Maustreiber nicht geladen
+    21011   AIW_GENUGWINDOWS    ..... Erlaubte Fensteranzahl Åberschritten
+    21012   AIW_ZUVIELE_TABRECS ..... Maximale Tabellenrecordzahl erreicht
+    21013   AIE_ALIGETNET       ..... ALI lÑ·t sich nicht starten
+    21100   VDW_DBKSCHREIBFEHLER..... Datenbankschreibfehler
+    21101   VDW_DBKLESEFEHLER   ..... Lesefehler bei Datenbankinterface
+    21102   VDW_NVWLESEFEHLER   ..... Lesefehler bei Namenslisteninterface
+    21103   VDW_KONFIGFEHLER    ..... Konfiguration VD fehlerhaft
+    21104   VDW_MAXKOMPERREICHT ..... Erlaubte Str.-Komponentenzahl erreicht
+    21110   VDW_ZUVIELESCHACHTEL..... Erlaubte Strukturebenenzahl erreicht
+    21200   VDW_SPEICHERMANGEL  ..... Speicher reicht nicht fÅr Deklaration
+
+    @105[ Ausgabe-Interface ]                                              @001[ öbersicht ]
+.105
+    Beschreibung zu den PG FEHLER-NUMMERN
+    A U S G A B E - I N T E R F A C E
+
+    21211   TEE_STACKISLEER     ..... Fehler im Tabedi - Stack
+    22100   TEW_SPEICHERMANGEL  ..... Speicher reicht nicht mehr fÅr Tabelle
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @200[ Eingabe-Interface ]                                              @001[ öbersicht ]
+.200
+    Beschreibung zu den PG FEHLER-NUMMERN
+    I N P U T  - I N T E R P R E T E R
+
+    Bereiche 1 und 0: Kategorie Fehler, die zum Abbruch fÅhren
+    ----------------------------------------------------------------------------
+    2010   IIE_FMSPEICHERMANGEL ... Zu wenig Speicher fÅr Fu·zeilenmenÅ
+    2011   IIE_FMENUCFG_FEHLER .... Fu·zeilenmenÅkonfiguration fehlerhaft
+    2012   IIE_FMCFGINHALT_FEHL ... Konfiguration Fu·zeilenmenÅzeilen fehlerhaft
+    2013   IIE_ZUVIELE_MENUES ..... Anzahl der MenÅpunkte falsch
+    2014   IIE_TABCFG_FEHLER ...... Konfiguration Tabelleneditor fehlerhaft
+
+
+
+
+
+
+
+
+
+
+
+    @300[ Dokutools ]                                                      @001[ öbersicht ]
+.300
+    Beschreibung zu den PG FEHLER-NUMMERN
+    D O K U T O O L S
+
+    3001   DOE_SRCFILENETDO    ..... Source-Datei îffnen schiefgegangen.
+    3002   DOE_CFGFILENETDO    ..... Konfiguration îffnen schiefgegangen.
+    3003   DOE_SPEICHERMANGEL  ..... Speicher ist aus.
+    3004   DOE_CFGFEHLER       ..... Dokument kann nicht erstellt werden.
+    3005   DOE_KEINTEMPFILE    ..... ôffnung der temp. Datei fehlgeschlagen.
+    3006   DOE_VARUNDEFINED    ..... Nicht definierte Variable.
+    3007   DOE_CFGINHFEHLT     ..... Konfigurationseintrag nicht gefunden.
+    3010   DOE_ZEILENZAHLZUKLEI..... Zeilenzahl zu klein
+    3100   DOE_PRINTNETDO      ..... Druckertreiber PRINT nicht geladen,
+                                     kein direkter Ausdruck mîglich.
+    3101   DOE_PRINTGEHTNET    ..... Ausdruck nicht mîglich.
+    3102   DOE_UNKNOWNAKT      ..... Aufruffehler - Support anrufen !
+    3103   DOE_FILENETDO       ..... Datei/Directory nicht gefunden;
+                                     Bitte ÅberprÅfen Sie die Namen !
+    3104   DOE_PRINTERNETDO    ..... Drucker-Laufwerk nicht gefunden.
+    3105   DOE_QUEUEVOLL       ..... Zuviele Dateien in Warteschlange.
+                                     Bitte warten und wieder versuchen.
+    3106   DOE_PRINTACTIVE     ..... Druckerwarteschlange ist nicht leer.
+    @400[ Aplication Layer Interface ]                                     @001[ öbersicht ]
+.400
+    Beschreibung zu den PG FEHLER-NUMMERN
+    A P L I C A T I O N  L A Y E R  I N T E R F A C E
+
+    4200   KI_STARTUP          .....
+    4201   KI_TIMEOUT          ..... keine Antwort vom ALI wÑhrend Wartezeit
+    4202   ALI_WRONG_MI_CODE   ..... falscher MI-Code als Antwort-Kennung
+    4203   KI_WRONG_TYPE       .....
+    4204   KI_OBJECT_NOTEXIST  ..... Objekt existiert nicht auf der SPS
+    4205   KI_BAD_OBJECT       ..... Objektverzeichnis ist unleserlich
+    4206   KI_NO_MEM           ..... malloc failed
+    4243   ALI_WIN_FULL        .....
+    4999   ALI_ERROR           ..... Fehlertext steht schon im Meldungsfenster
+
+
+
+
+
+
+
+
+
+    @500[ Graphische Design Methode ]                                      @001[ öbersicht ]
+.500
+    Beschreibung zu den PG FEHLER-NUMMERN
+    G R A P H I S C H E  D E S I G N  M E T H O D E
+
+    5000   GD_MEM_ERR         ..... Zu wenig Speicherplatz
+    5001   GD_TAB_ERR         ..... Falsche Listenkennung beim Listen-VerlÑngern
+    5002   GD_TABIND_ERR      ..... Falsche Objekttabellenkennung
+    5005   GD_DB_ERR          ..... UngÅltige Datenbaumposition
+    5006   GD_NOPV_ERR        ..... Keine PVs im Datenbaum
+    5007   GD_TREE_ERR        ..... Schleife im Datenbaum
+    5010   GD_INIT_ERR        ..... Fehler beim GDM-Fenster Initialisieren
+    5020   GD_FNO_OPEN_ERR    ..... Fehler beim ôffnen einer NV-Datei
+                                    zu einem Task
+    5021   GD_NNO_OPEN_ERR    ..... Fehler beim Initialisieren der
+                                    NV eines Tasks
+
+
+
+
+
+
+
+    @600[ Taskbuilder ]                                                    @001[ öbersicht ]
+.600
+    Beschreibung zu den PG FEHLER-NUMMERN
+    T A S K B U I L D E R
+
+    6000   ERR_NOMEM           .....
+    6001   TB_WRONG_MODE       .....
+    6002   TB_NO_RBINFO        ..... B keine RB - Info im B&R-Modul
+    6003   TB_PV_NOTFOUND      ..... I PV-Definition in RB-Info fehlt.
+    6004   TB_NO_TXT           ..... I kein Textbuffer vorhanden
+    6005   TB_NO_FUB           ..... I keine FUB-Info im RB-Block
+    6010   TB_LABEL_DOPPELT    ..... B doppelte Vergabe eines Label-Index
+    6011   TB_LABEL_UNDEF      ..... I Referenzierter Label nicht definiert
+    6012   TB_LABEL_RANGE      ..... BI Overflow des Label-Offsets
+    6020   TB_REGRES           ..... I Adressregister fÅr Taskbuilder gesperrt
+    6021   TB_REGILL           ..... I Illegale Registerkennung fÅr Taskbuilder
+    6030   TB_WRONG_CHAR       ..... B UngÅltiger Character in einem PV-Namen
+    6040   TB_DOUBLE_DEF       ..... B Definition mehrerer PV's auf einen
+                                       analogen (transp.) Ausgang
+    6041   TB_PV_OVERLAP       ..... B öberlagerung mehrerer PV's auf einem
+                                       HW-Modul. z.B. nach énderungen in diesem
+                                       Fall hilft ein Neuinit.
+
+    @601[ Taskbuilder ]                                                    @001[ öbersicht ]
+.601
+    Beschreibung zu den PG FEHLER-NUMMERN
+    T A S K B U I L D E R
+
+    6050   OFLI_VOLL          ..... B Offset-Liste voll, zu viele verschiedene
+                                      IO-Typen (>50)
+    6060   TB_BITERR          ..... V darf ab Version V1.06 nicht mehr auftreten
+    6061   TB_WRONG_CODE      ..... I Falscher SuperAWL-Code fÅr den Taskbuilder
+    6063   TB_LONGERR         ..... B Adressierungsart absolut long fÅr die SPS
+                                      nicht erlaubt
+
+    falsche Adressierungsart durch Compiler abgesetzt
+    -------------------------------------------------------------------------
+    6065   TB_2EA             ..... I zwei <eA> bei Befehlsklasse 17
+    6066   TB_WRONG_SPSIOTYP  ..... B nicht erlaubter IO-Typ fÅr SSTask
+    6067   TB_WRONG_OPS       ..... I nicht erlaubter Operanden-Typ
+
+
+
+
+
+
+    @602[ Taskbuilder ]                                                    @001[ öbersicht ]
+.602
+    Beschreibung zu den PG FEHLER-NUMMERN
+    T A S K B U I L D E R
+
+    Die Grî·e der von den PV's benîtigten SpeicherplÑtze ist zu klein
+    -------------------------------------------------------------------------
+    6101   TBE_ANA_SPSIO_SIZE  ..... Neukonfiguration oder Neuinit. der
+    6102   TBE_DIG_SPSIO_SIZE  ..... DB mit Generieren und SÑubern notw.
+    6103   TBE_SPSIOTYP_NOT_IMP..... V Noch nicht unterstÅtzer IO-Typ
+    6104   TBE_SPSIO_TK_COMBINE..... B Nicht erlaubter IO-Typ fÅr diese Taskkl.
+
+    FUB-Create Fehlermeldungen
+    -------------------------------------------------------------------------
+    6150   TB_NODFILE          ..... Beschreibungsdatei nicht gefunden
+    6151   TB_DFILE_ERROR      ..... falsche Zeilen-Reihenfolge im Descriptor-
+                                     Datei bzw. fehlender Variableneintrag
+    6152   TB_DFILE_INPUT      ..... :I - Zeile an falscher Pos.
+    6153   TB_DFILE_OUTPUT     ..... :O - Zeile an falscher Pos.
+    6154   TB_DFILE_STATIC     ..... :S - Zeile an falscher Pos.
+    6155   TB_DFILE_TEXT       ..... :T - Zeile an falscher Pos.
+    6156   TB_DFILE_SYNTAX     ..... Syntaxfehler im Beschreibungsdatei
+
+    @603[ Taskbuilder ]                                                    @001[ öbersicht ]
+.603
+    Beschreibung zu den PG FEHLER-NUMMERN
+    T A S K B U I L D E R
+
+    6157   TB_DFILE_NAME       ..... FUB-Name nicht als erste Anweisungszeile
+                                     bzw. Kommentarzeile ohne ';'
+    6158   TB_DFILE_CHAR       ..... FUB-Name zu lang
+    6159   TB_DFILE_DTYP       ..... nicht unterstÅtzer Datentyp bei Variablen-
+                                     zeile im Beschreibungsdatei
+    6160   TB_DFILE_MODTYP     ..... :U oder :F an falscher Pos.
+    6161   TB_DFILE_MODKEN     ..... :K<A|I|L>; Kennung an falscher Pos.
+    6162   TB_DFILE_UP_STAT    ..... :U und :S nicht erlaubt
+    6163   TB_DTYP_UNKNOWN     ..... B unbekannter Datentyp
+    6164   TB_WRONG_STRING     ..... B Fehler bei Stringeingabe
+    6165   TB_WRONG_NUM        ..... B Fehler bei der Nummerneingabe
+
+
+
+
+
+
+
+    @604[ Taskbuilder ]                                                    @001[ öbersicht ]
+.604
+    Beschreibung zu den PG FEHLER-NUMMERN
+    T A S K B U I L D E R
+
+    Remote-I/O spezifische Fehlermeldungen
+    -------------------------------------------------------------------------
+    6200   TB_RIO_OVERFLOW     ..... B  Zuwenig Platz fÅr die benîtigten Blîcke
+                                        im RIO - DPR
+    6201   TB_RIO_OFFSET       ..... I  Offset und Block passen nicht zusammen
+    6202   TB_RIO_BLOVFL       ..... BI Blockoverflow,
+                                        Neuinit und Generieren kann helfen
+    6203   TB_RIO_WRONG_BLOCK  ..... I  falsche RIO-Blocknummer
+
+
+
+
+
+
+
+
+
+
+    @650[ Statustest und Debugger ]                                        @001[ öbersicht ]
+.650
+    Beschreibung zu den PG FEHLER-NUMMERN
+    S T A T U S T E S T  & D E B U G G E R
+
+    6500   PS_WRONG_HANDLE     ..... I ungÅltiges Handle
+    6501   PS_NOT_STOPPED      ..... B Initialisierung bei laufender SPS
+    6502   PS_PV_NOT_AKTIV     ..... I Lesen einer inaktiven PV nicht mîglich
+    6503   PS_TOO_MANY_PV      ..... B zu viele PV's fÅr den Profibus-Frame
+    6504   PS_TOO_MANY_VL      ..... B zu viele Listen geîffnet
+    6505   PS_WRONG_INDEX      ..... I falscher PV-Index fÅr die PS-Funktionen
+    6506   PS_PV_ADR_UNKNOWN   ..... B PV noch nicht vom Taskbuilder bearbeitet
+                                       bzw. durch Neuinit rÅckgesetzt !!
+    6507   PS_NO_LIST          ..... B Noch keine PV's in die Liste eingetragen
+    6508   PS_PV_LIST_KORRUPT  ..... I PV-Anzahl stimmt nicht mit Liste Åberein
+    6509   PS_SPS_LISTERR      ..... BI Definition der Liste auf SPS fehlerhaft
+    6510   PS_BLOCK_TOO_BIG    ..... I Block fÅr einmaligen Zugriff zu gro·
+    6520   PS_PV_LOKAL         ..... B Lokale PV's nur fÅr einen Task mîglich
+    6521   PS_FUB_ERROR        ..... B dasselbe gilt fÅr's FUB-Memory
+                                     V Inline-FUB's in/bis V1.08 nicht unterst.
+    6522   PS_PV_DATYP         ..... B Lîschen/EinfÅgen ganzer Struktren
+    6523   PS_PV_ARRAY         ..... B Feldindex Åberschritten
+
+    @700[ Speicher und Datei ]                                             @001[ öbersicht ]
+.700
+    Beschreibung zu den PG FEHLER-NUMMERN
+    S P E I C H E R  &  D A T E I
+
+    7000   VMW_NOTIMP          ..... Subfunction not yet implemented
+    7001   VMW_FULL            ..... To many locked areas
+    7002   VMW_TOOBIG          ..... VM-Blocksize exceeds maximum size
+    7003   VMW_NOHANDLE        ..... to many open VM-Blocks VW-Files
+    7004   VMW_NOTFREE         ..... attached VM-Block not free'd
+    7005   VMW_BADHANDLE       ..... invalid handle or closed handle
+    7006   VMW_BADFILEID       ..... invalid File ID
+    7007   VMW_BADBLOCKID      ..... invalid Block ID
+    7008   VMW_BADMOVE         ..... Failure moving to/from extended Memory
+    7009   VMW_NONSENS         ..... Nonsens Argument to function
+    7010   VMW_NOIND           ..... no indirect memory available
+    7011   VMW_NOMEM           ..... not enough core memory (malloc failed)
+    7012   VMW_NOUMB           ..... not enough upper memory block
+    7013   VMW_NOHMA           ..... not enough high memory area
+    7014   VMW_NOEMS           ..... not enough LIM-EMS memory
+    7015   VMW_NOXMS           ..... not enough LIM-XMS memory
+    7016   VMW_NOEXT           ..... not enough extended memory
+
+    @701[ Speicher und Datei ]                                             @001[ öbersicht ]
+.701
+    Beschreibung zu den PG FEHLER-NUMMERN
+    S P E I C H E R  &  D A T E I
+
+    7017   VMW_NOSWAP          ..... not enough Swapfile
+    7018   VMW_BADNAME         ..... invalid Filename
+    7019   VMW_FILE_CORRUPT    ..... File is not a valid Data-File
+    7020   VMW_BIG_OFFS        ..... Error: VM-offset to big
+    7021   VMW_BIG_N           ..... Error: VM-length to big
+    7022   VMW_PROTECT         ..... Error: Object is write-protected
+    7023   VMW_BADMAP          ..... Failure mapping in expanded Memory
+    7030   VMW_CLASS           ..... storage class limit exceeded
+    7040   VMW_NOTLOCKED       ..... Warning: area was not locked
+    7050   VMW_BAD_DIR         ..... Fatal: Error in Block-Directory
+    7060   TV_FILENOTFOUND     ..... Error: unable to open message file
+    7061   TV_FILETOBIG        ..... Error: message file too big
+    7062   TV_NOTVMEM          ..... Error: no memory for messages
+    7063   TV_NOTALLOC         ..... Error: no memory for tables
+    7068   TV_DOUBLEDEF        ..... Warning: multiple used text number
+    7069   TV_WEIREDINPUT      ..... Warning: cant interpret message line
+    7097   VMW_OUT_OF_MEMORY   ..... Fatal: not enough core for init
+                                     (DOS fn 0x48)
+    @702[ Speicher und Datei ]                                             @001[ öbersicht ]
+.702
+    Beschreibung zu den PG FEHLER-NUMMERN
+    S P E I C H E R  &  D A T E I
+
+    7098   VMW_NO_DISK         ..... Fatal: out of disk space
+    7099   VMW_SWAP_FAIL       ..... Fatal: swap file not opened
+    7100   VMW_CREATED         ..... Warning: File did not exist, was created
+    7101   VMW_EXIST           ..... Warning: File existing
+    7102   VMW_BLOCK           ..... Warning: Block already exists
+    7107   VMW_NET_LOCKED      ..... Error: File locked by another user
+    7199   VMW_DOS_ERROR       ..... Error: DOS returns error: check errno
+    7200   VMW_BAD_FOPEN       ..... Error: Failed sopen(handle,...)
+    7300   VMW_BAD_FCLOS       ..... Error: Failed close(handle)
+    7400   VMW_BAD_SEEK        ..... Error: Failed seek(handle,...)
+    7500   VMW_BAD_READ        ..... Error: Failed read(handle,...)
+    7600   VMW_BAD_WRITE       ..... Error: Failed write(handle,...)
+    7700   VMW_BAD_CHSIZE      ..... Error: Failed changesize(handle,...)
+    7800   VMW_BAD_ACCESS      ..... Error: Failed access()
+    7900   VMW_BAD_LOCK        ..... Error; Failed lock(handle,...)
+
+
+
+    @800[ Graphik Editor Kernel ]                                          @001[ öbersicht ]
+.800
+    Beschreibung zu den PG FEHLER-NUMMERN
+    G R A P H I K  E D I T O R  K E R N E L
+
+    8000   GE_MEM_ERR          ..... Zu wenig Speicher
+    8001   KONF_DAT_ERR        ..... Konfiguration fehlerhaft
+    8002   GE_TAB_ERR          ..... Falsche Objekttabellenkennung
+    8003   GE_OBJ_ERR          ..... UngÅltige ObjektID
+    8004   MOD_IND_ERR         ..... Falscher Objektstrukturindex
+    8005   NO_POLY_ERR         ..... Keine gÅltige Polygonlinie
+    8006   NO_OBJ_ERR          ..... Kein Objekt an der angegebenen Stelle
+    8007   NO_SEL_ERR          ..... Kein selektiertes Objekt
+    8008   NO_GRP_ERR          ..... Keine gÅltige Gruppe
+    8009   KOP_IND_ERR         ..... Kein gÅltiger KOP-Symbolindex
+    8010   GDM_IND_ERR         ..... Kein gÅltiger GDM-Symbolindex
+    8011   CUR_MOV_ERR         ..... UngÅltige Richtung bei Cursorbewegung
+    8012   RTC_UMR_ERR         ..... Negative Rasterkoordinaten
+    8013   CTR_UMR_ERR         ..... Negative Charakterkoordinaten
+    8014   CSC_EDT_ERR         ..... ted-Textbuffer voll
+    8015   NO_LIN_ERR          ..... Keine gÅltige Linie
+    8016   CHR_IND_ERR         ..... UngÅltiger Liniencharakter
+
+    @801[ Graphik Editor Kernel ]                                          @001[ öbersicht ]
+.801
+    Beschreibung zu den PG FEHLER-NUMMERN
+    G R A P H I K  E D I T O R  K E R N E L
+
+    8017   GE_EDI_ERR          ..... UngÅltiger Editortyp
+    8018   GE_NOEMPTY_ERR      ..... Zu lîschende Zeile nicht leer
+    8019   GE_NOPOINT_ERR      ..... Kein Pointer auf eine Objekttabelle
+    8020   GE_TXT_ERR          ..... GE-Kern-Text zu lang
+    8030   GCT_IND_ERR         ..... Kein gÅltiger GRAFCET-Symbolindex
+    8040   GE_BLOCK_ERR        ..... Block kann nicht eingefÅgt werden:
+                                     Kein Platz dazu vorhanden
+    8041   GE_MARK_ERR         ..... Markiermodus eingeschaltet
+                                     oder Blockbuffer leer
+    8050   GE_EXIST_ERR        ..... Versionen stimmen nicht Åberein
+
+
+
+
+
+
+
+
+    @810[ KOP - Editor ]                                                   @001[ öbersicht ]
+.810
+    Beschreibung zu den PG FEHLER-NUMMERN
+    K O N T A K P L A N  E D I T O R
+
+    8101   KEE_MEMAUS          ..... zu wenig Memory
+    8102   KEE_LINIEFALSCH     ..... Linie wird an falscher Stelle gesetzt*/
+    8103   KEE_AUSGFALSCH      ..... Ausgang in erster Spalte
+    8104   KEE_TYPFALSCH       ..... Linientypen passen nicht zusammen
+    8105   KEE_ANAFALSCH       ..... Analog Eingang nicht in Spalte 1
+    8106   KEE_FEHLERDA        ..... beim Sichern Fehler gefunden
+    8107   KEE_KEINEVERZW      ..... keine Verzw. in ana. Linien
+    8108   KEE_FELDBESETZT     ..... Feld enthÑlt schon Symbol
+    8109   KEE_KEINPLATZ       ..... Fub hat hier nicht Platz
+    8110   KEE_AUSGKONST       ..... Konstante zu Ausgang -> falsch
+    8111   KEE_KEINDIGIWERT    ..... das ist keine digi. Konstante
+    8112   KEE_FALSCHKONST     ..... Konstante enthÑlt unerlaubte Zeichen
+    8113   KEE_KONSTZUGROSS    ..... Konstante ist zu gro·
+    8114   KEE_NAMEFALSCH      ..... ungÅltiger Name
+    8115   KEE_FUBNICHTDA      ..... falscher FUB-Index
+    8116   KEE_KEININDEX       ..... kein Positionsindex gefunden
+    8117   KEE_LEER            ..... leerer KOP
+
+    @811[ KOP - Editor ]                                                   @001[ öbersicht ]
+.811
+    Beschreibung zu den PG FEHLER-NUMMERN
+    K O N T A K P L A N  E D I T O R
+
+    8118   KEE_NOFUB           ..... kein Fub gefunden
+    8119   KEE_NOUP            ..... UP ist nicht erlaubt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @820[ AWL - Editor ]                                                   @001[ öbersicht ]
+.820
+    Beschreibung zu den PG FEHLER-NUMMERN
+    A N W E I S U N G S L I S T E
+
+    8240   IL_MEM_ERR          .....
+    8241   IL_LONG_ERR         .....
+    8250   IL_BAD_SOURCE       .....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @900[ Codegenerator ]                                                  @001[ öbersicht ]
+.900
+    Beschreibung zu den PG FEHLER-NUMMERN
+    C O D E G E N E R A T O R
+
+    interne Fehler haben im Kommentar die Kennung "I", Bedienungsfehler "B"
+    Fehler mit Kennung IB sind zwar intern, lassen sich aber durch geeignete
+    Ma·nahmen meist beheben.
+
+    9000   ERR_CG_UNKNOWN      ..... I
+    9001   ERR_CGAO_SWITCH     ..... I
+    9002   ERR_CG_ZPTREAD      ..... I Fehler beim Lesen eines Token
+    9006   ERR_CG_ESTCK_NOT_EMP..... I
+    9007   ERR_CG_NO_EMIT_OP   ..... I
+    9008   ERR_CG_LSTCK_NOT_EMP..... I
+    9009   ERR_CG_LSTACK       ..... I
+    9010   ERR_CG_NO_ARRAY     ..... B Einfache Pv wird als Feld verwendet
+    9011   ERR_CG_ACTION_OVERFL..... B Bereich der ACTIONS Åberschreitet
+                                       Maximalanzahl! (512 ?)
+    9012   ERR_CG_ACTION_DUPLIK..... B Bereich der ACTIONS Åberschneidet sich
+    9013   ERR_CG_NO_INPARAMETE..... B Erster Parameter der Function mu·
+                                       ein Inparameter (AKKU) sein
+
+    @901[ Codegenerator ]                                                  @001[ öbersicht ]
+.901
+    Beschreibung zu den PG FEHLER-NUMMERN
+    C O D E G E N E R A T O R
+
+    9020   ERR_CG_PARAM_OVERFLO..... B Parameteranzahl fÅr Fub zu gro·
+    9021   ERR_CG_FUB_PARAM    ..... B
+    9022   ERR_CG_NO_L_VALUE   ..... B Es wird Versucht einen Wert auf einen
+                                       Ausdruck zuzuweisen. Vorsicht bei
+                                       Fub-Outparametern
+    9023   ERR_CG_NO_FREE_OFFSR..... IB Kein freies D-Register fÅr Offset-
+                                        Berechnung: Feld-Schachtelungstiefe
+                                        zu hoch
+    9024   ERR_CG_NO_FREE_REG  ..... I
+    9025   ERR_CG_MEMFAIL      ..... I Zuwenig Speicher
+    9026   ERR_CG_ESTACK_OVERFL..... IB ev. zu tief verschachtelter Ausdruck
+    9027   ERR_CG_ESTACK_UNDERF..... I
+    9028   ERR_CG_WRONG_DYN_MOD..... I
+    9029   ERR_CG_ACCESS_NODYNA..... B Links vom Access-Operator steht keine
+                                       dynamische Variable
+    9030   ERR_CG_WRONG_FUB_MOD..... I
+
+
+    @902[ Codegenerator ]                                                  @001[ öbersicht ]
+.902
+    Beschreibung zu den PG FEHLER-NUMMERN
+    C O D E G E N E R A T O R
+
+    9031   ERR_CG_INLINEFUB    ..... IB Fehler beim Interpretieren des Inline-
+                                        Fubcodes. (Status des Interpreters als
+                                        Message)
+    9032   ERR_CG_CASE_KONST   ..... B  Case-Auswahl = Konstant
+    9033   ERR_FKT_STACK_OVERFL..... I
+    9040   ERR_CG_NO_EFF_ADR   ..... I  Adressoperator auf nicht <ea>
+
+    Datentypfehler
+    -------------------------------------------------------------------------
+    9101   BR_ZP_MEMFAIL       ..... I  Zuwenig Speicher
+    9102   ERR_CG_SOURCE_TOO_BI..... B  Datentyp der linken Seite einer
+                                        Zuweisung ist "kleiner" als der Datentyp
+                                        der rechten Seite (kann auch bei
+                                        Zuweisung auf Fub-Parameter auftreten)
+    9111   ERR_CG_INVALID_DTCL ..... B  Datentypen nicht zusammenpassend
+
+
+
+    @903[ Codegenerator ]                                                  @001[ öbersicht ]
+.903
+    Beschreibung zu den PG FEHLER-NUMMERN
+    C O D E G E N E R A T O R
+
+    9121   ERR_CG_DTCL_OP_CONFL..... B Operation auf diesen Datentyp
+                                       nicht erlaubt
+    9131   ERR_CG_INVALID_INDEX..... Feldindex kein Integraler Datentyp
+
+    Blockstatemachine
+    -------------------------------------------------------------------------
+    9201   ERR_CG_ZEILENTYP    ..... B Zeilentyp noch nicht implementiert
+    9202   ERR_BSTACK          ..... B Exitif ohne Loop-Block
+    9203   ERR_BSTACK_OVERFLOW ..... IB Blockstack zu klein
+    9203   ERR_LABEL_OVERFLOW  ..... I Zuviele Labels
+
+    Fehler des ZPT-Interface
+    -------------------------------------------------------------------------
+    9401   ERR_ZPT_MALLOC      ..... I Zuwenig Speicher
+    9402   ERR_ZPT_FILEOPEN    ..... B Zeilen- oder Tokenblock kann nicht
+                                       geîffnet werden
+
+
+    @904[ Codegenerator ]                                                  @001[ öbersicht ]
+.904
+    Beschreibung zu den PG FEHLER-NUMMERN
+    C O D E G E N E R A T O R
+
+    AG - Errormeldungen
+    -------------------------------------------------------------------------
+    9501   ERR_AG_NOMEM        ..... I Zuwenig Speicher
+    9502   ERR_AG_2EA          ..... I Operation mit 2 Effektivadressen*/
+    9503   ERR_AG_ADR_NOT_LONG ..... I
+    9510   ERR_AG_TYP_OP_CONFLI..... I
+    9511   ERR_AG_FATAL        ..... I
+    9504   ERR_AG_MULDIV       ..... I
+    9596   ERR_AG_CLOSE        ..... I
+    9597   ERR_AG_EXG_REG      ..... I
+    9598   ERR_AG_DEBUG        ..... I
+    9599   ERR_AG_T1           ..... I
+
+    IL - Errornummern
+    -------------------------------------------------------------------------
+    9601   ERR_IL_NO_AKKU      ..... B Akku nicht durch eine LADE-OPERATION def.
+    9602   ERR_IL_OPEN_BLOCKS  ..... B AWL-Block nicht geschlossen / Klammerung
+
+    @980[ Zeilenparser ]                                                   @001[ öbersicht ]
+.980
+    Beschreibung zu den PG FEHLER-NUMMERN
+    Z E I L E N P A R S E R
+
+    9803   ZP_ERR_ACTION_RANGE ..... B Action-Bereich nicht zulÑssig
+    9805   ZP_ERR_ALLOC_KNOTENF..... I Zuwenig Speicher
+    9806   ZP_ERR_ALLOC_KONSTFE..... I Zuwenig Speicher
+    9807   ZP_ERR_ZEILE_ZU_GROS..... B
+    9808   ZP_ERR_NOT_AUF_FLOAT..... B Negation einer Float-Konstante
+    9809   ZP_ERR_STRING_UPDATE..... I
+    9810   ZP_ERR_UNERLAUBTE_OP..... B Logische Op. auf Float od String
+    9811   ZP_ERR_NO_INTEGRAL_K..... I ??*/
+    9814   ZP_ERR_AUSG_STACK   ..... IB Zu tief verschachtelte Zeile
+    9900   ZP_ERR_CONSTRANGE   ..... B Warning: Negative Konstante
+                                       die |absolut| > (2 hoch 31)
+    9901   ZP_ERR_DIVIDE_BY_ZER..... B Entsteht bei KonstantenverknÅpfung
+
+
+
+
+
+
+    @990[ Blockparser ]                                                    @001[ öbersicht ]
+.990
+    Beschreibung zu den PG FEHLER-NUMMERN
+    B L O C K P A R S E R
+
+    9901   BP_ERR_LABEL_OVERFLO..... I Zuviele Labels
+    9902   BP_ERR_LABEL_DUPLIKA..... B Zweimal derselbe Label
+    9903   BP_ERR_CONTROL_STACK..... B ELSE ohne IF
+    9904   BP_ERR_CONTROL_ENDIF..... B ENDIF ohne IF
+    9905   BP_ERR_CONTROL_EXITI..... B EXITIF ohne LOOP-Block
+    9906   BP_ERR_CONTROL_ENDLO..... B ENDLOOP ohne LOOP
+    9907   BP_ERR_CONTROL_ENDCA..... B ENDCASE ohne CASE
+    9908   BP_ERR_CONTROL_ACTIO..... B ACTION ohne CASE
+    9910   BP_ERR_UNERLAUBTE_ZE..... I Zeilentyp nicht Implementiert
+    9911   BP_ERR_UNKNOWN      ..... I Fataler Fehler
+    9912   BP_ERR_OPEN_BLOCKS  ..... B Blockkonstrukt nicht abgeschlossen
+    9913   BP_ERR_MEMFAIL      ..... I Zuwenig Speicher
+    9914   BP_ERR_CONTROL_UNDEF..... B Label nicht vorhanden
+    9915   BP_ERR_CONTROL_STACK..... I
+    9916   BP_ERR_LABELKONFLIKT..... B Statelabel mit gewîhnlichem
+                                       Label verwechselt
+    9917   BP_ERR_SELECT       ..... B Fehler in Selectblock
+
+    @991[ Blockparser ]                                                    @001[ öbersicht ]
+.991
+    Beschreibung zu den PG FEHLER-NUMMERN
+    B L O C K P A R S E R
+
+    9918   BP_ERR_NO_BLOCK     ..... B Anweisung nicht in Action_block
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @1000[ Source Level Debugger ]                                          @001[ öbersicht ]
+.1000
+    Beschreibung zu den PG FEHLER-NUMMERN
+    S O U R C E L E V E L  D E B U G G E R
+
+    10003   DE_ERR_LOAD        ..... Fehler beim Laden
+    10006   DE_ERR_NOTASK      ..... Task nicht verfÅgbar
+    10009   DE_ERR_INSTALL     ..... Task nicht installierbar
+    10013   DE_ERR_INIT        ..... Fehler in INIT-Phase
+    10033   DE_ERR_WRONGTYP    ..... Falscher Source-Typ
+    10034   DE_ERR_NOFILE      ..... Source-Datei kann nicht geîffnet werden
+    10035   DE_ERR_NOLINEINFO  ..... Keine Zeilen-Information in Datei
+    10036   DE_ERR_LOCKED      ..... Zuwenig Blockspeicher, andere Fenster
+                                     schlie·en
+    10037   DE_ERR_INFO        ..... Fehler in der Debug-Info
+    10038   DE_ERR_NOSOURCE    ..... Source-Block nicht lesbar
+    10039   DE_ERR_NODOMAIN    ..... Debug-Domain nicht verfÅgbar
+    10040   DE_ERR_NODEBUG     ..... Debugger-Datei nicht verfÅgbar
+    10041   DE_ERR_NOMEM       ..... Zuwenig Speicherplatz
+    10042   DE_ERR_LOADER      ..... anderer Fehler beim Laden
+    10043   DE_ERR_NOBURFILE   ..... Bur-Datei kann nicht geîffnet werden
+    10046   DE_ERR_NOOBJECT    ..... br-Datei nicht vorhanden oder zu alt
+
+    @1100[ Klemmbrett ]                                                     @001[ öbersicht ]
+.1100
+    Beschreibung zu den PG FEHLER-NUMMERN
+    K L E M M B R E T T
+
+    11000   CB_FULL            ..... B Klemmbrett voll, Lîschen hilft
+    11001   CB_NOT_FOUND       ..... IB kein Eintrag im Klemmbrett gefunden
+    11010   CB_TOO_BIG         ..... I Blockgrî·e Åberschritten
+    11011   CB_BAD_HANDLE      ..... I falsches Klemmbrett-Handle
+    11012   CB_BAD_ENTRY       ..... I falscher Sub-Eintrag
+    11013   CB_BLOCK_FULL      ..... I zuviele Sub-EintrÑge (> 16)
+    11014   CB_BAD_TYP         ..... I falscher Subeintrag
+
+
+
+
+
+
+
+
+
+
+
+    @1200[ FUB-Editor ]                                                     @001[ öbersicht ]
+.1200
+    Beschreibung zu den PG FEHLER-NUMMERN
+    F U B - E D I T O R
+
+    12001   FE_NOTINIT        ..... FUB-Editor konnte nicht initialisiert werden
+    12002   FE_CURIN          ..... Curser steht im FUB
+    12003   FE_NOMOVE         ..... Fehler beim verschieben eines Kontaktes
+    12004   FE_NONAME         ..... kein Name fÅr I/O_Variable
+    12005   FE_NOEXIT         ..... Doch nicht aussteigen
+    12006   FE_NOTSAVED       ..... Fehler beim sichern
+    12007   FE_NOEA           ..... Keine Elemente in der Ein-/Ausgangsliste
+    12008   FE_CANCEL         ..... Eingabe wurde mit <ESC> o. <CANCEL> beendet
+    12009   FE_NAMEINFUB      ..... gewÑhlter Name ist bereits in FUB
+    12010   FE_WRONGNAME      ..... ungÅltiger Variablenname
+
+
+
+
+
+
+
+
+    @1500[ KOP-Parser ]                                                     @001[ öbersicht ]
+.1500
+    Beschreibung zu den PG FEHLER-NUMMERN
+    K O P - P A R S E R
+
+    15001   KPE_FILEFEHL      ..... Fehler beim Datei-ôffnen
+    15002   KPE_VMFEHL        ..... Diesen KOP gibt es nicht
+    15003   KPE_VWSTACK       ..... VW Stack ist voll
+    15004   KPE_VERZWAMANF    ..... Verzw. wurde am Anfang gefunden
+    15005   KPE_INHFEHL       ..... Fehler in KP_getInhalt->fehlerhafte Matrix
+    15006   KPE_VWRWSTACK     ..... VWRW Stack ist voll
+    15008   KPE_KEINREG       ..... alle Register verbraucht
+    15009   KPE_RICHTUNG      ..... KOP-Pfad: RichtungsÑnderung
+    15010   KPE_SUBSTACK      ..... Verzw.substack ist voll
+    15011   KPE_KURZSCHLUSS   ..... KOP enthÑlt Kurzschlu·
+    15012   KPE_AUSGANGNIE    ..... Ausgang wird nie erreicht
+    15013   KPE_VERZWNIE      ..... Verzweigung wird nie erreicht
+    15014   KPE_GESTRUEPP     ..... KOP enthÑlt sinnloses Linienkonstrukt
+    15007   KPE_STACKREST     ..... Verzw.stack wurde nicht vollst.abgearbeitet
+    15015   KPE_KEINAST       ..... Verzw. hat keinen VW-Ast -> sinnlos
+    15016   KPE_TYPFALSCH     ..... Kont. mit nicht zusammenpassenden Typen
+    15017   KPE_KOPFEHLER     ..... Editor hat bereits Fehler gefunden
+
+    @1501[ KOP-Parser ]                                                     @001[ öbersicht ]
+.1501
+    Beschreibung zu den PG FEHLER-NUMMERN
+    K O P - P A R S E R
+
+    15018   KPE_FUBNIE        ..... Fub hat keine Ein- od. Ausparameter
+    15019   KPE_EDIFEHL       ..... Fehler, den der Editor finden mu·
+    15020   KPE_KOPALT        ..... Kop mit altem Format wird bearbeitet
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @2000[ Behandlungscodes ]                                               @001[ öbersicht ]
+.2000
+    Beschreibung zu den PG FEHLER-NUMMERN
+    Behandlungscodes fÅr Errorhandleraufrufe
+
+    10   AIE_FATALERROR_ABBRU    .....
+         5   AIE_ABBRUCH         .....
+         0   MIT_QUIT            .....
+         0   NO_ERR              .....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ öbersicht ]
+
+.End

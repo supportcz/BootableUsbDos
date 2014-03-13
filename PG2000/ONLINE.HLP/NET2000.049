@@ -1,0 +1,2075 @@
+%%
+1,0:1
+%%
+.1
+    Funktionen der NET2000-Library
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º ACHTUNG: Die Funktionen der NET2000-Library k”nnen nur verwendet werden,  º
+  º          wenn das B&R-Modul NET2000.BR im nullspannungssicheren Speicher  º
+  º          (Anwender-ROM) der Steuerung vorhanden ist!                      º
+  º          Nach dem šbertragen dieses B&R-Moduls in den nullspannungs-      º
+  º          sicheren Speicher muá ein KALTSTART (frher "TOTALINIT" genannt) º
+  º          durchgefhrt werden.                                             º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+    NET2000 ist ein Kommunikationsprotokoll zur Vernetzung von Systemen der
+    RPS-Familie 2000 (B&R 2010, B&R 2005, B&R 2003 und Panelware). Fr NET2000
+    wird keine zus„tzliche Hardware ben”tigt, es gengen die Schnittstellen
+    der jeweiligen Zentraleinheiten, Schnittstellenmodule, Multiprozessoren,
+    Parallelprozessoren bzw. intelligenten I/O-Prozessoren. Das Protokoll ist
+    auf gr”átm”glichen Datendurchsatz ausgerichtet.
+    Die nachfolgend beschriebenen Funktionsbl”cke (FUBs) k”nnen eine Lese- bzw.
+    Schreib-Anforderung (Read- bzw. Write-Request) absetzen. Die Parametrierung
+    erfolgt ber eine angeschlossene Tabelle bzw. ber eine Struktur mit vor-
+    definiertem Format.
+                                     @002[ Fortsetzung ]               @999[ HILFE beenden ]
+.2
+    Funktionen der NET2000-Library (Fortsetzung)
+
+    Nach dem Importieren der NET2000-Library stehen Ihnen folgende Funktionen
+    zur Verfgung:
+
+    @020[NET2read ] NET2000 - zyklisches Lesen von PVs
+    @050[NET2write] NET2000 - zyklisches Schreiben auf PVs
+
+    Es k”nnen mehrere Funktionsbl”cke gleichzeitig aktiv sein. Die Funktions-
+    bl”cke k”nnen sowohl am Master als auch am Slave mit Querverkehr verwendet
+    werden (Querverkehr kann nur bei aktivem Master im Kontext einer Layer2-
+    Response vom Slave angefordert werden, d.h. der Slave muá zyklisch vom
+    Master gepollt werden).
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.20
+    NET2read - zyklisches Lesen von PVs
+
+    NET2read (enable,destadr,adr(pvlist),pvnum,adr(dataarea),datlng,ok,
+              status,record,reqcnt,rqdatlng)
+
+    Parameter-Datentypen :
+    ->  @025[enable    ]: BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  @026[destadr   ]: INT32         Nummer der Station, von der Daten gelesen
+                                  werden sollen (Stationsnummer).
+    ->  @027[pvlist    ]: @350[ALLE]          Auftragsliste. Die Auftragsliste kann ent-
+                                  weder ber ein Struktur-Feld oder ein Daten-
+                                  modul realisiert werden.
+    ->  @028[pvnum     ]: WORD          Low-Byte .... Anzahl der Auftr„ge in der
+                                                Auftragsliste
+                                  High-Byte ... Netzwerk-Nummer
+    <-> @029[dataarea  ]: @350[ALLE]          Speicherbereich, auf den die gelesenen Daten
+                                  kopiert werden.
+    ->  @030[datlng    ]: WORD          Gr”áe des Speicherbereichs ("dataarea") in
+                                  Byte.
+
+                                     @021[ Fortsetzung ]                   @001[ šbersicht ]
+.21
+    NET2read - zyklisches Lesen von PVs (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    <-  @031[ok        ]: BIT           Lese-Auftrag abgeschlossen.
+    <-  @032[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+    <-  @034[record    ]: LONG          Nummer des gerade bearbeiteten Auftrags
+                                  (Get-OV).
+    <-  @035[reqcnt    ]: LONG          Request-Z„hler (wird bei jedem erfolgreichen
+                                  Lese-Zyklus inkrementiert).
+    <-  @036[rqdatlng  ]: WORD          Tats„chliche L„nge der gerade bearbeiteten
+                                  Prozeávariable (Get-OV).
+
+    Bei jeder Aktivierung dieser Funktion wird ein Kommunikationsdienst (GetOV
+    oder Read-Request) abgesetzt, falls kein Response ausst„ndig ist.
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.25
+    NET2read - zyklisches Lesen von PVs (Fortsetzung)
+
+    -> Parameter <enable    >: BIT
+
+    Wenn sich der Wert des Eingangsparameters "enable" von 0 auf 1 „ndert
+    (positive Flanke), wird der Funktionsblock NET2read() aktiviert.
+    šber den Get-OV-Dienst wird versucht, die notwendigen Informationen ber
+    die Datenpunkte (Prozeávariablen) in der Auftragsliste ("pvlist") zu er-
+    halten. Kann der Get-OV-Dienst fehlerfrei durchgefhrt werden, so werden
+    die Datenpunkte zyklisch gelesen und in den Speicherbereich "dataarea"
+    kopiert, bis der Eingangsparameter "enable" wieder zurckgesetzt wird.
+
+
+
+
+
+
+
+
+
+
+                                      @020[ NET2read ]                     @001[ šbersicht ]
+.26
+    NET2read - zyklisches Lesen von PVs (Fortsetzung)
+
+    -> Parameter <destadr   >: INT32
+
+    Mit diesem Parameter wird die Nummer der NET2000-Station, von der Daten
+    gelesen werden sollen, festgelegt. Um dem Funktionsblock NET2read() mit-
+    zuteilen, ob zur Definition der Variablen ein Struktur-Feld oder ein
+    Datenmodul verwendet wird, wird das Vorzeichen der Stationsnummer ver-
+    wendet:
+    Sollen die Variablen mit einem Struktur-Feld definiert werden, wird die
+    Stationsnummer negativ angegeben (z.B. -7 fr Station 7). Fr "adr(pvlist)"
+    wird in diesem Fall die Adresse der Struktur angegeben.
+    Ist die Stationsnummer positiv, so sind die Datentransfers in einem Daten-
+    modul definiert. In diesem Fall wird fr den "adr(pvlist)" die Startadresse
+    des Datenmoduls angegeben. Die Startadresse eines Datenmoduls k”nnen Sie
+    mit der Funktion DA_info() (siehe BURTRAP-Library) ermitteln.
+
+
+
+
+
+                                      @020[ NET2read ]                     @001[ šbersicht ]
+.27
+    NET2read - zyklisches Lesen von PVs (Fortsetzung)
+
+    -> Parameter <pvlist    >: @350[ALLE] (beliebiger Datentyp)
+
+    Fr "adr(pvlist)" (Auftragsliste) wird entweder die Adresse eines Struktur-
+    Feldes mit bis zu 6 Elementen (ein Element pro Prozeávariable) oder die
+    Startadresse eines Datenmoduls mit bis zu 6 Eintr„gen (ein Eintrag pro
+    Prozeávariable) angegeben (siehe Parameter @026[destadr]).
+
+    Format der Struktur:
+    pvlng    : WORD               L„nge der Prozeávariable (Angabe in Byte)
+    pvname   : 32 BYTE (FELD)     Name der Prozeávariable (String).
+
+    Format des Datenmoduls:
+    $0002, "PVword",
+    $0020, "PVlng20"
+    ÄÄÂÄÄ  ÄÄÄÄÂÄÄÄÄ 
+      ³        ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ L„nge der Prozeávariable (WORD)
+      ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Name der Prozeávariable (String)
+
+
+                                      @020[ NET2read ]                     @001[ šbersicht ]
+.28
+    NET2read - zyklisches Lesen von PVs (Fortsetzung)
+
+    -> Parameter <pvnum     >: WORD
+
+    Low-Byte .... Gesamtanzahl der Prozeávariablen (PVs), die in der Auftrags-
+                  liste enthalten sind (Gesamtanzahl der zu lesenden PVs).
+    High-Byte ... @280[Nummer des NET2000-Netzwerks] (0 bis 3).
+                  Um mehrere Netzwerke konfigurieren zu k”nnen, werden fr
+                  jedes Netzwerk eigene Konfigurationsvariablen ben”tigt.
+                  šber die Struktur NET2000 kann nur ein Netzwerk betreut
+                  werden. Mit einem Feld von Strukturen besteht die M”glich-
+                  keit, mehrere NET2000-Netzwerke zu betreuen.
+
+
+
+
+
+
+
+
+
+                                      @020[ NET2read ]                     @001[ šbersicht ]
+.29
+    NET2read - zyklisches Lesen von PVs (Fortsetzung)
+
+    <->Parameter <dataarea  >: @350[ALLE] (beliebiger Datentyp)
+
+    Speicherbereich, auf den die gelesenen Daten kopiert werden.
+    šber den Speicherbereich kann eine Struktur mit den Datentypen der ge-
+    lesenen Variablen gelegt werden. Damit werden Zugriffe fr die Weiter-
+    verarbeitung vereinfacht. Diese Vorgangsweise sollte jedoch nur ange-
+    wendet werden, wenn die Auftragsliste als Datenmodul realisiert ist
+    (eine Erkl„rung dazu finden Sie im folgenden Absatz).
+
+    ACHTUNG:
+    Wenn die Auftragsliste als Struktur-Feld realisiert ist, und ber diese
+    Liste mehrere Variablen gleichzeitig gelesen bzw. geschrieben werden,
+    wird im Speicherbereich "dataarea" keine WORD-AUSRICHTUNG vorgenommen!
+    D.h. bei einem Lese-Auftrag fr eine BYTE- und eine WORD-Variable wird
+    der Wert der WORD-Variable im Speicher unmittelbar hinter dem Wert der
+    BYTE-Variable abgelegt. Die WORD-Variable beginnt also an einer UNGERADEN
+    Adresse. Wird in diesem Fall ber den Speicherbereich eine Struktur ge-
+    legt, fhrt das zu Fehlern, da fr Strukturen IMMER die WORD-Ausrichtung
+    verwendet wird.
+                                      @020[ NET2read ]                     @001[ šbersicht ]
+.30
+    NET2read - zyklisches Lesen von PVs (Fortsetzung)
+
+    -> Parameter <datlng    >: WORD
+
+    Gesamtl„nge der zu lesenden Daten in Byte (L„nge von "dataarea").
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @020[ NET2read ]                     @001[ šbersicht ]
+.31
+    NET2read - zyklisches Lesen von PVs (Fortsetzung)
+
+    <- Parameter <ok        >: BIT
+
+    Der Ausgangsparameter "ok" wird fr einen Zyklus auf logisch 1 gesetzt,
+    wenn die Daten erfolgreich gelesen wurden. Im n„chsten Zyklus wird die
+    n„chste Lese-Anforderung (Request) abgesetzt.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @020[ NET2read ]                     @001[ šbersicht ]
+.32
+    NET2read - zyklisches Lesen von PVs (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Enth„lt im Fehlerfall eine Fehlernummer (0 = kein Fehler).
+    Die folgenden Fehlernummern werden vom Funktionsblock generiert und im
+    Fehlerfall am Ausgang "status" ausgegeben:
+
+    20000   Kein NET2000-Manager installiert
+    20001   Fehler im L„ngenvergleich - Get-OV
+            (Verglichen wird die tats„chliche L„nge der Prozeávariable mit
+            der L„nge in "pvlist")
+    20002   Objekt existiert nicht auf der Zielstation
+    20003   Kommunikationsfehler
+    20004   NET2000-Manager kann nicht gestartet werden bzw.
+            NET2000.station ist nicht definiert
+    20005   Zu viele Prozeávariablen (PVs) pro Funktionsblock (maximale PV-
+            Anzahl pro Funktionsblock = 6)
+
+
+
+                                     @033[ Fortsetzung ]                   @001[ šbersicht ]
+.33
+    NET2read - zyklisches Lesen von PVs (Fortsetzung)
+
+    Die folgenden Fehlernummern werden im NET2000-Protokoll generiert und im
+    Fehlerfall am Ausgang "status" ausgegeben:
+
+    $07     Fehlerantwort des CLIENTS - Layer7 (lokal)
+    $04     Fehlerantwort des CLIENTS - Layer4 (lokal)
+    $02     Fehlerantwort des CLIENTS - Layer2 (lokal)
+    $17     Fehlerantwort des SERVERS - Layer7 (Kommunikationspartner)
+    $14     Fehlerantwort des SERVERS - Layer4 (Kommunikationspartner)
+    $12     Fehlerantwort des SERVERS - Layer2 (Kommunikationspartner)
+
+    Wird im zyklischen Betrieb des Funktionsblocks ein Fehler direkt aus dem
+    NET2000-Protokoll ausgelesen, so wird am Ausgang "@036[rqdatlng]" eine detail-
+    liertere Fehlerinformation ausgegeben.
+
+
+
+
+
+
+                                      @020[ NET2read ]                     @001[ šbersicht ]
+.34
+    NET2read - zyklisches Lesen von PVs (Fortsetzung)
+
+    <- Parameter <record    >: LONG
+
+    In der Get-OV-Phase wird hier die Nummer (beginnend mit 1) des gerade be-
+    arbeiteten PV-Eintrags der Auftragsliste ("pvlist") ausgegeben. Im Fehler-
+    fall kann durch diese Nummer die fehlerhafte Prozeávariable lokalisiert
+    werden.
+    Dieser Parameter ist nur relevant, wenn der Lesevorgang unterbrochen wird,
+    oder ein šbertragungsfehler auftritt!
+
+
+
+
+
+
+
+
+
+
+
+                                      @020[ NET2read ]                     @001[ šbersicht ]
+.35
+    NET2read - zyklisches Lesen von PVs (Fortsetzung)
+
+    <- Parameter <reqcnt    >: LONG
+
+    Bei jedem erfolgreichen Lese-Zyklus wird diese Variable inkrementiert
+    (um 1 erh”ht).
+    Der Parameter "reqcnt" dient zur Fehleranalyse. D.h. dieser Parameter
+    ist nur relevant, wenn der Lesevorgang unterbrochen wird, oder ein šber-
+    tragungsfehler auftritt!
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @020[ NET2read ]                     @001[ šbersicht ]
+.36
+    NET2read - zyklisches Lesen von PVs (Fortsetzung)
+
+    <- Parameter <rqdatlng  >: WORD
+
+    In der Get-OV-Phase wird hier die Datenl„nge der gerade bearbeiteten
+    Prozeávariable ausgegeben. Die tats„chliche L„nge der PV kann somit im
+    Fehlerfall (20001) festgestellt werden.
+    Der Parameter "rqdatlng" dient zur Fehleranalyse. D.h. dieser Parameter
+    ist nur relevant, wenn der Lesevorgang unterbrochen wird, oder ein šber-
+    tragungsfehler auftritt!
+
+
+
+
+
+
+
+
+
+
+
+                                     @037[ Fortsetzung ]                   @001[ šbersicht ]
+.37
+    NET2read - zyklisches Lesen von PVs (Fortsetzung)
+
+    Wird im zyklischen Betrieb des Funktionsblocks ein Fehler direkt aus dem
+    NET2000-Protokoll ausgelesen, so wird am Ausgang "rqdatlng" eine detail-
+    liertere Fehlerinformation ausgegeben:
+
+    $01     Kein L7-Response-Puffer entsprechender Gr”áe vorhanden
+    $02     Objekt-Indexfehler / Index in der Indexliste des Servers nicht
+            belegt
+    $03     L7-Dienst (Servicecode) wird nicht untersttzt
+    $04     Adressierter Kanal existiert nicht
+            (Antwort mit bergebener Kanalnummer)
+    $05     Fehlerhafte Syntax fr ereignisgetriebenes Objekt (Eventliste)
+    $06     Kein Eventmanager installiert
+    $07     Eventliste zu klein konfiguriert
+    $08     Objekt ist keine Struktur
+    $09     Fehler aus Objektstruktur lesen
+    $0A     Anderer "Master" als der "Event-Master" versucht eventgesteuerte
+            PVs anzumelden
+    $0B     Objekt-Indexfehler / Index out of Range
+
+                                     @038[ Fortsetzung ]                   @001[ šbersicht ]
+.38
+    NET2read - zyklisches Lesen von PVs (Fortsetzung)
+
+    $0C     Kein L7-Request-Puffer entsprechender Gr”áe vorhanden
+    $0D     Kein L7(L4)-Confirmation-Puffer entsprechender Gr”áe vorhanden
+    $0E     Kein L7(L4)-Indication-Puffer entsprechender Gr”áe vorhanden
+    $0F     Null-Pointer-Zugriff ber eine dynamische Variable
+
+    Anmerkung: Wenn "status" = $17 und "rqdatlng" = $02, muá der Get-OV-Dienst
+               erneut durchgefhrt werden.
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @020[ NET2read ]                     @001[ šbersicht ]
+.50
+    NET2write - zyklisches Beschreiben von PVs
+
+    NET2write (enable,destadr,adr(pvlist),pvnum,adr(dataarea),datlng,ok,
+               status,record,reqcnt,rqdatlng)
+
+    Parameter-Datentypen :
+    ->  @055[enable    ]: BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  @056[destadr   ]: INT32         Nummer der Station, auf die Daten bertragen
+                                  werden sollen (Stationsnummer).
+    ->  @057[pvlist    ]: @350[ALLE]          Auftragsliste. Die Auftragsliste kann ent-
+                                  weder ber ein Struktur-Feld oder ein Daten-
+                                  modul realisiert werden.
+    ->  @058[pvnum     ]: WORD          Low-Byte .... Anzahl der Auftr„ge in der
+                                                Auftragsliste
+                                  High-Byte ... Netzwerk-Nummer
+    ->  @059[dataarea  ]: @350[ALLE]          Speicherbereich, in den die zu schreibenden
+                                  Daten eingetragen werden.
+    ->  @061[datlng    ]: WORD          Gr”áe des Speicherbereichs ("dataarea") in
+                                  Byte.
+
+                                     @051[ Fortsetzung ]                   @001[ šbersicht ]
+.51
+    NET2write - zyklisches Beschreiben von PVs (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    <-  @062[ok        ]: BIT           Schreib-Auftrag abgeschlossen.
+    <-  @063[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+    <-  @065[record    ]: LONG          Nummer des gerade bearbeiteten Auftrags
+                                  (Get-OV).
+    <-  @066[reqcnt    ]: LONG          Request-Z„hler (wird bei jedem erfolgreichen
+                                  Schreib-Zyklus inkrementiert).
+    <-  @067[rqdatlng  ]: WORD          Tats„chliche L„nge der gerade bearbeiteten
+                                  Prozeávariable (Get-OV).
+
+    Bei jeder Aktivierung dieser Funktion wird ein Kommunikationsdienst (GetOV
+    oder Write-Request) abgesetzt, falls kein Response ausst„ndig ist.
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.55
+    NET2write - zyklisches Beschreiben von PVs (Fortsetzung)
+
+    -> Parameter <enable    >: BIT
+
+    Wenn sich der Wert des Eingangsparameters "enable" von 0 auf 1 „ndert
+    (positive Flanke), wird der Funktionsblock NET2write() aktiviert.
+    šber den Get-OV-Dienst wird versucht, die notwendigen Informationen ber
+    die Datenpunkte (Prozeávariablen) in der Auftragsliste ("pvlist") zu er-
+    halten. Kann der Get-OV-Dienst fehlerfrei durchgefhrt werden, so werden
+    die Datenpunkte zyklisch mit den im Speicherbereich "dataarea" abgelegten
+    Daten beschrieben, bis der Eingangsparameter "enable" wieder zurckgesetzt
+    wird.
+
+
+
+
+
+
+
+
+
+                                      @050[ NET2write ]                    @001[ šbersicht ]
+.56
+    NET2write - zyklisches Beschreiben von PVs (Fortsetzung)
+
+    -> Parameter <destadr   >: INT32
+
+    Mit diesem Parameter wird die Nummer der NET2000-Station, auf die Daten
+    bertragen werden sollen, festgelegt. Um dem Funktionsblock NET2write()
+    mitzuteilen, ob zur Definition der Variablen ein Struktur-Feld oder ein
+    Datenmodul verwendet wird, wird das Vorzeichen der Stationsnummer ver-
+    wendet:
+    Sollen die Variablen mit einem Struktur-Feld definiert werden, wird die
+    Stationsnummer negativ angegeben (z.B. -7 fr Station 7). Fr "adr(pvlist)"
+    wird in diesem Fall die Adresse der Struktur angegeben.
+    Ist die Stationsnummer positiv, so sind die Datentransfers in einem Daten-
+    modul definiert. In diesem Fall wird fr den "adr(pvlist)" die Startadresse
+    des Datenmoduls angegeben. Die Startadresse eines Datenmoduls k”nnen Sie
+    mit der Funktion DA_info() (siehe BURTRAP-Library) ermitteln.
+
+
+
+
+
+                                      @050[ NET2write ]                    @001[ šbersicht ]
+.57
+    NET2write - zyklisches Beschreiben von PVs (Fortsetzung)
+
+    -> Parameter <pvlist    >: @350[ALLE] (beliebiger Datentyp)
+
+    Fr "adr(pvlist)" (Auftragsliste) wird entweder die Adresse eines Struktur-
+    Feldes mit bis zu 6 Elementen (ein Element pro Prozeávariable) oder die
+    Startadresse eines Datenmoduls mit bis zu 6 Eintr„gen (ein Eintrag pro
+    Prozeávariable) angegeben (siehe Parameter @056[destadr]).
+
+    Format der Struktur:
+    pvlng    : WORD               L„nge der Prozeávariable (Angabe in Byte)
+    pvname   : 32 BYTE (FELD)     Name der Prozeávariable (String).
+
+    Format des Datenmoduls:
+    $0002, "PVword",
+    $0020, "PVlng20"
+    ÄÄÂÄÄ  ÄÄÄÄÂÄÄÄÄ 
+      ³        ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ L„nge der Prozeávariable (WORD)
+      ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Name der Prozeávariable (String)
+
+
+                                      @050[ NET2write ]                    @001[ šbersicht ]
+.58
+    NET2write - zyklisches Beschreiben von PVs (Fortsetzung)
+
+    -> Parameter <pvnum     >: WORD
+
+    Low-Byte .... Gesamtanzahl der Prozeávariablen (PVs), die in der Auftrags-
+                  liste enthalten sind (Gesamtanzahl der zu beschreibenden
+                  PVs).
+    High-Byte ... @280[Nummer des NET2000-Netzwerks] (0 bis 3).
+                  Um mehrere Netzwerke konfigurieren zu k”nnen, werden fr
+                  jedes Netzwerk eigene Konfigurationsvariablen ben”tigt.
+                  šber die Struktur NET2000 kann nur ein Netzwerk betreut
+                  werden. Mit einem Feld von Strukturen besteht die M”glich-
+                  keit, mehrere NET2000-Netzwerke zu betreuen.
+
+
+
+
+
+
+
+
+                                      @050[ NET2write ]                    @001[ šbersicht ]
+.59
+    NET2write - zyklisches Beschreiben von PVs (Fortsetzung)
+
+    -> Parameter <dataarea  >: @350[ALLE] (beliebiger Datentyp)
+
+    Speicherbereich, in den die zu schreibenden Daten eingetragen werden.
+    šber den Speicherbereich kann eine Struktur mit den Datentypen der zu
+    schreibenden Variablen gelegt werden. Damit werden Zugriffe fr die
+    Weiterverarbeitung vereinfacht. Diese Vorgangsweise sollte jedoch nur
+    angewendet werden, wenn die Auftragsliste als Datenmodul realisiert ist
+    (eine Erkl„rung dazu finden Sie im folgenden Absatz).
+
+    ACHTUNG:
+    Wenn die Auftragsliste als Struktur-Feld realisiert ist, und ber diese
+    Liste mehrere Variablen gleichzeitig gelesen bzw. geschrieben werden,
+    wird im Speicherbereich "dataarea" keine WORD-AUSRICHTUNG vorgenommen!
+    D.h. bei einem Lese-Auftrag fr eine BYTE- und eine WORD-Variable wird
+    der Wert der WORD-Variable im Speicher unmittelbar hinter dem Wert der
+    BYTE-Variable abgelegt. Die WORD-Variable beginnt also an einer UNGERADEN
+    Adresse. Wird in diesem Fall ber den Speicherbereich eine Struktur ge-
+    legt, fhrt das zu Fehlern, da fr Strukturen IMMER die WORD-Ausrichtung
+    verwendet wird.
+                                     @060[ Fortsetzung ]                   @001[ šbersicht ]
+.60
+    NET2write - zyklisches Beschreiben von PVs (Fortsetzung)
+
+    ACHTUNG:
+    Auf Grund des asynchronen Aufbaus der NET2000-Kommunikation ist nicht
+    gew„hrleistet, daá nach dem Absetzen einer Schreib-Anforderung (Write-
+    Request) die Daten vom NET2000-Manager auch schon bernommen worden sind.
+    D.h. die zu schreibenden Daten drfen nach einer abgesetzten Schreib-
+    Anforderung (Write-Request) noch nicht ge„ndert werden, es darf jedoch
+    bereits eine andere Adresse fr "dataarea" angeschlossen werden. Damit
+    m”glichst schnelles synchronisiertes Schreiben durchgefhrt werden kann,
+    muá der Anwender mit zwei Speicherbereichen arbeiten, deren Adressen ab-
+    wechselnd (nachdem der Ausgangsparameter "ok" auf 1 gesetzt wurde) an
+    "dataarea" angeschlossen werden.
+
+
+
+
+
+
+
+
+                                      @050[ NET2write ]                    @001[ šbersicht ]
+.61
+    NET2write - zyklisches Beschreiben von PVs (Fortsetzung)
+
+    -> Parameter <datlng    >: WORD
+
+    Gesamtl„nge der zu schreibenden Daten in Byte (L„nge von "dataarea").
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @050[ NET2write ]                    @001[ šbersicht ]
+.62
+    NET2write - zyklisches Beschreiben von PVs (Fortsetzung)
+
+    <- Parameter <ok        >: BIT
+
+    Der Ausgangsparameter "ok" wird nach einem erfolgreichen Schreib-Zyklus
+    (Write-Response erhalten) fr einen Zyklus auf logisch 1 gesetzt. Im
+    n„chsten Zyklus wird die n„chste Schreib-Anforderung (Request) abgesetzt.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @050[ NET2write ]                    @001[ šbersicht ]
+.63
+    NET2write - zyklisches Beschreiben von PVs (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Enth„lt im Fehlerfall eine Fehlernummer (0 = kein Fehler).
+    Die folgenden Fehlernummern werden vom Funktionsblock generiert und im
+    Fehlerfall am Ausgang "status" ausgegeben:
+
+    20000   Kein NET2000-Manager installiert
+    20001   Fehler im L„ngenvergleich - Get-OV
+            (Verglichen wird die tats„chliche L„nge der Prozeávariable mit
+            der L„nge in "pvlist")
+    20002   Objekt existiert nicht auf der Zielstation
+    20003   Kommunikationsfehler
+    20004   NET2000-Manager kann nicht gestartet werden bzw.
+            NET2000.station ist nicht definiert
+    20005   Zu viele Prozeávariablen (PVs) pro Funktionsblock (maximale PV-
+            Anzahl pro Funktionsblock = 6)
+
+
+
+                                     @064[ Fortsetzung ]                   @001[ šbersicht ]
+.64
+    NET2write - zyklisches Beschreiben von PVs (Fortsetzung)
+
+    Die folgenden Fehlernummern werden im NET2000-Protokoll generiert und im
+    Fehlerfall am Ausgang "status" ausgegeben:
+
+    $07     Fehlerantwort des CLIENTS - Layer7 (lokal)
+    $04     Fehlerantwort des CLIENTS - Layer4 (lokal)
+    $02     Fehlerantwort des CLIENTS - Layer2 (lokal)
+    $17     Fehlerantwort des SERVERS - Layer7 (Kommunikationspartner)
+    $14     Fehlerantwort des SERVERS - Layer4 (Kommunikationspartner)
+    $12     Fehlerantwort des SERVERS - Layer2 (Kommunikationspartner)
+
+    Wird im zyklischen Betrieb des Funktionsblocks ein Fehler direkt aus dem
+    NET2000-Protokoll ausgelesen, so wird am Ausgang "@067[rqdatlng]" eine detail-
+    liertere Fehlerinformation ausgegeben.
+
+
+
+
+
+
+                                      @050[ NET2write ]                    @001[ šbersicht ]
+.65
+    NET2write - zyklisches Beschreiben von PVs (Fortsetzung)
+
+    <- Parameter <record    >: LONG
+
+    In der Get-OV-Phase wird hier die Nummer (beginnend mit 1) des gerade be-
+    arbeiteten PV-Eintrags der Auftragsliste ("pvlist") ausgegeben. Im Fehler-
+    fall kann durch diese Nummer die fehlerhafte Prozeávariable lokalisiert
+    werden.
+    Dieser Parameter ist nur relevant, wenn der Schreibvorgang unterbrochen
+    wird, oder ein šbertragungsfehler auftritt!
+
+
+
+
+
+
+
+
+
+
+
+                                      @050[ NET2write ]                    @001[ šbersicht ]
+.66
+    NET2write - zyklisches Beschreiben von PVs (Fortsetzung)
+
+    <- Parameter <reqcnt    >: LONG
+
+    Bei jedem erfolgreichen Schreib-Zyklus wird diese Variable inkrementiert
+    (um 1 erh”ht).
+    Der Parameter "reqcnt" dient zur Fehleranalyse. D.h. dieser Parameter
+    ist nur relevant, wenn der Schreibvorgang unterbrochen wird, oder ein
+    šbertragungsfehler auftritt!
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @050[ NET2write ]                    @001[ šbersicht ]
+.67
+    NET2write - zyklisches Beschreiben von PVs (Fortsetzung)
+
+    <- Parameter <rqdatlng  >: WORD
+
+    In der Get-OV-Phase wird hier die Datenl„nge der gerade bearbeiteten
+    Prozeávariable ausgegeben. Die tats„chliche L„nge der PV kann somit im
+    Fehlerfall (20001) festgestellt werden.
+    Der Parameter "rqdatlng" dient zur Fehleranalyse. D.h. dieser Parameter
+    ist nur relevant, wenn der Schreibvorgang unterbrochen wird, oder ein
+    šbertragungsfehler auftritt!
+
+
+
+
+
+
+
+
+
+
+
+                                     @068[ Fortsetzung ]                   @001[ šbersicht ]
+.68
+    NET2write - zyklisches Beschreiben von PVs (Fortsetzung)
+
+    Wird im zyklischen Betrieb des Funktionsblocks ein Fehler direkt aus dem
+    NET2000-Protokoll ausgelesen, so wird am Ausgang "rqdatlng" eine detail-
+    liertere Fehlerinformation ausgegeben:
+
+    $01     Kein L7-Response-Puffer entsprechender Gr”áe vorhanden
+    $02     Objekt-Indexfehler / Index in der Indexliste des Servers nicht
+            belegt
+    $03     L7-Dienst (Servicecode) wird nicht untersttzt
+    $04     Adressierter Kanal existiert nicht
+            (Antwort mit bergebener Kanalnummer)
+    $05     Fehlerhafte Syntax fr ereignisgetriebenes Objekt (Eventliste)
+    $06     Kein Eventmanager installiert
+    $07     Eventliste zu klein konfiguriert
+    $08     Objekt ist keine Struktur
+    $09     Fehler aus Objektstruktur lesen
+    $0A     Anderer "Master" als der "Event-Master" versucht eventgesteuerte
+            PVs anzumelden
+    $0B     Objekt-Indexfehler / Index out of Range
+
+                                     @069[ Fortsetzung ]                   @001[ šbersicht ]
+.69
+    NET2write - zyklisches Beschreiben von PVs (Fortsetzung)
+
+    $0C     Kein L7-Request-Puffer entsprechender Gr”áe vorhanden
+    $0D     Kein L7(L4)-Confirmation-Puffer entsprechender Gr”áe vorhanden
+    $0E     Kein L7(L4)-Indication-Puffer entsprechender Gr”áe vorhanden
+    $0F     Null-Pointer-Zugriff ber eine dynamische Variable
+
+    Anmerkung: Wenn "status" = $17 und "rqdatlng" = $02, muá der Get-OV-Dienst
+               erneut durchgefhrt werden.
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @050[ NET2write ]                    @001[ šbersicht ]
+.200
+    ANHANG : LIBRARY-Informationen
+
+
+    @205[< Allgemeines           >]     Voraussetzungen, Installation etc.
+
+    @210[< NET2000-Protokoll     >]     NET2000-Protokollbeschreibung
+
+    @220[< Konfiguration         >]     Konfiguration des NET2000-Managers
+
+    @290[< Untersttzte Hardware >]     Untersttzte Schnittstellen
+
+    @300[< Prozeávariablen       >]     Gltige Syntax fr Prozeávariablen
+
+    @310[< Eventvariablen        >]     Syntax fr Eventvariablen
+
+    @320[< Transportmedien       >]     NET2000-seriell, NET2000-CAN
+
+    @340[< Taskklassen-Kontext   >]     Zyklische Beauftragung von NET2000 im
+                                  Taskklassen-Kontext
+
+
+                                     @201[ Fortsetzung ]                   @001[ šbersicht ]
+.201
+    ANHANG : LIBRARY-Informationen (Fortsetzung)
+
+
+    @345[< OV-Server             >]     Zeitaufwendige Dienste werden auáerhalb des
+                                  Taskklassen-Kontexts vom OV-Server behandelt
+
+    @350[< Syntax                >]     Syntax fr die Erkl„rung der Funktionen
+
+    @400[< History               >]     Neue Funktionalit„ten und Versions„nderungen
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.205
+    NET2000-Library : Allgemeines
+
+    Mit den Funktionen der NET2000-Library k”nnen Sie Daten von einer NET2000-
+    Station lesen bzw. Daten an eine NET2000-Station schreiben, unabh„ngig
+    davon, ob die Station ein Master oder ein Slave ist.
+
+    Anmerkungen:
+    - Bevor Sie die Funktionen der NET2000-Library in Ihrem Projekt verwenden
+      k”nnen, mssen Sie die Library in die entsprechende Projekt-Datenbank
+      importieren.
+
+    - Die Funktionen dieser Library k”nnen nur verwendet werden, wenn das B&R-
+      Modul NET2000.BR auf der Steuerung (Anwender-ROM) vorhanden ist!
+
+    - Die Funktionen der NET2000-Library liefern im Fehlerfall als Ergebnis
+      eine Fehlernummer.
+
+    Bei der Installation der NET2000-Library sind einige Hinweise zu beachten
+    (es wird zwischen NET2000-seriell und NET2000-CAN unterschieden).
+
+
+                              @206[ Hinweise zur Installation ]            @001[ šbersicht ]
+.206
+    NET2000-Library : Allgemeines (Hinweise zur Installation)
+
+    @320[NET2000-seriell]:
+    - Die Funktionen der NET2000-Library k”nnen nur verwendet werden, wenn das
+      B&R-Modul NET2000.BR auf der Steuerung (Anwender-ROM) vorhanden ist!
+    - Sollen in der Anwendung @310[ereignisgesteuerte Variablen] verwendet werden,
+      muá zus„tzlich das Modul NT2EVENT.BR im Anwender-ROM der Steuerung vor-
+      handen sein!
+    - Die Module IF050 und IF060 (passive Schnittstellenmodule) k”nnen nur be-
+      dient werden, wenn die FRAME-BASIS-Treiber FBIF050.BR (fr IF050) und
+      FBIF060.BR (fr IF060) auf der Steuerung (Anwender-ROM) vorhanden sind.
+
+    @320[NET2000-CAN]:
+    - Wenn Sie ein NET2000-CAN-Netzwerk betreiben wollen, mssen neben den
+      unter "NET2000-seriell" angefhrten Modulen (siehe oben) die Module
+      CAN2000.BR (CAN-Treiber) und NT2CAN.BR (NET2000-CAN-Anschluá) im
+      Anwender-ROM der Steuerung vorhanden sein.
+    - Wenn die NET2000-CAN-Kommunikation nicht ber die Standard-CAN-Schnitt-
+      stelle, sondern ber eine andere CAN-Schnittstelle erfolgen soll, muá
+      eine RPSSW-Version gr”áer V1.91 verwendet werden.
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.210
+    NET2000-Library : NET2000-Protokoll
+
+    NET2000 ist ein Kommunikationsprotokoll zur Vernetzung von Systemen der
+    RPS-Familie 2000 (B&R SYSTEM 2010, B&R SYSTEM 2005, B&R SYSTEM 2003 und
+    Panelware). Fr NET2000 wird keine zus„tzliche Hardware ben”tigt, es
+    gengen die Schnittstellen der jeweiligen Zentraleinheiten, Schnittstellen-
+    module, Multiprozessoren, Parallelprozessoren bzw. intelligenten I/O-
+    Prozessoren. Das Protokoll ist auf gr”átm”glichen Datendurchsatz ausge-
+    richtet.
+
+    KENNZEICHEN VON NET2000:
+
+    * Master-Slaveprotokoll mit Querverkehr (NET2000-seriell), 
+      Multimaster-Netzwerk (NET2000-CAN)
+    * asynchrones frameorientiertes Protokoll mit Hammingdistanz 4
+    * maximale Framel„nge 512 Byte
+    * effizienter Layer7 fr Datenaustausch
+    * Eventbildung falls konfiguriert (nur NET2000-seriell)
+    * RS485 bzw. RS232 (Punkt-zu-Punkt), CAN
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.220
+    NET2000-Library : Konfiguration
+
+    Die Konfiguration des Masters bzw. Slaves erfolgt ber eine Struktur mit
+    dem Namen "NET2000". Der Strukturaufbau kann beliebig sein und muá auch
+    nur die Elemente, die ben”tigt werden, enthalten.
+    Die Konfiguration des NET2000-Netzwerks wird in drei Teile gegliedert:
+
+    * NET2000-Konfigurationsvariablen
+         - @230[Allgemeine Konfiguration     ]
+         - @240[Device-Auswahl               ]
+         - @245[Device-Parametrierung        ]
+         - @250[CAN-spezifische Konfiguration]
+         - @260[Eventmanager-Konfiguration   ]
+    * @270[NET2000-Steuervariablen/NET2000-Statusvariable]
+    * @280[Konfiguration mehrerer Netzwerke              ]
+
+    Die Konfiguration wird vom NET2000-Manager bernommen, wenn das Element
+    @230[NET2000.station] ungleich 0 ist.
+    Im Normalfall muá fr einen Slave nur die Stationsnummer gesetzt werden.
+    Fr den Master muá zus„tzlich die Variable @230[NET2000.master] auf den Wert 1
+    gesetzt werden.
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.230
+    Konfigurationsvariablen - Allgemeine Konfiguration
+
+    NET2000.station (Datentyp: BYTE):
+    ---------------------------------    
+    Stationsnummer im Netzwerk. Diese Nummer muá eindeutig sein und zwischen 1
+    und 255 liegen.
+    Standardwert: 0 = ungltig
+    Auswahl:      0 - 255
+
+    NET2000.master (Datentyp: BYTE):
+    --------------------------------
+    Auswahl des Betriebsmodus (0, 1).
+    Standardwert: 0
+    Auswahl:      0 ... Slave (Server)
+                  1 ... Master (Client)
+
+    Im CAN-Netzwerk sollte auf jeder CAN-Station das Master-Flag gesetzt
+    werden.
+
+
+
+                                     @231[ Fortsetzung ]                   @001[ šbersicht ]
+.231
+    Konfigurationsvariablen - Allgemeine Konfiguration (Fortsetzung)
+
+    NET2000.retry (Datentyp: BYTE):
+    -------------------------------
+    Anzahl der Sendewiederholungen, falls ein Telegramm verloren geht
+    (Timeout).
+    Standardwert: 3
+
+    NET2000.ixtabsize (Datentyp: WORD):
+    -----------------------------------
+    Maximale Anzahl der Indizes bzw. der verwalteten Variablen (Objekte).
+    Standardwert: 1024
+
+    NET2000.t_response (Datentyp: WORD):
+    ------------------------------------
+    Timeout bei Request/Response (nur am Master bzw. Querverkehr-Master).
+    Standardwert: 500 ms
+
+
+
+
+                                     @232[ Fortsetzung ]                   @001[ šbersicht ]
+.232
+    Konfigurationsvariablen - Allgemeine Konfiguration (Fortsetzung)
+
+    NET2000.t_cross (Datentyp: WORD):
+    ---------------------------------
+    Timeout bei Querverkehr (nur am seriellen Master).
+    Standardwert: 600 ms
+
+    NET2000.l7length (Datentyp: LONG):
+    ----------------------------------
+    Maximale L„nge eines L7-Frames.
+    Standardwert: 4 kByte
+
+    NET2000.task_class (Datentyp: INT8):
+    ------------------------------------
+    Auswahl des Taskklassen-Kontexts, in dem die NET2000-Protokolldienste auf-
+    gerufen werden.
+    Standardwert: 4 (Taskklasse 4)
+    Auswahl:      1 bis 4 (Taskklasse 1 bis 4)
+
+
+
+                                       @220[ Zurck ]                      @001[ šbersicht ]
+.240
+    Konfigurationsvariablen - Device-Auswahl
+
+    Bei der Device-Auswahl sind zwei verschiedene Varianten m”glich:
+
+    - @241[Abw„rtskompatible Variante]:
+      Fr „ltere Versionen der NET2000-Library muá die abw„rtskompatible
+      Variante der Device-Auswahl verwendet werden.
+
+    - @242[Neue Variante] (analog zu Frame-Treiber V3.10):
+      Die neue Variante der Device-Auswahl ist erst ab Version V2.10 der
+      NET2000-Library m”glich.
+
+
+
+
+
+
+
+
+
+
+                                       @220[ Zurck ]                      @001[ šbersicht ]
+.241
+    Device-Auswahl - abw„rtskompatible Variante
+
+    NET2000.interface (Datentyp: BYTE):
+    -----------------------------------
+    Auswahl der Schnittstelle.
+
+    @320[NET2000-seriell]:
+    Standardwert: 255 = RS485-Schnittstelle (wenn vorhanden)
+    Auswahl:      siehe Abschnitt "@290[Untersttzte Hardware]"
+    @320[NET2000-CAN]:
+    Standardwert: zur Zeit keine Eingabe notwendig
+    Auswahl:      ---
+
+    NET2000.medium (Datentyp: BYTE):
+    --------------------------------
+    Auswahl des physikalischen Mediums.
+    Standardwert: 0 = NET2000-seriell
+    Auswahl:      0 ... NET2000-seriell (RS232 oder RS485)
+                  1 ... NET2000-CAN
+                  2 ... reserviert fr Ethernet
+
+                                       @240[ Zurck ]                      @001[ šbersicht ]
+.242
+    Device-Auswahl - neue Variante
+
+    NET2000.device (Datentyp: LONG):
+    --------------------------------
+    Adresse eines Strings, welcher die verwendete Schnittstelle eindeutig be-
+    schreibt. Format des Strings:
+
+    [SL<x>].[SS<x>].[IF<x>] oder
+    [CAN] ...... fr die Standard-CAN-Schnittstelle oder
+    [DPR<x>] ... fr die Kommunikation ber das DPR der LS251
+
+    SL: Slot (Steckplatz) mit der Nummer <x>. Die m”glichen Steckplatznummern
+        bewegen sich von 0 (CPU-Steckplatz) bis 15 (letzter Systembussteck-
+        platz).
+    SS: Steckt das Schnittstellenmodul, auf dem sich die Schnittstelle be-
+        findet, in einem Einschubsteckplatz (auch "Subslot" genannt), so muá
+        hier die Nummer dieses Einschubsteckplatzes (<x> = 1, 2 oder 3) ange-
+        geben werden.
+    IF: Schnittstelle mit der Nummer <x>.
+
+
+                                     @243[ Fortsetzung ]                   @001[ šbersicht ]
+.243
+    Device-Auswahl - neue Variante (Fortsetzung)
+
+    Als Trennzeichen der Argumente ist ein Punkt (".") vorgeschrieben. Es kann
+    aber auch jedes andere bliche Trennzeichen verwendet werden.
+    Zwischen Groá- und Kleinschreibung wird nicht unterschieden.
+
+    Standardwert: NULL = Standard-RS485-Schnittstelle
+                  D.h. wenn keine String-Adresse angegeben ist, wird die
+                  Standard-CAN-Schnittstelle verwendet
+    Auswahl:      siehe Abschnitt "@290[Untersttzte Hardware]"
+
+    Anmerkungen:
+    - Wenn die Konfigurationsvariable NET2000.device definiert ist, fhrt die
+      Definition von NET2000.interface bzw. NET2000.medium (abw„rtskompatible
+      Variante) zu einem Fehler.
+    - Nur mit Hilfe dieses Strings (Device-Beschreibung) k”nnen die Schnitt-
+      stellen passiver IF-Module (IF050 und IF060) genutzt werden.
+    - Ab Version V2.00 des Betriebssystems RPSSW k”nnen auch andere CAN-
+      Schnittstellen als die Standard-CAN-Schnittstelle verwendet werden
+      (Beschreibung der Schnittstelle im allgemeinen Stringformat).
+
+                                       @240[ Zurck ]                      @001[ šbersicht ]
+.245
+    Konfigurationsvariablen - Device-Parametrierung
+
+    Bei der Device-Parametrierung sind zwei verschiedene Varianten m”glich:
+
+    - @246[Abw„rtskompatible Variante]:
+      Fr „ltere Versionen der NET2000-Library muá abw„rtskompatible Variante
+      der Device-Parametrierung verwendet werden.
+
+    - @248[Neue Variante] (analog zu Frame-Treiber V3.10):
+      Die neue Variante der Device-Parametrierung ist erst ab Version V2.20
+      der NET2000-Library m”glich.
+
+
+
+
+
+
+
+
+
+
+                                       @220[ Zurck ]                      @001[ šbersicht ]
+.246
+    Device-Parametrierung - abw„rtskompatible Variante
+
+    NET2000.baud (Datentyp: LONG):
+    ------------------------------
+    Baudrate der Verbindung.
+
+    @320[NET2000-seriell]:
+    Standardwert: 57600 Baud
+    Auswahl:      2400, 4800, 9600, 19200, 38400, 57600, 115200 Baud
+    @320[NET2000-CAN]:
+    Standardwert: Standard-Baudrate des CAN-Treibers
+    Auswahl:      10000, 20000, 50000, 100000, 125000, 250000, 500000,
+                  1000000 Bit/s
+
+
+
+
+
+
+
+
+                                     @247[ Fortsetzung ]                   @001[ šbersicht ]
+.247
+    Device-Parametrierung - abw„rtskompatible Variante (Fortsetzung)
+
+    NET2000.options (Datentyp: LONG):
+    ---------------------------------
+    Optionen
+    Standardwert: 0 = keine Option
+    Auswahl:      Bit 0 ...... Bit 0 = 1: INT1 Steuerung ber RTS
+                               (nur bei RS232)
+                  Bit 1-31 ... reserviert
+
+    NET2000.idle (Datentyp: WORD):
+    ------------------------------
+    Zeichenbertragungszeiten bis zum Schlieáen eines Empfangspuffers (nur fr
+    serielle Schnittstellen, baudratenabh„ngig).
+    Standardwert: 4 Zeichen
+    Auswahl:      1 - 65635
+
+
+
+
+
+                                       @245[ Zurck ]                      @001[ šbersicht ]
+.248
+    Device-Parametrierung - neue Variante
+
+    NET2000.mode (Datentyp: LONG):
+    ------------------------------
+    Adresse eines Strings, welcher den Betriebsmodus der Schnittstelle be-
+    schreibt.
+    Format des Strings: [<Typ>],[<Baudrate>],[<Optionen>]
+
+    Typ:       Die Schnittstelle kann als [RS232|RS422|RS485|TTY|RS422BUS] ge-
+               ”ffnet werden, falls dies von der Hardware untersttzt wird.
+               Standardeinstellung: RS232
+    Baudrate:  Die Schnittstelle kann mit folgenden Baudraten ge”ffnet werden:
+               [300|600|1200|2400|4800|9600|19200|38400|57600|115200]
+               Standardeinstellung: 57600
+    Optionen:  Wurde als Schnittstellentyp eine RS232 ausgew„hlt, sind folgende
+               Optionen zul„ssig:
+               [RT] ...... fr die Steuerung eines externen Kopplers (INT1) mit
+                           der RTS-Leitung.
+               [I=<x>] ... Zeichenbertragungszeiten bis zum Schlieáen eines
+                           Empfangspuffers (<x> = 1 bis 65635).
+
+                                     @249[ Fortsetzung ]                   @001[ šbersicht ]
+.249
+    Device-Parametrierung - neue Variante (Fortsetzung)
+
+    Als Trennzeichen der Argumente ist ein Komma (",") vorgeschrieben. Es kann
+    aber auch jedes andere bliche Trennzeichen verwendet werden.
+    Zwischen Groá- und Kleinschreibung wird nicht unterschieden, die Reihen-
+    folge der Parameter hat keine Bedeutung.
+
+    Anmerkung:
+    NET2000.mode ersetzt die Variablen NET2000.baud, NET2000.options und
+    NET2000.idle. Wenn NET2000.mode definiert ist, fhrt die Definition von
+    NET2000.baud, NET2000.options oder NET2000.idle zu einem Fehler.
+
+
+
+
+
+
+
+
+
+
+                                       @245[ Zurck ]                      @001[ šbersicht ]
+.250
+    Konfigurationsvariablen - CAN-spezifische Konfiguration
+
+    NET2000.CAN.nnodes (Datentyp: BYTE):
+    ------------------------------------
+    Anzahl der Stationen in einem NET2000-CAN-Netzwerk.
+    Standardwert: 2
+    Auswahl:      2 bis 255
+
+    Bei gr”áerer Stationsanzahl steigt der Speicherbedarf und die Leistung des
+    Netzwerks sinkt.
+
+    NET2000.CAN.basis (Datentyp: WORD):
+    -----------------------------------
+    Basis zur Berechnung der CAN-IDs.
+    Standardwert: 1000
+    Auswahl:      siehe CAN-Dokumentation
+
+
+
+
+
+                                       @220[ Zurck ]                      @001[ šbersicht ]
+.260
+    Konfigurationsvariablen - Eventmanager-Konfiguration
+
+    NET2000.EVT.nvars (Datentyp: WORD):
+    -----------------------------------
+    Maximale Anzahl verwalteter Eventvariablen.
+    Standardwert: 200
+    Auswahl:      1 bis 65535
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @220[ Zurck ]                      @001[ šbersicht ]
+.270
+    NET2000-Steuervariablen / NET2000-Statusvariable
+
+    NET2000-Steuervariablen werden im Gegensatz zu den Konfigurationsvariablen
+    zyklisch ausgewertet.
+
+    NET2000.reset (Datentyp: BYTE):
+    -------------------------------
+    Wird diese Variable ungleich 0, so resetiert sich der NET2000-Manager.
+    Die Variable wird beim Reset automatisch wieder auf 0 gesetzt. Durch
+    einen Reset wird der NET2000-Manager neu konfiguriert.
+
+    NET2000.freeze (Datentyp: BYTE):
+    --------------------------------
+    Wird diese Variable ungleich 0, so wird der NET2000-Manager gestoppt, bis
+    diese Variable wieder 0 wird.
+
+
+
+
+
+
+                                     @271[ Fortsetzung ]                   @001[ šbersicht ]
+.271
+    NET2000-Steuervariablen / NET2000-Statusvariable (Fortsetzung)
+
+    NET2000.close (Datentyp: BYTE):
+    -------------------------------
+    Wird diese Variable ungleich 0, so wird der FBASE-Treiber fr die ALI-
+    Kommunikation (INA2000) zurckkonfiguriert. Wird die Variable wieder 0,
+    so wird der FBASE-Treiber wieder fr NET2000 ge”ffnet. Voraussetzung fr
+    diese Funktionalit„t ist die Verwendung einer RPSSW-Version gr”áer oder
+    gleich V1.91.
+
+    NET2000.status (Datentyp: WORD):
+    --------------------------------
+    In dieser Variable werden fatale Fehler des NET2000-Managers protokolliert.
+    Tritt ein fataler Fehler auf, wird das NET2000-Netzwerk gestoppt bzw. gar
+    nicht gestartet.
+
+
+
+
+
+
+                                       @220[ Zurck ]                      @001[ šbersicht ]
+.280
+    Konfiguration mehrerer Netzwerke
+
+    Um mehrere Netzwerke konfigurieren zu k”nnen, ben”tigt jedes Netzwerk
+    eigene Konfigurationsvariablen. šber die Struktur NET2000 kann jedoch
+    nur ein Netzwerk betreut werden. Die logische Art der Erweiterung fr
+    mehrere Netzwerke ist die Bildung eines Feldes (Array) von NET2000-
+    Konfigurations-Strukturen. So k”nnen maximal 4 Netzwerke betreut werden:
+
+    NET2000.*    ... Konfiguration eines Netzwerks (wie gehabt)
+    NET2000[0].* ... Konfiguration des 1. Netzwerks
+    NET2000[1].* ... Konfiguration des 2. Netzwerks
+    NET2000[2].* ... Konfiguration des 3. Netzwerks
+    NET2000[3].* ... Konfiguration des 4. Netzwerks
+
+    Die NET2000-Netzwerke k”nnen v”llig autark gesteuert werden. Zu beachten
+    ist lediglich, daá fr die einzelnen Netzwerke unterschiedliche Schnitt-
+    stellen verwendet werden mssen.
+
+
+
+
+                                     @281[ Fortsetzung ]                   @001[ šbersicht ]
+.281
+    Konfiguration mehrerer Netzwerke (Fortsetzung)
+
+    Beauftragung / Performance mehrerer Netzwerke:
+
+    - Mehrere Netzwerke im Kontext der gleichen Taskklasse:
+      Nach jeder zyklischen Aktivierung einer "NET2000-Linie" (siehe dazu auch
+      "@326[NET2000-CAN]") erfolgt die Umschaltung auf das n„chste aktive Netzwerk.
+      Ein Netzwerk ist aktiv, wenn die NET2000-Konfigurationsvariable
+      NET2000.station ungleich 0 ist.
+      Ein konfiguriertes aber nicht verwendetes Netzwerk verbraucht (wenn das
+      Netzwerk aktiv ist) unn”tig Speicher und Leistung.
+      Dazu ein Beispiel: Betrieb zweier Netzwerke im 10-ms-Takt (Taskklasse 1).
+      Die Pollrate der NET2000-Linien verdoppeln sich. Die reale Pollrate einer
+      "NET2000-Linie" betr„gt bei 2 Netzwerken nun nicht mehr 10 ms, sondern
+      20 ms.
+
+    - Mehrere Netzwerke im Kontext unterschiedlicher Taskklassen:
+      Die Netzwerke beeinflussen sich in der Leistung nicht. Die Pollraten der
+      "NET2000-Linien" bleiben unver„ndert.
+
+
+                                       @220[ Zurck ]                      @001[ šbersicht ]
+.290
+    NET2000-Library : Untersttzte Hardware
+
+    Untersttzte Hardware:
+
+    Bis einschlieálich @291[Version 2.00] der NET2000-Software erfolgt die Device-
+    Konfiguration ber die Elemente NET2000.medium und NET2000.interface
+    (abw„rtskompatible Variante der Device-Auswahl).
+    Ab @293[Version 2.10] der NET2000-Software erfolgt die Device-Auswahl
+    ber das Elemente NET2000.device (neue Variante der Device-Auswahl).
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.291
+    NET2000-Library : Untersttzte Hardware (Fortsetzung)
+
+    Device-Auswahl ber NET2000.medium und NET2000.interface:
+    NET2000 (Version 2.00) untersttzt alle B&R 2000 Zentraleinheiten, Schnitt-
+    stellenmodule, Multiprozessoren, Parallelprozessoren und intelligente I/O-
+    Prozessoren.
+
+    CAN-Schnittstellen / NET2000.medium = 1 (NET2000-CAN):
+    ÉÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º IF º IF10x, XP152, CP104, IF152, IP151, CP47x, CP77x, CP200, CP260   º
+    ÌÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º  x º CAN                                                             º
+    ÈÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+    Erkl„rung zur Tabelle: IF ... Nummer der Schnittstelle
+
+
+
+
+
+
+
+                                     @292[ Fortsetzung ]                   @001[ šbersicht ]
+.292
+    NET2000-Library : Untersttzte Hardware (Fortsetzung)
+
+    Serielle Schnittstellen / NET2000.medium = 0 (NET2000-seriell):
+    ÉÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍ»
+    º IF º CP100 ³ MP100 ³ CP15x ³ C200  ³ XP152 ³ CP47x  ³ CP260  ³ CP104 º
+    º    º CP200 ³       ³       ³ C220  ³ IP151 ³ CP77x  ³        ³       º
+    º    º IF10x ³       ³       ³ C300  ³ IF152 ³        ³        ³       º
+    ÌÍÍÍÍÎÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍ¹
+    º  0 º RS232 ³ RS232 ³ RS232 ³ RS232 ³ RS232 ³ RS232  ³ RS232  ³ RS232 º
+    º  1 º RS232 ³ ----- ³ RS485 ³ RS232 ³ ----- ³ SSlot1 ³ SSlot1 ³ RS232 º
+    º  2 º RS485 ³ RS485 ³ ----- ³ RS485 ³ ----- ³ SSlot2 ³ SSlot1 ³ ----- º
+    º  3 º ----- ³ ----- ³ ----- ³ ----- ³ ----- ³ ------ ³ SSlot1 ³ ----- º
+    º  4 º ----- ³ ----- ³ ----- ³ ----- ³ ----- ³ ------ ³ SSlot2 ³ ----- º
+    º  5 º ----- ³ ----- ³ ----- ³ ----- ³ ----- ³ ------ ³ SSlot2 ³ ----- º
+    º  6 º ----- ³ ----- ³ ----- ³ ----- ³ ----- ³ ------ ³ SSlot2 ³ ----- º
+    ÈÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍ¼
+    Erkl„rung zur Tabelle: IF ... Nummer der Schnittstelle
+
+
+
+
+                                       @290[ Zurck ]                      @001[ šbersicht ]
+.293
+    NET2000-Library : Untersttzte Hardware (Fortsetzung)
+
+    Device-Auswahl ber NET2000.device:
+    Die Version 2.10 der NET2000-Software bietet Ihnen die M”glichkeit,
+    Schnittstellen textuell zu beschreiben.
+    Format des Strings:
+
+    [SL<x>].[SS<x>].[IF<x>] bzw. [CAN] fr die Standard-CAN-Schnittstelle
+
+    SL: Slot (Steckplatz) mit der Nummer <x>. Die m”glichen Steckplatznummern
+        bewegen sich von 0 (CPU-Steckplatz) bis 15 (letzter Systembussteck-
+        platz).
+    SS: Steckt das Schnittstellenmodul, auf dem sich die Schnittstelle be-
+        findet, in einem Einschubsteckplatz (auch "Subslot" genannt), so muá
+        hier die Nummer dieses Einschubsteckplatzes (<x> = 1, 2 oder 3) ange-
+        geben werden. So muá z.B. bei Verwendung eines steckbaren Schnitt-
+        stellenmoduls (IF613, IF621, usw.) in einer IF060 fr den Einschub-
+        steckplatz immer SS1 angegeben werden, da die IF060 nur ber einen
+        Einschubsteckplatz verfgt.
+    IF: Schnittstelle mit der Nummer <x>.
+
+                                     @294[ Fortsetzung ]                   @001[ šbersicht ]
+.294
+    NET2000-Library : Untersttzte Hardware (Fortsetzung)
+
+    Als Trennzeichen der Argumente ist ein Punkt (".") vorgeschrieben.
+
+    Beispiele gltiger Device-Beschreibungen:
+    "IF2"
+    "SL5.IF3"
+    "SS1.IF1"
+    "SL4.SS1.IF3"
+
+    Ab Version 2.10 k”nnen alle Schnittstellen, auch Schnittstellen passiver
+    IF-Module und alle CAN-Schnittstellen fr das NET2000-Netzwerk verwendet
+    werden.
+
+    ACHTUNG:
+    - Voraussetzung fr die Verwendung passiver IF-Module ist eine RPSSW-
+      Version gr”áer oder gleich V1.91 und der entsprechende FRAME-BASIS-
+      Treiber fr das Modul (FBIF050.BR fr IF050 und FBIF060.BR fr IF060).
+    - Ab Version V2.00 des Betriebssystems RPSSW k”nnen auch andere CAN-
+      Schnittstellen als die Standard-CAN-Schnittstelle verwendet werden.
+
+                                       @290[ Zurck ]                      @001[ šbersicht ]
+.300
+    NET2000-Library : Prozeávariablen
+
+    Generell sind alle syntaktischen Konstrukte, die auch in der Programmierung
+    der B&R2000-RPS erlaubt sind, gltig. Die L„nge eines Namens ist fr
+    NET2000 nicht beschr„nkt.
+
+    Beispiele gltiger Syntax von PV-Namen:
+
+    pvname                     Name einer PV
+                               (normale, globale, skalare PVs)
+    rpstask:pvname             Name einer PV in einer bestimmten RPS-Task
+                               (normale, lokale, skalare PVs)
+    d_pvname                   dynamische PVs (Zeiger)
+    *d_pvname                  dynamische PVs (Zeigerinhalt)
+    feld                       Felder (Arrays)
+    feld[5]                    Feldelemente
+    struct                     Strukturen
+    struct.elem1               Strukturelemente
+    struct2[2].struct.elem2    komplexe Referenzen
+
+
+                                     @301[ Fortsetzung ]                   @001[ šbersicht ]
+.301
+    NET2000-Library : Prozeávariablen (Fortsetzung)
+
+    SYNTAX wie im PG2000:
+    Es k”nnen skalare Prozeávariablen, Felder und Strukturen als Ganzes bzw.
+    einzelne Elemente von Feldern und Strukturen (keine Einschr„nkungen bei
+    der Schachteltiefe, Beispiel: a[3].b.c.[2].e) referenziert werden.
+
+    ERWEITERTE SYNTAX:
+    * Wenn man gezielt die Variablen einer RPS-Task (z.B. lokale Variablen)
+      referenzieren will, dann wird dem PV-Namen der entsprechende Taskname
+      vorangestellt. Als Trennzeichen wird ein Doppelpunkt (":") verwendet
+      (Beispiel: rpstask:pvname).
+    * Werden dynamische PVs mit fhrendem "*" referenziert, ist der Inhalt
+      des Zeigers gemeint.
+    * Werden dynamische PVs OHNE fhrenden "*" referenziert, ist der Zeiger
+      selbst gemeint.
+      ACHTUNG: Schreibzugriffe auf dynamische Variablen (Zeiger) k”nnen fatale
+               Folgefehler (Systemabsturz) verursachen.
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.310
+    NET2000-Library : Eventgenerierung / Eventvariablen
+
+    Funktionalit„t des ereignisgesteuerten Datenaustauschs:
+
+    * Werden Variablen als Eventvariablen angemeldet, so wird das angemeldete
+      Objekt automatisch vom NET2000-Slave auf nderung berwacht und nur im
+      Falle einer nderung bei einer Response an den Master ("Eventmaster")
+      in einer Eventliste mitgeteilt.
+
+    * Als "Eventmaster" wird jener Master (Master oder Slave, der im Quer-
+      verkehr zum Master wird) definiert, der als erster Eventvariablen beim
+      Slave anmeldet.
+
+    * Nur skalare Datentypen k”nnen als Eventvariablen angemeldet werden.
+
+
+
+
+
+
+
+    @311[ Voraussetzungen ]             @312[ Erweiterte Syntax ]                @001[ šbersicht ]
+.311
+    NET2000-Library : Eventgenerierung - Voraussetzungen
+
+    Voraussetzungen:
+
+    * Auf dem NET2000-Slave muá das Modul "nt2event.br" installiert sein.
+
+    * Der "Eventmaster" muá den "Event"-generierenden Slave zyklisch pollen,
+      da der Slave eine Eventliste nur an einen Responseframe (nur Read/Write-
+      Response) an den Master anh„ngen kann.
+
+    * Zur Zeit wird die Eventauswertung am RPS-NET2000-Master mit den existie-
+      renden Funktionsbl”cken nicht untersttzt. Die Auswertung von Eventlisten
+      untersttzen zur Zeit nur SPOIO- und INTERACT-Visualisierungsger„te.
+
+
+
+
+
+
+
+
+                                  @312[ Erweiterte Syntax ]                @001[ šbersicht ]
+.312
+    NET2000-Library : Eventgenerierung - Erweiterte Syntax
+
+    Bei Eventvariablen wird die Syntax des PV-Namens erweitert. Der Name einer
+    Eventvariable beginnt mit einem Rufzeichen "!". Durch das Anh„ngen eines
+    entsprechenden Parameters an den PV-Namen kann die Hysterese der Event-
+    variable (Parameter "/h") und/oder das šberwachungsintervall der Event-
+    variable (Parameter "/c") definiert werden.
+
+    Beispiele: !schalter/c=200
+               !istwert/c=500/h=10
+               !endwert
+
+
+
+
+
+
+
+
+
+
+                                     @313[ Fortsetzung ]                   @001[ šbersicht ]
+.313
+    NET2000-Library : Eventgenerierung - Erweiterte Syntax (Fortsetzung)
+
+    Syntaxerkl„rung:
+
+    * Die Angabe der Parameter (c, h) ist optional.
+
+    * Wertbereich fr Hysterese(h):   0-4294967295
+      Wertbereich fr Zyklus(c):      0-65535
+
+    * Bei Eventvariablen ohne Hysterese-Angabe bzw. Eventvariablen mit
+      Hysterese 0 (/h=0) wird jede nderung des ereignisgesteuerten Objekts
+      bertragen.
+      Allgemein gilt: Ist die Wert„nderung des Objekts gr”áer als die an-
+      gegebene Hysterese, wird der Wert bertragen.
+
+    * Mit dem Anmelden (GetOV) einer Variable der Syntax "!name/c=0" kann
+      eine einzelne Eventbildung wieder gesperrt werden.
+
+    * Durch Beschreiben des Objekts "EVENTS" (Index 4 auf Kanal 255) mit dem
+      Wert 2 kann die gesamte Eventliste gel”scht werden.
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.320
+    NET2000-Library : Transportmedien
+
+    Ab Version V2.00 der NET2000-Software ist die CAN-Implementierung soweit
+    abgeschlossen, daá die Multimaster-F„higkeit von NET2000-CAN gegeben und
+    die Basis zur Berechnung der CAN-IDs (CAN-Identifier) einstellbar ist.
+    D.h. ab Version V2.00 der NET2000-Software kann die NET2000-Kommunikation
+    nicht nur ber die seriellen Schnittstellen (NET2000-seriell) sondern auch
+    ber den CAN-Bus (NET2000-CAN) erfolgen.
+    Dazu sind einige Punkte zu beachten:
+
+    - @321[Neue Konfigurationsvariablen]
+    - @323[CAN-COB-Definition]
+    - @326[Beauftragung / Performance der NET2000-CAN-Linien]
+    - @327[Speicherbedarf eines NET2000-CAN-Knotens]
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.321
+    Transportmedien - Neue Konfigurationsvariablen
+
+    Fr die NET2000-Kommunikation ber den CAN-Bus wurden neue Konfigurations-
+    variablen eingefhrt und bestehende Konfigurationsvariablen erweitert:
+
+    NET2000.medium (Datentyp: BYTE):
+    --------------------------------
+    Auswahl des physikalischen Mediums.
+    Standardwert: 0 = NET2000-seriell
+    Auswahl:      0 ... NET2000-seriell (RS232 oder RS485)
+                  1 ... NET2000-CAN
+                  2 ... reserviert fr Ethernet
+
+    Gleichzeitig zu NET2000.medium wird auch die bestehende Konfigurations-
+    variable NET2000.interface ausgewertet.
+
+
+
+
+
+
+                                     @322[ Fortsetzung ]                   @001[ šbersicht ]
+.322
+    Transportmedien - Neue Konfigurationsvariablen (Fortsetzung)
+
+    NET2000.CAN.nnodes (Datentyp: BYTE):
+    ------------------------------------
+    Anzahl der Stationen in einem NET2000-CAN-Netzwerk.
+    Standardwert: 2
+    Auswahl:      2 bis 255
+
+    NET2000.CAN.basis (Datentyp: WORD):
+    -----------------------------------
+    Basis zur Berechnung der CAN-IDs.
+    Standardwert: 1000
+    Auswahl:      siehe CAN-Dokumentation
+
+
+
+
+
+
+
+
+                                       @320[ Zurck ]                      @001[ šbersicht ]
+.323
+    Transportmedien - CAN-COB-Definition
+
+    Im NET2000-CAN-Netzwerk k”nnen automatisch alle Netzwerkteilnehmer CLIENT
+    sein.
+    Auf einem NET2000-CAN-Knoten wird die mit der Konfigurationsvariable
+    NET2000.CAN.nnode festgelegte Anzahl von COBs (COB = Kommunikationsobjekt)
+    definiert. Dies muá bei der Berechnung des Speicherbedarfs fr den Knoten
+    bercksichtigt werden.
+    Die Anzahl der im NET2000-CAN-Netzwerk vergebenen Knotennummern muá kleiner
+    oder gleich der unter NET2000.CAN.nnodes angegebenen Anzahl sein. Wollte
+    man frei w„hlbare Knotennummern (1-255) vergeben, so máte jedem NET2000-
+    CAN-Knoten eine Liste mit den Knotennummern der anderen Netzwerkteilnehmer
+    bergeben werden. Dies w„re Aufgabe des Anwenders und ist fehleranf„llig.
+
+    Anmerkung:
+    Wird im Netzwerk eine gr”áere Knotenanzahl definiert, als tats„chlich
+    Knoten im Netz vorhanden sind, so wird auf jedem Knoten unn”tig Speicher
+    verbraucht und die Leistung des Netzwerks verschlechtert sich. Die
+    Funktionsf„higkeit des Netzwerks wird dadurch aber nicht beeintr„chtigt.
+
+
+                                     @324[ Fortsetzung ]                   @001[ šbersicht ]
+.324
+    Transportmedien - CAN-COB-Definition (Fortsetzung)
+
+    Algorithmus zur Berechnung der CAN-IDs:
+
+    CAN_ID = (CAN_BASIS + (NODE_of_CalcID - 1)*nStation + NODE_of_partner - 1)
+
+    Erkl„rung der Formel:
+    CAN_BASIS ......... Basis zur Berechnung der CAN-IDs (siehe Konfigurations-
+                        variable NET2000.CAN.basis)
+    NODE_of_CalcID .... Knotennummer der eigenen Station
+    NODE_of_partner ... Knotennummer des potentiellen Clients
+    nStation .......... Anzahl der Stationen im NET2000-CAN-Netzwerk
+
+    Die CAN-ID fr die Server-COBs wird aus der CAN-Basis (Basis zur Berechnung
+    der CAN-IDs, siehe Konfigurationsvariable NET2000.CAN.basis), der eigenen
+    Knotennummer und der Knotennummer eines potentiellen Clients berechnet.
+    Fr die Berechnung der CAN-IDs des Client-COBs wird in die Formel zweimal
+    die eigene Stationsnummer eingesetzt.
+
+
+
+                                     @325[ Fortsetzung ]                   @001[ šbersicht ]
+.325
+    Transportmedien - CAN-COB-Definition (Fortsetzung)
+
+    Beispiel:
+    Anzahl der Stationen im CAN-NET2000-Netzwerk = 3
+    Basis zur Berechnung der CAN-IDs = 1000
+    Berechnung der CAN-ID auf Node1 (Stationsnummer = 1) fr die Kommunikation
+    mit Node2 (Stationsnummer = 2):
+
+    CAN_ID = 1000 + (1-1)*3 + 2-1 = 1001
+
+    Auf JEDEM KNOTEN werden so viele CAN-IDs vergeben, wie Knoten im Netzwerk
+    vorhanden sind. D.h. im CAN-NETZWERK werden (Knotenanzahl * Knotenanzahl)
+    CAN-IDs vergeben.
+
+    In unserem Beispiel werden den Knoten folgende CAN-IDs zugewiesen:
+    Stationsnummer 1 ... CAN-IDs 1000-1002
+    Stationsnummer 2 ... CAN-IDs 1003-1005
+    Stationsnummer 3 ... CAN-IDs 1006-1008
+
+    Insgesamt werden 3*3 = 9 CAN-IDs vergeben!
+
+                                       @320[ Zurck ]                      @001[ šbersicht ]
+.326
+    Transportmedien - Beauftragung / Performance der NET2000-CAN-Linien
+
+    Die NET2000-Linien werden sequentiell beauftragt. D.h. in jedem NET2000-
+    Zyklus wird eine Linie abgearbeitet. Zu beachten ist, daá sich die
+    Reaktionszeit mit zunehmender Knotenanzahl und entsprechender Linien-
+    auslastung linear verschlechtert.
+
+    Reaktionszeit (worst case) = (Stationsanzahl + 1) * Zykluszeit * 2
+
+    Beispiel:
+    In einem NET2000-CAN-Netzwerk mit 16 Stationen, das im 10-ms-Takt betrieben
+    wird, kann die Reaktionszeit im schlechtesten Fall 340 ms betragen.
+
+    Dies ist in den eingestellten Timeout-Zeiten zu bercksichtigen.
+    Sicherheitsreserven (siehe auch @345[OV-Server]) sind einzubauen!
+
+    Response-Timeout = Reaktionszeit * 3
+
+    Die in unserem Beispiel einzustellende Timeout-Zeit wrde somit
+    340 ms * 3 (ca. 1000 ms) betragen.
+
+                                       @320[ Zurck ]                      @001[ šbersicht ]
+.327
+    Transportmedien - Speicherbedarf eines NET2000-CAN-Knotens
+
+    L2-Puffer:
+    ----------
+    Fr jede Linie werden 2 Puffer ben”tigt.
+
+    Beispiel fr den Speicherbedarf der L2-Puffer:
+    Speicherbedarf fr die L2-Puffer auf einem Knoten in einem NET2000-CAN-
+    Netzwerk mit 16 Knoten. L2-Puffergr”áe = 518 Byte.
+ 
+    2 * 16 * 518 Byte = 16,2 kByte
+
+    L7-Puffer:
+    ----------
+    Jede Linie ben”tigt einen Puffer.
+
+    Beispiel:
+    Speicherbedarf fr die L7-Puffer auf einem Knoten in einem NET2000-CAN-
+    Netzwerk mit 16 Knoten. NET2000.l7length = 4 kByte.
+
+    16 * 4 kByte = 64 kByte
+                                     @328[ Fortsetzung ]                   @001[ šbersicht ]
+.328
+    Transportmedien - Speicherbedarf eines NET2000-CAN-Knotens (Fortsetzung)
+
+    Speicher fr die Verwaltung:
+    ----------------------------
+    Fr die Verwaltung werden pro Linie ca. 0,5 kByte ben”tigt. Fr die
+    Verwaltung des Netzwerks und fr den privaten Stack werden ca. 3 kByte
+    ben”tigt.
+    Zus„tzlich wird auf dem Knoten noch Speicher fr die PV-Indexliste be-
+    n”tigt. Der Speicherbedarf ist von der Gr”áe der PV-Indexliste, welche
+    mit NET2000.ixtabsize konfiguriert wird, abh„ngig.
+
+    Beispiel:
+    Speicherbedarf fr die Verwaltung auf einem Knoten in einem NET2000-CAN-
+    Netzwerk mit 16 Knoten. NET2000.ixtabsize = 1024.
+
+    0,5 kByte * (NET2000.CAN.nnodes) + NET2000.ixtabsize * 10 Byte = 18 kByte
+
+
+
+
+
+                                     @329[ Fortsetzung ]                   @001[ šbersicht ]
+.329
+    Transportmedien - Speicherbedarf eines NET2000-CAN-Knotens (Fortsetzung)
+
+    Gesamtbedarf an Speicher:
+    -------------------------
+    In unseren Beispielen betr„gt der Gesamtbedarf an Speicher auf einem Knoten
+    101,2 kByte!
+
+    VORSICHT bei der Konfiguration!
+    Werden z.B. keine L7-Puffer bertragen, die gr”áer als die maximale L2-
+    Framel„nge (518 Byte) sind (NET2000.l7length = 518), so reduziert sich der
+    Speicherbedarf schlagartig um 64 kByte auf insgesamt 36,2 kByte. Wird die
+    PV-Indextabelle auf beispielsweise 128 Eintr„ge (NET2000.ixtabsize = 128)
+    verkleinert, reduziert sich der Speicherverbrauch abermals um 10,5 kByte
+    auf insgesamt 24,7 kByte!
+
+    Der CAN-Treiber selbst ben”tigt zur Zeit ca. 10 kByte + 56 * COB-Anzahl
+    (= Anzahl der Knoten im Netz) Bytes!
+
+
+
+
+                                       @320[ Zurck ]                      @001[ šbersicht ]
+.340
+    NET2000-Library : Taskklassen-Kontext
+
+    Die zyklischen NET2000-Dienste werden (ab NET2000-Version V2.00) im Kontext
+    einer Taskklasse ausgefhrt. Der Taskklassen-Kontext ist ber die NET2000-
+    Konfigurationsvariable NET2000.task_class konfigurierbar.
+
+    Vorteile:
+    - Das "Jittern" der Taskklassen wird verhindert.
+    - Das Lesen und Beschreiben von Prozeávariablen erfolgt nun synchron
+      zur parametrierten Taskklasse. Damit werden Datenkonsistenzprobleme
+      beseitigt.
+    - CLIENT-Dienste (Auftr„ge vom FUB, usw.) werden am Ende der Taskklasse,
+      SERVER-Dienste (Auftrag eines CLIENT-Knotens) werden am Beginn der Task-
+      klasse behandelt.
+
+    Nachteil:
+    Die NET2000-Dienste gehen voll zur Last der Taskklasse. Fr zeitaufwendige
+    NET2000-Dienste muáte daher ein (in der Restzeit laufender) Server einge-
+    richtet werden. Der GetOV-Dienst (Objektverzeichnis holen) und der Dienst
+    ROS (Objektstruktur lesen) werden vom "OV-Server" erbracht.
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.345
+    NET2000-Library : OV-Server
+
+    Der OV-Server hat die Aufgabe, zeitaufwendige Dienste auáerhalb des
+    Taskklassen-Kontexts zu behandeln. Die Dienste GetOV (Objektverzeichnis
+    holen) und ROS (Objektstruktur lesen) werden vom OV-Server erbracht.
+
+    Zu beachten ist, daá die Diensterbringung des OV-Servers frhestens einen
+    Taskklassen-Zyklus sp„ter erfolgen kann. Dies ist in den eingestellten
+    Response-Timeouts zu bercksichtigen.
+
+    Der OV-Server ist als Teil der NET2000-Systemtask realisiert. Die NET2000-
+    Systemtask l„uft in der Restzeit mit der Priorit„t 0x90.
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.350
+    NET2000-Library : Syntaxbeschreibung
+
+    Datentypen:
+    Fr viele Funktionen sind bestimmte Gruppen von Datentypen zul„ssig. Um
+    bei der Funktionsbeschreibung nicht alle zul„ssigen Datentypen anfhren
+    zu mssen, werden folgende Gruppenbezeichnungen eingefhrt:
+    ÉÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍ»
+    º Gruppe º  BIT  ³ INT8  ³ BYTE  ³ INT16 ³ WORD  ³ INT32 ³ LONG  ³ FLOAT º
+    ÌÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍ¹
+    º BASIS  º       ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º NICHT  º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    º FLOAT  º       ³       ³       ³       ³       ³       ³       ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º ALLE   º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º FELD   º  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  º
+    ÈÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍ¼
+      x  Datentyp ist zul„ssig
+     [x] Datentyp ist zul„ssig als Feldvariable oder Zeichenkette (String)
+
+                                     @351[ Fortsetzung ]                   @001[ šbersicht ]
+.351
+    NET2000-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Pfeile:
+    Fr die Darstellung von Eingangs- und Ausgangsparametern werden Pfeile
+    verwendet. Dabei gilt folgende Vereinbarung:
+    ÉÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º  Pfeil  º  Bedeutung                                                   º
+    ÌÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º   ->    º  Eingangsparameter                                           º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <->   º  Ein-/Ausgangsparameter. Funktionell ist es ein Ausgangs-    º
+    º         º  parameter. šblicherweise wird er aber vor dem Aufruf der    º
+    º         º  Funktion mit einer bestimmten Information geladen (z.B.     º
+    º         º  einer Adresse). Meist wird die Adresse einer Variable mit   º
+    º         º  adr() [PL2000] oder einem Adreákontakt [KOP] angeschlossen. º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <-    º  Ausgangsparameter                                           º
+    ÈÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @352[ Fortsetzung ]                   @001[ šbersicht ]
+.352
+    NET2000-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Funktionsbl”cke:
+    Funktionsbl”cke sind in dieser Online-Hilfe nicht grafisch dargestellt.
+    Sie finden aber alle fr Funktionsbl”cke relevanten Informationen, wie
+    Eingangsparameter (->), Ein-/Ausgangsparameter (<->) und Ausgangsparameter
+    (<-) in der Online-Hilfe.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.400
+    NET2000-Library : History - Versions„nderungen
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V2.10 -> V2.20  ³ AKTUELLE VERSION: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Folgende NET2000-Konfigurationsvariablen werden neu eingefhrt:           º
+  º NET2000.mode .... Angabe des Betriebsmodus der Schnittstelle              º
+  º                   (analog zu Frame-Treiber V3.10).                        º
+  º NET2000.close ... Wird diese Variable ungleich 0, so wird der FBASE-      º
+  º                   Treiber fr die ALI-Kommunikation (INA2000) zurck-     º
+  º                   konfiguriert. Wird die Variable wieder 0, so wird der   º
+  º                   FBASE-Treiber wieder fr NET2000 ge”ffnet.              º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+                                     @401[ Fortsetzung ]                   @001[ šbersicht ]
+.401
+    NET2000-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V2.00 -> V2.10  ³ LTERE VERSIONEN: Neue Funktionalit„ten                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Erweiterung des NET2000-Managers in Rcksichtnahme auf die neue         º
+  º   Hardware- und Software-Struktur der RPS-Familien.                       º
+  º - Untersttzung passiver IF-Module (IF050, IF060).                        º
+  º - Untersttzung mehrerer CAN-Schnittstellen.                              º
+  º - Folgende NET2000-Konfigurationsvariablen werden neu eingefhrt:         º
+  º   NET2000.device ... Angabe eines Device-Beschreibungsstrings             º
+  º                      (analog zu Frame-Treiber V3.10).                     º
+  º   NET2000.idle ..... Definition der Zeichenbertragungszeiten bis zum     º
+  º                      Schlieáen eines Empfangspuffers.                     º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+                                     @402[ Fortsetzung ]                   @001[ šbersicht ]
+.402
+    NET2000-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.24 -> V2.00  ³ LTERE VERSIONEN: Neue Funktionalit„ten                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Untersttzung mehrerer Schnittstellen, Realisierung unabh„ngiger Netz-  º
+  º   werke auf einer RPS.                                                    º
+  º - CAN-Implementierung: Ab dieser Version der NET2000-Software werden CAN- º
+  º   Schnittstellen untersttzt.                                             º
+  º - Parametrierbare Zykluszeit des NET2000-Managers. Die NET2000-Dienste    º
+  º   sollen im Taskklassen-Kontext ausgefhrt werden, dies erm”glicht eine   º
+  º   optimale Anpassung an die Applikation.                                  º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º V1.23 -> V1.24  ³ LTERE VERSIONEN: Fehlerbehebung                        º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Korrektur von Fehlern der Version V1.23.                                  º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+                                     @403[ Fortsetzung ]                   @001[ šbersicht ]
+.403
+    NET2000-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.22 -> V1.23  ³ LTERE VERSIONEN: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Adaption an die CP200.                                                  º
+  º - Adaption an die C220.                                                   º
+  º                                                                           º
+  º Folgende Fehler wurden korrigiert:                                        º
+  º - PV-Namen mit einer L„nge von 10 Zeichen wurden beim GetOV am Slave      º
+  º   fallweise nicht gefunden.                                               º
+  º - Im Leerlauf hat NET2000 zuviel Systemzeit beansprucht.                  º
+  º - Beim Dienst GOS (Get-Objekt-Structure) konnte ein Zykluszeitfehler      º
+  º   auftreten.                                                              º
+  º - Beim GetOV wurde "element_cnt" auf eine Bytel„nge begrenzt.             º
+  º - In einer bestimmten Konfiguration hat es sein k”nnen, daá fr WRITE-    º
+  º   Auftr„ge zu kleine Puffer geholt wurden.                                º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @404[ Fortsetzung ]                   @001[ šbersicht ]
+.404
+    NET2000-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.22 -> V1.23  ³ LTERE VERSIONEN: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Folgende Fehler wurden korrigiert:                                        º
+  º - Wurden Datenmodule w„hrend der Laufzeit erzeugt oder gel”scht, wurde    º
+  º   der NET2000-Manager resetiert, auch wenn die Steuervariable             º
+  º   NET2000.ixnodel = 1 war. Dies hatte zur Folge, daá es zur Response-     º
+  º   Timeouts auf dem Kommunikationspartner (Master) kommen konnte.          º
+  º - Auf Steuerungen mit einem BUGFIX >= V1.22 oder Panel mit BTSW >=V2.1    º
+  º   verliert die Variable NET2000.ixnodel ihre Bedeutung, da die System-    º
+  º   globale SG_PV_version eingefhrt wird.                                  º
+  º   Die Referenz auf ein Modul-(De)Install wird damit hinf„llig!            º
+  º   SG_PV_version zeigt an, wenn PV-Offsets sich verschoben haben, und      º
+  º   dann muá sowieso ein neuen GetOV gemacht werden, um nicht falsche       º
+  º   Adressen zu referenzieren.                                              º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+
+.End

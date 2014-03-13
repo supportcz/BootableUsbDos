@@ -1,0 +1,86 @@
+
+         ษอออออออออออออออออออออออออออออออออออออออออออป
+         บ              PROFILER V1.70               บ
+         บ                                           บ
+         บ       Profiling-Tool fr die SPSSW        บ
+         ศอออออออออออออออออออออออออออออออออออออออออออผ
+
+ฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤ
+Datum:         19. Februar 1998
+Verfasser:     B.Hochstrasser
+ฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤ
+
+ษออออออออออออออออป
+บ V1.60 -> V1.70 บ
+ศออออออออออออออออผ
+  PROFILER.EXE
+  ฤฤฤฤฤฤฤฤฤฤฤฤ
+    - Untersttzung der neuen SPS-CPUs IF260, LS251, IP350
+
+ษออออออออออออออออป
+บ V1.50 -> V1.60 บ
+ศออออออออออออออออผ
+
+  PROFILER.EXE
+  ฤฤฤฤฤฤฤฤฤฤฤฤ
+    - Untersttzung der neuen SPS-CPUs CP210, CP260, CP470/CP770, CP474/CP774
+    - Fehlerkorrektur bei den ZykTS-Ticks
+    - IP151: Wegen der hohen Frequenz der Interrupts fr die Analogbehandlung
+             erfolgt kein Profiling dieser Behandlung
+
+  Anmerkung: Bei der XP152 kann es durch das UART-Profiling dazu kommen,
+             daแ z.B. beim Systemmanager ("sysm"), der default immer innerhalb
+             eines Ticks fertig wird (Max.Ticks: 0), eine maximale Tickanzahl
+             gr”แer als 1 eingetragen wird.
+
+ษออออออออออออออออป
+บ V1.41 -> V1.50 บ
+ศออออออออออออออออผ
+
+  PROFILER.EXE
+  ฤฤฤฤฤฤฤฤฤฤฤฤ
+    - Untersttzung der neuen SPS-CPUs CP472, IP151, IF152
+    - automatisches L”schen des Profiler auf der SPS bei Verbindungsabbruch
+    - Stackmessung auch bei sehr ausgelasteten Systemen vor Profiling m”glich
+    - Fehlerkorrektur beim SPS-Task Profiling (max. Zyklusverletzung beim
+      Beenden des Profilers oder Illegal Instruction bei Start/Messung)
+
+ษออออออออออออออออป
+บ V1.40 -> V1.41 บ
+ศออออออออออออออออผ
+
+  PROFILER.EXE
+  ฤฤฤฤฤฤฤฤฤฤฤฤ
+    - Untersttzung des 16550-Kommunikationsbausteins (wurde in V1.40
+      durch einen Fehler beim Zusammenbau nicht untersttzt).
+
+
+ษออออออออออออออออป
+บ V1.30 -> V1.40 บ
+ศออออออออออออออออผ
+
+  PROFILER.EXE
+  ฤฤฤฤฤฤฤฤฤฤฤฤ
+    - Untersttzung der CP200
+    - Untersttzung des 16550-Kommunikationsbausteins
+
+
+ษออออออออออออออออป
+บ V1.20 -> V1.30 บ
+ศออออออออออออออออผ
+
+  PROFILER.EXE
+  ฤฤฤฤฤฤฤฤฤฤฤฤ
+    - Korrektur der SSTK-Profiling-Messung fr die XP152
+    - Korrektur eines Fehlers bei der Lndercode abhngigen Textbehandlung
+
+ษออออออออออออออออป
+บ V1.10 -> V1.20 บ
+ศออออออออออออออออผ
+
+  PROFILER.EXE
+  ฤฤฤฤฤฤฤฤฤฤฤฤ
+    - Untersttzung der neuen CPU XP152
+    - Umstellung des Hauptmenus
+
+

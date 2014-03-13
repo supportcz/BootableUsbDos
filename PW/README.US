@@ -1,0 +1,464 @@
+		     INFORMATION ABOUT
+	     PANELWARE CONFIGURATION SOFTWARE
+			  V2.5
+
+
+A. This disk contains the following programs
+
+	Automatic Installation of all necessary files to the hard disk
+
+	PANELWARE CONFIGURATION SOFTWARE (PCS)
+
+	Communication Drivers for MININET, MININET SPOIO and ALISK
+
+        Panel Configuration Files for IT-Panels, P120, P125, P1203,
+        P150, C200, C220, C221 and C300
+
+        Operating system V2.5 for P150, C200, C220 and C300
+	Operating system V3.0 for C221
+
+	A program, that allows old IT projects (V1.3) to be edited with
+	this editor version.
+
+	Demo Program for MININET and ALISK 
+
+        BOOTCOMM.EXE (\PW\SYSTEM directory) for transferring the operating
+        system using a batch file (see point L)
+
+B. To install all files onto the hard disk (e.g. drive C:), you must use the
+   automatic installation program supplied on this disk. To run this program
+   the disk must be inserted into a floppy disk drive (e.g. drive A:). The
+   following command can be entered in the command line of your PC:
+
+	C:> A:SETUP
+
+   IMPORTANT:   The SETUP program must be used to install the PANELWARE
+		CONFIGURATION SOFTWARE to the hard disk to guarantee complete
+		functionality.
+
+   This installation program creates the following directory path (depending
+   on the target path set) on the hard disk (e.g. C:)
+
+	C:>
+	   \PW
+	      \USER                     
+	    \DEMO2_AL.PRD
+	    \DEMO2_MN.PRD
+	    \COMM.01.PRD
+	      \KFG                     
+	      \SYSTEM
+
+C. Installation Notes:
+
+   The number of FILES and BUFFERS must at least correspond to those
+   demanded by the SETUP program. If this is not the case, problems can
+   occur during the running of the PANELWARE CONFIGURATION SOFTWARE.
+
+    FILES   = 40
+    BUFFERS = 10
+
+D. It is not possible to run the PANELWARE CONFIGURATION SOFTWARE under
+   WINDOWS. If the PANELWARE CONFIGURATION SOFTWARE is executed in a DOS
+   window, problems can occur when downloading projects.
+
+E. Mouse operation is not possible in the PANELWARE CONFIGURATION SOFTWARE.
+
+F. Changes to PANELWARE CONFIGURATION SOFTWARE 
+
+   PCS V1.6 to V1.7
+
+   -    It is now possible to use the C200 Panel Controller.
+   -    You can optionally set the clock on the panel to the PC time, when
+	downloading a project.
+   -    The C200 operating system can be downloaded to the panel via a PC.
+
+   PCS V1.7 to V1.71
+
+   -    Changes to the C200 Operating System 
+
+   PCS V1.71 to V1.8
+
+   -    All known errors have been corrected 
+   -    Project / Picture importing
+   -    Importing and exporting variable assignments tables 
+   -    P150 and C300 operating system downloading
+   -    Configuration file for P150 
+   -    The keys of the 16x40 display module can be used 
+   -    Slave panels; projects can be created for up to three slave panels 
+   -    Amounts for fields, keys and LED functions have been increased 
+		-       64 Fields (input /output fields)
+		-       99 Key functions
+		-       99 LED functions
+	
+	ATTENTION!! The maximum number of fields possible depends on the 
+		    communication driver used, the length of the alarm list
+		    history and the number of process variables.
+
+   -    Data conversion with the B&R2000 connection
+   -    Scaling for WORD (unsigned) fields 
+   -    Input/Output Long (signed) 
+   -    MININET SPOIO driver is available
+
+   PCS V1.8 to V2.0
+
+   -    All known errors have been corrected
+   -    Protocol System
+   -    Recipe System
+   -    LED Matrix
+   -    Language System
+   -    NEXT Input Key Function
+
+   PCS V2.0 to V2.01
+
+   -    Errors in PCS compilation have been corrected
+
+   PCS V2.01 to V2.02
+
+   -   New operating system V2.02
+   -   PCS Editor errors were not corrected !
+
+   PCS V2.02 to V2.1
+
+   -   New operating system V2.1
+   -   Up to 20 kBytes of recipes can be created
+   -   Extension to the INPUT String Function
+   -   Leading zeros for numerical input fields
+   -   Acknowledgement image for alarm system
+   -   Alarm fields can be output without time
+   -   Additional programs can now be held locally in a project.
+       The directory ADD is to be created in the project directory
+       *.PRD. All *.BR modules in this directory are transferred
+       to the control panel with a project download.
+
+   PCS V2.1 to V2.2
+
+   -   New operating system V2.2
+   -   Locking of string input fields
+
+   PCS V2.2 to V2.4
+
+   -   New operating system V2.4
+   -   Expanded display selection (4D1165 and 4D1166)
+   -   New panel description files for 4B1250 and 4B1203 panels
+   -   Correction of all known errors
+   -   Support of various PC Laptops for project download
+   -   New MININET / MININET SPOIO function blocks
+   -   Support of operating system and project download to
+       4C2210 controller with 1MB FlashProm
+
+   PCS V2.4 to V2.5
+
+   -   Changes to the operating system (V2.4 => V2.5)
+   -   Changes to the operating system for C221 (V2.4 => V3.0)
+   -   New panel description file for C221
+   -   Maximum 849 variables possible for a C221 project
+   -   Revision to panel description files (BRIT panels)
+       Contains only the last respective version number
+   -   Input of characters > 127 for BRIT panels
+   -   Project downloading works on BRIT panels with all PCs
+   -   No PLC variables could be entered for alarm group 0 (system alarm)
+   -   Bootcomm.exe program for transferring Cxxx operating system
+
+G. Changes to the Operating System   
+
+   C300 V1.5 to C300 V1.6
+
+   -    The programming algorithm of the Flash PROM was changed.
+
+   C200 V1.6/C300 V1.7 to C200/C300 V1.8
+
+   -    All known errors have been corrected 
+   -    All alarm system errors which were known have been corrected 
+   -    Filter in the alarm system 
+   -    The bypass image is downloaded to the PLC 
+   -    Slave panels; up to three slave panels can be used 
+   -    Scaling for WORD (unsigned) fields 
+   -    Input/Output Long (signed) 
+   -    Parameter Definition of Error Behavior
+
+   C200/C300 V1.8 to C200/C300 V2.0
+
+   -    All known errors have been corrected 
+   -    Protocol System
+   -    Recipe System
+   -    Boot procedure for slave panels has been modified 
+   -    Language Functions
+   -    Led Matrix
+   -    Update behavior of input fields 
+   -    Input field locking 
+   -    NEXT Input Key Function
+
+   C200/C300 V2.0 to C200/C300 V2.02
+
+   -    All known errors have been corrected
+
+   C200/C300 V2.02 to C200/C300 V2.1
+
+   -   Corrected all known errors for scaling
+   -   Corrected all known errors for key / LED matrix
+   -   Up to 20 kBytes of recipes can be created
+   -   Extension of the INPUT String Function
+   -   Leading zeros for numerical input fields
+   -   Acknowledgement image for alarm system
+   -   Alarm fields can be output without time
+   -   Life sign mode
+   -   Time synchronization PCC => Control Panel
+   -   Number of the active input fields are placed in the
+       internal variable INPUTFIELD
+	
+    C200/C300 V2.1 to C200/C300 V2.2
+
+    -   Locking of string input fields
+    -   Expanded image server for Multiple GET_OV in NET2000
+
+    C200/C300 V2.2 to C200/C300 V2.4
+
+    -   Correction of all known errors in the image server
+    -   Expansion of the operating system for 4C2210 (1MB FlashProm and
+        1MB Ram)
+    -   Correction of all known errors in the panel interpreter
+
+    C200/C300 V2.4 on C200/C300 V2.5
+
+    -   Correction of all known errors in the image server
+
+    C221 V3.0
+
+    -	Operating system based on the base PCC operating system
+  	Version 2.0
+    -   A maximum of 845 variables can now be used
+    -   This operating system does not support the online communication
+
+H. Known errors 
+
+   C300.#16 and C200.#17 
+
+   -    If 128 alarms are defined in an alarm group, the first 8 alarms in
+	the next alarm group are not utilized.
+	If a max. of 127 alarms are used per alarm group, all alarms in the
+	next alarm group function correctly,
+
+   -    If the error picture in the picture directory is bound, no other
+        picture is allowed to be connected to it with branches.
+
+   -    The filter functions in the alarm field and historical alarm field
+        are not yet available.
+
+   -    The bypass image not sent to the PLC.
+
+   -    Historical Alarm List
+          - The acknowledgment status and the result are not displayed 
+          - If the cursor is positioned over the first entered alarm, 
+            the panel crashes.
+
+   -    B&R 2000 Communication:
+
+	    If B&R2000 is setup as communication, the setting 'dynamic' is
+	    only possible with operating system versions V1.10 and later. If
+	    an earlier version of the operating system is used (e.g. V1.05),
+	    only 'read-write' can be installed.
+
+	    Alarm System Use (PLC Operating System V1.05):
+	      A max. of 32 alarms per group can be configured. The given
+	      address of the alarm bit field on the panel must be defined in
+	      the PLC as data type LONG.
+	      If upto 16 alarms per group are defined, the given address of
+	      the alarm bit field in the panel must be defined in the PLC as
+	      data type WORD.
+
+	    Alarm System Use (PLC Operating System V1.10):
+	      The given address of the alarm bit field on the panel must be
+	      defined in the PLC as BYTE array.
+
+   Operating System Version C300.#18 and C200.#18
+
+	Key matrix / Picture number
+          The key matrix is not initialized with 0 after a power-on 
+          or a reset.
+
+        B&R 2000 Communication
+          The error picture appears for 2 seconds after a power-on 
+          or a reset.
+
+	Input / Output Field
+          Values between 1.0*10n to 2.0*10n are displayed as "****" 
+          when outputting float values.
+
+        Report Printout
+          If a report is printed with a string with uneven length, the
+          controller crashes with a fatal sys error.
+
+   Operating System Version C300.#20 and C200.#20
+
+        Key Matrix
+          When buffering keys = NO is not always updated if the
+          keys are pressed very fast  on the key matrix.
+
+        LED Matrix
+          When changing pictures, the states of the LEDs are not always
+          updated on the PCC.
+
+        Locking Input Fields
+          If all input fields are locked in a picture and no additional
+          output fields are shown, the locking variable is no longer
+          updated.
+
+   Operating System Version C300.#22 and C200.#22
+
+        Data Image Server
+          If none existing PLC variables are addressed from the panel
+          the panel stopped with initiating communication.
+
+          By using NET2000 version 1.3 a fatal sys error 4703 could occur.
+
+        Scaling
+          The position of a scaled input long field with up/down input was
+          not correct.
+
+   Operating System Version C300.#24 and C200.#24
+
+	    Image server
+              Correction of booting problems when switching on panels
+            
+	    Report System
+              If only the report system was used, and the printer was
+         driven using hardware handshaking, the panel would hang after
+	      disconnection of the printer.
+
+
+I. Known Errors / Problems with using the BRIT- Panels
+
+	BRITGR31 V1.1 / BRITGR42 V1.2
+
+    -   If the +p+ (previous input) key is pressed, it is possible
+		that the panel crashes or entry field 0 is skipped. If
+		picture changing from the PLC is allowed, this error does
+		not happen anymore.
+	
+	BRITGR31 V1.3 
+
+	  With this operating system version, the panel configuration file
+	  BRITGR31.#14 must be selected !
+
+	-       With projects < 37 Kbytes, a Reset is triggered in RUN mode.
+
+	-       When you change from a picture with locked input fields
+		to a picture with a Password INPUT field, this field is
+		locked. To fix this, you must change to a picture without
+		locked inputs.
+
+	BRITGR31 V1.4
+	
+	  One key is not recognized on customer specific operator panels with             
+	  this version of operating system. This error does not occur on                  
+	  BRITGR31 panels.
+
+J. Updating the Panel Editor from Version V1.3 to V2.0:
+
+	To be able to edit BRIT projects which were created with the Panel
+	Editor version V1.3 in the current Panel Editor V2.0, the program
+	>C13TO16.EXE< must be copied from the installation disk to the PC
+	hard disk.
+
+	It is possible to update the panel operating system earlier.
+
+   e.g. A project that was created with editor version V1.3 is in the
+	     directory C:\PW13\USER\. The name of the project is TEST.PRJ.
+
+	     Call:  C:>C13TO16 C:\pw13\user\test.prj
+
+	A sub-directory under the given directory is created with the name of
+	the project and the ending .PRD. All defined pictures, global text
+	files and keycode tables are converted and copied into this
+	sub-directory. An error message is displayed if a file is not found.
+
+	To use all new fields (new panel operating system necessary), you
+	can call the conversion program with an option:
+
+	     Call:  C:>C13TO16 C:\pw13\user\test.prj -v14
+
+	The project is converted for operating system V1.4.
+
+K. Mininet Function Blocks
+
+   On the installation disk in directory \COMM.01, all MININET slave
+   function blocks are stored.
+   These function blocks can be copied into the PGUSER DIRECTORY of the
+   B&R PROgramming SYStem.
+
+	NDSA.MSL        Mininet Slave Driver for PIF
+	NDSB.MSL        Mininet Slave Driver for CP31/PP40
+	NDSC.MSL        Mininet Slave Driver for CP80/63/PP60
+	NPLS.MSL        Mininet Slave PLC
+	MDSA.MSL        Combined faster NDSA+NPLS
+	MDSB.MSL        Combined faster NDSB+NPLS
+	MDSC.MLS        Combined faster NDSB+NPLS
+	MSSA.MSL        Mininet Fast Slave driver  for PIF
+	MSSB.MSL        Mininet Fast Slave driver  for CP31/PP40
+	MSSC.MSL        Mininet Fast Slave driver  for CP80/63/PP60
+
+   The binding of these function blocks into a PLC program is explained in
+   the Standard Software User's Manual Volume 2.
+
+L. BOOTCOMM.EXE
+
+   BOOTCOMM.EXE (located in the System directory) enables the operating
+   system to be transferred from the Windows environment to a C200, C220
+   or C221 panel. To do this, the following commands must be used, according
+   to panel controller type (e.g. in a BATCH file):
+
+	C200 and C220:
+
+		bootcomm c200sys.s1 -b57600 -pcom1 	
+		bootcomm c200sys.s2 -b57600 -pcom1 -nc
+
+		; Other baudrates, or the com2 interface
+		; can also be used.
+
+	C221:
+
+		bootcomm c200_p30.s1 -b57600 -pcom1
+
+   If BOOTCOMM is called without specifying any parameters,
+    help will be displayed.
+
+   NOTE: On the C300, the operating system can only be installed from PCS
+            while in DOS mode. Transfer from Windows is not allowed
+            and can cause loss of the operating system on the C300! 
+
+M. Demo Program
+
+   There are 2 demo programs on the disk. These demo programs are
+   automatically copied into the user directory when the PANELWARE
+   CONFIGURATION SOFTWARE is installed.
+
+      \DEMO2_MN.PRD         Demo Program MININET
+	   
+	 A demo project is stored in this directory which communicates with 
+	 the PLC via MININET. The PLC program is also in this directory. 
+	 A CP40 and a PIF (slot 0) are required. You can set up other PLC 
+	 configurations using the function blocks on this disk.
+	   
+	 The connection between the panel (Interface 1) and the PLC
+	 interface (IF3) uses the cable, BRKAPC-0. 
+	   
+	This demo project has been created for a C200 panel controller. 
+   A project import can be used to format the project for C300 use.
+	   
+      \DEMO2_AL.PRD        Demo Program B&R2000
+
+	A demo project is stored in this directory which communicates with a
+	B&R 2005 or B&R 2010 PLC. There is also an exported PLC program in
+	this directory (ALI_DEMO.XPE). This program must first be imported
+	into PG2000, saved and then compiled. The module created in this
+	process can then be downloaded to the PLC.
+
+	The connection between the panel (Interface 1) and the PLC (RS232)
+	uses cable 0G000100-090. 
+	   
+	This demo project has been created for a C200 panel controller. 
+	A project import can be used to format the project for C300 use.
+
+
+
+        02.11.98

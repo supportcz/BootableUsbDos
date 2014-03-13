@@ -1,0 +1,44 @@
+* Drucker : LC-10
+* Druckerinitialisierung
+   1  "\e6\eM\x0F\e1"                  * Init
+   2  "\et\eP\eF"                      * RÅckeinstellung
+   3  ""                               * Code fÅr Zeilenanfang
+   4  "\r"                             * Code fÅr Zeilenende
+   5  "\n"                             * Code fÅr neue Zeile
+
+
+* Zeichensatz
+  10  "\e6"                            * IBM Zeichensatz #2
+  11  "\e7"                            * IBM Zeichensatz #1
+  12  "\et0"                           * Standardzeichensatz
+  13  "\et1"                           * IBM Zeichensatz
+
+
+* Schriftstil
+  20  "\e4"                            * kursiv ein
+  21  "\e5"                            * kursiv aus
+  22  "\e-1"                           * unterstreichen ein
+  23  "\e-0"                           * unterstreichen aus
+  24  "\e_1"                           * Åberstreichen ein
+  25  "\e_0"                           * Åberstreichen aus
+  26  "\eS0"                           * Superscript ein
+  27  "\eS1"                           * Subscript ein
+  28  "\eT"                            * Super- u. Subscript aus
+
+* Strichstaerke
+  30  "\eG"                            * Schattendruck ein
+  31  "\eH"                            * Schattendruck aus
+  32  "\eE"                            * Fettdruck ein
+  33  "\eF"                            * Fettdruck aus
+
+* Schriftart
+  40  "\eM"                            * Elite
+  41  "\eP"                            * Pica
+  42  "\ex1"                           * NLQ ein
+  43  "\ex0"                           * NLQ aus
+
+* Schriftgroesse
+  45  "\ew1"                           * doppelt hohe Schrift ein
+  46  "\ew0"                           * doppelt hohe Schrift aus
+
+* Ende

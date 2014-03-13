@@ -1,0 +1,1476 @@
+%%
+1,0:1      Help file for PCC error messages.
+%%
+
+.1
+         OVERVIEW
+
+Help file for the display of explanations corresponding to
+the PCC error messages.
+
+
+    0000 - 1999 @100 [< General Errors              >]
+    2000 - 2999 @200 [< HW-Trap Library Errors      >]
+    3000 - 3999 @300 [< SW-Trap Library Errors      >]
+    4000 - 4999 @400 [< ALI-Trap Library Errors     >]
+    5000 - 5999 @500 [< Task Classes Errors         >]
+    6000 - 6999 @600 [< System Task Errors          >]
+    7000 - 7499 @700 [< Boot Errors                 >]
+    7500 - 7999 @750 [< BT Trap Errors              >]
+    8000 - 8999 @800 [< Installation Errors         >]
+    8300 - 8999 @830 [< RemoteIO Errors             >]
+    9000 - 9999 @900 [< Various, Exceptions         >]
+
+                                  
+
+
+                                                                   @999[  end HELP  ]
+.100
+         GENERAL ERRORS
+
+
+0001    "SYSTEM: TimeOut with Service handling"
+0005    "SYSTEM: Object no longer exists"
+0006    "SYSTEM: Invalid ObjectID"
+0008    "SYSTEM: No more objects can be created (SPSSWCFG)"
+0009    "SYSTEM: Object not available"
+0010    "SYSTEM: Incorrect PROM type, FIXRAM not configured ?"
+0012    "SYSTEM: Not enough free PROM/FLASH memory"
+0015    "SYSTEM: Not enough Stack area -> SPSSWCFG"
+0016    "SYSTEM: Stack is too Small"
+0020    "SYSTEM: Task is already suspended"
+0021    "SYSTEM: Task is already running"
+0032    "SYSTEM: Attempt to allocate no memory"
+0033    "SYSTEM: Too much memory allocated at once"
+0034    "SYSTEM: Too much memory allocated at once"
+0035    "SYSTEM: Memory classes do not match"
+0036    "SYSTEM: The memory returned doesn't correspond to the allocation"
+
+
+    @101[ GENERAL ERRORS ]                                               @1[  OVERVIEW  ]
+.101
+         GENERAL ERRORS (continued)
+
+
+0051    "SYSTEM: No enough queues configured -> PCCSWCFG"
+0052    "SYSTEM: Too little message buffer is available"
+
+0072    "WARNING: The RTC or system time is not set"
+0073    "WARNING: The RTC or system time is not set"
+
+0257    "SYSTEM: Incorrect device number"
+0258    "SYSTEM: No driver available"
+0259    "SYSTEM: Driver function is not supported"
+
+
+
+
+
+
+
+
+
+    @200[ HARDWARE TRAP LIBRARY ERRORS ]                                 @1[  OVERVIEW  ]
+.200
+         HARDWARE TRAP LIBRARY ERRORS
+
+2000 "Incorrect access to hardware component"
+2001 "Incorrect access to hardware component"
+
+2010 "Incorrect access to hardware component"
+2011 "Incorrect access to hardware component"
+2012 "Incorrect access to hardware component"
+2013 "Incorrect access to hardware component"
+2015 "Incorrect access to hardware component"
+2016 "Incorrect access to hardware component"
+
+2020 "Incorrect access to hardware component"
+2021 "Incorrect time at timer activation"
+2022 "Timer does not support interrupt"
+2023 "Timer does not support this time"
+
+2030 "Incorrect access to hardware component (CRM)"
+2031 "Incorrect offset for access to CRM"
+2032 "Incorrect length for access to CRM"
+
+    @201[ HARDWARE TRAP LIBRARY ERRORS  ]                                @1[  OVERVIEW  ]
+.201
+         HARDWARE TRAP LIBRARY ERRORS (continued)
+
+2040 "Incorrect access to hardware component (IRC)"
+2041 "Mode is not supported by IRC"
+2042 "Incorrect interrupt number transmitted"
+2043 "Incorrect call by IRC-Routine"
+2045 "Incorrect mode for IRC_setvector"
+2046 "Incorrect vector for IRC_setvector"
+2047 "ENABLE for IRC_setvector not allowed with this mode"
+2048 "Too much IRQ context handler"
+2049 "Default IRQ context handler"
+2050 "Error during watchdog activation"
+
+2055 "No inititialization for IRQ context"
+
+2060 "Incorrect access to hardware component (DIS)"
+2061 "Incorrect line number for display (2010)"
+2062 "Incorrect column number for display (2010)"
+2063 "Invalid character number for display (2010)"
+2064 "Incorrect access to display (2010)"
+
+    @202[ HARDWARE TRAP LIBRARY ERRORS  ]                                @1[  OVERVIEW  ]
+.202
+         HARDWARE TRAP LIBRARY ERRORS (continued)
+
+2070 "Incorrect access to hardware component (RTC)"
+2071 "Incorrect time set to RTC"
+2072 "RTC does not support Hold function"
+2073 "RTC is not initialised yet"
+
+2080 "Incorrect access to hardware component"
+
+2090 "Incorrect access to hardware component (DMA)"
+2091 "Incorrect access to hardware component (DMA)"
+
+2100 "Incorrect access to hardware component (AS1)"
+2101 "Incorrect access to hardware component (AS1)"
+
+2110 "Incorrect access to hardware component (PAP)"
+2111 "Incorrect access to hardware component (PAP)"
+
+2501 "Error initializing the IO-Controller's PCCIO Bus"
+2502 "Error initializing the RemoteIO Master"
+
+    @203[ HARDWARE TRAP LIBRARY ERRORS  ]                                @1[  OVERVIEW  ]
+.203
+         HARDWARE TRAP LIBRARY ERRORS (continued)
+
+2900 "No interrupt handler installed for IRL1 Interrupt"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @300[ SOFTWARE TRAP LIBRARY ERRORS ]                                 @1[  OVERVIEW  ]
+.300
+         SOFTWARE TRAP LIBRARY ERRORS
+
+
+3000 "System Structure Configuration Error"
+3001 "System Structure Configuration Error"
+3002 "ERR_SS_NOMEM"
+3003 "Invalid Pointer in the System Structure"
+3004 "Invalid length for the System Structure"
+3005 "System Structure Confuguration Error"
+3006 "ERR_SS_WRONG_ENT"
+3007 "ERR_SS_WRONG_FL"
+3008 "Incorrect Search criteria for the system structure"
+
+3010 "Invalid Address for a B&R Module"
+3011 "Offset Error in a B&R Module"
+3012 "Invalid Section in a B&R Module"
+3013 "Invalid Data length accessing a B&R Module"
+3014 "ERR_MO_NOBLOCK"
+3015 "Module data in the contents directory module and B&R module is different"
+3016 "ERR_MO_NOINSTALL"
+
+    @301[ SOFTWARE TRAP LIBRARY ERRORS  ]                                @1[  OVERVIEW  ]
+.301
+         SOFTWARE TRAP LIBRARY ERRORS (continued)
+
+
+3017 "ERR_MO_WRONG_CS"
+3018 "Invalid name length for a B&R Module"
+3019 "B&R-Module not available"
+
+3020 "ERR_SIO_NOSIOTAB"
+3021 "ERR_SIO_WRONGFLAG"
+3022 "ERR_SIO_NOSIO"
+3023 "ERR_SIO_WRONGPARM"
+3027 "ERR_TRY_NEXT_BITMAP"
+3028 "Invalid Memory Class"
+3029 "Not enough Memory Available"
+3030 "No more memory available"
+3031 "Invalid memory class"
+3032 "ERR_SM_WRONG_DATPTR"
+3033 "ERR_SM_NOSYSTIMER"
+3034 "ERR_SM_NOSSTIMER"
+3035 "ERR_SM_BUSY"
+
+    @302[ SOFTWARE TRAP LIBRARY ERRORS ]                                 @1[  OVERVIEW  ]
+.302
+         SOFTWARE TRAP LIBRARY ERRORS (continued)
+
+
+3036 "AVT Link count Error"
+3037 "AVT already exists"
+3038 "ERR_AVT_UPDATE"
+3039 "AVT Reference not available"
+
+3045 "Checksum in B&R Module Header is wrong"
+
+3050 "No Comm Area configured for a communication task"
+3051 "No entry found in the connection list of the Comm Area"
+3052 "Invalid state of a connection in the Comm Area"
+3053 "No more entries are free in the connection list of the Comm Area"
+3054 "Invalid Index for KA_del_entry"
+
+
+
+
+
+
+    @303[ SOFTWARE TRAP LIBRARY ERRORS ]                                 @1[  OVERVIEW  ]
+.303
+         SOFTWARE TRAP LIBRARY ERRORS (continued)
+
+
+3060 "ERR_HI_NOMOD"
+3061 "ERR_ER_NOMOD"
+3062 "Multiple run through of the ring buffer"
+
+3070 "ERR_FOC_WRONGFLAG"
+3071 "ERR_FOC_NOPTR"
+3072 "Invalid Task Class for a PV to be forced"
+3073 "Invalid data type for a PV to be forced"
+3074 "Invalid Base pointer for a PV to be forced"
+3075 "Invalid B&R physical address (Extension bit) for a PV to be forced"
+3076 "Invalid Index in the Force system functions"
+3077 "This PV is already Forced"
+
+3080 "ERR_xx_WRONGOFF"
+
+3085 "No User Exception task found"
+
+
+    @304[ SOFTWARE TRAP LIBRARY ERRORS  ]                                @1[  OVERVIEW  ]
+.304
+         SOFTWARE TRAP LIBRARY ERRORS (continued)
+
+
+3089 "Error 'info' in the communication"
+3090 "Invalid function number in a SYSTRAP-Call"
+3091 "Invalid function number in a INSTTRAP-Call"
+3092 "Invalid function number in a BURTRAP-Call"
+3093 "Invalid function number in a BTCTRAP-Call"
+3094 "Invalid function number in a PPTRAP-Call"
+
+/* Errors of the Bitmap Routines */
+
+3100 "Size of a bit map unit is too large or 0"
+3101 "Attempt to generate a bitmap with 0 units"
+3102 "The pointer in the bitmap management data is not WORD aligned"
+3103 "A large enough memory area could be found"
+3104 "The passed data pointer points to the management area."
+3105 "The requested data length is larger than the total memory area"
+
+3150 Incorrect mode when calling MO_copy"
+
+    @305[ SOFTWARE TRAP LIBRARY ERRORS  ]                                @1[  OVERVIEW  ]
+.305
+         SOFTWARE TRAP LIBRARY ERRORS (continued)
+
+3300 "BURLIB: Wrong TC Number"
+3301 "BURLIB: Wrong Offset"
+3302 "BURLIB: Wrong state of an object"
+3303 "BURLIB: No message sent/received"
+3305 "BURLIB: Object already exists"
+3304 "BURLIB: Timeout Error"
+3306 "BURLIB: Entry already exists"
+3307 "BURLIB: Linkcnt <> 0 or Linkcnt > 127"
+3308 "BURLIB: Error programming a module"
+3309 "BURLIB: Invlaid mailbox"
+3310 "BURLIB: Invalid base pointer"
+3311 "BURLIB: Invalid PCC IO Type"
+3312 "BURLIB: Invalid extension bit"
+3320 "BURLIB: Object is already deleted"
+3324 "BURLIB: Object does not exist"
+3328 "BURLIB: Wrong object type"
+3332 "BURLIB: No entry exists"
+3336 "BURLIB: Wrong Ident"
+
+    @306[ SOFTWARE TRAP LIBRARY ERRORS ]                                 @1[  OVERVIEW  ]
+.306
+         SOFTWARE TRAP LIBRARY ERRORS (continued)
+
+3365 "BURLIB: Not enough semaphores configured (PCCSWCFG)"
+3560 "BURLIB: No more semaphore buffer"
+3564 "BURLIB: Semaphore not available"
+3568 "BURLIB: Semaphore was deleted"
+3584 "BURLIB: Time not available"
+
+/* Memory Management */
+
+3600 "Not enough memory in User Area"
+3601 "Not enough memory in PCCSW AREA"
+3602 "Not enough memory in OS Area"
+3603 "Not enough memory in Dig. System Area"
+3604 "Not enough memory in Ana. System Area"
+3605 "Not enough memory in Debug Area"
+3606 "Not enough memory in Copier Area"
+3607 "Not enough memory in Driver Area"
+3610 "Not enough memory in Dig. IO Area"
+3611 "Not enough memory in Ana. IO Area"
+3612 "Not enough memory in IO Management Area"
+    @307[ SOFTWARE TRAP LIBRARY ERRORS ]                                 @1[  OVERVIEW  ]
+.307
+         SOFTWARE TRAP LIBRARY ERRORS (continued)
+
+3620 "Not enough memory in Dig. RIO Area"
+3621 "Not enough memory in Ana. RIO Area"
+3622 "Not enough memory in RIO Management Area"
+3623 "Not enough memory in loc. RIO Area"
+3699 "Invalid memory class"
+3700 "Invalid parameter with MEM_free in User Area"
+3701 "Invalid Parameter with MEM_free in PCCSW AREA"
+3702 "Invalid Parameter with MEM_free in OS Area"
+3703 "Invalid Parameter with MEM_free in Dig. System Area"
+3704 "Invalid Parameter with MEM_free in Ana. System Area"
+3705 "Invalid Parameter with MEM_free in Debug Area"
+3706 "Invalid Parameter with MEM_free in Copier Area"
+3707 "Invalid Parameter with MEM_free in Driver Area"
+3710 "Invalid Parameter with MEM_free in Dig. IO Area"
+3711 "Invalid Parameter with MEM_free in Ana. IO Area"
+3712 "Invalid Parameter with MEM_free in IO Management Area"
+3720 "Invalid Parameter with MEM_free in Dig. RIO Area"
+3721 "Invalid Parameter with MEM_free in Ana. RIO Area"
+
+    @308[ SOFTWARE TRAP LIBRARY ERRORS ]                                 @1[  OVERVIEW  ]
+.308
+         SOFTWARE TRAP LIBRARY ERRORS (continued)
+
+3722 "Invalid Parameter with MEM_free in RIO Management Area"
+3723 "Invalid Parameter with MEM_free in loc. RIO Area"
+3799 "Invalid memory class"
+3800 "Invalid memory management structure in User Area"
+3801 "Invalid memory management structure in PCCSW AREA"
+3802 "Invalid memory management structure in OS Area"
+3803 "Invalid memory management structure in Dig. System Area"
+3804 "Invalid memory management structure in Ana. System Area"
+3805 "Invalid memory management structure in Debug Area"
+3806 "Invalid memory management structure in Copier Area"
+3807 "Invalid memory management structure in Driver Area"
+3810 "Invalid memory management structure in Dig. IO Area"
+3811 "Invalid memory management structure in Ana. IO Area"
+3812 "Invalid memory management structure in IO Management Area"
+3820 "Invalid memory management structure in Dig. RIO Area"
+3821 "Invalid memory management structure in Ana. RIO Area"
+3822 "Invalid memory management structure in RIO Management Area"
+3823 "Invalid memory management structure in loc. RIO Area"
+3899 "Invlaid Memory Class"
+    @309[ SOFTWARE TRAP LIBRARY ERRORS ]                                 @1[  OVERVIEW  ]
+.309
+         SOFTWARE TRAP LIBRARY ERRORS (continued)
+
+3910 "Incorrect PROM type when saving / burning"
+3912 "Not enough EPROM memory"
+3913 "EPROM not erased"
+3915 "EPROM cannot be burned, write protect switch ?"
+3922 "EPROM with programming voltage cannot be erased"
+3923 "EPROM Verify not OK"
+
+3990 "Checksum for the program code im RAM is incorrect"
+
+
+
+
+
+
+
+
+
+
+
+    @400[ ALI-TRAP LIBRARY ERRORS ]                                      @1[  OVERVIEW  ]
+.400
+         ALI-TRAP LIBRARY ERRORS
+
+
+4000 "ALI: The referenced ALI-Device (SAP-Liste) doesn't exist"
+4001 "ALI: The referenced Telegram Queue (Layer7-SAP) doesn't exist"
+4002 "ALI: All communication buffers of the Telegram queue are full"
+4003 "ALI: Wrong transmittion direction of the selected Telegram queue (In/Out)"
+4004 "ALI: The version of the NW configuration module is not supported"
+
+4010 "ALI: Not enough memory available"
+4011 "ALI: The given connection nummer is unplanned"
+4012 "ALI: Invalid operation on an inactive connection"
+4013 "ALI: Invalid operation on an inactive connection"
+4014 "ALI: Invalid connection type"
+4015 "ALI: The given connection name is unplanned"
+4016 "ALI: Warning: Executing Hidden Abort"
+4017 "ALI: Connection is not a client connection"
+
+
+
+
+    @401[ ALI-TRAP LIBRARY ERRORS ]                                      @1[  OVERVIEW  ]
+.401
+         ALI-TRAP LIBRARY ERRORS (continued)
+
+
+4040 "ALI: INIT not OK"
+4041 "ALI: Error accessing to the communication module"
+4042 "ALI: The planned serial driver is not supported"
+4043 "ALI: Overrun of the communication buffer for serial communication"
+4044 "ALI: The SIO-Timer has too little us/TICK"
+4045 "ALI: Timer not suitable for cyclic operation or IRQ"
+4046 "ALI: Timeout in PP Handshake"
+
+4050  "ALI: The maximum telegram length was exceeded during coding"
+4051  "ALI: The FRAME length was exceeded"
+4052  "ALI: The telegram is incorrectly coded and can't be decoded"
+4053  "ALI: The list available is too small"
+
+                                   
+
+
+
+
+    @402[ ALI-TRAP LIBRARY ERRORS ]                                      @1[  OVERVIEW  ]
+.402
+         ALI-TRAP LIBRARY ERRORS (continued)
+
+
+4060  "ALI: Non-allowed type of ALI Device (SAP-List)"
+4061  "ALI: The configured number of the communication buffer is not enough"
+4062  "ALI: The configured maximum telegram length is not enough"
+4063  "ALI: The Profibus Service is not supported"
+4064  "ALI: OV version is incompatible with its communication partners"
+4065  "ALI: The SAP List is not available on this device"
+
+4080  "ALI: The selected function is not implemented"
+4081  "ALI: The ALI client module must be loaded for client services"
+
+
+
+
+
+
+
+
+
+    @403[ ALI-TRAP LIBRARY ERRORS ]                                      @1[  OVERVIEW  ]
+.403
+         ALI-TRAP LIBRARY ERRORS (continued)
+
+
+Error messages of Network controller
+
+4900  "NW: Not enough memory available on the NW module (-> NWCFG)"
+4901  "NW: Layer2 LSAP Number too high (-> NWCFG)"
+4902  "NW: Connection attribute for a VB is invalid (-> NWCFG)"
+4903  "NW: Dev_kbl_index of a VB is wrong (-> NWCFG)"
+4904  "NW: Error occurred during Layer2 SAP Configuration"
+4905  "NW: A Layer2 LSAP is being accessed by several connections (-> NWCFG)"
+4906  "NW: Error while initializing Layer2"
+4907  "NW: Error beim Start des Layer2"
+4908  "NW: Checksom Error during Download"
+4910  "NW: Meminit does not deliver a DPR_struct_ptr"
+4912  "NW: IN FIX KBL planned connection is not supported (-> NWCFG)"
+4920  "NW: No valid FMA7 Service"
+4921  "NW: FMA7 Service can not be executed"
+
+
+
+    @500[ TASK CLASSES ERRORS ]                                          @1[  OVERVIEW  ]
+.500
+         TASK CLASSES ERRORS
+
+
+5000  "No PCC task in the Task Class"
+5010  "Task class stack destroyed"
+5011  "Task class numbers do not match"
+
+5020  "No input data during shoveling for the InitSP"
+5021  "No output data during shoveling for the InitSP"
+
+5030  "No input available for the Interrupt task class"
+
+5100  "Task class cycle time violation"
+
+5200  "The HS task class stack was destroyed"
+5201  "The HS task class data area was destroyed"
+5202  "Hs task class cycle time violation"
+5203  "There is no Task Class #1"
+
+
+
+    @501[ TASK CLASSES ERRORS ]                                          @1[  OVERVIEW  ]
+.501
+         TASK CLASSES ERRORS (continued)
+
+5500  "This I/O controller is not implemented"
+5501  "This I/O controller is not implemented"
+5502  "HW Configuration: At least EXERMO V1.40 required"
+
+5550  "IO_info : No information available"
+5551  "IO_check: Several calls at the same time not allowed"
+5552  "IO_disable: Force analog IO with odd length / address not possible"
+5553  "IO_check: Call in a HS task class not allowed"
+5554  "IO_check: IO module inserted but module type is wrong"
+5555  "IO_check: IO module not inserted"
+5556  "IO_mphydef: Incorrect address 'data_adr' given"
+5557  "IO_mphydef: incorrect offset 'intern_off' or incorrect length 'data_len'"
+5558  "IO-Library: FBK on MP/PP invalid"
+5559  "(W) IO-Library: FBK IO_data() in work"
+
+5570  "IO2003 Manager not available or memory problem"
+5571  "IO2003 Initialization faulty"
+5572  "IO2003 Busy-Timeout in cycle"
+
+    @502[ TASK CLASSES ERRORS ]                                          @1[  OVERVIEW  ]
+.502
+         TASK CLASS ERRORS (continued)
+
+5573 "IO2003 Configuration change"
+5574 "IO2003 AIF version not supported"
+5575 "IO2003 ANP version not supported"
+5576 "IO2003 Error for Direct-IO"
+
+
+5900  "The PCC task/HS task chaining is destroyed"
+
+
+
+
+
+
+
+
+
+
+
+
+    @600[ SYSTEM TASK ERRORS ]                                           @1[  OVERVIEW  ]
+.600
+         SYSTEM TASK ERRORS
+
+System Manager
+
+6000  "The system manager is not correctly configured"
+6001  "The cyclical activities of the system manager are missing"
+6002  "Total time bottle-neck in system"
+6009  "B&R Library or mathematic library not installed"
+
+Queue Error
+6010  "System Manager internal Error"
+6011  "System Manager internal Error"
+
+SM services
+6015  "Incorrect parameter transmitted to system manager"
+6016  "Communication channel is already being used"
+6017  "Communication channel is not used"
+
+
+
+
+    @601[ SYSTEM TASK ERRORS ]                                           @1[  OVERVIEW  ]
+.601
+         SYSTEM TASK ERRORS (continued)
+
+6020  "Cyclic system manager action is not implemented"
+6021  "Module checksum destroyed"
+6022  "System Manager Checksum destroyed"
+6023  "Checksum of the system anchor destroyed"
+6024  "Checksum of the base management table destroyed"
+6025  "Checksum of the system management table destroyed"
+6026  "Number of available EX100 / NW100 is too large"
+
+6030  "System Structure No. 0 destroyed"
+6031  "System Structure No. 1 destroyed"
+6032  "System Structure No. 2 destroyed"
+6033  "System Structure No. 3 destroyed"
+6034  "System Structure No. 4 destroyed"
+6035  "System Structure No. 5 destroyed"
+6036  "System Structure No. 6 destroyed"
+6037  "System Structure No. 7 destroyed"
+6038  "System Structure No. 8 destroyed"
+
+
+    @602[ SYSTEM TASK ERRORS ]                                           @1[  OVERVIEW  ]
+.602
+         SYSTEM TASK ERRORS (continued)
+
+6039  "System Structure No. 9 destroyed"
+6040  "System Structure No. 10 destroyed"
+6041  "System Structure No. 11 destroyed"
+6042  "System Structure No. 12 destroyed"
+6043  "System Structure No. 13 destroyed"
+6044  "System Structure No. 14 destroyed"
+6045  "System Structure No. 15 destroyed"
+6046  "System Structure No. 16 destroyed"
+6047  "System Structure No. 17 destroyed"
+6048  "System Structure No. 18 destroyed"
+6049  "System Structure No. 19 destroyed"
+6050  "System Structure No. 20 destroyed"
+6051  "System Structure No. 21 destroyed"
+6052  "System Structure No. 22 destroyed"
+6053  "System Structure No. 23 destroyed"
+6054  "System Structure No. 24 destroyed"
+6055  "System Structure No. 25 destroyed"
+6056  "System Structure No. 26 destroyed"
+
+    @603[ SYSTEM TASK ERRORS ]                                           @1[  OVERVIEW  ]
+.603
+         SYSTEM TASK ERRORS (continued)
+
+6057  "System Structure No. 27 destroyed"
+6058  "System Structure No. 28 destroyed"
+6059  "System Structure No. 29 destroyed"
+
+6060   "B&R Module No. 0 destroyed"
+6061   "B&R Module No. 1 destroyed"
+6062   "B&R Module No. 2 destroyed"
+6063   "B&R Module No. 3 destroyed"
+6064   "B&R Module No. 4 destroyed"
+6065   "B&R Module No. 5 destroyed"
+6066   "B&R Module No. 6 destroyed"
+6067   "B&R Module No. 7 destroyed"
+6068   "B&R Module No. 8 destroyed"
+6069   "B&R Module No. 9 destroyed"
+6070   "B&R Module No. 10 destroyed"
+6071   "B&R Module No. 11 destroyed"
+6072   "B&R Module No. 12 destroyed"
+6073   "B&R Module No. 13 destroyed"
+
+    @604[ SYSTEM TASK ERRORS ]                                           @1[  OVERVIEW  ]
+.604
+         SYSTEM TASK ERRORS (continued)
+
+6074   "B&R Module No. 14 destroyed"
+6075   "B&R Module No. 15 destroyed"
+6076   "B&R Module No. 16 destroyed"
+6077   "B&R Module No. 17 destroyed"
+6078   "B&R Module No. 18 destroyed"
+6079   "B&R Module No. 19 destroyed"
+6080   "B&R Module No. 20 destroyed"
+6081   "B&R Module No. 21 destroyed"
+6082   "B&R Module No. 22 destroyed"
+6083   "B&R Module No. 23 destroyed"
+6084   "B&R Module No. 24 destroyed"
+6085   "B&R Module No. 25 destroyed"
+6086   "B&R Module No. 26 destroyed"
+6087   "B&R Module No. 27 destroyed"
+6088   "B&R Module No. 28 destroyed"
+6089   "B&R Module No. 29 destroyed"
+6090   "B&R Module No. 30 destroyed"
+6091   "B&R Module No. 31 destroyed"
+
+    @605[ SYSTEM TASK ERRORS ]                                           @1[  OVERVIEW  ]
+.605
+         SYSTEM TASK ERRORS (continued)
+
+6092   "B&R Module No. 32 destroyed"
+6093   "B&R Module No. 33 destroyed"
+6094   "B&R Module No. 34 destroyed"
+6095   "B&R Module No. 35 destroyed"
+6096   "B&R Module No. 36 destroyed"
+6097   "B&R Module No. 37 destroyed"
+6098   "B&R Module No. 38 destroyed"
+6099   "B&R Module No. 39 destroyed"
+
+Application Loader
+
+6100  "APPLICATION LOADER: Invalid System Message with SY_Event"
+6101  "APPLICATION LOADER: Invalid Service ID in Download"
+6102  "APPLICATION LOADER: Invalid MI-Code in Download"
+6103  "APPLICATION LOADER: Invalid State of Connection"
+6104  "APPLICATION LOADER: Invalid data type in service"
+6105  "APPLICATION LOADER: KA-Ptr = NULL"
+
+
+    @606[ SYSTEM TASK ERRORS ]                                           @1[  OVERVIEW  ]
+.606
+         SYSTEM TASK ERRORS (continued)
+
+Variable Access Task
+
+6200  "VARIABLE ACCESS TASK: DATA TYPE - Error"
+6201  "VARIABLE ACCESS TASK: No access rights with PV-read"
+6202  "VARIABLE ACCESS TASK: No access rights with PV-write"
+6203  "VARIABLE ACCESS TASK: Index Error"
+6204  "VARIABLE ACCESS TASK: PV not found"
+6205  "VARIABLE ACCESS TASK: VL not found"
+6206  "VARIABLE ACCESS TASK: Access Error"
+6207  "VARIABLE ACCESS TASK: Invalid system message with SY_Event"
+6208  "VARIABLE ACCESS TASK: Invalid connection state"
+6209  "VARIABLE ACCESS TASK: Invalid MI-Code"
+6210  "VARIABLE ACCESS TASK: KA-Ptr = NULL"
+6211  "VARIABLE ACCESS TASK: Invalid Base pointer"
+6212  "VARIABLE ACCESS TASK: No valid B&R Address"
+6213  "VARIABLE ACCESS TASK: Index points to a descriptor"
+
+
+
+    @607[ SYSTEM TASK ERRORS ]                                           @1[  OVERVIEW  ]
+.607
+         SYSTEM TASK ERRORS (continued)
+
+Program Invocation
+
+6300  "PROGRAM INVOCATION: Invalid Event Type"
+6301  "PROGRAM INVOCATION: Invalid System Message"
+6302  "PROGRAM INVOCATION: PI_Index error"
+6303  "PROGRAM INVOCATION: Invalid MI-Code"
+6304  "PROGRAM INVOCATION: Invalid Object"
+6305  "PROGRAM INVOCATION: Invalid state of the Objects"
+6306  "PROGRAM INVOCATION: KA-Ptr = NULL"
+6307  "PROGRAM INVOCATION: No more connections free"
+6308  "PROGRAM INVOCATION: OS Error - t_start"
+
+No Comm Area Ptr for a communication task
+
+6310  "KA-Ptr = NULL"
+6311  "Event-Routine = NULL-Ptr"
+
+
+
+    @608[ SYSTEM TASK ERRORS ]                                           @1[  OVERVIEW  ]
+.608
+         SYSTEM TASK ERRORS (continued)
+MP-Server
+
+6350 "MPServer: Not a valid instruction code"
+6351 "MPServer: Multiprocessor not available"
+6352 "MPServer: Wrong ionstruction data length"
+6353 "MPServer: Timeout in Handshake to multiprocessor"
+6354 "MP/PP HSTC cycle not yet finished"
+6355 "No MP/PP HSTC initialized or started on the MP/PP"
+
+Startup
+
+6400  "Checksum of the system table management table is wrong"
+6401  "Checksum of the system table is wrong"
+6402  "Checksum of a B&R Module is wrong"
+6404  "No system manager exsits"
+6406  "The RIO Master does not report"
+6407  "Timeout with RIO-Life list Creation"
+6408  "There is an invalid I/O type in the system bus table"
+6409  "Referenced RIO-Slave does not exist"
+
+    @609[ SYSTEM TASK ERRORS ]                                           @1[  OVERVIEW  ]
+.609
+         SYSTEM TASK ERRORS (continued)
+
+6410  "Empty RB Section in configuration module"
+6412  "Warning: Network is configured in NWCFGMOD, but is not in the system bus"
+6413  "Warning:Unknown NW Type"
+6414  "Warning:NW Module Number 0, but more than 1 NW module configured"
+6415  "Memory management in User RAM corrupted, possible battery problem"
+6420  "Multiprocessor doesn't answer to 1st handshaking part"
+6422  "Multiprocessor doesn't answer to 2nd handshaking part"
+6424  "MP: Timeout waiting for CPU_INIT"
+6426  "MP: Timeout waiting for CPU_READY"
+6428  "MP: Timeout waiting for DPR-OK-Signal of the MP-Server"
+6429  "MP: Timeout waitint fro Bootup_OK from the PCC CPU"
+6430  "MP-Warning: more than 1 HS task class configured"
+6432  "MP-Warning: IRQ Task class configured"
+6433  "APM PROM changed:- TOTAL INIT required."
+6434  "FIXSETUP : FIXRAM is defective, it will be deleted and a TOTALINIT
+                  will be triggered"
+6435  "FIXRAM not supported on this HW"
+
+
+    @610[ SYSTEM TASK ERRORS ]                                           @1[  OVERVIEW  ]
+.610
+         SYSTEM TASK ERRORS (continued)
+
+Task-Task Communication
+
+6500  "TASK-TASK-COMMUNICATION: Invalid Event"
+6501  "TASK-TASK-COMMUNICATION: Invalid MI-Code"
+6502  "TASK-TASK-COMMUNICATION: Invalid Instruction number"
+6503  "TASK-TASK-COMMUNICATION: Invalid Comm. ID"
+6504  "TASK-TASK-COMMUNICATION: Invalid data type"
+6505  "TASK-TASK-COMMUNICATION: KA-Ptr = NULL"
+6506  "TASK-TASK-COMMUNICATION: No more connections free"
+6507  "TASK-TASK-COMMUNIKATION: ALI Error"
+
+Task-Task Communication DEBUGGER
+
+6520  "DEBUGGER: Invalid MI-Code"
+6521  "DEBUGGER: No more connections free"
+6522  "DEBUGGER: Invalid TT Msg Type"
+6523  "DEBUGGER: Invalid Instruction number"
+6524  "DEBUGGER: Invalid Event Info"
+
+    @611[ SYSTEM TASK ERRORS ]                                           @1[  OVERVIEW  ]
+.611
+         SYSTEM TASK ERRORS (continued)
+Spooling Errorcodes
+
+6600  "The master spooler sends no event to the instruction sender"
+6610  "Command for the master spooler is not implemented"
+6620  "The ASIC#2 is not finished"
+6621  "Spooling: Timeout with ASIC#2-Init after Periell Error"
+6622  "Periell Error during Spooling"
+6623  "Periell Interrupt during Spooling"
+6624  "AMA Error during spooling"
+6625  "Timeout during spooling a data block"
+6626  "Spool-SP can only be called in the INIT phase"
+6627  "Spooler: Wrong I/O type"
+6628  "Spooler: System module does not exist"
+6630  "The Master spooler doesn't exist"
+6631  "Spooler: Timeout beim Remote-Spoolen
+6632  "Spooler: Maximum number of IO-/SYS modules being handled was exceeded"
+6633  "Spooler: Data length is too large when calling SPdirect"
+6634  "Spooler: Incorrect command when calling SPdirect"
+
+
+    @612[ SYSTEM TASK ERRORS ]                                           @1[  OVERVIEW  ]
+.612
+         SYSTEM TASK ERRORS (continued)
+
+6635  "Spooler: Slave Spooler 2005 does not respond for Read"
+6636  "Spooler: Incorrect mode for SPprio"
+6637  "Spooler: Invalid module address"
+6650  "The Slave spooler does not report"
+6652  "The Frame is not completely sent"
+6654  "Incorrect command to the slave spooler"
+6656  "A module with an invalid module type was spolled"
+6658  "Incorrect Module info. All Modules must be installed and started"
+6659  "Spooler: The queue for the drum sequencerdoesn't exist"
+6660  "Error that makes further spooling impossible"
+6662  "Spooler: Timeout waiting for bootup of intelligent peripheral"
+6666  "Info: Spooler still working"
+6699  "Info: Reseting the Spool FBK"
+
+System Manager Stack Check
+
+6700  "Stack of Task No. 0 destroyed"
+6701  "Stack of Task No. 1 destroyed"
+
+    @613[ SYSTEM TASK ERRORS ]                                           @1[  OVERVIEW  ]
+.613
+         SYSTEM TASK ERRORS (continued)
+
+6702  "Stack of Task No. 2 destroyed"
+6703  "Stack of Task No. 3 destroyed"
+6704  "Stack of Task No. 4 destroyed"
+6705  "Stack of Task No. 5 destroyed"
+6706  "Stack of Task No. 6 destroyed"
+6707  "Stack of Task No. 7 destroyed"
+6708  "Stack of Task No. 8 destroyed"
+6709  "Stack of Task No. 9 destroyed"
+6710  "Stack of Task No. 10 destroyed"
+6711  "Stack of Task No. 11 destroyed"
+6712  "Stack of Task No. 12 destroyed"
+6713  "Stack of Task No. 13 destroyed"
+6714  "Stack of Task No. 14 destroyed"
+6715  "Stack of Task No. 15 destroyed"
+6716  "Stack of Task No. 16 destroyed"
+6717  "Stack of Task No. 17 destroyed"
+6718  "Stack of Task No. 18 destroyed"
+6719  "Stack of Task No. 19 destroyed"
+
+    @614[ SYSTEM TASK ERRORS ]                                           @1[  OVERVIEW  ]
+.614
+         SYSTEM TASK ERRORS (continued)
+
+6720  "Stack of Task No. 20 destroyed"
+6721  "Stack of Task No. 21 destroyed"
+6722  "Stack of Task No. 22 destroyed"
+6723  "Stack of Task No. 23 destroyed"
+6724  "Stack of Task No. 24 destroyed"
+6725  "Stack of Task No. 25 destroyed"
+6726  "Stack of Task No. 26 destroyed"
+6727  "Stack of Task No. 27 destroyed"
+6728  "Stack of Task No. 28 destroyed"
+6729  "Stack of Task No. 29 destroyed"
+6800  "Stack of an HS-Task destroyed"
+
+
+
+
+
+
+
+
+    @700[ BOOT ERRORS ]                                                  @1[  OVERVIEW  ]
+.700
+         BOOT ERRORS
+
+7000  "Error while searching for the Sync bytes of the boot module"
+7001  "Error while searching the contents module"
+7002  "Error while searching for a B&R Module with the contents module"
+7004  "Checksum of both anchors is wrong"
+7006  "Incorrect Checksum of the PSOS- Node-ConfTab"
+7007  "PSOS-Module not found or incorrect checksum"
+7008  "PROBE-Module not found or incorrect checksum"
+7009  "Module $$probeIO not found"
+7010  "Im Init:CS of the Basis VWTab is incorrect"
+7012  "Im Init: CS of the configuration module is incorrect"
+7015  "HW-Traplib was not found"
+7016  "SYS-Traplib was not found"
+7017  "Install trap library not found"
+7018  "Configuration module not found"
+7019  "Configuration module not found"
+7020  "Startup module not found"
+7022  "The CS of the error module was destroyed"
+
+
+    @701[ BOOT ERRORS ]                                                  @1[  OVERVIEW  ]
+.701
+         BOOT ERRORS (continued)
+
+
+7023  "Fatal operating system error"
+7024  "The check sum 1. contents was destroyed"
+7025  "Operating system cannot be started"
+7101  "Illegal boot-up reason"
+7102  "Checksum of the contents in user RAM 1 is corrupted"
+7104  "Checksum of the contents in user RAM 1 is corrupted"
+7108  "MP: Handshake with the main CPU doesn't work. No RECONFIG"
+7110  "APM was exchanged :- TOTAL INIT required."
+7111  "INIT not possible after DIAGNOSE, TOTALINIT required"
+
+
+
+
+
+
+
+
+
+    @750[ BT TRAP ERRORS ]                                               @1[  OVERVIEW  ]
+.750
+         BT TRAP ERRORS
+
+7500  "Incorrect Identifier"
+7501  "OP Ctrl not connected"
+7502  "Cannot wait for GETKEY"
+7503  "General error flag"
+7504  "No communication to the selected OP"
+7505  "Impossible Window"
+7506  "RAM-Error"
+7507  "ROM-Error"
+7508  "Display not connected"
+7509  "Incorrect Display"
+7510  "Incorrect Configuration"
+7511  "Keyboard is defect"
+7512  "Impossible wait time repeat mode"
+7513  "Impossible repeat frequence"
+7514  "Blinking character outside the window"
+7550  "KeyPad is not available"
+7551  "Invalid notes for genius driver"
+7552  "Error for GENI Board"
+7560  "No tongle for AB driver"
+    @751[ BT TRAP ERRORS ]                                               @1[  OVERVIEW  ]
+.751
+         BT TRAP ERRORS (continued)
+
+7570 "Too many PV's in a PICTURE"
+7571 "Text module not available"
+7572 "Bitmap parameters set, but module is not available"
+
+BT-Server Error
+
+7600  "Incorrect number of panels in config module"
+7601  "Incorrect name in config module"
+7602  "Incorrect device name in config module"
+7603  "Incorrect device type in config module"
+7604  "Incorrect display number in config module"
+7605  "Incorrect number of keys in config module"
+7606  "Incorrect number of lines in config module"
+7607  "Incorrect number of lines in config module"
+7608  "Incorrect number of pictures in config module"
+7609  "Incorrect version name in config module"
+
+7650 "BTSERV C200 : Error with EV_receive"
+7651 "BTSERV C200 : Key buffer empty"
+    @770[ Recipe Task Errors ]                                         @1[  OVERVIEW  ]
+.770
+         RECIPE TASK ERROR
+
+7700  "No recipe data module found in Flash"
+7701  "No enough recipe RAM available"
+7702  "No recipe data module found in Flash"
+7703  "Index error in recipe DS"
+7704  "Error when writing in the recipe data module"
+7705  "Internal recipe status PV missing"
+7706  "Incorrect path"
+7707  "Recipe element not found in module"
+
+
+
+
+
+
+
+
+
+
+
+    @798[ PV Inconsistencies ]                                         @1[  OVERVIEW  ]
+.798
+         PV Inconsistencies ERRORS
+
+7980  "Descriptors inconsistant"
+7981  "Byte length inconsistant"
+7982  "I/O type inconsistant"
+7983  "Offset overlap"
+7984  "I/O double definition inconsistant"
+7985  "Different IO module"
+7986  "Referenced IO module is not available"
+7987  "No hardware configuration, load new IO library"
+7988  "No identical IO PV found"
+7989  "Data types inconsistant"
+
+
+
+
+
+
+
+
+
+    @800[ Installation Errors ]                                        @1[  OVERVIEW  ]
+.800
+         INSTALLATION ERRORS
+
+
+8001  "Attempt to install a PCC task for an unconfigured task class"
+8002  "PCC task stack requirements exceed total reserved for task class stack"
+8003  "The PCC task requested cycle time < cycle time of associated task class"
+8004  "Analog data area requested by PCC task > analog data area of task class."
+8005  "Digital data area requested by task > digital data area of task class."
+8006  "Error allocating memory"
+8007  "No more room in the system table"
+8008  "The requested I/O data length by the PCC task is too large."
+      "As reference the I/O data length of the 1st installed PCC task is valid"
+8009  "Install Status of a B&R Module is wrong"
+8010  "Pointer does not point to a valid object"
+
+8011  "Deinstall a running PCC task"
+
+8012  "A PCC task requested a global analog data area > the entire task class"
+8013  "A PCC task requested a global digital data area > the entire task class"
+8014  "Number of PCCIO types is configured too small for task classes"
+
+    @801[ INSTALLATION ERRORS ]                                          @1[  OVERVIEW  ]
+.801
+         INSTALLATION ERRORS (continued)
+
+
+8015  "Incorrect module type installing a system task or user task"
+8016  "Referenced System bus module missing"
+8017  "Variable PB-IX not configured"
+8018  "IRQ-Task not supported by 2005 systems"
+8019  "IRQ-Task not supported by 2005 systems"
+8020  "B&R module checksum is wrong"
+8021  "The B&R Module already exists in the system"
+8022  "System table is full"
+8023  "Pointer does not point to a B&R Module"
+8024  "2010-CPU-Version can't handle I/O-interrupts"
+8025  "No packed bit area available"
+8030  "Trap number not implemented"
+8031  "The B&R module type is not defined for a trap install"
+8032  "The hardware trap library version does not match the CPU version"
+8033  "Too many expansion trap libraries installed"
+8034 " Version Inconsistency BURTRAP.br"
+
+
+    @802[ INSTALLATION ERRORS ]                                          @1[  OVERVIEW  ]
+.802
+         INSTALLATION ERRORS (continued)
+
+
+8040  "An AVT Library with the same name already exists"
+8041  "Not enough AVT entries configured (PCCSWCFG)"
+8045  "Configuration module version number doesn't match current version number"
+8046  "No valid type ??"
+8048  "Wrong INSTALL-Mode"
+8050  "Debug task for Interrupt task class or Exception task class"
+8052  "The I/O controller type requested by the PCC task doesn't exist"
+8054  "The I/O controller type requested by the PCC task doesn't exist"
+8056  "Invalid IO-Controller-ID"
+8060  "Install attempt of interrupt handler for non-existant system bus module"
+8062  "Installing the Process Variable Table"
+8063  "Shovel processor does not exist"
+8070  "An attempt was made to install a device driver which is not configured"
+8070  "Attempt to install an unconfigured device driver"
+8071  "No buffer available ?"
+
+
+
+    @803[ INSTALLATION ERRORS ]                                          @1[  OVERVIEW  ]
+.803
+         INSTALLATION ERRORS (continued)
+
+8072  "Incorrect buffer transmitted ??"
+8073  "Command is not supported ??"
+8074  "Device doesn't exist ??"
+8075  "The System manager does not command the RIO-Master"
+8076  "Not enough internal memory ?? "
+8077  "Not enough internal memory"
+8078  "Transmission active"
+8079  "Device receive error"
+8080  "RIO Master has not finished configuring the instruction list."
+8081  "Error during I/O Transfer to the remote station."
+8082  "Error during Init Remote IO. RIO master is not at given module address"
+8083  "RIO in HS-Task classes is not valid"
+8084  "RIO First initialization not complete after 40 seconds"
+8090  "RIO Master has not completed output copying"
+8092  "Interrrupt task or Exception task is not allowed for the Debugger"
+8095  "Error in Config.Module HS section does not match the RK section"
+
+
+
+    @804[ INSTALLATION ERRORS ]                                          @1[  OVERVIEW  ]
+.804
+         INSTALLATION ERRORS (continued)
+
+8096  "Max. number of interrupt tasks exceeded"
+8097  "More than 1 Exception task class configured"
+8098  "IRQ-Task for IO-Module or EXC-Task for Exception no already exists"
+8099  "Installation failure"
+
+Deinstall Errors
+
+8100  "Deleteing a B&R-Module: No PI Object exists for this module"
+8101  "Ptr Error while deleting a B&R-Module"
+8111  "Ptr Error whil deleting a system task"
+8112  "System task has not been stopped before deletion"
+8115  "Ptr Error while deleting a user task"
+8116  "User task has not been stopped before deletion"
+8120  "Still an active reference to AVT Module while deleting (linkcnt != 0)"
+8121  "Ptr Error while deleting an AVT Library Module"
+
+
+
+
+    @805[ INSTALLATION ERRORS ]                                          @1[  OVERVIEW  ]
+.805
+         INSTALLATION ERRORS (continued)
+
+Exit-Routine-Error
+
+8150  "ID is not in a table"
+8151  "Code for Error Message"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @830[ INSTALLATION ERRORS ]                                          @1[  OVERVIEW  ]
+.830
+         INSTALLATION ERRORS (continued)
+
+Errors caused by RIO-Exceptions
+
+8300 "RIO Exception : No error entered"
+8301 "RIO Exception : Master Error"
+8302 "RIO Exception : Slave Error"
+
+8401 "RIO Exception : Wrong block number"
+8402 "RIO Exception : Unknown command"
+8403 "RIO Exception : Input already configured"
+8404 "RIO Exception : Shovel table is too long"
+8407 "RIO Exception : Module address too high"
+8408 "RIO Exception : Internal Address too high"
+8409 "RIO Exception : Block already configured"
+8413 "RIO Exception : Output already configured"
+8414 "RIO Exception : Error not repairable, despite multiple repeats"
+8416 "RIO Exception : Block on slave not configured"
+
+
+
+    @831[ INSTALLATION ERRORS ]                                          @1[  OVERVIEW  ]
+.831
+         INSTALLATION ERRORS (continued)
+
+8451 "RIO Exception : Invalid slave number configured"
+8452 "RIO Exception : Shovel offsets do not suit or overlap"
+8453 "RIO Exception : Block contains no data"
+8454 "RIO Exception : Block number for slave too large"
+8455 "RIO Exception : Block configured without Input or Output"
+8456 "RIO Exception : Too many instruction lists configured"
+
+8500 "RIO Exception : Slave does not report"
+8501 "RIO Exception : Slave address invalid (0 or too large)"
+8502 "RIO Exception : Error on slave"
+8503 "RIO Exception : Slave does not report despite multiple repeats"
+
+8560 "RIO Exception : Error accessing input module"
+8576 "RIO Exception : Error accessing output module"
+8592 "RIO Exception : Incorrect output data length on the slave"
+
+8660 "RIO Warning: Library / Trap available twice"
+
+
+    @832[ CAN ERRORS      ]                                            @1[  OVERVIEW  ]
+.832
+         CAN ERRORS
+
+8800 "CAN: No entry found"
+8801 "CAN: No memory for ressources"
+8802 "CAN: Incorrect Ident"
+8803 "CAN: COB ID still in use"
+8804 "CAN: CAN Identifier incorrect"
+8805 "CAN: User Ident incorrect"
+8806 "CAN: CAN Identifier already defined"
+8807 "CAN: CAN Identifier Definition incorrect"
+8808 "CAN: COB Handle incorrect"
+8809 "CAN: Send procedure for a fragmented buffer still active"
+8810 "CAN: Transmit source full"
+8811 "CAN: CAN Bus in OFF status"
+8812 "CAN: No more high prio buffer free"
+8813 "CAN: CAN Driver not installed"
+8814 "CAN: Lenght of the data larger than 8 bytes"
+8815 "CAN: Baudrate incorrect"
+8816 "CAN: Incorrect COB amount"
+8817 "CAN: No CAN Controller available"
+
+    @833[ CAN ERRORS      ]                                            @1[  OVERVIEW  ]
+.833
+         CAN ERRORS (continued)
+
+8818 "CAN: Error for HW analysis"
+8819 "CAN: Error for interrupt handling"
+8820 "CAN: Error for interrupt handling"
+8821 "CAN: Invalid User Type for CMSinit()"
+8822 "CAN: Invalid CMS Object Definition"
+8823 "CAN: Invalid complex data structure"
+8824 "CAN: Invalid cms_mode in CMSmain()"
+8825 "CAN: No CAN node switch available"
+
+         CAN CCI ERRORS
+
+8850 "CAN-CCI: Object number exceeds value range"
+8851 "CAN-CCI: Error during initialization"
+8852 "CAN-CCI: BUS_OFF problem
+8853 "CAN-CCI: Buffer not configured"
+8854 "CAN-CCI: Hardware im reset status"
+8855 "CAN-CCI: Error updating data"
+8856 "CAN-CCI: Buffer being processed"
+
+    @834[ CAN CCI ERRORS  ]                                            @1[  OVERVIEW  ]
+.834
+         CAN CCI ERRORS (continued)
+
+8857 "CAN CCI: Read only object"
+8858 "CAN CCI: Incorrect mode (Standard/Extended)"
+8859 "CAN CCI: Incorrect message length set"
+8860 "CAN CCI: Transmit interrupt not allowed"
+8861 "CAN CCI: Transmit interrupt must be set"
+8862 "CAN CCI: Receive interrupt not allowed"
+8863 "CAN CCI: Receive interrupt must be set"
+8864 "CAN CCI: Incorrect CAN ID entered"
+8865 "CAN CCI: Read with send object"
+8866 "CAN CCI: Write with receive object"
+8867 "CAN CCI: Did not go into  BUS_OFF status"
+8868 "CAN CCI: Did not go into Init status"
+8869 "CAN CCI: Did not go into BUS_ON status"
+8870 "CAN CCI: Invalid interrupt number"
+8871 "CAN CCI: Error in status (structure)"
+8872 "CAN CCI: Message lost"
+8873 "CAN CCI: Data read inconsistent in spite of max. # repeats"
+8874 "CAN CCI: Repeat counter ran out"
+
+    @835[ CAN CCI ERRORS  ]                                            @1[  OVERVIEW  ]
+.835
+         CAN CCI ERRORS (continued)
+
+8875 "CAN-CCI: Read data is inconsistent"
+8876 "CAN-CCI: No send buffer free"
+8877 "CAN-CCI: No valid data available"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @836[ CANIOMAN ERRORS ]                                            @1[  OVERVIEW  ]
+.836
+         CANIOMAN ERRORS (continued)
+
+8900 "CANIOMAN: Error in data module CANIOTAB"
+8901 "CANIOMAN: Not enough user memory available"
+8902 "CANIOMAN: Incorrect handle"
+8903 "CANIOMAN: Timeout table full"
+8904 "CANIOMAN: No more pSOS timers free"
+8905 "CANIOMAN: No entry found"
+8906 "CANIOMAN: Invalid node number"
+8907 "CANIOMAN: CANIOMAN not available"
+8910 "CANIOMAN: Alarm message"
+8911 "CANIOMAN: Incorrect data type (length) for a PV"
+8912 "CANIOMAN: No CANIOTAB avaialble"
+8913 "CANIOMAN: Error in data module CANIOTAB node"
+8914 "CANIOMAN: Error in data module CANIOTAB IO"
+8915 "CANIOMAN: Incorrect data type for command PV (byte array [8])"
+8916 "CANIOMAN: Incorrect data type (length) for the Trigger Command PV"
+8917 "CANIOMAN: PV empty string in CANIOTAB"
+
+
+
+    @900[ VARIOUS ]                                                      @1[  OVERVIEW  ]
+.900
+         VARIOUS
+
+
+9001  "No more space in CSwrite table"
+9002  "Error converting ASCII -> BRSTR"
+9003  "The end of the MSPS region in the Config.Module is incorrectly set"
+9004  "The given shovel table is empty"
+9005  "The I/O instruction has not been executed yet"
+9006  "Incorrect SAP in the SAPLI_TAB (SAP_check_rights)"
+9008  "The checksum of a Continuous IVZ is destroyed"
+9009  "Checksumm length not equal to 4 is not supported"
+
+9100  "EXCEPTION: Bus Error"
+9101  "EXCEPTION: Address Error"
+9102  "EXCEPTION: Illegal Instruction"
+9103  "EXCEPTION: Privilege Violation"
+9104  "EXCEPTION: Division by Zero Error"
+9105  "EXCEPTION: Spurious Interrupt"
+9106  "EXCEPTION: Unimplemented Instruction"
+9107  "EXCEPTION: Uninitialized Interrupt"
+
+    @901[ VARIOUS ]                                                      @1[  OVERVIEW  ]
+.901
+         VARIOUS
+
+
+9110  "EXCEPTION: Perieller Error"
+9111  "EXCEPTION: Perieller Error"
+
+9112  "HS#1 cycle time error"
+9113  "HS#2 cycle time error"
+9114  "HS#3 cycle time error"
+9115  "HS#4 cycle time error"
+9116  "HS#1 maximum cycle time violation"
+9117  "HS#2 maximum cycle time violation"
+9118  "HS#3 maximum cycle time violation"
+9119  "HS#4 maximum cycle time violation"
+
+9120  "TC#1 cycle time error"
+9121  "TC#2 cycle time error"
+9122  "TC#3 cycle time error"
+9123  "TC#4 cycle time error"
+9124  "TC#1 maximum cycle time violation"
+
+    @902[ VARIOUS ]                                                      @1[  OVERVIEW  ]
+.902
+         VARIOUS
+
+
+9125  "TC#2 maximum cycle time violation"
+9126  "TC#3 maximum cycle time violation"
+9127  "TC#4 maximum cycle time violation"
+
+9128  "EXCEPTION: NMI-Handler"
+9129  "Exception released by RIO-Master."
+9130  "EXCEPTION: Default handler"
+
+9131  "IRQ TC maximum cycle time violation"
+9132  "EXC TC maximum cycle time violation"
+9133  "EXCEPTION: Null pointer"
+9134  "EXCEPTION: Range overflow for arrays"
+9135  "RIO HSTC maximum cycle time violation"
+9136  "EXCEPTION: Error 2003 IO
+
+
+
+
+    @903[ VARIOUS ]                                                      @1[  OVERVIEW  ]
+.903
+         VARIOUS
+
+9150 "EXCEPTION: Error 2005 Base IO"
+9151 "EXCEPTION: Error 2005 IO Expansion 1"
+9152 "EXCEPTION: Error 2005 IO Expansion 2"
+9153 "EXCEPTION: Error 2005 IO Expansion 3"
+9154 "EXCEPTION: Error 2005 IO Expansion 4"
+9155 "EXCEPTION: Error 2005 IO Expansion 5"
+9156 "EXCEPTION: Error 2005 IO Expansion 6"
+9157 "EXCEPTION: Error 2005 IO Expansion 7"
+9158 "EXCEPTION: Error 2005 IO Expansion 8"
+
+9199  "Default EXCEPTION Handler called -> download EXERMO"
+
+9200  "WARNING: System halted after power loss"
+9210  "WARNING: Bootup by Watchdog or manual RESET"
+
+
+
+
+
+    @904[ VARIOUS  ]                                                   @1[  OVERVIEW  ]
+.904
+         VARIOUS
+
+9301  "INTELLIGENT MIXED MODULE: Not enough data for congfiguration"
+9302  "INTELLIGENT MIXED MODULE: Not enough memory for configuration"
+9303  "INTELLIGENT MIXED MODULE: The calibration factor is invalid"
+9304  "INTELLIGENT MIXED MODULE: The sampling rate is invalid"
+
+9500  "PPMAN: General fatal error"
+9501  "PPMAN: Timeout in CPU PP boot handshake"
+9502  "PPMAN: Amount of system bus modules configured too small"
+9503  "PPMAN: System boot not possible in INIT mode"
+9504  "PPMAN: At least PCCSW Version V1.21 required"
+
+9600  "EXT FBKs: Old request still open"
+9601  "LVW_free: Incoprrect pointer"
+9602  "LVW_alloc/LVW_free: User bitmap defective"
+9603  "LVW_alloc/LVW_free: VW pointer changed"
+9604  "LVW_alloc: 1. Overflow"
+
+
+
+    @905[ VARIOUS  ]                                                   @1[  OVERVIEW  ]
+.905
+         VARIOUS
+
+9800  "Trap expansion library not installed (RIO, ...)"
+
+9900  "General Bugfix error"
+
+9999  "This function is not yet implemented"
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                   @1[  OVERVIEW  ]
+.End

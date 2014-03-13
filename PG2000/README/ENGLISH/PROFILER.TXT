@@ -1,0 +1,61 @@
+
+         ษอออออออออออออออออออออออออออออออออออออออออออป
+         บ              PROFILER V1.50               บ
+         บ                                           บ
+         บ  Profiling Tool for PCCSW  V1.05 and up   บ
+         ศอออออออออออออออออออออออออออออออออออออออออออผ
+
+ฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤ
+Date:         15. June. 1996
+Author:       B.Hochstrasser
+ฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤ
+
+ษออออออออออออออออป
+บ V1.41 -> V1.50 บ
+ศออออออออออออออออผ
+
+  PROFILER.EXE
+  ฤฤฤฤฤฤฤฤฤฤฤฤ
+    - Suppoort for the new PCC CPUs CP472, IP151, IF152
+    - Profiler is automatically deleted from the PCC when connection is
+      broken
+    - Stack measurment also possible if system is heavily loaded before
+      profiling 
+    - Error correction for PCC  task profiling (max. cycle time violation
+      when ending Profiler or illegal instruction during start/measurement)
+
+ษออออออออออออออออป
+บ V1.40 -> V1.41 บ
+ศออออออออออออออออผ
+
+  PROFILER.EXE
+  ฤฤฤฤฤฤฤฤฤฤฤฤ
+    - Support 16550 UART (was not suported in V1.40 due to a bug)
+
+ษออออออออออออออออป
+บ V1.30 -> V1.40 บ
+ศออออออออออออออออผ
+
+  PROFILER.EXE
+  ฤฤฤฤฤฤฤฤฤฤฤฤ
+    - Support CP200
+    - Support 16550 UART
+
+ษออออออออออออออออป
+บ V1.20 -> V1.30 บ
+ศออออออออออออออออผ
+
+  PROFILER.EXE
+  ฤฤฤฤฤฤฤฤฤฤฤฤ
+    - Corrected the HSTC Profiling Measurement for the XP152
+    - Corrected an error concerning text handling for the country code
+
+ษออออออออออออออออป
+บ V1.10 -> V1.20 บ
+ศออออออออออออออออผ
+
+  PROFILER.EXE
+  ฤฤฤฤฤฤฤฤฤฤฤฤ
+    - Supports the new CPU XP152
+    - Main menu is reorganized
+

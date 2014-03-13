@@ -1,0 +1,19 @@
+#VAR 00 00 38 01 78 00 35 N N J N N 00 00 00 
+#TXT 00 00 38 78  __Informaci¢n_de_Flashprom____________
+#VAR 01 00 38 01 78 00 35 N N J N N 00 00 01 
+#TXT 01 00 38 78  __Programando_el_programa_PLC_________
+#VAR 02 00 38 01 78 00 35 N N J N N 00 00 02 
+#TXT 02 00 38 78  __Programando_datos_de_sistema_B&R____
+#VAR 03 00 38 01 78 00 35 N N J N N 00 00 03 
+#TXT 03 00 38 78  __Formateando_Flashprom_______________
+#VAR 04 00 38 01 78 00 35 N N J N N 00 00 04 
+#TXT 04 00 38 78  __Instalar_rutinas_de_comunicaci¢n____
+#VAR 05 00 38 01 78 00 35 N N J N N 00 00 05 
+#TXT 05 00 38 78  __Mapa_de_memoria_____________________
+#VAR 06 00 38 01 78 00 35 N N J N N 00 00 06 
+#TXT 06 00 38 78  __Backup_f¡sico_______________________
+#VAR 07 00 38 01 78 00 35 N N J N N 00 00 07 
+#TXT 07 00 38 78  __Programando_backup_f¡sico___________
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ !@#$%^&*(){}[]-+=;,.<>?:
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890

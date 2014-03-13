@@ -1,0 +1,2284 @@
+%%
+1,0:1      Hilfe zu den RPS-Fehlernummern
+%%
+
+.1
+    Beschreibung zu den RPS FEHLER-NUMMERN
+    öBERSICHT
+
+    0000 - 1999 @100 [< Allgemeine Fehler           >]
+    2000 - 2999 @200 [< Fehler der HW-Trap Library  >]
+    3000 - 3999 @300 [< Fehler der SysTrap Library  >]
+    4000 - 4999 @400 [< Fehler der ALI-Trap Library >]
+    5000 - 5999 @500 [< Taskklassen Fehler          >]
+    6000 - 6999 @600 [< SystemTask Fehler           >]
+    7000 - 7499 @700 [< Bootfehler                  >]
+    7500 - 7999 @750 [< Bedientableau Fehler        >]
+    8000 - 8299 @800 [< Installationsfehler         >]
+    8300 - 8999 @830 [< RemoteIO Fehler             >]
+    9000 - 9999 @900 [< Diverses, Exceptions        >]
+   10500 -10999 @1050 [< NC Fehler                   >]
+   14700 -14999 @1480 [< PV, FBASE, Routing          >]
+
+
+
+
+
+                                                                 @999[ HILFE beenden ]
+.100
+         ALLGEMEINE FEHLER
+
+0001 SYSTEM: TimeOut bei der Servicebehandlung
+0005 SYSTEM: Objekt existiert nicht mehr
+0006 SYSTEM: ungÅltige ObjektID
+0008 SYSTEM: kein Objekt kann mehr erzeugt werden (Konfiguration)
+0009 SYSTEM: Objekt nicht vorhanden
+0010 SYSTEM: Falscher PROM-Typ, kein FIXRAM konfiguriert ?
+0012 SYSTEM: Zu wenig freier PROM/FLASH-Speicher
+0013 SYSTEM: PROM/FLASH nicht gelîscht
+0015 PROM/FLASH nicht programmierbar, Schreibschutzschalter ?
+0016 SYSTEM: zu kleiner Stack (Konfiguration)
+
+0020 SYSTEM: Task ist bereits suspendiert
+0021 SYSTEM: Task lÑuft bereits
+
+0032 SYSTEM: Versuch einen Nullspeicher zu allokieren
+0033 SYSTEM: Zuviel Speicher auf einmal allokiert
+0034 SYSTEM: Zuviel Speicher auf einmal allokiert
+0035 SYSTEM: Speicherklassen stimmen nicht Åberein
+0036 SYSTEM: zurÅckgegebener Speicher entspricht nicht allokiertem
+    @101[ Allgemeine Fehler ]                                          @1[  Uebersicht  ]
+.101
+         ALLGEMEINE FEHLER (Fortsetzung)
+
+0051 SYSTEM: Zuwenig Queues konfiguriert (Konfiguration)
+0052 SYSTEM: Es stehen zuwenig Messagebuffer zur VerfÅgung
+
+0065 SYSTEM: Zuwenige Semaphore konfiguriert (Konfiguration)
+
+0072 WARNING: RTC bzw. Systemzeit nicht gesetzt
+0073 WARNING: RTC bzw. Systemzeit nicht gesetzt
+
+0257 SYSTEM: falsche Devicenummer
+0258 SYSTEM: kein Treiber vorhanden
+0259 WARNING: SYSTEM: Treiberfunktion wird nicht unterstÅtzt
+
+
+
+
+
+
+
+
+    @200[ Fehler der Hardware Trap Library ]                           @1[  Uebersicht  ]
+.200
+         FEHLER DER HARDWARE TRAP LIBRARY
+2000 Falscher Zugriff auf Hardwarekomponente
+2001 Falscher Zugriff auf Hardwarekomponente
+2002 Kein Subslotmodul gesteckt
+
+2010 Falscher Zugriff auf Hardwarekomponente
+2011 Falscher Zugriff auf Hardwarekomponente
+2012 Falscher Zugriff auf Hardwarekomponente
+2013 Falscher Zugriff auf Hardwarekomponente
+2015 DRAM zu klein fÅr gespeicherte Module
+2016 Falscher Zugriff auf Hardwarekomponente
+2017 DRAM-Kopieren: Speicher schon belegt, Warmstart nicht mîglich
+
+2020 Falscher Zugriff auf Hardwarekomponente
+2021 Falsche Zeit bei Timeraktivierung
+2022 Timer unterstÅtzt keinen Interrupt
+2023 Timer unterstÅtzt diese Zeit nicht
+
+2030 Falscher Zugriff auf Hardwarekomponente (CRM)
+2031 Falsches Offset bei Zugriff auf CRM
+2032 Falsche LÑnge beim Zugriff auf CRM
+    @204[ Fehler der Hardware Trap Library ]                           @1[  Uebersicht  ]
+.204
+         FEHLER DER HARDWARE TRAP LIBRARY (Fortsetzung)
+
+2040 Falscher Zugriff auf Hardwarekomponente (IRC)
+2041 Mode wird vom IRC nicht unterstÅtzt
+2042 Falsche Interruptnummer Åbergeben
+2043 Fehlerhafter Aufruf bei IRC-Routine
+2045 Falscher Mode bei IRC_setvector
+2046 Falscher Vector bei IRC_setvector
+2047 ENABLE bei IRC_setvector mit diesem Mode nicht zulÑssig
+2048 Zuviele IRQ-Kontexthandler
+2049 Default-IRQ-Kontexthandler
+2050 Fehler bei der Aktivierung des Watchdogs
+
+2055 Keine Inititialisierung fÅr IRQ-Kontext
+
+2060 WARNING: Falscher Zugriff auf Hardwarekomponente (DIS)
+2061 WARNING: Falsche Zeilennummer beim Display (2010)
+2062 WARNING: Falsche Spaltennummer beim Display (2010)
+2063 WARNING: UngÅltige Zeichennummer bei Display (2010)
+2064 WARNING: Falscher Zugriff auf Display (2010)
+
+    @207[ Fehler der Hardware Trap Library ]                           @1[  Uebersicht  ]
+.207
+         FEHLER DER HARDWARE TRAP LIBRARY (Fortsetzung)
+
+2070 WARNING: Falscher Zugriff auf Hardwarekomponente (RTC)
+2071 WARNING: Falsche Zeit bei RTC setzen
+2072 WARNING: RTC unterstÅtzt keine Holdfunktion
+2073 WARNING: RTC ist noch nicht initialisiert
+2074 WARNING: Kein RTC-RAM-Abbild
+2075 WARNING: Zeit/Datum geÑndert
+
+2080 Falscher Zugriff auf Hardwarekomponente
+
+2090 Falscher Zugriff auf Hardwarekomponente (DMA)
+2091 Falscher Zugriff auf Hardwarekomponente (DMA)
+
+2100 Falscher Zugriff auf Hardwarekomponente (AS1)
+2101 Falscher Zugriff auf Hardwarekomponente (AS1)
+
+2110 Falscher Zugriff auf Hardwarekomponente (PAP)
+2111 Falscher Zugriff auf Hardwarekomponente (PAP)
+
+
+    @225[ Fehler der Hardware Trap Library ]                           @1[  Uebersicht  ]
+.225
+         FEHLER DER HARDWARE TRAP LIBRARY (Fortsetzung)
+
+2250 ME010/ME020/... hinzugefuegt, Kaltstart notwendig
+2251 ME010/ME020/... nicht mehr vorhanden, Kaltstart notwendig
+2252 ME010/ME020/... geaendert, Kaltstart notwendig
+
+2501 Fehler beim Initialisieren des IO-Controllers RPSIO-Bus
+2502 Fehler beim Initialisieren des RemoteIO Masters
+2503 WARNING: LS191 Devicedriver nicht vorhanden
+
+2900 Kein Interrupthandler fÅr IRL1 Interrupt installiert
+
+
+
+
+
+
+
+
+
+
+    @300[ Fehler der System Trap Library ]                             @1[  Uebersicht  ]
+.300
+         FEHLER DER SYSTEM TRAP LIBRARY
+
+3000 Konfigurationsfehler in den Systemstrukturen
+3001 Konfigurationsfehler in den Systemstrukturen
+3002 Kein Speicher bei lokaler Allocation
+3003 UngÅltiger Pointer in die Systemstrukturen
+3004 UngÅltige LÑnge fÅr die Systemstrukturen
+3005 Konfigurationsfehler in den Systemstrukturen
+3006 Falscher Eintrag in Systemstruktur
+3007 Falsches Zugriffsflag
+3008 Falsches Suchkriterium fÅr die Systemstrukturen
+
+3010 UngÅltige Adresse fÅr ein B&R-Modul
+3011 Offset Fehler in einem B&R-Modul
+3012 UngÅltige Section in einem B&R-Modul
+3013 UngÅltige DatenlÑnge beim Zugriff auf ein B&R-Modul
+3014 UngÅltige Blocknummer
+3015 Moduldaten im Inhaltsverzeichnismodul und B&R-Modul sind unterschiedlich
+3016 B&R-Modul kann nicht installiert werden
+
+
+    @301[ Fehler der System Trap Library ]                             @1[  Uebersicht  ]
+.301
+         FEHLER DER SYSTEM TRAP LIBRARY (Fortsetzung)
+
+3017 Checksumme des B&R-Moduls nicht in Ordnung
+3018 UngÅltige NamenslÑnge fÅr ein B&R-Modul
+3019 B&R-Modul nicht vorhanden
+
+3020 IO-Zugriff: keine gÅltige Tabelle
+3021 IO-Zugriff: falsches Zugriffsflag
+3022 IO-Zugriff: kein RPSIO
+3023 IO-Zugriff: falscher Parameter
+3026 Zuviele Speicher-Typen im SYSCONF-Modul
+3027 Speicher-Info: Versuch es in der nÑchsten Bitmap
+3028 UngÅltige Speicherklasse
+3029 Zuwenig Speicher verfÅgbar
+3030 Zuwenig Speicher verfÅgbar
+3031 UngÅltige Speicherklasse
+3032 UngÅltiger Datenpointer
+3033 Kein Systemtimer vorhanden
+3034 HS-Taskklassentimer nicht vorhanden
+3035 Speichermanager: Semaphor belegt
+
+    @303[ Fehler der System Trap Library ]                             @1[  Uebersicht  ]
+.303
+         FEHLER DER SYSTEM TRAP LIBRARY (Fortsetzung)
+
+3036 AVT Linkcount Fehler
+3037 AVT schon vorhanden
+3038 AVT Fehler beim Update
+3039 Globaler FUB nicht vorhanden -> Library laden
+
+3045 Checksumme im B&R Modul-Header stimmt nicht
+
+3050 Keine KommArea fÅr einen Kommunikationstask konfiguriert
+3051 Keinen Eintrag in der Verbindungsliste der KommArea gefunden
+3052 UngÅltiger State einer Verbindung in der KommArea
+3053 Kein neuer Eintrag in der Verbindungsliste der KommArea mehr frei
+3054 UngÅltiger Index fÅr KA_del_entry
+
+
+
+
+
+
+
+    @306[ Fehler der System Trap Library ]                             @1[  Uebersicht  ]
+.306
+         FEHLER DER SYSTEM TRAP LIBRARY (Fortsetzung)
+
+3060 History-Modul nicht vorhanden
+3061 Fehlermodul nicht vorhanden
+3062 Mehrfaches Durchlaufen des Ringbuffers
+
+3070 FORCEN: UngÅltiges Flag
+3071 FORCEN: UngÅltiger Pointer
+3072 FORCEN: UngÅltige Taskklasse
+3073 FORCEN: UngÅltiger Datentyp
+3074 FORCEN: UngÅltiger Basepointer
+3075 FORCEN: UngÅltige Adresse (Extensionbit)
+3076 FORCEN: UngÅltiger Index, PV wird nicht geforct
+3077 FORCEN: Diese PV wird bereits geforct
+
+3080 Falscher Offset
+
+3085 Kein User-Exceptiontask gefunden
+
+
+
+    @308[ Fehler der System Trap Library ]                             @1[  Uebersicht  ]
+.308
+         FEHLER DER SYSTEM TRAP LIBRARY (Fortsetzung)
+
+3089 Fehler 'info' in der Kommunikation
+3090 UngÅltige Funktionsnummer in einem SYSTRAP-Call
+3091 UngÅltige Funktionsnummer in einem INSTTRAP-Call
+3092 UngÅltige Funktionsnummer in einem BURTRAP-Call
+3093 UngÅltige Funktionsnummer in einem BTCTRAP-Call
+3094 UngÅltige Funktionsnummer in einem PPTRAP-Call
+
+     Fehler der Bitmap Routinen
+
+3100 BITMAP: Grî·e einer Bitmapeinheit zu gro· oder NULL
+3101 BITMAP: 0 Units beim Generieren
+3102 BITMAP: Zeiger auf die Verwaltungsdaten ist nicht WORD-Aligned
+3103 BITMAP-Alloc: Kein genÅgend gro·er freier Speicherbereich vorhanden
+3104 BITMAP: Der Åbergebende Datenpointer zeigt in den Verwaltungsbereich
+3105 BITMAP: Die angeforderte DatenlÑnge ist grî·er als der Speicherbereich
+3106 BITMAP: Der freigegebene Speicher ist bereits frei
+
+
+
+    @312[ Fehler der System Trap Library ]                             @1[  Uebersicht  ]
+.312
+         FEHLER DER SYSTEM TRAP LIBRARY (Fortsetzung)
+
+3120 SYS_SERVICE: Fehler bei der Initialisierung
+3121 SYS_SERVICE: Falscher Mode
+3122 SYS_SERVICE: Eintrag zum Lîschen nicht vorhanden
+3123 SYS_SERVICE: Eintrag doppelt definiert
+3124 SYS_SERVICE: zuviele EintrÑge
+3125 SYS_SERVICE: paralleler Aufruf, noch ein Versuch notwendig
+
+3130 NonCyclic-Loader: Initialisierung nicht mîglich
+3131 NonCyclic-Loader: Eintrag nicht gefunden
+
+3150 Falscher Mode beim Aufruf von MO_copy
+
+
+
+
+
+
+
+
+    @330[ Fehler der System Trap Library ]                             @1[  Uebersicht  ]
+.330
+         FEHLER DER SYSTEM TRAP LIBRARY (Fortsetzung)
+
+3300 BURLIB: Falsche TC-Nummer
+3301 BURLIB: Falscher Offset
+3302 BURLIB: Falscher State eines Objektes
+3303 BURLIB: Keine Nachricht gesendet/empfangen
+3304 BURLIB: Timeout Fehler
+3305 BURLIB: Objekt bereits vorhanden
+3306 BURLIB: Eintrag existiert bereits
+3307 BURLIB: Linkcnt <> 0 oder Linkcnt > 127
+3308 BURLIB: Fehler beim Programmieren eines Moduls
+3309 BURLIB: ungÅltige Mailbox
+3310 BURLIB: ungÅltiger Basepointer
+3311 BURLIB: ungÅltiger RPSIO-Typ
+3312 BURLIB: ungÅltiges Extension Bit
+3313 BURLIB: ungÅltige RPSSW-Version
+3314 BURLIB: ungÅltige DatenlÑnge
+3315 BURLIB: Linkcount bei AVT_attach ist grî·er als 127
+3316 BURLIB: Linkcount bei AVT_release ist NULL
+3320 BURLIB: Objekt ist schon gelîscht
+
+    @332[ Fehler der System Trap Library ]                             @1[  Uebersicht  ]
+.332
+         FEHLER DER SYSTEM TRAP LIBRARY (Fortsetzung)
+
+3324 BURLIB: Objekt nicht vorhanden
+3328 BURLIB: Falscher Objekttyp
+3332 BURLIB: Kein Eintrag vorhanden
+3336 BURLIB: Falscher Ident
+3365 BURLIB: Zuwenig Semaphore konfiguriert (Konfiguration)
+3560 BURLIB: Keine weiteren Semaphorebuffer
+3564 BURLIB: Semaphore nicht verfÅgbar
+3568 BURLIB: Semaphore wurde gelîscht
+3584 BURLIB: Zeit nicht verfÅgbar
+
+     Speicherverwaltung
+
+3600 Zuwenig Speicher verfÅgbar im Userbereich
+3601 Zuwenig Speicher verfÅgbar im RPSSW-Bereich
+3602 Zuwenig Speicher verfÅgbar im OS-Bereich
+3603 Zuwenig Speicher verfÅgbar im dig. Merker-Bereich
+3604 Zuwenig Speicher verfÅgbar im ana. Merker-Bereich
+3605 Zuwenig Speicher verfÅgbar im Debug-Bereich
+
+    @360[ Fehler der System Trap Library ]                             @1[  Uebersicht  ]
+.360
+         FEHLER DER SYSTEM TRAP LIBRARY (Fortsetzung)
+
+3606 Zuwenig Speicher verfÅgbar im Kopier-Bereich
+3607 Zuwenig Speicher verfÅgbar im Treiber-Bereich
+3608 Zuwenig Speicher verfÅgbar im PP-DPR-Bereich
+3610 Zuwenig Speicher verfÅgbar im dig. IO-Bereich
+3611 Zuwenig Speicher verfÅgbar im ana. IO-Bereich
+3612 Zuwenig Speicher verfÅgbar im IO-VW-Bereich
+3620 Zuwenig Speicher verfÅgbar im dig. RIO-Bereich
+3621 Zuwenig Speicher verfÅgbar im ana. RIO-Bereich
+3622 Zuwenig Speicher verfÅgbar im RIO-VW-Bereich
+3623 Zuwenig Speicher verfÅgbar im lok. RIO-Bereich
+3699 UngÅltige Speicherklasse bei MEM_alloc
+3700 UngÅltiger Parameter bei MEM_free im Userbereich
+3701 UngÅltiger Parameter bei MEM_free im RPSSW-Bereich
+3702 UngÅltiger Parameter bei MEM_free im OS-Bereich
+3703 UngÅltiger Parameter bei MEM_free im dig. Merker-Bereich
+3704 UngÅltiger Parameter bei MEM_free im ana. Merker-Bereich
+3705 UngÅltiger Parameter bei MEM_free im Debug-Bereich
+3706 UngÅltiger Parameter bei MEM_free im Kopier-Bereich
+
+    @370[ Fehler der System Trap Library ]                             @1[  Uebersicht  ]
+.370
+         FEHLER DER SYSTEM TRAP LIBRARY (Fortsetzung)
+
+3707 UngÅltiger Parameter bei MEM_free im Treiber-Bereich
+3708 UngÅltiger Parameter bei MEM_free im PP-DPR-Bereich
+3710 UngÅltiger Parameter bei MEM_free im dig. IO-Bereich
+3711 UngÅltiger Parameter bei MEM_free im ana. IO-Bereich
+3712 UngÅltiger Parameter bei MEM_free im IO-VW-Bereich
+3720 UngÅltiger Parameter bei MEM_free im dig. RIO-Bereich
+3721 UngÅltiger Parameter bei MEM_free im ana. RIO-Bereich
+3722 UngÅltiger Parameter bei MEM_free im RIO-VW-Bereich
+3723 UngÅltiger Parameter bei MEM_free im lok. RIO-Bereich
+3799 UngÅltige Speicherklasse bei MEM_free
+3800 UngÅltige Speicherverwaltungsstruktur im Userbereich
+3801 UngÅltige Speicherverwaltungsstruktur im RPSSW-Bereich
+3802 UngÅltige Speicherverwaltungsstruktur im OS-Bereich
+3803 UngÅltige Speicherverwaltungsstruktur im dig. Merker-Bereich
+3804 UngÅltige Speicherverwaltungsstruktur im ana. Merker-Bereich
+3805 UngÅltige Speicherverwaltungsstruktur im Debug-Bereich
+3806 UngÅltige Speicherverwaltungsstruktur im Kopier-Bereich
+3807 UngÅltige Speicherverwaltungsstruktur im Treiber-Bereich
+
+    @380[ Fehler der System Trap Library ]                             @1[  Uebersicht  ]
+.380
+         FEHLER DER SYSTEM TRAP LIBRARY (Fortsetzung)
+
+3808 UngÅltige Speicherverwaltungsstruktur im PP-DPR-Bereich
+3810 UngÅltige Speicherverwaltungsstruktur im dig. IO-Bereich
+3811 UngÅltige Speicherverwaltungsstruktur im ana. IO-Bereich
+3812 UngÅltige Speicherverwaltungsstruktur im IO-VW-Bereich
+3820 UngÅltige Speicherverwaltungsstruktur im dig. RIO-Bereich
+3821 UngÅltige Speicherverwaltungsstruktur im ana. RIO-Bereich
+3822 UngÅltige Speicherverwaltungsstruktur im RIO-VW-Bereich
+3823 UngÅltige Speicherverwaltungsstruktur im lok. RIO-Bereich
+3899 UngÅltige Speicherklasse
+
+
+
+
+
+
+
+
+
+
+    @391[ Fehler der System Trap Library ]                             @1[  Uebersicht  ]
+.391
+         FEHLER DER SYSTEM TRAP LIBRARY (Fortsetzung)
+
+3910 Falscher PROM-Typ, kein FIXRAM konfiguriert ?
+3912 Zu wenig freier PROM-Speicher
+3913 PROM/FLASH nicht gelîscht
+3915 PROM/FLASH kann nicht gebrannt werden, Schreibschutzschalter ?
+3922 PROM/FLASH mit Programmierspannung nicht gelîscht
+3923 PROM-/FLASH-Verify nicht OK
+
+3990 Checksumme des Programmiercodes im RAM stimmt nicht
+
+
+
+
+
+
+
+
+
+
+
+    @400[ Fehler der ALI-Trap Library ]                                @1[  Uebersicht  ]
+.400
+         FEHLER DER ALI-TRAP LIBRARY
+
+4000 ALI: Das referenzierte ALI-Device (SAP-Liste) existiert nicht
+4001 ALI: Die referenzierte Telegramm-Queue (Layer7-SAP) existiert nicht
+4002 ALI: Alle Kommunikationsbuffer einer Telegramm-Queue sind belegt
+4003 ALI: Falsche öbergaberichtung der gewÑhlten Telegramm-Queue (In/Out)
+4004 ALI: Die Version des NW-Konfigurationsmoduls wird nicht unterstÅtzt
+
+4010 ALI: Zu wenig Speicher vorhanden
+4011 ALI: Die angegebene Verbindungsnummer ist nicht projektiert
+4012 ALI: UnzulÑssige Operation auf inaktiver Verbindung
+4013 ALI: UnzulÑssige Operation auf aktiver Verbindung
+4014 ALI: UnzulÑssiger Verbindungstyp
+4015 ALI: Der angegebene Verbindungsname ist nicht projektiert
+4016 ALI: WARNING: Versteckter Abort wurde durchgefÅhrt
+4017 ALI: Verbindung ist keine Clientverbindung
+4018 INA2000: falscher Pfad
+
+
+
+
+    @401[ Fehler der ALI-Trap Library ]                                @1[  Uebersicht  ]
+.401
+         FEHLER DER ALI-TRAP LIBRARY (Fortsetzung)
+
+4040 ALI: INIT nicht OK, eventuell zu wenige Kommunikationskanaele konfiguriert
+4041 ALI: Fehler bei Zugriff auf den Kommunikationsbaustein
+4042 ALI: Der projektierte serielle Treiber wird nicht unterstÅtzt
+4043 ALI: Overrun eines Kommunikationsbuffers der seriellen Kommunikation
+4044 ALI: Der SIO-Timer hat zu wenig us/TICK
+4045 ALI: Timer nicht geeignet fÅr zyklischen Betrieb oder IRQ
+4046 ALI: Timeout im PP-Handshake
+
+4050 ALI: Beim Kodieren wurde die maximale TelegrammlÑnge Åberschritten
+4051 ALI: Die FRAME-LÑnge wurde Åberschritten
+4052 ALI: Das Telegramm ist fehlerhaft kodiert und kann nicht dekodiert werden
+4053 ALI: Die zur VerfÅgung gestellte Liste ist zu klein
+
+
+
+
+
+
+
+    @402[ Fehler der ALI-Trap Library ]                                @1[  Uebersicht  ]
+.402
+         FEHLER DER ALI-TRAP LIBRARY (Fortsetzung)
+
+4060 ALI: UnzulÑssiger Typ des ALI-Device (SAP-Liste)
+4061 ALI: Die projektierte Zahl der Kommunikationsbuffer ist nicht ausreichend
+4062 ALI: Die projektierte maximale TelegrammlÑnge ist nicht ausreichend
+4063 ALI: Der Profibus-Dienst wird nicht unterstÅtzt
+4064 ALI: Die Version des OV ist inkompatibel mit der des Kommunikations-
+          partners
+4065 ALI: Die SAP-Liste ist auf diesem Device nicht verfÅgbar
+
+4080 ALI: Die gewÑhlte Funktion ist nicht implementiert
+4081 ALI: FÅr Client-Dienste muss das ALI-Client Modul geladen sein
+
+
+
+
+
+
+
+
+
+    @403[ Fehler der ALI-Trap Library ]                                @1[  Uebersicht  ]
+.403
+         FEHLER DER ALI-TRAP LIBRARY (Fortsetzung)
+
+Fehlermeldungen der NW-Karte
+
+4900 NW: Zu wenig Speicher auf der NW-Karte vorhanden (-> NWCFG)
+4901 NW: Layer2 LSAP Nummer zu hoch (-> NWCFG)
+4902 NW: Verbindungsattribut bei einer VB ungÅltig (-> NWCFG)
+4903 NW: Dev_kbl_index einer VB ist falsch (-> NWCFG)
+4904 NW: Fehler beim Layer2 SAP-Konfigurieren aufgetreten
+4905 NW: Ein Layer2 LSAP wird von mehreren Verbindungen beansprucht (-> NWCFG)
+4906 NW: Fehler beim Initialisieren des Layer2
+4907 NW: Fehler beim Start des Layer2
+4908 NW: Fehler der Checksumme beim Download
+4910 NW: Meminit liefert nicht DPR_struct_ptr
+4912 NW: IN FIX KBL projektierter Verbindungtyp wird nicht unterstÅtzt
+         (-> NWCFG)
+4920 NW: kein gÅltiges FMA7 Service
+4921 NW: FMA7 Service kann nicht ausgefÅhrt werden
+
+
+
+    @500[ Taskklassen Fehler ]                                         @1[  Uebersicht  ]
+.500
+         TASKKLASSEN FEHLER
+
+5000 Keine RPSTask in der Taskklasse
+5001 UngÅltige Taskklassenzykluszeit
+5002 Kommunikationsrestzeit nur in 1 Taskklasse moeglich
+5003 Kommunikationsrestzeit max. 5 msec (50%)
+
+5010 Der Stack der Taskklasse wurde zerstîrt
+5011 Taskklassennummern passen nicht zusammen
+
+5020 Keine Inputdaten beim Schaufeln fÅr das InitUP
+5021 Keine Outputdaten beim Schaufeln fÅr das InitUP
+
+5030 Kein Input bei der Interrupttaskklasse vorhanden
+
+5100 Zykluszeitverletzung der Taskklasse
+
+5150 Loader: Keine GOT-Section im Modul vorhanden
+5151 Loader: Nicht unterstÅtzte GOT-Kennung
+5152 Loader: Kein globaler Loader vorhanden
+
+    @520[ Taskklassen Fehler ]                                         @1[  Uebersicht  ]
+.520
+         TASKKLASSEN FEHLER (Fortsetzung)
+
+5200 Der Stack der HS-Taskklasse wurde zerstîrt
+5201 Der Datenbereich der HS-Taskklasse wurde zerstîrt
+5202 Zykluszeitverletzung der HS-Taskklasse
+5203 Es gibt keine Taskklasse #1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @550[ IO-Library Fehler ]                                          @1[  Uebersicht  ]
+.550
+         IO-Library FEHLER
+5500 Dieser IO-Controller ist nicht implementiert
+5501 Dieser IO-Controller ist nicht implementiert
+5502 HW-Konfiguration: Zumindest EXERMO V1.40 notwendig
+5503 Timeout beim zyklischen Kommando an den IO-Controller
+
+5520 _CM471IO: CM471-Modul nicht vorhanden
+5521 _CM471IO: IOC_write Ringbuffer voll
+5522 _CM471IO: IOC_read  Ringbuffer voll
+5523 _CM471IO: IOC_read  Ringbuffer leer
+
+5550 IO_info : Keine Information verfÅgbar
+5551 IO_check: mehrere Aufrufe gleichzeitig nicht zulÑssig
+5552 IO_disable: Forcen auf Analog-IO mit ungerader LÑnge / Adr. nicht mîglich
+5553 IO_check: Aufruf in einer HS-Taskklasse nicht erlaubt
+5554 IO_check: IO-Modul gesteckt, aber Modultyp stimmt nicht
+5555 IO_check: IO-Modul nicht gesteckt
+5556 IO-Library: Falsche Adresse 'data_adr' angegeben
+5557 IO-Library: Falscher Offset 'intern_off' oder falsche LÑnge 'data_len'
+5558 IO-Library: FUB am MP/PP nicht zulÑssig
+5559 (W) IO-Library: FUB IO_data() in Arbeit
+    @556[ IO-Library Fehler ]                                          @1[  Uebersicht  ]
+.556
+         IO-Library FEHLER (Fortsetzung)
+
+5560 IO-Library: FUB auf diesem CPU-Typ nicht zulÑssig
+5561 Dieses Modul EMU_2005 ist fÅr einen anderen CPU-Typ bestimmt
+5562 IO-Library: Diese Funktion wird mit opt. IO-Emulation nicht unterstÅtzt
+5563 IO-Library: Diese Funktion wird mit EX350 nicht unterstÅtzt
+5564 IO-Library: kein Zugriff auf 2010-IO bzw. 2005-Erweiterungen
+5565 IO-Library: kein 2005-BasisIO vorhanden
+5566 IO-Library: nicht unterstÅtzte HW-Konfigurationskennung
+5567 IO-Library: FUB-Daten liegen nicht im IO/Merker-Pool
+
+         IO-2003 FEHLER
+
+5570 IO2003 Manager nicht vorhanden bzw. Speicherproblem
+5571 IO2003 Initialisierung fehlerhaft
+5572 IO2003 Busy-Timeout im Zyklus
+5573 IO2003 Konfigurations-énderung
+5574 IO2003 AIF-Version nicht unterstÅtzt
+5575 IO2003 ANP-Version nicht unterstÅtzt
+5576 IO2003 Fehler beim Direct-IO
+5577 IO2003 Fehler bei den Datentypen der Elemente von SYS2003
+    @558[ IO-Library Fehler ]                                          @1[  Uebersicht  ]
+.558
+         IO-2003 FEHLER (Fortsetzung)
+
+5578 IO2003 Direct-IO Overflow
+5579 IO2003 alter Direct-IO Auftrag noch aktiv
+5580 IO2003 maximale Anzahl von IO-Modulen rechts der CPU Åberschritten
+5581 IO2003 Sondermodulzugriff ist nur Åber spezielle FUBs mîglich
+5582 IO2003 Manager inkompatibel zur RPSSW-Version
+
+5590 LS472 Manager nicht initialisiert
+5591 LS472 - falsche PrÅfsumme bei Kommunikation
+5592 LS472 - ANP antwortet nicht
+5593 LS472 - falsche Antwort bei Watchdogaufziehen
+5594 LS472 - falsche Slotnummer
+5595 LS472 - Slot ist nicht enabled
+5596 LS472 - Register15 Antwort bei Read
+
+
+
+
+
+
+    @590[ Taskklassen Fehler ]                                         @1[  Uebersicht  ]
+.590
+         Taskklassen FEHLER
+
+5900 Die RPSTask/HSTaskverkettung der TC/HSTC ist zerstîrt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @600[ Systemtask Fehler ]                                          @1[  Uebersicht  ]
+.600
+         SYSTEMTASK FEHLER
+     Systemmanager
+
+6000 Der Systemmanager ist nicht korrekt konfiguriert
+6001 Die zyklischen TÑtigkeiten des Systemmanagers fehlen
+6002 Systemzykluszeitverletzung / Totaler Zeitengpa· im System
+6009 B&R Library bzw. Mathematiklibrary nicht installiert
+
+     Queue Fehler
+
+6010 Interner Fehler Systemmanager
+6011 Interner Fehler Systemmanager
+
+     SM AuftrÑge
+
+6015 Falsche ParameterÅbergabe an Systemmanager
+6016 Kommunikationskanal wird bereits benutzt
+6017 Kommunikationskanal wurde nicht benutzt
+
+
+
+    @601[ Systemtask Fehler ]                                          @1[  Uebersicht  ]
+.601
+         SYSTEMTASK FEHLER (Fortsetzung)
+     Aktionsfehler
+
+6020 Zyklische Systemmanageraktion nicht implementiert
+6021 PrÅfsumme eines Moduls ist falsch
+6022 PrÅfsumme einer Systemstruktur ist falsch
+6023 PrÅfsumme der Systemanker ist falsch
+6024 PrÅfsumme der Basisverwaltungstabelle ist falsch
+6025 PrÅfsumme der Systemverwaltungstabelle ist falsch
+6026 Anzahl der vorhandenen EX100 / NW100 ist zu gro·
+
+6030 Systemstruktur Nr.  0 zerstîrt (Taskklassen Tabelle)
+6031 Systemstruktur Nr.  1 zerstîrt (RPS-Task Tabelle)
+6032 Systemstruktur Nr.  2 zerstîrt (SS-Taskklassen Tabelle)
+6033 Systemstruktur Nr.  3 zerstîrt (Restzeittask Tabelle)
+6034 Systemstruktur Nr.  4 zerstîrt (Systemtask Tabelle)
+6035 Systemstruktur Nr.  5 zerstîrt (SPSIO Verwaltungs-Tabelle)
+6036 Systemstruktur Nr.  6 zerstîrt (SPSIO Auftrags-Tabelle)
+6037 Systemstruktur Nr.  7 zerstîrt (Dauer-Force Tabelle)
+6038 Systemstruktur Nr.  8 zerstîrt (Force Tabelle)
+
+    @602[ Systemtask Fehler ]                                          @1[  Uebersicht  ]
+.602
+         SYSTEMTASK FEHLER (Fortsetzung)
+
+6039 Systemstruktur Nr.  9 zerstîrt (PV Verwaltungs-Tabelle)
+6040 Systemstruktur Nr. 10 zerstîrt (B&R-Modul Tabelle)
+6041 Systemstruktur Nr. 11 zerstîrt (AVT-Tabelle)
+6042 Systemstruktur Nr. 12 zerstîrt (Event Tabelle)
+6043 Systemstruktur Nr. 13 zerstîrt (Kommunikationskanal Tabelle)
+6044 Systemstruktur Nr. 14 zerstîrt (Logische Variablenlisten Tabelle)
+6045 Systemstruktur Nr. 15 zerstîrt (Physikalische Variablenlisten Tabelle)
+6046 Systemstruktur Nr. 16 zerstîrt (Input Kopier-Tabelle)
+6047 Systemstruktur Nr. 17 zerstîrt (Output Kopier-Tabelle)
+6048 Systemstruktur Nr. 18 zerstîrt (Memory Verwaltungs-Tabelle)
+6049 Systemstruktur Nr. 19 zerstîrt (Systembusmodul Verwaltungs-Tabelle)
+6050 Systemstruktur Nr. 20 zerstîrt (Device Tabelle)
+6051 Systemstruktur Nr. 21 zerstîrt (Verbindungs-Tabelle)
+6052 Systemstruktur Nr. 22 zerstîrt (Panel Verwaltungs-Tabelle)
+6053 Systemstruktur Nr. 23 zerstîrt
+6054 Systemstruktur Nr. 24 zerstîrt
+6055 Systemstruktur Nr. 25 zerstîrt
+6056 Systemstruktur Nr. 26 zerstîrt
+
+    @603[ Systemtask Fehler ]                                          @1[  Uebersicht  ]
+.603
+         SYSTEMTASK FEHLER (Fortsetzung)
+
+6057 Systemstruktur Nr. 27 zerstîrt
+6058 Systemstruktur Nr. 28 zerstîrt
+6059 Systemstruktur Nr. 29 zerstîrt
+
+6060 B&R Modul Nr.  0 zerstîrt
+6061 B&R Modul Nr.  1 zerstîrt
+6062 B&R Modul Nr.  2 zerstîrt
+6063 B&R Modul Nr.  3 zerstîrt
+6064 B&R Modul Nr.  4 zerstîrt
+6065 B&R Modul Nr.  5 zerstîrt
+6066 B&R Modul Nr.  6 zerstîrt
+6067 B&R Modul Nr.  7 zerstîrt
+6068 B&R Modul Nr.  8 zerstîrt
+6069 B&R Modul Nr.  9 zerstîrt
+6070 B&R Modul Nr. 10 zerstîrt
+6071 B&R Modul Nr. 11 zerstîrt
+6072 B&R Modul Nr. 12 zerstîrt
+6073 B&R Modul Nr. 13 zerstîrt
+
+    @604[ Systemtask Fehler ]                                          @1[  Uebersicht  ]
+.604
+         SYSTEMTASK FEHLER (Fortsetzung)
+
+6074 B&R Modul Nr. 14 zerstîrt
+6075 B&R Modul Nr. 15 zerstîrt
+6076 B&R Modul Nr. 16 zerstîrt
+6077 B&R Modul Nr. 17 zerstîrt
+6078 B&R Modul Nr. 18 zerstîrt
+6079 B&R Modul Nr. 19 zerstîrt
+6080 B&R Modul Nr. 20 zerstîrt
+6081 B&R Modul Nr. 21 zerstîrt
+6082 B&R Modul Nr. 22 zerstîrt
+6083 B&R Modul Nr. 23 zerstîrt
+6084 B&R Modul Nr. 24 zerstîrt
+6085 B&R Modul Nr. 25 zerstîrt
+6086 B&R Modul Nr. 26 zerstîrt
+6087 B&R Modul Nr. 27 zerstîrt
+6088 B&R Modul Nr. 28 zerstîrt
+6089 B&R Modul Nr. 29 zerstîrt
+6090 B&R Modul Nr. 30 zerstîrt
+6091 B&R Modul Nr. 31 zerstîrt
+
+    @605[ Systemtask Fehler ]                                          @1[  Uebersicht  ]
+.605
+         SYSTEMTASK FEHLER (Fortsetzung)
+
+6092 B&R Modul Nr. 32 zerstîrt
+6093 B&R Modul Nr. 33 zerstîrt
+6094 B&R Modul Nr. 34 zerstîrt
+6095 B&R Modul Nr. 35 zerstîrt
+6096 B&R Modul Nr. 36 zerstîrt
+6097 B&R Modul Nr. 37 zerstîrt
+6098 B&R Modul Nr. 38 zerstîrt
+6099 B&R Modul Nr. 39 zerstîrt
+
+     Applikationslader
+
+6100 APPLIKATIONSLADER: ungÅltige System-Message bei SY_Event
+6101 APPLIKATIONSLADER: ungÅltige ServiceID im Download
+6102 APPLIKATIONSLADER: ungÅltige MI-Code im Download
+6103 APPLIKATIONSLADER: ungÅltige State einer Verbindung
+6104 APPLIKATIONSLADER: ungÅltiger Datentyp in Deinst
+6105 APPLIKATIONSLADER: KA-Ptr = NULL
+
+
+    @606[ Systemtask Fehler ]                                          @1[  Uebersicht  ]
+.606
+         SYSTEMTASK FEHLER (Fortsetzung)
+     Variablenzugriffstask
+
+6200 VARIABLENZUGRIFFSTASK: DATENTYP - Fehler
+6201 VARIABLENZUGRIFFSTASK: kein Zugriffrecht mit PV-read
+6202 VARIABLENZUGRIFFSTASK: kein Zugriffrecht mit PV-write
+6203 VARIABLENZUGRIFFSTASK: Index-Fehler
+6204 VARIABLENZUGRIFFSTASK: PV nicht gefunden
+6205 VARIABLENZUGRIFFSTASK: VL nicht gefunden
+6206 VARIABLENZUGRIFFSTASK: Zugriffsfehler
+6207 VARIABLENZUGRIFFSTASK: ungÅltige System-Message bei SY_Event
+6208 VARIABLENZUGRIFFSTASK: ungÅltige Verbindungsstate
+6209 VARIABLENZUGRIFFSTASK: ungÅltiger MI-Code
+6210 VARIABLENZUGRIFFSTASK: KA-Ptr = NULL
+6211 VARIABLENZUGRIFFSTASK: ungÅltiger Basepointer
+6212 VARIABLENZUGRIFFSTASK: keine gÅltige B&R-Adresse
+6213 VARIABLENZUGRIFFSTASK: Index zeigt auf einen Descriptor
+
+
+
+
+    @607[ Systemtask Fehler ]                                          @1[  Uebersicht  ]
+.607
+         SYSTEMTASK FEHLER (Fortsetzung)
+     Programinvocation
+
+6300 PROGRAMINVOCATION: ungÅltigeR Event-Typ
+6301 PROGRAMINVOCATION: ungÅltige System-Message
+6302 PROGRAMINVOCATION: PI_Indexfehler
+6303 PROGRAMINVOCATION: ungÅltiger MI-Code
+6304 PROGRAMINVOCATION: ungÅltiges Objekt
+6305 PROGRAMINVOCATION: ungÅltiger State des Objektes
+6306 PROGRAMINVOCATION: KA-Ptr = NULL
+6307 PROGRAMINVOCATION: keine Verbindung mehr frei
+6308 PROGRAMINVOCATION: Fehler vom OS t_start
+
+     Kein KommArea-Ptr fÅr eine Kommunikationstask
+
+6310 KA-Ptr = NULL
+6311 Event-Routine = NIL-Ptr
+
+
+
+
+    @635[ Systemtask Fehler ]                                          @1[  Uebersicht  ]
+.635
+         SYSTEMTASK FEHLER (Fortsetzung)
+     MP-Server
+
+6350 MPServer: Kein gÅltiger Auftragscode
+6351 MPServer: Multiprozessor nicht vorhanden
+6352 MPServer: falsche Auftrags-DatenlÑnge
+6353 MP/PP: Timeout im Handshake zum Multiprozessor
+6354 MP/PP-HSTC-Zyklus noch nicht fertig
+6355 Keine MP/PP-HSTC am MP/PP installiert bzw. gestartet
+
+     DMEMORY
+
+6380 DMEM: Zu wenig temporÑrer Speicher
+6381 DMEM: Kein Anwender-Flash vorhanden
+6382 DMEM: Interner Fehler
+6383 DMEM: Kein freier 64K Block im Anwender-Flash
+6384 DMEM: Interner Fehler
+6385 DMEM: CPU-Typ wird nicht unterstÅtzt
+6386 DMEM: Interner Fehler
+6387 DMEM: Interner Fehler
+
+    @638[ Systemtask Fehler ]                                          @1[  Uebersicht  ]
+.638
+         SYSTEMTASK FEHLER (Fortsetzung)
+
+     DMEMORY (Fortsetzung)
+
+6388 DMEM: Defektes Datenmodul im DMEM-Bereich
+6389 DMEM: ungÅltiges DMEM-Handle (NULL ?)
+6390 DMEM: freier Bereich zu klein
+6391 DMEM: Referenzmodul ID/Typ ungÅltig
+6392 DMEM: Referenzmodul LÑnge verschieden
+6393 DMEM: Modulname existiert bereits
+6394 DMEM: Modul gelîscht
+6395 DMEM: wird gerade bearbeitet
+6396 DMEM: Data-Pointer in DMstore ist NULL
+
+
+
+
+
+
+
+
+    @640[ Systemtask Fehler ]                                          @1[  Uebersicht  ]
+.640
+         SYSTEMTASK FEHLER (Fortsetzung)
+
+     Hochlauf
+
+6400 Checksum der Systemtabellenverwaltungstabelle ist falsch
+6401 Checksum einer Systemtabelle ist falsch
+6402 Warmstart: Checksum des B&R-Moduls ist falsch
+6403 Zyklischer Betrieb: Checksum des B&R-Moduls ist falsch
+6404 Kein Systemmanager installiert (wahrscheinlich Folgefehler)
+6405 Kaltstart: Checksum des B&R-Moduls ist falsch
+6406 RIO-Master meldet sich nicht
+6407 Timeout bei RIO-Lifelist-Erstellung
+6408 In der Systembustabelle steht ein ungÅltiger IO-Typ
+6409 referenzierter RIO-Slave nicht vorhanden
+
+
+
+
+
+
+
+    @641[ Systemtask Fehler ]                                          @1[  Uebersicht  ]
+.641
+         SYSTEMTASK FEHLER (Fortsetzung)
+
+6410 Leere RB-Section im Konfigurationsmodul
+6412 Warning:Netzwerk im NWCONMOD konfiguriert, aber kein NW100/NW150 gesteckt
+6413 Warning:unbekannter NW-Typ
+6414 Warning:NW-Modulnummer 0, aber mehr als 1 NW-Karte konfiguriert
+6415 Speicherverwaltung im Userram kaputt, mîgl. Batterieproblem
+6420 Multiprozessor antwortet beim 1. Teil des Handshakes nicht
+6422 Multiprozessor antwortet beim 2. Teil des Handshakes nicht
+6424 MP: Timeout beim Warten auf CPU_INIT
+6426 MP: Timeout beim Warten auf CPU_READY
+6428 MP: Timeout beim Warten auf DPR-OK-Signal des MP-Server
+6429 MP: Timeout beim Warten auf Hochlauf_OK von der RPSCPU
+6430 MP-Warning: mehr als 1 HS-Taskkklasse konfiguriert
+6432 MP-Warning: IRQ-Taskklasse konfiguriert
+6433 AWS-PROM geÑndert, daher Kaltstart durchgefÅhrt
+6434 FIXSETUP : FIXRAM ist defekt, daher wird es gelîscht und ein Kaltstart
+                ausgelîst
+6435 FIXRAM auf dieser HW nicht unterstÅtzt
+6436 Maximal 1 IRQ-Taskklasse mîglich
+
+    @650[ Systemtask Fehler ]                                          @1[  Uebersicht  ]
+.650
+         SYSTEMTASK FEHLER (Fortsetzung)
+     Task-Task Kommunikation allgemein
+
+6500 TASK-TASK-KOMMUNIKATION: ungÅltiges Event
+6501 TASK-TASK-KOMMUNIKATION: ungÅltiger MI-Code
+6502 TASK-TASK-KOMMUNIKATION: ungÅltige Auftragsnummer
+6503 TASK-TASK-KOMMUNIKATION: ungÅltige Komm. Kennung
+6504 TASK-TASK-KOMMUNIKATION: ungÅltiger Datentyp
+6505 TASK-TASK-KOMMUNIKATION: KA-Ptr = NULL
+6506 TASK-TASK-KOMMUNIKATION: keine Verbind. mehr frei
+6507 TASK-TASK-KOMMUNIKATION: ALI-Fehler
+
+     Task-Task Kommunikation DEBUGGER
+
+6520 DEBUGGER: ungÅltiger MI-Code
+6521 DEBUGGER: keine Verbindung mehr frei
+6522 DEBUGGER: ungÅltiger TT-Msg-Typ
+6523 DEBUGGER: ungÅltiger Auftragsnummer
+6524 DEBUGGER: ungÅltige Event Info
+
+
+    @652[ Systemtask Fehler ]                                          @1[  Uebersicht  ]
+.652
+         SYSTEMTASK FEHLER (Fortsetzung)
+     Task-Task Kommunikation DBTRACER
+
+6525 DBTRACER: Funktion wird nicht unterstÅtzt
+6526 DBTRACER: Debugtask ist auf der RPS nicht installiert
+6527 DBTRACER: Task enthÑlt keine GOT Section
+6529 DBTRACER: die maximale Breakpoint-Anzahl wurde erreicht (64)
+6530 DBTRACER: Das angegebene B&R Modul ist nicht auf der RPS
+6531 DBTRACER: Debugmodul ist im State DB_NONE
+6532 DBTRACER: Debugmodul ist im State DB_RUNNING
+6533 DBTRACER: Debugmodul ist im State DB_STOPPED
+6534 DBTRACER: Fehler im Task-Start (SY_start) siehe Fehlermodul
+6535 DBTRACER: Debugger ist im Isolierten Mode
+6536 DBTRACER: Debugger ist im System Mode
+6537 DBTRACER: Systemtask bzw. Usertask liegt in einem ROM
+6538 DBTRACER: Start_offset liegt au·erhalb der Codesection
+6539 DBTRACER: Offset liegt au·erhalb der Codesection
+6540 DBTRACER: Interner Fehler - Falscher MI-Code
+6541 DBTRACER: Interner Fehler - Falsche AuftragsNr
+6542 DBTRACER: Interner Fehler - Falscher TaskTask-TYP
+6543 DBTRACER: Interner Fehler - Falsches System Event
+    @655[ Systemtask Fehler ]                                          @1[  Uebersicht  ]
+.655
+         SYSTEMTASK FEHLER (Fortsetzung)
+     Task-Task Kommunikation DBTRACER (Fortsetzung)
+
+6545 DBTRACER: Interner Fehler - Falscher Status im Auftrag
+6546 DBTRACER: Bus-Error beim Zugriff auf Daten
+6547 DBTRACER: Adress-Error beim Zugriff auf Daten
+
+6551 DBTRACER: Das Datenmodul mit der Trace Definition fehlt auf der RPS
+6552 DBTRACER: Zuwenig Speicher verfÅgbar im Userbereich bzw. OS-Bereich
+6553 DBTRACER: Variable auf der RPS nicht vorhanden
+6560 DBTRACER: Modultyp wird nicht unterstÅtzt
+6563 DBTRACER: Format Fehler in der Trace Definitionsdatei
+6564 DBTRACER: Format Fehler in der Trace Datendatei
+6565 DBTRACER: Falscher Task Typ (keine SPS-Task)
+6566 DBTRACER: SPS-Task existiert auf der RPS nicht
+6567 DBTRACER: Es wurde kein Trace definiert
+6568 DBTRACER: Ein Trace ist fÅr diese SPS-Task bereits aktiv
+6569 DBTRACER: Keine TracePV in der Trace Definitions Datei angegeben
+6570 DBTRACER: Zu alte System Software (RPSSW < X2.43)
+6571 DBTRACER: Anzahl der aktiven LineCoverage AuftrÑge Åberschritten
+6573 DBTRACER: kein Line Coverage Auftrag definiert
+    @658[ Systemtask Fehler ]                                          @1[  Uebersicht  ]
+.658
+         SYSTEMTASK FEHLER (Fortsetzung)
+     Task-Task Kommunikation DBTRACER (Fortsetzung)
+
+6574 DBTRACER: Fehler aus GOT Funktion (siehe Fehlermodul)
+6575 DBTRACER: LineCoverage Auftrag gestartet, Task aber nicht aktiviert
+
+     PBIXMAN Fehler
+
+6580 PBIXMAN: Verwaltung zerstîrt
+6581 PBIXMAN: Index nur im Bereich $100-$2FF gÅltig
+6582 PBIXMAN: PV-Name ist zu lang (max. 32 Zeichen)
+6583 PBIXMAN: undefinierter Index
+6584 PBIXMAN: Datenmodul PBIXDATA fehlt
+6585 PBIXMAN: PV-Index ist im Datenmodul PBIXDATA nicht definiert
+6586 PBIXMAN: zuwenig freier Userspeicher
+6587 PBIXMAN: Subindex nicht definiert (pbixdata)
+
+
+
+
+
+    @660[ Systemtask Fehler ]                                          @1[  Uebersicht  ]
+.660
+         SYSTEMTASK FEHLER (Fortsetzung)
+     Fehler die beim Spoolen auftreten kînnen
+
+6600 Der Masterspooler schickt kein Event an den Auftraggeber
+6610 Auftrag fÅr den Masterspooler nicht implementiert
+6620 Spoolen: Der Asic2 wird nicht fertig
+6621 Spoolen: Timeout bei HW-Initialisierung nach IO-Exception
+6622 IO-Exception beim Spoolen
+6623 IO-Interrupt beim Spoolen
+6624 AMA-Fehler beim Spoolen
+6625 Timeout beim Spoolen eines Datenblocks
+6626 Spool-UP nur in der Warmstart-Phase aufrufbar
+6627 Spooler: Falscher IO-Typ
+6628 Spooler: Systembusmodul nicht vorhanden
+6629 Spooler: Remote-Master nicht vorhanden
+6630 Spooler: Masterspooler nicht vorhanden
+6631 Spooler: Timeout beim Remote-Spoolen
+6632 Spooler: Maximalanzahl von behandelten IO-/SYS-Modulen Åberschritten
+6633 Spooler: DatenlÑnge beim Aufruf von SPdirect ist zu gro·
+6634 Spooler: Falsches Kommando beim Aufruf von SPdirect
+
+    @663[ Systemtask Fehler ]                                          @1[  Uebersicht  ]
+.663
+         SYSTEMTASK FEHLER (Fortsetzung)
+
+6635 Spooler: Slave-Spooler 2005 meldet sich nicht bei Read
+6636 Spooler: falscher Mode bei SPprio
+6637 Spooler: ungÅltige Moduladresse
+6638 Spooler: Spoolqueue nicht vorhanden, SPOOLER.BR nachladen
+6639 Spooler: Modulident bei FUB-Aufruf ungÅltig
+6650 Spooler: Slavespooler meldet sich nicht
+6652 Spooler: Der Frame wird nicht fertig gesendet
+6654 Spooler: Falsches Kommando an den Slavespooler
+6656 Spooler: Modul mit ungÅltigem Modultyp
+6658 Spooler: Falsche Modulinfo (Install und Start notwendig)
+6659 Spooler: Die Queue fÅr das Nockenschaltwerk existiert nicht
+6660 Spooler: Fehler, kein weiteres Spoolen mîglich
+6662 Spooler: Timeout beim Warten auf den Hochlauf am IP
+6666 Spooler-Info: Spooler arbeitet noch
+6699 Spooler-Info: Timeout beim FUB-Aufruf
+
+     Systemmanager Stackcheck
+
+6700 Stack der Task Nr.  0 zerstîrt
+    @670[ Systemtask Fehler ]                                          @1[  Uebersicht  ]
+.670
+         SYSTEMTASK FEHLER (Fortsetzung)
+
+6701 Stack der Task Nr.  1 zerstîrt
+6702 Stack der Task Nr.  2 zerstîrt
+6703 Stack der Task Nr.  3 zerstîrt
+6704 Stack der Task Nr.  4 zerstîrt
+6705 Stack der Task Nr.  5 zerstîrt
+6706 Stack der Task Nr.  6 zerstîrt
+6707 Stack der Task Nr.  7 zerstîrt
+6708 Stack der Task Nr.  8 zerstîrt
+6709 Stack der Task Nr.  9 zerstîrt
+6710 Stack der Task Nr. 10 zerstîrt
+6711 Stack der Task Nr. 11 zerstîrt
+6712 Stack der Task Nr. 12 zerstîrt
+6713 Stack der Task Nr. 13 zerstîrt
+6714 Stack der Task Nr. 14 zerstîrt
+6715 Stack der Task Nr. 15 zerstîrt
+6716 Stack der Task Nr. 16 zerstîrt
+6717 Stack der Task Nr. 17 zerstîrt
+6718 Stack der Task Nr. 18 zerstîrt
+6719 Stack der Task Nr. 19 zerstîrt
+    @672[ Systemtask Fehler ]                                          @1[  Uebersicht  ]
+.672
+         SYSTEMTASK FEHLER (Fortsetzung)
+
+6720 Stack der Task Nr. 20 zerstîrt
+6721 Stack der Task Nr. 21 zerstîrt
+6722 Stack der Task Nr. 22 zerstîrt
+6723 Stack der Task Nr. 23 zerstîrt
+6724 Stack der Task Nr. 24 zerstîrt
+6725 Stack der Task Nr. 25 zerstîrt
+6726 Stack der Task Nr. 26 zerstîrt
+6727 Stack der Task Nr. 27 zerstîrt
+6728 Stack der Task Nr. 28 zerstîrt
+6729 Stack der Task Nr. 29 zerstîrt
+6800 Stack einer HS-Taskklasse zerstîrt
+6810 Userstack der Taskklasse im InitUP zerstîrt
+6811 Supervisorstack der Taskklasse im InitUP zerstîrt
+6812 Userstack der HS-Taskklasse im InitUP zerstîrt
+6813 Supervisorstack der HS-Taskklasse im InitUP zerstîrt
+6814 Userstack des OS-Task zerstîrt
+6815 Supervisorstack des OS-Task zerstîrt
+6816 Userstack der HS-Taskklasse zerstîrt
+6817 Supervisorstack der HS-Taskklasse zerstîrt
+    @700[ Bootfehler ]                                                 @1[  Uebersicht  ]
+.700
+         BOOTFEHLER
+
+7000 Fehler beim Suchen des Syncbytes des Bootmoduls
+7001 Fehler beim Suchen des Inhaltsverzeichnismoduls
+7002 Fehler beim Suchen eines B&R-Moduls mittels Inhvz-Modul
+7004 Checksumme Åber die beiden Anker ist nicht korrekt
+7006 Falsche Checksumm der PSOS- Node-ConfTab
+7007 PSOS-Modul nicht gefunden oder falsche Checksum
+7008 PROBE-Modul nicht gefunden oder falsche Checksum
+7009 Modul $$probeIO nicht gefunden
+7010 Warmstart: Checksumme der Basisverwaltungstabelle ist falsch
+7012 Warmstart: Checksumme des Konfigurationsmoduls im RAM ist falsch
+7015 HW-Traplibrary nicht gefunden
+7016 SYS-Traplibrary nicht gefunden
+7017 Install-Traplibrary nicht gefunden
+7018 Fehler beim Installieren einer Erweiterungstraplibrary (RIO, ...)
+7019 Konfigurationsmodul nicht gefunden
+7020 Startupmodul nicht gefunden
+7022 Die Checksumme des Fehlermoduls ist zerstîrt
+
+
+    @701[ Bootfehler ]                                                 @1[  Uebersicht  ]
+.701
+         BOOTFEHLER (Fortsetzung)
+
+7023 fataler Betriebssystem-Fehler, OS-Stackbereich zu klein
+7024 Die Checksumme eines 1. Inhaltsverzeichnisses ist zerstîrt
+7025 Betriebssystem kann nicht gestartet werden
+
+7030 MemCard: keine MemCard mehr vorhanden, daher autmatischer Kaltstart
+7031 MemCard: kein SRAM Typ
+7032 MemCard: kein Flash Typ
+7033 MemCard: falsche Manufacturer-ID
+7034 MemCard: Schreibschutz aktiv
+7035 MemCard: neue MemCard gesteckt, daher autmatischer Kaltstart
+7036 MemCard ohne Attribut-Memory wird nicht unterstÅtzt
+
+7101 UngÅliger Hochlaufgrund
+7102 Checksumme des IVZ im Userrom1 kaputt
+7104 Checksumme des IVZ im Userrom2 kaputt
+7108 MP: Handshake mit der Hauptcpu funktionierte nicht, kein RECONFIG
+7110 AWS wurde gewechselt, daher Kaltstart durchgefÅhrt
+7111 Kein Warmstart nach DIAGNOSE mîglich, daher Kaltstart durchgefÅhrt
+
+    @712[ Installationsfehler PP ]                                     @1[  Uebersicht  ]
+.712
+         INSTALLATIONSFEHLER mit PPs
+
+7120 Prozessorglobaler Analogdatenbereich lokal am PP zu klein
+7121 Prozessorglobaler Analogdatenbereich am PP mit Moduladresse 1 zu klein
+7122 Prozessorglobaler Analogdatenbereich am PP mit Moduladresse 2 zu klein
+7123 Prozessorglobaler Analogdatenbereich am PP mit Moduladresse 3 zu klein
+7124 Prozessorglobaler Analogdatenbereich am PP mit Moduladresse 4 zu klein
+7125 Prozessorglobaler Analogdatenbereich am PP mit Moduladresse 5 zu klein
+7126 Prozessorglobaler Analogdatenbereich am PP mit Moduladresse 6 zu klein
+7127 Prozessorglobaler Analogdatenbereich am PP mit Moduladresse 7 zu klein
+7128 Prozessorglobaler Analogdatenbereich am PP mit Moduladresse 8 zu klein
+7129 Prozessorglobaler Analogdatenbereich am PP mit Moduladresse 9 zu klein
+7130 Prozessorglobaler Analogdatenbereich am PP mit Moduladresse 10 zu klein
+7131 Prozessorglobaler Analogdatenbereich am PP mit Moduladresse 11 zu klein
+7132 Prozessorglobaler Analogdatenbereich am PP mit Moduladresse 12 zu klein
+7133 Prozessorglobaler Analogdatenbereich am PP mit Moduladresse 13 zu klein
+7134 Prozessorglobaler Analogdatenbereich am PP mit Moduladresse 14 zu klein
+7135 Prozessorglobaler Analogdatenbereich am PP mit Moduladresse 15 zu klein
+7136 Prozessorglobaler Analogdatenbereich am PP mit Moduladresse 16 zu klein
+
+
+    @714[ Installationsfehler PP ]                                     @1[  Uebersicht  ]
+.714
+         INSTALLATIONSFEHLER mit PPs (Fortsetzung)
+
+7140 Prozessorglobaler Digitaldatenbereich lokal am PP zu klein
+7141 Prozessorglobaler Digitaldatenbereich am PP mit Moduladresse 1 zu klein
+7142 Prozessorglobaler Digitaldatenbereich am PP mit Moduladresse 2 zu klein
+7143 Prozessorglobaler Digitaldatenbereich am PP mit Moduladresse 3 zu klein
+7144 Prozessorglobaler Digitaldatenbereich am PP mit Moduladresse 4 zu klein
+7145 Prozessorglobaler Digitaldatenbereich am PP mit Moduladresse 5 zu klein
+7146 Prozessorglobaler Digitaldatenbereich am PP mit Moduladresse 6 zu klein
+7147 Prozessorglobaler Digitaldatenbereich am PP mit Moduladresse 7 zu klein
+7148 Prozessorglobaler Digitaldatenbereich am PP mit Moduladresse 8 zu klein
+7149 Prozessorglobaler Digitaldatenbereich am PP mit Moduladresse 9 zu klein
+7150 Prozessorglobaler Digitaldatenbereich am PP mit Moduladresse 10 zu klein
+7151 Prozessorglobaler Digitaldatenbereich am PP mit Moduladresse 11 zu klein
+7152 Prozessorglobaler Digitaldatenbereich am PP mit Moduladresse 12 zu klein
+7153 Prozessorglobaler Digitaldatenbereich am PP mit Moduladresse 13 zu klein
+7154 Prozessorglobaler Digitaldatenbereich am PP mit Moduladresse 14 zu klein
+7155 Prozessorglobaler Digitaldatenbereich am PP mit Moduladresse 15 zu klein
+7156 Prozessorglobaler Digitaldatenbereich am PP mit Moduladresse 16 zu klein
+
+
+    @740[ HOCHLAUF-WARNUNGEN ]                                         @1[  Uebersicht  ]
+.740
+         HOCHLAUF-WARNUNGEN
+
+7401 WARNING: RPS-Reset: Warmstart Åber Tasten bzw. SchlÅsselschalter
+7402 WARNING: RPS-Reset: Kaltstart Åber Tasten
+7404 WARNING: RPS-Reset: Reset/Halt Åber Tasten bzw. SchlÅsselschalter
+7408 WARNING: RPS-Reset: Reconfig Åber Tasten
+7411 WARNING: RPS-Reset: Warmstart Åber SYS_reset FUB
+7412 WARNING: RPS-Reset: Kaltstart Åber SYS_reset FUB
+7414 WARNING: RPS-Reset: Reset/Halt Åber SYS_reset FUB
+7418 WARNING: RPS-Reset: Reconfig Åber SYS_reset FUB
+7421 WARNING: RPS-Reset: Warmstart Åber die Kommunikation (PG)
+7422 WARNING: RPS-Reset: Kaltstart Åber die Kommunikation (PG)
+7424 WARNING: RPS-Reset: Reset/Halt Åber die Kommunikation (PG)
+7426 WARNING: RPS-Reset: Warmstart des PP beim Systemhochlauf
+7427 WARNING: RPS-Reset: Kaltstart des PP beim Systemhochlauf
+7428 WARNING: RPS-Reset: Reconfig Åber die Kommunikation (PG)
+7429 WARNING: RPS-Reset: Reset/Halt des PP beim Systemhochlauf
+7432 WARNING: RPS-Reset: Diagnose Åber Tasten
+7433 WARNING: RPS-Reset: Reconfig des PP beim Systemhochlauf
+7442 WARNING: RPS-Reset: Diagnose Åber SYS_reset FUB
+
+    @745[ HOCHLAUF-WARNUNGEN ]                                         @1[  Uebersicht  ]
+.745
+         HOCHLAUF-WARNUNGEN (Fortsetzung)
+
+7452 WARNING: RPS-Reset: Diagnose Åber die Kommunikation (PG)
+7457 WARNING: RPS-Reset: Diagnose des PP beim Systemhochlauf
+7464 WARNING: RPS-Reset: Errormode Åber Tasten
+7474 WARNING: RPS-Reset: Errormode Åber SYS_reset FUB
+7484 WARNING: RPS-Reset: Errormode Åber die Kommunikation (PG)
+7489 WARNING: RPS-Reset: Errormode des PP beim Systemhochlauf
+
+7498 WARNING: RPS-Reset: Warmstart wird nicht unterstÅtzt -> lokaler Kaltstart
+7499 WARNING: RPSSW-Update durchgefÅhrt
+
+
+
+
+
+
+
+
+
+
+    @750[ BEDIENTABLEAU-TRAP FEHLER ]                                  @1[  Uebersicht  ]
+.750
+         BEDIENTABLEAU-TRAP FEHLER
+
+7500 BT_LIB: falscher Identifier
+7501 BT_LIB: BT-Ctrl nicht angeschlossen
+7502 BT_LIB: auf GETKEY kann nicht gewartet werden
+7503 BT_LIB: Allgemeines Fehlerflag
+7504 BT_LIB: Keine Kommunikation zum ausgewÑhlten BT
+7505 BT_LIB: Unmîgliches Fenster
+7506 BT_LIB: RAM-Fehler
+7507 BT_LIB: ROM-Fehler
+7508 BT_LIB: Display nicht angeschlossen
+7509 BT_LIB: Falsches Display
+7510 BT_LIB: Falsche Konfiguration
+7511 BT_LIB: Tastatur defekt
+7512 BT_LIB: Unmîgliche Wartezeit Repeatmodus
+7513 BT_LIB: Unmîgliche Repeatfrequenz
+7514 BT_LIB: Blinkendes Zeichen auszerhalb Fenster
+7550 BT_LIB: Tastenblock nicht vorhanden
+7551 BT_LIB: ungÅltiger Knoten fÅr Geniustreiber
+7552 BT_LIB: Fehler beim GENI Board
+7560 BT_LIB: Kein Tongle fÅr AB-Treiber
+    @751[ Bedientableau-Interpreter Fehler ]                           @1[  Uebersicht  ]
+.751
+         BEDIENTABLEAU-INTERPRETER FEHLER
+
+7570 BT-Interpreter: Zuviele PV's in einem BILD
+7571 BT-Interpreter: Textmodul nicht vorhanden
+7572 BT-Interpreter: Bitmaps parametriert, aber Modul nicht vorhanden
+7573 BT-Interpreter: Buffer fÅr Drucker zu klein
+
+     BT-Server Fehler
+
+7600 BTSERV: inkorrekte Tableauanzahl in Konfigmodul
+7601 BTSERV: inkorrekter Name in Konfigmodul
+7602 BTSERV: inkorrekter Devicename in Konfigmodul
+7603 BTSERV: inkorrekter Devicetyp in Konfigmodul
+7604 BTSERV: inkorrekte Displaynummer in Konfigmodul
+7605 BTSERV: inkorrekte Tastenanzahl in Konfigmodul
+7606 BTSERV: inkorrekte Zeilenanzahl in Konfigmodul
+7607 BTSERV: inkorrekte Spaltenanzahl in Konfigmodul
+7608 BTSERV: inkorrekte Bilderanzahl in Konfigmodul
+7609 BTSERV: inkorrekter Versionsname in Konfigmodul
+7650 BTSERV C200 : Fehler bei EV_receive
+7651 BTSERV C200 : Tasten Buffer leer
+    @770[ Rezept-Task Fehler ]                                         @1[  Uebersicht  ]
+.770
+         REZEPT-TASK FEHLER
+
+7700 REZEPT: Kein Rezept-Datenmodul im Flash gefunden
+7701 REZEPT: Zuwenig Rezept-RAM verfÅgbar
+7702 REZEPT: Kein Rezept-Datenmodul im Flash gefunden
+7703 REZEPT: Index-Fehler im Rezept-DS
+7704 REZEPT: Fehler beim Schreiben in das Rezept-Datenmodul
+7705 REZEPT: Interne Rezept-Status-PV fehlt
+7706 REZEPT: falscher Pfad
+7707 REZEPT: Rezeptelement im Modul nicht gefunden
+
+
+
+
+
+
+
+
+
+
+
+    @798[ PV-Inkonsistenzen  ]                                         @1[  Uebersicht  ]
+.798
+         PV-Inkonsistenz FEHLER
+
+7980 PV-Inkonsistenz: Descriptoren stimmen nicht Åberein
+7981 PV-Inkonsistenz: BytelÑnge stimmt nicht Åberein
+7982 PV-Inkonsistenz: I/O-Typ stimmt nicht Åberein
+7983 PV-Inkonsistenz: Offset-öberschneidung
+7984 PV-Inkonsistenz: I/O-Doppeldefinitionen stimmen nicht Åberein
+7985 PV-Inkonsistenz: Unterschiedliches IO-Modul
+7986 PV-Inkonsistenz: referenziertes IO-Modul ist nicht vorhanden
+7987 PV-Inkonsistenz: keine Hardwarekonfiguration, neue IO-Library laden
+7988 PV-Inkonsistenz: Keine identische IO-PV gefunden
+7989 PV-Inkonsistenz: Datentypen stimmen nicht Åberein
+
+
+
+
+
+
+
+
+
+    @800[ Installationsfehler ]                                        @1[  Uebersicht  ]
+.800
+         INSTALLATIONSFEHLER
+
+8001 Es wird versucht eine RPS-Task fÅr eine nicht konfigurierte Taskklasse
+     zu installieren
+8002 Der Stackbedarf der RPS-Task Åberschreitet den fÅr die zugehîrige
+     Taskklasse reservierten Stack
+8003 Die geforderte Zykluszeit der RPS-Task ist kleiner als die Zykluszeit
+     der assoziierten Taskklasse
+8004 Der fÅr die RPS-Task geforderte analoge Datenbereich ist grî·er als der
+     analoge Datenbereich der zugehîrigen Taskklasse
+8005 Der fÅr die RPS-Task geforderte digitale Datenbereich ist grî·er als der
+     digitale Datenbereich der zugehîrigen Taskklasse
+8006 Fehler beim Speicher allokieren
+8007 Kein Platz mehr in der Systemtabelle
+8008 Die geforderte  IO-DatenlÑnge der RPS-Task ist zu gro·.Als Referenz gilt
+     die IO-DatenlÑnge der 1. installierten RPS-Task
+8009 Install-Status eines B&R-Moduls ist falsch
+8010 Pointer zeigt nicht auf ein gÅltiges Objekt
+8011 Deinstall einer laufenden RPS-Task
+
+
+    @801[ Installationsfehler ]                                        @1[  Uebersicht  ]
+.801
+         INSTALLATIONSFEHLER (Fortsetzung)
+
+8012 Der von der RPS-Task geforderte globale Analogdatenbereich ist grî·er
+     als der der gesamten Taskklasse
+8013 Der von der RPS-Task geforderte globale Digitaldatenbereich ist grî·er
+     als der der gesamten Taskklasse
+8014 Anzahl der RPSIO-Typen bei Taskklassen zu klein konfiguriert
+8015 Falscher Modultyp beim Installieren einer Systemtask oder Usertask
+8016 referenzierte Systembus-Karte fehlt
+8017 variabler PB-IX nicht konfiguriert
+8018 IRQ-Task auf 2005-Systemen nicht unterstÅtzt
+8019 IRQ-Task auf 2005-Systemen nicht unterstÅtzt
+8020 Checksumme eines B&R-Moduls ist falsch
+8021 Der B&R-Modul existiert bereits im System
+8022 Systemtabelle ist voll
+8023 Pointer zeigt nicht auf ein B&R-Modul
+8024 2010-CPU-Version nicht I/O-interruptfÑhig
+8025 Kein gepackter Bit-Bereich verfÅgbar
+8026 Init-Values fÅr dynamische PVs werden nicht unterstÅtzt
+8027 Falscher PP-Typ auf angegebener Moduladresse oder PP-Nummer
+8028 Falsches PV Initialisierungsformat
+    @802[ Installationsfehler ]                                        @1[  Uebersicht  ]
+.802
+         INSTALLATIONSFEHLER (Fortsetzung)
+
+8030 Nicht implementierte Trapnummer
+8031 Der Typ des B&R-Moduls ist nicht fÅr ein Trapinstall definiert
+8032 Die Version der Hardwaretraplibrary pa·t nicht zur CPU-Version
+8033 Zuviele Erweiterungs-Traplibraries installiert
+8034 Versions-Inkonsistenz BURTRAP.br
+8035 Funktion wird nur auf einem PP unterstÅtzt
+8040 Es existiert bereits eine AVT-Library mit dem selben Namen
+8041 Zuwenig AVT-EintrÑge konfiguriert (Konfiguration)
+8045 Die Versionsnummer des Konfigurationsmoduls stimmt nicht mit der aktuellen Versionsnummer Åberein
+8046 Kein gÅltiger Typ ??
+8048 Falscher INSTALL-Mode
+8050 Debugtask fÅr Interrupttaskklasse oder Exceptiontaskklasse
+8052 Der von der RPS-Task geforderte IO-Controllertyp existiert nicht
+8054 Der von der RPS-Task geforderte IO-Controllertyp existiert nicht
+8056 ungÅltige IO-Controller-ID
+8060 Es wird versucht einen Handler fÅr den Interrupt eines nicht
+     existierende Systembusmoduls zu installieren
+8062 Anzahl der PV-Tabellen zu klein
+8063 Schaufelprozessor nicht vorhanden (EX350, CP10x, CP15x, CP200, CP210)
+    @803[ Installationsfehler ]                                        @1[  Uebersicht  ]
+.803
+         INSTALLATIONSFEHLER (Fortsetzung)
+
+8069 Kein Device-Eintrag in pSOS Tabelle
+8070 Es wird versucht einen nicht konfigurierten Devicetreiber zu installieren
+8071 Kein Buffer verfÅgbar ??
+8072 Falscher Buffer Åbergeben ??
+8073 Kommando wird nicht unterstÅtzt ??
+8074 Device existiert nicht ??
+8075 Der Systemmanager beauftragt den RIO-Master nicht
+8076 nicht genug interner Speicher ??
+8077 nicht genug interner Speicher
+8078 öbertragung aktiv
+8079 Device Receivefehler
+8080 RIO-Master wird mit Auftragsliste konfigurieren nicht fertig
+8081 Fehler beim  IO-Transfer auf die Remotestation.
+8082 Fehler beim Init-Remode-IO. Der RIO-Master steckt nicht auf der
+     angegebenen Moduladresse
+8083 RIO in dieser HS-Taskklasse nicht zulÑssig
+8084 RIO-Erstinitialisierung nach 40 Sekunden nicht fertig
+8085 RIO Speicherverwaltung im Hochlauf nicht initialisierbar
+8090 RIO-Master wird mit dem Outputkopieren nicht fertig
+    @809[ Installationsfehler ]                                        @1[  Uebersicht  ]
+.809
+         INSTALLATIONSFEHLER (Fortsetzung)
+
+8092 Interrrupttask oder Exceptiontask fÅr Debugger nicht erlaubt
+8095 Fehler im Konfigmodul HS-Section pa·t  nicht mit RK-Section zusammen
+8096 maximale Anzahl von Interrupttasks/Exceptiontasks Åberschritten
+8097 mehr als 1 Exceptiontaskklasse konfiguriert
+8098 IRQ-Task fÅr IO-Modul oder EXC-Task fÅr Exception-Nr. bereits vorhanden
+8099 Install mi·glÅckt
+
+     Deinstallationsfehler
+
+8100 Entfernen eines B&R-Moduls: Es existiert noch ein PI-Objekt fÅr
+     diesen Modul
+8101 Ptr Fehler beim Entfernen eines B&R-Moduls
+8111 Ptr Fehler beim Entfernen einer Systemtask
+8112 Systemtask ist vor dem Entfernen nicht gestoppt worden
+8115 Ptr Fehler beim Entfernen einer Usertask
+8116 Usertask ist vor dem Entfernen nicht gestoppt worden
+8120 Es gibt noch eine aktive Referenz auf den AVT-Modul beim Entfernen
+     (linkcnt != 0)
+8121 Ptr Fehler beim Entfernen eines AVT-Library-Moduls
+    @813[ Installationsfehler ]                                        @1[  Uebersicht  ]
+.813
+         INSTALLATIONSFEHLER (Fortsetzung)
+8130 RPS-Task-Update: Update in das Flash nicht mîglich
+8131 RPS-Task-Update: Update in das FIXRAM nicht mîglich
+8132 RPS-Task-Update: Unterschiedliche IO-Definition
+8133 RPS-Task-Update: Unterschiedliche IO-Definition
+8134 RPS-Task-Update: Unterschiedliche Datentypen
+8135 RPS-Task-Update: Unterschiedliche IO-Anzahl
+8136 RPS-Task-Update: Unterschiedliche Taskklasse
+8137 RPS-Task-Update: Unterschiedliche Reihenfolgenummer / Exceptionnummer
+8138 RPS-Task-Update: Unterschiedliche PP Anzahl
+8139 RPS-Task-Update: Unterschiedliche Systembusmodul Anzahl (PP)
+8140 RPS-Task-Update: Unterschiedliche AVT-Anzahl (AVT-FUB)
+8141 RPS-Task-Update: Unterschiedlicher AVT-Eintrag (AVT-FUB)
+8142 RPS-Task-Update: Unterschiedliche lokale Variable
+8143 RPS-Task-Update: Unterschiedliche globale Variable
+8144 RPS-Task-Update: Update-Funktion nicht vorhanden (UPDATE.BR)
+8145 RPS-Task-Update: Kein PV-Eintrag vorhanden
+
+
+
+
+    @815[ Installationsfehler ]                                        @1[  Uebersicht  ]
+.815
+         INSTALLATIONSFEHLER (Fortsetzung)
+     Exit-Routine-Fehler
+
+8150 ID in keiner Tabelle
+8151 USER-Task EXIT aufgerufen
+
+     IOTimer-Fehler
+
+8160 Es gibt keine freien IO-Timer
+8161 Der Åbergebene IO-Timerwert ist falsch
+8162 Der IO-Timer Verteiler ist nicht bekannt
+8169 IO-Timer werden auf dieser HW nicht unterstÅtzt
+
+     Startfehler
+
+8205 Objektpointer fÅr das Starten einer System/User-Task ist ungÅltig
+8206 Zuwenig konfigurierter Speicher (Stack, temporÑr) beim Starten einer Task
+
+
+
+
+    @825[ Installationsfehler ]                                        @1[  Uebersicht  ]
+.825
+         INSTALLATIONSFEHLER (Fortsetzung)
+     Kommunikationsfehler bei Devices
+
+8250 öbertragung aktiv bei Read Timeout
+8251 Device nicht offen
+8252 ungÅltiger Devicebeschreibungsstring
+8253 ungÅltiger Modebeschreibungsstring
+8254 maximale Anzahl gleichzeitig geîffneter Devices Åberschritten
+8255 SPSSW Version zu klein
+
+
+
+
+
+
+
+
+
+
+
+
+    @830[ RemoteIO Fehler ]                                            @1[  Uebersicht  ]
+.830
+         RIO-Fehler bei RIO-Exceptions
+
+8300 RIO-Exception: Kein Fehler eingetragen
+8301 RIO-Exception: Master-Fehler
+8302 RIO-Exception: Slave-Fehler
+
+8400 RIO-Exception, RIO-Exceptiontask fÅr Auswertung notwendig
+8401 RIO-Exception: Falsche Blocknummer
+8402 RIO-Exception: Unbekanntes Kommando
+8403 RIO-Exception: Input bereits konfiguriert
+8404 RIO-Exception: Schaufeltabelle zu lang
+8405 RIO-Exception: Inputkonfiguration mit Outputauftrag
+8406 RIO-Exception: Konfiguration mit Status-Zugriff
+8407 RIO-Exception: Moduladresse zu hoch
+8408 RIO-Exception: Interne Adresse zu hoch
+8409 RIO-Exception: Block bereits konfiguriert
+8412 RIO-Exception: Offset im Frame inkonsistent zu Bit-Schaufeleintrag
+8413 RIO-Exception: Output bereits konfiguriert
+8414 RIO-Exception: Fehler bei Input-Konfiguration am Slave
+8415 RIO-Exception: Fehlerhafter Offset beim LDFW Kommando
+
+    @841[ RemoteIO Fehler ]                                            @1[  Uebersicht  ]
+.841
+         RIO-Fehler bei RIO-Exceptions (Fortsetzung)
+
+8416 RIO-Exception: Block am Slave nicht konfiguriert
+8417 RIO-Exception: 2003-Analogzugriff mit ungerader Byteanzahl
+8418 RIO-Exception: 2003-Digitalzugriff mit LÑnge > 1 oder Offset > 0
+8419 RIO-Exception: 2003-Digitalzugriff mit falscher Datenrichtung In/Out
+
+8432 RIO-Exception: Fehler beim Zugriff auf ein Inputmodul
+8448 RIO-Exception: Fehler beim Zugriff auf ein Outputmodul
+8451 RIO-Exception: unzulÑssige Slavenummer konfiguriert
+8452 RIO-Exception: Schaufel-Offsets passen nicht oder Åberlappen
+8453 RIO-Exception: Block enthÑlt keine Daten
+8454 RIO-Exception: Blocknummer fÅr Slave zu gro·
+8455 RIO-Exception: Block ohne Input- und Outputdaten konfiguriert
+8456 RIO-Exception: zu viele Auftragslisten konfiguriert
+8457 RIO-Exception: Copy Buffer öberlauf
+8458 RIO-Exception: Frame Buffer öberlauf
+8459 RIO-Exception: Keine Auftragsliste vorhanden
+8464 RIO-Exception: Anzahl der SchaufeleintrÑge fÅr einen Block zu hoch
+
+
+    @850[ RemoteIO Fehler ]                                            @1[  Uebersicht  ]
+.850
+         RIO-Fehler bei RIO-Exceptions (Fortsetzung)
+
+8500 RIO-Exception: Slave meldet sich wÑhrend Konfigphase nicht
+8501 RIO-Exception: Slaveadresse ungÅltig (0 oder zu gro·)
+8502 RIO-Exception: Fehler am Slave
+8503 RIO-Exception: Slave meldet sich trotz Wiederholung nicht mehr
+
+8528 RIO-Exception: Fehler beim IO-Zugriff auf einem Slave
+8551 RIO-Exception: UngÅltige Steckplatznummer
+8552 RIO-Exception: Systembusmodul ist kein RIO-Master
+8553 RIO-Exception: RIO-Master-Modul hat eine zu niedrige Version (<3.0)
+8554 RIO-Exception: Response des Slave passt nicht zum Request
+8555 RIO-Exception: Falsches Kommando
+8556 RIO-Exception: Unbekanntes Kommando bei Antwort auswerten (intern)
+8557 RIO-Exception: Angegebene Datenlaenge zu klein
+8558 RIO-Exception: Anzahl der SchreibeintrÑge ist zu gro·
+8559 RIO-Exception: LÑnge der Schreibdaten ist zu gro·
+8560 RIO-Exception: Fehler beim Zugriff auf Inputmodul
+8561 RIO-Exception: Erster Eintrag in der CFG Tabelle war NULL
+8562 RIO-Exception: Falsche LIFE List LÑnge
+
+    @856[ RemoteIO Fehler ]                                            @1[  Uebersicht  ]
+.856
+         RIO-Fehler bei RIO-Exceptions (Fortsetzung)
+
+8563 RIO-Exception: Falsche Masterversion
+8565 RIO-Exception: UngÅltige Moduladresse
+8567 RIO-Exception: InputdatenlÑnge  passt nicht zur Master-Konfiguration
+8568 RIO-Exception: OutputdatenlÑnge  passt nicht zur Master-Konfiguration
+8570 RIO-Exception: Fehler 1 beim Laden der RIO-ISL-Firmware
+8571 RIO-Exception: Fehler 2 beim Laden der RIO-ISL-Firmware
+8572 RIO-Exception: Fehler 3 beim Laden der RIO-ISL-Firmware
+8574 RIO-Exception: RIO-Master ist nicht als Intelligenter Slave konfiguriert
+8576 RIO-Exception: Fehler beim Zugriff auf Outputmodul
+8580 RIO-Exception: IN-FUB: PrioritÑt != 0 wurde angegeben
+8581 RIO-Exception: IN-FUB: inptr = NULL
+8585 RIO-Exception: OUT-FUB: PrioritÑt != 0 wurde angegeben
+8586 RIO-Exception: OUT-FUB: outptr = NULL
+8587 RIO-Exception: RIO-Slave ist nicht im RUN-Mode
+8591 RIO-Exception: ISL Input Status: Keine gÅltigen Inputdaten vorhanden
+8592 RIO-Exception: Falsche OutputdatenlÑnge am Slave
+8596 RIO-Exception: Falsche PrioritÑt fÅr ISL Output Status
+8597 RIO-Exception: Falsche  DPR_Adresse
+
+    @859[ RemoteIO Fehler ]                                            @1[  Uebersicht  ]
+.859
+         RIO-Fehler bei RIO-Exceptions (Fortsetzung)
+
+8598 RIO-Exception: Falsche  KonfigurationslÑnge
+8599 RIO-Exception: Falsche Systembusmodulnummer
+8600 RIO-Exception: Kein gÅltiges Kommando
+8601 RIO-Exception: UngÅltiger Konfigurationspointer
+8602 RIO-Exception: UngÅltiger Datenpointer
+8603 RIO-Exception: RIO-START -> falscher State
+8604 RIO-Exception: Falsche DatenlÑnge
+8605 RIO-Exception: Kein gÅltiges IO angegeben
+8606 RIO-Exception: TAB  Buffer zu klein
+8607 RIO-Exception: Zu kleiner Kopierbuffer
+8608 RIO-Exception: Zu hohe Slaveadresse
+8609 RIO-Exception: LÑnge eines Leereintrags zu gro·
+8610 RIO-Exception: Zu kleiner Datenbuffer
+8611 RIO-Exception: RIO lÑuft bereits
+8612 RIO-Exception: RIO nicht konfiguriert
+8613 RIO-Exception: Falscher Parameterpointer
+8614 RIO-Exception: Falsche ParameterlÑnge
+8615 RIO-Exception: RIO nicht konfiguriert oder nicht gestartet
+
+    @861[ RemoteIO Fehler ]                                            @1[  Uebersicht  ]
+.861
+         RIO-Fehler bei RIO-Exceptions (Fortsetzung)
+
+8617 RIO-Exception: Falsche Parameter ID
+8618 RIO-Exception: Falscher Tabellenzeiger
+8619 RIO-Exception: Falsche LÑnge
+8620 RIO-Exception: ungÅltiger Mode
+8621 RIO-Exception: Falscher Slavestatus
+8622 RIO-Exception: Falscher Mode
+8623 RIO-Exception: Falsche Bitadresse
+8627 RIO-Exception: IO-Moduladresse nicht mîglich
+8628 RIO-Exception: Antwort kam vom falschen Slave
+8631 RIO-Exception: Auftrag zur Zeit nicht durchfÅhrbar
+8632 RIO-Exception: Kein IO-Modul vorhanden (oder Busende)
+8633 RIO-Exception: IO-Busende erreicht
+
+8660 RIO-Warning: Library / Trap doppelt vorhanden
+
+
+
+
+
+    @880[ CAN Fehler      ]                                            @1[  Uebersicht  ]
+.880
+         CAN-Fehler (Fortsetzung)
+
+8800 CAN: Kein Eintrag gefunden
+8801 CAN: Kein Speicher fÅr Ressourcen
+8802 CAN: falscher Ident
+8803 CAN: COB ID wird noch verwendet
+8804 CAN: CAN-Identifier falsch
+8805 CAN: Userident falsch
+8806 CAN: CAN-Identifier wurde schon definiert
+8807 CAN: CAN-Identifier Definition falsch
+8808 CAN: COB-Handle falsch
+8809 CAN: Sendeauftrag fÅr einen fragmentierten Buffer noch aktiv
+8810 CAN: Transmit Queue voll
+8811 CAN: CAN-Bus im OFF-Zustand
+8812 CAN: Keine High Prio Buffer mehr frei
+8813 CAN: CAN Driver nicht installiert
+8814 CAN: LÑnge der Daten grî·er als 8 Byte
+8815 CAN: Baudrate falsch
+8816 CAN: falsche COB Anzahl
+8817 CAN: Keine CAN Controller vorhanden
+
+    @881[ CAN Fehler      ]                                            @1[  Uebersicht  ]
+.881
+         CAN-Fehler (Fortsetzung)
+
+8818 CAN: Fehler bei HW-Analyse
+8819 CAN: Fehler bei Interruptbehandlung
+8820 CAN: Fehler bei Interruptbehandlung
+8821 CAN: UngÅltiger Usertyp fÅr CMSinit()
+8822 CAN: UngÅltige CMS-Objekt-Definition
+8823 CAN: UngÅltige komplexe Datenstruktur
+8824 CAN: UngÅltige cms_mode in CMSmain()
+8825 CAN: Keine CAN-Schnittstelle und daher keine CAN-Knotennummer
+8826 CAN: Funktionstabelleneintrag ist nicht gesetzt
+8827 CAN: Interne Verwaltung ist im Interrupthandler zerstîrt
+8828 CAN: ABORT Frame fÅr Domain FUB gesendet
+8829 CAN: ABORT Frame fÅr Domain FUB empfangen
+8830 CAN: FBCAN Handle falsch
+8831 CAN: Extended Mode fuer CANIO nicht moeglich
+8832 CAN: CMS Definition Fehler bei Multiplexer
+8837 INA2000 CAN: COB nicht definiert
+8838 INA2000 CAN: Node Nummer zu gross
+8839 INA2000 CAN: falsches Handle
+8840 INA2000 CAN: Kein Rx Buffer frei
+    @884[ CAN Fehler      ]                                            @1[  Uebersicht  ]
+.884
+         CAN-Fehler (Fortsetzung)
+
+8841 WARNING: CAN: Stuff Fehler -> CAN-ID Kollision / Baudrate
+8842 WARNING: CAN: Format Fehler -> Baudrate
+8843 WARNING: CAN: ACK Fehler - Kein Ack von anderen Knoten
+8844 WARNING: CAN: Bit1 Sende Fehler (rezessives Bit)
+8845 WARNING: CAN: Bit0 Sende Fehler (dominantes Bit)
+8846 WARNING: CAN: CRC Checksum Fehler
+
+         CAN-CCI-Fehler
+
+8850 CAN-CCI: Objektnummer au·erhalb des Wertebereichs
+8851 CAN-CCI: Fehler bei der Initialisierung
+8852 CAN-CCI: BUS_OFF-Problem
+8853 CAN-CCI: Buffer nicht konfiguriert
+8854 CAN-CCI: Hardware im Resetzustand
+8855 CAN-CCI: Fehler beim Update der Daten
+8856 CAN-CCI: Buffer wird gerade bearbeitet
+8857 CAN-CCI: Read-Only Objekt
+8858 CAN-CCI: Falscher Mode (Standard/Extended)
+8859 CAN-CCI: Falsche Message-LÑnge eingestellt
+    @886[ CAN-CCI Fehler  ]                                            @1[  Uebersicht  ]
+.886
+         CAN-CCI-Fehler (Fortsetzung)
+
+8860 CAN-CCI: Transmitinterrupt nicht erlaubt
+8861 CAN-CCI: Transmitinterrupt mu· eingestellt werden
+8862 CAN-CCI: Receiveinterrupt nicht erlaubt
+8863 CAN-CCI: Receiveinterrupt mu· eingstellt werden
+8864 CAN-CCI: Falsche CAN-ID eingetragen
+8865 CAN-CCI: Lesen mit Sendeobjekt
+8866 CAN-CCI: Schreiben mit Receiveobjekt
+8867 CAN-CCI: BUS_OFF-Zustand nicht eingenommen
+8868 CAN-CCI: Init-Zustand nicht eingenommen
+8869 CAN-CCI: BUS_ON-Zustand nicht eingenommen
+8870 CAN-CCI: unzulÑssige Interruptnummer
+8871 CAN-CCI: Fehler steht im Status (Struktur)
+8872 CAN-CCI: Meldung verloren
+8873 CAN-CCI: Gelesene Daten inkonsistent trotz max. Wiederholungen
+8874 CAN-CCI: WiederholungszÑhler abgelaufen
+8875 CAN-CCI: Lesedaten sind inkonsistent
+8876 CAN-CCI: Kein Sendebuffer frei
+8877 CAN-CCI: Keine gÅltigen Daten vorhanden
+
+    @890[ CANIOMAN Fehler ]                                            @1[  Uebersicht  ]
+.890
+         CANIOMAN-Fehler (Fortsetzung)
+
+8900 CANIOMAN: Fehler im Datenmodul CANIOTAB
+8901 CANIOMAN: Zu wenig User-Speicher vorhanden
+8902 CANIOMAN: Falsches Handle
+8903 CANIOMAN: Timeout Tabelle voll
+8904 CANIOMAN: Keine pSOS-Timer mehr frei
+8905 CANIOMAN: Kein Eintrag gefunden
+8906 CANIOMAN: UngÅltige Knotennummer
+8907 CANIOMAN: CANIOMAN nicht da
+8910 CANIOMAN: Alarmmeldung
+8911 CANIOMAN: Falscher Datentyp (LÑnge) einer PV
+8912 CANIOMAN: Kein CANIOTAB vorhanden
+8913 CANIOMAN: Fehler im Datenmodul CANIOTAB-Node
+8914 CANIOMAN: Fehler im Datenmodul CANIOTAB-IO
+8915 CANIOMAN: Falscher Datentyp fÅr Kommando PV (Bytearray[8])
+8916 CANIOMAN: Falscher Datentyp (LÑnge) der Trigger-Command-PV
+8917 CANIOMAN: PV Leerstring in CANIOTAB
+
+
+
+    @894[ CANIO-Master Fehler ]                                        @1[  Uebersicht  ]
+.894
+         CANIO-Master Fehler
+
+8949 CANIO-Master: Kein CANIO konfiguriert
+8950 CANIO-Master: PP mit konfiguriertem CANIO nicht vorhanden
+8951 CANIO-Master: Referenz von CANIO auf einem anderen PP am PP nicht mîglich
+8952 CANIO-Master: Inkonsistente CANIO-DatenlÑnge
+8953 CANIO-Master: Maximal 32 Knoten auf einem CAN-BUS mîglich
+8954 CANIO-Master: IRQ/EXC/Debug-Taskklasse werden nicht unterstÅtzt
+8955 CANIO-Master: Verwendeter CAN-BUS ist nicht konfiguriert
+8956 CANIO-Master: Verwendeter CAN-Knoten ist nicht konfiguriert
+8957 CANIO-Master: Nicht unterstÅtzte Baudrate
+8958 CANIO-Master: Interner Fehler bei CAN_open
+8960 CANIO-Master: Interner Fehler beim Outputkopieren
+8961 CANIO-Master: Interner Fehler beim Inputkopieren
+8962 CANIO-Master: PP mit konfiguriertem CANIO nicht vorhanden
+8963 CANIO-Master: Referenz von CANIO auf einem anderen PP am PP nicht mîglich
+8964 CANIO-Master: Verwendeter CAN-BUS ist am PP nicht konfiguriert
+8965 CANIO-Master: Verwendeter CAN-Knoten ist am PP nicht konfiguriert
+8966 CANIO-Master: Interner Fehler beim COB-Lîschen
+8967 CANIO-Master: Interner Fehler beim Lîschen
+
+    @896[ CANIO-Master Fehler ]                                        @1[  Uebersicht  ]
+.896
+         CANIO-Master Fehler (Fortsetzung)
+
+8968 CANIO-Master: Interner Fehler beim Lîschen eines RPS-Task
+8969 CANIO-Master: Interner Fehler beim Lîschen (Node-ZÑhler)
+8972 CANIO-Master: Timeout bei der PP-Behandlung
+8973 CANIO-Master: Verwendete CAN-Schnittstelle bereits von CANIO belegt
+8974 CANIO-Master: Interner Fehler beim Installieren eines RPS-Task
+8975 CANIO-Master: Interner Fehler beim Installieren (Anker)
+8976 CANIO-Master am PP nicht vorhanden
+8977 CANIO-Master am PP nicht vorhanden (FUB)
+8978 CANIO-Master: Verwendeter CAN-BUS ist am PP nicht konfiguriert (FUB)
+8979 CANIO-Master: Knoten nicht aktiv
+8980 CANIO-Master: Statusbereich wird nicht unterstÅtzt
+8981 CANIO-Master Exception
+8982 CANIO-Master: zu alte EXERMO-Version
+8983 CANIO-Master am PP nicht vorhanden
+
+
+
+
+
+    @900[ Diverses ]                                                   @1[  Uebersicht  ]
+.900
+         DIVERSES
+
+9001 Kein Platz in CSwrite-Tabelle
+9002 Fehler bei der Konvertierung ASCII -> BRSTR
+9003 Im KonfigModul ist das Ende des temp. Speichers falsch gesetzt
+9004 Die Åbergebene Schaufeltabelle ist leer
+9005 Der IO-Auftrag wurde noch nicht ausgefÅhrt
+9006 Falscher SAP in der SAPLI_TAB bei SAP_check_rights
+9008 Die PrÅfsumme eines FortsetzungsIVZ ist zerstîrt
+9009 Checksummen-LÑnge ungleich 4 wird nicht unterstÅtzt
+9010 Funktionspointer nicht initialisiert
+9011 LÑnge des B&R-String zu gro·
+
+9100 EXCEPTION: Buserror
+9101 EXCEPTION: Adress Error
+9102 EXCEPTION: Illegal Instruction
+9103 EXCEPTION: Privilege Violation
+9104 EXCEPTION: Divide Zero (Division durch Null)
+9105 EXCEPTION: Spurious Interrupt
+9106 EXCEPTION: Unimplemented Instruction
+9107 EXCEPTION: Uninitialisierter Interrupt
+    @901[ Diverses ]                                                   @1[  Uebersicht  ]
+.901
+         DIVERSES
+
+9108 EXCEPTION: Format Error Stackframe
+9109 EXCEPTION: PG Assertion failed
+9110 EXCEPTION: IO Interrupt
+9111 EXCEPTION: Error 2010 IO
+
+9112 HS#1 Zykluszeitfehler
+9113 HS#2 Zykluszeitfehler
+9114 HS#3 Zykluszeitfehler
+9115 HS#4 Zykluszeitfehler
+9116 HS#1 maximale Zykluszeitverletzung
+9117 HS#2 maximale Zykluszeitverletzung
+9118 HS#3 maximale Zykluszeitverletzung
+9119 HS#4 maximale Zykluszeitverletzung
+
+9120 TC#1 Zykluszeitfehler
+9121 TC#2 Zykluszeitfehler
+9122 TC#3 Zykluszeitfehler
+9123 TC#4 Zykluszeitfehler
+
+    @902[ Diverses ]                                                   @1[  Uebersicht  ]
+.902
+         DIVERSES
+
+9124 TC#1 maximale Zykluszeitverletzung
+9125 TC#2 maximale Zykluszeitverletzung
+9126 TC#3 maximale Zykluszeitverletzung
+9127 TC#4 maximale Zykluszeitverletzung
+
+9128 EXCEPTION: NMI-Handler
+9129 EXCEPTION: Remote-IO Fehler
+9130 EXCEPTION: Fehler bei automat. Moduladressierung
+
+9131 IRQ-TC maximale Zykluszeitverletzung
+9132 EXC-TC maximale Zykluszeitverletzung
+9133 EXCEPTION: Nil-Pointer Verwendung
+9134 EXCEPTION: Range-Overflow bei Feldern
+9135 RIO-HSTC maximale Zykluszeitverletzung
+9136 EXCEPTION: Error 2003 IO (PG/FUB : Modul nicht vorhanden oder falsch)
+9137 Exceptionbehandlung mit EXC-Tasks mehrfach aktiv
+9138 EXCEPTION: Error 2003 IO (Fehler bei Digital-Zugriff)
+9139 EXCEPTION: Error 2003 IO (ANP nicht vorhanden)
+
+    @903[ Diverses ]                                                   @1[  Uebersicht  ]
+.903
+         DIVERSES
+9140 EXCEPTION: Error 2003 IO (ANP inaktiv)
+9141 EXCEPTION: Error 2003 IO (ANP-Timeout)
+9142 EXCEPTION: Error 2003 IO (ANP-Typ geÑndert)
+9143 EXCEPTION: unbekannter Error 2003 IO
+9144 ExceptionCallout: falscher Connect-Mode
+9145 ExceptionCallout: zuviele Connect parallel
+9146 Warnung: BusError bei Kommunikation
+9147 Warnung: AdressError bei Kommunikation
+9150 EXCEPTION: Error 2005 Basis-IO
+9151 EXCEPTION: Error 2005 IO-Erweiterung 1
+9152 EXCEPTION: Error 2005 IO-Erweiterung 2
+9153 EXCEPTION: Error 2005 IO-Erweiterung 3
+9154 EXCEPTION: Error 2005 IO-Erweiterung 4
+
+9199 Default-EXCEPTION-Handler aufgerufen -> EXERMO nachladen
+
+9200 WARNING: System nach Stromausfall stillgestanden
+9201 WARNING: System nach Stromausfall stillgestanden -> Kaltstart
+9210 WARNING: Hochlauf durch Watchdog oder manuelles RESET
+
+    @921[ Diverses ]                                                   @1[  Uebersicht  ]
+.921
+         DIVERSES
+9211 WARNING: Kaltstart nach Watchdog oder manuellem RESET
+9212 WARNING: Warmstart nach Watchdog oder manuellem RESET
+9213 WARNING: Error nach Watchdog oder manuellem RESET
+9214 WARNING: Diagnose nach Watchdog oder manuellem RESET
+9215 WARNING: Reconfig nach Watchdog oder manuellem RESET
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @930[ Diverses ]                                                   @1[  Uebersicht  ]
+.930
+         DIVERSES
+
+     Spezielle Fehler der Wegkalibrierung, Weg/Spritzmodul
+9301 WEG/SPRITZMODUL: zuwenig Daten fÅr die Konfiguration
+9302 WEG/SPRITZMODUL: zuwenig Speicher fÅr die Konfiguration
+9303 WEG/SPRITZMODUL: der Kalibrierfaktor ist ungÅltig
+9304 WEG/SPRITZMODUL: der Abtastfaktor ist ungÅltig
+
+9430 MEMCARD-Update: Bei Mode ungleich Update wird RPSSW V2.10 vorausgesetzt
+9433 MEMCARD-Update: RPSSW-Basissystem nicht vorhanden
+9435 MEMCARD-Update: sep_ende Modul nicht vorhanden
+9436 MEMCARD-Update: Fehler beim Lîschen des USERROM
+9437 MEMCARD-Update: Fehler beim Lîschen des SYSTEMROM
+9438 MEMCARD-Update: Fehler beim Programmieren des USERROM
+9439 MEMCARD-Update: Fehler beim Programmieren des SYSTEMROM
+9440 MEMCARD-Update: FIXRAM nicht konfiguriert
+9441 MEMCARD-Update: FIXRAM zu klein konfiguriert
+9442 MEMCARD-Update: USERROM zu klein fÅr Userrom-Module
+9443 MEMCARD-Update: SYSTEMROM zu klein fÅr Basissystem plus Erweiterungen
+9444 MEMCARD-Update: falscher CPU-Typ, keine MemCard moeglich
+9445 MEMCARD-Update durchgefÅhrt
+    @950[ Diverses ]                                                   @1[  Uebersicht  ]
+.950
+         DIVERSES
+
+9500 PPMAN: allgemeiner fataler Fehler
+9501 PPMAN: Timeout im CPU-PP Hochlauf-Handshake
+9502 PPMAN: Anzahl der TK-Basepointer zu klein (PP-Systemmodule)
+9503 PPMAN: Systemhochlauf im Mode Warmstart nicht mîglich
+9504 PPMAN: Unterschiedliche RPSSW Versionen im Gesamtsystem
+9510 PPDPRLIB: falsche Modulnummer bzw. kein PP gesteckt
+9511 PPDPRLIB: mehrfacher Aufruf von PP_dprid()
+9512 PPDPRLIB: falsche Laenge
+9513 PPDPRLIB: PPDPRLIB am PP nicht installiert
+9514 PPDPRLIB: Fehler beim Freigeben des Speichers
+9515 PPDPRLIB: Speicherlaenge zu gross
+9516 PPDPRLIB: falsche ID (NULL) bei PP_pdpr()
+
+9600 EXT-FUBs: alter Auftrag noch offen
+9601 LVW_free: falscher Pointer
+9602 LVW_alloc/LVW_free: User-Bitmap defekt
+9603 LVW_alloc/LVW_free: VW-Pointer geÑndert
+9604 LVW_alloc: 1. Overflow
+9620 Profiler: Diese CPU wird momentan nicht unterstÅtzt
+    @980[ Diverses ]                                                   @1[  Uebersicht  ]
+.980
+         DIVERSES
+
+9650 Library-Funktion nicht vorhanden
+9651 Zuwenig Speicher fuer Library-Verwaltung
+
+9800 Trap-Erweiterungs-Library nicht installiert (RIO, ...)
+
+9900 BUGFIX: Falsche RPSSW-Version bzw. Konfigurationsproblem V1.05
+
+9999 Funktion ist noch nicht implementiert
+
+
+
+
+
+
+
+
+
+
+
+    @1050[ NC Fehler ]                                                  @1[  Uebersicht  ]
+.1050
+      NC Fehlercodes
+
+10500 NC-Manager: Aufrufender Task nicht ROOT
+10501 NC-Manager: Inkompatible NC-Manager im System vorhanden
+10502 NC Manager: Die HW-spezifische NC-Liste ist ungÅltig (B&R anrufen)
+10503 NC-Manager: NC-Manager-Modul nicht gefunden
+10509 NC-Manager: NC-Funktionen kînnen nicht in die AVT eingetragen werden
+10511 NC-Manager: Library 'io_lib' nicht vorhanden
+10512 NC-Manager: Library 'spooler' nicht vorhanden
+10513 NC-Manager: Library 'io_lib' nicht vor NC-Manager gebrannt
+10520 NC-Manager: Zuwenig User-Memory fÅr die NC-Konfigurationsliste
+10521 NC-Manager: User-Memory der NC-Konfigurationsliste wird nicht freigegeben
+10522 NC-Manager: Zuwenig User-Memory fÅr die NC-SW
+10523 NC-Manager: User-Memory der NC-SW wird nicht freigegeben
+10524 NC-Manager: Zuwenig DPR-Memory fÅr die NC-SW
+10525 NC-Manager: DPR-Memory der NC-SW nicht freigegeben
+10530 NC-Manager: NC-SW-INIT abgebrochen
+10531 NC-Manager: NC-Modul mit inkompatibler HW-Version (Moduladresse = 'Info')
+10532 NC-Manager: Fehler bei CPU_xinfo() (Fehlercode = 'Info')
+10533 NC-Manager: Fehler bei HS1-IR-Level Ñndern (Fehlercode = 'Info')
+10534 NC-Manager: Fehler bei NC-IRQ installieren (Fehlercode = 'Info')
+    @1053[ NC Fehler ]                                                  @1[  Uebersicht  ]
+.1053
+      NC Fehlercodes (Fortsetzung)
+
+10535 NC-Manager: NC-Modul-ID in Systemtabelle ist falsch (Moduladresse = 'Info')
+
+10540 NC-Manager-Typen '*man' UND '*_ms' vorhanden. Dies ist nicht erlaubt !
+
+10550 NC-CFG-Modul lesen: NC-Manager-Fehler in 'Info'
+10551 NC-CFG-Modul lesen: Status fÅr NC-Manager-Fehler in 'Info'
+10552 NC-CFG-Modul lesen: ID fÅr NC-Manager-Fehler in 'Info'
+
+10600 Fehler bei NC-Manager-INIT (INFO in den FehlersÑtzen des NC-Objekts)
+10650 Allgemeine NC-Konfigurationsliste nicht gefunden
+10651 HW-spezifische NC-Konfigurationsliste nicht gefunden
+10652 Kein NC-Objekt vorhanden
+
+10703 NC-Objekt nicht gefunden ('bus_typ','modul_adr','object_typ','channel')
+10704 ncalloc: Taskklassen-Kennung ungÅltig
+10705 ncalloc: System-Manager-Modul nicht gefunden
+10706 ncalloc: INSTALL-Fehler fÅr NC-Task fÅr TK-Anfang (genug TK-Stack ?)
+10707 ncalloc: INSTALL-Fehler fÅr NC-Task fÅr TK-Ende (genug TK-Stack ?)
+10708 ncalloc: UnzulÑssige Flag-Kombination angegeben
+    @1072[ NC Fehler ]                                                  @1[  Uebersicht  ]
+.1072
+      NC Fehlercodes (Fortsetzung)
+
+10720 UngÅltiger NC-Funktionspointer
+10721 'nc_object' ist kein gÅltiges NC-Objekt
+10722 'subject' ist nicht definiert oder fÅr dieses 'nc_object' nicht erlaubt
+10723 'action' ist nicht definiert oder fÅr dieses 'subject' nicht erlaubt
+10724 Typ von 'nc_object' ist ungÅltig
+10725 UngÅltiger Typ bei Datenmoduloperation angegeben
+10726 Diese NC-Aktion ist wegen eines Fehlers bei ncalloc() gesperrt
+
+10740 'nc_object' ist kein NC-Objekt mit Typ 'ncCNCSYS'
+10741 CNC -> SPS: MoS-Funktion nicht im definierten Bereich
+10742 CNC -> SPS: MmS-Funktion nicht im definierten Bereich
+
+10750 'rec_index' ungÅltig (<0 oder zu gro·)
+10751 'nc_obj_ax1' ist kein gÅltiges NC-Objekt
+10752 'nc_obj_ax2' ist kein gÅltiges NC-Objekt
+10753 'nc_obj_ax1' ist kein NC-Objekt mit Typ ncACHSE oder ncV_ACHSE
+10754 'nc_obj_ax2' ist kein NC-Objekt mit Typ ncACHSE oder ncV_ACHSE
+10757 'nc_obj_ax1' und 'nc_obj_ax2' haben unterschiedliche HW-Typen
+
+    @1090[ NC Fehler ]                                                  @1[  Uebersicht  ]
+.1090
+      NC Fehlercodes (Fortsetzung)
+
+10900 NC-Link-Task nicht kompatibel zu NC-Manager
+10901 NC-Link-Task: Zuwenig User-Memory fÅr die Test-NC-Objekte
+10902 NC-Link-Task: User-Memory der Test-NC-Objekte wird nicht freigegeben
+10903 NC-Link-Task: System-Manager-Modul nicht gefunden10904 NC-Link-Task: INSTALL-Fehler fÅr NC-Task fÅr TK-Anfang (genug TK-Stack ?)
+10905 NC-Link-Task: INSTALL-Fehler fÅr NC-Task fÅr TK-Ende (genug TK-Stack ?)
+10906 NC-Link-Task: Fehler bei Senden eines Ereignisses an den NC-Manager
+10910 NC-Link-Task: NC-Objekt ist nicht im Test-Betrieb
+10911 NC-Link-Task: Kein freies Test-NC-Objekt vorhanden
+10912 NC-Link-Task: NC-Objekt ist kein Test-NC-Objekt
+
+10940 NC-System-Download: NC-Manager-Fehler in 'Info'
+10941 NC-System-Download: NC-Modul-Fehler in 'Info'
+10942 NC-System-Download: Status fÅr NC-Modul-Fehler in 'Info'
+10943 NC-System-Download: ID fÅr NC-Modul-Fehler in 'Info'
+
+10950 NC-System-Download: Inkompatible NC-Manager im System vorhanden
+10951 NC-Manager: Fehler bei AVT_update() fÅr NC-System-Download
+10952 NC-System-Download: Fehler bei AVT_search()
+10953 NC-System-Download: Es ist bereits ein NC-System-Download aktiv
+    @1095[ NC Fehler ]                                                  @1[  Uebersicht  ]
+.1095
+      NC Fehlercodes (Fortsetzung)
+
+10954 NC-System-Download: Allgemeine NC-Konfigurationsliste nicht gefunden
+10955 NC-System-Download: NC-Konfig.liste des angegebenen HW-Typs nicht gefunden
+10956 NC-System-Download: Pointer der Download-Funktion ist ungÅltig
+10957 NC-System-Download: Kein NC-Modul des angegebenen HW-Typs vorhanden
+10958 NC-System-Download: NC-Modul-RESET nicht mîglich (BOOT vorhanden ?)
+10959 NC-System-Download: Timeout fÅr NC-Modul nach RESET (BOOTSTRAPLOADER)
+10960 NC-System-Download: Timeout fÅr NC-Modul nach RESET (BOOT)
+10961 NC-System-Download: Timeout fÅr NC-Modul bei BS-Download einschalten
+10962 NC-System-Download: Timeout fÅr NC-Modul bei Download
+10963 NC-System-Download: Timeout fÅr NC-Modul bei Download-Abschlu· (FPROM)
+10964 NC-System-Download: Download-Abbruch durch RPS
+10965 NC-System-Download: Fehler auf NC-Modul (Moduladresse = 'Info')
+10966 NC-System-Download: Der HW-Typ des NC-Systems konnte nicht bestimmt werden
+10967 NC-System-Download: Download-Abbruch durch NC-SW
+10970 NC-System-Download: Unbekanntes BOOT-Kommando
+10975 NC-System-Download: Datenblock > 256 BYTEs
+10976 NC-System-Download: RAM-Ende erreicht
+10980 NC-System-Download: UngÅltige Checksum
+10981 NC-System-Download: Fehler bei FPROM lîschen
+    @1098[ NC Fehler ]                                                  @1[  Uebersicht  ]
+.1098
+      NC Fehlercodes (Fortsetzung)
+
+10982 NC-System-Download: Fehler bei FPROM brennen
+10983 NC-System-Download: NC-System zu gro· fÅr das FPROM
+10990 NC-System-Download: Abbruch nach Fehler
+10991 NC-System-Download: Fehler bei SS_write() (Fehlercode = 'Info')
+10992 NC-System-Download: Fehler bei SS_write() (Moduladresse = 'Info')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @1170[ IO-Library Fehler ]                                          @1[  Uebersicht  ]
+.1170
+      IO-Library Fehlercodes
+
+11700 IO-Library: Angegebener IO-Bus bei IO_physdef wird nicht unterstÅtzt
+11701 IO-Library: UngÅltiger Offset bei IO_physdef
+11702 IO-Library: UngÅltiger Datenbereich  bei IO_physdef
+11703 IO-Library: UngÅltiger Mode  bei IO_physdef
+11704 IO-Library: SC-Entry auf ungerader Adresse  bei IO_physdef
+11705 IO-Library: UngÅltige IO-Moduladresse  bei IO_physdef
+11706 IO-Library: Aktuller CPU-Typ wird von IO_physdef nicht unterstÅtzt
+11710 IO-Library: PV nicht gefunden bei IO_define
+11711 IO-Library: Fehler bei PV-LÑnge (IO_define)
+11712 IO-Library: Nicht unterstÅtzter PV-Typ bei IO_define
+11713 IO-Library: PV ohne Schaufeleintrag bei IO_define
+11714 IO-Library: Nur Analog-PVs zulÑssig bei IO_define
+11715 IO-Library: Kein PV-Name bei IO_define
+11716 IO-Library: Timeout bei IO_data
+11717 IO-Library: Falscher Ident bei IO_data
+11720 IO-Library: Falscher Ident 1/2 bei IO_combine
+11721 IO-Library: Zuviele EintrÑge bei IO_combine
+11722 IO-Library: SC-Tabelle auf ungerader Adresse bei IO_combine
+
+    @1470[ PV Fehler ]                                                  @1[  Uebersicht  ]
+.1470
+      PV Fehlercodes
+
+14700 PV: PV falsch
+14701 PV: falsche Adresse
+14702 PV: falsches Feld
+14703 PV: falsches Element
+14704 PV: falsche Komponente
+14710 PV: PV nicht gefunden
+14711 PV: Task existiert nicht
+14712 PV: PV-LÑnge Null
+14713 PV: keine Detailbeschreibung
+14714 PV: Feldindex zu gro·
+14715 PV: falscher Shortdescriptor
+14716 PV: zu kleiner Buffer
+14717 PV: ungÅltiger Index/Subindex
+
+
+
+
+
+
+    @1480[ FBASE Fehler ]                                               @1[  Uebersicht  ]
+.1480
+      FBASE   Fehlercodes
+
+14800 FBASE: zu wenig Speicher fÅr Verwaltung
+14801 FBASE: kein FBASE-Modul im System vorhanden
+14802 FBASE: Slot wird nicht unterstÅtzt
+14803 FBASE: Funktion nicht implementiert
+14804 FBASE: kein Frame empfangen
+14805 FBASE: öbertragung aktiv
+14806 FBASE: Transmit-FramelÑnge NULL
+14807 FBASE: alle Buffer belegt
+14808 FBASE: Mode nicht unterstÅtzt
+14809 FBASE: Option nicht unterstÅtzt
+14810 FBASE: Receive-FramelÑnge zu gro·
+14811 FBASE: Subslot wird nicht unterstÅtzt
+14812 FBASE: Interface wird nicht unterstÅtzt
+14813 FBASE: keine modemfÑhige Schnittstelle
+14814 FBASE: Control Kommando wird nicht unterstÅtzt
+14815 FBASE: ungueltige Zieladressierung (Ziel nicht existent)
+14820 FBASE: Es existiert kein Client COB aus FBASE_open
+14821 FBCAN: DefineCOB Fehler fÅr Initiate Request Write-COB
+
+    @1481[ FBASE Fehler Fortsetzung ]                                   @1[  Uebersicht  ]
+.1481
+      FBASE   Fehlercodes   Fortsetzung
+
+14822 FBCAN: DefineCOB Fehler fÅr Initiate Request Read-COB
+14823 FBCAN: DefineCOB Fehler fÅr Initiate Response Write-COB
+14824 FBCAN: DefineCOB Fehler fÅr Initiate Response Read-COB
+14825 FBCAN: DefineCOB Fehler fÅr Data Segment Write-COB
+14826 FBCAN: DefineCOB Fehler fÅr Data Segment Read-COB
+
+14840 FBPB: Profibus-Modul nicht verfuegbar
+14841 FBPB: Sendeframe defekt
+
+14850 FBASE: Funktion nicht implementiert
+
+14890 FBASE: Modul "tcpipmgr" nicht vorhanden
+14891 FBASE: zuwenig freier Speicher fuer TCP/IP vorhanden
+14892 FBASE: TCP/IP Receive Fehler
+
+
+
+
+
+    @1490[ AROUTER Fehler ]                                             @1[  Uebersicht  ]
+.1490
+      AROUTER Fehlercodes
+14900 WARNING: Routing: Device ist ungÅltig
+14901 WARNING: Routing: eigene Knotennummer ungÅltig
+14902 WARNING: Routing: Device-Pfad ist ungÅltig
+14903 WARNING: Routing: Pfad-Eintrag ist ungÅltig
+14904 WARNING: Routing: ungÅltiger Frame
+14905 WARNING: Routing: FBASE-Fehler
+14906 WARNING: Routing: Device existiert nicht
+14907 WARNING: Routing: Devicebeschreibungsstring fehlerhaft
+14908 WARNING: Routing: Fehler beim Lesen der CAN-Parameter
+14909 WARNING: Routing: Meldung an L2 - Entzug der Devicekontrolle
+14910 WARNING: Routing: Fehler aus FBASE_write()
+14911 WARNING: Routing: kein L2-Buffer verfÅgbar
+14912 WARNING: Routing: Fehler aus FBASE_read()
+14913 WARNING: Routing: Input-Queue öberlauf
+14914 WARNING: Routing: Output-Queue öberlauf
+14915 WARNING: Routing: Reserve 15
+14916 WARNING: Routing: kein L2-Buffer verfÅgbar (INIT)
+14917 WARNING: Routing: L2-Schreibauftrag nicht zulÑssig
+14918 WARNING: Routing: Zuordungsfehler eines gesendeten Frames
+14919 WARNING: Routing: ungÅltiger Buffer
+                                                                 @  1[  Uebersicht  ]
+.End
+
+

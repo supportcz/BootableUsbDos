@@ -1,0 +1,10 @@
+; Dos Navigator Menu file
+
+>1 ~P~G2000
+   c:\PG2000\PG2000.exe\pg.exe
+>1 Panel~W~are
+   c:\PW\pw.exe
+>1 Pro~S~ys
+   c:\PG\pg.bat
+
+

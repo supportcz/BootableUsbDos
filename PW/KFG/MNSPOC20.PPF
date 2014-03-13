@@ -1,0 +1,59 @@
+*
+*   Protocol Parameter File for B&R MININET-SPOIO
+*
+#PARA "Station-Number:"                   UINT   1  17  255   0   descript    STR    25  3   NODE
+#PARA "Number of retrys:"                 INT    1   0   10   1   nox_value   LONG   0   0   NET  
+#PARA "Timeout (ms):"                     UINT   1 250 65535 1000 nox_value   LONG   1   0   NET
+#PARA "Interface:"                        slot   1   0    0   0   descript    STR    8   1   NODE
+#KEY
+#PARA "Interface-Type:"                   iftyp  1   0    0   0   nox_value   BIT  132   3   NET
+#PARA "Data Access:"                      dstyp  1   0    0   0   node_info   BIT    16  1   NODE
+#PARA "Baud Rate:"                        baud   1   0    0   0   nox_value   LONG   2   0   NET
+#PARA "PV-Name internal Error Number:"    STRING 0  10    1   0   nox_value   LONG   12  14  NODE
+*
+*
+*  HOST LINK
+*
+*  key  name         anz  Item  typ(1=Int/  len-erg    Var       Var-Descript   Equal
+*                         len   0..String)  (Typ=0)    name
+#SELECT slot         3     11      0            1
+* Item-Text      Result-Int
+   Interface-0       0
+   Interface-1       1
+   Interface-2       2
+*  key  name         anz  Item  typ(1=Int/  len-erg    Var       Var-Descript   Equal
+*                         len   0..String)  (Typ=0)    name
+#SELECT dstyp        2    10       1            0
+* Item-Text      Result-Int
+   single           1
+   dynamic          0
+*  key  name         anz  Item  typ(1=Int/  len-erg    Var       Var-Descript   Equal
+*                         len   0..String)  (Typ=0)    name
+#SELECT baud         5    5        1            0
+* Item-Text      Result-Int
+   1200             12
+   2400             24
+   4800             48
+   9600             96
+   19200            192
+*
+*  key  name         anz  Item  typ(1=Int/  len-erg    Var       Var-Descript   Equal
+*                         len   0..String)  (Typ=0)    name
+#SELECT iftyp        1    5         1          0       descript  STR    8  1      0
+* Item-Text      Result-Int
+   RS232             0
+*
+*  key  name         anz  Item  typ(1=Int/  len-erg    Var       Var-Descript   Equal
+*                         len   0..String)  (Typ=0)    name
+#SELECT iftyp        1    5         1          0       descript  STR    8  1      1
+* Item-Text      Result-Int
+   RS232             0
+*  TTY               4
+*
+*  key  name         anz  Item  typ(1=Int/  len-erg    Var       Var-Descript   Equal
+*                         len   0..String)  (Typ=0)    name
+#SELECT iftyp        2    5         1          0       descript  STR    8  1      2
+* Item-Text      Result-Int
+   RS422             0
+   RS485             1
+

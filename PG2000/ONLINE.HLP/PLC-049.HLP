@@ -1,0 +1,51 @@
+%%
+1,0:1      Allgemeines Åber RPS-Fehler
+2,0:2      Kapitel allgemeine Fehler
+3,0:3      Kapitel Fehler der HW-Trap Library
+4,0:4      Fehler der SW-SysTrap Library
+5,0:5
+6,0:6
+7,0:7
+8,0:8
+9,0:9
+10,0:10
+11,0:11    Kapitel Diverses
+12,0:12
+%%
+.1
+        Allgemeines Åber RPS-Fehler
+
+.2
+        Allgemeine Fehler
+
+.3
+        Fehler der HW-Trap Library
+
+.4
+        Fehler der SW-SysTrap Library
+
+.5
+        Fehler der ALI-Trap Library
+
+.6
+        Fehler der Taskklassen /RPS-Task/UTask/SSTask
+
+.7
+        Systemfehler
+
+.8
+        Bootfehler
+
+.9
+        Fehler der Bedientableau-Trap Library
+
+.10
+        Installationsfehler
+
+.11
+        Diverses
+
+.12
+        NC Fehler
+
+.End

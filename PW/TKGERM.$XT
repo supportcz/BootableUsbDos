@@ -1,0 +1,1648 @@
+001 %PANELWARE \ Programmname
+002 %--- Bernecker & Rainer  Industrie - Elektronik Ges.m.b.H. ---\Firmenname
+003
+004
+005 %Warnung - Textebenenfile fehlt\
+006 %Warnung - Textebenenfile ungÅltig\
+007 %Warnung - Textebenen unvollstÑndig\
+008 %TemporÑres File kann nicht geîffnet werden\
+009 %Textebene 0 (Default) nicht angegeben\
+010 %Textebenen Editor\         Begin Texte Sprach-Editor
+011 %Defaultsprache:\
+012 %Sprache Nr. %d:\
+013 %Textebene\
+014 %Markieren\
+015 %Kopieren\
+016 %Ende\
+017
+018 %Textebene \				RÅckfrage speichern Ja/Nein
+019 %Sprachen\					Funktionstaste fÅr mehrere Editoren
+020 %ESC-Sequenz der öbersetzung Åberschreitet die LÑnge in der Defaultsprache\
+021 %Defaultsprache\			Defaultbeschreibung Defaultsprache
+022 %Sprachen\					Funktionstaste Anfruf Sprachbeschreibungseditor
+023 %Textebenen öbersicht\
+024 %Edit\
+025 %Einf\
+026 %Entf\
+027
+028 %Textebenen-Definition\		öberschrift Eingabe
+029
+030 %Textebenen Nr.:\
+031 %Textebenen Beschreibung:\
+032 %Textebenen Nr. Tableau:\
+033 %Textebene compilieren:\
+034
+035
+036 %Nr.\
+037 %Beschreibung\
+038 %Nr.Tableau\
+039 %Compilieren\
+040 %Max. Anzahl der Textebenen erreicht\
+041 %Defaultsprache kann nicht gelîscht werden\
+042 %Textebene\
+043 %Anwahl Textebene\
+044 %Textebenen:\			öberschrift Sprachbeschr. Ausdruck
+045 %Textebenen nicht importiert\
+046 %Quelle enthÑlt keine Textebenen\
+047 %Textebenen teilweise importiert\
+048 %Textebenen vollstÑndig importiert\
+049 %Textebenen teilweise importiert\
+050 %Quelle enthÑlt weniger Textebenen\
+051 %Textebenen mehrfach belegt !\	Sprachcompiler Fehlermeldungen
+052 %Keine Textebenen eingeschaltet !\
+053 %Nur eine Textebene mîglich !\
+054 %Sprachcompiler:\
+055
+056 %                    weiter mit <ESC>\
+057 % Bildschirmtyp:\  vorlÑufig!!!
+058 %Text\
+059 %Feld\
+060 %Linie\
+061 %Bild Bearbeiten\
+062 %nicht gefunden\
+063 %Projekt lîschen\
+064 %
+065 %DBFEH \            Buchstaben fuer ALT-Buchstabe in Haupt-Menue
+066 %---\
+067 %Suchpfad\
+068 %(<RETURN> fÅr Verzeichnis Anzeige)\
+069 %Dateiname\
+070 %Laden\
+071 %Projekt Laden\
+072 %Bild Laden\
+073 %Texteingabe    \Modustexte, alle gleich lang
+074 %Feldeingabe    \
+075 %Linie zeichnen \
+076 %               \
+077 %Modus\
+078 %Bildelement\
+079 %KEINNAME\ max 8 Zeichen!!!
+080 %Maximale Anzahl Texte erreicht, keine weiteren mîglich\
+081 %Kein Bildelement angewÑhlt\
+082 %Maximale Anzahl Linien erreicht, keine weiteren mîglich\
+083 %Dieses Tableau unterstÅtzt keine Grafikfunktionen\
+084 %ist keine Tableauparameterdatei\
+085 %Projekt Speichern\
+086 %Bild Speichern\
+087 %Speichern\
+088 %Datei\
+089 %existiert bereits!\
+090 %öberschreiben? (J/N) \
+091 %Ja\Gro·buchstabe, Ja Antwort, max. 4 Zeichen
+092 %Nein\Gro·buchstabe, Nein Antwort, max. 4 Zeichen
+093 %kann nicht gelesen werden\
+094 %gehîrt nicht zum ausgewÑhlten Tableau\
+095 %Kein Objekt angewÑhlt!\
+096 %kann nicht geschrieben werden!\
+097 %Neu\
+098 %Speichern? (J/N) \
+099 %ist nicht abgespeichert!\
+100 %Bild\
+101 %Abbruch mit <ESC>\
+102 %Bitte warten\
+103 %Feld ist zu breit und hat keinen Platz auf der Anzeige!\
+104 %öbernehmen\
+105 %Ende\
+106 %Projekt\
+107 %Tabelle\
+108 %Feldtyp wÑhlen\
+109 %Kein weiteres Feld mehr in diesem Bild/Protokoll mîglich\
+110 %Bildschirmtyp auswÑhlen:\
+111 %Sprache auswÑhlen:\
+112 %Monochrom Bildschirm\max.20 Zeichen!
+113 %Farbbildschirm\
+114 %LCD Bildschirm\
+115 %Plasma Bildschirm\
+116 %Englisch\Sprachen, max. 20 Zeichen!
+117 %Deutsch\
+118 %Magyar\
+119 %Franáais\
+120 %Espa§ol\
+121 %Italiano\
+122 %Dutch\
+123 %Suomen\
+124 %Schreibfehler beim Abspeichern der Konfiguration!\
+125 %Konfiguration\
+126 %Die ausgewÑhlte Textdatei kann nicht gelesen werden!\
+127 %Bildschirm:\
+128 %Sprache:\
+129 %Hilfe\
+130 %Info Åber PanelWare\
+131 %Position:\         fuer Ueberschrift bei Bild-Drucken
+132 %Bitte zuerst das Projekt definieren!\
+133 %    Lîschen? (J/N) \
+134 %UngÅltige ID!\
+135 %Var.name existiert bereits mit anderem Feldparametertyp\
+136 %Variablenname enthÑlt unbekannte Verbindung\
+137 %UngÅltige SPS-Adresse oder Verbindungs-ID\
+138 %SPS-Datentyp fÅr diese Verbindung unbekannt!\
+139 %Un-Used Kennzeichen nur nach fehlerfreiem Compiler-Lauf gÅltig !\
+140 %maximale Verbindungsanzahl erreicht!\
+141 %UngÅltiges/fehlendes PPF-File!\
+142 %ID existiert bereits!\     Verbindungseditor wenn ID bereits existiert!
+143 %UngÅltige Verbindung!\     Es muss Verbindung ausgewaehlt werden !
+144 %Lîschen abgelehnt, da noch Variablenzuordnungen definiert!\
+145 %UngÅltiger/fehlender Parameter!\
+146 %Controllername fehlt!\     Maske "Neues Projekt"
+147 %UngÅltiger Projektname!\   Maske "Neues Projekt"
+148 %Projekt Åbertragen? (J/N) \
+149 %Projekt rÅckladen? (J/N) \
+150 %Projekt ist noch nicht compiliert!\
+151 %Maximale Textanzahl je Textgruppe erreicht!\
+152 %FlashProm gelîscht!\
+153 %Fehler bei FlashProm lîschen: \
+154 %FlashProm lîschen aktiv...\
+155 %Textspeicher voll! Max. 20kByte Text pro Textgruppe mîglich!\
+156 %Datei, Directory nicht vorhanden oder Zugriff verweigert!\
+157 %Fehlende Alarmdefinition!\
+158 %UngÅltige/fehlende SPS-Type!\
+159 %Verbindungsdefinition\     Maske -Verbindungsdefinition-
+160 %ID:\
+161 %Verbindung:\
+162 %SPS Type:\
+163 %Set Bit/Byte\                Selektor-Menue -Tastenaktionen-
+164 %Set Wort\
+165 %Toggle Bit/Byte\
+166 %Toggle Wort\
+167 %Tip Bit/Byte\
+168 %LED von SPS schalten\
+169 %Input weiterschalten\		Ende Selektor-Menue
+170 
+171 %SPS-Adresse:\
+172 %SPS-Abschlu·adresse:\
+173 %SPS-Abschlu·wert:\
+174 %Type:\
+175 %Tastenmodul:\
+176 %Tastenbelegung Numerische Eingabe\
+177 %Tastenbelegung String Eingabe    \
+178 %Numerisch\
+179 %String\
+180 %Tastenbelegung Laden\
+181 %Tastenbelegung Speichern\
+182 %Projekt trotzdem Åbertragen? (J/N) \
+183 %<ƒƒŸ\			Fuer Auswahl Enter DrÅcken
+184 %Variable noch keiner SPS-Adresse zugeordnet!\
+185 %Drucken...\
+186 %FÅr diese Textgruppe nicht erlaubt!\
+187 %Name der Textgruppe fehlt!\
+188 %AngewÑhltes Tableau unterstÅtzt diesen Feldtyp nicht!\
+189 %Steuertaste\
+190 %Funktionstaste\
+191 %Achtung! Steuertasten werden in beide Belegungen eingetragen!\
+192 %Es sind nur Funktionstasten von F1 bis F22 mîglich!\
+193 %Warnung: UnvollstÑndige Steuertastendefinition!\
+194 %Speichern...\
+195 %Schreibschutz\
+196 %Laufwerk nicht bereit\
+197 %Disk(etten)fehler\
+198 %Bildnamen eingeben  \198 u 199 u 206 gleich lang!
+199 %Verzweigung eingeben\
+200 %Bildname\
+201 %Verzweigung\
+202 %Projekt Def.\
+203 %Bild Einbinden\
+204 %Bildverzeichnis\
+205 %Der Name des einzubindenden Bildes kann nur mit <F1> geÑndert werden!\
+206 %F-Taste eingeben    \
+207 %F-Taste\
+208 %F-Taste bereits verwendet!\
+209 %Projektname:\
+210 %Tableautyp:\
+211 %Verwendete Tastenbelegung:\
+212 %Textgruppen Datei:\
+213 %Anzahl der Bilder:\
+214 %In einem Projekt sind max. 250 Bilder mîglich! Bild wird nicht Åbernommen.\
+215 %Diese Verzweigung kann nicht gelîscht werden!\
+216 %Verzweigungen nicht vollstÑndig definiert! Bild wird nicht Åbernommen.\
+217 %Bild Entfernen\
+218 %nicht eingebunden\
+219 %Kein Speicher verfÅgbar! Funktion kann nicht ausgefÅhrt werden!\
+220 %Kein Bild eingebunden!\
+221 %Neues Bild\
+222 %Das letzte Bild kann nicht gelîscht werden!\
+223 %Name des ersten Bildes:\
+224 %Bild bei Kommunikationsfehler:\
+225 %Bitte zuerst Bearbeitungsmodus wÑhlen (Projekt, Bild, Global Text)!\
+226 %Warnung! Nicht alle verwendeten Bilder sind eingebunden!\
+227 %Warnung! Es fehlen angesprochene Bilder aus dem Bildverzeichnis!\
+228 %Bildverzeichnis fehlt!\
+229 %Das Bild fÅr Kommunikationsfehler fehlt in der Projektdefinition!\
+230 %Fehler! UnvollstÑndige Projektdefinition!\
+231 %Kein Speicher verfÅgbar\
+232 %Tastenbelegung Bearbeiten\
+233 %Projekt Bearbeiten\
+234 %Textgruppen Bearbeiten\
+235 %Einf\
+236 %Entf\
+237 %Sonderfunktion\
+238 %öbernehmen\
+239 %Text Datei\
+240 %Kein Speicher fÅr Textgruppen!\
+241 %Import Textgruppe\
+242 %Projekt Compiler\
+243 %Fataler Fehler!\
+244 %Compiliere...\
+245 %Abbruch:\
+246 %fatale(r) Fehler gefunden!\
+247 %Kein Object Code erzeugt!\
+248 %Fehler beim Speichern der Object Datei\
+249 %Fehler beim compilieren der Textgruppen\
+250 %Fehler beim compilieren des Bildes\
+251 %Fehler beim compilieren der Tastenbelegung\
+252 %Interner Compiler Fehler!\
+253 %Projekt öbertragen\
+254 %öbertragen, Block:\
+255 %öbertragung fertig\
+256 %Verbindung mit dem Tableau kann nicht aufgebaut werden!\
+257 %Bitte Kabel und Einstellungen ÅberprÅfen!\
+258 %Compiler fertig. Fehler:\
+259 %Speicher im Tableau nicht beschreibbar!\
+260 %Tableau wird zurÅckgesetzt  -  bitte warten!\
+261 %Speicher im Tableau wird gelîscht  -  bitte warten!\
+262 %Bild-Init\
+263 %Bildwechsel\
+264 %Bild-Init: \
+265 %Ein \
+266 %Aus \
+267 %Next\              Texte fuer Bildverzeichnis
+268 %Previous\
+269 %Projektgrîsse %dk !\
+270 %maximale Textanzahl erreicht!\
+271 %RÅckÅbertragung komplett\
+272 %Rahmen? (J/N):\
+273 %Anzeige lîschen    \273 bis 277 gleich lang, und max. 25!
+274 %Init Texte\
+275 %Bildwechsel aus SPS: \
+276 %Bildwechsel Erlaubnis: \
+277 %Projekt enthÑlt zu viele Prozessvariablen!\
+278 %LED Nr.:\
+279 %ClrScr\
+280 %LED\
+281 %L.Ein\
+282 %L.Aus\
+283 %L.Blink\
+284 %L.Sblink\
+285 %Text\als Bezeichnung im GL Editor
+286 %Anzahl der Initialisierungstexte:\
+287 %Textnummer(n) und Position:\
+288 %Projektparameter Definieren\
+289 %Fehler! Fehlerbild und erstes Bild dÅrfen nicht gleich sein!\
+290 %Die ausgewÑhlte Datei hat eine falsche Versionsnummer!\
+291 %Die ausgewÑhlte Datei ist keine Projekt Datei!\
+292 %Die ausgewÑhlte Datei ist keine Global Text Datei!\
+293 %Die ausgewÑhlte Datei ist keine Tastencodetabellendatei!\
+294 %Die ausgewÑhlte Datei ist keine Bilddatei!\
+295 %Die Datei hat eine falsche Kennung!\
+296 %Projekt RÅckladen\
+297 %Funktion nur aus dem HauptmenÅ mîglich!\
+298 %Programm zu gro· !\
+299 %Aktueller Anwenderpfad\
+300 %Die Counter von 800 bis 1499 dÅrfen nicht beschrieben werden!\
+301 %Bildschirm lîschen\von 301 bis 305 max. 39 Zeichen!
+302 %Tasten-LED einschalten\
+303 %Tasten-LED ausschalten\
+304 %Tasten-LED langsam blinken\
+305 %Tasten-LED schnell blinken\
+306 %Nr:\
+307 %Bedienung der oberen MenÅzeile mit <Alt>-<Fx> Tasten\
+308 %Hilfe mit <Alt>-<F5>\
+309 %weiter mit <PgUp>/<PgDn>\ 
+310 %Protokoll:\
+311 %Kanal #2\
+312 %Kanal #1\
+313 %Adr\
+314 %Datei erfolgreich konvertiert\
+315 %Alle LEDs ausschalten\
+316 %AlleL.Aus\
+317 %Die ausgewÑhlte Datei mu· konvertiert werden\
+318 % enthÑlt unzulÑssige Befehle!\
+319 %Dieses Tableau unterstÅtzt keine Balken\
+320 %Dieses Tableau unterstÅtzt keine LONG Felder\
+321 %Warnung! Speicher zerstÅckelt - Programm erneut starten!\
+322 %Neues Slaveprojekt nur im Rahmen eines Hauptprojektes mîglich!\
+323 %Dieses Tableau unterstÅtzt keine Slaveprojekte!\
+324 %Slaveprojekt\		F-Tasten fnam_ein()
+325 %Lîschen abgelehnt, da noch Slaveprojekt(e) definiert!\
+326 %Slaveproj. laden nur im Rahmen des Haupt-Proj. mîglich!\  
+327 %Maximal 3 Slaveprojekte je Hauptprojekt mîglich!\ 
+328 %Slaveprojekt\		Textausgabe Compiler
+329 %Slave Controller Nummer bereits fÅr anderes Slaveprojekt definiert!\
+330 %Das Tableau hat keine EingÑnge!\
+331 %Das Tableau hat keine AusgÑnge!\
+332 % enthÑlt fehlerhafte Variablennamen!\
+333 %Bild-Initialisierungstexte Definieren\
+334 %Taste\
+335 %Tasten/LED Fkt.\ Modustexte, alle gleich lang (vgl. Text[73] ff. )
+336 %Keine weitere Tasten/LED Funktion in diesem Bild mîglich\
+337 %Dieses Tableau unterstÅtzt keine Tasten Funktionen\
+338 %Dieses Tableau unterstÅtzt keine LED Funktionen\
+339 %Fehlerhafte OBX-Tabelle!\
+340 %enthÑlt Tasten Funktion auf unzulÑssiger Taste\
+341 %Neuer Anwenderpfad\
+342 %LED/Tasten Funktion\
+343 %Tasten Funktion\
+344 %LED Funktion\
+345 %definieren\ Auswahltext Default-Verbindungen, derzeit nicht benutzt!
+346 %wÑhlen\
+347 %lîschen\
+348 %Wert 1:\
+349 %Wert 2:\
+350 %wechseln\
+351 %Verbindungsliste\
+352 %ID\
+353 %Verbindung\
+354 %SPS-Type\
+355 %LED-Funktion fÅr Taste ohne LED nicht mîglich!\
+356 %Verbindungsliste Laden\
+357 %Verbindungsliste Speichern\
+358 %Hauptprojekt\
+359 %Import Projekt\
+360 %Import Bild\
+361 %weiter mit <PgUp>/<PgDn>, <CursorUp>/<CursorDown>\
+362 %Stationsnummer\
+363 %Modul wird gebrannt\
+364 %Modul erfolgreich gebrannt\
+365 %Anwenderpfad eingeben:\
+366 %Schnittstelle auswÑhlen:\
+367 %Netzwerk-Modulnamen eingeben:\
+368 %COM 1\
+369 %COM 2\
+370 %Netzwerk\
+371 %NW-Modul\
+372 %wird derzeit nicht unterstÅtzt!\
+373 %Verbindung unterbrochen\
+374 %Verbindung aufgebaut\
+375 %Modul konnte nicht gebrannt werden!\
+376 %öbertragung fehlerhaft\
+377 %Adresse fÅr SPS-Datentyp nicht zugelassen!\
+378 %Displaytype fehlt!\     Maske "Neues Projekt"
+379 %Funktion fÅr diesen Tableautyp nicht mîglich!\
+380 %Projekt im Tableau gestartet !\
+381 %Start Projekt nicht mîglich\
+382 %Funktion in diesem Bearbeitungsmodus nicht mîglich!\
+383 %Spracheditor fÅr -KEINNAME- nicht mîglich!\
+384 %Textattribut\			Funktionstaste im Bildeditor
+385 %Datei(en) nicht vorhanden\
+386 %Datei(en) erfolgreich bearbeitet\
+387 %Freier Speicher\
+388 %Bilder\
+389 %Keine weitere Textebene definiert!\
+390 %vor\
+391 %zurÅck\
+392 %Programm beenden (J/N)? \
+393 %UnzulÑssige Mehrfachverwendung von Funktionstasten\
+394 %Warnung: Bild enthÑlt Åberlappende Felder\
+395 %Dieses Tableau unterstÅtzt keinen Bildwechsel aus der SPS!\
+396 %Funktion fÅr dieses Tableau nicht benîtigt!\
+397 %Meldungen\
+398 %Hintergrundbeleuchtung fÅr dieses Tableau nicht einstellbar!\
+399 %Global Text Datei FILENAME nicht vorhanden! (Fehler bei Open)!\
+400 %+N+ Next\  Tastencodetabelleneditor Steuertasten-Auswahl-Menue
+401 %+P+ Previous\
+402 %+E+ Enter\
+403 %+n+ nEXT INPUT\
+404 %+C+ Clear\
+405 %+B+ Backspace\
+406 %+S+ Sign change\
+407 %+p+ pREVIOUS INPUT\
+408 %+G+ Group Acknowledge\
+409 % \                         Reserve fuer Steuertasten
+410 %Bildname\                  Bildverzeichnis-Header beim Ausdrucken
+411 %Nachbarn\
+412 %Bild-Init\
+413 %Bildwechsel\		"Bildwechsel aus der SPS"	
+414 %aus der SPS\
+415
+416 %Seite:\
+417 %Feld\                      Ueberschrift Feldbeschreibung
+418 %Projektbeschreibung:\      Ueberschrift Projektbeschreibung
+419 %Bildverzeichnis:\          Ueberschrift Bildverzeichnis
+420 %Januar\                    Ausdrucken: Monatsnamen fuer Datumsaufbereitung
+421 %Februar\
+422 %MÑrz\
+423 %April\
+424 %Mai\
+425 %Juni\
+426 %Juli\
+427 %August\
+428 %September\
+429 %Oktober\
+430 %November\
+431 %Dezember\
+432 %300  \                     Selektormenue fuer Baud-Rate
+433 %600  \
+434 %1200 \
+435 %2400 \
+436 %4800 \
+437 %9600 \
+438 %19200\
+439 %Minuten\
+440 %Drucker - Einstellungen\      Menue fuer Druckerkonfiguration
+441 %Zeilen pro Seite:\
+442 %Linker Rand:\
+443 %Seitenvorschub (LF/FF):\
+444 %Zeichen pro Zeile:\
+445 
+446 %Programmteil zu gro·!\
+447 %FFA/FLA und FAA in einem Bild nicht zugelassen!\
+448 %Feld existiert bereits, nur 1x pro Bild erlaubt!\
+449 %Dieses Tableau unterstÅtzt kein Alarmsystem!\
+450 %Dieses Tableau unterstÅtzt keine Felder im Fehlerbild!\
+451 %UngÅltige Hardware!\
+452 %Im Fehlerbild sind nur INTERNE Variablen zulÑssig!\
+453 %Warnung! Variable nicht als INTERN bekannt!\
+454 %Referenz auf undefinierte Verbindungs-ID!\
+455 %unzulÑssige Dateinamen bzw. Wildcards!\
+456 %Bild erfordert Tableau\
+457 %Tastenbelegung erfordert Tableau\
+458 %Warnung: Textgruppen enthalten Zeichen und Esc-Sequenzen\
+459 %Versionskonflikt: Bitte Projekt laden und abspeichern!\
+460 %Versionskonflikt: Datei kann nicht bearbeitet werden!\
+461 %Anwendermodul nicht vorhanden\
+462 %Upload, Modul:\
+463 %öbertragen, Modul:\
+464 %Fehler bei startup_network\
+465 %Ist Tableau im Teach-Modus?\
+466 %Versionskonflikt: Bitte Tastenbelegung laden und abspeichern!\
+467 %Dieses Tableau unterstÅtzt keine Previous-Input Taste!\
+468 %Es sind nur Funktionstasten von F1 bis F99 mîglich!\
+469 %Compiler Fehler\
+470 %Dieses Tableau benîtigt keine Verbindungsliste!\
+471 %Tastenbelegung Numerische Eingabe\ weitere Texte fuer Druckfunktionen
+472 %Tastenbelegung String Eingabe\
+473 %Tasten/LED-Funktionen, Bild:\
+474 %enthÑlt Feld mit Verweis auf unbekannte Textgruppe:\
+475 %Dieses Tableau unterstÅtzt keine Sammelquittiertaste!\
+476 %Alarmsystem:\      Fehlermeldungsbestandteil
+477 %UngÅltiger Variablenname!\
+478 %Variable noch keinem SPS-Datentyp zugeordnet!\ 
+479 %Variable noch keinem Feld zugeordnet!\
+480 %Lîschen abgelehnt, da noch Alarme definiert!\
+481 %Maximale Alarmanzahl je Gruppe erreicht!\
+482 %Maximale Gruppenanzahl erreicht!\
+483 %FÅr diese Alarmgruppe nicht erlaubt!\
+484 %Maximale Alarmanzahl erreicht!\
+485 %Variablenname existiert bereits!\
+486 %Maximale Variablenanzahl erreicht!\
+487 %ungÅltige Adressvorwahl!\
+488 %ungÅltiger Adressbereich!\
+489 %Adresse fÅr Feldtyp nicht zugelassen!\
+490 %Textgruppenverzeichnis\    Ueberschrift fuer Text-Gruppenverzeichnis
+491 %Gr#\                       Ueberschrift Textgruppenverzeichnis
+492 %Textgruppenname\
+493
+494
+495 %Vorherige Seite\		ALT-F1...F-Taste Help
+496 %Hilfe-Seite<0000>\		F10   ...Zurueck zum Help-Main-Bildschirm
+497 %System Alarme\             Fixtext Gruppenverzeichniseintrag
+498 %Summenalarme\              Fixtext Gruppenverzeichniseintrag
+499 %Alarmgruppenverzeichnis\   Ueberschrift fuer Gruppenverzeichnis
+500 %Gr#\                       Ueberschrift Alarmgruppenverzeichnis
+501 %Anz\
+502 %Alarm-Adresse\
+503 %len\                       nicht in Verwendung     
+504 %Scan\
+505 %Prio\
+506 %Summenalarm-Adr.\
+507 % ZustandskÅrzel\
+508
+509
+510 %Edit\                      F-Tastenbelegung Alarmgruppenverzeichnis
+511 %Einf\
+512 %Entf\
+513 %Alarm\
+514 %Alarmverz.\
+515
+516
+517 %NONE\                      Selektormenue fuer Paritaet
+518 %EVEN\
+519 %ODD\
+520 %LF\                      	Selektormenue fuer Formfeed/Linefeed
+521 %FF\
+522 %kein   \                   Selektormenue fuer Handshake
+523 %XON/OFF\
+524 %RTS/CTS\
+525 %DD.MM.YY HH:MM:SS \        Selektormenue fuer Timeformat
+526 %MM.DD.YY HH:MM:SSa\
+527 %HH:MM:SS\
+528 %HH:MM:SSa\
+529 %HH:MM\
+530 %HH:MMa\
+531 %nicht darstellen\
+532 %keines     \               Selektormenue fuer Trennzeichen
+533 %Punkt      \
+534 %Leerzeichen\
+535 %Bindestrich\
+536 %. -\                       Zeichen fuer Trennzeichen
+537
+538 %nicht darstellen\          Selektormenue fuer Stellenanzahl
+539 %einstellig\
+540 %zweistellig\
+541 %dreistellig\
+542
+543 %nicht darstellen\          Selektormenue fuer Ereignisdarstellungsform
+544 %als Zeichen\
+545 %als Text\
+546
+547 %nicht darstellen\          Selektormenue fuer Alarmtextdarstellungsform
+548 %darstellen\
+549 %0 50 100 500 1000\         Multiplikatoren fuer ScanRate
+550 %minimum\                   Selektormenue fuer ScanRate
+551 %500 ms\
+552 %1 s\
+553 %5 s\
+554 %10 s\
+555
+556
+557 %maximal\                   Selektormenue fuer Laenge Hist. Alarmliste
+558 %10\
+559 %50\
+560 %100\
+561 %1000\
+562
+563
+564
+565 %Alarmsystem Grundkonfiguration \   Maske Alarmsystem Grundkonfiguration
+566 %Angezeigter Text, wenn kein Alarm:\
+567 %Ausgedruckter Text bei Sammelquit:\
+568 %LÑnge der historischen Alarmliste:\
+569 
+570
+571
+572
+573
+574 %Allgemeine Druckerparameter Alarmsystem\  Maske Alarmsystem Allg. Druckerpara.
+575 %Sequenz bei Gekommen:\
+576 %Sequenz bei Gegangen:\
+577 %Sequenz bei Quittieren:\
+578 %Sequenz bei BrÅcken:\
+579
+580 %Druckformat-Definition\            Maske Druckerzeilenparameter
+581 %Uhrzeitformat:\
+582 %Trennzeichen #1:\
+583 %Gruppennummer:\
+584 %Trennzeichen #2:\
+585 %Alarmnummer:\
+586 %Trennzeichen #3:\
+587 %Alarmtext:\
+588 %Trennzeichen #4:\
+589 %Ereignis:\
+590 %Trennzeichen #5:\
+591 %Quittierstatus:\
+592
+593
+594 %Summenalarmgruppe\                 Ueberschrift Summenalarmgruppe
+595 %Alarmgruppen-Definition\            Maske Alarmgruppenerfassung
+596 %Gruppennummer:\
+597 %max. Alarmanzahl:\
+598 %SPS-Adresse des Alarmbitfeldes:\
+599 %SPS-Adresse des Summenalarms:\
+600 %SPS-Adresse des BrÅckungsabbilds:\
+601 %SPS-Adresse des Quitt. Abbilds:\
+602 %Alarm Scan Rate:\
+603 %PrioritÑt:\
+604 %Alarmzustandstexte fÅr\
+605 %      gekommen:\
+606 %      gegangen:\
+607 %      quittiert:\
+608 %      nicht quittiert:\
+609 %      gebrÅckt:\
+610 %      nicht gebrÅckt:\
+611 %ZustandskÅrzel:\
+612
+613 %Default-Alarmkonf.\        	F-Taste Alarmgruppendefinition
+614 %Summenalarm\
+615 %Default-Alarmkonfiguration\        Maske Default-Alarmkonfiguration
+616 %Quittierung mîglich:\
+617 %Quittierung erforderlich:\
+618 %Ausdruck des Kommens unterdrÅcken:\
+619 %Ausdruck des Gehens unterdrÅcken:\
+620 %Ausdruck des quit. Gehens unterdr.:\
+621 %Ausdruck des Quittierens unterdr.:\
+622 %BrÅcken des Alarms erlaubt:\
+623 %Summenalarm bilden:\
+624 %Ausdruck des BrÅckens unterdrÅcken:\
+625 %Ausdruck des EntbrÅckens unterdr.:\
+626 %Latched Alarm:\
+627
+628
+629
+630 %Editieren\                 Funktionstasten Grundkonfiguration
+631 %Drucker\
+632 %Druckformat\
+633 %Gruppenverz.\
+634
+635 %Feldformat\                FT Felddefinition Alarmfelder und Ueberschrift Feldelemente
+636 %Filtersperre\                --"-- und Ueberschrift Filtercode
+637 %Verstellinput\             Funktionstasten Felddefinition sonstige Felder
+638 %Inputverr.\
+639 %Normierung\
+640 %Alarmtext\                 Alarmtext fuer Examples
+641 %K\                         Ereigniszeichen fuer Examples
+642 %Q\                         Qstatuszeichen fuer Examples
+643 %Gekommen\                  Ereignistext fuer Examples
+644 %Quittiert\                 Quittierstatustext fuer Examples
+645 %Kein Alarm\                Text fuer NOALARM
+646 %SammelQuit\                Text fuer Sammelquittierung
+647 %---------- Kopfzeile ----------\  Text fuer Kopfzeile
+648 %gekommen\                  Alarmzustandstexte
+649 %gegangen\
+650 %quittiert\
+651 %nicht quittiert\
+652 %gebrueckt\			Achtung: hier ue statt Å  wegen diverser Panels !
+653 %entbrueckt\		Achtung: hier ue statt Å  wegen diverser Panels !
+654
+655 %KGQ 10B BE\                Zustandsbezeichnungsstring
+656 %Used\                      F-Taste fuer VZT-Verzeichnis
+657 %SPS Knotenparameter\       F-Taste fuer Verbindungs-Liste
+658 %SPS Netzwerkparameter\	F-Taste fuer Node-Parameter-Menue
+659 %Norm./Begrenzung\		F-Taste fuer Input Long ohne VZ
+660 %Summenalarmdefinition\     Ueberschrift Summenalarmdefinition
+661 %Alarmdefinition\           Maske Alarmerfassung
+662 %Gruppennummer:\
+663 %Alarmnummer:\
+664 %Alarmtext:\
+665 %Alarmkonfiguration:\
+666 %Quittierung mîglich:\
+667 %Quittierung erforderlich:\
+668 %Ausdruck des Kommens unterdrÅcken:\
+669 %Ausdruck des Gehens unterdrÅcken:\
+670 %Ausdruck des quit. Gehens unterdr.:\
+671 %Ausdruck des Quittierens unterdr.:\
+672 %BrÅcken des Alarms erlaubt:\
+673 %Summenalarm bilden:\
+674 %Ausdruck des BrÅckens unterdrÅcken:\
+675 %Ausdruck des EntbrÅckens unterdr.:\
+676 %Latched Alarm:\
+677
+678
+679
+680 %Alarmverzeichnis\          Ueberschrift fuer Alarmverzeichnis
+681 %Al#\                       Spaltenbeschreibung Alarmverzeichnis
+682 %Alarmtext\
+683
+684
+685 %binÑr\                             Selektormenue fuer Uhrzeitformat SPS
+686 %BCD\
+687 %Invers\                            Selektormenue fuer Selector
+688 %*\
+689 %-\
+690 %>\
+691 %<\
+692 %#\
+693 %!\
+694
+695 %Feldklasse\                        Ueberschrift Selektormenue Feldauswahl
+696 %    Output Feld     \              !!! Selektormenue fuer Feldauswahl
+697 %    Input Feld      \              !!! max 20 Zeichen
+698 %    Alarm Feld      \              !!!
+699
+700 %Output Bit/Byte\               Selektormenue Output-Feldtypen, max 30 Zeichen!
+701 %Output Wort ohne Vorzeichen\
+702 %Output Wort mit Vorzeichen\
+703 %Output Text\
+704 %Output String\
+705 %Output Byte als Balken\
+706 %Output Wort als Balken\
+707 %Output Long ohne Vorzeichen\
+708 %Output Long mit Vorzeichen\
+709 %Output Text Advanced\
+710 %Output Float\
+711 %Output Datum/Zeit\
+712 
+713 %Input Bit/Byte\                Selektormenue Input-Feldtypen, max 30 Zeichen!
+714 %Input Wort ohne Vorzeichen\
+715 %Input Wort mit Vorzeichen\
+716 %Input String\
+717 %Input Long ohne Vorzeichen\
+718 %Input Long mit Vorzeichen\
+719 %Input Passwort\
+720 %Input Float\
+721 
+722
+723 %Erster (Ñltester ) anst. Alarm\  Selektormenue Alarm-Feldtypen, max 30 Zeichen!
+724 %Letzter (jÅngster) anst. Alarm\
+725 %Anstehender Alarm\
+726 %Alarm\
+727 %Hist. Alarmlisteneintrag\
+728 %Position:\                         Maske fuer FLA-Felddefinition
+729 %Feldbreite:\
+730 %F-Taste zur Quittierung:\
+731 %Uhrzeitformat:\                    FLA-Feldelemente
+732 %Trennzeichen #1:\
+733 %Gruppennummer:\
+734 %Trennzeichen #2:\
+735 %Alarmnummer:\
+736 %Trennzeichen #3:\
+737 %Alarmtext:\
+738 %Trennzeichen #4:\
+739 %Quittierstatus:\
+740 %Position:\                         Maske fuer FAA-Felddefinition
+741 %Feldbreite:\
+742 %F-Taste zur Quittierung:\
+743 %F-Taste zum BlÑttern zu jÅng. Al.:\
+744 %F-Taste zum BlÑttern zu Ñlt. Al.:\
+745 %Selektorzeichen:\                  FAA-Feldelemente
+746 %Uhrzeitformat:\
+747 %Trennzeichen #1:\
+748 %Gruppennummer:\
+749 %Trennzeichen #2:\
+750 %Alarmnummer:\
+751 %Trennzeichen #3:\
+752 %Alarmtext:\
+753 %Trennzeichen #4:\
+754 %Info:\
+755 %PrioritÑt:\
+756
+757 %Position:\                         Maske fuer FA-Felddefinition
+758 %Feldbreite:\
+759 %F-Taste zum BrÅcken:\
+760 %F-Taste zum BlÑttern zu gr. Num.:\
+761 %F-Taste zum BlÑttern zu kl. Num.:\
+762 %SPS-Adresse Gruppennummerfilter:\
+763 %SPS-Adresse Alarmnummerfilter:\
+764
+765 %Selektorzeichen:\                  FA-Feldelemente
+766 %Gruppennummer:\
+767 %Trennzeichen #1:\
+768 %Alarmnummer:\
+769 %Trennzeichen #2:\
+770 %Alarmtext:\
+771 %Trennzeichen #3:\
+772 %Alarmstatus:\
+773 %Quittierstatus:\
+774 %BrÅckungsstatus:\
+775 %Trennzeichen #4:\
+776 %PrioritÑt:\
+777
+778
+779
+780 %Position:\                         Maske fuer FHA-Felddefinition
+781 %Feldbreite:\
+782 %F-Taste zum BlÑttern zu jÅng. Al.:\
+783 %F-Taste zum BlÑttern zu Ñlt. Al.:\
+784 %SPS-Adresse Filtersteuerbyte:\
+785 %SPS-Adresse Gruppennummerfilter:\
+786 %SPS-Adresse Alarmnummerfilter:\
+787 %SPS-Adresse PrioritÑtsfilter:\
+788 %SPS-Adresse Zeitfilter:\
+789
+790 %Selektorzeichen:\          FHA-Formatdefinition
+791 %Uhrzeitformat:\
+792 %Trennzeichen #1:\
+793 %Gruppennummer:\
+794 %Trennzeichen #2:\
+795 %Alarmnummer:\
+796 %Trennzeichen #3:\
+797 %Alarmtext:\
+798 %Trennzeichen #4:\
+799 %Ereignis:\
+800 %Trennzeichen #5:\
+801 %Quittierstatus:\
+802
+803 %Filterfunktion freigegeben:\       FHA-Filtercode
+804 %Uhrzeitformat SPS:\
+805 %Zeitfilter auswerten:\
+806 %Gruppenfilter auswerten:\
+807 %PrioritÑtsfilter auswerten:\
+808
+809
+810
+811
+812
+813
+814
+815
+816 %Verstellinput\             Ueberschrift Sub-Menue -Verstellinput-
+817 %F-Taste "+" :\               Sub-Menue -Verstellinput-
+818 %F-Taste "-" :\
+819
+820 %Position:\                 Felderfassungsmenue: Input-Felder Typ: A
+821 %Anzahl der Stellen:\
+822 %Anzahl der Nachkommastellen:\
+823 %Zeichengrî·e:\
+824 %Feldbreite:\
+825 %SPS-Zieladresse:\
+826 %SPS-Abschlu·adresse:\
+827 %SPS-Abschlu·wert:\
+828 %Verstellinput? (J/N):\
+829 %Inputverriegelung? (J/N):\
+830 %Vornullen darstellen? (J/N):\
+831 %Normierung? (J/N):\
+832
+833 %Normierung\        Ueberschrift Sub-Menue -Normierung- fuer Inputfelder
+834 %0% Wert in der SPS:\       Sub-Menue -Normierung- Input-Felder Typ: A
+835 %100% Wert in der SPS:\
+836 %Minimalwert am Tableau:\
+837 %Maximalwert am Tableau:\
+838 %Normierung\        Ueberschrift Sub-Menue -Normierung- fuer Outputfelder
+839 %0% Wert in der SPS:\       Sub-Menue -Normierung- Input-Felder Typ: A
+840 %100% Wert in der SPS:\
+841 %0% Wert am Tableau:\
+842 %100% Wert am Tableau:\
+843 %Inputverriegelung-Konfiguration\    Ueberschrift Sub-Menue -Sperrbit-Konfiguration-
+844 %SPS-Adresse fÅr Verriegelungswert:\     Sub-Menue -Sperrbit-Konfiguration-
+845 %Verriegelung ist aktiv, wenn:\
+846 %Verriegelungskonstante:\
+847 %SPS-Wert = 0                     \    Selektormenue Sperrarten
+848 %SPS-Wert < Konstante \
+849 %SPS-Wert >= Konstante\
+850 %Position:\                 Felderfassungsmenue: Output-Felder Typ: B
+851 %Anzahl der Stellen:\
+852 %Anzahl der Nachkommastellen:\
+853 %Zeichengrî·e:\
+854 %Feldbreite:\
+855 %SPS-Adresse:\
+856 %Vornullen darstellen? (J/N):\
+857 %Normierung? (J/N):\
+858
+859 %Normierung\                Ueberschrift Sub-Menue -Normierung-
+860 %0% Wert in der SPS:\       Sub-Menue: Normierung Output-Felder Typ: B
+861 %100% Wert in der SPS:\
+862 %0% Wert am Tableau:\
+863 %100% Wert am Tableau:\
+864
+865 %Position:\                 Felderfassungsmenue: Output-Balken Typ: C
+866 %Pixelkoordinate X:\
+867 %Pixelkoordinate Y:\
+868 %Richtung des Balken:\
+869 %Balkenbreite:\
+870 %BalkenlÑnge:\
+871 %SPS-Adresse:\
+872 %Normierung? (J/N):\
+873
+874
+875 %Position:\                 Felderfassungsmenue: Input-Long ohne VZ
+876 %Anzahl der Stellen:\
+877 %Anzahl der Nachkommastellen:\
+878 %Zeichengrî·e:\
+879 %Feldbreite:\
+880 %SPS-Zieladresse:\
+881 %SPS-Abschlu·adresse:\
+882 %SPS-Abschlu·wert:\
+883 %Inputverriegelung? (J/N):\
+884 %Vornullen darstellen? (J/N):\
+885 %Normierung? (J/N):\
+886 %Textattribut\		Ueberschrift Maske Textattribut	
+887 %Zeichengrî·e:\		Textattribut Textzeichengroesse
+888 %Position:\                 Felderfassungsmenue: Input-String
+889 %StringlÑnge:\
+890 %Zeichengrî·e:\
+891 %SPS-Zieladresse:\
+892 %SPS-Abschlu·adresse:\
+893 %SPS-Abschlu·wert:\
+894 %Taste Cursor rechts:\
+895 %Taste Cursor links:\
+896 %Taste Del:\
+897 %Taste Backspace:\
+898 %Taste Tabulator:\
+899 %Tabulator Abstand:\
+900 %Lîschmodus:\
+901 %Inputverriegelung? (J/N):\ 
+902 %Position:\                 Felderfassungsmenue: Output-String
+903 %StringlÑnge:\
+904 %Zeichengrî·e:\
+905 %SPS-Adresse:\
+906 
+907 %Position:\                 Felderfassungsmenue: Output-Time/Date
+908 %Uhrzeitformat:\
+909
+910 %Position:\                 Felderfassungsmenue: Output-Text & Advanced
+911 %Anzahl der Stellen:\
+912 %Zeichengrî·e:\
+913 %SPS-Adresse fÅr Textnummer:\
+914 %SPS-Adresse fÅr Attribut:\
+915 %Textgruppe:\
+916 %Position:\                 Felderfassungsmenue: Input Float
+917 %Anzahl der Stellen:\
+918 %Anzahl der Nachkommastellen:\
+919 %Zeichengrî·e:\
+920 %Feldbreite:\
+921 %SPS-Zieladresse:\
+922 %SPS-Abschlu·adresse:\
+923 %SPS-Abschlu·wert:\
+924 %Inputverriegelung? (J/N):\
+925 %Vornullen darstellen? (J/N):\
+926 %Normierung? (J/N):\
+927
+928 %Position:\                 Felderfassungsmenue: Input-Passwort
+929 %Zeichengrî·e:\
+930 %Anzahl der Stellen:\
+931 %SPS-Zieladresse:\
+932 %SPS-Abschlu·adresse:\              ???
+933 %SPS-Abschlu·wert:\                 ???
+934 %Echozeichen:\
+935 %Anzahl Pa·wortebenen:\
+936 %Pa·wort fÅr Ebene #1:\
+937 %Pa·wort fÅr Ebene #2:\
+938 %Pa·wort fÅr Ebene #3:\
+939
+940 
+941 
+942 %editieren      \			SelektormenÅ Lîschmodus in Maske String Input
+943 %lîschen        \
+944	%zeichenabhÑngig\
+945 %Input Begrenzung\			Ueberschrift Maske: Grenzwert Input Long
+946 %Unterer Grenzwert:\		Maske: Grenzwert Input Long
+947 %Oberer Grenzwert:\
+948 %VZT\                               Funktionstaste in Verbindungseditor
+949
+950 %Variablenzuordnungstabelle\        Ueberschrift VZT-Verzeichnis
+951 %Name\                              Spaltenbezeichner VZT-VZ
+952 %BTI-Datentyp\
+953 %SPS-Adresse\
+954 %SPS-Variablentyp\
+955 %VZT-Definition\                    Ueberschrift VZT-Definition
+956 %Name:\                             VZT-Definitionsmaske
+957 %SPS-Adresse:\
+958 %SPS-Variablentyp:\
+959
+960 %             \             BTI-Datentypen fuer VZT-Editor
+961 %Bit\
+962 %Byte\ 
+963 %Word signed\
+964 %Long signed\
+965 %Byte unsigned\
+966 %Word unsigned\
+967 %Long unsigned\
+968 %Float\
+969 %String\
+970
+971 
+972 
+973 %Textgruppe wird gelîscht, sind Sie sicher? (J/N)\
+974 %Verb\			Kurzform Ftaste F5 im Bildeditor (Felddefinition)
+975 %Verbindungen\	Ftaste F5 im Bildeditor (Felddefinition)
+976 %Textgruppen\	Ftaste F5 im Bildeditor (Felddefinition)
+977 %Protokolle\	Ftaste F5 im Protokolleditor (Protokolldefinition)
+978 %Rezepte\		Ftaste F6 im Bildeditor (Felddefinition)
+979 %Norm\			Kurzform Ftaste F3 Normierung im Bildeditor (Felddefinition)
+980 %Allgemeine Druckerparameter Tableau\	Maske Allgemeine Druckerparameter
+981 %Drucker vorhanden ?:\
+982 %Zeilen pro Seite:\
+983 %Zeichen pro Zeile:\
+984 %Seitenvorschub:\
+985 %Drucker - Schnittstelle:\
+986 %Baud-Rate:\
+987 %ParitÑt:\
+988 %Anzahl Datenbits:\
+989 %Anzahl Stopbits:\
+990 %Kopfzeilentext:\
+991 %HandShakemodus:\
+992 %Init-Sequenz fÅr Drucker:\
+993 %Init-Sequenz fÅr Seitenwechsel:\
+994 
+995 %WÑhrend FlashProm lîschen ist kein Verbindungsaufbau mîglich!\
+996 %Bitte warten!                               Abbruch mit <ESC>\
+997
+998
+999 %SPS Netzwerk Parameter Definition\   Ueberschrift PPF-Maske
+1000 %SPS Knoten Parameter Definition \    Ueberschrift PPF-Maske
+1001 %                                           \  reserviert fuer PPF-Maske
+1002 %                                           \  reserviert fuer PPF-Maske
+1003 %                                           \  reserviert fuer PPF-Maske
+1004 %                                           \  reserviert fuer PPF-Maske
+1005 %                                           \  reserviert fuer PPF-Maske
+1006 %                                           \  reserviert fuer PPF-Maske
+1007 %                                           \  reserviert fuer PPF-Maske
+1008 %                                           \  reserviert fuer PPF-Maske
+1009 %                                           \  reserviert fuer PPF-Maske
+1010 %                                           \  reserviert fuer PPF-Maske
+1011 %                                           \  reserviert fuer PPF-Maske
+1012 %                                           \  reserviert fuer PPF-Maske
+1013 %                                           \  reserviert fuer PPF-Maske
+1014 %                                           \  reserviert fuer PPF-Maske
+1015 %                                           \  reserviert fuer PPF-Maske
+1016 %                                           \  reserviert fuer PPF-Maske
+1017 %                                           \  reserviert fuer PPF-Maske
+1018 %                                           \  reserviert fuer PPF-Maske
+1019 %                                           \  reserviert fuer PPF-Maske
+1020 %                                           \  reserviert fuer PPF-Maske
+1021 %SPS Knoten ID:\		Fixtext Node-Maske
+1022 %Verbindung:\		Fixtexte Netzwerk-Maske
+1023 %SPS Type:\
+1024 %UngÅltiger/fehlender Netzwerkparameter!\
+1025 %Neues Slaveprojekt\      Ueberschrift Maske Neues Slave Projekt
+1026 % \                        Maske Neues Projekt
+1027 %Slaveprojektname:\             
+1028 %Controller:\ 
+1029 %Slave Controller Nummer:\         inklusive       
+1030 % \
+1031 %Display-Type:\            	Maske Hardwaredefinition
+1032 %Anzahl der Tastenmodule:\
+1033 %Type Tastenmodul 1 :\
+1034 %Type Tastenmodul 2 :\
+1035 %Type Tastenmodul 3 :\
+1036 %Type Tastenmodul 4 :\
+1037 %Type Tastenmodul 5 :\
+1038 %Type Tastenmodul 6 :\
+1039 %Type Tastenmodul 7 :\
+1040 
+1041 %Hardwaredefinition\       Ueberschrift Maske Hardwaredefinition
+1042 %Neues Projekt\            Ueberschrift Maske Neues Projekt
+1043 % \                        Maske Neues Projekt
+1044 %Projektname:\             
+1045 %Controller:\              inklusive       
+1046 % \
+1047 %Display-Type:\            Maske Hardwaredefinition
+1048 %Anzahl der Tastenmodule:\
+1049 %Type Tastenmodul 1 :\
+1050 %Type Tastenmodul 2 :\
+1051 %Type Tastenmodul 3 :\
+1052 %Type Tastenmodul 4 :\
+1053 %Type Tastenmodul 5 :\
+1054 %Type Tastenmodul 6 :\
+1055 %Type Tastenmodul 7 :\
+1056 
+1057 
+1058 %LCD 2x20\                 Select-Menue Display-Type
+1059 %LCD 4x20\
+1060 %LCD 4x40\
+1061 %LCD 8x40\
+1062 %LCD16x40\
+1063 %VFD 2x20\
+1064 %VFD 2x40\
+1065 %16  \                     Select-Menue Tastenmodul-Type
+1066 %12+4\
+1067 %8   \
+1068 %4   \
+1069 %6   \
+1070 %Hardware\     F-Taste Hardwaredefinition
+1071 %I/O\		 	F-Taste Input/Output FunktionalitÑt
+1072 %Richtung:\				Texte fuer Input weiterschalten
+1073 %rechts\
+1074 %links\
+1075 %aufwÑrts\
+1076 %abwÑrts\
+1077
+1078
+1079
+1080 %UngÅltiger Tableautyp!\
+1081
+1082 %Projekt importieren? (J/N)\
+1083 %Achtung: Komponenten des aktuellen Projektes werden vollstÑndig \
+1084 %durch das Import-Projekt ersetzt (Tastencodetabelle, Alarmdef., \
+1085 %Verbindungsliste...)! Genauere Information siehe Help-Funktion! \
+1086 %DrÅcken Sie 'J' um Import zu starten \
+1087 %oder ESC um abzubrechen! \
+1088 %                                  \ reserviert fuer Warnung 1083
+1089 %                                  \ reserviert fuer Warnung 1083
+1090 %Um eine RÅckÅbertragung zu ermîglichen mu· ein Dummyprojekt\ Warntext fuer Upload !
+1091 %mit den Hardwareparametern ihres Tableaus erstellt und \
+1092 %ausgewÑhlt werden!\
+1093 %Benutzen Sie die RÅckÅbertragungsfunktion nicht wenn ein anderes\
+1094 %Projekt als das Dummyprojekt ausgewÑhlt ist!\
+1095 %DrÅcken Sie 'J' um die RÅckÅbertragung zu starten \
+1096 %oder ESC um abzubrechen! \
+1097
+1098 
+1099 
+1100 %Projektdefinition\	GE-VERSION: Ueberschrift Maske Projektdefinition
+1101 % \                        Maske Projektdefinition
+1102 %Hardware:\
+1103 % \
+1104 %Bild bei Kommunikationsfehler:\
+1105 %F-Taste fÅr Fehlerquittierung:\
+1106 %Tastenpufferung:\
+1107 %Hintergrundbeleuchtung dauernd ein:\
+1108 %Minuten:\
+1109 %Alarmsystem verwenden:\
+1110 %Tastenmatrix Åbertragen:\
+1111 %Adresse:\
+1112 %Aktuelle Bildnummer Åbertragen:\
+1113 %Adresse:\
+1114 %LED Matrix Åbertragen:\
+1115 %Adresse:\
+1116 %Bildwechsel aus der SPS erlaubt:\
+1117 %Adresse:\
+1118 %Mehrsprachensystem verwenden:\
+1119 %Sprachumschaltung aktiv:\
+1120 %Adresse:\
+1121 %Uhrzeit aus der SPS Åbernehmen:\
+1122 %Uhrzeit Triggeradresse:\
+1123 %Uhrzeitadresse:\
+1124 
+1125 
+1126 
+1127 
+1128 
+1129 
+1130 
+1131 
+1132 
+1133 
+1134 
+1135 %Projektdefinition\	BR-VERSION: Ueberschrift Maske Projektdefinition
+1136 % \                        Maske Projektdefinition
+1137 %Hardware:\
+1138 % \
+1139 %Bild bei Kommunikationsfehler:\
+1140 %F-Taste fÅr Fehlerquittierung:\
+1141 %Tastenpufferung:\
+1142 %Hintergrundbeleuchtung dauernd ein:\
+1143 %Minuten:\
+1144 %Alarmsystem verwenden:\
+1145 %Tastenmatrix Åbertragen:\
+1146 %Adresse:\
+1147 %Aktuelle Bildnummer Åbertragen:\
+1148 %Adresse:\
+1149 %LED Matrix Åbertragen:\
+1150 %Adresse:\
+1151 %Bildwechsel aus der SPS erlaubt:\
+1152 %Adresse:\
+1153 %Mehrsprachensystem verwenden:\
+1154 %Sprachumschaltung aktiv:\
+1155 %Adresse:\
+1156 %Uhrzeit aus der SPS Åbernehmen:\
+1157 %Uhrzeit Triggeradresse:\
+1158 %Uhrzeitadresse:\
+1159 
+1160 
+1161 
+1162 
+1163 
+1164 
+1165 
+1166 
+1167 
+1168
+1169
+1170 %Slave Projektdefinition\	Ueberschrift Maske Slave-Projekt bearbeiten
+1171 % \                        Maske Slave-Projektdefinition
+1172 %Hardware:\             
+1173 %Slave Controller Nummer:\
+1174 % \
+1175 %Bild bei Kommunikationsfehler:\
+1176 %F-Taste fÅr Fehlerquittierung:\
+1177 %Tastenpufferung:\
+1178 %Hintergrundbeleuchtung dauernd ein:\
+1179 %Minuten:\
+1180 %Tastenmatrix Åbertragen:\
+1181 %Adresse:\
+1182 %Aktuelle Bildnummer Åbertragen:\
+1183 %Adresse:\
+1184 %LED Matrix Åbertragen:\
+1185 %Adresse:\
+1186 %Bildwechsel aus der SPS erlaubt:\
+1187 %Adresse:\
+1188 %Mehrsprachensystem verwenden:\
+1189 %Sprachumschaltung aktiv:\
+1190 %Adresse:\
+1191 
+1192 
+1193 
+1194 
+1195 
+1196 
+1197 
+1198
+1199
+1200 %7\                                  Anzahl folgender interner Alarmtexte
+1201 %Power ON\                           PowerOn Alarm
+1202 %Erneuter Ausdruck manuell gestartet\Druckzeiger zurueckgestellt Alarm
+1203 %Drucker nicht bereit\               Drucker nicht bereit Alarm
+1204 %Alarmsystem kann keine Daten lesen\
+1205 %Interner Fehler\
+1206 %Druckerpuffer öberlauf\
+1207 %Batterie leer\
+1208 
+1209
+1210 %Betriebssystem Åbertragen\		Fenstertitel
+1211 %Betriebssystem Åbertragen ? (J/N)\
+1212 %öbertragung aktiv...\
+1213 %FlashProm brennen aktiv...\
+1214
+1215 %Import Textebene\
+1216 %Export Textebene\
+1217
+1218
+1219
+1220 %Bildschirmtyp  \
+1221 %Sprache        \
+1222 %Anwenderpfad   \
+1223 %Kanal #1       \
+1224 %Kanal #2       \
+1225
+1226
+1227
+1228 %Rezeptsystem nicht importiert\
+1229 %Rezeptsystem importiert\
+1230 %Fehler bei Import Projekt oder Import Bildverzeichnis\
+1231 %Bild vollstÑndig importiert\
+1232 %Bild teilweise importiert\
+1233 %Bild nicht importiert\
+1234 %Tastencodetabelle importiert\
+1235 %Tastencodetabelle nicht importiert da Tableautypen ungleich\
+1236 %Alarmsystem importiert\
+1237 %Alarmsystem nicht importiert\
+1238 %Textgruppenverzeichnis initialisiert\
+1239 %Textgruppenverzeichnis importiert\
+1240 %Textgruppe importiert\
+1241 %enthÑlt unbekannte Verbindung\
+1242 %Ersatzverbindung\
+1243 %Verbindung importiert\
+1244 %Variablenzuordnungstabelle importiert\
+1245 %VZT enthielt ungÅltige SPS-Adressen oder Datentypen\
+1246 %VZT Import\
+1247 %VZT Export\
+1248 %SPS-Variablentyp ungÅltig\
+1249 %ungÅltige SPS-Adresse\
+1250 %Variable existiert bereits!\
+1251 %Variablenzuordnung(en) importiert!\
+1252 %Variablenzuordnung(en) unvollstÑndig importiert!\
+1253 %Variablenzuordnung(en) exportiert!\
+1254 %UngÅltiges Format in Zeile\
+1255 %Variablenname zu lang!\
+1256 %BTI-Datentyp zu lang!\
+1257 %SPS-Adresse zu lang!\
+1258 %SPS-Variablentyp zu lang!\
+1259 %Import Protokoll\
+1260 %öberschreiben ? (J/N)\		Maske Import-VZT: Ueberschreiben-Dialog 
+1261 %Alle öberschreiben ? (J/N)\
+1262 %Alarmsystem: Grundkonfiguration\	Infotexte fuer Sprachcompiler
+1263 %Alarmsystem: Druckerparameter\
+1264 %Alarmsystem: Alarmgruppe \
+1265 %Projekt enthÑlt zu viele verschiedene Treiber !\ 	Compiler-Meldung (check_drivers)
+1266 %Internal\	Text fuer Vergleich auf Interne Verbindung (check_drivers)
+1267 %Protokoll vollstÑndig importiert\
+1268 %Protokoll teilweise importiert\
+1269 %Protokoll nicht importiert\
+1270 %Sprachbeschreibung importiert\
+1271 %Sprachfile importiert\
+1272 %Sprachfile nicht/teilweise importiert\
+1273 %Allgemeine Druckerparameter importiert\
+1274 %Allgemeine Druckerparameter nicht importiert\
+1275 %Fehler! Das Projekt kann nicht ins Tableau geladen werden.\	DL Versionskontrolle
+1276 %Das Betriebssystem des Kontrollers hat Version TABVV, Ihr Projekt\
+1277 %lÑuft erst ab Version PRJVV. Sie mÅssen ein "Betriebssystem Update"\
+1278 %in Ihrem Kontroller durchfÅhren, um das Projekt laden zu kînnen.\
+1279 
+1280 %Warnung! Das Projekt wurde fÅr ein Tableau Ñlterer Version, PRJVV\ DL Versionskontrolle
+1281 %erstellt. Das Betriebsystem des Kontrollers hat die Version TABVV.\
+1282 %Sie kînnen das Projekt durch Laden und anschliessendes compilieren\
+1283 %fÅr das neue Tableaubetriebssystem aktualisieren.\
+1284 
+1285 %Dieses Projekt wurde mit einer neueren PKS Version erstellt.\
+1286 %Das Projekt hat die Versionskennung CNAME, OLDVV!\
+1287 %  \ reserviert fuer 1285
+1288 %  \ reserviert fuer 1285
+1289 %Abbruch mit <ESC>\
+1290 %Dieses Projekt wurde fÅr einen Kontroller CNAME mit Betriebssystem-\
+1291 %version OLDVV erstellt! Ihr PKS kann dieses Projekt nur bearbeiten,\  OLDVV=Key !!!
+1292 %wenn es fÅr die Betriebssystemversion NEWVV aktualisiert wird.\	NEWVV=Key !!!!
+1293 %Das aktualisierte Projekt kann nur in Kontroller mit Betriebssystem-\
+1294 %version NEWVV Åbertragen werden.\
+1295 %DrÅcken Sie ALT-F5 fÅr weitere Informationen!\ 
+1296 %  \ reserviert fuer 1290
+1297 %  \ reserviert fuer 1290
+1298 %Projekt fÅr Betriebssystem NEWVV einrichten? (J/N) \ NEWVV=Key !!!
+1299
+1300 %F1 Datei\
+1301 %F2 Bearbeiten\
+1302 %F3 Funktionen\
+1303 %F4 Einstellungen\
+1304 %F5 Hilfe\
+1305
+1306
+1307 %Neu           ^N \
+1308 %Neues Projekt    \
+1309 %Neues Slaveproj. \
+1310 %Projekt laden    \
+1311 %Projekt lîschen  \
+1312 %Laden         ^L \    Pulluptexte alle EintrÑge gleich lang!!!
+1313 %Speichern     ^S \    und max. 17 Zeichen!
+1314 %Speichern als    \
+1315 %Import        ^I \
+1316 %Export        ^E \
+1317 %Beenden      F10 \
+1318 
+1319 
+1320 %Projekt     ^P \
+1321 %Bild        ^B \
+1322 %Tastatur    ^K \
+1323 %Textgruppe  ^T \
+1324 %Verbindung  ^C \
+1325 %Alarmsystem ^A \
+1326 %Protokolle  ^O \
+1327 %Rezepte     ^R \
+1328 %Tableau-Drucker\
+1329 
+1330 
+1331 
+1332 
+1333 %Compilieren    ^Q \
+1334 %öbertragen     ^X \
+1335 %RÅckladen         \
+1336 %System Åbertragen \
+1337 %Projekt starten   \
+1338 %Projekt anhalten  \
+1339 %Tableau resetieren\
+1340 %Rezept rÅckladen  \
+1341 %Rezept Backup     \
+1342 %Rezept Restore    \
+1343 
+1344 
+1345 
+1346 %Einst. Anzeigen\
+1347 %Bildschirmtyp  \
+1348 %Sprache        \
+1349 %Anwenderpfad   \
+1350 %Kanal #1       \
+1351 %Kanal #2       \
+1352 %Drucker        \
+1353 %Compiler Option\
+1354
+1355 
+1356 
+1357 
+1358 
+1359 %Hilfe          \
+1360 %Info           \
+1361 %Freier Speicher\
+1362 %DOS-Shell      \
+1363 %Meldungen      \
+1364
+1365
+1366
+1367
+1368
+1369
+1370
+1371
+1372
+1373
+1374
+1375
+1376
+1377
+1378
+1379
+1380
+1381
+1382
+1383
+1384
+1385
+1386
+1387
+1388
+1389
+1390
+1391
+1392
+1393
+1394
+1395
+1396
+1397
+1398
+1399
+1400 %Protokollverzeichnis\			 	Protokollverzeichnis
+1401 %Protokollsystem Steueradresse:\
+1402 %Pr#\
+1403 %Protokollname\
+1404 %Abschlu·adr.\
+1405 %Abschlu·wert\
+1406 %Folgeprotokoll\
+1407 %Format\
+1408
+1409
+1410 %Protokollparameter-Definition\	Maske Protokollparameter
+1411 %Protokollname:\
+1412 %Anzahl der Zeilen:\
+1413 %Anzahl der Spalten:\
+1414 %Seitenvorschub vorher:\
+1415 %Seitenvorschub nachher:\
+1416 %Abschlu·adresse:\
+1417 %Abschlu·wert:\
+1418 %Folgeprotokoll:\
+1419 %Init Sequenz:\
+1420 
+1421 %Protokollsystem Steueradresse\	Maske Steueradresse
+1422 %Protokollsystem Steueradresse:\
+1423 %Protokoll Bearbeiten\				Rahmen Protokolleditor
+1424 %Protokoll\						F-Taste
+1425 %St.adr\							F-Taste
+1426
+1427 %nicht aktiviert\	   		Auswahlmenue Seitenvorschub
+1428 %aktiviert      \			"
+1429 %bedingt        \			"
+1430 %max. Protokollanzahl erreicht\		Fehlermeldungen Protokollsystem
+1431 %Dieses Tableau unterstÅtzt kein Protokollsystem!\
+1432 %Fehler! SPS-Abschlu·adresse und Folgeprotokoll schlie·en einander aus!\
+1433 %Protokollname fehlt!\
+1434 %Protokoll existiert bereits!\
+1435 %Protokoll PROTNAME entfernen ? (J/N) \ PROTNAME=Key !!!
+1436 %Protokoll PROTNAME enthÑlt Verweis auf unbekanntes Folgeprotokoll FOLGPROT!\ PROTNAME/FOLGPROT sind keys
+1437 %Versionskonflikt Protokoll PROTNAME! \ PROTNAME=Key !!!
+1438 %Protokoll\				Text fuer Sprachcompilerliste und Fehlermeldungen
+1439 %Protokollsystem:\			Fehlermeldungsbestandteil
+1440 %Protokoll Datei PROTNAME nicht vorhanden! (Fehler bei Open)!\
+1441 %Protokollverzeichnis initialisiert\
+1442 %Protokollverzeichnis importiert\
+1443 %Protokoll importiert\
+1444 %Zu lîschende Zeilen/Spalten mÅssen leer sein! Anzahl wird nicht akzeptiert!\
+1445 %Allgemeine Druckerparameter\	Infotext fuer Sprachcompiler
+1446 %Protokoll PROTNAME verweist auf unerlaubtes Folgeprotokoll! (Rekursion)\
+1447 %Protokollsystem: Steueradresse\ Fehlermeldung fÅr fehlerhafte...
+1448 %Restore nicht durchgefÅhrt!\			Erfolgsmeldung
+1449 %Restore erfolgreich durchgefÅhrt!\	Erfolgsmeldung
+1450 %Rezept trotzdem Åbertragen? (J/N) \
+1451 %Rezept Restore\				Ueberschrift
+1452 %Backup nicht durchgefÅhrt! (Datei konnte nicht geîffnet werden)\
+1453 %Backup erfolgreich durchgefÅhrt!\		Erfolgsmeldung
+1454 %Rezept Backup\				Ueberschrift
+1455 %Aktueller Pfad:\				Rezept Backup - Fenster
+1456 %Rezepte im Tableau:\
+1457 %Backup\						Funktionstasten
+1458 %Pfad\
+1459 %/dev//DSrezept/RECIPE\		Verbindungsname Rezeptsystem
+1460 %Dieses Tableau unterstÅtzt kein Rezeptsystem!\
+1461 %Rezeptliste\
+1462 %ID\
+1463 %Rezept\
+1464 %Anz.DsÑtze\
+1465 %SPS-Steueradresse\
+1466 %Grî·e/Dsatz\
+1467 %Gesamtgrî·e\
+1468 %Edit\
+1469 %Einf\
+1470 %Entf\
+1471 %Elemente\
+1472 %Ende\
+1473 %öbernehmen\
+1474 %Initialisierung\
+1475 %Rezept-Definition\
+1476 %ID:\
+1477 %Rezeptname:\
+1478 %Anzahl DatensÑtze:\
+1479 %SPS-Steueradresse:\
+1480 %Rezeptname bereits fÅr ein anderes Rezept verwendet!\
+1481 %Fataler Fehler bei Rezeptaktualisierung !\  wenn Fehler in REZmerge()
+1482 %Rezeptdefinition unvollstÑndig!\
+1483 %Maximale Anzahl der Rezepte erreicht!\
+1484 %Rezeptelementliste\
+1485 %Lîschen abgelehnt, da Rezept noch Rezeptelemente enthÑlt!\
+1486 %ID bereits fÅr ein Rezept verwendet!\
+1487 %Rezeptverbindung an dieser Stelle nicht erlaubt!\
+1488 %ID bereits fÅr eine Verbindung verwendet!\
+1489 %Name\  					Rezeptelementlistenheader
+1490 %Datentyp\
+1491 %Grî·e\
+1492 %SPS-Adresse\
+1493 %Rezeptelement-Definition\
+1494 %Name:\
+1495 %Datentyp:\
+1496 %Grî·e:\
+1497 %SPS-Adresse:\
+1498 %Rezept %s hat im Tableau und in der Backup-Datei den gleichen Aufbau.\
+1499 %Maximale Anzahl Rezeptelemente erreicht!\
+1500 %Rezeptelement-Name bereits verwendet!\
+1501 %Rezeptelement-Definition unvollstÑndig!\
+1502 %Rezeptinitialisierung\
+1503 %Datensatz\
+1504 %Element\
+1505 %SPS-Initialwert\
+1506 %Vorh. Dsatz\
+1507 %NÑchster Dsatz\
+1508 %Datensatz:\
+1509 %\reserved - see code
+1510 %Elementname 'INDEX' ist reserviert!\
+1511 %Datensatz %d lîschen (J/N) ?\
+1512 %Rezept\
+1513 %Variablenname enthÑlt unbekanntes Rezeptelement!\
+1514 %Rezeptcompiler:\
+1515 %Rezepte benîtigen mehr Speicher als verfÅgbar (20480 Bytes)!\
+1516 %Rezeptelement fÅr Feld nicht zugelassen! Datentypkonflikt!\
+1517 %Rezept RÅckladen\
+1518 %Anzahl der DatensÑtze ist ungleich! Projekt: %d   Tableau: %d\
+1519 %Rezept %s hat im Tableau einen anderen Aufbau als im Projekt!\
+1520 %Rezept %s hat im Tableau und im Projekt den gleichen Aufbau.\
+1521 %Rezept %s rÅckladen? (J/N)\
+1522 %Durch das RÅckladen des Rezeptes Åberschreiben Sie die\
+1523 %Rezeptinitialisierung in Ihrem Projekt mit den aktuellen\
+1524 %Werten aus dem angeschlossenen Tableau.\
+1525 %DrÅcken Sie 'J' um das RÅckladen zu starten\
+1526 %oder ESC um abzubrechen!\
+1527 %Tableau enthÑlt keine gleichnamigen Rezepte!\
+1528 %Tableau enthÑlt keine Rezepte!\
+1529 %Projekt enthÑlt keine Rezepte!\
+1530 %Rezept %s: Ungleiche Datensatzanzahl! Projekt: %s  Tableau: %s\
+1531 %Rezept %s wiederherstellen? (J/N)\
+1532 %Rezept %s aus %s erfolgreich wiederhergestellt.\
+1533 %Rezept %s hat im Tableau einen anderen Aufbau als im Backup-File!\
+1534 %Rezept %s: Ungleiche Datensatzanzahl! Tableau: %s  Backup: %s\
+1535 %Rezept im Tableau nicht vorhanden!\
+1536 %Projekt im Tableau ist eventuell zerstîrt!\
+1537 %Projekt im Panel ist gelîscht !\
+1538 %Rezept-Restore kann nicht durchgefÅhrt werden !\
+1539 %Projekt im Panel noch OK !\
+1540 %Fataler Fehler bei FlashProm lîschen oder bei nachfolgendem Restore \
+1541 %des Projektes aufgetreten! \
+1542 %Das Projekt im Tableau ist vermutlich defekt!\
+1543 %Bitte Kabelverbindung prÅfen, Tableau resetieren und noch einmal versuchen!\
+1544 %\ 					reserviert fuer Meldung ab 1540
+1545 %Wenn Sie hier mit 'N' oder ESC antworten, wird das Projekt im Tableau\
+1546 %zerstîrt!\
+1547 %\ 					reserviert fuer Meldung ab 1540
+1548 %Noch einmal versuchen? (J/N)\
+1549 %UngÅltige ID!\
+1550 %Compiler-Optionen\	Ueberschrift Maske "Compiler Optionen"
+1551 %Dokumentation erzeugen:\
+1552 %Slaveprojekte compilieren:\
+1553
+1554
+1555 %Kanal #2 - Konfiguration\	Ueberschrift Maske Kanal#2-Konfiguration
+1556 %Schnittstelle:\ 			Maske Kanal#2-Konfiguration
+1557 %Uhrzeit setzen:\
+1558 %Projekt nach öbertragung starten:\
+1559 %Baud-Rate fÅr "System Åbertragen":\
+1560 %Rezeptwerte Åbertragen:\
+1561
+1562
+1563 %Rezept im Tableau behalten        \ Selektor "Kanal#2:Rezeptwerte"
+1564 %Rezept mit Initwerte Åberschreiben\
+1565 %9600 \		Selektormenue "Baud-Rate fuer BS-Download"
+1566 %19200\
+1567 %38400\
+1568
+1569 %Projekt starten\			Ueberschrift Fenster "Projekt starten"
+1570 %Projekt anhalten\			Ueberschrift Fenster "Projekt anhalten"
+1571 %Tableau resetieren\		Ueberschrift Fenster "Tableau resetieren"
+1572 
+1573 
+1574
+1575 %minimum\	Selektormenue "Lebenszeichenintervall" in Projektdef.
+1576 % 1 s\
+1577 % 5 s\
+1578 %10 s\
+1579
+1580 %Projektdefinition I/O\	öberschrift Maske I/O in Projektdef.
+1581 %Lebenszeichen:\			Maske I/O in Projektdef.
+1582 %Adresse:\
+1583 %Lebenszeichen Intervall (Sek.):\
+1584 %Tableaueingang Åbertragen:\
+1585 %Adresse:\
+1586 %Tableauausgang setzen:\
+1587 %Adresse:\
+1588 %Ausgang setzen bei Komm.-Stîrung:\
+1589
+1590
+1591
+1592 
+1593 
+1594 
+1595 
+1596
+1597
+1598
+1599
+1600 %Defaultsprache kann nicht exportiert und importiert werden!\
+1601 %Exportiere \	Space benîtigt
+1602 %Textebenenbereich(e) exportiert!\
+1603 %Importiere \
+1604 %UngÅltige Beschreibungszeile:\
+1605 %nicht im Projekt enthalten\
+1606 %nicht in Datei enthalten\
+1607 %vollstÑndig importiert\
+1608 %teilweise importiert\
+1609
+1610 %Treiber fÅr Verbindung %s ist nicht installiert!\
+1611 %Import eines C221 Projektes fÅr diesen Tableautyp nicht mîglich!\
+1612
+1613
+1614
+1615
+1616
+1617
+1618
+1619
+1620
+1621
+1622
+1623
+1624
+1625
+1626
+1627
+1628
+1629
+1630
+1631
+1632
+1633
+1634
+1635
+1636
+1637
+1638
+1639
+1640
+1641
+1642
+1643
+1644
+1645
+1646
+1647
+1648

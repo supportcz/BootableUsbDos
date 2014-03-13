@@ -1,0 +1,41 @@
+#TXT 00 00 34 78  _1)_Num‚ro_rappel_de_s‚curit‚_1_:_
+#VAR 00 35 30 01 78 01 66 N N J N N 00 00 01
+#TXT 00 65 08 78  ________
+#TXT 01 00 34 78  _2)_Num‚ro_rappel_de_s‚curit‚_2_:_
+#VAR 01 35 30 01 78 01 66 N N J N N 00 00 02
+#TXT 03 00 37 78  _3)_Numbre_d'essais_de_composition_:_
+#VAR 03 38 02 01 78 00 78 N N J N N 00 00 03
+#TXT 03 43 06 78  (1-15)
+#TXT 04 00 37 78  _4)_Numbre_d'essais_de_LOGIN_______:_
+#VAR 04 38 02 01 78 00 78 N N J N N 00 00 04
+#TXT 04 43 05 78  (0-7)
+#TXT 05 00 29 78  _5)_Trait._d'erreur_LOGIN__:_
+#TXT 05 30 22 78  _Rappel_de_s‚curit‚_:_
+#VAR 05 53 01 01 78 03 66 N N J J N 00 00 88
+#TXT 05 55 05 78  (O/N)
+#TXT 06 30 22 78  _D‚connexion________:_
+#VAR 06 53 01 01 78 03 66 N N J J N 00 00 99
+#TXT 06 55 05 78  (O/N)
+#TXT 08 00 49 78  _6)_Temps_de_liaison_Online_active_aprŠs_Reset_:_
+#VAR 08 49 02 01 78 00 78 N N J N N 00 00 05
+#TXT 08 52 07 78  (sec*5)
+#TXT 09 00 49 78  _7)_Attente_aprŠs_‚chec_de_rappel______________:_
+#VAR 09 49 02 01 78 00 78 N N J N N 00 00 06
+#TXT 09 52 08 78  (sec*10)
+#TXT 10 00 49 78  _8)_Attente_aprŠs_d‚connexion__________________:_
+#VAR 10 49 02 01 78 00 78 N N J N N 00 00 07
+#TXT 10 52 05 78  (sec)
+#TXT 11 00 49 78  _9)_Attente_sur_DSR=0_aprŠs_d‚connexion________:_
+#VAR 11 49 02 01 78 00 78 N N J N N 00 00 08
+#TXT 11 52 08 78  (sec*10)
+#TXT 13 00 40 78  10)_Attente_pour_connexion____________:_
+#VAR 13 40 02 01 78 00 78 N N J N N 00 00 09
+#TXT 13 43 08 78  (sec*10)
+#TXT 14 00 40 78  11)_Attente_pour_d‚connexion__________:_
+#VAR 14 40 02 01 78 00 78 N N J N N 00 00 10
+#TXT 14 43 08 78  (sec*10)
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~
+#KS ONon
+#KS 0123456789TPW:=><;/SR@!&*#~

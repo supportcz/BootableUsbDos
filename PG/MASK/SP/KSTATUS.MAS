@@ -1,0 +1,15 @@
+#TXT 00 00 01 78  _
+#TXT 00 02 33 78  _Defecto_S-EEPROM________________
+#TXT 01 02 33 78  _Alarma_activa___________________
+#TXT 02 02 33 78  _Autollamada_de_seguridad________
+#TXT 03 02 33 78  _Autollamada_____________________
+#TXT 04 02 33 78  _Protecci¢n_palabra_clave_activa_
+#TXT 05 02 33 78  _Error_de_programacion_S-EEPROM__
+#TXT 06 02 33 78  _Programando_S-EEPROM____________
+#TXT 07 02 33 78  _Prot.Autollamada_de_seg._activa_
+#TXT 09 02 15 78  Version_PROM_:_
+#VAR 09 18 11 01 78 00 42 N N J N N 00 00 00 
+#TXT 09 31 01 78  _
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~

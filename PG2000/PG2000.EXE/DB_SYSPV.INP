@@ -1,0 +1,27 @@
+/**************************************/
+/* Hier stehen alle Systemmerker, die */
+/* beim kreieren eines SPS-Pfades in  */
+/* die PV-Tabelle eingetragen werden  */
+/**************************************/
+Zu beachten ist !!!!!!!
+   -   Systemmerker duerfen nur mit "_"(Underscore) beginnen
+   -   alle Eingaben mit Beistrich trennen und abschliessen
+   -   Kommentare duerfen nicht mit "_"(Underscore) beginnen
+   Beipsiel:
+   PV-Name,Datentypname,Offset (HEX=0xWert,DEZIMAL=Wert)
+******* BITMERKER ***********
+_PIO_OLD,bit,0xFFF9,
+_URINIT,bit,0xFFFA,
+_TOTAL_INIT,bit,0xFFFA,
+_INIT,bit,0xFFFB,
+_DOWNLOAD,bit,0xFFFC
+_DEBUG,bit,0xFFFD
+******* BYTEMERKER **********
+_T_ZYKLUS,word,0xFFEE,
+_TC_TIME,word,0xFFEE,
+_TKNR,byte,0xFFED,
+_TC_No,byte,0xFFED,
+_N_SPSTASK,byte,0xFFEC,
+_TC_TSK_No,byte,0xFFEC,
+ÿ
+ÿ

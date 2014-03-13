@@ -1,0 +1,101 @@
+
+                                R I O
+
+
+                       V E R S I O N     V 4.50
+
+Attention!
+==========
+¯ Because of an error in the RIO-ISL Firmware V4.0, when using RIO V4.1
+  or higher also all ISL-Stations must be updated to V4.1! An RIO-ISL
+  V4.0 can only be operated with RIO Version V4.0 on the Master.
+
+¯ RIO-ISL V4.1 is compatable with all RIO versions
+
+¯ When using the RIO_list FBKs or RIO-Spoolers, no slave module info
+  is allolowed to be requested in the help program since this can
+  disrupt the execution of the FBK.
+ 
+¯ Either the module
+       rio_lib.br (with RIO FBKs)
+  or
+       riotrap.br (without RIO FBKs)
+  is to be used.
+
+¯ The module bugfix.br (V1.14 or higher) and exermo.br must be burned
+  on the controller!
+  
+Remote I/O V4.00
+================
+¯ An error in the Slave Firmware when an output module was corrected.
+
+¯ RIO_init FBK
+   Durinig ISL operation, the slave address set on the ISL module can
+   be read with the RIO_init FBK (see DOCU).
+¯ Improved error messages
+
+¯ When a RIO Exception occurs, the error is now properly entered
+  corerctly in the error module and can be read with PG.
+  The Info Parameter has the following meaning:
+     $MMSSTTCC
+               MM Master Slot Number
+               SS Slave Number
+               TT Slave Typ ($10=2005,$11=2010,$12=ISL2005,$13=ISL2010)
+               CC Slave Error counter
+
+¯ An error that occurred if there is an overload of tasks (IO from
+  other tasks were no longer updated) was corrected.
+
+Remote I/O V4.20
+================
+¯ When setting the MAX Station Parameters to the value < 32, it was
+  possible that an error iccurred when configuring the Slave.
+  Starting with V4.2, the MAX Station Parameter can be set as desired.
+
+¯ An additional FBK was added "RIO_list" that allow the module
+  configuration of a Slave to be read.
+
+¯ Spooling via RIO is now possible.
+
+Remote I/O V4.21
+================
+¯ RIOTRAP, RIOLIB now also work together with Bugfix >= V1.20
+  (error up to and incliuding V4.2: use of Master numbers >= 2 in PG
+  causes an error)
+
+¯ Error in the RIO FBKs V4.20 for ISL operation was corrected (Compiler
+  error Microtec V4.3)
+
+Remote I/O V4.30
+================
+¯ Overload error was corrected: The output on the Slave fell short
+
+¯ CP200 Supports (VBR) => RIOSST/EXC OK
+
+¯ Control in Service Mode was removed (DL im Service now possible)
+
+Remote I/O V4.40
+================
+¯ Limiting: Up to 8 duplications of shovel instruction are created
+  by the PLC SW if many tasks use the same RIO variables. The previous
+  limit of 64 instructions has been extended to 256 instructions.
+
+Remote I/O V4.50
+================
+¯ Output bits within a byte can now be used in various task classes
+  without being overwritten.
+
+¯ RIO Slave 2003 is supported
+
+¯ Downloading in Service Mode can sometimes cause the download to come
+  to a stand still;
+
+¯ Faulty input data was sometimes given for task classes with input
+  variables without Init-SP.
+
+¯ If the RIO_in or RIO_out FBK returns an error, the RIO configuration
+  no longer declares further RIO_in or RIO_out calls as invalid.
+  Therefore, calls can be made again in the next cycle.
+
+¯ Slave IO error messages are now only given for the block affected
+  (no longer globally for all blocks)

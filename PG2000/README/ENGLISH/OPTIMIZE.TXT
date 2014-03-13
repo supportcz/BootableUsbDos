@@ -1,0 +1,144 @@
+The following is a list of hints on how to improve the memory utilization on
+a PC during a PG2000 session.
+
+Recommendations for the Installation and Operation of PG2000:
+
+1	Hardware
+    1.1 CPU: Use an AT, at least a '286 however it is much better with a '386
+             or '486.
+    1.2 NDP: A maths co-processor is not required and does not affect program
+             execution if it is available.
+    1.3 Memory: Equip your computer with as much RAM as possible. A minimum
+                 of 4 MB is recommended.
+    1.4 A hard disk is definitely required.
+    1.5 Serial interfaces are optional. Two should be available: one for the
+        mouse and the other for communication with the PLC. They must be
+        correctly configured as COM1: and COM2:.
+    1.6 Profi: A profiBus card in the PC is optional.
+
+2	Setup
+    2.1 Shadow: Setup your BIOS to use shadow RAM for video and BIOS EPROM.
+    2.2 Cache: The memory area of a ProfiBus card must be set to a
+               non-cacheable region.
+
+3	Operating System
+	The following operating systems can be used:
+    3.1 DRDOS Version 6.0 or above (Novell/Digital Research)
+    3.2 MSDOS Version 5 or above (Microsoft)
+    3.3 MSDOS Version 3.3 (Microsoft)
+
+4	CONFIG.SYS
+    The settings in CONFIG.SYS have the greatest affect on the speed and
+    memory availability for application programs. It is worth spending some
+    time setting up this file because PG2000 works better with the memory
+    that can be made available.
+    4.1 Memory Management
+        In order to fully use the main memory, you can install a memory
+        manager, if the operating doesn't already have one.
+        4.1.1 QEMM Version 5.12 or above (Quarterdeck)
+              The corresponding line in CONFIG.SYS should look as follows:
+                  DEVICE=QEMM386.SYS RAM VREMS FRAME=C800
+              if using DRDOS then directly following this line is:
+                  DEVICE=HIDOS.SYS /BDOS=FFFF
+                  HIDOS=ON
+              if using MS-DOS then directly following this line is:
+                  DOS=HIGH
+              Load as many drivers as possible in upper memory with
+              LOADHI.SYS.
+        4.1.2 MAX386 Version 5.10 or above (Qualitas)
+              The corresponding line in CONFIG.SYS should look as follows:
+                  DEVICE=386MAX.SYS EMS=2048
+                  HIDOS=ON or DOS=HIGH
+              Load as many drivers as possible in upper memory with
+              386LOAD.SYS.
+        4.1.3 EMM386.SYS (included with DRDOS)
+              The corresponding line in CONFIG.SYS should look as follows:
+                  DEVICE=EMM386.SYS /B=FFFF /I=D800-F000 /R=NONE /V /F=C800
+                  HIDOS=ON
+              Load as many drivers as possible in upper memory with HIDEVICE.
+        4.1.4 EMM386.EXE (included with MSDOS or Windows)
+              The corresponding line in CONFIG.SYS should look as follows:
+                  DEVICE=HIMEM.SYS
+                  DEVICE=EMM386.EXE 2048 RAM FRAME=C800
+                  DOS=HIGH,UMB
+              Load as many drivers as possible in upper memory with
+              DEVICEHIGH.
+
+    4.2 Parameters
+        4.2.1 FILES: At least...
+                     FILES=40
+                     A value of up to 60 is meaningful and useful for PG2000.
+        4.2.2 STACKS: Should be...
+                      STACKS=0,0
+                      so the serial communications to the PLC are not
+                      disrupted and to prevent the operating system message
+                      "Internal Stack Memory overflow".
+        4.2.3 BUFFERS: Set this according to the recommendation of your disk
+                       cache program or to
+                       BUFFERS=20 for MSDOS or
+                       HIBUFFERS=20 for DRDOS.
+        4.2.4 COUNTRY: Set the country code according to the language that
+                       you want the menus and messages to appear in, e.g.:
+                       COUNTRY=001,,COUNTRY.SYS
+                       Do not install switchable code pages of it is
+                       avoidable, because you need the memory!
+    4.3 Drivers
+        Only install driver programs that you really need ! ANSI.SYS is not
+        required for PG2000.
+        Move as many drivers as possible into upper memory.
+        Example:
+            DEVICEHIGH=MOUSE.SYS
+        Many operating systems allow the keyboard driver to be loaded as a
+        device driver in CONFIG.SYS. In this case the load on main memory is
+        much less (DRDOS).
+        Example:
+            HIINSTALL=KEYB.COM GR+ /MH
+        4.3.1 RAM Disk: If using program with access to extended/expanded
+                        memory, it makes no sense to use a RAM disk.
+        4.3.2 Networks: If you must install a network driver, only use what
+                        is absolutely necessary for work station operation.
+                        Do not install things like EMAIL, MESSAGE, CHAT,
+                        REMOTE etc.
+                        Please ensure that the network server supports file
+                        locking if the databanks or projects are stored on a
+                        shared disk.
+        4.3.3 Stacker, DoubleStor, AddStor and Consorten
+                  Since occasional problems with these disk compression
+                  programs during the operation of PG were reported, it is
+                  recommended that they are not used.
+                  Also if PG2000 is operated of a non-compressed partition,
+                  there is also the problem of the resident parts of the
+                  driver in working memory.
+                  A few of these programs also need quite a lot of space for
+                  their data buffer. This means that PG2000 must work in a
+                  restricted amount of memory.
+                  Load the compression driver before the EMM386 driver in
+                  case there is not enough memory afterwards.
+
+5	AUTOEXEC.BAT
+	The settings in AUTOEXEC.BAT load all required memory resident programs and set environment variables used in application programs.
+    5.1 Keyboard: Try to load the keyboard driver in upper memory.
+    5.2 Mouse: Try to load the mouse driver in upper memory.
+    5.3 Disk-Cache: A disk cache program can accelerate the compilation of a
+                    PLC program up to 600%. It is recommended that a disk
+                    cache program is installed. However the memory buffer
+                    should not be set to large, 512 KB is enough. If more
+                    than 4 MB of memory is available, more can be reserved
+                    for cache. After installing the cache there should be at
+                    least 2 MB, preferably 3 MB XMS or EMS memory available.
+                    Try to load the cache program in upper memory.
+                    A few examples (incomplete):
+        5.3.1 PC-Cache is a part of PCTOOLS (Central Point Software) and
+              works with all versions.
+        5.3.2 SuperPck, version 4.04 (Multisoft) and later is included with
+              DRDOS.
+        5.3.3 SmartDrive (Microsoft) is included with MD-DOS and Windows.
+              Version 4.0 and all later versions are suitable!
+    5.4 Tools that have to be memory resident take up memory that could be
+        used by PG2000. Programs such that show the time, pop-up calculator
+        or "Sidekick".
+        When they are called, a few of these programs try to store the
+        interrupted program to disk so that the TSR has enough memory. During
+        active communication between PC and PLC, this usually causes the PC
+        to crash!
+        If in doubt do not load these tools.

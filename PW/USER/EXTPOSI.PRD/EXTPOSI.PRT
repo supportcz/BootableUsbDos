@@ -1,0 +1,3992 @@
+14.Mai 1997  10:53                 EXTPOSI             Seite: 1
+
+
+Projektbeschreibung:
+
+                                        
+Hardware:                               C200 / LCD 4x20               
+                                        
+Bild bei Kommunikationsfehler:          SERROR    
+F-Taste fÅr Fehlerquittierung:          F16
+Tastenpufferung:                        Ja
+Hintergrundbeleuchtung dauernd ein:     Ja             Minuten:  60
+Alarmsystem verwenden:                  Ja
+Tastenmatrix Åbertragen:                Nein           Adresse:                 
+Aktuelle Bildnummer Åbertragen:         Ja             Adresse:  AktBild        
+LED Matrix Åbertragen:                  Ja             Adresse:  LEDS           
+Bildwechsel aus der SPS erlaubt:        Ja             Adresse:  SollBild       
+Mehrsprachensystem verwenden:           Nein
+Sprachumschaltung aktiv:                Nein           Adresse:                 
+Uhrzeit aus der SPS Åbernehmen:         Nein
+Uhrzeit Triggeradresse:                                
+Uhrzeitadresse:                                        
+
+
+Display-Type:                           LCD 4x20
+Anzahl der Tastenmodule:                2
+Type Tastenmodul 1 :                    12+4
+Type Tastenmodul 2 :                    16  
+Type Tastenmodul 3 :                    16  
+Type Tastenmodul 4 :                    16  
+Type Tastenmodul 5 :                    16  
+Type Tastenmodul 6 :                    16  
+Type Tastenmodul 7 :                    16  
+
+
+Lebenszeichen:                          Nein           Adresse:                 
+Lebenszeichen Intervall (Sek.):          1 s
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 2
+
+
+Bildverzeichnis:
+
+
+                                                            Bildwechsel
+ #   Bildname   Nachbarn(Next,Previous,..)    Bild-Init     aus der SPS
+--------------------------------------------------------------------------
+000  START    START,START                         Ja            Ja
+001  VERBIND  VERBIND,VERBIND                     Ja            Ja
+002  BETRIEB  BETRIEB,BETRIEB                     Ja            Ja
+003  VORWAHL  VORWAHL,VORWAHL                     Ja            Ja
+004  PASSWORD PASSWORD,PASSWORD                   Ja            Ja
+005  PROGNR   PROGNR,PROGNR                       Ja            Ja
+006  PARA     PARA1,PARA11                        Ja            Ja
+007  ZAEHLER  ZAEHLER,ZAEHLER                     Ja            Ja
+008  ALARME   ALARME,ALARME                       Ja            Ja
+009  EINRICH  EINRICH1,EINRICH2                   Ja            Ja
+010  EINRICH1 EINRICH2,EINRICH                    Ja            Ja
+011  EINRICH2 EINRICH,EINRICH1                    Ja            Ja
+012  PARA1    PARA4,PARA                          Ja            Ja
+013  PARA4    PARA5,PARA1                         Ja            Ja
+014  PARA5    PARA7,PARA4                         Ja            Ja
+015  PARA7    PARA8,PARA5                         Ja            Ja
+016  PARA8    PARA9,PARA7                         Ja            Ja
+017  PARA9    PARA11,PARA8                        Ja            Ja
+018  PARA11   PARA,PARA9                          Ja            Ja
+019  SERROR   SERROR,SERROR                       Ja            Ja
+14.Mai 1997  10:53                 EXTPOSI             Seite: 3
+
+
+Tastenbelegung Numerische Eingabe
+
+                    F01 F02 F03 F04     +P+  7   8   9  
+                    F05 F06 F07 F08     F50  4   5   6  
+                    F09 F10 F11 F12     F51  1   2   3  
+                    F13 F14 F15 F16     +N+  0  +E+ +C+ 
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+
+
+Tastenbelegung String Eingabe
+
+                    F01 F02 F03 F04     +P+  7   8   9  
+                    F05 F06 F07 F08     F50  4   5   6  
+                    F09 F10 F11 F12     F51  1   2   3  
+                    F13 F14 F15 F16     +N+  0  +E+ +C+ 
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+14.Mai 1997  10:53                 EXTPOSI             Seite: 4
+
+
+Textebenen:
+
+Nr.  Beschreibung                              Nr.Tableau  Compilieren
+----------------------------------------------------------------------
+ 0   Deutsch                                        0          Ja  
+ 1   Slowakisch                                     1          Ja  
+14.Mai 1997  10:53                 EXTPOSI             Seite: 5
+
+
+Verbindungsliste
+
+  ID  Verbindung                     SPS-Type 
+
+  IN   Internal                                  
+  DD   NTC2000                        NTC2       
+14.Mai 1997  10:53                 EXTPOSI             Seite: 6
+
+
+Variablenzuordnungstabelle: -IN-
+
+  Name         BTI-Datentyp      
+
+  ERR_CODE     Word unsigned      
+  ERR_NAME     String             
+  ERR_NR       Byte unsigned      
+14.Mai 1997  10:53                 EXTPOSI             Seite: 7
+
+
+Variablenzuordnungstabelle: -DD-
+
+  Name         BTI-Datentyp      SPS-Adresse               SPS-Variablentyp    
+
+  ALARME       Bit               ALARME                          Bit           
+  AbzugDauer   Word unsigned     AbzugDauer                      Word unsigned 
+  AbzugVerz    Word unsigned     AbzugVerz                       Word unsigned 
+  AktBild      Byte unsigned     AktBild                         Byte unsigned 
+  BetrArtTx    Word unsigned     BetrArtTx                       Word unsigned 
+  BetrStat     Word unsigned     BetrStat                        Word unsigned 
+  BeutelIst    Long unsigned     BeutelIst                       Long unsigned 
+  BeutelPro    Word unsigned     BeutelPro                       Word unsigned 
+  BeutelSoll   Long unsigned     BeutelSoll                      Long unsigned 
+  DruckDauer   Word unsigned     DruckDauer                      Word unsigned 
+  DruckVerz    Word unsigned     DruckVerz                       Word unsigned 
+  EinrStrin1   String            EinrStrin1                      String        
+  EinrString   String            EinrString                      String        
+  EndeVerz     Word unsigned     EndeVerz                        Word unsigned 
+  FotoBlind    Word unsigned     FotoBlind                       Word unsigned 
+  Funktion     Byte unsigned     Funktion                        Byte unsigned 
+  GesamtStck   Long unsigned     GesamtStck                      Long unsigned 
+  GesamtZeit   Long unsigned     GesamtZeit                      Long unsigned 
+  KlappDauer   Word unsigned     KlappDauer                      Word unsigned 
+  KlappVerz    Word unsigned     KlappVerz                       Word unsigned 
+  KlotzDauer   Word unsigned     KlotzDauer                      Word unsigned 
+  KlotzVerz    Word unsigned     KlotzVerz                       Word unsigned 
+  LEDS         String            LEDS                            String        
+  LangDauer    Word unsigned     LangDauer                       Word unsigned 
+  LangVerz     Word unsigned     LangVerz                        Word unsigned 
+  MesseDauer   Word unsigned     MesseDauer                      Word unsigned 
+  MesseVerz    Word unsigned     MesseVerz                       Word unsigned 
+  Password     Byte unsigned     Password                        Byte unsigned 
+  ProgChan     Byte unsigned     ProgChan                        Byte unsigned 
+  ProgrammNr   Byte unsigned     ProgrammNr                      Byte unsigned 
+  QuerDauer    Word unsigned     QuerDauer                       Word unsigned 
+  QuerMax      Word unsigned     QuerMax                         Word unsigned 
+  QuerOffen    Word unsigned     QuerOffen                       Word unsigned 
+  QuerZu       Word unsigned     QuerZu                          Word unsigned 
+  SendNeu      Byte unsigned     SendNeu                         Byte unsigned 
+  SollBild     Byte unsigned     SollBild                        Byte unsigned 
+  SollMoment   Word unsigned     SollMoment                      Word unsigned 
+  SollRamp     Word unsigned     SollRamp                        Word unsigned 
+  StartVerz    Word unsigned     StartVerz                       Word unsigned 
+  TagReset     Byte unsigned     TagReset                        Byte unsigned 
+  TagStueck    Long unsigned     TagStueck                       Long unsigned 
+  Tippen       Byte unsigned     Tippen                          Byte unsigned 
+14.Mai 1997  10:53                 EXTPOSI             Seite: 8
+
+
+Textgruppen Datei: GLOBAL
+
+0:   [ClrScr]
+1:        Einzeltakt     
+2:        Dauertakt      
+3:        Automatik      
+4:    
+5:    Maschine steht     
+6:    Maschine lÑuft     
+7:    Maschine gestoppt  
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+[ClrScr]                                [ClrScr]                               
+     Einzeltakt                              Jeden takt                        
+     Dauertakt                              Trvaly takt                        
+     Automatik                            Automaticky takt                     
+                                                                               
+ Maschine steht                             Stroj stoji                        
+ Maschine lÑuft                             Stroj bezi                         
+ Maschine gestoppt                        Stroj zastaveni                      
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 9
+
+
+Alarmsystem Grundkonfiguration 
+
+Angezeigter Text, wenn kein Alarm:      Kein Alarm                              
+Ausgedruckter Text bei Sammelquit:      SammelQuit                              
+LÑnge der historischen Alarmliste:      maximal
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+Kein Alarm                              Alarm 0                                
+SammelQuit                                                                     
+
+
+Allgemeine Druckerparameter Alarmsystem
+
+Sequenz bei Gekommen:                   hallo                                   
+Sequenz bei Gegangen:                   hallo1                                  
+Sequenz bei Quittieren:                 hallo2                                  
+Sequenz bei BrÅcken:                    hallo3                                  
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+hallo                                   hallo                                  
+hallo1                                  hallo1                                 
+hallo2                                  hallo2                                 
+hallo3                                  hallo3                                 
+
+
+Druckformat-Definition
+
+Uhrzeitformat:                          DD.MM.YY HH:MM:SS 
+Trennzeichen #1:                        Leerzeichen
+Gruppennummer:                          zweistellig
+Trennzeichen #2:                        Leerzeichen
+Alarmnummer:                            zweistellig
+Trennzeichen #3:                        Leerzeichen
+Alarmtext:                              darstellen
+Trennzeichen #4:                        Leerzeichen
+Ereignis:                               als Text
+Trennzeichen #5:                        Leerzeichen
+Quittierstatus:                         als Text
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 10
+
+
+Alarmgruppen-Definition
+
+Gruppennummer:                          0
+max. Alarmanzahl:                       7
+SPS-Adresse des Alarmbitfeldes:                         
+SPS-Adresse des Summenalarms:                           
+SPS-Adresse des BrÅckungsabbilds:                       
+SPS-Adresse des Quitt. Abbilds:                         
+Alarm Scan Rate:                        minimum
+PrioritÑt:                              0
+Alarmzustandstexte fÅr                  
+      gekommen:                         gekommen                                
+      gegangen:                         gegangen                                
+      quittiert:                        quittiert                               
+      nicht quittiert:                  nicht quittiert                         
+      gebrÅckt:                         gebrueckt                               
+      nicht gebrÅckt:                   entbrueckt                              
+ZustandskÅrzel:                         KGQ 10B BE
+
+Default-Alarmkonfiguration
+
+Quittierung mîglich:                    Ja
+Quittierung erforderlich:               Ja
+Ausdruck des Kommens unterdrÅcken:      Nein
+Ausdruck des Gehens unterdrÅcken:       Nein
+Ausdruck des quit. Gehens unterdr.:     Nein
+Ausdruck des Quittierens unterdr.:      Nein
+BrÅcken des Alarms erlaubt:             Ja
+Summenalarm bilden:                     Nein
+Ausdruck des BrÅckens unterdrÅcken:     Nein
+Ausdruck des EntbrÅckens unterdr.:      Nein
+Latched Alarm:                          Nein
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+gekommen                                                                       
+gegangen                                                                       
+quittier                                                                       
+nicht qu                                                                       
+gebrueck                                                                       
+entbruec                                                                       
+KGQ 10B BE                                                                     
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 11
+
+
+Alarmgruppen-Definition
+
+Gruppennummer:                          1
+max. Alarmanzahl:                       17
+SPS-Adresse des Alarmbitfeldes:         ALARME          
+SPS-Adresse des Summenalarms:                           
+SPS-Adresse des BrÅckungsabbilds:                       
+SPS-Adresse des Quitt. Abbilds:                         
+Alarm Scan Rate:                        minimum
+PrioritÑt:                              0
+Alarmzustandstexte fÅr                  
+      gekommen:                         gekommen                                
+      gegangen:                         gegangen                                
+      quittiert:                        quittiert                               
+      nicht quittiert:                  nicht quittiert                         
+      gebrÅckt:                         gebrueckt                               
+      nicht gebrÅckt:                   entbrueckt                              
+ZustandskÅrzel:                         KGQ 10B BE
+
+Default-Alarmkonfiguration
+
+Quittierung mîglich:                    Ja
+Quittierung erforderlich:               Nein
+Ausdruck des Kommens unterdrÅcken:      Nein
+Ausdruck des Gehens unterdrÅcken:       Ja
+Ausdruck des quit. Gehens unterdr.:     Ja
+Ausdruck des Quittierens unterdr.:      Ja
+BrÅcken des Alarms erlaubt:             Nein
+Summenalarm bilden:                     Nein
+Ausdruck des BrÅckens unterdrÅcken:     Ja
+Ausdruck des EntbrÅckens unterdr.:      Ja
+Latched Alarm:                          Nein
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+gekommen                                                                       
+gegangen                                                                       
+quittier                                                                       
+nicht qu                                                                       
+gebrueck                                                                       
+entbruec                                                                       
+KGQ 10B BE                                                                     
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 12
+
+
+Alarmgruppen-Definition
+
+Gruppennummer:                          253
+max. Alarmanzahl:                       1
+SPS-Adresse des Alarmbitfeldes:                         
+SPS-Adresse des Summenalarms:                           
+SPS-Adresse des BrÅckungsabbilds:                       
+SPS-Adresse des Quitt. Abbilds:                         
+Alarm Scan Rate:                        minimum
+PrioritÑt:                              0
+Alarmzustandstexte fÅr                  
+      gekommen:                         gekommen                                
+      gegangen:                         gegangen                                
+      quittiert:                        quittiert                               
+      nicht quittiert:                  nicht quittiert                         
+      gebrÅckt:                         gebrueckt                               
+      nicht gebrÅckt:                   entbrueckt                              
+ZustandskÅrzel:                         KGQ 10B BE
+
+Default-Alarmkonfiguration
+
+Quittierung mîglich:                    Ja
+Quittierung erforderlich:               Ja
+Ausdruck des Kommens unterdrÅcken:      Nein
+Ausdruck des Gehens unterdrÅcken:       Nein
+Ausdruck des quit. Gehens unterdr.:     Nein
+Ausdruck des Quittierens unterdr.:      Nein
+BrÅcken des Alarms erlaubt:             Ja
+Summenalarm bilden:                     Nein
+Ausdruck des BrÅckens unterdrÅcken:     Nein
+Ausdruck des EntbrÅckens unterdr.:      Nein
+Latched Alarm:                          Nein
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+gekommen                                gek                                    
+gegangen                                geg                                    
+quittiert                               qui                                    
+nicht qui                                                                      
+gebrueckt                               gebr                                   
+entbrueck                                                                      
+KGQ 10B BE                              KGQ 10B be                             
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 13
+
+
+Alarmgruppenverzeichnis
+
+Gr# Anz  Alarm-Adresse   Scan  Prio  Summenalarm-Adr.  ZustandskÅrzel     
+
+000 007 System Alarme    minimum 0                      KGQ 10B BE
+001 017 ALARME           minimum 0                      KGQ 10B BE
+253 001 Summenalarme     minimum 0                      KGQ 10B BE
+14.Mai 1997  10:53                 EXTPOSI             Seite: 14
+
+
+Alarmverzeichnis: -000-
+
+Al#  Alarmtext           
+
+001  Power ON                                     JJNNNNJNNNN
+002  Erneuter Ausdruck manuell gestartet          JJNNNNJNNNN
+003  Drucker nicht bereit                         JJNNNNJNNNN
+004  Verbindung unterbrochen                      JNNNNNJNNNN
+005  Interner Fehler                              JJNNNNJNNNN
+006  Druckerpuffer öberlauf                       JJNNNNJNNNN
+007  Batterie leer                                JJNNNNJNNNN
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+Power ON                                Power ON                               
+Erneuter Ausdruck manuell gestartet     nix 0                                  
+Drucker nicht bereit                    nix 1                                  
+Verbindung unterbrochen                 Verbindung war unterb.                 
+Interner Fehler                         Interner Fehler                        
+Druckerpuffer öberlauf                  DruPu Åberlauf                         
+Batterie leer                           Batt leer                              
+gekommen                                                                       
+gegangen                                                                       
+quittiert                                                                      
+nicht quittiert                                                                
+gebrueckt                                                                      
+entbrueckt                                                                     
+KGQ 10B BE                                                                     
+
+
+Alarmverzeichnis: -001-
+
+Al#  Alarmtext           
+
+001  Not Aus betÑtigt                             JNNJJJNNJJN
+002  SchutztÅr offen                              JNNJJJNNJJN
+003  Servo Querbacken                             JNNJJJNNJJN
+004  MSS Querbacken                               JNNJJJNNJJN
+005  FU Abzugsmotor                               JNNJJJNNJJN
+006  MSS Abzugsmotor                              JNNJJJNNJJN
+007  Keine Druckmarke da                          JNNJJJNNJJN
+008  Folienende                                   JNNJJJNNJJN
+009  Drucker gestîrt                              JNNJJJNNJJN
+010  Schliessicherung angesprochen                JNNJJJNNJJN
+011  StÅckzahl erreicht                           JNNJJJNNJJN
+012  Abzug nicht mîglich                          JNNJJJNNJJN
+013  LÑngs Impulsschweiss                         JNNJJJNNJJN
+014  Kopf Impulsschweiss                          JNNJJJNNJJN
+015  Boden Impulsschweiss                         JNNJJJNNJJN
+016  MSS Vorabzug                                 JNNJJJNNJJN
+017  Letzter Fehler                               JNNJJJNNJJN
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+Not Aus betÑtigt                        Not Aus stlaceni                       
+SchutztÅr offen                         Dvere otvorene                         
+Servo Querbacken                                                               
+MSS Querbacken                                                                 
+FU Abzugsmotor                          FM Posuv folie                         
+MSS Abzugsmotor                         Istic mot posuv                        
+Keine Druckmarke da                     Bod fotobunky 0                        
+Folienende                              Koniec folie                           
+Drucker gestîrt                         Porucha tlacitka                       
+Schliessicherung angesprochen           Istenie celusti                        
+StÅckzahl erreicht                      Pocet sackov dos                       
+14.Mai 1997  10:53                 EXTPOSI             Seite: 15
+
+
+Abzug nicht mîglich                     Posuv nemozny                          
+LÑngs Impulsschweiss                                                           
+Kopf Impulsschweiss                                                            
+Boden Impulsschweiss                                                           
+MSS Vorabzug                                                                   
+Letzter Fehler                                                                 
+gekommen                                                                       
+gegangen                                                                       
+quittiert                                                                      
+nicht quittiert                                                                
+gebrueckt                                                                      
+entbrueckt                                                                     
+KGQ 10B BE                                                                     
+
+
+Alarmverzeichnis: -253-
+
+Al#  Alarmtext           
+
+001                                               JJNNNNJNNNN
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+gekommen                                gek                                    
+gegangen                                geg                                    
+quittiert                               qui                                    
+nicht quittiert                         ni qui                                 
+gebrueckt                               gebr                                   
+entbrueckt                              entbr                                  
+KGQ 10B BE                              KGQ 10B be                             
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 16
+
+
+START
+
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥  K O P A S   GmbH  ≥
+≥     Felsweg  8     ≥
+≥ D-35435 Wettenberg ≥
+≥    Deutschland     ≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+K O P A S   GmbH                        K O P A S GmbH                         
+     Felsweg  8                              Felsweg 8                         
+D-35435 Wettenberg                      D-35435 Wettenberg                     
+Deutschland                             Nemecko                                
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 17
+
+
+Tasten/LED-Funktionen, Bild: START
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 01                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 02                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 03                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            1
+00/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            2
+00/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            3
+00/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            4
+01/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            5
+01/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            6
+01/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion 
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            7
+01/08:
+14.Mai 1997  10:53                 EXTPOSI             Seite: 18
+
+
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            8
+02/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            9
+02/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            10
+02/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            11
+02/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            12
+03/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            13
+03/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            14
+03/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            15
+03/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            16
+14.Mai 1997  10:53                 EXTPOSI             Seite: 19
+
+
+VERBIND
+
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥-- S T ô R U N G  --≥
+≥********************≥
+≥keine Verbindung zur≥
+≥ Maschinensteuerung ≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+-- S T ô R U N G  --                    *- P O R U C H A -*                    
+********************                    *******************                    
+keine Verbindung zur                    Preruseni spoj ku                      
+Maschinensteuerung                      Computer                               
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 20
+
+
+BETRIEB
+
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥    Betriebsart     ≥
+≥±±±±±±±±±0±±±±±±±±±±≥
+≥ Programmnummer ±   ≥
+≥±±±±±±±±±2±±±±±±±±±±≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+Betriebsart                             Funkcie                                
+Programmnummer                          Cislo programu                         
+
+
+Feld #0:       Output Text                             Position: 0,1
+
+Position:                               0,1       
+Anzahl der Stellen:                     20
+Zeichengrî·e:                           1
+SPS-Adresse fÅr Textnummer:             BetrArtTx       
+
+
+Feld #1:       Output Bit/Byte                         Position: 16,2
+
+Position:                               16,2      
+Anzahl der Stellen:                     1
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             1
+SPS-Adresse:                            ProgrammNr      
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+Feld #2:       Output Text                             Position: 0,3
+
+Position:                               0,3       
+Anzahl der Stellen:                     20
+Zeichengrî·e:                           1
+SPS-Adresse fÅr Textnummer:             BetrStat        
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 21
+
+
+Tasten/LED-Funktionen, Bild: BETRIEB
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 01                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 02                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 03                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            1
+00/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            2
+00/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            3
+00/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            4
+01/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            5
+01/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            6
+01/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion 
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            7
+01/08:
+14.Mai 1997  10:53                 EXTPOSI             Seite: 22
+
+
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            8
+02/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            9
+02/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            10
+02/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            11
+02/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            12
+03/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            13
+03/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            14
+03/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            15
+03/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            16
+14.Mai 1997  10:53                 EXTPOSI             Seite: 23
+
+
+VORWAHL
+
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥   Beutelvorwahl    ≥
+≥Stop bei  ∞∞∞0∞∞∞∞  ≥
+≥Istanzahl ∞∞∞1∞∞∞∞  ≥
+≥                    ≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+   Beutelvorwahl                        Volba poctu sackov                     
+Stop bei                                Stop pri                               
+Istanzahl                               Stav sac.                              
+
+
+Feld #0:       Input Long ohne Vorzeichen              Position: 10,1
+
+Position:                               10,1      
+Anzahl der Stellen:                     8
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             8
+SPS-Zieladresse:                        BeutelSoll      
+SPS-Abschlu·adresse:                                    
+SPS-Abschlu·wert:                       0
+Inputverriegelung? (J/N):               Nein
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+Feld #1:       Input Long ohne Vorzeichen              Position: 10,2
+
+Position:                               10,2      
+Anzahl der Stellen:                     8
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             8
+SPS-Zieladresse:                        BeutelIst       
+SPS-Abschlu·adresse:                                    
+SPS-Abschlu·wert:                       0
+Inputverriegelung? (J/N):               Nein
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 24
+
+
+Tasten/LED-Funktionen, Bild: VORWAHL
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 01                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 02                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 03                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            1
+00/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            2
+00/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            3
+00/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            4
+01/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            5
+01/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            6
+01/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion 
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            7
+01/08:
+14.Mai 1997  10:53                 EXTPOSI             Seite: 25
+
+
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            8
+02/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            9
+02/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            10
+02/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            11
+02/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            12
+03/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            13
+03/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            14
+03/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            15
+03/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            16
+14.Mai 1997  10:53                 EXTPOSI             Seite: 26
+
+
+PASSWORD
+
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥  Passworteingabe   ≥
+≥                    ≥
+≥       ∞∞0∞∞        ≥
+≥                    ≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+Passworteingabe                               Cod                              
+
+
+Feld #0:       Input Passwort                          Position: 7,2
+
+Position:                               7,2       
+Zeichengrî·e:                           1
+Anzahl der Stellen:                     5
+SPS-Zieladresse:                        Password        
+SPS-Abschlu·adresse:                                    
+SPS-Abschlu·wert:                       0
+Echozeichen:                            *
+Anzahl Pa·wortebenen:                   4
+Pa·wort fÅr Ebene #1:                   0815  
+Pa·wort fÅr Ebene #2:                   4711  
+Pa·wort fÅr Ebene #3:                   21250 
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 27
+
+
+Tasten/LED-Funktionen, Bild: PASSWORD
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 01                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 02                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 03                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            1
+00/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            2
+00/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            3
+00/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            4
+01/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            5
+01/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            6
+01/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion 
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            7
+01/08:
+14.Mai 1997  10:53                 EXTPOSI             Seite: 28
+
+
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            8
+02/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            9
+02/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            10
+02/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            11
+02/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            12
+03/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            13
+03/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            14
+03/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            15
+03/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            16
+14.Mai 1997  10:53                 EXTPOSI             Seite: 29
+
+
+PROGNR
+
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥  Programm wÑhlen   ≥
+≥                    ≥
+≥     Nummer ∞       ≥
+≥                    ≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+Programm wÑhlen                         Volba programo                         
+Nummer                                  Cislo                                  
+
+
+Feld #0:       Input Bit/Byte                          Position: 12,2
+
+Position:                               12,2      
+Anzahl der Stellen:                     1
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             1
+SPS-Zieladresse:                        ProgrammNr      
+SPS-Abschlu·adresse:                                    
+SPS-Abschlu·wert:                       0
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Nein
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 30
+
+
+Tasten/LED-Funktionen, Bild: PROGNR
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 01                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 02                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 03                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            1
+00/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            2
+00/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            3
+00/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            4
+01/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            5
+01/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            6
+01/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion 
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            7
+01/08:
+14.Mai 1997  10:53                 EXTPOSI             Seite: 31
+
+
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            8
+02/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            9
+02/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            10
+02/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            11
+02/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            12
+03/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            13
+03/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            14
+03/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            15
+03/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            16
+14.Mai 1997  10:53                 EXTPOSI             Seite: 32
+
+
+PARA
+
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥ Verzîgerungszeiten ≥
+≥ Start  ∞∞0∞∞ ms    ≥
+≥ Ende   ∞∞1∞∞ ms    ≥
+≥ Beutel ±2±± pro Min≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+Verzîgerungszeiten                                                             
+Start                                                                          
+ms                                                                             
+Ende                                                                           
+ms                                                                             
+Beutel                                                                         
+pro Min                                                                        
+
+
+Feld #0:       Input Wort ohne Vorzeichen              Position: 8,1
+
+Position:                               8,1       
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             5
+SPS-Zieladresse:                        StartVerz       
+SPS-Abschlu·adresse:                    ProgChan        
+SPS-Abschlu·wert:                       1
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #0:       Inputverriegelung-Konfiguration         Position: 8,1
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert = 0                     
+Verriegelungskonstante:                 0
+
+
+Feld #0:       Normierung                              Position: 8,1
+
+0% Wert in der SPS:                     0   
+100% Wert in der SPS:                   999 
+Minimalwert am Tableau:                 0   
+Maximalwert am Tableau:                 9990
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 33
+
+
+Feld #1:       Input Wort ohne Vorzeichen              Position: 8,2
+
+Position:                               8,2       
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             5
+SPS-Zieladresse:                        EndeVerz        
+SPS-Abschlu·adresse:                    ProgChan        
+SPS-Abschlu·wert:                       1
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #1:       Inputverriegelung-Konfiguration         Position: 8,2
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert = 0                     
+Verriegelungskonstante:                 0
+
+
+Feld #1:       Normierung                              Position: 8,2
+
+0% Wert in der SPS:                     0   
+100% Wert in der SPS:                   999 
+Minimalwert am Tableau:                 0   
+Maximalwert am Tableau:                 9990
+
+
+Feld #2:       Output Wort ohne Vorzeichen             Position: 8,3
+
+Position:                               8,3       
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             4
+SPS-Adresse:                            BeutelPro       
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 34
+
+
+Tasten/LED-Funktionen, Bild: PARA
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 01                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 02                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 03                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            1
+00/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            2
+00/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            3
+00/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            4
+01/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            5
+01/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            6
+01/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion 
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            7
+01/08:
+14.Mai 1997  10:53                 EXTPOSI             Seite: 35
+
+
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            8
+02/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            9
+02/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            10
+02/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            11
+02/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            12
+03/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            13
+03/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            14
+03/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            15
+03/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            16
+14.Mai 1997  10:53                 EXTPOSI             Seite: 36
+
+
+ZAEHLER
+
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥TagesstÅck ±±1±±±   ≥
+≥Reset: ∞∞           ≥
+≥Gesamt ±±±±2±±±±±   ≥
+≥Zeit  ±±±±±3±±±±± h ≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+TagesstÅck                                                                     
+Reset:                                                                         
+Gesamt                                  Celkovo                                
+Zeit                                    Cas                                    
+h                                       H                                      
+
+
+Feld #0:       Input Bit/Byte                          Position: 7,1
+
+Position:                               7,1       
+Anzahl der Stellen:                     1
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             2
+SPS-Zieladresse:                        TagReset        
+SPS-Abschlu·adresse:                                    
+SPS-Abschlu·wert:                       0
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #0:       Inputverriegelung-Konfiguration         Position: 7,1
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert = 0                     
+Verriegelungskonstante:                 0
+
+
+Feld #0:       Normierung                              Position: 7,1
+
+0% Wert in der SPS:                     0
+100% Wert in der SPS:                   1
+Minimalwert am Tableau:                 0
+Maximalwert am Tableau:                 1
+
+
+Feld #1:       Output Long ohne Vorzeichen             Position: 11,0
+
+Position:                               11,0      
+Anzahl der Stellen:                     6
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             6
+SPS-Adresse:                            TagStueck       
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 37
+
+
+Feld #2:       Output Long ohne Vorzeichen             Position: 7,2
+
+Position:                               7,2       
+Anzahl der Stellen:                     10
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             10
+SPS-Adresse:                            GesamtStck      
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+Feld #3:       Output Long ohne Vorzeichen             Position: 6,3
+
+Position:                               6,3       
+Anzahl der Stellen:                     10
+Anzahl der Nachkommastellen:            2
+Zeichengrî·e:                           1
+Feldbreite:                             11
+SPS-Adresse:                            GesamtZeit      
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 38
+
+
+Tasten/LED-Funktionen, Bild: ZAEHLER
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 01                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 02                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 03                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            1
+00/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            2
+00/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            3
+00/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            4
+01/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            5
+01/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            6
+01/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion 
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            7
+01/08:
+14.Mai 1997  10:53                 EXTPOSI             Seite: 39
+
+
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            8
+02/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            9
+02/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            10
+02/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            11
+02/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            12
+03/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            13
+03/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            14
+03/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            15
+03/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            16
+14.Mai 1997  10:53                 EXTPOSI             Seite: 40
+
+
+ALARME
+
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥  Fehlermeldungen   ≥
+≥∞∞∞∞∞∞∞∞∞0∞∞∞∞∞∞∞∞∞∞≥
+≥∞∞∞∞∞∞∞∞∞1∞∞∞∞∞∞∞∞∞∞≥
+≥∞∞∞∞∞∞∞∞∞2∞∞∞∞∞∞∞∞∞∞≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+Fehlermeldungen                         Poruchy                                
+
+
+Feld #0:       Anstehender Alarm                       Position: 0,1
+
+Position:                               0,1       
+Feldbreite:                             20
+F-Taste zur Quittierung:                F16
+F-Taste zum BlÑttern zu jÅng. Al.:      F50
+F-Taste zum BlÑttern zu Ñlt. Al.:       F51
+
+
+Feld #0:       Feldformat                              Position: 0,1
+
+Selektorzeichen:                        >
+Uhrzeitformat:                          nicht darstellen
+Trennzeichen #1:                        keines     
+Gruppennummer:                          nicht darstellen
+Trennzeichen #2:                        keines     
+Alarmnummer:                            nicht darstellen
+Trennzeichen #3:                        keines     
+Alarmtext:                              darstellen
+Trennzeichen #4:                        keines     
+Info:                                   nicht darstellen
+PrioritÑt:                              nicht darstellen
+
+
+Feld #1:       Anstehender Alarm                       Position: 0,2
+
+Position:                               0,2       
+Feldbreite:                             20
+F-Taste zur Quittierung:                F16
+F-Taste zum BlÑttern zu jÅng. Al.:      F50
+F-Taste zum BlÑttern zu Ñlt. Al.:       F51
+
+
+Feld #1:       Feldformat                              Position: 0,2
+
+Selektorzeichen:                        >
+Uhrzeitformat:                          nicht darstellen
+Trennzeichen #1:                        keines     
+Gruppennummer:                          nicht darstellen
+Trennzeichen #2:                        keines     
+Alarmnummer:                            nicht darstellen
+Trennzeichen #3:                        keines     
+Alarmtext:                              darstellen
+Trennzeichen #4:                        keines     
+Info:                                   nicht darstellen
+PrioritÑt:                              nicht darstellen
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 41
+
+
+Feld #2:       Anstehender Alarm                       Position: 0,3
+
+Position:                               0,3       
+Feldbreite:                             20
+F-Taste zur Quittierung:                F16
+F-Taste zum BlÑttern zu jÅng. Al.:      F50
+F-Taste zum BlÑttern zu Ñlt. Al.:       F51
+
+
+Feld #2:       Feldformat                              Position: 0,3
+
+Selektorzeichen:                        >
+Uhrzeitformat:                          nicht darstellen
+Trennzeichen #1:                        keines     
+Gruppennummer:                          nicht darstellen
+Trennzeichen #2:                        keines     
+Alarmnummer:                            nicht darstellen
+Trennzeichen #3:                        keines     
+Alarmtext:                              darstellen
+Trennzeichen #4:                        keines     
+Info:                                   nicht darstellen
+PrioritÑt:                              nicht darstellen
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 42
+
+
+Tasten/LED-Funktionen, Bild: ALARME
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 01                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 02                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 03                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            1
+00/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            2
+00/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            3
+00/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            4
+01/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            5
+01/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            6
+01/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion 
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            7
+01/08:
+14.Mai 1997  10:53                 EXTPOSI             Seite: 43
+
+
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            8
+02/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            9
+02/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            10
+02/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            11
+02/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            12
+03/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            13
+03/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            14
+03/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            15
+03/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            16
+14.Mai 1997  10:53                 EXTPOSI             Seite: 44
+
+
+EINRICH
+
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥Hauptluft------∞0∞∞ ≥
+≥Klotzboden------!!! ≥
+≥LÑngsbacke-------!! ≥
+≥Messer------------! ≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+Hauptluft------                         Privod vzduchu-                        
+Klotzboden------!!!                                                            
+LÑngsbacke-------!!                     Posdlzna celust--!!                    
+Messer------------!                     Noz---------------!                    
+
+
+Feld #0:       Input String                            Position: 15,0
+
+Position:                               15,0      
+StringlÑnge:                            4
+Zeichengrî·e:                           1
+SPS-Zieladresse:                        EinrString      
+SPS-Abschlu·adresse:                                    
+SPS-Abschlu·wert:                       0
+Taste Cursor rechts:                    F--
+Taste Cursor links:                     F--
+Taste Del:                              F--
+Taste Backspace:                        F--
+Taste Tabulator:                        F--
+Tabulator Abstand:                      4
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 45
+
+
+Tasten/LED-Funktionen, Bild: EINRICH
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 01                      ±±± ±±± ±±± ±±±     ±±T ±±± ±±± ±±± 
+ 02                      ±±± ±±± ±±± ±±±     ±±T ±±± ±±± ±±± 
+ 03                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+01/10:
+        Tip Bit/Byte
+          SPS-Adresse:                       Tippen
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            1
+02/10:
+        Tip Bit/Byte
+          SPS-Adresse:                       Tippen
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            2
+14.Mai 1997  10:53                 EXTPOSI             Seite: 46
+
+
+EINRICH1
+
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥Abwurfklappe---∞    ≥
+≥                    ≥
+≥                    ≥
+≥                    ≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+Abwurfklappe---                                                                
+
+
+Feld #0:       Input String                            Position: 15,0
+
+Position:                               15,0      
+StringlÑnge:                            1
+Zeichengrî·e:                           1
+SPS-Zieladresse:                        EinrStrin1      
+SPS-Abschlu·adresse:                                    
+SPS-Abschlu·wert:                       0
+Taste Cursor rechts:                    F--
+Taste Cursor links:                     F--
+Taste Del:                              F--
+Taste Backspace:                        F--
+Taste Tabulator:                        F--
+Tabulator Abstand:                      1
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 47
+
+
+Tasten/LED-Funktionen, Bild: EINRICH1
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 01                      ±±± ±±± ±±± ±±±     ±±T ±±± ±±± ±±± 
+ 02                      ±±± ±±± ±±± ±±±     ±±T ±±± ±±± ±±± 
+ 03                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+01/10:
+        Tip Bit/Byte
+          SPS-Adresse:                       Tippen
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            1
+02/10:
+        Tip Bit/Byte
+          SPS-Adresse:                       Tippen
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            2
+14.Mai 1997  10:53                 EXTPOSI             Seite: 48
+
+
+EINRICH2
+
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥  Sonderparameter   ≥
+≥Quer Zu     ∞2∞∞ INC≥
+≥SollMoment ∞∞1∞∞∞ % ≥
+≥SollRamp   ∞∞0∞∞ ms ≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+Sonderparameter                         Zvl parametre                          
+Quer Zu                                                                        
+INC                                                                            
+SollMoment                                                                     
+%%                                      %%                                     
+SollRamp                                                                       
+ms                                                                             
+
+
+Feld #0:       Input Wort ohne Vorzeichen              Position: 11,3
+
+Position:                               11,3      
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             5
+SPS-Zieladresse:                        SollRamp        
+SPS-Abschlu·adresse:                    SendNeu         
+SPS-Abschlu·wert:                       3
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #0:       Inputverriegelung-Konfiguration         Position: 11,3
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert < Konstante 
+Verriegelungskonstante:                 2
+
+
+Feld #0:       Normierung                              Position: 11,3
+
+0% Wert in der SPS:                     100 
+100% Wert in der SPS:                   5000
+Minimalwert am Tableau:                 100 
+Maximalwert am Tableau:                 5000
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 49
+
+
+Feld #1:       Input Wort ohne Vorzeichen              Position: 11,2
+
+Position:                               11,2      
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            1
+Zeichengrî·e:                           1
+Feldbreite:                             6
+SPS-Zieladresse:                        SollMoment      
+SPS-Abschlu·adresse:                    SendNeu         
+SPS-Abschlu·wert:                       1
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #1:       Inputverriegelung-Konfiguration         Position: 11,2
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert < Konstante 
+Verriegelungskonstante:                 2
+
+
+Feld #1:       Normierung                              Position: 11,2
+
+0% Wert in der SPS:                     100.0
+100% Wert in der SPS:                   1500.0
+Minimalwert am Tableau:                 10.0 
+Maximalwert am Tableau:                 150.0
+
+
+Feld #2:       Input Wort ohne Vorzeichen              Position: 12,1
+
+Position:                               12,1      
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             4
+SPS-Zieladresse:                        QuerZu          
+SPS-Abschlu·adresse:                    SendNeu         
+SPS-Abschlu·wert:                       4
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+Feld #2:       Inputverriegelung-Konfiguration         Position: 12,1
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert < Konstante 
+Verriegelungskonstante:                 2
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 50
+
+
+Tasten/LED-Funktionen, Bild: EINRICH2
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 01                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 02                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 03                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            1
+00/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            2
+00/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            3
+00/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            4
+01/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            5
+01/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            6
+01/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion 
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            7
+01/08:
+14.Mai 1997  10:53                 EXTPOSI             Seite: 51
+
+
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            8
+02/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            9
+02/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            10
+02/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            11
+02/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            12
+03/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            13
+03/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            14
+03/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            15
+03/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            16
+14.Mai 1997  10:53                 EXTPOSI             Seite: 52
+
+
+PARA1
+
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥ Folienabzug        ≥
+≥    Verzîg  ∞∞0∞∞ ms≥
+≥    Dauer   ∞∞1∞∞ ms≥
+≥ Blindzeit  ∞∞2∞∞ ms≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+Folienabzug                                                                    
+Verzîg                                                                         
+ms                                                                             
+Dauer                                                                          
+ms                                                                             
+Blindzeit                                                                      
+ms                                                                             
+
+
+Feld #0:       Input Wort ohne Vorzeichen              Position: 12,1
+
+Position:                               12,1      
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             5
+SPS-Zieladresse:                        AbzugVerz       
+SPS-Abschlu·adresse:                    ProgChan        
+SPS-Abschlu·wert:                       1
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #0:       Inputverriegelung-Konfiguration         Position: 12,1
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert = 0                     
+Verriegelungskonstante:                 0
+
+
+Feld #0:       Normierung                              Position: 12,1
+
+0% Wert in der SPS:                     0   
+100% Wert in der SPS:                   999 
+Minimalwert am Tableau:                 0   
+Maximalwert am Tableau:                 9990
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 53
+
+
+Feld #1:       Input Wort ohne Vorzeichen              Position: 12,2
+
+Position:                               12,2      
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             5
+SPS-Zieladresse:                        AbzugDauer      
+SPS-Abschlu·adresse:                    ProgChan        
+SPS-Abschlu·wert:                       1
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #1:       Inputverriegelung-Konfiguration         Position: 12,2
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert = 0                     
+Verriegelungskonstante:                 0
+
+
+Feld #1:       Normierung                              Position: 12,2
+
+0% Wert in der SPS:                     0   
+100% Wert in der SPS:                   999 
+Minimalwert am Tableau:                 0   
+Maximalwert am Tableau:                 9990
+
+
+Feld #2:       Input Wort ohne Vorzeichen              Position: 12,3
+
+Position:                               12,3      
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             5
+SPS-Zieladresse:                        FotoBlind       
+SPS-Abschlu·adresse:                    ProgChan        
+SPS-Abschlu·wert:                       1
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #2:       Inputverriegelung-Konfiguration         Position: 12,3
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert = 0                     
+Verriegelungskonstante:                 0
+
+
+Feld #2:       Normierung                              Position: 12,3
+
+0% Wert in der SPS:                     0   
+100% Wert in der SPS:                   999 
+Minimalwert am Tableau:                 0   
+Maximalwert am Tableau:                 9990
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 54
+
+
+Tasten/LED-Funktionen, Bild: PARA1
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 01                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 02                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 03                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            1
+00/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            2
+00/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            3
+00/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            4
+01/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            5
+01/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            6
+01/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion 
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            7
+01/08:
+14.Mai 1997  10:53                 EXTPOSI             Seite: 55
+
+
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            8
+02/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            9
+02/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            10
+02/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            11
+02/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            12
+03/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            13
+03/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            14
+03/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            15
+03/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            16
+14.Mai 1997  10:53                 EXTPOSI             Seite: 56
+
+
+PARA4
+
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥ Messer             ≥
+≥  Verzîg ∞∞0∞∞ ms   ≥
+≥  Dauer  ∞∞1∞∞ ms   ≥
+≥                    ≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+Messer                                                                         
+Verzîg                                                                         
+ms                                                                             
+Dauer                                                                          
+ms                                                                             
+
+
+Feld #0:       Input Wort ohne Vorzeichen              Position: 9,1
+
+Position:                               9,1       
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             5
+SPS-Zieladresse:                        MesseVerz       
+SPS-Abschlu·adresse:                    ProgChan        
+SPS-Abschlu·wert:                       1
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #0:       Inputverriegelung-Konfiguration         Position: 9,1
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert = 0                     
+Verriegelungskonstante:                 0
+
+
+Feld #0:       Normierung                              Position: 9,1
+
+0% Wert in der SPS:                     0   
+100% Wert in der SPS:                   999 
+Minimalwert am Tableau:                 0   
+Maximalwert am Tableau:                 9990
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 57
+
+
+Feld #1:       Input Wort ohne Vorzeichen              Position: 9,2
+
+Position:                               9,2       
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             5
+SPS-Zieladresse:                        MesseDauer      
+SPS-Abschlu·adresse:                    ProgChan        
+SPS-Abschlu·wert:                       1
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #1:       Inputverriegelung-Konfiguration         Position: 9,2
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert = 0                     
+Verriegelungskonstante:                 0
+
+
+Feld #1:       Normierung                              Position: 9,2
+
+0% Wert in der SPS:                     0   
+100% Wert in der SPS:                   999 
+Minimalwert am Tableau:                 0   
+Maximalwert am Tableau:                 9990
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 58
+
+
+Tasten/LED-Funktionen, Bild: PARA4
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 01                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 02                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 03                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            1
+00/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            2
+00/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            3
+00/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            4
+01/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            5
+01/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            6
+01/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion 
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            7
+01/08:
+14.Mai 1997  10:53                 EXTPOSI             Seite: 59
+
+
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            8
+02/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            9
+02/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            10
+02/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            11
+02/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            12
+03/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            13
+03/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            14
+03/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            15
+03/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            16
+14.Mai 1997  10:53                 EXTPOSI             Seite: 60
+
+
+PARA5
+
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥ Drucker            ≥
+≥  Verzîg ∞∞0∞∞ ms   ≥
+≥  Impuls ∞∞1∞∞ ms   ≥
+≥                    ≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+Drucker                                                                        
+Verzîg                                                                         
+ms                                                                             
+Impuls                                                                         
+ms                                                                             
+
+
+Feld #0:       Input Wort ohne Vorzeichen              Position: 9,1
+
+Position:                               9,1       
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             5
+SPS-Zieladresse:                        DruckVerz       
+SPS-Abschlu·adresse:                    ProgChan        
+SPS-Abschlu·wert:                       1
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #0:       Inputverriegelung-Konfiguration         Position: 9,1
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert = 0                     
+Verriegelungskonstante:                 0
+
+
+Feld #0:       Normierung                              Position: 9,1
+
+0% Wert in der SPS:                     0   
+100% Wert in der SPS:                   999 
+Minimalwert am Tableau:                 0   
+Maximalwert am Tableau:                 9990
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 61
+
+
+Feld #1:       Input Wort ohne Vorzeichen              Position: 9,2
+
+Position:                               9,2       
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             5
+SPS-Zieladresse:                        DruckDauer      
+SPS-Abschlu·adresse:                    ProgChan        
+SPS-Abschlu·wert:                       1
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #1:       Inputverriegelung-Konfiguration         Position: 9,2
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert = 0                     
+Verriegelungskonstante:                 0
+
+
+Feld #1:       Normierung                              Position: 9,2
+
+0% Wert in der SPS:                     0   
+100% Wert in der SPS:                   999 
+Minimalwert am Tableau:                 0   
+Maximalwert am Tableau:                 9990
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 62
+
+
+Tasten/LED-Funktionen, Bild: PARA5
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 01                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 02                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 03                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            1
+00/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            2
+00/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            3
+00/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            4
+01/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            5
+01/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            6
+01/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion 
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            7
+01/08:
+14.Mai 1997  10:53                 EXTPOSI             Seite: 63
+
+
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            8
+02/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            9
+02/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            10
+02/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            11
+02/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            12
+03/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            13
+03/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            14
+03/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            15
+03/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            16
+14.Mai 1997  10:53                 EXTPOSI             Seite: 64
+
+
+PARA7
+
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥ Klotzboden         ≥
+≥  Verzîg ∞∞0∞∞ ms   ≥
+≥  Dauer  ∞∞1∞∞ ms   ≥
+≥                    ≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+Klotzboden                                                                     
+Verzîg                                                                         
+ms                                                                             
+Dauer                                                                          
+ms                                                                             
+
+
+Feld #0:       Input Wort ohne Vorzeichen              Position: 9,1
+
+Position:                               9,1       
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             5
+SPS-Zieladresse:                        KlotzVerz       
+SPS-Abschlu·adresse:                    ProgChan        
+SPS-Abschlu·wert:                       1
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #0:       Inputverriegelung-Konfiguration         Position: 9,1
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert = 0                     
+Verriegelungskonstante:                 0
+
+
+Feld #0:       Normierung                              Position: 9,1
+
+0% Wert in der SPS:                     0   
+100% Wert in der SPS:                   999 
+Minimalwert am Tableau:                 0   
+Maximalwert am Tableau:                 9990
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 65
+
+
+Feld #1:       Input Wort ohne Vorzeichen              Position: 9,2
+
+Position:                               9,2       
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             5
+SPS-Zieladresse:                        KlotzDauer      
+SPS-Abschlu·adresse:                    ProgChan        
+SPS-Abschlu·wert:                       1
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #1:       Inputverriegelung-Konfiguration         Position: 9,2
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert = 0                     
+Verriegelungskonstante:                 0
+
+
+Feld #1:       Normierung                              Position: 9,2
+
+0% Wert in der SPS:                     0   
+100% Wert in der SPS:                   999 
+Minimalwert am Tableau:                 0   
+Maximalwert am Tableau:                 9990
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 66
+
+
+Tasten/LED-Funktionen, Bild: PARA7
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 01                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 02                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 03                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            1
+00/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            2
+00/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            3
+00/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            4
+01/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            5
+01/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            6
+01/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion 
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            7
+01/08:
+14.Mai 1997  10:53                 EXTPOSI             Seite: 67
+
+
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            8
+02/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            9
+02/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            10
+02/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            11
+02/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            12
+03/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            13
+03/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            14
+03/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            15
+03/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            16
+14.Mai 1997  10:53                 EXTPOSI             Seite: 68
+
+
+PARA8
+
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥ Abwurfklappe       ≥
+≥  Verzîg ∞∞0∞∞ ms   ≥
+≥  Dauer  ∞∞1∞∞ ms   ≥
+≥                    ≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+Abwurfklappe                                                                   
+Verzîg                                                                         
+ms                                                                             
+Dauer                                                                          
+ms                                                                             
+
+
+Feld #0:       Input Wort ohne Vorzeichen              Position: 9,1
+
+Position:                               9,1       
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             5
+SPS-Zieladresse:                        KlappVerz       
+SPS-Abschlu·adresse:                    ProgChan        
+SPS-Abschlu·wert:                       1
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #0:       Inputverriegelung-Konfiguration         Position: 9,1
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert = 0                     
+Verriegelungskonstante:                 0
+
+
+Feld #0:       Normierung                              Position: 9,1
+
+0% Wert in der SPS:                     0   
+100% Wert in der SPS:                   999 
+Minimalwert am Tableau:                 0   
+Maximalwert am Tableau:                 9990
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 69
+
+
+Feld #1:       Input Wort ohne Vorzeichen              Position: 9,2
+
+Position:                               9,2       
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             5
+SPS-Zieladresse:                        KlappDauer      
+SPS-Abschlu·adresse:                    ProgChan        
+SPS-Abschlu·wert:                       1
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #1:       Inputverriegelung-Konfiguration         Position: 9,2
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert = 0                     
+Verriegelungskonstante:                 0
+
+
+Feld #1:       Normierung                              Position: 9,2
+
+0% Wert in der SPS:                     0   
+100% Wert in der SPS:                   999 
+Minimalwert am Tableau:                 0   
+Maximalwert am Tableau:                 9990
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 70
+
+
+Tasten/LED-Funktionen, Bild: PARA8
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 01                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 02                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 03                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            1
+00/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            2
+00/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            3
+00/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            4
+01/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            5
+01/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            6
+01/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion 
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            7
+01/08:
+14.Mai 1997  10:53                 EXTPOSI             Seite: 71
+
+
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            8
+02/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            9
+02/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            10
+02/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            11
+02/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            12
+03/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            13
+03/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            14
+03/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            15
+03/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            16
+14.Mai 1997  10:53                 EXTPOSI             Seite: 72
+
+
+PARA9
+
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥Quer Parameter      ≥
+≥ MaxGeschw  ∞0∞∞ %  ≥
+≥ ôffnung    ∞1∞∞ mm ≥
+≥                    ≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+Quer Parameter                                                                 
+MaxGeschw                                                                      
+%%                                                                             
+ôffnung                                                                        
+mm                                                                             
+
+
+Feld #0:       Input Wort ohne Vorzeichen              Position: 12,1
+
+Position:                               12,1      
+Anzahl der Stellen:                     3
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             4
+SPS-Zieladresse:                        QuerMax         
+SPS-Abschlu·adresse:                    SendNeu         
+SPS-Abschlu·wert:                       2
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #0:       Inputverriegelung-Konfiguration         Position: 12,1
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert = 0                     
+Verriegelungskonstante:                 0
+
+
+Feld #0:       Normierung                              Position: 12,1
+
+0% Wert in der SPS:                     300
+100% Wert in der SPS:                   3000
+Minimalwert am Tableau:                 10 
+Maximalwert am Tableau:                 100
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 73
+
+
+Feld #1:       Input Wort ohne Vorzeichen              Position: 12,2
+
+Position:                               12,2      
+Anzahl der Stellen:                     3
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             4
+SPS-Zieladresse:                        QuerOffen       
+SPS-Abschlu·adresse:                    SendNeu         
+SPS-Abschlu·wert:                       5
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #1:       Inputverriegelung-Konfiguration         Position: 12,2
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert = 0                     
+Verriegelungskonstante:                 0
+
+
+Feld #1:       Normierung                              Position: 12,2
+
+0% Wert in der SPS:                     40 
+100% Wert in der SPS:                   120
+Minimalwert am Tableau:                 40 
+Maximalwert am Tableau:                 120
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 74
+
+
+Tasten/LED-Funktionen, Bild: PARA9
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 01                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 02                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 03                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            1
+00/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            2
+00/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            3
+00/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            4
+01/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            5
+01/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            6
+01/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion 
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            7
+01/08:
+14.Mai 1997  10:53                 EXTPOSI             Seite: 75
+
+
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            8
+02/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            9
+02/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            10
+02/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            11
+02/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            12
+03/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            13
+03/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            14
+03/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            15
+03/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            16
+14.Mai 1997  10:53                 EXTPOSI             Seite: 76
+
+
+PARA11
+
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥Schweissung         ≥
+≥ Quer Dauer ∞∞0∞∞ ms≥
+≥ LÑngsverzîg∞∞1∞∞ ms≥
+≥ LÑngsdauer ∞∞2∞∞ ms≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+Schweissung                                                                    
+Quer Dauer                                                                     
+ms                                      ms                                     
+LÑngsverzîg                                                                    
+ms                                      ms                                     
+LÑngsdauer                                                                     
+ms                                                                             
+
+
+Feld #0:       Input Wort ohne Vorzeichen              Position: 12,1
+
+Position:                               12,1      
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             5
+SPS-Zieladresse:                        QuerDauer       
+SPS-Abschlu·adresse:                    ProgChan        
+SPS-Abschlu·wert:                       1
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #0:       Inputverriegelung-Konfiguration         Position: 12,1
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert = 0                     
+Verriegelungskonstante:                 0
+
+
+Feld #0:       Normierung                              Position: 12,1
+
+0% Wert in der SPS:                     0   
+100% Wert in der SPS:                   999 
+Minimalwert am Tableau:                 0   
+Maximalwert am Tableau:                 9990
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 77
+
+
+Feld #1:       Input Wort ohne Vorzeichen              Position: 12,2
+
+Position:                               12,2      
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             5
+SPS-Zieladresse:                        LangVerz        
+SPS-Abschlu·adresse:                    ProgChan        
+SPS-Abschlu·wert:                       1
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #1:       Inputverriegelung-Konfiguration         Position: 12,2
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert = 0                     
+Verriegelungskonstante:                 0
+
+
+Feld #1:       Normierung                              Position: 12,2
+
+0% Wert in der SPS:                     0   
+100% Wert in der SPS:                   999 
+Minimalwert am Tableau:                 0   
+Maximalwert am Tableau:                 9990
+
+
+Feld #2:       Input Wort ohne Vorzeichen              Position: 12,3
+
+Position:                               12,3      
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             5
+SPS-Zieladresse:                        LangDauer       
+SPS-Abschlu·adresse:                    ProgChan        
+SPS-Abschlu·wert:                       1
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #2:       Inputverriegelung-Konfiguration         Position: 12,3
+
+SPS-Adresse fÅr Verriegelungswert:      Password        
+Verriegelung ist aktiv, wenn:           SPS-Wert = 0                     
+Verriegelungskonstante:                 0
+
+
+Feld #2:       Normierung                              Position: 12,3
+
+0% Wert in der SPS:                     0   
+100% Wert in der SPS:                   999 
+Minimalwert am Tableau:                 0   
+Maximalwert am Tableau:                 9990
+
+
+14.Mai 1997  10:53                 EXTPOSI             Seite: 78
+
+
+Tasten/LED-Funktionen, Bild: PARA11
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 01                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 02                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 03                      ±±T ±±T ±±T ±±T     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            1
+00/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            2
+00/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            3
+00/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            4
+01/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            5
+01/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            6
+01/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion 
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            7
+01/08:
+14.Mai 1997  10:53                 EXTPOSI             Seite: 79
+
+
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            8
+02/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            9
+02/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            10
+02/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            11
+02/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            12
+03/05:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            13
+03/06:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            14
+03/07:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            15
+03/08:
+        Set Bit/Byte
+          SPS-Adresse:                       Funktion
+          SPS-Abschlu·adresse:               
+          SPS-Abschlu·wert:                  0
+          Wert 1:                            16
+14.Mai 1997  10:53                 EXTPOSI             Seite: 80
+
+
+SERROR
+
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥ErrNr=±0±           ≥
+≥ErrCode=±±1±±       ≥
+≥EN=±±±±2±±±±±       ≥
+≥                    ≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
+
+
+Defaultsprache:                         Sprache Nr. 1:                         
+Deutsch                                 Slowakisch                             
+-------------------------------------------------------------------------------
+ErrNr=                                                                         
+                                                                               
+ErrCode=                                                                       
+                                                                               
+EN                                                                             
+=                                                                              
+                                                                               
+
+
+Feld #0:       Output Bit/Byte                         Position: 6,0
+
+Position:                               6,0       
+Anzahl der Stellen:                     3
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             3
+SPS-Adresse:                            ERR_NR/IN       
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+Feld #1:       Output Wort ohne Vorzeichen             Position: 8,1
+
+Position:                               8,1       
+Anzahl der Stellen:                     5
+Anzahl der Nachkommastellen:            0
+Zeichengrî·e:                           1
+Feldbreite:                             5
+SPS-Adresse:                            ERR_CODE/IN     
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+Feld #2:       Output String                           Position: 3,2
+
+Position:                               3,2       
+StringlÑnge:                            10
+Zeichengrî·e:                           1
+SPS-Adresse:                            ERR_NAME/IN     
+
+
+

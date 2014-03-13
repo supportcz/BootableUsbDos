@@ -1,0 +1,879 @@
+%%
+1,0:1
+%%
+.1
+    Functions of the Data Memory Library
+
+  ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ ATTENTION: Since the I/O library contains AVT functions, the library      บ
+  บ            functions can only be used if the B&R module DM LIB.BR has     บ
+  บ            been burnt to the non-volatile (application ROM) memory of the บ
+  บ            controller! If several 64 KByte blocks are to be used (see     บ
+  บ            functions DMxclear(), DMxstore() and DMxfree()), you must also บ
+  บ            transfer the data module CFGDMLIB.BR to the non-volatile       บ
+  บ            memory (Application Flash PROM) of the controller.             บ
+  บ            After transfer is complete, a coldstart (previously known as   บ
+  บ            "TOTALINIT") must be carried out.                              บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+                                      @002[ continue ]                      @999[ End HELP ]
+.2
+    Functions of the Data Memory Library (continued)
+
+    After the B&R Data Memory library has been imported, the following function
+    groups are available:
+
+    @020[DMclear ] Clear data memory contained in the last 64 KByte block of the 
+             Flash PROM
+    @030[DMstore ] Store data module in the last 64 KByte block of the Flash PROM
+    @040[DMfree  ] Determine how much data memory is free in the last 64 KByte block 
+             of the Flash PROM
+    @050[DMxclear] Clear data memory from the x-th 64 KByte block of the Flash PROM
+    @060[DMxstore] Store data module in the x-th 64 KByte block of the Flash PROM
+    @070[DMxfree ] Determine how much data memory is free in the x-th 64 KByte block 
+             of the Flash PROM 
+
+    The data memory library provides additional functions for data module 
+    handling (in addition to data module functions in BURTRAP Library).
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.20
+    DMclear - Delete Data Memory from last 64 KByte Block
+
+    @020[DMclear] (enable,status)
+
+    Parameter data types:
+    ->  @025[enable    ]: BIT           The function block is only activated when
+                                  enable = 1.
+    <-  @026[status    ]: WORD          Error number (0 = no error)
+
+    The DMclear() function block clears the Data memory(DMEMORY) from the last
+    64 KByte block of the Application Flash PROM. All other PCC functions are 
+    disabled while the Application Flash PROM is being cleared.
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.25
+    DMclear - Delete Data Memory from last 64 KByte Block (continued)
+
+    -> Parameter <enable    >: BIT
+
+    When the input parameter "enable" = 1, the last 64 KByte block of the 
+    application Flash PROM is cleared, and all modules contained in this memory
+    space are removed from the system table.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @020[ DMclear ]                      @001[ Overview ]
+.26
+    DMclear - Clear Data Memory from last 64 KByte Block (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers DMclear():
+    6383    No free 64 KByte block available in Application Flash PROM 
+            (-> delete Application Flash PROM)
+    6385    CPU type is not supported
+    6386    Internal Error - no root task available
+    6389    Internal DMEMORY handle 0 or invalid (-> memory error)
+    6394    B&R module DM_LIB.BR has been deleted (-> reload, burn and
+            COLDSTART or only a WARMSTART will be carried out)
+    6395    Data memory(DMEMORY) processed by another data memory library 
+            function block 
+
+    A list of all possible error messages for the data memory library is found 
+    in appendix @300[Error Messages].
+
+
+
+
+                                       @020[ DMclear ]                      @001[ Overview ]
+.30
+    DMstore - Store Data Module in the last 64 KByte Block
+
+    @031[DMstore] (enable,adr(name),data,size,ident,status)
+
+    Parameter data types:
+    ->  enable    : BIT           The function block is only activated when
+                                  enable = 1
+    ->  name      : BYTE (ARRAY)  String name of the data module to be 
+                                  generated. If this name has already been 
+                                  assigned to an existing module, a 
+                                  corresponding error status will be displayed 
+                                  on the output. The string can be given in two
+                                  different forms:
+                                  adr(name)  Address of the BYTE array variable
+                                             that the string contains.
+                                  "name"     Constants string (must be given 
+                                             with quotation marks!).
+    ->  data      : LONG          Address of the data that is to be copied to 
+                                  the data section of the new data module.
+
+
+                                      @031[ continue ]                      @001[ Overview ]
+.31
+    DMstore - Store Data Module in the last 64 KByte Block (continued)
+
+    Parameter data types (continued) :
+    ->  size      : LONG          This parameter determines the size of the
+                                  data section.
+    ->  @035[ident     ]: LONG          If a valid data module Ident number is
+                                  entered here, all sections of the reference
+                                  module required for creating a new data
+                                  module are called. The data section of the
+                                  module is set in the data area given (in
+                                  parameter "data"). The data length of the
+                                  reference module has to correspond to the
+                                  data length given (in parameter "size").
+    <-  @036[status    ]: WORD          Error number (0 = no error)
+
+    The DMstore() function block enables a data module to be stored in the data
+    memory of the last 64 KByte block.
+
+
+
+
+                                      @032[ continue ]                      @001[ Overview ]
+.32
+    DMstore - Store Data Module in the last 64 KByte Block (continued)
+
+    The Flash PROM memory is made up of 32 Byte blocks. The data module is
+    generated directed in the Flash PROM (no additional memory required).
+    All other PCC functions are disabled while a block (32 Byte) is being
+    saved to the application Flash PROM.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.35
+    DMstore - Store Data Module in the last 64 KByte Block (continued)
+
+    -> Parameter <ident     >: LONG
+
+    If a valid data module Ident number is entered here, all sections of the 
+    reference module required for creating a new data module are called up.
+    The data section of the module is set in the data area given (with
+    parameter "data"). The data length of the reference module has to
+    correspond to the data length given (with the parameter "size").
+
+    Look Out!:
+    The Ident number of an existing data module can be determined using the
+    DA_ident() function in the BURTRAP library.
+
+
+
+
+
+
+
+
+                                       @030[ DMstore ]                      @001[ Overview ]
+.36
+    DMstore - Store Data Module in the last 64 KByte Block (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers DMstore():
+    6383    No free 64 KByte block in application Flash PROM available
+            (-> application Flash PROM delete)
+    6385    CPU type is not supported
+    6386    Internal error - no root task available
+    6389    Internal DMEMORY handle 0 or invalid (-> memory error)
+    6390    DMEMORY full -> call DMclear() function
+    6391    Parameter "ident" invalid or incorrect module type
+    6392    The data length of the reference module data section is different
+            to that stated in the "size" parameter.
+    6393    A module already exists with this name
+    6394    B&R module DM_LIB.BR has been deleted (-> reload, burn and 
+            COLDSTART) or only a WARMSTART will be carried out.
+    6395    Data memory(DMEMORY) processed by another data memory library 
+            function block 
+
+
+                                      @037[ continue ]                      @001[ Overview ]
+.37
+    DMstore - Store Data Module in the last 64 KByte Block (continued)
+
+    6396    A zero pointer has been entered in the parameter "data"
+    8022    Module table full -> Increase the maximum number B&R modules 
+            available on the PCC using the system configuration 
+            ("sysconf" module)
+    9002    Invalid module name Syntax (special character!)
+
+    A list of all possible error messages for the data memory library is found 
+    in appendix @300[Error Messages].
+
+
+
+
+
+
+
+
+
+
+
+                                       @030[ DMstore ]                      @001[ Overview ]
+.40
+    DMfree - Determine size of free Data Memory
+
+    @040[DMfree] (enable,size,status)
+
+    Parameter data types :
+    ->  enable    : BIT           The function block is only activated when
+                                  enable = 1
+    <-  size      : LONG          The value given here corresponds to the
+                                  free memory in the last 64 KByte block of the
+                                  data memory (given in Bytes).
+    <-  @045[status    ]: WORD          Error number (0 = no error)
+
+    The DMfree() enables you to find out the amount of free memory space left 
+    in the last 64 KByte block of the data memory. 
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.45
+    DMfree - Determine size of free Data Memory (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers DMfree():
+    6383    No free 64 KByte block in application Flash PROM available
+            (-> delete application Flash PROM)
+    6385    CPU type is not supported
+    6386    Internal error - no Root task available
+    6389    Internal DMEMORY handle 0 or invalid (-> memory error)
+    6394    B&R module DM_LIB.BR has been deleted (-> reload, burn and 
+            COLDSTART) or only a WARMSTART will be carried out
+
+    A list of all possible error messages for the data memory library is found 
+    in appendix @300[Error Messages].
+
+
+
+
+
+
+                                       @040[ DMfree ]                       @001[ Overview ]
+.50
+    DMxclear - Clear Data Memory from x-th 64 KByte Block 
+
+    @050[DMxclear] (enable,block_no,status)
+
+    Parameter data types :
+    ->  @055[enable    ]: BIT           The function block is only activated when
+                                  enable = 1
+    ->  block_no  : BYTE          The block number of the 64 KByte block can be 
+                                  entered in the application Flash PROM:
+                                  1 ... last 64 KByte block
+                                  2 ... 2nd last 64 KByte block etc.
+    <-  @056[status    ]: WORD          Error number (0 = no error)
+
+    The DMxclear() function enables you to delete the data memory(DMEMORY) of a
+    64 KByte block from the appliaction Flash PROM. All other PCC functions are
+    disabled while the Application Flash PROM is being deleted.
+
+
+
+
+
+                                                                      @001[ Overview ]
+.55
+    DMxclear - Clear Data Memory from x-th 64 KByte Block (continued)
+
+    -> Parameter <enable    >: BIT
+
+    When the input parameter "enable" = 1, the last 64 KByte block 
+    (see "block no.") of the application Flash PROM is cleared and all modules 
+    contained in this memory space removed from the system table.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @050[ DMxclear ]                      @001[ Overview ]
+.56
+    DMxclear - Clear Data Memory from x-th 64 KByte Block (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers DMxclear():
+    6383    No free 64 KByte block in application Flash PROM available
+            (-> application Flash PROM delete)
+    6385    CPU type is not supported
+    6386    Internal error - no root task available
+    6389    Internal DMEMORY handle 0 or invalid (-> memory error)
+    6394    B&R module DM_LIB.BR has been deleted (-> reload, burn and 
+            COLDSTART) or only a WARMSTART will be carried out
+    6395    Data memory(DMEMORY) processed by another data memory library 
+            function block 
+    6396    A zero pointer has been entered in the DMxclear() function 
+    6398    The "block_no" is bigger than that defined in the CFGDMLIB data
+            module
+
+
+
+
+                                      @057[ continue ]                      @001[ Overview ]
+.57
+    DMxclear - Clear Data Memory from x-th 64 KByte Block (continued)
+
+    A list of all possible error messages for the data memory library is found 
+    in appendix @300[Error Messages].
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @050[ DMxclear ]                      @001[ Overview ]
+.60
+    DMxstore - Store Data Module in x-th 64 KByte Block
+
+    @061[DMxstore] (enable,block_no,adr(name),data,size,ident,status)
+
+    Parameter data types :
+    ->  enable    : BIT           The function block is only activated when
+                                  enable = 1
+    ->  block_no  : BYTE          The block number of the 64 KByte block can be 
+                                  entered in the application Flash PROM:
+                                  1 ... last 64 KByte Block
+                                  2 ... 2nd last 64 KByte Block etc.
+
+
+
+
+
+
+
+
+
+
+                                      @061[ continue ]                      @001[ Overview ]
+.61
+    DMxstore - Store Data Module in x-th 64 KByte Block (continued)
+
+    Parameter data types (continued) :
+    ->  name      : BYTE (ARRAY)  String name of the data module to be 
+                                  generated. If this name has already been 
+                                  assigned to an existing module, a 
+                                  corresponding error status will be displayed 
+                                  on the output. The string can be given in two
+                                  different forms:
+                                  adr(name)  Address of the BYTE array variable
+                                             that the string contains.
+                                  "name"     Constants string (must be given 
+                                             with quotation marks!).
+    ->  data      : LONG          Address of the data that is to be copied to 
+                                  the data section of the new data module.
+    ->  size      : LONG          This parameter determines the size of the
+                                  data section.
+
+
+
+
+                                      @062[ continue ]                      @001[ Overview ]
+.62
+    DMxstore - Store Data Module in x-ten 64 KByte Block (continued)
+
+    Parameter data types (continued) :
+    ->  @065[ident     ]: LONG          If a valid data module Ident number is
+                                  entered here, all sections of the reference
+                                  module required for creating a new data
+                                  module are called up. The data section of
+                                  the module is set in the data area given (in
+                                  parameter "data"). The data length of the
+                                  reference module has to correspond to the
+                                  data length given (in parameter "size").
+    <-  @066[status    ]: WORD          Error number (0 = no error)
+
+    The DMxstore() function block enables a data module to be stored in the
+    data memory of the last 64 KByte block.
+    The Flash PROM memory is made up of 32 Byte blocks. The data module is 
+    generated directed in the Flash PROM (no additional memory required).
+    All other PCC functions are disabled while a block (32 Byte) is being
+    stored in the application Flash PROM.
+
+
+                                                                      @001[ Overview ]
+.65
+    DMxstore - Store Data Module in x-th 64 KByte Block (continued)
+
+    -> Parameter <ident     >: LONG
+
+    If a valid data module Ident number is entered here, all sections of the 
+    reference module required for creating a new data module will be called.
+    The data section of the module is set in the data area given (in parameter
+    "data"). The data length of the reference module has to correspond to the 
+    data length given (in parameter "size").
+
+    Look Out!:
+    The Ident number of an existing data module can be determined using the
+    DA_ident() function in the BURTRAP library.
+
+
+
+
+
+
+
+
+                                      @060[ DMxstore ]                      @001[ Overview ]
+.66
+    DMxstore - Store Data Module in x-th 64 KByte Block (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers DMxstore():
+    6383    No free 64 KByte block in application Flash PROM available
+            (-> application Flash PROM delete)
+    6385    CPU type is not supported
+    6386    Internal error - no Root task available
+    6389    Internal DMEMORY handle 0 or invalid (-> memory error)
+    6390    DMEMORY full -> call DMclear() function
+    6391    Parameter "ident" invalid or incorrect module type
+    6392    The data length of the reference module data section is different
+            to that stated in the "size" parameter. 
+    6393    A module already exists with this name
+    6394    B&R module DM_LIB.BR has been deleted (-> reload, burn and 
+            COLDSTART) or only a WARMSTART will be carried out
+    6395    Data memory(DMEMORY) processed by another data memory library 
+            function block 
+
+
+                                      @067[ continue ]                      @001[ Overview ]
+.67
+    DMxstore - Store Data Module in x-th 64 KByte Block (continued)
+
+    6396    A zero pointer has been entered in the parameter "data"
+    6398    The "block_no." given is bigger than that defined in the CFGDMLIB
+            data module
+    8022    Module table full -> Increase the maximum number B&R modules 
+            available on the PCC using the system configuration 
+            ("sysconf" module)
+    9002    Invalid module name Syntax (special character!)
+
+    A list of all possible error messages for the data memory library is found 
+    in appendix @300[Error Messages].
+
+
+
+
+
+
+
+
+
+                                      @060[ DMxstore ]                      @001[ Overview ]
+.70
+    DMxfree - Determine size of available Data Memory
+
+    @071[DMxfree] (enable,block_no,size,status)
+
+    Parameter data types :
+    ->  enable    : BIT           The function block is only activated when
+                                  enable = 1
+    ->  block_no  : BYTE          The block number of the 64 KByte block can be 
+                                  entered in the application Flash PROM:
+                                  1 ... last 64 KByte block
+                                  2 ... 2nd last 64 KByte block etc.
+    <-  size      : LONG          The value given here corresponds to the
+                                  free memory in the last 64 KByte block of the 
+                                  data memory (given in Bytes).
+    <-  @075[status    ]: WORD          Error number (0 = no error)
+
+
+
+
+
+
+                                      @071[ continue ]                      @001[ Overview ]
+.71
+    DMxfree - Determine size of available Data Memory (continued)
+
+    The DMxfree() function block enables you to find out the size of the free
+    memory in the data memory of the given 64 KByte blocks.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.75
+    DMxfree - Find out size of available Data Memory (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers DMxfree():
+    6383    No free 64 KByte block in application Flash PROM available
+            (-> application Flash PROM delete)
+    6385    CPU type is not supported
+    6386    Internal error - no Root task available
+    6389    Internal DMEMORY handle 0 or invalid (-> memory error)
+    6394    B&R module DM_LIB.BR has been deleted (-> reload, burn and 
+            COLDSTART) or only a WARMSTART will be carried out
+    6398    The "block_no." given is bigger than that defined in the CFGDMLIB
+            data module
+
+    A list of all possible error messages for the data memory library is found 
+    in appendix @300[Error Messages].
+
+
+
+
+                                       @070[ DMxfree ]                      @001[ Overview ]
+.200
+    APPENDIX : LIBRARY Information
+
+
+    @201[< General Information     >]     Requirements etc.
+
+    @210[< Supported Hardware      >]     List of supported Hardware modules
+
+    @220[< Data Module CFGDMLIB.BR> ]     Data module CFGDMLIB.BR
+
+    @250[< Syntax                  >]     Syntax for explaining the functions
+
+    @300[< Error Numbers           >]     Summary of all Error Numbers
+
+    @400[< History                 >]     New functionality and version changes
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.201
+    Data Memory Library : General Information
+
+    With most processors equipped with Flash PROM Memory (see list of
+    @210[Supported Hardware Modules]), the range of operating system PCCSW functions 
+    can be expanded to include a Flash PROM memory area (data memory which can
+    be cleared by the application program). 
+    Exchangable application memory is not supported by these operating systems.
+    The operating sytem expansion for the data memory area 
+    (B&R module DM_LIB.BR) is installed in the Flash PROM, the last 64 KByte 
+    bank of the application Flash PROM is no longer handled by the general 
+    memory management. The DMx function blocks (DMxclear(), DMxstore() and 
+    DMxfree()) can handle several 64 KByte blocks at the end of the aplication 
+    Flash PROM. The number of 64 KByte blocks which can be reserved in the 
+    application Flash PROM for handling by the DMx function blocks, can be 
+    determined using the data module @220[CFGDMLIB.BR].
+
+
+
+
+
+
+                                      @202[ continue ]                      @001[ Overview ]
+.202
+    Data Memory Library : General Information (continued)
+
+    Data memory library function blocks enable you to install B&R data modules 
+    in this area. In addition, you also have the possibility to clear this area
+    using a function block.
+    You cannot explicitly remove B&R data modules from the data memory using
+    PG2000. They are handled in the same way as a module stored in Flash PROM.
+    For this reason you are provided with "Clear" and "Upload" options.
+    However, downloading to data memory is not possible with PG2000.
+    When clearing the application Flash PROM with PG2000, the last bank(s)
+    of the Flash PROM are also cleared. This means that all modules contained
+    in Flash PROM are cleared as well.
+
+
+
+
+
+
+
+
+    
+                                      @203[ continue ]                      @001[ Overview ]
+.203
+    Data Memory Library : General Information (continued)
+
+    Note:
+    - Before you can use the Data Memory library functions in your project, 
+      you must import the library into the appropriate project data bank.
+
+    - As the data memory library contains AVT functions, the library functions 
+      can only be used if the B&R module DM_LIB.BR is available in the 
+      application Flash PROM on the CPU.
+
+    - If several 64 KByte blocks are to be used (see function DMxclear(),
+      DMxstore() and DMxfree()), you must also store the CFGDMLIB.BR data
+      module in the Application Flash PROM.
+
+    - The data memory library should be run from operating system version
+      V1.90.
+
+    - All functions of the data memory library deliver an @300[Error number] in the 
+      event of an error.
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.210
+    Data Memory Library : Supported Hardware
+
+    The following hardware modules support data memory library functions:
+
+    ษอออออออออออออออออหอออออออออออออออออหอออออออออออออออออป
+    บ System B&R 2010 บ System B&R 2005 บ System B&R 2003 บ
+    ฬอออออออออออออออออฮอออออออออออออออออฮอออออออออออออออออน
+    บ IF100           บ CP260           บ CP470           บ
+    บ IF101           บ XP152           บ CP474           บ
+    บ                 บ IF260           บ CP770           บ
+    บ                 บ IF152           บ CP774           บ
+    บ                 บ IPxxx           บ                 บ
+    ศอออออออออออออออออสอออออออออออออออออสอออออออออออออออออผ
+
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.220
+    Data Memory Library : Data Module CFGDMLIB.BR
+
+    The data module CFGDMLIB.BR is used to configure the number of 64 KByte 
+    blocks (data type BYTE), which can be reserved in the application Flash
+    PROM to handle DMx function blocks (DMxclear(), DMxstore() and DMxfree()).
+    This data module can be created in PG2000 and must be transferred to the 
+    application Flash PROM along with the B&R module DM_LIB.BR. After transfer 
+    to the non-volatile memory is complete, you must carry out a COLDSTART
+    (previously known as "TOTALINIT").
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.250
+    Data Memory Library : Syntax Description
+
+    Data types:
+    Certain groups of data types are valid for many functions. In order to
+    avoid the need to enter all these data types in a function description,
+    the following group names have been introduced:
+    ษออออออออหอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออป
+    บ Group  บ  BIT  ณ INT8  ณ BYTE  ณ INT16 ณ WORD  ณ INT32 ณ LONG  ณ FLOAT บ
+    ฬออออออออฮอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออน
+    บ BASIS  บ       ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ NOT    บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    บ FLOAT  บ       ณ       ณ       ณ       ณ       ณ       ณ       ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ ALL    บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ ARRAY  บ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  บ
+    ศออออออออสอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออผ
+      x  Data type is allowed
+     [x] Data type is allowed as array variable or character string 
+
+                                      @251[ continue ]                      @001[ Overview ]
+.251
+    Data Memory Library : Syntax Description (continued)
+
+    Arrows:
+    Arrows are used to display input and output parameters. The following 
+    arrangement is used for this arrangement:
+    ษอออออออออหออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ  Arrow  บ  Meaning                                                     บ
+    ฬอออออออออฮออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ   ->    บ  Input parameter                                             บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <->   บ  Input/output parameter. Functions as an output              บ
+    บ         บ  parameter, but usually carries certain information before   บ
+    บ         บ  the function is called (e.g. address) which may be used as  บ
+    บ         บ  an input to the function. The address is normally a variableบ
+    บ         บ  with adr() [PL2000], or relates to a contact address [LAD]. บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <-    บ  Output parameter                                            บ
+    ศอออออออออสออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                      @252[ continue ]                      @001[ Overview ]
+.252
+    Data Memory Library : Syntax Description (continued)
+
+    Function Blocks:
+    Function blocks are not graphically represented in this Online Help.
+    However, you can find all the relevant information about function blocks
+    (i.e. input parameters (->), input/output parameters (<->) and output
+    parameters (<-)) in the Online Help.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.300
+    Data Memory Library: Error Numbers
+
+    The following list is a summary of all possible Data Memory Library
+    error messages:
+
+    6380    No memory in the MEMCL_PCCSW
+    6381    No Application Flash PROM with HW function MEM_CPU
+    6382    No entry for Application Flash PROM in the CMEM system table
+    6383    No free 64 KByte block in Application Flash PROM available
+            (-> delete Application Flash PROM )
+    6384    Internal error with Hardware call ROM_getfreeptr
+    6385    CPU type is not supported
+    6386    Internal error - no Root task available
+    6387    Internal error - function MO_search_p not set by the system
+            software
+    6388    Faulty data module found during boot procedure (defect data module
+            created e.g. by power failure during burning) 
+    6389    Internal DMEMORY handle 0 or invalid (-> memory area)
+    6390    DMEMORY full -> call DMclear() function
+    6391    Parameter "ident" invalid or incorrect module type
+
+                                      @301[ continue ]                      @001[ Overview ]
+.301
+    Data Memory Library : Error Numbers (continued)
+
+    6392    The data length of the reference module data section is different
+            to that stated in the "size" parameter. 
+    6393    A module already exists with this name
+    6394    B&R module DM_LIB.BR has been deleted (-> reload, burn and 
+            COLDSTART) or only a WARMSTART will be carried out
+    6395    Data memory(DMEMORY) processed by another data memory library 
+            function block
+    6396    A zero pointer has been entered in the parameter "data" 
+    6397    The "block number" for CFGDMLIB is too big for the available
+            Application Flash PROM
+    6398    The "block_no." given is bigger than that defined in the CFGDMLIB
+            data module
+    8022    Module table full -> Increase the maximum number B&R modules 
+            available on the PCC using the system configuration 
+            ("sysconf" module)
+    9002    Invalid module name Syntax (special character!)
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.400
+    Data Memory Library : History - Version Changes
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.01           ณ                                                         บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ First version of Online help for the Data Memory Library.                 บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+
+.End

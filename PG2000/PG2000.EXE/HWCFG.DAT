@@ -1,0 +1,22 @@
+;***********************************************************************
+;* B&R PROFIBUS-Controller Hardware Konfiguratiosdatei                 *
+;***********************************************************************
+;*
+;***********************************************************************
+;* Einstellbar sind (siehe HW, Konfig DOKU)                            *
+;*  - DPR Adresse des PROFIBUS Controllers in Segment:Offset Form,     *
+;*    wobei der Doppelpunkt wegzulassen ist. Z.B d000:0000 muss als    *
+;*    D0000000 eingegeben werden                                       *
+;*  - Fenstergr”áe 16K/32K/64K                                         *
+;*  - Stationsadresses des PROFIBUS Controllers 0-99                   *
+;*  - Baudrate 9.6K, 19.2K, 93.75K, 187.5K, 500K                       *
+;***********************************************************************
+D0000000        ; DPR-Adresse
+0               ; interne Konstante
+1               ; Fenstergr”áe      0/1/2    16K/32K/64K
+16              ; Stationsadresse   0-126
+4               ; Baudrate          0-4      9.6K-500K
+
+;***********************************************************************
+;* ENDE B&R PROFIBUS-Controller Hardware Konfiguratiosdatei            *
+;***********************************************************************

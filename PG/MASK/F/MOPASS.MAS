@@ -1,0 +1,12 @@
+#TXT 00 00 25 78  _Mot_de_passe_classe1_:__
+#VAR 00 25 10 01 68 00 66 N N J N N 00 00 00 
+#TXT 00 35 01 78  _
+#TXT 01 00 25 78  _________Confirmation_:__
+#VAR 01 25 10 01 68 00 66 N N J N N 00 00 01 
+#TXT 04 00 25 78  _Mot_de_passe_classe2_:__
+#VAR 04 25 10 01 68 00 66 N N J N N 00 00 02 
+#TXT 05 00 25 78  _________Confirmation_:__
+#VAR 05 25 10 01 68 00 66 N N J N N 00 00 03 
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~

@@ -1,0 +1,10 @@
+;
+;    Treiberbeschreibungsfile fuer Net2000/CAN
+;
+;Filename      Modulname
+CAN2000        00.can2000
+NT2CAN         00.nt2can
+NET2000        00.net2000
+NTCCFG         00.ntccfg
+DSNTC2         ff.DSntc2
+

@@ -1,0 +1,26 @@
+
+
+                      Documentation
+
+                       OUT0INIT.BR
+
+     Initialization of the Outputs with Zero at Boot Up
+
+
+
+ Date       :      6. June 1994
+ Version    :      V1.10
+ Author     :      Bernhard Hochstrasser
+
+
+The system task out0init.br initializes all battery backed outputs with the
+value 0 (Zero) at boot up, before the Init-SPs of the PLC tasks are called. In
+this way, all outputs are initialized to zero, even after an INIT boot up.
+However, you can set the outputs to any value in the Init-SP of a PLC task.
+
+ The requirement for the initialization of the outputs is that6 the system
+ module out0ini.br must be fixed or burned !
+
+ATTENTION : The system task out0init.br initializes the outputs only in PLCSW
+            V1.10 !
+            In PLCSW V1.05 the outputs are NOT initialized !

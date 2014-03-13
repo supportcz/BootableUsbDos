@@ -1,0 +1,12 @@
+#TXT 00 00 01 78  _
+#VAR 00 02 25 01 78 00 35 N N J N N 00 00 01 
+#TXT 00 02 25 78  _Hardware-RESET_and_RUN__
+#VAR 01 02 25 01 78 00 35 N N J N N 00 00 02 
+#TXT 01 02 25 78  _Hardware-RESET_and_STOP_
+#VAR 02 02 25 01 78 00 35 N N J N N 00 00 03 
+#TXT 02 02 25 78  _Default_________________
+#TXT 02 28 01 78  _
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~
+#KS jnJN

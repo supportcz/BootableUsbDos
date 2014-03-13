@@ -1,0 +1,1152 @@
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 1
+
+
+Projektbeschreibung:
+
+                                        
+Hardware:                               C200 / LCD8x40                
+                                        
+Bild bei Kommunikationsfehler:          ERR_PIC   
+F-Taste fr Fehlerquittierung:          F--
+Tastenpufferung:                        Nein
+Hintergrundbeleuchtung dauernd ein:     Ja             Minuten:  60
+Alarmsystem verwenden:                  Ja
+Tastenmatrix bertragen:                Nein           Adresse:                 
+Aktuelle Bildnummer bertragen:         Nein           Adresse:                 
+LED Matrix bertragen:                  Nein           Adresse:                 
+Bildwechsel aus der SPS erlaubt:        Nein           Adresse:                 
+Mehrsprachensystem verwenden:           Nein
+Sprachumschaltung aktiv:                Nein           Adresse:                 
+Uhrzeit aus der SPS bernehmen:         Nein
+Uhrzeit Triggeradresse:                                
+Uhrzeitadresse:                                        
+
+
+Display-Type:                           LCD8x40   
+Anzahl der Tastenmodule:                2
+Type Tastenmodul 1 :                    12+4
+Type Tastenmodul 2 :                    16  
+Type Tastenmodul 3 :                    16  
+Type Tastenmodul 4 :                    16  
+Type Tastenmodul 5 :                    16  
+Type Tastenmodul 6 :                    16  
+Type Tastenmodul 7 :                    16  
+
+
+Lebenszeichen:                          Nein           Adresse:                 
+Lebenszeichen Intervall (Sek.):         minimum
+
+
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 2
+
+
+Bildverzeichnis:
+
+
+                                                            Bildwechsel
+ #   Bildname   Nachbarn(Next,Previous,..)    Bild-Init     aus der SPS
+--------------------------------------------------------------------------
+000  MAIN     INPUT,MAIN,INPUT(F01),              Ja            Ja
+              PASSWORD(F02),KEYFUNCT(F03),
+              ALARM(F04)
+001  INPUT    PASSWORD,MAIN,MAIN(F04),            Ja            Ja
+              CLOCK(F03)
+002  PASSWORD PASSWORD,INPUT,MAIN(F04),           Ja            Ja
+              INPLOCK(F01)
+003  INPLOCK  INPLOCK,INPLOCK,PASSWORD(F01),      Ja            Ja
+              MAIN(F04)
+004  KEYFUNCT ALARM,PASSWORD,MAIN(F04)            Ja            Ja
+005  ALARM    ALARM,KEYFUNCT,MAIN(F04)            Ja            Ja
+006  ERR_PIC  ERR_PIC,ERR_PIC                     Ja            Ja
+007  CLOCK    CLOCK,CLOCK,MAIN(F04)               Ja            Ja
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 3
+
+
+Tastenbelegung Numerische Eingabe
+
+                    F01 F02 F03 F04     +G+  7   8   9  
+                    ±±± ±±± ±±± ±±±     +B+  4   5   6  
+                    ±±± ±±± +p+ +n+     +S+  1   2   3  
+                    ±±± ±±± +P+ +N+      .   0  +E+ +C+ 
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+
+
+Tastenbelegung String Eingabe
+
+                    F01 F02 F03 F04     +G+  7   8   9  
+                    ±±± ±±± ±±± ±±±     +B+  4   5   6  
+                    ±±± ±±± +p+ +n+     +S+  1   2   3  
+                    ±±± ±±± +P+ +N+      .   0  +E+ +C+ 
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 4
+
+
+Verbindungsliste
+
+  ID  Verbindung                     SPS-Type 
+
+  DI   Internal                                  
+  DD   Mininet                        MINI       
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 5
+
+
+Variablenzuordnungstabelle: -DI-
+
+  Name         BTI-Datentyp      
+
+  DATE_DD_S    Byte unsigned      
+  DATE_MM_S    Byte unsigned      
+  DATE_SET     Byte unsigned      
+  DATE_YY_S    Word unsigned      
+  ERR_NAME     String             
+  ERR_NODE     String             
+  ERR_NR       Byte unsigned      
+  TIME_HH_S    Byte unsigned      
+  TIME_MM_S    Byte unsigned      
+  TIME_SET     Byte unsigned      
+  TIME_SS_S    Byte unsigned      
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 6
+
+
+Variablenzuordnungstabelle: -DD-
+
+  Name         BTI-Datentyp      SPS-Adresse               SPS-Variablentyp    
+
+  ALARM        Bit               R200                            BIT           
+  COMPLETE     Byte unsigned     R111                            BYTE          
+  INPUT#1      Word unsigned     R104                            WORD          
+  INPUT#2      Word unsigned     R106                            WORD          
+  INP_INT      Word signed       R102                            INT           
+  INP_WORD     Word unsigned     R100                            WORD          
+  OUT_INT      Word signed       R102                            INT           
+  OUT_WORD     Word unsigned     R100                            WORD          
+  PASSWORD     Byte unsigned     R110                            BYTE          
+  SETWORD      Word unsigned     R120                            WORD          
+  TIPBYTE      Byte unsigned     R122                            BYTE          
+  TOGGWORD     Word unsigned     R124                            WORD          
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 7
+
+
+Textgruppen Datei: GLOBAL
+
+0:   [ClrScr][AlleL.Aus]
+
+
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 8
+
+
+Alarmsystem Grundkonfiguration 
+
+Angezeigter Text, wenn kein Alarm:      No Alarm                                
+Ausgedruckter Text bei Sammelquit:      Group Acknowledge                       
+L„nge der historischen Alarmliste:      maximal
+
+
+Allgemeine Druckerparameter Alarmsystem
+
+Sequenz bei Gekommen:                                                           
+Sequenz bei Gegangen:                                                           
+Sequenz bei Quittieren:                                                         
+Sequenz bei Brcken:                                                            
+
+
+Druckformat-Definition
+
+Uhrzeitformat:                          DD.MM.YY HH:MM:SS 
+Trennzeichen #1:                        Leerzeichen
+Gruppennummer:                          zweistellig
+Trennzeichen #2:                        Leerzeichen
+Alarmnummer:                            zweistellig
+Trennzeichen #3:                        Leerzeichen
+Alarmtext:                              darstellen
+Trennzeichen #4:                        Leerzeichen
+Ereignis:                               als Text
+Trennzeichen #5:                        Leerzeichen
+Quittierstatus:                         als Text
+
+
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 9
+
+
+Alarmgruppen-Definition
+
+Gruppennummer:                          0
+max. Alarmanzahl:                       7
+SPS-Adresse des Alarmbitfeldes:                         
+SPS-Adresse des Summenalarms:                           
+SPS-Adresse des Brckungsabbilds:                       
+SPS-Adresse des Quitt. Abbilds:                         
+Alarm Scan Rate:                        minimum
+Priorit„t:                              0
+Alarmzustandstexte fr                  
+      gekommen:                         Triggered                               
+      gegangen:                         Reset                                   
+      quittiert:                        Acknowledged                            
+      nicht quittiert:                  Unacknowledged                          
+      gebrckt:                         Bypassed                                
+      nicht gebrckt:                   Un-bypassed                             
+Zustandskrzel:                         TRA 10B BU
+
+Default-Alarmkonfiguration
+
+Quittierung m”glich:                    Ja
+Quittierung erforderlich:               Ja
+Ausdruck des Kommens unterdrcken:      Nein
+Ausdruck des Gehens unterdrcken:       Nein
+Ausdruck des quit. Gehens unterdr.:     Nein
+Ausdruck des Quittierens unterdr.:      Nein
+Brcken des Alarms erlaubt:             Ja
+Summenalarm bilden:                     Nein
+Ausdruck des Brckens unterdrcken:     Nein
+Ausdruck des Entbrckens unterdr.:      Nein
+Latched Alarm:                          Nein
+
+
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 10
+
+
+Alarmgruppen-Definition
+
+Gruppennummer:                          1
+max. Alarmanzahl:                       16
+SPS-Adresse des Alarmbitfeldes:         ALARM           
+SPS-Adresse des Summenalarms:                           
+SPS-Adresse des Brckungsabbilds:                       
+SPS-Adresse des Quitt. Abbilds:                         
+Alarm Scan Rate:                        minimum
+Priorit„t:                              0
+Alarmzustandstexte fr                  
+      gekommen:                         Triggered                               
+      gegangen:                         Reset                                   
+      quittiert:                        Acknowledged                            
+      nicht quittiert:                  Unacknowledged                          
+      gebrckt:                         Bypassed                                
+      nicht gebrckt:                   Un-bypassed                             
+Zustandskrzel:                         TRA 10B BU
+
+Default-Alarmkonfiguration
+
+Quittierung m”glich:                    Ja
+Quittierung erforderlich:               Ja
+Ausdruck des Kommens unterdrcken:      Nein
+Ausdruck des Gehens unterdrcken:       Nein
+Ausdruck des quit. Gehens unterdr.:     Nein
+Ausdruck des Quittierens unterdr.:      Nein
+Brcken des Alarms erlaubt:             Ja
+Summenalarm bilden:                     Nein
+Ausdruck des Brckens unterdrcken:     Nein
+Ausdruck des Entbrckens unterdr.:      Nein
+Latched Alarm:                          Nein
+
+
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 11
+
+
+Alarmgruppen-Definition
+
+Gruppennummer:                          253
+max. Alarmanzahl:                       1
+SPS-Adresse des Alarmbitfeldes:                         
+SPS-Adresse des Summenalarms:                           
+SPS-Adresse des Brckungsabbilds:                       
+SPS-Adresse des Quitt. Abbilds:                         
+Alarm Scan Rate:                        minimum
+Priorit„t:                              0
+Alarmzustandstexte fr                  
+      gekommen:                         Triggered                               
+      gegangen:                         Reset                                   
+      quittiert:                        Acknowledged                            
+      nicht quittiert:                  Unacknowledged                          
+      gebrckt:                         Bypassed                                
+      nicht gebrckt:                   Un-bypassed                             
+Zustandskrzel:                         TRA 10B BU
+
+Default-Alarmkonfiguration
+
+Quittierung m”glich:                    Ja
+Quittierung erforderlich:               Ja
+Ausdruck des Kommens unterdrcken:      Nein
+Ausdruck des Gehens unterdrcken:       Nein
+Ausdruck des quit. Gehens unterdr.:     Nein
+Ausdruck des Quittierens unterdr.:      Nein
+Brcken des Alarms erlaubt:             Ja
+Summenalarm bilden:                     Nein
+Ausdruck des Brckens unterdrcken:     Nein
+Ausdruck des Entbrckens unterdr.:      Nein
+Latched Alarm:                          Nein
+
+
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 12
+
+
+Alarmgruppenverzeichnis
+
+Gr# Anz  Alarm-Adresse   Scan  Prio  Summenalarm-Adr.  Zustandskrzel     
+
+000 007 System Alarme    minimum 0                      TRA 10B BU
+001 016 ALARM            minimum 0                      TRA 10B BU
+253 001 Summenalarme     minimum 0                      TRA 10B BU
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 13
+
+
+Alarmverzeichnis: -000-
+
+Al#  Alarmtext           
+
+001  Power ON                                     JJNNNNJNNNN
+002  Print Buffer Full Alarm                      JJNNNNJNNNN
+003  Printer Not Ready                            JJNNNNJNNNN
+004  Communication Error                          JJNNNNJNNNN
+005  Internal Communication Error                 JJNNNNJNNNN
+006  Printer Buffer Overflow                      JJNNNNJNNNN
+007  Batterie leer                                JJNNNNJNNNN
+
+Alarmverzeichnis: -001-
+
+Al#  Alarmtext           
+
+001  Alarmtext #1                                 JJNNNNJNNNN
+002  Alarmtext #2                                 JJNNNNJNNNN
+003  Alarmtext #3                                 JJNNNNJNNNN
+004  Alarmtext #4                                 JJNNNNJNNNN
+005  Alarmtext #5                                 JJNNNNJNNNN
+006  Alarmtext #6                                 JJNNNNJNNNN
+007  Alarmtext #7                                 JJNNNNJNNNN
+008  Alarmtext #8                                 JJNNNNJNNNN
+009  Alarmtext #9                                 JJNNNNJNNNN
+010  Alarmtext #10                                JJNNNNJNNNN
+011  Alarmtext #11                                JJNNNNJNNNN
+012  Alarmtext #12                                JJNNNNJNNNN
+013  Alarmtext #13                                JJNNNNJNNNN
+014  Alarmtext #14                                JJNNNNJNNNN
+015  Alarmtext #15                                JJNNNNJNNNN
+016  Alarmtext #16                                JJNNNNJNNNN
+
+Alarmverzeichnis: -253-
+
+Al#  Alarmtext           
+
+001                                               JJNNNNJNNNN
+
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 14
+
+
+MAIN
+
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿³
+³³ P A N E L W A R E ³±±±±±±±±0±±±±±±±±±³³
+³ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´³
+³³  F1 ... INPUT VALUES                 ³³
+³³  F2 ... INPUT PASSWORD               ³³
+³³  F3 ... KEY FUNCTIONS                ³³
+³³  F4 ... ACTIVE ALARM LIST            ³³
+³ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+Feld #0:       Output Datum/Zeit                       Position: 21,1
+
+Position:                               21,1      
+Uhrzeitformat:                          MM.DD.YY HH:MM:SSa
+
+
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 15
+
+
+Tasten/LED-Funktionen, Bild: MAIN
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      *±± *±± *±± *±±     ±±± ±±± ±±± ±±± 
+ 01                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 02                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 03                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:  Tasten-LED einschalten
+00/06:  Tasten-LED einschalten
+00/07:  Tasten-LED einschalten
+00/08:  Tasten-LED einschalten
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 16
+
+
+INPUT
+
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ÄÄÄÄÄÄÄÄÄÄÄ  INPUT VALUES  ÄÄÄÄÄÄÄÄÄÄÄÄÄ³
+³                                        ³
+³  R 0100   °°0°°  (+/- with F1/F2)      ³
+³  R 0102  °°1°°°  (use numerical keypad)³
+³                                        ³
+³OUTPUT VALUES:                          ³
+³  R 0100=  ±±2±±                        ³
+³  R 0102= ±±3±±±   F3:SET CLOCK  F4:MENU³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+Feld #0:       Input Wort ohne Vorzeichen              Position: 11,2
+
+Position:                               11,2      
+Anzahl der Stellen:                     5
+Anzahl der Nachkommastellen:            0
+Zeichengr”áe:                           1
+Feldbreite:                             5
+SPS-Zieladresse:                        INP_WORD        
+SPS-Abschluáadresse:                                    
+SPS-Abschluáwert:                       0
+Verstellinput? (J/N):                   Ja
+Inputverriegelung? (J/N):               Nein
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+Feld #0:       Verstellinput                           Position: 11,2
+
+F-Taste "+" :                           F01
+F-Taste "-" :                           F02
+
+
+Feld #1:       Input Wort mit Vorzeichen               Position: 10,3
+
+Position:                               10,3      
+Anzahl der Stellen:                     5
+Anzahl der Nachkommastellen:            0
+Zeichengr”áe:                           1
+Feldbreite:                             6
+SPS-Zieladresse:                        INP_INT         
+SPS-Abschluáadresse:                                    
+SPS-Abschluáwert:                       0
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Nein
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+Feld #2:       Output Wort ohne Vorzeichen             Position: 11,6
+
+Position:                               11,6      
+Anzahl der Stellen:                     5
+Anzahl der Nachkommastellen:            0
+Zeichengr”áe:                           1
+Feldbreite:                             5
+SPS-Adresse:                            OUT_WORD        
+Vornullen darstellen? (J/N):            Ja
+Normierung? (J/N):                      Nein
+
+
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 17
+
+
+Feld #3:       Output Wort mit Vorzeichen              Position: 10,7
+
+Position:                               10,7      
+Anzahl der Stellen:                     5
+Anzahl der Nachkommastellen:            0
+Zeichengr”áe:                           1
+Feldbreite:                             6
+SPS-Adresse:                            OUT_INT         
+Vornullen darstellen? (J/N):            Ja
+Normierung? (J/N):                      Nein
+
+
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 18
+
+
+Tasten/LED-Funktionen, Bild: INPUT
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      *±± *±± *±± *±±     ±±± ±±± ±±± ±±± 
+ 01                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 02                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 03                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:  Tasten-LED langsam blinken
+00/06:  Tasten-LED langsam blinken
+00/07:  Tasten-LED einschalten
+00/08:  Tasten-LED einschalten
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 19
+
+
+PASSWORD
+
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ÄÄÄÄÄÄÄÄÄÄÄ  INPUT PASSWORD  ÄÄÄÄÄÄÄÄÄÄÄ³
+³                                        ³
+³ INPUT :       VALID PASSWORD #1:   7748³
+³ °°°°°°°°°°°°  VALID PASSWORD #2:   6586³
+³ °°°°°0°°°°°°  VALID PASSWORD #3: 612674³
+³               Current Level#   :    ±1±³
+³                                        ³
+³F1:LOCKED INPUT                 F4:MENU ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+Feld #0:       Input Passwort                          Position: 1,4
+
+Position:                               1,4       
+Zeichengr”áe:                           2
+Anzahl der Stellen:                     6
+SPS-Zieladresse:                        PASSWORD        
+SPS-Abschluáadresse:                    COMPLETE        
+SPS-Abschluáwert:                       100
+Echozeichen:                            *
+Anzahl Paáwortebenen:                   4
+Paáwort fr Ebene #1:                   7748  
+Paáwort fr Ebene #2:                   6586  
+Paáwort fr Ebene #3:                   612674
+
+
+Feld #1:       Output Bit/Byte                         Position: 37,5
+
+Position:                               37,5      
+Anzahl der Stellen:                     3
+Anzahl der Nachkommastellen:            0
+Zeichengr”áe:                           1
+Feldbreite:                             3
+SPS-Adresse:                            PASSWORD        
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 20
+
+
+Tasten/LED-Funktionen, Bild: PASSWORD
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      *±± ±±± ±±± *±±     ±±± ±±± ±±± ±±± 
+ 01                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 02                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 03                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:  Tasten-LED einschalten
+00/08:  Tasten-LED einschalten
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 21
+
+
+INPLOCK
+
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³INPUT FIELDS ARE LOCKED DEPENDING ON THE³
+³CURRENT PASSWORD LEVEL                  ³
+³                                        ³
+³INPUT #1: °°0°°  (LOCKED IF PASSWORD    ³
+³                  NOT VALID)            ³
+³INPUT #2: °°1°°  (LOCKED IF LEVEL < 3)  ³
+³                                        ³
+³F1:PASSWORD                      F4:MENU³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+Feld #0:       Input Wort ohne Vorzeichen              Position: 10,3
+
+Position:                               10,3      
+Anzahl der Stellen:                     5
+Anzahl der Nachkommastellen:            0
+Zeichengr”áe:                           1
+Feldbreite:                             5
+SPS-Zieladresse:                        INPUT#1         
+SPS-Abschluáadresse:                                    
+SPS-Abschluáwert:                       0
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+Feld #0:       Inputverriegelung-Konfiguration         Position: 10,3
+
+SPS-Adresse fr Verriegelungswert:      PASSWORD        
+Verriegelung ist aktiv, wenn:           SPS-Wert = 0                     
+Verriegelungskonstante:                 0
+
+
+Feld #1:       Input Wort ohne Vorzeichen              Position: 10,5
+
+Position:                               10,5      
+Anzahl der Stellen:                     5
+Anzahl der Nachkommastellen:            0
+Zeichengr”áe:                           1
+Feldbreite:                             5
+SPS-Zieladresse:                        INPUT#2         
+SPS-Abschluáadresse:                                    
+SPS-Abschluáwert:                       0
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Ja
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+Feld #1:       Inputverriegelung-Konfiguration         Position: 10,5
+
+SPS-Adresse fr Verriegelungswert:      PASSWORD        
+Verriegelung ist aktiv, wenn:           SPS-Wert < Konstante 
+Verriegelungskonstante:                 3
+
+
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 22
+
+
+Tasten/LED-Funktionen, Bild: INPLOCK
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      *±± ±±± ±±± *±±     ±±± ±±± ±±± ±±± 
+ 01                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 02                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 03                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:  Tasten-LED einschalten
+00/08:  Tasten-LED einschalten
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 23
+
+
+KEYFUNCT
+
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ÄÄÄÄÄÄÄÄÄÄÄÄ  KEY FUNCTIONS  ÄÄÄÄÄÄÄÄÄÄÄ³
+³                                        ³
+³F1:SET WORD:    R 0120= ±±0±±  (10000)  ³
+³F2:TOGGLE WORD: R 0124= ±±1±±  (0/20000)³
+³F3:MOM. BYTE:   R 0122=   ±2±  (111)    ³
+³                                        ³
+³                                        ³
+³                                 F4:MENU³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+Feld #0:       Output Wort ohne Vorzeichen             Position: 24,2
+
+Position:                               24,2      
+Anzahl der Stellen:                     5
+Anzahl der Nachkommastellen:            0
+Zeichengr”áe:                           1
+Feldbreite:                             5
+SPS-Adresse:                            SETWORD         
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+Feld #1:       Output Wort ohne Vorzeichen             Position: 24,3
+
+Position:                               24,3      
+Anzahl der Stellen:                     5
+Anzahl der Nachkommastellen:            0
+Zeichengr”áe:                           1
+Feldbreite:                             5
+SPS-Adresse:                            TOGGWORD        
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+Feld #2:       Output Bit/Byte                         Position: 26,4
+
+Position:                               26,4      
+Anzahl der Stellen:                     3
+Anzahl der Nachkommastellen:            0
+Zeichengr”áe:                           1
+Feldbreite:                             3
+SPS-Adresse:                            TIPBYTE         
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 24
+
+
+Tasten/LED-Funktionen, Bild: KEYFUNCT
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      *±T *±T *±T *±±     ±±± ±±± ±±± ±±± 
+ 01                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 02                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 03                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:  Tasten-LED einschalten
+        Set Wort
+          SPS-Adresse:                       SETWORD
+          SPS-Abschluáadresse:               
+          SPS-Abschluáwert:                  0
+          Wert 1:                            10000
+00/06:  Tasten-LED einschalten
+        Toggle Wort
+          SPS-Adresse:                       TOGGWORD
+          SPS-Abschluáadresse:               
+          SPS-Abschluáwert:                  0
+          Wert 1:                            0
+          Wert 2:                            20000
+00/07:  Tasten-LED einschalten
+        Tip Bit/Byte
+          SPS-Adresse:                       TIPBYTE
+          SPS-Abschluáadresse:               
+          SPS-Abschluáwert:                  0
+          Wert 1:                            111
+00/08:  Tasten-LED einschalten
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 25
+
+
+ALARM
+
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ACTIVE ALARM LIST    R200=ALARM #1 - #8 ³
+³                     R201=ALARM #9 - #16³
+³°°°°°°°°°°°°°°°°°°°0°°°°°°°°°°°°°°°°°°°°³
+³°°°°°°°°°°°°°°°°°°°1°°°°°°°°°°°°°°°°°°°°³
+³°°°°°°°°°°°°°°°°°°°2°°°°°°°°°°°°°°°°°°°°³
+³°°°°°°°°°°°°°°°°°°°3°°°°°°°°°°°°°°°°°°°°³
+³                                        ³
+³F1:ACK ALARM   F2:UP    F3:DOWN  F4:MENU³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+Feld #0:       Anstehender Alarm                       Position: 0,2
+
+Position:                               0,2       
+Feldbreite:                             40
+F-Taste zur Quittierung:                F01
+F-Taste zum Bl„ttern zu jng. Al.:      F02
+F-Taste zum Bl„ttern zu „lt. Al.:       F03
+
+
+Feld #0:       Feldformat                              Position: 0,2
+
+Selektorzeichen:                        Invers
+Uhrzeitformat:                          HH:MM:SSa
+Trennzeichen #1:                        Leerzeichen
+Gruppennummer:                          nicht darstellen
+Trennzeichen #2:                        Leerzeichen
+Alarmnummer:                            zweistellig
+Trennzeichen #3:                        Leerzeichen
+Alarmtext:                              darstellen
+Trennzeichen #4:                        Leerzeichen
+Info:                                   darstellen
+Priorit„t:                              darstellen
+
+
+Feld #1:       Anstehender Alarm                       Position: 0,3
+
+Position:                               0,3       
+Feldbreite:                             40
+F-Taste zur Quittierung:                F01
+F-Taste zum Bl„ttern zu jng. Al.:      F02
+F-Taste zum Bl„ttern zu „lt. Al.:       F03
+
+
+Feld #1:       Feldformat                              Position: 0,3
+
+Selektorzeichen:                        Invers
+Uhrzeitformat:                          HH:MM:SSa
+Trennzeichen #1:                        Leerzeichen
+Gruppennummer:                          nicht darstellen
+Trennzeichen #2:                        Leerzeichen
+Alarmnummer:                            zweistellig
+Trennzeichen #3:                        Leerzeichen
+Alarmtext:                              darstellen
+Trennzeichen #4:                        Leerzeichen
+Info:                                   darstellen
+Priorit„t:                              darstellen
+
+
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 26
+
+
+Feld #2:       Anstehender Alarm                       Position: 0,4
+
+Position:                               0,4       
+Feldbreite:                             40
+F-Taste zur Quittierung:                F01
+F-Taste zum Bl„ttern zu jng. Al.:      F02
+F-Taste zum Bl„ttern zu „lt. Al.:       F03
+
+
+Feld #2:       Feldformat                              Position: 0,4
+
+Selektorzeichen:                        Invers
+Uhrzeitformat:                          HH:MM:SSa
+Trennzeichen #1:                        Leerzeichen
+Gruppennummer:                          nicht darstellen
+Trennzeichen #2:                        Leerzeichen
+Alarmnummer:                            zweistellig
+Trennzeichen #3:                        Leerzeichen
+Alarmtext:                              darstellen
+Trennzeichen #4:                        Leerzeichen
+Info:                                   darstellen
+Priorit„t:                              darstellen
+
+
+Feld #3:       Anstehender Alarm                       Position: 0,5
+
+Position:                               0,5       
+Feldbreite:                             40
+F-Taste zur Quittierung:                F01
+F-Taste zum Bl„ttern zu jng. Al.:      F02
+F-Taste zum Bl„ttern zu „lt. Al.:       F03
+
+
+Feld #3:       Feldformat                              Position: 0,5
+
+Selektorzeichen:                        Invers
+Uhrzeitformat:                          HH:MM:SSa
+Trennzeichen #1:                        Leerzeichen
+Gruppennummer:                          nicht darstellen
+Trennzeichen #2:                        Leerzeichen
+Alarmnummer:                            zweistellig
+Trennzeichen #3:                        Leerzeichen
+Alarmtext:                              darstellen
+Trennzeichen #4:                        Leerzeichen
+Info:                                   darstellen
+Priorit„t:                              darstellen
+
+
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 27
+
+
+Tasten/LED-Funktionen, Bild: ALARM
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      *±± *±± *±± *±±     ±±± ±±± ±±± ±±± 
+ 01                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 02                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 03                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:  Tasten-LED einschalten
+00/06:  Tasten-LED einschalten
+00/07:  Tasten-LED einschalten
+00/08:  Tasten-LED einschalten
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 28
+
+
+ERR_PIC
+
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ÚÄÄÄÄÄÄÄÄÄÄ  Error-Picture  ÄÄÄÄÄÄÄÄÄÄÄ¿³
+³³      This screen appears on a        ³³
+³³        communication error.          ³³
+³³ Please verify that the communication ³³
+³³cable is connected to the PLC-SNP port³³
+³³    and to port 2 of the panel.       ³³
+³³  Error: ±0± at ±±±±1±±±±± / ±±       ³³
+³ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+Feld #0:       Output Bit/Byte                         Position: 10,6
+
+Position:                               10,6      
+Anzahl der Stellen:                     3
+Anzahl der Nachkommastellen:            0
+Zeichengr”áe:                           1
+Feldbreite:                             3
+SPS-Adresse:                            ERR_NR/DI       
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+Feld #1:       Output String                           Position: 17,6
+
+Position:                               17,6      
+Stringl„nge:                            10
+Zeichengr”áe:                           1
+SPS-Adresse:                            ERR_NAME/DI     
+
+
+Feld #2:       Output String                           Position: 30,6
+
+Position:                               30,6      
+Stringl„nge:                            2
+Zeichengr”áe:                           1
+SPS-Adresse:                            ERR_NODE/DI     
+
+
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 29
+
+
+CLOCK
+
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ  CLOCK  ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ³
+³ HH:°0°  MM:°1°  SS:°2°                 ³
+³                                        ³
+³ MM:°3°  DD:°4°  YYYY:°5°°              ³
+³                                        ³
+³ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ³
+³F1:SET HH/MM/SS                         ³
+³F2:SET MM/DD/YYYY                F4:MENU³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+Feld #0:       Input Bit/Byte                          Position: 4,1
+
+Position:                               4,1       
+Anzahl der Stellen:                     2
+Anzahl der Nachkommastellen:            0
+Zeichengr”áe:                           1
+Feldbreite:                             3
+SPS-Zieladresse:                        TIME_HH_S/DI    
+SPS-Abschluáadresse:                                    
+SPS-Abschluáwert:                       0
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Nein
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #0:       Normierung                              Position: 4,1
+
+0% Wert in der SPS:                     0 
+100% Wert in der SPS:                   23
+Minimalwert am Tableau:                 0 
+Maximalwert am Tableau:                 23
+
+
+Feld #1:       Input Bit/Byte                          Position: 12,1
+
+Position:                               12,1      
+Anzahl der Stellen:                     2
+Anzahl der Nachkommastellen:            0
+Zeichengr”áe:                           1
+Feldbreite:                             3
+SPS-Zieladresse:                        TIME_MM_S/DI    
+SPS-Abschluáadresse:                                    
+SPS-Abschluáwert:                       0
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Nein
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #1:       Normierung                              Position: 12,1
+
+0% Wert in der SPS:                     0 
+100% Wert in der SPS:                   59
+Minimalwert am Tableau:                 0 
+Maximalwert am Tableau:                 59
+
+
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 30
+
+
+Feld #2:       Input Bit/Byte                          Position: 20,1
+
+Position:                               20,1      
+Anzahl der Stellen:                     2
+Anzahl der Nachkommastellen:            0
+Zeichengr”áe:                           1
+Feldbreite:                             3
+SPS-Zieladresse:                        TIME_SS_S/DI    
+SPS-Abschluáadresse:                                    
+SPS-Abschluáwert:                       0
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Nein
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #2:       Normierung                              Position: 20,1
+
+0% Wert in der SPS:                     0 
+100% Wert in der SPS:                   59
+Minimalwert am Tableau:                 0 
+Maximalwert am Tableau:                 59
+
+
+Feld #3:       Input Bit/Byte                          Position: 4,3
+
+Position:                               4,3       
+Anzahl der Stellen:                     2
+Anzahl der Nachkommastellen:            0
+Zeichengr”áe:                           1
+Feldbreite:                             3
+SPS-Zieladresse:                        DATE_MM_S/DI    
+SPS-Abschluáadresse:                                    
+SPS-Abschluáwert:                       0
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Nein
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+Feld #3:       Normierung                              Position: 4,3
+
+0% Wert in der SPS:                     1 
+100% Wert in der SPS:                   12
+Minimalwert am Tableau:                 1 
+Maximalwert am Tableau:                 12
+
+
+Feld #4:       Input Bit/Byte                          Position: 12,3
+
+Position:                               12,3      
+Anzahl der Stellen:                     2
+Anzahl der Nachkommastellen:            0
+Zeichengr”áe:                           1
+Feldbreite:                             3
+SPS-Zieladresse:                        DATE_DD_S/DI    
+SPS-Abschluáadresse:                                    
+SPS-Abschluáwert:                       0
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Nein
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Ja
+
+
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 31
+
+
+Feld #4:       Normierung                              Position: 12,3
+
+0% Wert in der SPS:                     1 
+100% Wert in der SPS:                   31
+Minimalwert am Tableau:                 1 
+Maximalwert am Tableau:                 31
+
+
+Feld #5:       Input Wort ohne Vorzeichen              Position: 22,3
+
+Position:                               22,3      
+Anzahl der Stellen:                     4
+Anzahl der Nachkommastellen:            0
+Zeichengr”áe:                           1
+Feldbreite:                             4
+SPS-Zieladresse:                        DATE_YY_S/DI    
+SPS-Abschluáadresse:                                    
+SPS-Abschluáwert:                       0
+Verstellinput? (J/N):                   Nein
+Inputverriegelung? (J/N):               Nein
+Vornullen darstellen? (J/N):            Nein
+Normierung? (J/N):                      Nein
+
+
+28.Oktober 1998  09:17             DEMO2_MN            Seite: 32
+
+
+Tasten/LED-Funktionen, Bild: CLOCK
+
+     /00 /01 /02 /03 /04 /05 /06 /07 /08 /09 /10 /11 /12 /13 
+
+ 00                      *±T *±T ±±± *±±     ±±± ±±± ±±± ±±± 
+ 01                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 02                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 03                      ±±± ±±± ±±± ±±±     ±±± ±±± ±±± ±±± 
+ 04                                                          
+ 05                                                          
+ 06                                                          
+ 07                                                          
+ 08                                                          
+ 09                                                          
+ 10                                                          
+ 11                                                          
+ 12                                                          
+ 13                                                          
+
+
+00/05:  Tasten-LED einschalten
+        Set Bit/Byte
+          SPS-Adresse:                       TIME_SET/DI
+          SPS-Abschluáadresse:               
+          SPS-Abschluáwert:                  0
+          Wert 1:                            1
+00/06:  Tasten-LED einschalten
+        Set Bit/Byte
+          SPS-Adresse:                       DATE_SET/DI
+          SPS-Abschluáadresse:               
+          SPS-Abschluáwert:                  0
+          Wert 1:                            1
+00/08:  Tasten-LED einschalten
+

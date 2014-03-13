@@ -1,0 +1,20 @@
+#TXT 00 24 23 78  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+#TXT 01 24 15 78  ³TIPO_DE_MODEM:
+#VAR 01 40 05 01 78 00 42 N N J N N 00 00 00 
+#TXT 01 46 01 78  ³
+#TXT 02 24 23 78  ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+#TXT 03 01 10 78  COMANDOS_:
+#TXT 05 01 27 78  Comando_de_inicializaci¢n_:
+#VAR 06 01 40 01 78 00 66 N N J N N 00 00 00 
+#TXT 07 01 20 78  Comando_de_discado_:
+#VAR 08 01 30 01 78 00 66 N N J N N 00 00 00 
+#TXT 09 01 31 78  Sufijo_del_comando_de_discado_:
+#VAR 10 01 30 01 78 00 66 N N J N N 00 00 00 
+#TXT 11 01 24 78  Comando_de_desconexi¢n_:
+#VAR 12 01 30 01 78 00 66 N N J N N 99 00 99 
+#TXT 18 01 01 78  _
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ \!@#$%^&*(){}[]-+=;,.<>?:
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS 5678
+#KS 12

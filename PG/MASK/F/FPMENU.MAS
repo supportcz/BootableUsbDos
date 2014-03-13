@@ -1,0 +1,19 @@
+#VAR 00 00 44 01 78 00 35 N N J N N 00 00 00 
+#TXT 00 00 44 78  __Information_Flash_Prom____________________
+#VAR 01 00 44 01 78 00 35 N N J N N 00 00 01 
+#TXT 01 00 44 78  __Programmation_du_programme_Automate_______
+#VAR 02 00 44 01 78 00 35 N N J N N 00 00 02 
+#TXT 02 00 44 78  __Programmation_du_systŠme_de_donn‚es_B&R___
+#VAR 03 00 44 01 78 00 35 N N J N N 00 00 03 
+#TXT 03 00 44 78  __Formatage_de_la_Flash_Prom________________
+#VAR 04 00 44 01 78 00 35 N N J N N 00 00 04 
+#TXT 04 00 44 78  __Installe_les_utilitaires_de_communication_
+#VAR 05 00 44 01 78 00 35 N N J N N 00 00 05 
+#TXT 05 00 44 78  __Structure_de_la_m‚moire___________________
+#VAR 06 00 44 01 78 00 35 N N J N N 00 00 06 
+#TXT 06 00 44 78  __Sauvegarde_physique_______________________
+#VAR 07 00 44 01 78 00 35 N N J N N 00 00 07 
+#TXT 07 00 44 78  __Programmation_de_la_sauvegarde_physique___
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ !@#$%^&*(){}[]-+=;,.<>?:
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890

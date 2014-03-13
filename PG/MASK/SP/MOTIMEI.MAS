@@ -1,0 +1,12 @@
+#TXT 00 00 47 78  _1)_Sobretiempo_inactivo_para_LOGOUT_(RS232)_:_
+#VAR 00 48 03 01 78 00 78 N N J N N 00 00 01 
+#TXT 00 53 15 78  (10*seg)_______
+#TXT 01 00 47 78  _2)_Sobretiempo_inactivo_para_LOGOUT_(RS485)_:_
+#VAR 01 48 03 01 78 00 78 N N J N N 00 00 02 
+#TXT 01 53 08 78  (10*seg)
+#TXT 03 00 47 78  _3)_Sobretiempo_sincronizaci¢n_en_LOGOUT_____:_
+#VAR 03 48 03 01 78 00 78 N N J N N 00 00 03 
+#TXT 03 53 05 78  (seg)
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~

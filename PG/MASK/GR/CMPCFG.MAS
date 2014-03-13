@@ -1,0 +1,52 @@
+#TXT 00 00 23 78  _Allgemeine_Parameter_:
+#TXT 01 04 08 78  Match__:
+#VAR 01 13 02 01 78 00 78 N N J N N 00 00 01 
+#TXT 01 21 06 78  (1-99)
+#TXT 02 04 08 78  Resync_:
+#VAR 02 13 04 01 78 00 78 N N J N N 00 00 02 
+#TXT 02 21 08 78  (1-9999)
+#TXT 03 04 12 78  Protokoll__:
+#VAR 03 17 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 03 21 05 78  (J/N)
+#TXT 03 30 13 78  Kurzform____:
+#VAR 03 44 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 04 04 12 78  Auto_Modus_:
+#VAR 04 17 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 04 21 05 78  (J/N)
+#TXT 06 01 17 78  Anweisungsliste_:
+#VAR 06 19 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 06 21 05 78  (J/N)
+#TXT 06 30 13 78  Sequentiell_:
+#VAR 06 44 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 07 04 18 78  Adressen_relativ_:
+#VAR 07 23 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 08 04 18 78  Labeldefinition__:
+#VAR 08 23 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 09 04 18 78  Klartexte_prÅfen_:
+#VAR 09 23 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 10 04 18 78  Kommentare_prÅfen:
+#VAR 10 23 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 11 04 18 78  NOPs_ignorieren__:
+#VAR 11 23 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 13 01 17 78  Tabellen________:
+#VAR 13 19 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 13 21 05 78  (J/N)
+#TXT 14 04 18 78  Abbild_prÅfen____:
+#VAR 14 23 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 14 28 08 78  Match__:
+#VAR 14 37 02 01 78 00 78 N N J N N 00 00 03 
+#TXT 14 40 06 78  (1-99)
+#TXT 15 04 18 78  Kommentare_prÅfen:
+#VAR 15 23 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 17 01 17 78  Klartexte_______:
+#VAR 17 19 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 17 21 05 78  (J/N)
+#TXT 17 28 06 78  Lang_:
+#VAR 17 35 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 17 39 06 78  Kurz_:
+#VAR 17 46 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 17 48 01 78  _
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS JNjn

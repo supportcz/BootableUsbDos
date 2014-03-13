@@ -1,0 +1,396 @@
+%%
+1,0:1
+%%
+.1
+    Multiprocessor Library Functions 
+
+    @020[MP_ident  ] Request ident number for the multiprocessor 
+    @030[MP_trigger] Start the HS#2 on the multiprocessor (MP SHTC)
+    @040[MP_ready  ] Check if HS#2 is ready on the multiprocessor (MP HSTC) 
+
+
+    These functions can only be used on the CPU!
+
+  ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ ATTENTION: As the multiprocessor library contains AVT functions, these    บ
+  บ            library functions can only be used if the library runtime      บ
+  บ            module exists in application ROM of the CPU.                   บ
+  บ            The runtime module of this library is integrated in the B&R    บ
+  บ            module MPSERVER.BR; i.e. it is transferred with the MP server  บ
+  บ            to the CPU.                                                    บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+                                       @200[APPENDIX]                         @999[End HELP]
+.20
+    MP_ident - Request MP Ident Number
+
+    @021[MP_ident] (enable,module_no,mp_ident,status)
+
+    Parameter Data Types:
+    ->  enable    : BIT           The function block is only executed if
+                                  enable = 1
+    ->  module_no : WORD          Multiprocessor module address in decimal form.
+                                  The multiprocessor module address doesn't 
+                                  depend on the slot number, instead it is set
+                                  by a dial on the module.
+    <-  mp_ident  : LONG          Multiprocessor ident number. This ident number
+                                  is necessary for the other multiprocessor
+                                  library functions.
+    <-  @025[status    ]: WORD          Error number (0 = no error)
+
+    The function MP_ident() returns the multiprocessor ident number with
+    the given module address. The multiprocessor ident number (MPs) is
+    necessary for the other multiprocessor library functions.
+
+
+                                       @021[Continue]                         @001[Overview]
+.21
+    MP_ident - Request MP Ident Number (continue)
+
+    The function MP_ident() can only be used on the CPU!
+    Calling the function MP_ident() without error is only possible if the
+    MP HSTC is configured on the multiprocessor (consult the chapter: "PCC
+    Configurator" in the "B&R System 2000 PCC Configurator and Profiler Manual.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.25
+    MP_ident - Request MP Ident Number (continue)
+
+    <- Parameter <status    >: WORD
+
+    Function MP_ident() error numbers:
+    8016    Referenced system module (multiprocessor) missing
+
+    A list of all possible multiprocessor library error messages can be found
+    in the appendix @300[Error Messages].
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @020[ MP_ident ]                        @001[Overview]
+.30
+    MP_trigger - Start HS#2 on the MP
+
+    @031[MP_trigger] (enable,mp_ident,status)
+
+    Parameter Data Types:
+    ->  enable    : BIT           The function block is only executed if
+                                  enable = 1 
+    ->  mp_ident  : LONG          Multiprocessor ident number
+                                  (of @020[MP_ident])
+    <-  @035[status    ]: WORD          Error numbers (0 = no error)
+
+    You can trigger an interrupt on the multiprocessor with the given number 
+    ("mp_ident") using the function MP_trigger(). This interrupt starts the
+    MP HSTC. If the MP HSTC is not yet ready, the error number 6354 is given on
+    the "status" output.
+    The function MP_trigger() can only be used on the CPU!
+    Calling the function MP_trigger() without error is only possible if the
+    MP HSTC is configured on the multiprocessor.
+
+
+
+                                       @031[Continue]                         @001[Overview]
+.31
+    MP_trigger - Start HS#2 on the MP (continue)
+
+    You can find further information on "MP HSTC" in "B&R System 2000 PCC
+    Configurator and Profiler User's Manual", as well as in "B&R System 2000
+    System Software Reference Manual".
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.35
+    MP_trigger - Start HS#2 on the MP (continue)
+
+    <- Parameter <status    >: WORD
+
+    Function MP_trigger() error numbers:
+    6354    MP HSTC cycle not yet finished
+    6355    No MP HSTC installed or started on the MP
+
+    You can find a list of all possible multiprocessor library error numbers
+    in appendix @300[Error Messages].
+
+
+
+
+
+
+
+
+
+
+
+                                     @030[ MP_trigger ]                       @001[Overview]
+.40
+    MP_ready - Check if HS#2 is ready on the MP
+
+    @040[MP_ready] (enable,mp_ident,status)
+
+    Parameter Data Types:
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1
+    ->  mp_ident  : LONG          Multiprocessor ident number
+                                  (of @020[MP_ident])
+    <-  @045[status    ]: WORD          Error number (0 = no error)
+
+    You can determine if the MP HSTC on the multiprocessor with the given
+    ident number ("mp_ident") is ready by using the function MP_ready(). This
+    means you can determine whether the last MP HSTC cycle has finished. If the
+    MP HSTC is not yet ready, the error number 6354 is given on the "status"
+    output.
+    The function MP_ready() can only be used on the CPU!
+    Calling the function MP_ready() without error is only possible if the
+    MP HSTC is configured on the multiprocessor (consult the chapter: "PCC
+    Configurator" in the "B&R System 2000 PCC Configurator and Profiler Manual.
+    
+                                                                        @001[Overview]
+.45
+    MP_ready - Check if HS#2 is ready on the MP (continue)
+
+    <- Parameter <status    >: WORD
+
+    Function MP_ready() error numbers:
+    6354    MP HSTC cycle not yet finished
+    6355    No MP HSTC installed or started on the MP
+
+    You can find a list of all possible multiprocessor library error numbers
+    in appendix @300[Error Messages].
+
+
+
+
+
+
+
+
+
+
+
+                                      @040[ MP_ready ]                        @001[Overview]
+.200
+    APPENDIX : LIBRARY Information
+
+
+    @201[< General Information >]      Requirements etc.
+
+    @250[< Syntax              >]      Syntax for function descriptions
+
+    @300[< Error Numbers       >]      Summary of all error numbers
+
+    @400[< History             >]      New functionalities and version changes
+
+
+
+
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.201
+    Multiprocessor Library : General Information
+
+    For multiprocessors (MPs), a multiprocessor HS task class (abbr. MP HSTC)
+    can be configured in addition to a Timer HSTC. The MP HSTC is not triggered
+    by a hardware timer, instead via the functions in the multiprocessor
+    library in the application on the main CPU.
+    In this way, sections of the application can be carried out on the 
+    multiprocessor (synchronous to the main CPU).
+
+    Notes:
+    - Before you can use the multiprocessor library functions in your project, 
+      you must import the library into the appropriate project data bank.
+
+    - The multiprocessor library functions can only be used if the MP server
+      (B&R module MPSERVER.BR) exists both in application ROM of the main CPU
+      as well as in application ROM of the multiprocessor.
+
+
+
+
+
+                                       @202[Continue]                         @001[Overview]
+.202
+    Multiprocessor Library : General Information (continue)
+
+    - The MP HSTC is only supported from BUGFIX 5 of operating system version
+      1.10 onwards (B&R module BUGFIX.BR with version number 1.15). This means
+      that the multiprocessor library functions can only be called if the module
+      BUGFIX.BR with version number 1.15 (or higher) exists both in application
+      ROM of the CPU as well as in application ROM of the multiprocessor.
+
+    - As the multiprocessor library contains AVT functions, these library
+      functions can only be used if the library runtime module exists in
+      application ROM of the CPU. The runtime module of this library is 
+      integrated in the B&R module MPSERVER.BR; i.e. it is transferred with
+      the MP server to the CPU.
+
+    - All multiprocessor library functions return an @300[Error Number] in cases of
+      error.
+
+
+
+
+
+                                       @200[APPENDIX]                         @001[Overview]
+.250
+    Multiprocessor Library : Syntax Description
+
+    Data Types:
+    Certain groups of data types are allowed for many functions. So that
+    not all the allowed data types have to be stated in the function
+    description, the following group names will be used:
+    ษออออออออหอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออป
+    บGroup   บ  BIT  ณ INT8  ณ BYTE  ณ INT16 ณ WORD  ณ INT32 ณ LONG  ณ FLOAT บ
+    ฬออออออออฮอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออน
+    บINTEGRALบ       ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บNOT     บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    บFLOAT   บ       ณ       ณ       ณ       ณ       ณ       ณ       ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บALL     บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บARRAY   บ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  บ
+    ศออออออออสอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออผ
+      x  Data type is allowed
+     [x] Data type is allowed as an array variable or character string
+
+                                       @251[Continue]                         @001[Overview]
+.251
+    Multiprocessor Library : Syntax Description (continue)
+
+    Arrows:
+    Arrows are used to display input and output parameters. The following
+    arrangement is used for this purpose:
+    ษอออออออออหออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ  Arrow  บ  Description                                                 บ
+    ฬอออออออออฮออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ   ->    บ  Input parameter                                             บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <->   บ  Input/output parameter. It is functionally an output        บ
+    บ         บ  parameter. However, it normally carries certain information บ
+    บ         บ  before the function is called (e.g. address). The address   บ
+    บ         บ  of a variable is normally terminated with adr() [PL2000]    บ
+    บ         บ  or an address contact (LAD).                                บ 
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <-    บ  Output parameter                                            บ
+    ศอออออออออสออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                       @252[Continue]                         @001[Overview]
+.252
+    Multiprocessor Library : Syntax Description (continue)
+
+    Function blocks:
+    Function blocks are not graphically represented in this Online Help.
+    However, you can find all relevant information about function blocks 
+    (i.e. input parameters (->), input/output parameters (<->) and output
+    parameters (<-)) in the Online Help.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[APPENDIX]                         @001[Overview]
+.300
+    Multiprocessor Library : Error Numbers
+
+    The following list is a summary of all possible multiprocessor library 
+    error messages:
+
+    6354    MP HSTC cycle not yet finished
+    6355    No MP HSTC installed or started on the MP
+    8016    Referenced system module (multiprocessor) missing
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[APPENDIX]                         @001[Overview]
+.400
+    Multiprocessor Library : History - Version Changes
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.20           ณ                                                         บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ First version of Online Help for the multiprocessor library.              บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[APPENDIX]                         @001[Overview]
+
+.End

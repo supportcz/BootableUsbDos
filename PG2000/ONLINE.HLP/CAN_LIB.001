@@ -1,0 +1,2144 @@
+%%
+1,0:1
+%%
+.1
+    CAN Library Functions
+
+    @020[CANopen ] CAN - Initialize the CAN controller
+    @030[CANwrite] CAN - Send data
+    @040[CANread ] CAN - Read data
+    @050[CANdftab] CAN - Define variable table
+    @060[CANrwtab] CAN - Edit variable table
+    @070[CANnode ] CAN - Read CAN node number
+    @075[CANxnode] CAN - Read CAN node number of the x-th CAN node switch
+    @080[CMSinit ] CAN - Define list of CMS objects
+    @140[CMSmain ] CAN - Edit list of CMS objects
+
+    For proper runtime operation, the function blocks CANopen(), CANdftab()
+    and CMSinit() must be called in the initialization sub-program (INIT SP)
+    of the task. All other function blocks can be used in the cyclic
+    section of the task.
+
+
+
+
+
+    @002[ Continue ]                        @200[ APPENDIX ]                      @999[ End HELP ]
+.2
+    CAN Library Functions (continued)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º ATTENTION: As the CAN library contains AVT functions, the functions of   º
+  º            this library can only be used if the library runtime module   º
+  º            (B&R module CAN_LIB.BR) exists on the CPU (application ROM).  º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.20
+    CANopen - Initialize the CAN Controller
+
+    @021[CANopen] (enable,baud_rate,cob_anz,adr(error_adr),device,info,
+             us_ident,status)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1
+    ->  @025[baud_rate ]: BYTE          Baud rate
+    ->  @026[cob_anz   ]: WORD          Number of possible communication objects
+    <-> error_adr : WORD          Error PV:
+                                  $4000 ... Data overflow in the CAN
+                                            controller read buffer
+                                  $8000 ... CAN bus in BusOff status
+                                  The value of the error PV is not automatically
+                                  reset by the CANopen() function.
+                                  This means that the user must reset the PV
+                                  value to 0 after the error PV has been
+                                  evaluated.
+
+
+                                      @021[ Continue ]                      @001[ Overview ]
+.21
+    CANopen - Initialize the CAN Controller (continued)
+
+    Parameter Data Types (continued) :
+    ->  @027[device    ]: LONG          The address of a string which clearly
+                                  describes the CAN interface used, is 
+                                  transferred to this input.
+    ->  info      : WORD          This parameter has no function at
+                                  the moment (reserve).
+    <-  us_ident  : LONG          Application ident. This ident number is needed
+                                  for other functions of the CAN library.
+    <-  @029[status    ]: WORD          Error number (0 = no error)
+
+    The CAN controller is initialized with the CANopen() function, and the
+    necessary resources (e.g. memory) are requested.
+    As memory assignment and initialization take time, the CANopen() function
+    is called in the INIT SP (initialization sub-program) of the task. Only
+    one CANopen call is allowed per CAN interface in the INIT SP.
+
+
+
+
+                                                                      @001[ Overview ]
+.25
+    CANopen - Initialize the CAN Controller (continued)
+
+    -> Parameter <baud_rate >: BYTE
+
+    The baud rate is set using the "baud_rate" parameter. The baud rate
+    is given in units of 10000 bits/sec (e.g. 25 = 250 kBits/sec):
+
+             1 ..... 10 kBits/sec
+             2 ..... 20 kBits/sec
+             5 ..... 50 kBits/sec
+            10 .... 100 kBits/sec
+            12 .... 125 kBits/sec
+            25 .... 250 kBits/sec (B&R standard)
+            50 .... 500 kBits/sec
+           100 ... 1000 kBits/sec
+
+
+
+
+
+
+                                       @020[ CANopen ]                      @001[ Overview ]
+.26
+    CANopen - Initialize the CAN Controller (continued)
+
+    -> Parameter <cob_anz   >: WORD
+
+    The "cob_anz" parameter sets the maximum number of possible
+    COBs (COB = communication object).
+    The number of possible COBs must be greater than or equal to the sum of
+    all CAN identifiers used (CAN identifiers given to the CANdftab() function
+    via the variable table + CAN identifiers which are temporarily required
+    for the functions CANwrite() and CANread()).
+    The sum of the CAN identifiers used is limited to 2047. This means that a
+    value less than or equal to 2047 must be entered for the "cob_anz"
+    parameter. For COB management ("cob_anz"), 56 bytes of memory are needed
+    per COB.
+
+
+
+
+
+
+
+                                       @020[ CANopen ]                      @001[ Overview ]
+.27
+    CANopen - Initialize the CAN Controller (continued)
+
+    -> Parameter <device    >: LONG
+
+    The address of the string which clearly describes the 
+    CAN interfaces used, is transferred to this input.
+
+    Format of the string:
+    [SL<x>].[SS<x>].[IF<x>]
+    SL: Slot with number <x>. The possible slot numbers range from 0
+        (CPU slot) to 15 (last system bus slot).
+    SS: Sub-slot with number <x>. The sub-slot describes the slot within
+        a module (CP260, CP472: <x> = 1 or 2).
+    IF: Interface with number <x>.
+
+    A full-stop  (".") is pre-defined as a separator for the argument.
+    However, any other separator can also be used. No distinction is 
+    made between upper- and lower case words.
+
+
+
+                                      @028[ Continue ]                      @001[ Overview ]
+.28
+    CANopen - Initialize the CAN Controller (continued)
+
+    Note:
+    If "device" = 0 (no string address given), the standard CAN interface is
+    used. However, the standard CAN interface is also used if the address of
+    the string "CAN" is given for "device", instead of the address of a string
+    in the form "[SL<x>].[SS<x>].[IF<x>]".
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @020[ CANopen ]                      @001[ Overview ]
+.29
+    CANopen - Initialize the CAN Controller (continued)
+
+    <- Parameter <status    >: WORD
+
+    CANopen() function error numbers:
+    3090    "device" <> 0 is not allowed in the basic system V1.10
+    8801    No memory free for resources in application RAM
+            (reduce "cob_anz" or increase memory)
+    8813    CAN driver (CAN2000.BR) not installed
+    8815    Baud rate not allowed
+    8816    "cob_anz" = 0 or too large (max. 2047)
+    8826    CAN driver (CAN2000.BR) is too old (< V1.50)
+
+   You can find a list of all possible CAN library error messages
+   in the @300[Error Messages] appendix.
+
+
+
+
+
+
+                                       @020[ CANopen ]                      @001[ Overview ]
+.30
+    CANwrite - Send Data
+
+    @031[CANwrite] (enable,us_ident,can_id,adr(data_adr),data_lng,status)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1
+    ->  us_ident  : LONG          Application ident (from @020[CANopen])
+    ->  can_id    : LONG          CAN identifier
+    ->  data_adr  : @250[ALL ]          Data (max. 8 bytes) to be sent
+    ->  data_lng  : BYTE          Length of the data in bytes (max. 8 bytes)
+    <-  @035[status    ]: WORD          Error number (0 = no error)
+
+    With the CANwrite() function, a CAN message with the given CAN identifier
+    (input parameter "can_id") is transferred to the CAN controller to be
+    transmitted. The status of the function (Parameter "status") is only set to
+    0 after this CAN message has been successfully transmitted. The function is
+    called cyclically by the user so that successful transmission of the buffer
+    can be monitored  via the "status" output.
+
+
+                                      @031[ Continue ]                      @001[ Overview ]
+.31
+    CANwrite - Send Data (continued)
+
+    Messages are only transmitted if the "status" output is 0. This means that
+    no further messages are assigned a buffer until the previous CAN identifier
+    has been transmitted. If the CAN controller write buffer is "busy",
+    subsequent messages are placed in the transmit queue. A maximum 64
+    entries can be stored in the transmit queue. If the transmit queue is
+    full, the appropriate error number (8810) is given at the "status" output.
+    The transmit queue is handled in the transmit interrupt (FIFO = "First In,
+    First Out"). The transmit queue also becomes full if the node is not on the
+    CAN bus or if there are no active nodes in the network. If the CANwrite()
+    function is given a new CAN identifier, the previous CAN identifier is 
+    deleted from the CAN driver management (approx. 1 msec).
+
+    If the CANwrite() function is used more than once in a task with the same
+    CAN identifier, please note that only one operation can take place at a
+    time per CAN identifier (otherwise error 8809 occurs). In the function
+    itself, an internal temporary COB (COB = communication object) is assigned
+    for each CAN identifier (during the first call).
+
+
+                                       @032[ Example ]                      @001[ Overview ]
+.32
+    CANwrite - Send Data (example)
+
+    A CAN message is sent with CAN identifier $100 to the CAN bus. The
+    CAN driver is initialized in the INIT SP of the task with CANopen():
+
+    INIT SP of the task:
+      enable = 1
+      baud_rate = 25       ; Baud rate = 250 kBits/sec
+      cob_anz = 10
+      CANopen(enable,baud_rate,cob_anz,adr(error_adr),0,0,us_ident,rc_open)
+
+    Cyclic section of the task:
+      if (rc_open = 0) then
+          ; Send data (8 bytes) with CAN identifier $100
+          CANwrite(enable,us_ident,$100,adr(data_adr),8,rc_write)
+          if ((rc_write <> 0) AND (rc_write <> 1)) then
+              ; Error handling CANwrite()
+          endif
+      endif
+
+
+                                                                      @001[ Overview ]
+.35
+    CANwrite - Send Data (continued)
+
+    <- Parameter <status    >: WORD
+
+    Function CANwrite() Error Numbers:
+    0       Data was successfully sent to the CAN bus
+    1       Function still active (send)
+    8800    Not enough COBs available
+            (increase "cob_anz" in CANopen())
+    8804    Incorrect CAN identifier (> 2047)
+    8805    Incorrect "us_ident"
+    8806    CAN identifier already being used in the system
+    8809    CAN operation with the same CAN identifier is busy
+    8810    Transmit queue full or no active nodes in network
+    8811    CAN bus is BusOff
+    8813    CAN driver (CAN2000.BR) not installed
+    8814    Data length > 8 bytes
+
+    You can find a list of all possible CAN library error messages
+    in the @300[Error Messages] appendix.
+
+                                      @030[ CANwrite ]                      @001[ Overview ]
+.40
+    CANread - Read Data
+
+    @041[CANread] (enable,us_ident,can_id,adr(data_adr),data_lng,status)
+
+    Parameter Data Types :
+    ->  enable    : BIT            0 -> 1 ... Define buffer for CAN identifier
+                                   1 -> 0 ... Delete buffer for CAN identifier
+                                              again
+                                   1 ........ Receive data from the controller
+    ->  us_ident  : LONG           User ident (from @020[CANopen])
+    ->  can_id    : LONG           CAN identifier
+    <-> data_adr  : 8 BYTE (ARRAY) Array variable where the read data
+                                   is to be stored
+    <-  data_lng  : BYTE           Length of data in bytes
+    <-  @045[status    ]: WORD           Error number (0 = no error)
+
+    The function CANread() can be used to read CAN messages
+    from the CAN controller.
+
+
+
+                                      @041[ Continue ]                      @001[ Overview ]
+.41
+    CANread - Read Data (continued)
+
+    The "enable" input informs the CAN controller if a buffer is to be
+    defined for the given CAN identifier ("enable" 0 -> 1), or if it is
+    to be deleted again ("enable" 1 -> 0). If "enable" = 1, the current
+    data is taken from the CAN controller.
+    The CANread() function can define max. 13 different CAN identifiers
+    at the same time. This function has the advantage over the CANdftab()
+    function, in that an interrupt is not triggered on the CPU for this
+    CAN identifier and therefore the load on the CPU is reduced by the
+    CAN bus.
+    In the function itself, an internal temporary COB
+    (COB = communication object) is assigned for each CAN identifier
+    (during the first call).
+    
+    
+
+
+
+
+
+                                       @042[ Example ]                      @001[ Overview ]
+.42
+    CANread - Read Data (example)
+
+    A CAN message with CAN identifier $100 is read. The CAN driver is
+    initialized in the INIT SP of the task with CANopen():
+
+    INIT SP of the task:
+      enable = 1
+      r_enable = 1
+      baud_rate = 25       ; Baud rate = 250 kBits/sec
+      cob_anz = 10
+      CANopen(enable,baud_rate,cob_anz,adr(error_adr),0,0,us_ident,rc_open)
+
+    Cyclic section of the task:
+      if (rc_open = 0) then
+          ; Collect new data from CAN identifier $100
+          CANread(r_enable,us_ident,$100,adr(data_adr),data_lng,rc_read)
+          if (rc_read = 0) then
+              ; Send data via CAN identifier $200
+              CANwrite(enable,us_ident,$200,adr(data_adr),8,rc_write)
+          endif
+     endif
+                                                                      @001[ Overview ]
+.45
+    CANread - Read Data (continued)
+
+    <- Parameter <status    >: WORD
+
+    Function CANread() error numbers:
+    0       Receive data
+    8804    Incorrect CAN identifier (> 2047)
+    8805    Incorrect "us_ident"
+    8811    CAN bus is BusOff
+    8812    No more buffers free (max. 13 possible)
+    8813    CAN driver (CAN2000.BR) not installed
+    8859    Length of the message is incorrect
+    8872    Message lost (buffer was already overwritten), but data
+            is consistent
+    8875    Message is inconsistent (new data was received during CANread())
+    8877    No message available
+
+    You can find a list of all possible CAN library error messages
+    in the @300[Error Messages] appendix.
+
+
+                                       @040[ CANread ]                      @001[ Overview ]
+.50
+    CANdftab - Define Variable Table
+
+    @051[CANdftab] (enable,us_ident,adr(table_adr),tab_num,tab_ident,status)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1
+    ->  us_ident  : LONG          Application ident (from @020[CANopen])
+    ->  @055[table_adr ]: @250[ALL]           Variable table. The variable table can be
+                                  created in the form of a structure array
+                                  or a data module.
+    ->  tab_num   : WORD          Number of entries in the variable table
+    <-  tab_ident : LONG          Table identifier for CANrwtab()
+    <-  @059[status    ]: WORD          Error number (0 = no error)
+
+    This function supplies a @055[Variable List] defined by the user
+    (variable table) with data about the CAN bus.
+    The data can be both read and written. The user can control send
+    or read operations via an event variable (event PV).
+
+    
+                                      @051[ Continue ]                      @001[ Overview ]
+.51
+    CANdftab - Define Variable Table (continued)
+
+    When writing (WRITE), the variable data is only sent if the event variable
+    is set to 1. The event variable is set to 0 again when the CAN message has
+    been sent. Likewise, when the data for a given CAN identifier has been read
+    (READ), the value of the event variable is set to 1.
+    To prevent cycle time problems, the CANdftab() function is only to
+    be called once in the INIT SP (initialization sub-program) of the task.
+    Cyclically reading or writing data is handled by the @060[CANrwtab] function.
+
+  
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.55
+    CANdftab - Define Variable Table (continued)
+
+    -> Parameter <table_adr >: @250[ALL] (any data type)
+
+    Variable Table.
+    The variable table can be defined using a @056[Structure Array] or a @057[Data Module]
+    in PG2000. This means that either the address of a structure array (one
+    array element per process variable), or the start address of a data module
+    (one data module entry per process variable) is given for "adr(table_adr)".
+    The start address of the data module can be determined using the
+    DA_info() function (see B&R TRAP Library).
+
+
+
+
+
+
+
+
+
+
+                                      @050[ CANdftab ]                      @001[ Overview ]
+.56
+    CANdftab - Define Variable Table (continued)
+
+    Format of the structure (for variable table):
+    can_id   : LONG               CAN identifier
+    pv_name  : 32 BYTE (ARRAY)    Name of the process variable (PV)
+    event_pv : 32 BYTE (ARRAY)    Name of the event PV to trigger
+                                  (data type of the event PV: BIT or BYTE)
+    info     : LONG               Bit 0 = 0 ... READ (read data)
+                                  Bit 0 = 1 ... WRITE (send data)
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @057[ Continue ]                      @001[ Overview ]
+.57
+    CANdftab - Define Variable Table (continued)
+
+    Format of the structure (for variable table):
+        ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ 1.
+        ³                 ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ 2.
+        ³                 ³                         ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ 3.
+        ³                 ³                         ³                 ÚÄÄÄÄÄ 4.
+    ÄÄÄÄÁÄÄÄÄ ÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄÄÁÄÄÄÄ
+    $00000100,"motor                  ","ev_mot                 ",$00000001
+    $00000101,"switch                 ","ev_swi                 ",$00000000
+    $00000090,"stop                   ","ev_stop                ",$00000000
+
+    1. CAN identifier
+       (this entry must be a LONG)
+    2. Name of the process variable (null terminated string)
+       (31 characters + null byte)
+    3. Name of the event PV to trigger (null terminated string)
+       (31 characters + null byte)
+    4. Read data (bit 0 = 0) / send data (bit 0 = 1)
+       (this entry must be a LONG)
+
+                                      @058[ Continue ]                      @001[ Overview ]
+.58
+    CANdftab - Define Variable Table (continued)
+
+    A maximum of 8 bytes of data can be read or sent per variable in the
+    variable table. Data consistency is guaranteed for simple data types
+    (BIT, INT8, INT16 etc.). Data consistency must be checked by the user
+    for structures and arrays. When reading variables, the user can prevent
+    the data to be read from being overwritten, by setting the event variable
+    (event PV) to $FF. After the read operation, the user must reset the
+    event variable to 0.
+    22 bytes of memory in application RAM are required to manage each
+    variable in the variable table.
+
+    Note!
+    A variable defined with READ is overwritten by the CAN driver when
+    receiving a frame (interrupt-controlled), unless the event PV is set
+    to $FF. At least one CAN identifier must be defined so that one
+    node is active in the CAN network.
+
+   
+
+
+                                      @050[ CANdftab ]                      @001[ Overview ]
+.59
+    CANdftab - Define Variable Table (continued)
+
+    <- Parameter <status    >: WORD
+
+    Function CANdftab() error numbers:
+    8800    Not enough COBs available
+            (increase "cob_anz" in CANopen())
+    8802    Incorrect table identifier ("tab_ident")
+            (local function block memory destroyed)
+    8804    Incorrect CAN identifier (> 2047)
+    8805    Incorrect "us_ident"
+    8806    COB already defined
+    8811    CAN bus is BusOff
+    8813    CAN driver (CAN2000.BR) not installed
+    8826    CAN driver (CAN2000.BR) is too old (< V1.50)
+
+    You can find a list of all possible CAN library error messages
+    in the @300[Error Messages] appendix.
+
+
+
+                                      @050[ CANdftab ]                      @001[ Overview ]
+.60
+    CANrwtab - Edit Variable Table
+
+    @061[CANrwtab] (enable,tab_ident,status)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1
+    ->  tab_ident : LONG          Table identifier from @050[CANdftab]
+    <-  @065[status    ]: WORD          Error number (0 = no error)
+
+    The list of variables (variable table) defined with the CANdftab()
+    function is edited (read or write) with this function. The CANrwtab()
+    function must be called cyclically (cyclic section of the task).
+
+    For send (WRITE): the variable data is only sent if the event variable
+    is set to 1. The event variable is set to 0 again by the function when the
+    CAN message has been sent. Likewise, when the data for a given CAN
+    identifier has been read (READ), the function sets the value of the event
+    variable to 1.
+
+
+                                      @061[ Continue ]                      @001[ Overview ]
+.61
+    CANrwtab - Edit Variable Table (continued)
+
+    If the CAN bus status becomes BusOff, the CAN controller is
+    re-initialized each time the CANrwtab() function is called.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @062[ Example ]                      @001[ Overview ]
+.62
+    CANrwtab - Edit Variable Table (example)
+
+    A defined list of variables is read and written:
+
+    INIT SP of the task:
+      enable = 1
+      ev_sch = 0          ; Initialize the event PV "ev_sch"
+      ev_mot = 0          ; Initialize the event PV "ev_mot"
+      ev_stop = 0         ; Initialize the event PV "ev_stop"
+      rc_def = 1          ; Initialize "rc_def" to 1 for the cyclic section
+      baud_rate = 25      ; Baud rate = 250 kBits/sec
+      CANopen(enable,baud_rate,10,adr(error_adr),0,0,us_ident,rc_open)
+      if (rc_open = 0) then
+          ; Table with 3 entries was created in the data module "cantab"
+          status = DA_ident("cantab",0,adr(da_ident))
+          if (status = 0) then
+              status = DA_info(da_ident,adr(table),adr(len),adr(ram))
+              if (status = 0) then
+                  CANdftab(enable,us_ident,table,3,tab_id,rc_def)
+              endif
+          endif
+      endif                      @063[ Continue - Example ]                 @001[ Overview ]
+.63
+    CANrwtab - Edit Variable Table (example - continued)
+
+    Data module "cantab" created in PG2000:
+      ; The variable name length is 31 bytes + 1 null byte (null terminated)
+      ; Variable "motor" with CAN identifier $100 and Event PV "ev_mot" WRITE
+      ; Variable "switch" with CAN identifier $101 and event PV "ev_swi" READ
+      ; Variable "stop" with CAN identifier $90 and event PV "ev_stop" READ 
+      $00000100, "motor                  ","ev_mot                 ",$00000001
+      $00000101, "switch                 ","ev_swi                 ",$00000000
+      $00000090, "stop                   ","ev_stop                ",$00000000
+
+
+
+
+
+
+
+
+
+
+
+                                 @064[ Continue - Example ]                 @001[ Overview ]
+.64
+    CANrwtab - Edit Variable Table (example - continued)
+
+    Cyclic section of the task:
+      if (rc_def = 0) then
+          if (ev_stop <> 0) then         ; STOP
+              ev_stop = 0
+              motor = 0                  ; Motor off
+              ev_mot = 1
+          else if (ev_swi <> 0) then
+              ev_swi = 0
+              motor = 1                  ; Switch on motor
+              ev_mot = 1
+          endif
+          ; Cyclic update of data e.g. every 50 msec in TC#2
+          CANrwtab(enable,tab_id,rc_rw)
+          if (rc_rw <> 0) then
+              ; Error handling CANrwtab()
+          endif
+      endif
+
+
+                                                                      @001[ Overview ]
+.65
+    CANrwtab - Edit Variable Table (continued)
+
+    <- Parameter <status    >: WORD
+
+    Function CANrwtab() error numbers:
+    8802    Incorrect table identifier ("tab_ident")
+            (local function block memory destroyed)
+    8810    Send queue full
+    8811    CAN bus is BusOff
+    8814    Length of a Write PV > 8 bytes
+
+    You can find a list of all possible CAN library error messages
+    in the @300[Error Messages] appendix.
+
+
+
+
+
+
+
+
+                                      @060[ CANrwtab ]                      @001[ Overview ]
+.70
+    CANnode - Read CAN Node Number
+
+    @070[CANnode] (enable,node_nr,status)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1
+    <-  node_nr   : BYTE          CAN station node number ($00 to $FF) 
+    <-  @071[status    ]: WORD          Error number (0 = no error)
+
+    For some modules with CAN interfaces, the CAN node number is set via
+    two Hex dials. The CANnode() function determines the CAN node number
+    (set using the Hex dials). If no Hex dials exist for the node
+    number, the respective error number is returned at the "status" output.
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.71
+    CANnode - Read CAN Node Number (continued)
+
+    <- Parameter <status    >: WORD
+
+    Function CANnode() error numbers:
+    8825    No number dial available or CAN2000 driver (CAN2000.BR)
+            not installed (< V1.40)
+
+    You can find a list of all possible CAN library error messages
+    in the @300[Error Messages] appendix.
+
+
+
+
+
+
+
+
+
+
+
+                                       @070[ CANnode ]                      @001[ Overview ]
+.75
+    CANxnode - Read CAN node number of the x-th CAN node switch
+
+    @075[CANxnode] (enable,us_ident,node_nr,status)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1
+    ->  us_ident  : LONG          Application ident (from @020[CANopen])
+    <-  node_nr   : BYTE          CAN station node number ($00 to $FF) 
+    <-  @076[status    ]: WORD          Error number (0 = no error)
+
+    For some modules with CAN interfaces, the CAN node number is set using two
+    hex switches (CAN node switches). The function CANxnode() enables the set
+    node number to be determined using the x-th CAN node switch.
+    If the CAN node switch is not available, the corresponding error number
+    will be returned at the "status" output.
+    For IF modules with one CAN node switch, but two CAN controllers
+    (e.g. IF672), the node number for the second CAN controller will be
+    returned as the node number + 1.
+
+
+                                                                      @001[ Overview ]
+.76
+    CANxnode - Read CAN node number of the x-th CAN node switch (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Function CANxnode() error numbers:
+    8805    Incorrect "us_ident"
+    8825    No number dial available or CAN2000 driver (CAN2000.BR)
+            not installed (< V1.40)
+
+    You can find a list of all possible CAN library error messages
+    in the @300[Error Messages] appendix.
+
+
+
+
+
+
+
+
+
+
+                                      @075[ CANxnode ]                      @001[ Overview ]
+.80
+    CMSinit - Define List of CMS Objects
+
+    @081[CMSinit] (enable,us_ident,user_type,queue_cnt,adr(modul_name),cms_entry,
+             cms_ident,status)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1
+    ->  us_ident  : LONG          Application ident (from @020[CANopen])
+    ->  user_type : BYTE          0 ... CLIENT
+                                  1 ... SERVER
+    ->  queue_cnt : WORD          This parameter has no functions at the
+                                  moment (reserve).
+    ->  modul_name: LONG          Name of the data module with the CMS objects
+    <-  cms_entry : WORD          Error entry number or number of CMS objects
+                                  in the CMS data module
+    <-  cms_ident : LONG          CMS identifier for @140[CMSmain]
+    <-  @085[status    ]: WORD          Error number (0 = no error)
+
+
+
+                                      @081[ Continue ]                      @001[ Overview ]
+.81
+    CMSinit - Define List of CMS Objects (continued)
+
+    Using the function blocks CMSinit() and CMSmain(), CMS objects can be
+    sent and received. The CMS objects are defined in a @110[Data Module], which
+    can be used for the client and the server. The difference between 
+    client and server is set in the CMSinit() function with the input
+    parameter "user_type" (0 = node type client, 1 = node type server).
+    If both types (client and server) are needed on a node, two data modules
+    must be created.
+    The CMS utility request or recognition is controlled with
+    @090[Event Variables] (event PVs).
+
+    To avoid cycle time violations, the CMSinit() function should only be
+    called in the INIT SP (initialization sub-program) of the task.
+    The memory requirement for management is 22 bytes per entry in the data
+    module and 54 bytes per CAN ID used. For multiplexed variables, another
+    (Max Multiplexer*2) bytes per CAN ID are needed.
+    For management in the CAN2000 driver, 512 bytes are allocated per block
+    used, in which bits 8 to 10 of the CAN ID determine the block number.
+
+
+                                      @082[ Continue ]                      @001[ Overview ]
+.82
+    CMSinit - Define List of CMS Objects (continued)
+
+    The "cms_ident" parameter is needed for the function block CMSmain().
+    With the "cms_entry" parameter, you can recognize defect entries from the
+    application. If variables which were defined in the CMS data module, are
+    not found on the PCC, the respective error number is given at the "status"
+    output (however, the function block continues to be processed).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.85
+    CMSinit - Define List of CMS Objects (continued)
+
+    <- Parameter <status    >: WORD
+
+    Function CMSinit() error numbers:
+    3019    Data module ("modul_name") not available
+    8800    Not enough COBs available
+            (increase "cob_anz" in CANopen())
+    8801    No memory free for resources in application RAM
+    8802    Incorrect CMS identifier ("cms_ident")
+            (local function block memory destroyed)
+    8804    Incorrect CAN identifier (> 2047)
+    8805    Incorrect "us_ident"
+    8806    COB already defined
+    8813    CAN driver (CAN2000.BR) not installed
+    8814    Incorrect data type for the event PV (BYTE) or invalid 
+            PV data length
+    8821    Incorrect "user_type"
+            ("user_type" = 0 ... client, "user_type" = 1 ... server)
+
+
+                                      @086[ Continue ]                      @001[ Overview ]
+.86
+    CMSinit - Define List of CMS Objects (continued)
+
+    8822    Syntax error when defining CMS objects in the data module
+            (see "cms_entry")
+    8823    Complex structure not allowed
+    147xx   Variable not there or variable name syntax incorrect
+            (xx is a value between 00 and 15)
+
+    You can find a list of all possible CAN library error messages
+    in the @300[Error Messages] appendix.
+
+
+
+
+
+
+
+
+
+
+
+                                       @080[ CMSinit ]                      @001[ Overview ]
+.90
+    CMSinit - Define List of CMS Objects (continued)
+
+    Controlling CMS Objects with Event Variables:
+    The event variables are either set by the application, to send certain
+    CAN messages via the function block CMSmain(), or they are reset again when
+    they receive CAN messages from the CAN2000 driver in the CAN2000 interrupt.
+
+    @091[Controlling Event Variables on the Client]
+    @098[Controlling Event Variables on the Server]
+
+    Attention:
+    Resetting the event variables takes place in the CAN interrupt
+    asynchronously to the cyclic PCC task, i.e. more than one CAN message
+    can be sent to the same CMS object between two CMSmain() calls,
+    whereby only the last data is buffered in the assigned variable.
+    Therefore, the application must guarantee that the inhibit times
+    are adhered to on the bus, so that data is not lost.
+
+
+
+
+    @110[ CMS Data Module ]       @120[ Assigning COB for CMS Objects ]           @001[ Overview ]
+.91
+    CMSinit - Define List of CMS Objects (continued)
+
+    Controlling Event Variables on the Client:
+    In the following table, the changes in status of the
+    event variables are given for the stated CMS objects.
+    The following abbreviations are used in the table:
+    R.O. ....... ReadOnly
+    W.O. ....... WriteOnly
+    B.Var. ..... Basic Variable
+    M.Var. ..... Multiplexed Variable
+    R/W Var. ... Read/Write Variable
+ ÉÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client  ³          ³     Status of the Event Variable   ³                  º
+ ÇÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Service ³ Object   ³ Appli-     ³ CMSmain  ³  CAN2000   ³ Event            º
+ º         ³ Type     ³ cation     ³          ³            ³                  º
+ ÌÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º R.O.    ³ B.Var.   ³   0 -> 1   ³          ³            ³ Send RTR request º
+ ÈÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+                                      @092[ Continue ]                      @001[ Overview ]
+.92
+    CMSinit - Define List of CMS Objects (continued)
+
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³          ³     Status of the Event Variable   ³                   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Service³ Object   ³ Appli-     ³ CMSmain  ³  CAN2000   ³ Event             º
+ º        ³ Type     ³ cation     ³          ³            ³                   º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º R.O.   ³ B.Var.   ³            ³ 1 -> $40 ³            ³ RTR request being º
+ º        ³          ³            ³          ³            ³ sent              º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º R.O.   ³ B.Var.   ³            ³          ³  $40 -> 0  ³ Confirmation has  º
+ º        ³          ³            ³          ³            ³ been received     º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º W.O.   ³ B.Var.   ³   0 -> 1   ³          ³            ³ Send request      º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º W.O.   ³ B.Var.   ³            ³ 1 -> $40 ³            ³ Request being sentº
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                      @093[ Continue ]                      @001[ Overview ]
+.93
+    CMSinit - Define List of CMS Objects (continued)
+
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³        ³    Status of the Event Variable  ³                       º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Service³ Object ³ Appli-   ³ CMSmain  ³  CAN2000   ³ Event                 º
+ º        ³ Type   ³ cation   ³          ³            ³                       º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º W.O.   ³ B.Var. ³          ³          ³  $40 -> 0  ³ Request has been      º
+ º        ³        ³          ³          ³            ³ sent to CAN bus       º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º R.O.   ³ M.Var. ³   0 -> 1 ³          ³            ³ Send request          º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º R.O.   ³ M.Var. ³          ³ 1 -> $40 ³            ³ Request being         º
+ º        ³        ³          ³          ³            ³ sent                  º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º R.O.   ³ M.Var. ³          ³          ³ $40 -> $80 ³ Request has been sent º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                      @094[ Continue ]                      @001[ Overview ]
+.94
+    CMSinit - Define List of CMS Objects (continued)
+
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³          ³     Status of the Event Variable   ³                   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Service³ Object   ³ Appli-     ³ CMSmain  ³  CAN2000   ³ Event             º
+ º        ³ Type     ³ cation     ³          ³            ³                   º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º R.O.   ³ M.Var.   ³            ³          ³ $80 -> 0   ³ Confirmation has  º
+ º        ³          ³            ³          ³            ³ been received     º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º W.O.   ³ M.Var.   ³   0 -> 1   ³          ³            ³ Send request      º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º W.O.   ³ M.Var.   ³            ³ 1 -> $40 ³            ³ Request being     º
+ º        ³          ³            ³          ³            ³ sent              º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º W.O.   ³ M.Var.   ³            ³          ³ $40 -> 0   ³ Request has been  º
+ º        ³          ³            ³          ³            ³ sent to CAN bus   º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+                                      @095[ Continue ]                      @001[ Overview ]
+.95
+    CMSinit - Define List of CMS Objects (continued)
+
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³          ³     Status of the Event Variable   ³                   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Service³ Object   ³ Appli-     ³ CMSmain  ³  CAN2000   ³ Event             º
+ º        ³ Type     ³ cation     ³          ³            ³                   º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º Read   ³ R/W Var. ³   0 -> 1   ³          ³            ³ Send read request º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Read   ³ R/W Var. ³            ³ 1 -> $40 ³            ³ Read request      º
+ º        ³          ³            ³          ³            ³ being sent        º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Read   ³ R/W Var. ³            ³          ³ $40 -> $80 ³ Read request has  º
+ º        ³          ³            ³          ³            ³ been sent         º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Read   ³ R/W Var. ³            ³          ³  xx -> $FF ³ Receive failure   º
+ º        ³          ³            ³          ³            ³ frame             º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+                                      @096[ Continue ]                      @001[ Overview ]
+.96
+    CMSinit - Define List of CMS Objects (continued)
+
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³          ³     Status of the Event Variable   ³                   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Service³ Object   ³ Appli-     ³ CMSmain  ³  CAN2000   ³ Event             º
+ º        ³ Type     ³ cation     ³          ³            ³                   º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º Read   ³ R/W Var. ³            ³          ³ $80 -> 0   ³ Read confirmation º
+ º        ³          ³            ³          ³            ³ has been received º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Write  ³ R/W Var. ³   0 -> 2   ³          ³            ³ Send write requestº
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Write  ³ R/W Var. ³            ³ 2 -> $40 ³            ³ Write request     º
+ º        ³          ³            ³          ³            ³ being sent        º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Write  ³ R/W Var. ³            ³          ³ $40 -> $80 ³ Write request has º
+ º        ³          ³            ³          ³            ³ been sent         º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+                                      @097[ Continue ]                      @001[ Overview ]
+.97
+    CMSinit - Define List of CMS Objects (continued)
+
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³          ³     Status of the Event Variable   ³                   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Service³ Object   ³ Appli-     ³ CMSmain  ³  CAN2000   ³ Event             º
+ º        ³ Type     ³ cation     ³          ³            ³                   º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º Write  ³ R/W Var. ³            ³          ³  xx -> $FF ³ Receive failure   º
+ º        ³          ³            ³          ³            ³ frame             º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Write  ³ R/W Var. ³            ³          ³ $80 -> 0   ³ Write confirmationº
+ º        ³          ³            ³          ³            ³ has been received º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+                                   @090[ Event Variable ]                   @001[ Overview ]
+.98
+    CMSinit - Define List of CMS Objects (continued)
+
+    Controlling Event Variables on the Server:
+    In the following table, the event variable transitions are
+    given for the stated CMS objects.
+    The following abbreviations are used in the table:
+    R.O. ....... ReadOnly
+    W.O. ....... WriteOnly
+    B.Var. ..... Basic Variable
+    M.Var. ..... Multiplexed Variable
+    R/W Var. ... Read/Write Variable
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³          ³   Status of the Event Variable ³                     º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Service³ Object   ³ Appli-   ³ CMSmain  ³  CAN2000 ³ Event               º
+ º        ³ Type     ³ cation   ³          ³          ³                     º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º R.O.   ³ B.Var.   ³  0 -> 1  ³          ³          ³ Copy data to CMSmainº
+ º        ³          ³          ³          ³          ³ in the controller   º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                      @099[ Continue ]                      @001[ Overview ]
+.99
+    CMSinit - Define List of CMS Objects (continued)
+
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³          ³   Status of the Event Variable ³                     º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Service³ Object   ³ Appli-   ³ CMSmain  ³  CAN2000 ³ Event               º
+ º        ³ Type     ³ cation   ³          ³          ³                     º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º R.O.   ³ B.Var.   ³          ³  1 -> 0  ³          ³ Data has been copiedº
+ º        ³          ³          ³          ³          ³ to the controller   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º W.O.   ³ B.Var.   ³          ³          ³  xx -> 1 ³ Write indication    º
+ º        ³          ³          ³          ³          ³ has been received   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º R.O.   ³ M.Var.   ³          ³          ³  xx -> 1 ³ Read indication     º
+ º        ³          ³          ³          ³          ³ has been received   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º R.O.   ³ M.Var.   ³          ³ 1 -> $40 ³          ³ Read response       º
+ º        ³          ³          ³          ³          ³ being sent          º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                      @100[ Continue ]                      @001[ Overview ]
+.100
+    CMSinit - Define List of CMS Objects (continued)
+
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³          ³   Status of the Event Variable ³                     º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Service³ Object   ³ Appli-   ³ CMSmain  ³  CAN2000 ³ Event               º
+ º        ³ Type     ³ cation   ³          ³          ³                     º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º R.O.   ³ M.Var.   ³          ³          ³ $40 -> 0 ³ Read response       º
+ º        ³          ³          ³          ³          ³ being sent          º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º W.O.   ³ M.Var.   ³          ³          ³  xx -> 1 ³ Write indication    º
+ º        ³          ³          ³          ³          ³ has been received   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Read   ³ R/W Var. ³          ³          ³  xx -> 1 ³ Read indication     º
+ º        ³          ³          ³          ³          ³ has been received   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Read   ³ R/W Var. ³          ³ 1 -> $40 ³          ³ Read response       º
+ º        ³          ³          ³          ³          ³ being sent          º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                      @101[ Continue ]                      @001[ Overview ]
+.101
+    CMSinit - Define List of CMS Objects (continued)
+
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³          ³   Status of the Event Variable ³                     º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Service³ Object   ³ Appli-   ³ CMSmain  ³  CAN2000 ³ Event               º
+ º        ³ Type     ³ cation   ³          ³          ³                     º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º Read   ³ R/W Var. ³          ³          ³ $40 -> 0 ³ Read response       º
+ º        ³          ³          ³          ³          ³ has been sent       º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Write  ³ R/W Var. ³          ³          ³  xx -> 2 ³ Write indication    º
+ º        ³          ³          ³          ³          ³ has been received   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Write  ³ R/W Var. ³          ³ 2 -> $40 ³          ³ Write response      º
+ º        ³          ³          ³          ³          ³ being sent          º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Write  ³ R/W Var. ³          ³          ³ $40 -> 0 ³ Write response      º
+ º        ³          ³          ³          ³          ³ has been sent       º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                   @090[ Event Variable ]                   @001[ Overview ]
+.110
+    CMSinit - Define List of CMS Objects (continued)
+
+    CMS Data Module for Client and Server:
+    The data module can be defined in PG2000, and contains all CMS objects
+    which can be used in the CAN network. This data module can be used for the
+    client and the server. The difference between client and server is set
+    in the CMSinit() function with the input parameter "user_type" (0 = client,
+    1 = server).
+    If different data modules are needed for more than one CMS server node,
+    these are also transferred to the CMS client nodes with the CMSinit() 
+    function. Regarding the definition of the identifier for client and server,
+    make sure that the COBs can only be defined once per node for these 
+    identifier.
+
+
+
+
+
+
+
+
+                                      @111[ Continue ]                      @001[ Overview ]
+.111
+    CMSinit - Define List of CMS Objects (continued)
+
+      ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @112[ 1.]
+      ³      ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @112[ 2.]
+      ³      ³         ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @112[ 3.]
+      ³      ³         ³      ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @113[ 4.]
+      ³      ³         ³      ³   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @113[ 5.]
+      ³      ³         ³      ³   ³   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @114[ 6.]
+      ³      ³         ³      ³   ³   ³      ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @114[ 7.]
+      ³      ³         ³      ³   ³   ³      ³        ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @114[ 8.]
+      ³      ³         ³      ³   ³   ³      ³        ³         ÚÄÄÄÄÄÄÄÄÄÄÄ @116[ 9.]
+      ³      ³         ³      ³   ³   ³      ³        ³         ³         ÚÄ @116[10.]
+     ÄÁÄ ÄÄÄÄÁÄÄÄÄ ÄÄÄÄÁÄÄÄÄ ÄÁÄ ÄÁÄ ÄÁÄ ÄÄÄÄÁÄÄÄ ÄÄÄÄÁÄÄÄÄ ÄÄÄÄÁÄÄÄÄ ÄÄÄÄÁÄÄÄÄÄ
+    "%%P",$00000300,$00000000,'R','B',000,00000000,$00000000,"bvar_re","ebvar_re"
+    "%%P",$00000101,$00000201,'R','M',001,00000000,$00000000,"mvar_re","emvar_re"
+    "%%P",$00000000,$00000202,'W','B',000,00000000,$0000000c,"bvar_wr","ebvar_wr"
+    ; high-priority object !
+    "%%P",$00000103,$00000203,'W','M',002,00000000,$00000000,"mvar_wr","emvar_wr"
+
+
+
+    @090[ Event Variable ]        @120[ Assigning COB for CMS Objects ]           @001[ Overview ]
+.112
+    CMSinit - Define List of CMS Objects (continued)
+
+     1. Name:         start_str
+        Data Type:    BYTE (ARRAY)
+        Length:       3
+        Description:  Code for new CMS entry ("%%P")
+
+     2. Name:         client_id
+        Data Type:    LONG
+        Length:       4
+        Description:  Client-CAN identifier
+
+     3. Name:         server_id
+        Data Type:    LONG
+        Length:       4
+        Description:  Server-CAN identifier
+
+
+
+
+
+    @111[ CMS Data Module ]                 @113[ Continue ]                      @001[ Overview ]
+.113
+    CMSinit - Define List of CMS Objects (continued)
+
+     4. Name:         access_typ
+        Data Type:    BYTE
+        Length:       1
+        Description:  Access to the object (ReadOnly, WriteOnly, Read/Write,
+                      DL, UL, etc.):
+                      'R' ... ReadOnly
+                      'W' ... WriteOnly
+                      'A' ... Read/Write
+
+     5. Name:         object_typ
+        Data Type:    BYTE
+        Length:       1
+        Description:  Type of object (Basic Variable, Multiplexed Variable,
+                      Domain, Events, etc.):
+                      'B' ... Basic Variable
+                      'M' ... Multiplexed Variable
+
+
+
+    @111[ CMS Data Module ]                 @114[ Continue ]                      @001[ Overview ]
+.114
+    CMSinit - Define List of CMS Objects (continued)
+
+     6. Name:         mux_no
+        Data Type:    BYTE
+        Length:       1
+        Description:  Multiplexer for Multiplexed Variable (0 - 127)
+
+     7. Name:         len
+        Data Type:    LONG
+        Length:       4
+        Description:  Length of the data (e.g. for Domains)
+
+     8. Name:         info
+        Data Type:    LONG
+        Length:       4
+        Description:  Additional information:
+                      Bit 0 = 0   CMS format according to CiA/DS202-3
+                      Bit 0 = 1   B&R format: no conversion according to CiA,
+                                  for better performance in the interrupt
+                                  handling of arrays and structures.
+
+                                      @115[ Continue ]                      @001[ Overview ]
+.115
+    CMSinit - Define List of CMS Objects (continued)
+
+                                  This format can be used for communication
+                                  B&R2000 CPU <-> B&R2000 CPU.
+                      Bit 1       Reserve
+                      Bit 2 = 0   Standard priority: transmit handling via
+                                  send queue (Transmit Queue) see CANwrite().
+                      Bit 2 = 1   High-priority object: max. 13 objects can be
+                                  defined per CAN node. These objects are 
+                                  assigned a separate buffer in the CAN
+                                  controller (only possible in send direction).
+                                  Attention: Basic Variables with ReadOnly
+                                  access are also placed in this buffer area.
+                      Bit 3 = 1   Overwrite mode: For high-priority objects,
+                                  the buffer in the CAN controller can be
+                                  overwritten at any time in this mode. Whether
+                                  or not the last data has been sent or not is
+                                  not checked.
+
+
+
+    @111[ CMS Data Module ]                 @116[ Continue ]                      @001[ Overview ]
+.116
+    CMSinit - Define List of CMS Objects (continued)
+
+     9. Name:         pv_name
+        Data Type:    BYTE (ARRAY)
+        Length:       max. 32
+        Description:  Name of the PV (syntax like PG2000)
+
+    10. Name:         ev_pv_name
+        Data Type:    BYTE (ARRAY)
+        Length:       max. 32
+        Description:  Name of the event PV (syntax like PG2000)
+
+
+
+
+
+
+
+
+
+
+                                   @111[ CMS Data Module ]                  @001[ Overview ]
+.120
+    CMSinit - Define List of CMS Objects (continued)
+
+    COB Assignment of CMS Objects for Client and Server:
+    Communication objects are defined on the client and server nodes
+    (independent of "@113[object_typ]" and "@113[access_typ]") for the CMS objects
+    defined in the data module. The COBs with the given identifiers can
+    only be defined once per node. For the RTR services, max. 13 objects 
+    are available per node (free buffer in the CAN controller).
+
+    Basic Variable:
+     - @121[ReadOnly  ]
+     - @122[WriteOnly ]
+     - @123[Read/Write]
+
+    Multiplexed Variable
+     - @125[ReadOnly  ]
+     - @126[WriteOnly ]
+     - @127[Read/Write]
+
+
+
+    @090[ Event Variable ]               @110[ CMS Data Module ]                  @001[ Overview ]
+.121
+    CMSinit - Define List of CMS Objects (continued)
+
+    Basic Variable: ReadOnly
+    This service is carried out via an RTR request) (max. 10 per node).
+
+    Client Node:                                             Server Node:
+    --------------                                           --------------
+    COB definition                                           COB definition
+    Receive RTR COB                                          Transmit RTR COB
+    with client ID                                           with client ID
+
+                             ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=1 + CMSmain    --->³    RTR with client ID    ³
+                             ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+                         ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+                         ³    Data with client ID   ³<---    RTR response of the
+                         ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ        CAN controller
+
+
+
+
+                            @120[ Assigning COB for CMS Objects ]           @001[ Overview ]
+.122
+    CMSinit - Define List of CMS Objects (continued)
+
+    Basic Variable: WriteOnly
+
+    Client Node:                                             Server Node:
+    --------------                                           --------------
+    COB Definition                                           COB definition
+    Transmit COB                                             Receive COB
+    with server ID                                           with server ID
+
+                             ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=1 + CMSmain    --->³    Data with server ID   ³    ev_pv=1
+    ev_pv=0 (CAN2000)        ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+
+
+
+
+
+
+                            @120[ Assigning COB for CMS Objects ]           @001[ Overview ]
+.123
+    CMSinit - Define List of CMS Objects (continued)
+
+    Basic Variable: Read/Write
+
+    Client Node:                                             Server Node:
+    --------------                                           --------------
+    COB definition                                           COB definition
+    Receive COB with                                         Transmit COB with
+    Client ID                                                Client ID
+    Transmit COB with                                        Receive COB with
+    Server ID                                                Server ID
+
+    Read:
+                             ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=1 + CMSmain    --->³  ReadReq. with server ID ³    ev_pv=1 (CAN2000)
+                             ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+                         ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=0 (CAN2000)    ³    Data with client ID   ³<---    CMSmain
+                         ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ        ev_pv=0 (CAN2000)
+
+
+                                      @124[ Continue ]                      @001[ Overview ]
+.124
+    CMSinit - Define List of CMS Objects (continued)
+
+    Write:
+                             ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=2 + CMSmain    --->³    Data with server ID   ³    ev_pv=2 (CAN2000)
+                             ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+                         ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=0 (CAN2000)    ³ WriteResp. with client ID ³<---    CMSmain
+                         ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ        ev_pv=0 (CAN2000)
+
+
+
+
+
+
+
+
+
+
+
+
+                            @120[ Assigning COB for CMS Objects ]           @001[ Overview ]
+.125
+    CMSinit - Define List of CMS Objects (continued)
+
+    Multiplexed Variable: ReadOnly
+
+    Client Node:                                             Server Node:
+    --------------                                           --------------
+    COB definition                                           COB definition
+    Receive COB with                                         Transmit COB with
+    Client ID                                                Client ID
+    Transmit COB with                                        Receive COB with
+    Server ID                                                Server ID
+
+                             ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=1 + CMSmain    --->³ ReadReq. with server ID ³      ev_pv=1 (CAN2000)
+                             ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+                         ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=0 (CAN2000)    ³   Data with client ID  ³<---      CMSmain
+                         ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ          ev_pv=0 (CAN2000)
+
+
+
+                            @120[ Assigning COB for CMS Objects ]           @001[ Overview ]
+.126
+    CMSinit - Define List of CMS Objects (continued)
+
+    Multiplexed Variable: WriteOnly
+
+    Client Node:                                             Server Node:
+    --------------                                           --------------
+    COB definition                                           COB definition
+    Transmit COB with                                        Receive COB with
+    Server ID                                                Server ID
+
+                             ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=1 + CMSmain    --->³   Data with server ID ³       ev_pv=1
+                             ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+
+
+
+
+
+
+                            @120[ Assigning COB for CMS Objects ]           @001[ Overview ]
+.127
+    CMSinit - Define List of CMS Objects (continued)
+
+    Multiplexed Variable: Read/Write
+
+    Client Node:                                             Server Node:
+    --------------                                           --------------
+    COB definition                                           COB definition
+    Receive COB with                                         Transmit COB with
+    Client ID                                                Client ID
+    Transmit COB with                                        Receive COB with
+    Server ID                                                Server ID
+
+    Read:
+                             ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=1 + CMSmain    --->³  ReadReq. with server ID ³    ev_pv=1 (CAN2000)
+                             ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+                         ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=0 (CAN2000)    ³    Data with client ID   ³<---    CMSmain
+                         ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+                                      @128[ Continue ]                      @001[ Overview ]
+.128
+    CMSinit - Define List of CMS Objects (continued)
+
+    Write:
+                             ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=2 + CMSmain    --->³    Data with server ID   ³    ev_pv=2 (CAN2000)
+                             ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+                         ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=0 (CAN2000)    ³ WriteResp. with client ID ³<---    CMSmain
+                         ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+
+
+
+
+
+
+
+
+
+
+                            @120[ Assigning COB for CMS Objects ]           @001[ Overview ]
+.140
+    CMSmain - Edit List of CMS Objects
+
+    @141[CMSmain] (enable,cms_ident,cms_mode,status)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed
+                                  if enable = 1
+    ->  cms_ident : LONG          CMS identifier (from @080[CMSinit])
+    ->  cms_mode  : LONG          2 ... Send/update data
+    <-  @145[status    ]: WORD          Error number (0 = no error)
+
+    The list of CMS objects defined with the CMSinit() function can be
+    edited using the CMSmain() function. The user must call the CMSmain()
+    function cyclically, to start the appropriate action for the CMS 
+    objects. The application can control the events via the @090[Event PVs]. 
+    When the event PV is set to 1 (or 2) by the application, data is being
+    sent. Once the data has been successfully sent via the CAN bus, the 
+    event PV is set back to 0 by the CAN2000 driver in the CAN interrupt.
+
+
+
+                                       @141[ Example ]                      @001[ Overview ]
+.141
+    CMSmain - Edit List of CMS Objects (example)
+
+    Example with CMSinit() and CMSmain():
+    A data module must be placed in PG2000 with the CMS objects.
+
+    Data module "cms_s1" created in PG2000:
+
+    ;str³client ID³server ID³acc³obj³mul³  len   ³  info   ³variable ³ event_pv
+    ;ÄÄÄÅÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÅÄÄÄÅÄÄÄÅÄÄÄÅÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄ
+    "%%P",$00000300,$00000000,'R','B',000,00000000,$00000000,"bvar_re","ebvar_re"
+    "%%P",$00000101,$00000201,'R','M',001,00000000,$00000000,"mvar_re","emvar_re"
+    "%%P",$00000000,$00000202,'W','B',000,00000000,$0000000c,"bvar_wr","ebvar_wr"
+    ; high-priority object !
+    "%%P",$00000103,$00000203,'W','M',002,00000000,$00000000,"mvar_wr","emvar_wr"
+
+
+
+
+
+
+
+                                 @142[ Continue - Example ]                 @001[ Overview ]
+.142
+    CMSmain - Edit List of CMS Objects (example - continued)
+
+    INIT SP of the task:
+      enable = 1
+      ebvar_re = 0            ; Initialize event PV
+      emvar_re = 0            ; Initialize event PV
+      ebvar_wr = 0            ; Initialize event PV
+      emvar_wr = 0            ; Initialize event PV
+      rc_def = 1              ; rc_def for the cyclic section to 1
+                              ; initialize
+      baud_rate = 25          ; Baud rate = 250kBits/sec
+      cob_anz = 10
+      CANopen(enable,baud_rate,cob_anz,adr(error),0,0,op_ident,rc_open)
+      if (rc_open = 0) then
+          ; Setting for client or server nodes
+          usertyp = CLIENT    ; 0 = Client
+          usertyp = SERVER    ; 1 = Server
+          queue_cnt = 0       ; Don't place receive queue
+          CMSinit(enable,op_ident,user_typ,queue_cnt,"cms_s1",cms_entry,
+                  cms_ident,ci_status)    
+      endif
+                                 @143[ Continue - Example ]                 @001[ Overview ]
+.143
+    CMSmain - Edit List of CMS Objects (example - continued)
+
+    Cyclic section of the task:
+      if (ci_status = 0) then
+          if usertyp = CLIENT then
+              ; Basic Variable - ReadOnly         ID=$300
+              if ebvar_re = 0 then
+                  ebvar_re = 1
+              endif
+              ; Basic Variable - WriteOnly        ID=$202
+              bvar_wr = bvar_wr + 1
+              if ebvar_wr = 0 then
+                  ebvar_wr = 1
+              endif
+              ; Multiplexed Variable - WriteOnly  ID=$203
+              mvar_wr = mvar_wr + 1
+              if emvar_wr = 0 then
+                  emvar_wr = 1
+              endif
+
+
+                                 @144[ Continue - Example ]                 @001[ Overview ]
+.144
+    CMSmain - Edit List of CMS Objects (example - continued)
+
+              ; Read Variable - Read/Write         ID=$210
+              if ebvar0rw = 0 then
+                  ebvar0rw = READ
+              endif
+          else
+              ; Server
+              ebvar_re = 1    ; Update RTR buffer
+          endif
+          CMSmain(1,cms_ident,WRITE,cm_status)
+      endif
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.145
+    CMSmain - Edit List of CMS Objects (continued)
+
+    <- Parameter <status    >: WORD
+
+    Function CMSmain() error numbers:
+    8802    Incorrect CMS identifier ("cms_ident")
+    8810    Send queue full
+    8811    CAN bus is BusOff
+    8824    Incorrect "cms_mode" 
+    8876    Send buffer busy, if, e.g. high-priority object 
+            defined without overwrite mode
+
+    You can find a list of all possible CAN library
+    error numbers in the @300[Error Messages] appendix.
+
+
+
+
+
+
+
+                                       @140[ CMSmain ]                      @001[ Overview ]
+.200
+    APPENDIX : LIBRARY Information
+
+
+    @201[< General Information >]      Requirements etc.
+
+    @210[< Interrupt Times     >]      Interrupt Times
+
+    @250[< Syntax              >]      Syntax Descriptions
+
+    @300[< Error Numbers       >]      Summary of all error numbers
+
+    @400[< History             >]      New functions and version changes
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.201
+    CAN Library : General Information
+
+    Functions are available in the CAN Library, for accessing the CAN bus on 
+    the B&R 2000 System. CAN frames (maximum 8 bytes) can be read or written
+    with these functions. Only single frames are sent.
+
+    It is possible to connect a variable table to the function block
+    CANdftab(). Then you can cyclically update this variable table
+    with the function block CANrwtab().
+    CMS objects can be sent and received using the function blocks 
+    CMSinit() and CMSmain(). The CMS objects are defined in a data module,
+    which can be used both for the client and the server. The difference 
+    between client and server is made in the function CMSinit() with the
+    input parameter "user_type" (0 = client, 1 = server). The CMS service
+    request or recognition is controlled with event variables (event PVs).
+    For proper runtime operation, the function blocks CANopen(), CANdftab()
+    and CMSinit() must be called in the initialization sub-program (INIT SP).
+    All other function blocks can be used in the cyclic section of the task.
+
+
+
+                                      @202[ Continue ]                      @001[ Overview ]
+.202
+    CAN Library : General Information (continued)
+
+    Identifier marking is supported in the CAN2000 driver, i.e. an 
+    interrupt is only triggered on the CPU for the receive identifiers
+    defined with the function blocks CANdftab() and CMSinit().
+    The other CAN receive messages do not trigger interrupts.
+    You should generally take note that the CAN controller is being operated
+    as a separate standalone controller from the PCC CPU, thus triggering an
+    interrupt on the PCC CPU every time a CAN message (for the defined
+    identifier) is read or written. In addition, only standard CAN identifiers
+    are supported by the CAN2000 driver.
+
+
+
+
+
+
+
+
+
+
+                                      @203[ Continue ]                      @001[ Overview ]
+.203
+    CAN Library : General Information (continued)
+
+    Notes:
+    - Before you can use the CAN Library functions in your project, you
+      must import this library into the respective project data bank.
+
+    - These library functions can only be used if the CAN driver
+      CAN2000.BR exists on the CPU (application ROM)!
+
+    - As the CAN library contains AVT functions, these library functions
+      can only be used if the library runtime module (B&R module CAN_LIB.BR)
+      exists on the CPU (application ROM)!
+
+    - All functions in the CAN Library return an @300[Error Number] if an error
+      occurs.
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.210
+    CAN Library : Interrupt Times
+
+    The times in the following table were measured on an IP151 module
+    with the profiler, and correspond to the runtime of the CAN interrupt
+    handler (CAN2000 V1.50). For the worst case time, the stated
+    @213[Interrupt Latency Time] is also to be taken into account. With a higher
+    load on the bus, send queue handling (see CANwrite) in the CAN interrupt
+    handler is also to be taken into account. In addition, the send request
+    from the send queue to the CAN controller takes up approx. 35 æsec
+    (IP151) in send interrupt handling.
+
+ ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Interrupt Times for IP151   ³      CLIENT [æsec]    ³      SERVER [æsec]    º
+ ÌÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍ¹
+ º Class  ³ Access ³ Data Type ³ Transm.IRQ ³ Rec.IRQ  ³ Transm.IRQ ³ Rec.IRQ  º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍ¹
+ º B.Var. ³ R.O.   ³   LONG    ³            ³ 111 (40) ³            ³          º
+ º B.Var. ³ W.O.   ³   LONG    ³   61 (17)  ³          ³            ³   111    º
+ º B.Var. ³ Read   ³   LONG    ³   61 (16)  ³ 117 (44) ³     61     ³    80    º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍ¼
+
+                                      @211[ Continue ]                      @001[ Overview ]
+.211
+    CAN Library : Interrupt Times (continued)
+
+ ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Interrupt Times for IP151  ³      CLIENT [æsec]    ³      SERVER [æsec]    º
+ ÌÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍ¹
+ º Class  ³ Access ³ Data Type³ Transm.IRQ ³ Rec.IRQ  ³ Transm.IRQ ³ Rec.IRQ  º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍ¹
+ º B.Var. ³ Write  ³   LONG   ³   61 (17)  ³  82 (32) ³     61     ³   115    º
+ º M.Var. ³ R.O.   ³   LONG   ³   66 (21)  ³ 118 (47) ³     65     ³    76    º
+ º M.Var. ³ W.O.   ³   LONG   ³   66 (21)  ³          ³            ³   117    º
+ º M.Var. ³ Read   ³   LONG   ³   71 (22)  ³ 120 (47) ³     66     ³   122    º
+ º M.Var. ³ Write  ³   LONG   ³   71 (21)  ³  86 (33) ³     65     ³   123    º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍ¼
+
+    The following abbreviations have been used in the table:
+    R.O. ....... ReadOnly
+    W.O. ....... WriteOnly
+    B.Var. ..... Basic Variable
+    M.Var. ..... Multiplexed Variable
+
+
+                                      @212[ Continue ]                      @001[ Overview ]
+.212
+    CAN Library : Interrupt Times (continued)
+
+    For structures and arrays, the interrupt time increases by factor 1.2.
+
+    To keep the interrupt times for the different CPU types, you must 
+    multiply the interrupt times measured on the IP151 module with the
+    factors given below:
+
+    ÉÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍ»
+    º CPU Typeº Factor º
+    ÌÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍ¹
+    º  IF100  º  1.00  º
+    º  CP104  º  1.20  º
+    º  IF152  º  1.00  º
+    º  CP472  º  1.00  º
+    º  XP152  º  1.20  º
+    º  CP260  º  0.30  º
+    ÈÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍ¼
+
+
+
+                                      @213[ Continue ]                      @001[ Overview ]
+.213
+    CAN Library : Interrupt Times (continued)
+
+    The interrupt latency times for the CAN interrupt are between 10 and
+    30 æsec (IF152/IP151/XP152/CP472). If PCCSW version V1.10 is used 
+    (CP104/C220), the latency time can increase to 100 æsec with further 
+    PV accesses via the serial interface.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.250
+    CAN Library : Syntax Description
+
+    Data Types:
+    More than one function can be used with certain groups of data types.
+    The following group names are used so that not all of the valid data
+    types have to be listed in the following group descriptions:
+    ÉÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍ»
+    º Group   º  BIT  ³ INT8  ³ BYTE  ³ INT16 ³ WORD  ³ INT32 ³ LONG  ³ FLOAT º
+    ÌÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍ¹
+    º INTEGRALº       ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º NOT     º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    º FLOAT   º       ³       ³       ³       ³       ³       ³       ³       º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º ALL     º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º ARRAY   º  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  º
+    ÈÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍ¼
+      x  Data type is allowed
+     [x] Data type is allowed as array variable or character string
+
+                                      @251[ Continue ]                      @001[ Overview ]
+.251
+    CAN Library : Syntax Description (continued)
+
+    Arrows:
+    Arrows are used to display input and output parameters. 
+    The following arrangement is used for this purpose:
+    ÉÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º  Arrow  º  Meaning                                                     º
+    ÌÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º   ->    º  Input parameter                                             º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <->   º  Input/output parameter. Functions as an output parameter,   º
+    º         º  but is normally loaded with certain information before the  º
+    º         º  function is called (e.g. an address). The address of a      º
+    º         º  variable is generally connected here using adr() [PL2000]   º
+    º         º  or an address contact [LAD].                                º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <-    º  Output parameter                                            º
+    ÈÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                      @252[ Continue ]                      @001[ Overview ]
+.252
+    CAN Library : Syntax Description (continued)
+
+    Function Blocks:
+    Function blocks are not shown graphically in this Online Help, but you
+    can find all of the relevant information about function blocks, such as
+    input parameters (->), input/output parameters (<->) and output parameters
+    (<-) in the Online Help.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.300
+    CAN Library : CAN Function Block Error Numbers
+
+    The following list is a summary of all possible CAN library error numbers:
+
+    3019    Data module ("modul_name") not available
+    3090    "device" <> 0 not allowed in system V1.10
+    8800    Not enough COBs available
+            (increase "cob_anz" in CANopen())
+    8801    No memory free for resources in application RAM
+            (decrease "cob_anz" or increase memory)
+    8802    Incorrect table identifier ("tab_ident")
+            (local function block memory destroyed)
+    8804    Incorrect CAN identifier (> 2047)
+    8805    Incorrect "us_ident"
+    8806    CAN identifier already being used in the system
+    8809    CAN instructions with the same CAN identifier busy
+    8810    Send queue full or no active node in the network
+    8811    CAN bus is BusOff
+    8812    No more buffers free (max. 13 possible)
+
+
+                                      @301[ Continue ]                      @001[ Overview ]
+.301
+    CAN Library : CAN Function Block Error Numbers (continued)
+
+    8813    CAN driver (CAN2000.BR) not installed
+    8814    Length of the data > 8 bytes
+    8815    Baud rate not allowed
+    8816    "cob_anz" = 0 or too large (max. 2047)
+    8821    Incorrect "user_type"
+            ("user_type" = 0 ... client, "user_type" = 1 ... server)
+    8822    Syntax error for the definition of CMS objects in data module
+            (see "cms_entry")
+    8823    Complex structure not allowed
+    8824    Incorrect "cms_mode" 
+    8825    No number dial available or CAN2000 driver (CAN2000.BR) 
+            not installed (< V1.40)
+    8826    CAN driver (CAN2000.BR) too old (< V1.50)
+    8859    Message length is incorrect
+    8872    Message lost (buffer was already overwritten) but data is consistent
+    8875    Message is inconsistent (new data was received during CANread())
+
+
+
+                                      @302[ Continue ]                      @001[ Overview ]
+.302
+    CAN Library : CAN Function Block Error Numbers (continued)
+
+    8876    Write buffer busy, if e.g. high-priority object was defined 
+            without overwrite mode
+    8877    No message available
+    147xx   Variable missing or variable name syntax incorrect
+            (xx is a value between 00 and 15)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.400
+    CAN Library : History - Version Changes
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.41 -> V1.42  ³ CURRENT VERSION: New functions/error corrections        º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Adjustment of functions for CAN2000 driver V1.50                        º
+  º - CANopen(): an extension of the function block CANopen() enables modules º
+  º   with more than one CAN interface to be used (e.g. CP260).               º
+  º - Function block CANxnode() for reading the node number of the x-th CAN   º
+  º   node switch.                                                            º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+
+
+                                      @401[ Continue ]                      @001[ Overview ]
+.401
+    CAN Library : History - Version Changes (continued)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.40 -> V1.41  ³ OLDER VERSIONS: New functions/error corrections         º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Resetting event variables in CAN2000 interrupt handling on the client   º
+  º   side only occurs if the event variables have the appropriate value.     º
+  º   This ensures that no other new instructions are lost.                   º
+  º - On the server, data is only copied in the FBK CMSmain() with ReadyOnly  º
+  º   Basic Variables, if the event variable = 1.                             º
+  º - CMSinit(): A dummy address is entered for copying purposes for those    º
+  º   variables which were declared in the data module, but which are         º
+  º   not available on the PCC.                                               º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+                                      @402[ Continue ]                      @001[ Overview ]
+.402
+    CAN Library : History - Version Changes (continued)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.37 -> V1.40  ³ OLDER VERSIONS: New functions/error corrections         º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Memory optimization in the CAN2000 driver from 8 KBytes to 512 byte     º
+  º   blocks, depending on bits 8-10 of the defined CAN identifier.           º
+  º - High-priority buffer handling of max. 13 objects (RTR + high-priority)  º
+  º   in the CAN controller.                                                  º
+  º - Overflow bit with message loss of defined CAN identifiers in CANopen(). º
+  º - Function block CANnode() for reading the set node number.               º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+
+                                      @403[ Continue ]                      @001[ Overview ]
+.403
+    CAN Library : History - Version Changes (continued)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.36 -> V1.37  ³ OLDER VERSIONS: New functions/error corrections         º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Structures and arrays are downloaded in the format according to         º 
+  º   CAL - CMS Encoding Rules CiA/DS201-3 /except bit structures             º 
+  º   and bit arrays).                                                        º
+  º - CMSinit() and CMSmain(): function changes for the Receive Queue. Only   º
+  º   contained in version V1.40 of the CAN library.                          º
+  º - Correction in the PV functions (Pvx_access) for accessing alias         º
+  º   structures in the CMS data module.                                      º
+  º - Correction for accessing Multiplexed Variables when a Multiplexer is    º
+  º   received, which was not defined in the data module (incorrect event)    º
+  º   variable was used).                                                     º
+  º - Stack increase in the function block CMSinit().                         º
+  º - CMSinit() runs through all data module entries, also when given         º
+  º   variables are not available. Therefore, the available variables can be  º
+  º   controlled with CMSmain(). CMSinit() still returns an error.            º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                      @404[ Continue ]                      @001[ Overview ]
+.404
+    CAN Library : History - Version Changes (continued)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.35 -> V1.36  ³ OLDER VERSIONS: New functions/error corrections         º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Multiplexed variables can be used via a CAN identifier.                   º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º V1.31 -> V1.35  ³ OLDER VERSIONS: New functions/error corrections         º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - CMS functions CMSinit() and CMSmain() for the objects Basic Variable    º
+  º   and Multiplexed Variable with accesses ReadOnly, WriteOnly and          º
+  º   Read-Write.                                                             º
+  º - Automatic resetting of the CAN controller from the BusOff status in     º
+  º   the CAN2000 driver. However, the "error_adr" variable of the CANopen()  º
+  º   function recognizes the BusOff status.                                  º
+  º - Access to structure and array elements via the variable names.          º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+                                      @405[ Continue ]                      @001[ Overview ]
+.405
+    CAN Library : History - Version Changes (continued)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.31           ³                                                         º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º First version of the CAN library Online Help.                             º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+
+.End

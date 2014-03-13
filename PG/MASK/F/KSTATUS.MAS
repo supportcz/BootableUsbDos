@@ -1,0 +1,15 @@
+#TXT 00 00 01 78  _
+#TXT 00 02 28 78  _S-EEPROM_D‚fecteuse________
+#TXT 01 02 28 78  _Alarme_Active______________
+#TXT 02 02 28 78  _Rappel_de_s‚curit‚_________
+#TXT 03 02 28 78  _Rappel_____________________
+#TXT 04 02 28 78  _Mot_de_passe_Actif_________
+#TXT 05 02 28 78  _Erreur_progr._S-EEPROM_____
+#TXT 06 02 28 78  _Programmation_S-EEPROM_____
+#TXT 07 02 28 78  _Protection_rappel_active___
+#TXT 09 02 15 78  Version_PROM_:_
+#VAR 09 18 11 01 78 00 42 N N J N N 00 00 00 
+#TXT 09 31 01 78  _
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~

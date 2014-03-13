@@ -1,0 +1,41 @@
+#TXT 00 00 33 78  _1)_Safety_Callback_Number_1___:_
+#VAR 00 34 30 01 78 01 66 N N J N N 00 00 01 
+#TXT 00 64 09 78  _________
+#TXT 01 00 33 78  _2)_Safety_Callback_Number_2___:_
+#VAR 01 34 30 01 78 01 66 N N J N N 00 00 02 
+#TXT 03 00 37 78  _3)_Number_Of_Redial_Attempts______:_
+#VAR 03 38 02 01 78 00 78 N N J N N 00 00 03 
+#TXT 03 43 06 78  (1-15)
+#TXT 04 00 37 78  _4)_Number_Of_LOGIN_Attempts_______:_
+#VAR 04 38 02 01 78 00 78 N N J N N 00 00 04 
+#TXT 04 43 05 78  (0-7)
+#TXT 05 00 29 78  _5)_Action_LOGIN_Failure___:_
+#TXT 05 30 22 78  _Safety_Callback____:_
+#VAR 05 53 01 01 78 03 66 N N J J N 00 00 88 
+#TXT 05 55 05 78  (Y/N)
+#TXT 06 30 22 78  _Disconnect_________:_
+#VAR 06 53 01 01 78 03 66 N N J J N 00 00 99 
+#TXT 06 55 05 78  (Y/N)
+#TXT 08 00 49 78  _6)_Time_For_Online-On_Lock_After_Reset________:_
+#VAR 08 49 02 01 78 00 78 N N J N N 00 00 05 
+#TXT 08 52 07 78  (sec*5)
+#TXT 09 00 49 78  _7)_Pause_After_Failed_Callback________________:_
+#VAR 09 49 02 01 78 00 78 N N J N N 00 00 06 
+#TXT 09 52 08 78  (sec*10)
+#TXT 10 00 49 78  _8)_Pause_After_Disconnect_____________________:_
+#VAR 10 49 02 01 78 00 78 N N J N N 00 00 07 
+#TXT 10 52 05 78  (sec)
+#TXT 11 00 49 78  _9)_Pause_For_DSR_Drop_After_Disconnect________:_
+#VAR 11 49 02 01 78 00 78 N N J N N 00 00 08 
+#TXT 11 52 08 78  (sec*10)
+#TXT 13 00 40 78  10)_Wait_For_Connect__________________:_
+#VAR 13 40 02 01 78 00 78 N N J N N 00 00 09 
+#TXT 13 43 08 78  (sec*10)
+#TXT 14 00 40 78  11)_Wait_For_Disconnect_______________:_
+#VAR 14 40 02 01 78 00 78 N N J N N 00 00 10 
+#TXT 14 43 08 78  (sec*10)
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~
+#KS YNyn
+#KS 0123456789TPW:=><;/SR@!&*#~

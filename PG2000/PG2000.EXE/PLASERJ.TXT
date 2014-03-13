@@ -1,0 +1,41 @@
+* Drucker : HP - Laserjet
+* Druckerinitialisierung
+   1  "\e[E0\e[O0\e(s7v0p16.66h0s0b0T\e(10U\e&15c101f6e1X\e&a8L\e&s1C" * Init
+   2  "\e&a0L\e[E0\eE\e&a0L\e[E0\eE"   * RÅckeinstellung
+   3  ""                               * Code fÅr Zeilenanfang
+   4  "\r"                             * Code fÅr Zeilenende
+   5  "\e*p+30Y"                       * neue Zeile
+   6  "\e*p+15Y"
+
+* Zeichensatz
+  10  "\e(10U"                         * IBM-PC (US)
+  11  "\e(0G"                          * Deutschland
+  12  "\e(1E"                          * England
+
+
+
+* Schriftstil
+  20  "\e(s1S"                         * kursiv
+  21  "\e(s0S"                         * aufrecht
+
+* Strichstaerke
+  30  "\e(s-7B"                        * sehr sehr leicht
+  31  "\e(s-5B"                        * sehr leicht
+  32  "\e(s3B"                         * fett
+  33  "\e(s0B"                         * mittel
+  35  "\e(s-3B"                        * leicht
+  38  "\e(s5B"                         * sehr fett
+  39  "\e(s7B"                         * sehr sehr fett
+
+* Schriftart
+  40  "\e(s2T"                         * Elite
+  41  "\e(s1T"                         * Pica
+  42  "\e(s0T"                         * Line Printer
+  43  "\e(s3T"                         * Courier
+  44  "\e(s4T"                         * Helvetica
+
+* Schriftgroesse
+  45  "\e(s8.1H\e(s14V"                * doppelte Schrifthoehe/breite
+  46  "\e(s16.66H\e(s7V"               * normale Schrifthoehe/breite
+
+* Ende

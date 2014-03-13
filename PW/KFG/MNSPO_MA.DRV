@@ -1,0 +1,7 @@
+;
+;    Treiberbeschreibungsfile fuer B&R MININET-SPOIO
+;
+;Filename      Modulname
+MNSPO_MA       00.mnspo_ma
+DSMNSPO        ff.DSmnspo
+

@@ -1,0 +1,20 @@
+#TXT 00 27 20 78  旼컴컴컴컴컴컴컴컴커
+#TXT 01 27 12 78  쿟ype-Modem:
+#VAR 01 40 05 01 78 00 42 N N J N N 00 00 00 
+#TXT 01 46 01 78  �
+#TXT 02 27 20 78  읕컴컴컴컴컴컴컴컴켸
+#TXT 03 01 11 78  COMMANDES_:
+#TXT 05 01 13 78  Initialiser_:
+#VAR 06 01 40 01 78 00 66 N N J N N 00 00 00 
+#TXT 07 01 10 78  Composer_:
+#VAR 08 01 30 01 78 00 66 N N J N N 00 00 00 
+#TXT 09 01 20 78  Fin_de_composition_:
+#VAR 10 01 30 01 78 00 66 N N J N N 00 00 00 
+#TXT 11 01 12 78  Raccrocher_:
+#VAR 12 01 30 01 78 00 66 N N J N N 99 00 99 
+#TXT 18 01 01 78  _
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ \!@#$%^&*(){}[]-+=;,.<>?:
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS 5678
+#KS 12

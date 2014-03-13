@@ -1,0 +1,50 @@
+*           
+*   Protocol Parameter File for B&R-Mininet 
+*
+#PARA "Station-Number:"             UINT   1   17  63   17  descript    STR    27  2   NODE
+#PARA "Number of retries:"          INT    1   1   10   1   nox_value   LONG   0   0   NET   
+#PARA "Interface:"                  slot   1   0    0   0   descript    STR    8   1   NODE   
+#KEY
+#PARA "Timeout (ms):"               UINT   1  250 65535 1000 nox_value  LONG   1   0   NET
+#PARA "Baud Rate:"                  baud   1   0    0   0   nox_value   LONG   2   0   NET   
+#PARA "Interface-Type:"             iftyp  1   0    0   0   nox_value   BIT   132  3   NET    
+*
+*
+*  MININET   NEU
+*  key  name         anz  Item  typ(1=Int/  len-erg    Var       Var-Descript   Equal
+*                         len   0..String)  (Typ=0)    name      
+#SELECT baud         5    5         1          0       
+* Item-Text      Result-Int
+   2400             24
+   4800             48
+   7200             72
+   9600             96
+   19200            192
+*
+*  key  name         anz  Item  typ(1=Int/  len-erg    Var       Var-Descript   Equal
+*                         len   0..String)  (Typ=0)    name      
+#SELECT iftyp        1    5         1          0       descript  STR    8  1      0
+* Item-Text      Result-Int
+   RS232             0
+*
+*  key  name         anz  Item  typ(1=Int/  len-erg    Var       Var-Descript   Equal
+*                         len   0..String)  (Typ=0)    name      
+#SELECT iftyp        2    5         1          0       descript  STR    8  1      1
+* Item-Text      Result-Int
+   RS232             0
+   TTY               4
+*
+*  key  name         anz  Item  typ(1=Int/  len-erg    Var       Var-Descript   Equal
+*                         len   0..String)  (Typ=0)    name      
+#SELECT iftyp        2    5         1          0       descript  STR    8  1      2
+* Item-Text      Result-Int
+   RS422             0
+   RS485             1
+*
+*  key  name         anz  Item-len  typ(1..Int/0..String)  len-erg(falls Typ 0)
+#SELECT slot         2     11           0                       1 
+* Item-Text      Result-Int
+   Interface-1       1
+   Interface-2       2
+
+

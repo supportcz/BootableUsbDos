@@ -1,0 +1,6 @@
+#TXT 00 00 17 78  _RÅckrufnummer_:_
+#VAR 00 17 30 01 78 00 65 N N J N N 00 00 00 
+#TXT 00 47 01 78  _
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~

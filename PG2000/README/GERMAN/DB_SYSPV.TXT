@@ -1,0 +1,57 @@
+Neue Systemmerker SPSSW V1.10 (DB_SYSPV.INP) :
+==============================================
+
+Die Systemmerker wurden in der SPSSW-Version V1.10 erweitert, wobei jetzt
+folgende Systemmerker im INIT-UP (!!!) zur VerfÅgung stehen :
+
+    _URINIT        BIT   Flag, ob INIT-UP nach einem URINIT ausgefÅhrt wird
+    _TOTAL_INIT    BIT   entspricht _URINIT
+    _INIT          BIT   Flag, ob INIT-UP nach einem INIT ausgefÅhrt wird
+    _DOWNLOAD      BIT   Flag, ob INIT-UP beim Download ausgefÅhrt wird
+    _DEBUG         BIT   Flag, ob INIT-UP beim Debug ausgefÅhrt wird
+                         (ACHTUNG : Offset wurde geÑndert, daher ist
+                         bei Verwendung in V1.05 fÅr V1.10 ein Compilieren
+                         des Task erforderlich, nachdem die neuen
+                         Systemmerker in die Datenbank eingespielt wurden)
+
+    _T_ZYKLUS      WORD  Zykluszeit der TK/SSTK in Einheiten zu 100
+                         Microsekunden daher max. 6,5 Sek.als Zykluszeit
+                         mîglich
+                         ACHTUNG : bisher in V1.05 in Millisekunden
+    _TC_TIME       WORD  entspricht _T_ZYKLUS
+    _TKNR          BYTE  Taskklassennummer 1 bis  4 bei TK 1-4,
+                                          -1 bis -4 bei SSTK 1-4
+                                          -8 bei EXCTK
+                                          -9 bei IRQTK
+    _TC_No         BYTE  entspricht _TKNR
+    _N_SPSTASK     BYTE  Anzahl der SPS-Tasks in der akt. TK bzw.
+                         SSTK/EXCTK/IRQTK
+    _TC_TSK_No     BYTE  entspricht _N_SPSTASK
+
+
+Im Zyklischen Betrieb kînnen nur die folgenden Systemmerker
+abgefragt werden :
+
+    _PIO_OLD       BIT   Flag, ob in der Taskklasse der alte Input (1 Zyklus
+                         alt, entspricht V1.05) verwendet wird :
+                             0 = neuer (aktueller) Input,
+                             1 = alter Input
+                         (ACHTUNG: nur gÅltig in TK, nicht in SSTK)
+    _DEBUG         BIT   Flag, ob INIT-UP beim Debug ausgefÅhrt wird
+
+In V1.05 wurden die Systemmerker in SS-Taskklassen nicht korrekt unterstÅtzt.
+In V1.10 besteht nun im INIT-UP die Mîglichkeit die Systemmerker auszulesen,
+unabhÑngig von der Taskklasse.
+
+Der Systemmerker _FORCE wird ab V1.10 nicht (!!!) mehr unterstÅtzt, weil er
+nur im zyklischen Betrieb abgefragt werden kînnte, wegen der Verwendung des
+TK#1 Datenbereiches durch alle SS-Taskklassen aber keine Eindeutigkeit
+gegeben ist. Es besteht aber die Mîglichkeit, Åber den neuen B&R-Library-FUB
+"FORCE(tknr)" festzustellen, ob in der TK bzw. SSTK geforced wird.
+
+Anmerkung : Die Systemmerker kînnen mit "DBTOOL.EXE" auch in bestehende
+            Datenbanken eingespielt werden, indem man die Datei
+            "DB_SYSPV.INP" in des ROOT-Directory der entsprechenden
+            Datenbank kopiert und abschlie·end im DBTOOL unter "(S)PS"
+            den Punkt "(M)erker" aufruft.
+

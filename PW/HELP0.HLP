@@ -1,0 +1,3689 @@
+#0 ########## Start-up Screen ####################
+PANELWARE CONFIGURATION SOFTWARE                                 <0000>
+
+	PANELWARE Help System              Help Screen  <0001>
+	Project Creation                   Help Screen  <0100>
+	Picture Creation                   Help Screen  <0200>
+	Assigning Key Functions            Help Screen  <0400>
+	Creating Text Groups               Help Screen  <0500>
+	Connection List                    Help Screen  <0600>
+	Report System                      Help Screen  <0800>
+	Text Layer System                  Help Screen  <0950>
+	Alarm System                       Help Screen  <1000>
+	Recipe System                      Help Screen  <1300>
+	Warnings and Error Messages        Help Screen  <1700>
+#0 ########## Helpsystem beschreiben #######################
+PANELWARE HELP SYSTEM                                            <0001>
+
+ The PANELWARE Help System can be called at any time with ALT+F5
+ or ALT+H. The help system is context sensitive, i.e., by calling 
+ help, the help screen which refers to the operation which you are 
+ currently working in appears. With the <PgUp> or <PgDn> keys you 
+ can flip forewords or backwards through the help screens. If all 
+ of the help text cannot be seen in a help screen, the Cursor 
+ Up/Down keys can be used to scroll through to the end. 
+ The help system can be exited at any time with the <ESC> key.
+#0 ########## Helpsystem Fortsetzung #######################
+PANELWARE HELP SYSTEM                                            <0002>
+ 
+ Some help screens contain cross-references (x-refs.) to other help 
+ screens. These cross-references are indicated with the respective 
+ help screen number which is between the "<" and ">" characters 
+ (e.g. Help Screen <0000>). 
+ If there are more than one cross-referenced help screen numbers, 
+ one can be selected by using the <TAB> key which highlights the 
+ next x-ref. on the screen. To move back through the x-ref. numbers,
+ the <SHIFT>+<TAB> key combination is used. By pressing the <ENTER>
+ key, the selected help screen is displayed. To return to the 
+ previous screen again, press the <ALT>+<F1> key combination. With 
+ <F10> the first screen <0000> can be called at any time.
+#0 ########## Start-up Screen Continued ####################
+The PANELWARE CONFIGURATION SOFTWARE Screen                      <0005>
+
+ The software version number is situated in the first line on the 
+ left, the name of the current project is in the middle and the panel
+ controller description is found on the right of the same line.
+
+ The next line down contains the headings of the pull-down menus.
+
+ In the second last line of the screen the current function key 
+ assignments are found.
+
+ The very last line of the page contains any error messages or 
+ important notices that relate to the project.
+#0 ########## Start-up Screen Continued ####################
+Notes on How to Create a Project                                 <0010>
+
+Your visualization project can be constructed with PANELWARE OPERATOR 
+PANELS and without extra work involving the PLC. The modular hardware 
+construction of PANELWARE enables a configuration to suit all of the
+requirements that may arise in your application.
+
+A panel project consists of the following elements:
+  - Pictures
+  - Connection Definitions
+  - Text Groups
+  - Key Assignments
+  - Alarm System
+#0 ########## Start-up Screen Continued ####################
+Notes on How to Create a Project                                 <0011>
+
+ All hardware data for the project must be defined first. When 
+ this is done, the elements which are needed in the project (pictures,
+ connections, key assignments, alarms, etc.) can be created.
+ Lastly, the project is compiled. 
+ After a successful compilation, the project can be loaded onto 
+ the operator panel.
+#0 ################### Start-up Screen Continued ######################
+Notes on How to Create a Project                                 <0012>
+
+The Menu Bar
+
+ The menu bar consists of five pull-down menus. These menus can
+ be activated with ALT + the respective function key or with
+ ALT + the first character of the respective menu name. Some functions
+ can also be activated directly with a CTRL + key combination.
+#0 ########## Start-up Screen Continued ####################
+Notes on How to Create a Project                                 <0013>
+
+The File menu - 'New' Function 
+ New pictures, key assignments, text groups etc. can be created 
+ with the New function.
+
+The File menu - 'New Project' Function
+ A new project can be created with this function.
+
+The File menu - 'New Slave Project' Function
+ With this function, you can create a slave project for a C300
+ controller.
+#0 ########## Einstiegsbild-Fortsetzung ####################
+Notes on How to Create a Project                                 <0014>
+
+The File menu - 'Open Project' Function
+ With this function, you can open an existing project.
+
+The File menu - 'Delete Project' Function
+ Use this function if you would like to get rid of an entire project.
+ Be careful! This function deletes all project data, pictures etc.
+
+The File menu - 'Load' Function <^L>
+ This function is used to load projects, pictures, text groups, etc.
+ If you don't know the exact name of the file  which you would like 
+ to load, press the <ENTER> key. A selection field with all of the 
+ valid file names appears from which the required file is chosen.
+#0 ########## Start-up Screen Continued ####################
+Notes on How to Create a Project                                 <0015>
+
+The File menu - 'Save' Function <^S>
+ Pictures, text groups, etc. are saved with this function.
+
+The File menu - 'Save as' Function
+ Pictures, text groups, etc. (not projects) can be saved under 
+ a new name with this function. This function can also be used 
+ for copying pictures and saving them under another name for example.
+
+The File menu - 'Import' Function <^I>
+ With this function, you can import a project or part of a project.
+#0 ########## Start-up Screen Continued ####################
+Notes on How to Create a Project                                 <0016>
+
+The File Menu - 'Export' Function <^E>
+ With this function, you can export the variable assignment table
+ in ASCII format.
+
+The File menu - 'Exit' Function <F10>
+ This function can be selected through the menu or with F10
+ and is used to exit the PANELWARE CONFIGURATION SOFTWARE.
+#0 ########## Start-up Screen Continued ####################
+Notes on How to Create a Project                                 <0017>
+
+The Edit menu - 'Project' Function <^P>
+ Existing projects can be edited with this function. Notice 
+ that the name of the current project is always displayed in 
+ the middle of the top line (Title line) on the screen.
+ After editing, projects are always saved automatically.
+
+ When you load a project for which data is missing for a successful
+ compilation, the message "Incomplete Project Definition" will appear
+ in the error message line.
+#0 ########## Start-up Screen Continued ####################
+Notes on How to Create a Project                                 <0018>
+
+The Edit menu - 'Picture' Function <^B>
+ Pictures can be created and edited with this function.
+
+The Edit menu - 'Keyboard' Function <^K>
+ Assigning the functions of the keys is done through this option.
+
+The Edit menu - 'Text Groups' Function <^T>
+ Text groups can be defined for the text output fields with 
+ this function.
+#0 ########## Start-up Screen Continued ####################
+Notes on How to Create a Project                                 <0019>
+
+The Edit menu - 'Connection' Function <^C>
+ This function is used for assigning PLC address to their 
+ symbolic variable names.
+
+The Edit menu - 'Alarm System' Function <^A>
+ This function can be used to define alarms and to monitor 
+ the behavior of the alarm system.
+
+The Edit menu - 'Reports' Function <^O>
+ With this function, you can create reports.
+#0 ########## Start-up Screen Continued ####################
+Notes on How to Create a Project                                 <0020>
+
+The Edit menu - 'Recipes' Function <^R>
+ With this function, you can create recipes and set the parameters
+ of the recipe system.
+
+The Edit menu - 'Panel Printer' Function
+ Here, you can set the parameters for the printer connected to the
+ panel.
+#0 ########## Start-up Screen Continued ####################
+Notes on How to Create a Project                                 <0021>
+
+The Utilities menu - 'Compile' Function <^Q>
+ Your project can be translated for panel use with this function.
+
+The Utilities menu - 'Download' Function <^X>
+ A compiled project can be downloaded to the operator panel 
+ by using this function.
+
+The Utilities menu - 'Upload' Function
+ A project can be uploaded from the panel e.g. for further
+ editing with this function.
+#0 ########## Start-up Screen Continued ####################
+Notes on How to Create a Project                                 <0022>
+
+The Utilities menu - 'System Download' Function
+ This function is used to load the operating system to the panel 
+ controller. Presently this function is only for use with the C200
+ panel controller.
+
+The Utilities menu - 'Start Project' Function
+ With this function, you can start the project in the panel also
+ in Teach Mode.
+#0 ########## Start-up Screen Continued ####################
+Notes on How to Create a Project                                 <0023>
+
+The Utilities menu - 'Stop Project' Function
+ With this function, you can stop the project in the panel.    
+
+The Utilities menu - 'Reset Panel' Function
+ With this function, you can reset the panel.                  
+
+#0 ########## Start-up Screen Continued ####################
+Notes on How to Create a Project                                 <0024>
+
+The Utilities menu - 'Recipe Upload' Function
+ With this function, you can upload recipe values from the panel and
+ save them as recipe initialization values for the project.
+
+The Utilities menu - 'Recipe Backup' Function
+ This function creates a backup of the recipes in the panel on the
+ hard disk of your PC.
+
+The Utilities menu - 'Recipe Restore' Function
+ With this function, you can restore recipe backups in the panel.
+#0 ########## Start-up Screen Continued ####################
+Notes on How to Create a Project                                 <0025>
+
+The Config menu - 'Show Config.' Function 
+ This function is used to show the current settings of the 
+ PANELWARE CONFIGURATION SOFTWARE.
+
+The Config menu - 'Screen, Language, User Path' Functions
+ These functions define the type of screen used, the language 
+ to be used with the software and the user path.
+
+The Config menu - 'Channel #1' Function
+ The interface to be used for transferring projects to BRIT...  
+ panels is defined with this function.
+#0 ########## Start-up Screen Continued ####################
+Notes on How to Create a Project                                 <0026>
+
+The Config menu - 'Channel #2' Function 
+ This function is for selecting the interface to be used to download 
+ projects or the operating system (at present only C200) to the 
+ PANELWARE panel controller.
+
+The Config menu - 'Print' Function
+ Here, you can define the print format of the 
+ PANELWARE CONFIGURATION SOFTWARE.
+
+The Config menu - 'Compiler Opts' Function 
+ The options available for the compiler are set here.
+#0 ########## Start-up Screen Continued ####################
+Notes on How to Create a Project                                 <0027>
+
+The Help menu - 'Help' Function <ALT+F5>
+ The on-line help system is activated with this function.
+
+The Help menu - 'Info' Function 
+ This function shows info about PANELWARE CONFIGURATION SOFTWARE.
+
+The Help menu - 'Memory' Function
+ This function shows you how much memory is free in your PC.
+
+#0 ########## Start-up Screen Continued ####################
+Notes on How to Create a Project                                 <0028>
+The Help menu - 'DOS-Shell' Function
+ This calls the DOS-Shell. Type <EXIT> to return to the PANELWARE
+ CONFIGURATION SOFTWARE.
+
+The Help menu - 'Messages' Function
+ This function shows you the latest valid message window. Here you
+ can see the results of the last time the compiler ran or the last
+ time a project was downloaded.
+# 190 ################## New Project ####################
+New Project                                                      <0080>
+
+A name for the new project must be given and the type of the 
+controller used is selected by means of a selection field.
+
+If you have chosen a modular PANELWARE panel controller, another 
+mask appears, where the type of display and the number and 
+type of KeyPads used are to be entered.
+
+With F4 the new project is accepted and saved and with ESC the mask 
+can be exited without saving the new project.
+############ New Project - Continued ####################
+New Project                                                      <0081>
+
+Make sure that you have defined the type of controller and display 
+correctly as they cannot be changed later!
+
+Naturally, the number of KeyPads can be changed at any time.
+
+If using a BRIT... panel, display and KeyPad definitions are
+not required.
+#
+New Slave Project                                                <0085>
+
+First, you must assign a name for the new slave project. For slave
+projects the controller is automatically set to "C110". Further, you
+must enter a Slave Controller Number between 1 and 3.The Station Number
+on the C110 Controller must be set to match the entered Controller
+Number. If you have more than one Slave Project, you must assign a
+different Slave Controller Number to each of your Slave Projects.
+
+Next you must select the display type as well as the number and type
+of KeyPads connected to the Slave Controller.
+
+With F4 you accept the new Slave Project, with ESC you can leave
+the screen without creating a new Slave Project.
+
+Make sure that you have defined the type of controller and display
+correctly because they cannot be changed later!
+
+The number and type of KeyPads can be changed later at any time.
+# 100 ########## Project Editing ####################
+Edit Project                                                     <0100>
+
+In order to edit a project, it must first be loaded (File menu - 
+Load option). The name of the loaded project is always displayed 
+in the middle of the title line on the screen.
+
+You can only edit projects which have been created with the 
+"New Project" function.
+# 100 ########## Project Editing - Continued ####################
+Edit Project - Continued                                         <0101>
+
+The most important data for a project can be entered or edited 
+with F1:
+
+Picture for Communications Error:
+ Here, the name of the picture which to be displayed when 
+ communication to the PLC is interrupted is to be entered. 
+ This picture can contain a short message and the cause of 
+ the error (See PANELWARE Software User's Manual).
+
+ These names must be defined for every project and this picture 
+ must be bound in every project.
+# 100 ########## Project Editing - Continued ####################
+Edit Project - Continued                                         <0102>
+
+F-Key for Acknowledging Errors:
+ Here, you can define a function key that can be used by the service
+ personnel to acknowledge communication errors. The error
+ acknowledgment key is only active in the error screen.
+
+Key Buffering:
+ If you enter YES here, the panel recognizes all key strokes, and
+ carries them out, even if it requires more time. If you enter NO,
+ the key strokes that extend beyond a screen change are ignored. In
+ this way you can stop the user from being able to "type ahead" and
+ accidentally causing undesired actions.
+# 100 ########## Project Editing - Continued ####################
+Edit Project - Continued                                         <0103>
+
+Background lighting permanently on:
+ Enter YES here if the display lighting should be on all of the time.
+ Enter NO here and define a shut-off time if the background lighting 
+ should automatically switch off after a certain period of disuse.
+ Every time that a key is pressed or a picture changes the time is
+ restarted.
+ This function has no effect on VFD displays.
+
+Enable Alarm System:
+ Enter YES here, if you are going to use the alarm system, 
+ and NO if no alarm system is required for your project.
+ (See Alarm System starting on Help Screen <1000>)
+# 100 ########## Project Editing - Continued ####################
+Edit Project - Continued                                         <0104>
+
+Transmit Key Matrix:
+ Enter YES here and define a PLC address only if the 
+ key matrix should be handled within the PLC.
+ (See PANELWARE Software User's Manual). 
+ Enter NO here if this function is not required.
+
+Transmit Current Picture Number:
+ Enter YES here and define a PLC address, if you want to
+ transmit the number of the current picture to the PLC.
+ Enter NO here if this function is not required.
+# 100 ########## Project Editing - Continued ####################
+Edit Project - Continued                                         <0105>
+
+Transmit LED Matrix:
+ Enter YES here if you want to control the key LEDs with a bit field
+ from the PLC. You should control the key LEDs either with this
+ function or with the help of the LED/Key command
+ (Picture Editor - F5). Mixing both methods is not recommended.
+
+Allow picture change by the PLC:
+ Enter YES here and define the address, if you would like to 
+ change the picture from the PLC. The PLC must write the number 
+ of the desired picture to this address in order to execute the 
+ change. (See PANELWARE Software User's Manual)
+ Enter NO here if this function should not be utilized.
+# 100 ########## Project Editing - Continued ####################
+Edit Project - Continued                                         <0106>
+
+Enable Text Layers:
+ Enter YES here if you want to use the text layer system.
+ If you enter a NO here, no additional text layers will be compiled,
+ even if "Text Layer Switching" is set to YES. The additional
+ text layers require a larger memory area for the compiled project.
+
+Text Layer Switching
+ Enter YES here and define a PLC address in order to activate
+ layer switching on the panel. The number of the active text
+ layer must be at the PLC address which is given here. You can
+ also use internal panel variables for this purpose.
+# 100 ########## Project Editing - Continued ####################
+Edit Project - Continued                                         <0107>
+
+Update Time from PLC
+
+Time Trigger Address
+ A tagname must be entered here. Defining this address by the
+ PLC starts the synchronization procedure.
+
+Time Address
+ The time address must be entered here. The PLC time must be a
+ 20 character BYTE array and have the following construction:
+
+   Y Y _ M M _ D D _ H H : M M : S S _ W W
+
+ The entries in the string are ASCII number values (0x30 to 0x39).
+ It is possinble to leave the spaces, colons and the week day out.
+ Year numbers < 80 are valid for the next century.
+# 100 ########## Project Editing - Continued ####################
+Edit Project - Continued                                         <0109>
+
+Project Definition I/O                                           
+
+Life Sign
+ Enter YES here and define a tagname if the control panel is to
+ send a life sign.
+
+Life Sign Interval (Sec.)
+ Enter the life sign interval here. This is the time interval that
+ is to pass when between sending life signs to the PLC.
+# 110 ########## Project Editing - Bind Picture ################
+Edit Project - Bind Picture                                      <0110>
+
+Your picture branching structure is graphically displayed 
+in this mask.
+
+Enter the name of the picture which you want to bind into the project.
+To the right of this entry, up to eight other branches 
+(neighboring pictures) can be defined.
+
+As long you are in the field in which the picture is to be bound 
+you can switch off the picture initialization with F1 or block 
+a picture change from the PLC with F2. Only switch off a picture
+initialization if you are confident of that structure!
+
+In the lower right-hand corner you can see whether a picture change is 
+allowed from the PLC or not. In order to allow the PLC to change 
+pictures, you must first enable it in the "Edit Project" mask.
+# 110 ########## Project Editing - Bind Picture #################
+Edit Project - Bind Picture                                      <0111>
+
+The fields in the middle and on the right of the screen are used 
+for entering branched pictures (neighboring pictures). If more 
+pictures are required than the standard two branches shown on 
+the default page they can be set up by pressing F2. With F3, the 
+function keys which are to be used for executing the picture change 
+can be defined.
+
+If you don't know exactly what the name of the picture is, 
+F5 can be used to call a selection window displaying all of 
+the valid pictures to choose from.
+
+# 110 ########## Project Editing - Bind Picture ##################
+Edit Project - Bind Picture                                      <0112>
+
+Important Note:
+ The neighboring pictures must be defined for all pictures in the 
+ project. Projects with unbound pictures cannot be compiled.
+
+ Before binding any pictures, be sure of the branching structure 
+ that must be followed and then make your entries!
+# 120 ########## Project Editing - Picture List #################
+Edit Project - Picture List                                      <0120>
+
+All of the pictures in the project are shown in the picture list. 
+New picture can be bound with F2 and existing pictures with F1 
+directly from the list.
+By pressing F3 the desired pictures can be deleted from the list. 
+These can be rebound into the project again later if desired.
+F6 and F7 can be used to change the sequence of the pictures.
+
+Pictures which have not been bound (that don't yet have neighboring 
+pictures) are indicated. All pictures must be bound before the 
+project is compiled.
+# 130 ########## Project Editing - GI Text Def. ############
+Edit Project - GI Text Def.                                      <0130>
+
+Every time that a picture change is made, the screen is reinitialized.
+The initialization is done with so-called initialization messages.
+The default initialization message includes a command to clear the 
+screen and another to switch off all key LED's.
+
+More other initialization messages can be defined as well.
+The text number and the position that the new message is to be 
+output must be defined. These will now be executed with every 
+picture change.
+The picture initialization message must be defined in the GLOBAL
+text group.
+# 130 ########## Project Editing - GI Text Def. ############
+Edit Project - GI Text Def.                                      <0131>
+
+Important Note:
+
+ You can block this initialization for any and every picture 
+ (Bind Pict. Mask).
+
+ Be careful when using this function. Only block a picture 
+ initialization if you are confident of its effect.
+
+ Do not delete message #0 from the GLOBAL text group! It includes 
+ functions which clear the screen with every picture change.
+#
+Open Project - Version Control                                   <0140>
+
+You have tried to load a project which was created by an older version
+of PCS for an older version of the panel controller. If you open this
+project, it will be actualized for version 2.2. You must recompile the
+project afterwards.
+
+Important information:
+ The project actualized for 2.2 can only be executed in PANELWARE
+ Controllers having operating system version 2.2 or higher. The
+ actualized project cannot be executed in controllers with operating
+ systems older than 2.2.
+
+If you do not actualize the project, you cannot modify it, but you can
+download and execute it in controllers with older operating systems.
+Please note that you need at least the controller version for which
+the project has been created.
+
+You can update the operating system of older PANELWARE controllers with
+the function "System Download" in the Menu "F3 Utilities" at any time.
+#
+Open Project - Versions Conflict                                 <0145>
+
+You have tried to open a project which was created with a newer Version
+of PCS. You can open this project only with the PCS version with which
+it was created.
+
+Please check whether you have different versions of PCS on your
+Personal Computer. Remove the old versions of PCS, and make sure you
+are using the correct one.
+#
+Project Download - Version Control                               <0150>
+
+You have tried to download a project which has been created for an
+older version of panel controller.
+
+THE PROJECT CAN BE DOWNLOADED AND EXECUTED WITHOUT ANY RESTRICTIONS.
+
+If you want to use the advanced functionality of the newer controller
+software version or you want to modify the project, you have to
+actualize it by opening and recompiling. See also Help Screen <0140>.
+#
+Project Download - Versions Conflict                             <0155>
+
+You have tried to download a project which has been created for
+operating system 1.8 into a PANELWARE controller with an older
+operating system.
+
+First, you have to update your controller for operating system 1.8,
+than you can load and execute the project.
+
+You can find more information about operating system updates on the
+Help Screen <1430>.
+# 200 ########## Editing Pictures ########################
+Edit Picture                                                     <0200>
+
+The picture is the base element of a panel project. Pictures consist
+of text, lines, fields, keys and LED functions.
+Text (messages), and lines make up the so-called mask. Fields are 
+used for entering values and displaying values from the PLC.
+The amounts of fields, keys and LED functions which can be used 
+in a picture depends on the controller used.
+
+Pictures are saved by using the "Save" or "Save as" functions and 
+existing pictures can be loaded for editing. By using the "New" 
+function from the "File" menu option, a new picture can be created.
+# 200 ########## Picture Editing ########################
+Edit Picture                                                     <0201>
+
+The display format selected for the project creation is shown on the
+screen. Text and lines are displayed in the format which they are 
+displayed in on the panel. Fields are replaced with place holders.
+
+If a picture element is selected with the cursor keys, the name of 
+the picture element (text, line or field)is displayed in the lower 
+right-hand corner of the display and the picture element is marked.
+
+The picture element can now be deleted <DEL> or moved around the 
+picture with key combinations <CTRL> + <Cursor keys>.
+# 200 ########## Picture Editing ########################
+Edit Picture - Input Field Display                               <0202>
+
+Input fields are always displayed with their number. These numbers
+define the sequence used for processing (how the operator can activate 
+the inputs) the input fields.
+
+By using the "forward" and "back" function keys in the selected state, 
+the input field can be move backward and forward within the sequence.
+
+If the field is too short, the number is only shown in the lower 
+right-hand corner of the screen.
+# 210 ########## Picture Editing Text Entry ##########
+Edit Picture - Text entry                                        <0210>
+
+Text input:       <F1>  or <optional letter of the alphabet>
+Terminate :       <ENTER>
+
+Mask text can be entered in the position that you would like to see 
+it on the panel screen. The text entry must always be terminated by
+pressing the <ENTER> key.
+
+Existing messages must first be marked and then by pressing F1,
+editing or correcting is possible.
+# 220 ########## Picture Editing choosing field class & type #########
+Edit Picture - Fields                                            <0220>
+
+Field entry:      <F2>
+
+In order to insert a field into the picture, you must first select 
+the field class. There are three field classes:
+
+  Output Fields
+	  display values from the PLC on the panel screen.
+  Input Fields
+	  allow the user to enter and set values.
+  Alarm Fields
+	  display the status of alarms.
+# 220 ########## Picture Editing choosing field class & type #########
+Edit Picture - Field Class                                       <0221>
+
+  Numerical Output Fields:
+
+	Output Byte                              Help Screen <0300>
+	Output Word Unsigned                     Help Screen <0301>
+	Output Word Signed                       Help Screen <0302>
+	Output Byte as Bar                       Help Screen <0303>
+	Output Word as Bar                       Help Screen <0303>
+	Output Long Unsigned                     Help Screen <0305>
+	Output Long Signed                       Help Screen <0312>
+	Output Float                             Help Screen <0306>
+# 220 ######### Picture Editing choosing field class & type #########
+Edit Picture - Field Class                                       <0222>
+
+  Non-numerical Output Fields:
+
+	Output Text                              Help Screen <0307>
+	Output Text Advanced                     Help Screen <0308>
+	Output String                            Help Screen <0310>
+	Output Date/Time                         Help Screen <0311>
+# 220 ########## Picture Editing choosing field class & type #########
+Edit Picture - Field Class                                       <0223>
+
+  Input Fields:
+
+	Input Bit/Byte                           Help Screen <0350>
+	Input Word (unsigned)                    Help Screen <0351>
+	Input Word (signed)                      Help Screen <0352>
+	Input String                             Help Screen <0355>
+	Input Long (unsigned)                    Help Screen <0353>
+	Input Long (signed)                      Help Screen <0357>
+	Input Password                           Help Screen <0356>
+	Input Float                              Help Screen <0354>
+# 220 ########## Picture Editing choosing field class & type #########
+Edit Picture - Field Class                                       <0224>
+
+  Alarm Fields:
+
+	Oldest active alarm                      Help Screen <1200>
+	Newest active alarm                      Help Screen <1203>
+	Active Alarm                             Help Screen <1210>
+	Alarm                                    Help Screen <1220>
+	Alarm history list entry                 Help Screen <1230>
+
+  (See Alarm System starting at help page <1000>)
+# 220 ########## Picture Editing choosing field class & type #########
+Edit Picture - General Field Parameters - Tagname                <0230>
+
+For the Tagname, a symbolic variable name is entered. Assigning
+a PLC address for the Tagname is done in the connection editor.
+Variable names can be up to a maximum of 10 characters long. 
+A two character connection identification (ID) can be added and must
+be separated from the variable name with a '/' character. If no ID
+is entered the default ID '/dd' is used automatically.
+E.g.:       PLC-address:    VARIABLE1/m1   -> ID= m1
+	    PLC-address:    VARIABLE1      -> ID= dd
+
+First the connection ID must be defined in order to enter the PLC 
+address for the connection! (See Help Screen <0601>) For BRIT...
+devices, the register address in the PLC memory must be given direct.
+You can also connect recipe elements instead PLC addresses in which
+you give the name of the recipe element and the recipe ID.
+# 220 ########## Picture Editing choosing field class & type #####
+Edit Picture - General Field Parameters - Character Positions    <0231>
+
+Number of Characters: 
+ Here you must enter the total amount of characters including all 
+ character positions before and after the decimal point not including 
+ the decimal point or sign.
+Places after dec. point: 
+ Here you must enter the amount of characters after the decimal point.
+# 220 ########## Picture Editing choosing field class & type #########
+Edit Picture - Field Parameters - Character size, Field width    <0232>
+
+Character size:
+ The character size can only be set on graphics capable displays.
+ Options: 1=normal, 2=double, 3=quadruple sized characters
+
+Field Width:
+ Here the width of the field in characters is shown. This is
+ calculated automatically.
+ The field width consists of the number of characters, decimal point,
+ sign and character size.
+# 220 ########## Picture Editing choosing field class & type #########
+Edit Picture - General Field Parameters - PLC-address            <0233>
+
+Tagname:
+ The PLC addresses entered here ARE the values/parameters which the
+ fields read from the PLC. Some fields and functions (e.g. key 
+ functions) have read and WRITE access to the PLC address.
+
+Destination Tagname:
+ Input fields store the given value at the PLC destination address.
+
+Notes about the address entry can be found on Help Screen <0230>.
+For BRIT... devices, the register address of the PLC memory 
+location must be given directly.
+# 220 ########## Picture Editing choosing field class & type #########
+Edit Picture - Field Parameters -Tagname & Value for Completion  <0234>
+
+Tagname for Completion:  (only for input fields)
+ The Tagname for Completion is overwritten with the Completion value
+ after the input is terminated. The Tagname definition is done as 
+ explained on Help Screen <0230>.
+
+Value for Completion:
+ The value, which will be written to the Tagname for Completion.
+ Permitted values: 0..255
+
+If you do not want to utilize the Tagname for Completion, 
+just leave the entry blank, and the function will not be executed.
+# 221 ########## Picture Editing choosing field class & type #########
+Edit Picture - General Field Parameters - Scaling                <0235>
+
+0 % value in the PLC; 100% value in the PLC:
+ Here, the low and high ends of the PLC value range are to be entered.
+
+0 % Value on panel; 100 % Value on panel:
+ Here you enter the values, which are displayed on the panel 
+ in engineering units.
+
+Conversion:    0 % Value in the PLC =>   0 % Value on the panel
+	     100 % Value in the PLC => 100 % Value on the panel
+Scaling method: Linear
+# 221 ########## Picture Editing choosing field class & type #########
+Edit Picture - Field Parameters - Scaling, Input field           <0236>
+
+Minimum Value on Panel; Maximum Value on Panel:
+ These values for scaling are used to limit the input by the user.
+ The panel allows no values smaller than the minimum or larger than 
+ the maximum value.
+# 222 ########## Picture Editing choosing field class & type #########
+Edit Picture - Field Parameters - Input Locking                  <0237>
+
+Input fields can be locked. A locked input field behaves like an 
+output field and no input is possible.
+
+Tagname for locking value:
+ The input field reads the address specified for the Tagname before
+ an entry can be made.
+ Depending on the value which is read and the locking condition, the
+ decision is made as to whether the entry can be made or not. For an
+ input field which is protected with a password, the address which is
+ defined for the password value under "Input Password" is entered.
+# 222 ########## Picture Editing choosing field class & type #########
+Edit Picture - Field Parameters - Password protection for inputs <0238>
+
+Input Locked if (Locking condition):
+Locking Value = 0
+ An entry is only possible if a value which is not equal to zero is
+ read from the PLC. At zero the input remains locked. In this
+ condition you can lock and enable inputs from the PLC program.
+ The password level has no effect in this case.
+Locking Value < Password Level
+ If the value in the PLC is less than the password level, there is no 
+ input possible. If the value is the same or larger, input is possible.
+ This condition is used for password protected input fields.
+Locking Value >= Password Level
+ If the value in the PLC is the same as or larger than the password
+ level, no entry is possible.
+# 222 ########## Picture Editing choosing field class & type #########
+Edit Picture - Field Parameters - Password protection for inputs <0239>
+
+Password Level:
+ For input fields which have password protection, the protection level 
+ from which the input is enabled again is entered here.
+# 222 ########## Picture Editing choosing field class & type #########
+Edit Picture - Field Parameters - Password protection for inputs <0240>
+
+The following must be done for password protected input fields:
+
+- All input fields, which are to be protected are assigned with the 
+  same Tagname (PLC address) for the password level.
+- 'Input Password' also gets the same address as its destination 
+		   Tagname
+- Input fields are programmed with
+  'Input Locked if Locking Value < Password Level'.
+- For those fields, the desired password level is entered
+# 223 ########## Picture Editing choosing field class & type #########
+Edit Picture - Field Parameters - Up/Down Input                  <0241>
+
+Up/Down inputs can be incremented/decremented by means of two 
+function keys.
+All numerical input fields with the exception of Input Floats can be
+configured as Up/Down inputs.
+Two function keys must be defined for every Up/Down input, with which
+the value will be incremented or decremented.
+While the key is pressed the value in the PLC changes as well.
+The Tagname for Completion is overwritten when the key is released.
+# 223 ########## Picture Editing choosing field class & type #########
+Edit Picture - Field Parameters - Display Leading Zeros          <0242>
+
+Display Leading Zeros
+ Set this entry to YES if you want to display leading zeros.
+# 240 ######### LED/Key Functions ###############
+Edit Picture - LED/Key Function                                  <0280>
+
+Key Functions:
+	Set Bit/Byte                             Help Screen <0370>
+	Set Word                                 Help Screen <0371>
+	Toggle Bit/Byte                          Help Screen <0372>
+	Toggle Word                              Help Screen <0373>
+	Momentary Bit/Byte                       Help Screen <0374>
+	Goto Input                               Help Screen <0375>
+
+Important Note:
+ All keys which have been given key functions must be defined as 
+ function keys in the keyboard table!
+# 240 ######### LED/Key Functions ###############
+Edit Picture - LED/Key Function                                  <0281>
+
+LED Functions:
+	Key-LED switched on                      Help Screen <0380>
+	Key-LED switched off                     Help Screen <0380>
+	Key-LED blinking slow                    Help Screen <0380>
+	Key-LED blinking fast                    Help Screen <0380>
+	LED Control from PLC                     Help Screen <0381>
+
+The LED functions with the exception of 'LED Control from PLC' are 
+executed after a picture change. The 'LED Control from PLC' function is
+executed cyclically like a field.
+
+# 230 ########## Picture Editing Lines ###############
+Edit Picture - Lines                                             <0290>
+
+Line      :     <F3>
+Terminate :     <ENTER>
+
+Lines are drawn with the cursor keys.
+The corners are automatically made when the direction is changed.
+Lines cannot be partially deleted. Only a complete delete is possible.
+# 250 ######### Input Mask Output Byte ###############
+Output Byte                                                      <0300>
+
+This field is used to display data bytes from the PLC.
+If a bit variable should be displayed numerically (0 or 1), this 
+field is also used.
+For field parameters, Number of characters, decimal places, 
+character size and Tagname. More help can be found on Help Screen <0230>.
+
+This field can be scaled (See Help Screen <0235> ).
+# 251 ######### Input Mask Output Word unsigned ###############
+Output Word (unsigned)                                           <0301>
+
+This field is used to display data words from the PLC.
+For field parameters, number of characters, decimal places,
+character size and Tagname. More help can be found on Help
+Screen <0230>.
+
+This field can be scaled (See Help Screen <0235> ).
+# 252 ######### Input Mask Output Word signed ###############
+Output Word (signed)                                             <0302>
+
+This field is used to display data words from the PLC.
+For field parameters, Number of characters, decimal places, 
+character size and Tagname. More help can found on Help Screen <0230>.
+
+
+This field can be scaled (See Help Screen <0235> ).
+# 253 ######### Input Mask Output Byte or Word as Bar #########
+Output Byte/Word as Bar Graph                                    <0303>
+
+This field is used to display data bytes/words in bar form.
+Pixel co-ordinates, Direction:
+ The pixel co-ordinates are given according to the position of the
+ cursor, but can be changed in order to position the bar correctly.
+ The reference position of the bar depends on directions:
+ - Direction 0  -> Bar to the right,      Reference point lower left
+ - Direction 1  -> Bar upwards,           Reference point lower left
+ - Direction 2  -> Bar to the left,       Reference point lower right
+ - Direction 3  -> Bar downwards,         Reference point upper left
+
+ The uppermost left corner of the display has co-ordinates 0,0.
+# 253 ######### Input Mask Output Byte or Word as Bar #########
+Output Byte/Word as Bar                                          <0304>
+
+Bar Width:
+ Bar Width defines the dimensions of the bar in pixels perpendicular 
+ to the bar direction.
+
+Bar Length:
+ The Bar Length defines the maximum length of the bar in pixels
+ (at 100% PLC value).
+
+For the Tagname, more help is available from Help Screen <0230>.
+Bars can be scaled (See Help Screen <0235>).
+# 255 ######### Input Mask Output Long unsigned ###########
+Output Long (unsigned)                                           <0305>
+
+This field is used to display long words from the PLC.
+For field parameters, number of characters, decimal places,
+character size and Tagname, more help can be found on Help
+Screen <0230>.
+
+
+This field can be scaled (See Help Screen <0235> ).
+# 256 ######### Input Mask Output Float ###########
+Output Float                                                     <0306>
+
+This field is used to display floating point numbers from the PLC. The
+numbers must be in IEEE format in the PLC.
+For field parameters, Number of characters, decimal places, 
+character size and Tagname. More help can found on Help Screen <0230>.
+
+This field can be scaled (See Help Screen <0235>).
+
+When defining the parameters for the decimal places, please note that
+IEEE floating point format can only display seven significant digits.
+# 257 ######### Input Mask Output Text ###############
+Output Text                                                      <0307>
+
+This field is used for displaying text from the GLOBAL text group.
+The text corresponding with the text number in the Tagname address is 
+displayed.
+The maximum amount of characters displayed depends on the 
+'Number of Characters' entry
+For Tagname more help can found on Help Screen <0230>.
+
+If text from another text group should be displayed or if text
+attributes should be utilized, use the 'Output Text Advanced' field.
+# 258 ######### Input Mask Output Text Advanced ###########
+Output Text Advanced                                             <0308>
+
+This field is used for displaying text from a text group.
+
+After pressing <ENTER> the text group can be selected from the 
+text group directory with F5.
+The text corresponding with the text number in the Tagname address is 
+displayed.
+The maximum amount of characters displayed depends on the 
+'Number of Characters' entry.
+# 258 ######### Input Mask Output Text Advanced ###########
+Output Text Advanced                                             <0309>
+
+An attribute word is read from the Tagname for Attribute, 
+the bits of which have the following meanings:
+ Bit 0 -> Text inverse
+ Bit 1 -> Text blinking
+The rest of the bits have no influence on the display of the text.
+If the Tagname for attributes is not defined, the text output 
+will have no attributes (normal, not blinking).
+
+Remember that not all display types can use these attributes.
+For more information on the Tagname see help from Help Screen <0230>.
+
+# 259 ######### Input Mask Output String ###########
+Output String                                                    <0310>
+
+With this field ASCII strings can be displayed from the PLC.
+Starting at the Tagname, the amount of characters which can be read 
+will be the same as the amount given for String Length. 
+A null termination for the string is not required.
+
+The extended codes ($20 to $FF) for the ASCII character set are
+described in the PANELWARE Hardware and Installation Manual.
+For more information on the Tagname see Help Screen <0230>.
+# 260 ######### Input Mask Output Date/Time ###########
+Output Date/Time                                                 <0311>
+
+This field is used for displaying the internal time of the panel.
+
+After pressing the <ENTER> key you can select the desired time format.
+
+The clock time is set with every project transfer from the PC.
+
+To change the internal clock time more information can be found in
+the PANELWARE Software User's Manual.
+#
+Output Long (signed)                                            <0312>
+
+This field is used to display long words from the PLC.
+For field parameters, Number of characters, decimal places,
+character size and Tagname, more help can be found on Help
+Screen <0230>.
+
+
+This field can be scaled (See Help Screen <0235>).
+# 261 ######### Input Mask Input Byte ###########
+Input Byte                                                       <0350>
+
+Numerical entries can be made in this field.
+
+For field parameters number of characters, decimal places, 
+character size and Tagname. More help can found on Help Screen <0230>.
+For parameters Tagname for Completion, and Value for Completion 
+more help is available beginning with Help Screen <0234>.
+
+The field can be scaled. The scaling parameter 'Minimum value
+on panel' and 'Maximum Value on Panel' limit the entry. More help 
+for scaling can be found on Help Screen <0235>.
+This field can be locked (See Help Screen <0237>).
+# 262 ######### Input Mask Input Word unsigned ###########
+Input Word (unsigned)                                            <0351>
+
+With this field, you can enter numerical values.
+
+For field parameters number of characters, decimal places,
+character size and Tagname, more help can be found on Help
+Screen <0230>.
+For parameters Tagname for Completion and Value for Completion,
+more help is available beginning with Help Screen <0234>.
+
+The field can be scaled. The scaling parameter 'Minimum Value
+on Panel' and 'Maximum Value on Panel' limit the entry. More help with
+scaling can be found on Help Screen <0235>.
+
+This field can be locked (See Help Screen <0237>).
+# 263 ######### Input Mask Input Word signed ###########
+Input Word (signed)                                              <0352>
+
+With this field, you can enter numerical values.
+
+For field parameters number of characters, decimal places, 
+character size and Tagname. More help can found on Help Screen <0230>.
+For field parameters Tagname for Completion, and Value for Completion 
+more help is available beginning with Help Screen <0234>.
+
+The field can be scaled. The scaling parameter 'Minimum Value
+on Panel' and 'Maximum Value on Panel' limit the entry. More help with
+scaling can be found on Help Screen <0235>.
+This field can be locked (See Help Screen <0237>).
+# 264 ######### Input Mask Input Long unsigned ###########
+Input Long (unsigned)                                            <0353>
+
+With this field, you can enter values for LONG variables.
+
+For field parameters number of characters, decimal places,
+character size and Tagname, more help can be found on Help
+Screen <0230>.
+For field parameters Tagname for Completion, and Value for Completion
+more help is available beginning with Help Screen <0234>.
+
+The field can be scaled. The scaling parameter 'Minimum Value
+on Panel' and 'Maximum Value on Panel' limit the entry. More help with
+scaling can be found on Help Screen <0235>.
+
+This field can be locked (See Help Screen <0237>).
+# 265 ######### Input Mask Input Float ###########
+Input Float                                                      <0354>
+
+With this field, you can give values for FLOAT variables.
+
+For field parameters number of characters, decimal places, 
+character size and Tagname. More help can found on Help Screen <0230>.
+For field parameters Tagname for Completion, and Value for Completion 
+more help is available beginning with Help Screen <0234>.
+The field can be scaled. The scaling parameter 'Minimum Value
+on Panel' and 'Maximum Value on Panel' limit the entry. More help with
+scaling can be found on Help Screen <0235>.
+This field can be locked (See Help Screen <0237>).
+# 266 ######### Input Mask Input String ###########
+Input String                                                     <0355>
+
+With this field, ASCII strings can be entered and sent to the PLC.
+The amount of characters sent corresponds with the amount defined for 
+the String Length. The string is not terminated with null. Blank
+spaces in the string are filled with space characters.
+
+For field parameters Tagname for Completion, and Value for Completion 
+more help is available beginning with Help Screen <0234>.
+# 267 ######### Input Mask Input Password ###########
+Input Password                                                   <0356>
+
+With this field the user can be requested to give a password before 
+access is given.
+
+The field sets the Destination Tagname of the given password level
+respectively. If the wrong password is entered, the Destination Tagname
+is set to zero. Level #0 therefore has no password.
+While the entry is being made only the echo character can be seen
+instead of the character entered.
+For field parameters Tagname for Completion, and Value for Completion 
+more help is available beginning with Help Screen <0234>.
+#
+Input Long (signed)                                              <0357>
+
+With this field, you can enter values for LONG variables.
+
+For field parameters number of characters, decimal places,
+character size and Tagname. More help can be found on Help Screen <0230>.
+For field parameters Tagname for Completion and Value for Completion,
+more help is available beginning with Help Screen <0234>.
+
+The field can be scaled. The scaling parameter 'Minimum Value
+on Panel' and 'Maximum Value on Panel' limit the entry. More help with
+scaling can be found on Help Screen <0235>.
+
+This field can be locked. (See Help Screen <0237>)
+# 270 ######### Input Mask Set Byte ###########
+Set Bit/Byte                                                     <0370>
+
+This function sets a data byte or a data bit in the PLC to a predefined
+value with a key press.
+For Tagname, Tagname for Completion and Value for Completion, 
+more help is available beginning with Help Screen <0230>.
+The value to be set in the PLC is entered as Operand 1.
+
+The Tagname for Completion (if defined) is written after 
+every key press.
+You must define all keys which have been given a key function
+as function keys in the Keycode table!
+# 271 ######### Input Mask Set Word ###########
+Set Word                                                         <0371>
+
+This function sets a data word in the PLC to a predefined value
+by pressing a key.
+For Tagname, Tagname for Completion and Value for Completion, 
+more help is available beginning with Help Screen <0230>.
+The value to be set in the PLC is entered as Operand 1.
+
+The Tagname for Completion (if defined) is written after 
+every key press.
+You must define all keys which have been given a key function
+as function keys in the Keycode table!
+# 272 ######### Input Mask Toggle Byte ###########
+Toggle Bit/Byte                                                  <0372>
+
+This function is used to switch a data bit or a data bytes in the PLC
+between two values.
+Operands 1 and 2 must be defined with the two values.
+For Tagname, Tagname for Completion and Value for Completion, 
+more help is available beginning with Help Screen <0230>.
+The field compares the contents of the Tagname with Operand 1. If they
+are the same, Operand 2 is written to the PLC and if they are different
+Operand 1 is written.
+The Tagname for Completion is written after every key press.
+You must define all keys which have been given a key function
+as function keys in the Keycode table!
+# 273 ######### Input Mask Toggle Word ###########
+Toggle Word                                                      <0373>
+
+A data word in the PLC can be switched between two values with this
+function.
+Operands 1 and 2 must be defined with the two values.
+For Tagname, Tagname for Completion and Value for Completion, 
+more help is available beginning with Help Screen <0230>.
+The field compares the contents of the Tagname with Operand 1. If they
+are the same, Operand 2 is written to the PLC and if they are different
+Operand 1 is written.
+The Tagname for Completion is written after every key press.
+You must define all keys which have been given a key function
+as function keys in the Keycode table!
+# 274 ######### Input Mask Momentary Byte ###########
+Momentary Bit/Byte                                               <0374>
+
+This function is used to send the state of a key to the PLC.
+As long as the key is held down, the value of Operand 1 is in the
+Tagname address and if the key is released a zero is sent.
+The Value for Completion is only written to the Tagname for Completion
+after the key is released.
+For Tagname, Tagname for Completion and Value for Completion, 
+more help is available beginning with Help Screen <0230>.
+You must define all keys which have been given a key function
+as function keys in the Keycode table!
+# 274 ######### Input Mask Goto Input ###########
+Goto Input                                                       <0375>
+
+With this function, you can offer the operator a simple way to
+switch back and forth between input fields in a picture.
+This key function works independent of the so called "input sequence"
+(see Help Screen <0202>), it finds the next field by means of its
+geometrical position on the picture.
+
+You must define the parameter for the direction in which the key
+function is to search for the next input field.
+
+You must define all keys that are associated with key functions as
+function keys in the keyboard assignment!
+# 275 ######### Input Mask Defining LED Functions ######
+LED Functions                                                    <0380>
+
+LED switched on:
+ The LED of the selected key is switched on.
+LED switched off:
+ The LED of the selected key is switched on. This is also the default 
+ state of every key LED.
+LED blinking slow:
+ The LED of the selected key is switched to a slowly blinking status.
+LED blinking fast:
+The LED of the selected key is switched to a quickly blinking status.
+
+Up to 48 keys can be illuminated simultaneously. 
+# 276 ######### Input Mask Defining LED Functions ######
+LED Function - LED Control from PLC                              <0381>
+
+With this command the status of a key LED can be controlled by the PLC.
+The LED is switched according to a value in the PLC.:
+
+   0  -> LED switched off
+   1  -> LED switched on
+   2  -> LED blinks slow
+   3  -> LED blinks fast
+
+More help about the Tagname can be found on Help Screen <0230>.
+# 300 ######### Input Mask Key Assignments ######
+Edit Keyboard Table                                              <0400>
+
+For every project, two keyboard tables are defined. The numerical
+table is used with numerical input fields. The key assignments for 
+string entries are used with the 'Input String' and 'Input Password'
+fields.
+
+The KeyPads are displayed on the screen as they are defined in the
+project hardware definition. The upper right-hand keypad is block 
+No. 1 and must be the first keypad connected to the panel controller.
+# 300 ######### Input Mask Key Assignments ######
+Edit Keyboard Table                                              <0401>
+Control keys:
+ With control keys the user can influence the behavior of the panel
+ directly. The following control keys are available:
+  +N+ Next              -> Change to the next picture
+  +P+ Previous          -> Change to the previous picture
+  +E+ Enter             -> Confirm input
+  +n+ nEXT INPUT        -> Next input
+  +C+ Clear             -> Delete input field
+  +B+ Backspace         -> Delete last character
+  +S+ Sign change       -> Change the sign
+  +p+ pREVIOUS INPUT    -> Previous input
+  +G+ Group Acknowledge -> Group acknowledge for alarms
+ There is no real requirement to define all control keys in a project.
+ The control keys are always automatically entered to both tables.
+# 300 ######### Input Mask Key Assignments ######
+Edit Keyboard Table                                              <0402>
+Function keys:
+
+ With function keys the user can activate the so-called key functions.
+ The function keys are numbered from F1 to F99.
+ With BRIT... devices, only 22 function keys are permitted.
+
+ You must define every key as a function key that has at least 
+ one key function in one picture or is used for a picture change.
+# 400 ########## Input Mask Text Group List ################
+Text Group List                                                  <0500>
+
+Text groups can be created and edited in the text group list.
+Existing text groups can scrolled through using F6 and F7, or
+can be deleted using F3. The text group GLOBAL cannot be deleted.
+
+Note:
+ Do NOT delete Text #0 from text group GLOBAL! It includes functions
+ used for clearing the screen during a picture change.
+# 410 ######### Input Mask Editing Text Groups #########
+Text Group List                                                  <0501>
+
+The text which can be edited is displayed in the middle marked area of
+the screen. Here you can edit the text as you would like. The cursor
+keys are used to move to the previous or next text in the marked area.
+
+With F1 you can insert a piece of text and with F2 you can delete text.
+With F3 you can insert special functions such as 'Clear Screen' or 
+'LEDs switched off', into the text.
+The maximum length of all text entries is 40 characters.
+The edited text must be confirmed with 'F4 Accept'.
+# 500 ########## Input Mask Connection List ######
+Connection list                                                  <0600>
+
+Assigning symbolic variable names to PLCs and Tagnames is done in the
+connection list.
+
+The connection list must contain every PLC connected to the panel.
+A new connection is created with F2 'Insert' or F1 'Edit'
+(See Help Screen <0601>)
+Existing connections can be deleted with F3 'Delete', if the connection
+has no variables assigned.
+
+With F5, you can switch to the variable assignment table, and 
+co-ordinate your symbolic process variables with your Tagnames.
+# 510 ########## Input Mask Connection Definition ######
+Connection definition                                            <0601>
+
+Every connection (i.e. every PLC substation) has a two character
+connection identification code (ID).
+
+The connection itself, is selected after pressing <ENTER> from
+a selection window. PLCs which are found in this window can be
+connected into your project.
+
+If you haven't defined any connection ID to a symbolic variable name 
+in the field parameters, the connection '/dd' is used.
+# 520 ######### Input Mask Protocol Parameter Definition ######
+Protocol Parameter Definition                                    <0602>
+
+Here the PLC specific communication parameters and other values which
+depend on the respective PLC are set.
+
+In the PANELWARE Applications Manual you will find a full description
+of all PLC specific parameters.
+
+Important Note:
+ Check through these parameters if, e.g., the error picture always 
+ appears or if your project won't start at all.
+# 530 ######### Input Mask Variable Assignment Table ######
+Variable Assignment Table (VAT)                                  <0603>
+
+Concrete Tagnames are assigned to your symbolic variables in the VAT.
+The VAT consists of four entries:
+ - Symbolic Variable Name
+   This is the name which you have given in a field as the Tagname
+ - Panel Data type
+   Here the data type of the field which the variable uses is
+   automatically given (e.g. for Output Byte you see BYTE unsigned)
+ - Tagname
+   Here the Tagname is given with the syntax and parameter that the
+   connected PLC requires.
+
+# 530 ######### Input Mask Variable Assignment Table ######
+Variable Assignment Table (VAT) - continued                      <0604>
+
+ - PLC Data type
+   Here, the data type of the variable in the PLC must be given.
+   This is identical to the panel data type in most cases, but there is
+   also the possibility of data conversion. During the selection of the
+   data type you are only offered data types which the panel can
+   display or convert.
+
+You can find a detailed description of the connections between panel
+data types and PLC data types in you PANELWARE Application Manual.
+
+# 530 ######### Input Mask Variable Assignment Table ######
+Variable Assignment Table (VAT) - continued                      <0605>
+
+All symbolic variables which you use in the project are automatically
+put into the VAT. Assignments must be made by you however
+(Function key F1).
+You must assign all variables for a successful project compilation.
+With F2 a new entry can be made or with F3 variables can be deleted
+from the VAT.
+With F5 the variables which are not used in the project are indicated.
+These can be deleted later if they are not intended to be used.
+Attention! This indication is only valid after a successful compilation
+(error free)!
+#
+Import Project                                                   <0700>
+
+With this function you can import a whole project into another one,
+which is usually a new one. All project data such as pictures, variable
+assignments, etc. will be imported. Parts of the target project can be
+overwritten by project import.
+
+General information about project import:
+
+- Project data which is hardware dependent will only be imported if it
+  works on the target hardware.
+- The Picture List and Text Groups are imported as a whole, without
+  any changes.
+- All pictures from the source project will be imported according to
+  the rules of picture import (See Help Screen <0701>)
+- The Keycode Table of the target project will be overwritten by the
+  Keycode Table of the source project.
+- Alarm fields and the Alarm System will only be imported if the
+  target hardware supports the alarm system.
+#
+Import Picture                                                   <0701>
+
+This function imports a picture or parts of a picture into the current
+one.
+
+Picture elements such as text, lines or fields will only be imported
+if they fit as a whole into the display area of the target panel.
+Picture elements which are outside of the target display area will
+not be imported.
+
+Variables assigned to imported fields will be inserted into the VAT
+with the same Connection-ID as in the source picture. If there is
+no VAT existing with this Connection-ID, the variable will be inserted
+into the connection /DD.
+#
+Import VAT                                                       <0702>
+
+With this function you can import variable assignment into a VAT
+of your project.
+
+General information about VAT import:
+
+- You can import variable assignments only in existing VATs.
+- If the imported variable already exists in your VAT, only the PLC
+  address and the PLC data type will be imported and respectively
+  overwritten.
+- The validity of the PLC address and of the PLC data type is checked
+  for each imported variable. Illegal PLC addresses and data types will
+  be erased.
+#
+Export VAT                                                       <0703>
+
+With this function you can export variable assignments from your
+project. PCS puts the exported data into a file with extension .DIF in
+your project directory. The whole VAT will always be exported.
+# 
+Report System General Information                                <0800>
+
+A report is produced by the panel itself.
+The report can contain fixed screen masks and fields. The report
+is started by writing the report number to the report system control
+address. After completing the report, this address is erased from
+the panel.
+
+The size of the report should correspond to the paper format of the
+printer connected to the panel. A max. of 64 lines and 132 columns
+are allowed.
+# 602 #### Maske Protokollverzeichnis ######
+Report List                                                      <0810>
+
+In the report list, all reports are listed with their most important
+parameters. You can move the reports forwards and backwards in order to
+give all reports the number that was designated for them.
+The number is shown in the first column of the list. This number must
+be written to the control address in order to start a report.
+
+The report trigger that is valid for all reports is shown in the
+report list and can be entered or modified with F5.
+# 602 #### Maske Protokollverzeichnis ######
+Report List - Continued                                          <0811>
+
+With F2, you can insert a new report. With F1, you can edit the
+parameters of an already existing report. With F3, you can delete
+a report.
+
+With F4, you can get into the edit report window where you can enter
+the report information.
+# 602 #### Maske Protokollparameter-Definition ######
+Report Parameter - Definition                                    <0820>
+
+Report Name:
+ You can give each report a name with up to 8 characters.
+
+Number of lines/columns:
+ Here you can define the size of the report. These parameters should
+ correspond to the paper size of the printer being used.
+ A maximum of 64 lines and 132 columns is allowed.
+# 602 #### Maske Protokollparameter-Definition ######
+Report Parameter - Definition - Continued                        <0821>
+
+Form Feed Before:
+ This parameter determines if a form feed should be carried out
+ before printing the report. If you enter "conditional", then a form
+ feed will only be carried out if the number of lines in the report
+ is greater than the number of lines still free on the paper.
+ Please note that the length of the paper (lines per page) can be
+ set under "Panel Printer Configuration" (edit menu).
+ see Help Screen <0860>
+# 602 #### Maske Protokollparameter-Definition ######
+Report Parameter - Definition - Continued                       <0822>
+
+Form Feed After:
+ This parameter determines if a form feed should be carried out
+ after printing the report.
+
+Tagname for Completion and Value for Completion:
+ After completing the report, the value for completion is written
+ to the tagname for completion address. The entry is optional. If no
+ tagname for completion is given, the function will not be carried out.
+ Reports with subsequent reports cannot have a completion variable.
+# 602 #### Maske Protokollparameter-Definition ######
+Report Parameter - Definition - Continued                       <0823>
+
+Subsequent Report:
+ Here you can enter the name of another report. The subsequent
+ report will be printed directly after the report being carried out.
+ Reports that that have a completion variable cannot have a
+ subsequent report.
+
+Init Sequence:
+ If you want to set your printer to a special operating mode for the
+ report printout, you can enter the necessary control characters
+ here. The init sequence is sent to the printer before the report.
+# 602 #### Maske Protokollsys. Steueradresseingabe ######
+Report System Tagname                                            <0830>
+
+Reports are started with the report system tagname. The number of
+the report to be started is to be written to the control address.
+When the report finished printing, the panel resets the control
+address to zero.
+Here, you can define PLC addresses, or internal variables. The panel
+expects a variable of the WORD UNSIGNED data type to be at the control
+address.
+You can define the control address either directly from the PLC program
+or with a set word key command from the panel.
+# 602 #### Maske Protokoll Bearbeiten ######
+Report Editor                                                    <0840>
+
+The operation of the report editor is similar to the picture editor.
+You can define mask text (F1) or fields (F2). All output fields that
+can be used with a picture, can also be used from a report.
+
+Since the report area can be substantially larger as the screen area,
+the editor window scrolls  automatically when the boarder is reached.
+There are arrows in the corners showing if and in which direction the
+report window can be scrolled.
+
+The current cursor position is shown on the bottom right.
+# 602 #### Maske Allgemeine Druckerparameter ######
+General Printer Parameters                                       <0860>
+
+Here you can enter general parameters for the printer and printer
+interface on the panel:
+Lines per Page, Characters per Line:
+ Both of these parameters must be set to correspond to the paper
+ format of your printer.
+Page Feed:
+ Here you can determine if a page feed should be carried out with
+ the control character 'FF' (Form Feed) or with the corresponding
+ control characters 'LF' for (Line Feed). The user's manual for your
+ printer gives information about the control characters required.
+# 602 #### Maske Allgemeine Druckerparameter ######
+General Printer Parameters - Continued                           <0861>
+
+Printer - Interface:
+ Here you can select the interface on which the printer is to be
+ connected. For the C300, the printer can be connected to the
+ interface 0 or 1.
+Baud Rate:
+ Here you have to set the serial baud rate. The printer must be set
+ to the same baud rate.
+Parity, Number of Data Bits, Number of Stop Bits:
+ These parameters determine the way the serial printer interface
+ functions. Please note the required settings from your printer
+ user's manual.
+# 602 #### Maske Allgemeine Druckerparameter ######
+General Printer Parameters - Continued                           <0862>
+
+Header Text:
+ Here you can enter the header text that will be printed on every
+ page.
+Handshake Mode:
+ These parameters determine the way the serial printer interface
+ functions. Please note the required settings from your printer
+ user's manual.
+# 602 #### Maske Allgemeine Druckerparameter ######
+General Printer Parameters - Continued                           <0863>
+
+Init Sequence for Printer:
+ Here you can define an init sequence that sets the printer to the
+ desired type of operation. This sequence is sent to the printer first
+ after starting or resetting the panel.
+
+Init Sequence for Form Feed:
+ Here you can define an init sequence that should be sent to the
+ printer for a page change. This sequence is sent to the printer for
+ each page change.
+# #### Maske Textebenen Editor ######
+Text Layer Editor                                                <0900>
+
+On the left side of the screen, you can see the so called default
+text. They are the ones you have entered in the corresponding editor
+(e.g. picture mask, alarm text, etc.). All text for the picture
+concerned, alarm group, etc. are listed.
+On the right side of the screen, you can enter a translation for all
+text layers.
+
+Please make sure that the translation is not longer than the text in
+the default language. If there is not enough space for the translation,
+you have to make the default text longer with empty spaces in the
+corresponding editor in order to make room for the translation.
+# #### Maske Textebenen Editor ######
+Text Layer Editor - Continued                                    <0901>
+
+If your project has more than one text layer, you can switch between
+them with F1.
+
+You can mark text with F2 and copy the translation to another place
+with F3.
+# #### Maske Textebenen Editor ######
+Text Layer Editor - Continued                                    <0902>
+
+Please make sure that if you change the text in the default language,
+you change the translation as well since PCS cannot determine if the
+old translation is correct.
+
+After text has been changed in the default language, the translation
+is still provided in the last line of the text layer editor.
+
+# #### Maske Textebenen Editor ######
+Text Layer Editor - Continued                                    <0903>
+
+For text layers where you have not called the text layer editor, you
+will receive a warning that there is no translation when compiling.
+
+Empty strings are allowed as translations. If you have called the
+text layer editor at least once, you will not get a warning, even if
+the translation is only an empty string.
+
+It is recommended that all translations are made at once, after the
+project has been finished.
+# #### Maske Textebenen šbersicht ######
+Text Layer Overview                                              <0950>
+
+The text layers make it possible for the operators to switch the
+dialog language online. All text layers for a project are listed in
+the text layer overview.
+PCS numbers the text layers automatically, but you can enter a
+so called "No. Panel" for each text layer. The number given here is
+used to control a text layer or to switch the dialog language. It
+must be at the PLC address for language switching.
+
+Everywhere in PCS where you can enter text, you can get into the
+text layer editor with F8 and enter the translation for all text
+layers. see help screen <0900>.
+# #### Maske Textebenen šbersicht ######
+Text Layer Overview - continued                                  <0951>
+
+In order to activate the text layer editor, you must define the text
+layer first. (Edit Project -> F1 -> F8)
+# #### Maske Textebenen Definition ######
+Text Layer Definition                                            <0960>
+
+Text Layer No.:
+ The number is assigned automatically by PCS.
+
+Text Layer Name:
+ Here you can give the text layer a name. Mostly, the name of the
+ language is entered here (German, English).
+
+Panel Text Layer No.:
+ Here you have to give the number with which the text layer will be
+ activated. All text layers that are compiled must have a different
+ number. The PLC program or the corresponding key command has to write
+ this number to the PLC address for language switching in order to
+ activate the text layer.
+# #### Maske Textebenen Definition ######
+Text Layer Definition - Continued                                <0961>
+
+Compile Text Layer:
+ The text layers will only be compiled with project if you answer YES
+ here. The number of text layers that can be compiled is only limited
+ by the size of the application memory in the panel. You can create
+ projects with as many text layers as you like and only compile the
+ ones that you need.
+ The max. number of text layers is 64.
+# ##### Importing Text Layers #####################
+General Information Concerning Text Layer Import                 <0970>
+
+Text Layer Import
+ Text layer import is called from the text layer overview.
+ Import is started by pressing <CTRL>+<I> or with menu item <File> /
+ <Import>.
+ When importing, all translated text (seperated from the default
+ language with a TAB) is read and used in the respective PCS element
+ (e.g. picture, alarm test,...). Default text is not used when
+ importing a picture.
+ If the default text in the project matches the default text in the
+ translation file, the translation is read from the file and
+ overwrites the available translatioon text. If the translation
+ text is longer than the default text, the translation text is cut
+ short.
+# ##### Importieren von Textebenen #####################
+General Information Concerning Text Layer Import                 <0971>
+
+Message page for Text Layer Import
+ When importing a text layer, a message page is created (similar to
+ when importing variable assignmet tables) where the following points
+ can be entered:
+ - A picture, report, ... are imported completely, that means the
+   default text are the same in the project and in the text file.
+ - A picture, report, ... are not imported completely, that means
+   there is text in the file or in the project that has no
+   translation.
+# ##### Importieren von Textebenen #####################
+General Information Concerning Text Layer Import                 <0972>
+ 
+ - A picture, report, ... was not imported, that means there is a
+   picture in the file that doesn't exist.
+ - A picture, report, ... was not found in the file.
+ - Invalid description. When importing, a line that was found which
+   starts with # but does not contain a valid description is shown
+   on the message line. All lines up to the next valid description
+   are ignored.
+# ##### Exportieren von Textebenen #####################
+General Information Concerning Text Layer Export                 <0980>
+
+Text layer export is called from the text layer overview and
+exports all pictures, reports, alarm text etc. from the selected
+text layer. The default language can not be exported (is exported
+automatically with all other text layers).
+
+In order to be able to export a text layer, the desired text layer
+must be selected with the cursor key. Export is started by pressing
+<CTRL>+<E> or with menu item <File> / <Export>. You have to enter a
+file name. This file is saved with the extension *.TXT.
+
+Your PANELWARE Software User's Manual contains information about
+the structure opf the exported text file.
+# 600 ##### Maske Alarmsystem Grundkonfiguration ###########
+General Information about the Alarm System                       <1000>
+
+The Alarm System
+Alarms are represented as alarm bits in the PLC. The alarm bits
+must be in a contiguous bit field in the PLC.
+The panel reads the alarm bit field from the PLC at the installed
+scan rate, enters the changes in the alarm list and creates a printout.
+
+The alarms are separated into alarm groups. Each group has its own
+alarm bit field, scan rate and priority. Up to a maximum of 252
+alarm groups can be defined. The alarm groups 'System Alarms' and
+'Group Alarms' always exist automatically.
+# 600 ######### Mask Alarm System Basic Configuration ###########
+General Information about the Alarm System (continued)           <1001>
+
+The alarms are entered into the CURRENT ALARM LIST. This list contains
+all active alarms and alarms that have been reset without acknowledge.
+The conditions for an alarm to be removed from this list, can be set 
+with parameters.
+
+With each alarm bit change, either to enter or remove an alarm from 
+the current alarm list, an entry is made in the ALARM HISTORY LIST.
+This list forms the basis for the printout on the alarm printer.
+
+# 600 ######### Mask Alarm System Basic Configuration ###########
+General information about the Alarm System (continued)           <1002>
+
+The alarms and the alarm lists are shown on the panel display using
+alarm fields.
+The following alarm fields are available:
+
+	Oldest Active Alarm
+	Newest Active Alarm
+	Active Alarm
+	Alarm
+	Alarm History List Entry
+
+The alarm fields are described starting on Help Screen <1200>.
+# 601 ######## Mask Alarm Sys. Basic Config., if Editing is possible.
+Alarm System Basic Configuration                                 <1030>
+
+The general alarm system parameters can be set here:
+
+Message displayed, if there is no alarm:
+ This message is displayed in all alarm fields if there is no alarms
+ set in the system and the current alarm list is empty.
+
+Message printed out for Group Acknowledge:
+ If the group acknowledge key is pressed, the printer will print out
+ this message instead of the alarm message.
+# 601 ######## Mask Alarm Sys. Basic Config., if Editing is possible.
+Alarm System Basic Configuration                                 <1031>
+
+Alarm History List Length:
+ You can set the number of events to be stored in the alarm history
+ list. This entry is particularly important if there is no printer
+ connected to the panel.
+
+Printer available ?:
+ You can specify if there is a printer connected to the panel or not.
+ Set this to NO if you are not using a printer.
+# 602 ######## Mask General Printer Parameters ######
+General Printer Parameters Alarm System                          <1040>
+
+Sequence for Triggered:
+ If your printer has several colors or fonts, you can set the format
+ of particular messages. The control sequence can be entered to be sent
+ before the printout of the triggered alarms. You can leave this blank
+ if it is not needed. The following control characters can be used:
+ <NULL>  00                               <ESC>  27
+ ^A      01                               <FS>   28
+ ^B      02                               <GS>   29
+ ...     CTRL Characters                  <RS>   30
+ ^Z      26                               <US>   31
+ From 32 to 126 are printable ASCII characters
+ <DEL>   127
+(Example: <ESC>^A corresponds to the Code 27 01)
+# 602 ######## Mask General Printer Parameters ######
+General Printer Parameters Alarm System - Continued              <1041>
+
+Sequence for Reset:
+ You can set the control sequence to be sent to the printer before
+ the alarm reset message.
+Sequence for Acknowledged
+ You can set the control sequence to be sent to the printer before
+ the alarm acknowledged message.
+Sequence for By-passed:
+ You can set the control sequence to be sent to the printer before
+ the alarm by-passed message.
+# 603 ######## Mask Print Format Definition ######
+Print Format Definition                                          <1050>
+
+The printer produces a single printout for each event in the alarm 
+system. You can set the parameters on this line.
+
+Time Format:
+ You can select a time format from a selection window activated by 
+ <ENTER>
+Group Number, Alarm Number:
+ You can choose from selection windows, if and how the group and alarm
+ numbers are to be printed out.
+Alarm Text:
+ You can choose whether the alarm text should be printed out.
+# 603 ######## Mask Print Format Definition ######
+Print Format Definition (continued)                              <1051>
+
+Event:
+ The event can be printed out in text form or as a character. An
+ event is when an alarm is triggered, reset, acknowledged, by-passed
+ or not by-passed. The printout in text form uses the alarm status text
+ as defined in the alarm group definition.
+ (See Help Screen <1113>).
+ The printout in character form uses the character from the status
+ abbreviation as defined in the alarm group definition.
+ (See Help Screen <1115>)
+
+# 603 ######## Mask Print Format Definition ######
+Print Format Definition (continued)                              <1052>
+
+Acknowledgment Status:
+ The acknowledgment status can be printed out in text form, as a
+ character or it can be suppressed.
+ The acknowledgment status is only printed out with the reset and
+ by-passed events.
+Separators:
+ These characters separate the fields on the printout line. You can
+ choose a space, period or a hyphen from the selection window.
+
+The preview at the bottom of the window shows how the printer line
+will look when printed out.
+# 610 ######## Mask Alarm Group List ######
+Alarm Group List                                                 <1100>
+
+You are shown an overview of all alarm groups for the project in the 
+alarm group list. The alarm groups are shown with the following
+attributes:
+
+Alarm Group Number:
+ This is the number of the alarm group. The group #0 is reserved for
+ the system alarms and group #253 is reserved for the group alarms.
+Number of alarms in the group:
+ You can see how many alarms are in this group. Normal groups can have
+ up to 128 alarms.
+# 610 ######## Mask Alarm Group List ######
+Alarm Group List (continued)                                     <1101>
+
+Alarm Tagname:
+ This is the symbolic Tagname (with connection ID) of the alarm bit
+ field.
+Scan Rate:
+ The scan rate defines how often the alarm bit field is read from the
+ PLC.
+Priority:
+ This is the priority rating of the group.
+# 610 ######## Mask Alarm Group List ######
+Alarm Group List (continued)                                     <1102>
+
+Group Alarm Address:
+ A Tagname is entered here to write back to the PLC when the group
+ alarm bit is set. You should leave this entry blank when it is not
+ being used.
+
+Status Abbr.:
+ These are the characters that are used in the alarm fields or for the
+ printer if the abbreviated form is used (See Help Screen <1115>).
+# 610 ######## Mask Alarm Group List ######
+Alarm Group List (continued)                                     <1103>
+
+In the alarm group list alarm groups can be edited (F1), new groups
+inserted (F2), alarm groups deleted (F3) or the order of the groups
+changed (F6 and F7).
+
+With F4 you can define a new alarm for a group and with F5 change to
+the alarm list for the group.
+# 611 ######## Mask Alarm Group Definition ######
+Alarm Group Definition                                           <1110>
+
+You can set the group parameters in the alarm group definition:
+
+Group Number, Max. Number of Alarms
+ Both of these entries are only displayed for information.
+
+Tagname of the alarm bit fields:
+ You must enter the symbolic Tagname (with connection ID) of the alarm
+ bit field.
+# 611 ######## Mask Alarm Group Definition ######
+Alarm Group Definition (continued)                               <1111>
+
+Tagname of the Group Alarm:
+ You can enter a symbolic Tagname (with connection ID) here. The group
+ alarm bit is sent to this address. This entry is left blank if the
+ group alarm is not used or it is not to be sent back to the PLC.
+ The data type of the group alarm is BYTE. A 0 or a 1 is sent 
+ depending on the status of the group alarm.
+
+Tagname of the Bypass Image:
+ You can enter a symbolic Tagname (with connection ID) here. This 
+ address must point to a bit field in the PLC, where the current
+ bypass status is to be sent. This entry is left blank if the bypassing
+ alarm is not used or it is not to be sent back to the PLC.
+# 611 ######## Mask Alarm Group Definition ######
+Alarm Group Definition - Continued                               <1112>
+
+Tagname for Acknowledge Image:
+ You can enter a tagname (with connection ID) here.
+ The acknowledge image is transferred to the PLC when acknowledging an
+ alarm that has not been acknowledged or when triggering a group
+ acknowledgment. In this way, an alarm acknowledgment can be recognized
+ in the PLC. Leave this entry enpty if you do not want the acknowledge
+ image to be transferred to the PLC.
+
+ The acknowledge image has the same construction and the same size as
+ the alarm bit field.
+# 611 ######## Mask Alarm Group Definition ######
+Alarm Group Definition (continued)                               <1113>
+
+Alarm Scan Rate:
+ You must make an entry corresponding to how often the alarm bits are
+ to be read from the PLC. You can select from a selection window which
+ is activated by <ENTER>. You should defined as high a scan rate as
+ your application really needs. Fast scan rates can really load the 
+ communication between the panel and the PLC.
+Priority:
+ You must enter the priority of the group here. The higher the priority
+ number, the higher the priority of the group.
+# 611 ######## Mask Alarm Group Definition ######
+Alarm Group Definition (continued)                               <1114>
+
+Alarm Status Text:
+ These messages are used in the printout. You can define a different
+ message for each event in each alarm group.
+  Text [0]:  Alarm triggered            Default: Triggered
+  Text [1]:  Alarm reset                Default: Reset
+  Text [2]:  Alarm acknowledged         Default: Acknowledged
+  Text [3]:  Alarm unacknowledged       Default: Unacknowledged
+  Text [4]:  Alarm by-passed            Default: by-passed
+  Text [5]:  Alarm not by-passed        Default: Not by-passed
+# 611 ######## Mask Alarm Group Definition ######
+Alarm Group Definition (continued)                               <1115>
+
+Overview of the status messages used in printouts:
+  Text [0], [1], [2], [4] or [5]      as Event
+  Text [2] or [3]                     as Acknowledgment Status
+
+Note:
+ The acknowledgment status is only printed out with the reset and
+ by-passed events.
+# 611 ######## Mask Alarm Group Definition ######
+Alarm Group Definition (continued)                               <1116>
+
+Status Abbreviation:
+ The status abbreviation is a 10 character string that is used in
+ alarm fields and printout. The characters are to show the states and
+ events are in the following order:
+  Character[0]:  Alarm triggered    (event)      Default: T
+  Character[1]:  Alarm reset        (event)      Default: R
+  Character[2]:  Alarm acknowledged              Default: A
+  Character[3]:  Alarm unacknowledged            Default: <Space>
+  Character[4]:  Alarm is on        (status)     Default: 1
+  Character[5]:  Alarm is off       (status)     Default: 0
+  Character[6]:  Alarm by-passed    (status)     Default: B
+  Character[7]:  Alarm not by-passed  (status)   Default: <Space>
+  Character[8]:  Alarm by-passed    (event)      Default: B
+  Character[9]:  Alarm not by-passed  (event)    Default: U
+# 611 ######## Mask Alarm Group Definition ######
+Alarm Group Definition (continued)                               <1117>
+
+Overview of alarm fields and the status abbreviation used:
+ Field for the first or last active alarm:
+    Characters [2] or [3]                   as Acknowledgment Status.
+ Field for active alarm:
+    Characters [2], [3] or [1]              as Info.
+ Field for alarm:
+    Characters [2] or [3]                   as Acknowledgment Status
+    Characters [4] or [5]                   as Alarm status
+    Characters [6] or [7]                   as Bypass status
+ Field for Alarm history entry:
+    Characters [0], [1], [2], [8] or [9]    as Event
+    Characters [2] or [3]                   as Acknowledgment Status
+# 612 ######## Mask Default Alarm Configuration ######
+Default Alarm Configuration                                      <1118>
+
+You can set default configurations for the alarms of each alarm group.
+If you enter the alarm later, it receives these default attributes.
+The definitions for the configuration parameters begin on help 
+screen <1121>.
+# 613 ######## Mask Group Alarm Definition ######
+Group Alarm Definition                                           <1119>
+
+For every alarm group there is a special alarm called the Group Alarm.
+This alarm is triggered, if any alarm (with group alarm enabled) in the
+group becomes active. For each individual alarm, you can set whether it
+triggers group alarm or not.
+
+Group alarms cannot be by-passed, cannot trigger other group alarms and
+cannot be latched.
+
+If the group alarm is acknowledged, all alarms that triggered the group
+alarm are also acknowledged.
+# 614 ######## Mask Alarm Definition ######
+Alarm Definition                                                 <1120>
+
+You can set the parameters for each individual alarm in the alarm
+definition.
+
+Group Number, Alarm Number:
+ The group number is shown only for information and the alarm number
+ is given automatically. You can change the order of the alarm number
+ in the alarm list. (See Help Screen <1130>).
+
+Alarm text:
+ You have to enter the alarm message here. This text appears in each
+ field and on the printer.
+# 614 ######## Mask Alarm Definition ######
+Alarm Definition                                                 <1121>
+
+Alarm Configuration:
+ The alarm configuration has the following 11 parameters. You can set
+ the parameters for each individual alarm. The default values are taken
+ from the default alarm configuration that you defined for the alarm
+ group. (See Help Screen <1117>).
+Acknowledgment Possible:
+ You must specify here if it is possible to acknowledge the alarm.
+Acknowledgment Necessary:
+ If you enter YES here, the alarm is only removed from the current
+ alarm list after it has been acknowledged. This alarm stays displayed
+ until the user acknowledges it, independent of whether the alarm
+ (or the alarm bit) is reset itself.
+# 614 ######## Mask Alarm Definition ######
+Alarm Definition                                                 <1122>
+
+Disable printing when triggered:
+Disable printing when reset:
+Disable printing when ack. and reset:
+Disable printing when acknowledged:
+ You can disable specific printing functions. If you enter YES for an
+ entry(s), there is no printout for this entry(s).
+Bypass Allowed:
+ The user can only bypass the alarm (i.e. turn it off) if this entry is
+ YES.
+# 614 ######## Mask Alarm Definition ######
+Alarm Definition                                                 <1123>
+
+Trigger Group Alarm:
+ Only the alarms that have YES as this entry, trigger the group alarm.
+Disable printing when by-passed:
+Disable printing when not by-passed:
+ You can disable the printout function for bypass and un-bypass.
+# 614 ######## Mask Alarm Definition ######
+Alarm Definition                                                 <1124>
+
+Latched Alarm:
+ A latched alarm is an alarm that remains in the current alarm list
+ after the first occurrence. Enter YES here if you want the first
+ occurrence to be displayed and even if the alarm comes and goes.
+ These alarms must be set as "Acknowledgment Necessary".
+# 620 ######## Mask Alarm List ######
+Alarm List                                                       <1130>
+
+You can see all alarms of an alarm group in the alarm list.
+
+You can edit the alarm message and the entire alarm definition of the
+alarm with F1. With F2, you can insert a new alarm and with F3, delete
+an alarm from the group.
+
+Using F6 and F7, you can change the order of the alarms and therefore
+the alarm number changes as well.
+# 650 ######### Mask Oldest Active Alarm #########
+Oldest Active Alarm                                              <1200>
+
+This field shows the oldest unacknowledged alarm in the system. If
+all alarms are acknowledged, the oldest acknowledged alarm is 
+displayed.
+If there is no alarm active in the entire system, the "No Alarm"
+message as defined in the alarm system basic configuration is 
+displayed. (See Help Screen <1030>).
+You must enter a function key to acknowledge the displayed alarm.
+This field works regardless of priority.
+You can only use this field once per picture.
+# 651 ######## Mask Oldest Active. Alarm, Field Format ########
+Oldest Active Alarm - field format                               <1201>
+
+Time Format:
+ You can select the desired time format from a selection window with
+ <ENTER>.
+
+Group Number, Alarm Number:
+ You can select, if and how the group number and the alarm number
+ should be displayed.
+
+Alarm text:
+ You can select, if and when the alarm message should be displayed.
+# 651 ######## Mask Oldest Active. Alarm, Field Format ########
+Oldest Active Alarm - field format                               <1202>
+
+Acknowledgment Status:
+ You can select, if the acknowledgment status should be displayed.
+ The characters [2] or [3] from the Status Abbr. are used for the 
+ display of the acknowledgment status. (See Help Screen <1116>)
+
+Separators:
+ These characters are to separate the fields. You can use a space, 
+ period or a hyphen.
+
+ There is a preview at the bottom of the window, showing how it will
+ look on the display.
+# 653 ######## Mask Newest Active. Alarm #########
+Newest Active Alarm                                              <1203>
+
+This field shows the newest (youngest) unacknowledged alarm with the
+highest priority.
+If all alarms are acknowledged, the newest acknowledged alarm with
+the highest priority is displayed.
+If there is no alarm active in the entire system, the "No Alarm"
+message as defined in the alarm system basic configuration is 
+displayed. (See Help Screen <1030>).
+You must enter a function key to acknowledge the displayed alarm.
+You can only use this field once per picture.
+# 654 ######## Mask Newest Active. Alarm, Field Format ########
+Newest Active Alarm - Field Format                               <1204>
+
+Time Format:
+ You can select the desired time format from a selection window with
+ <ENTER>.
+
+Group Number, Alarm Number:
+ You can select, if and how the group number and the alarm number
+ should be displayed.
+
+Alarm text:
+ You can select, if and when the alarm message should be displayed.
+# 654 ######## Mask Newest Active. Alarm Field Format ########
+Newest Active Alarm                                              <1205>
+
+Acknowledgment Status:
+ You can select, if the acknowledgment status should be displayed.
+ The characters [2] or [3] from the Status Abbr. are used for the 
+ display of the acknowledgment status. (See Help Screen <1116>)
+
+Separators:
+ These characters are to separate the fields. You can use a space, 
+ period or a hyphen.
+
+ There is a preview at the bottom of the window, showing how it will
+ look on the display.
+# 656 ######## Mask Active Alarm ########
+Active Alarm                                                     <1210>
+
+This field shows an active alarm. You can use these fields several
+times, one after another, in a picture. In this way you see a list of
+active alarms. If there are more active alarms than can be displayed
+in the fields, you can scroll up and down.
+
+You must define a function key for acknowledgment and two more for
+scrolling through the list. In pictures where this field is used, you
+cannot have fields for the first or last active alarms.
+# 657 ######## Mask Active Alarm, Field Format #######
+Active Alarm - Field Format                                      <1211>
+
+Cursor Character:
+ The selected alarm is indicated with this character. You can also
+ select INVERSE, then the alarm background and text colors are swapped.
+ You can choose this from a selection window, activated with <ENTER>.
+
+Time Format:
+ You can select the desired time format from a selection window with
+ <ENTER>.
+
+Group Number, Alarm Number:
+ You can select, if and how the group number and the alarm number
+ should be displayed.
+# 657 ######## Mask Active Alarm, Field Format ########
+Active Alarm - Field Format                                      <1212>
+
+Alarm text:
+ You can select, if and when the alarm message should be displayed.
+
+Info:
+ You can select whether the Info should be displayed. The following
+ information is shown as Info:
+ Character [1], if the alarm is reset without acknowledgment (only for
+		acknowledgment necessary alarms)
+ Character [2], if an active alarm is acknowledged.
+ Character [3], if the active alarm is unacknowledged, or is
+		unacknowledgeable
+ The characters [1], [2] or [3] are taken from the status abbreviation.
+# 657 ######## Mask Active Alarm, Field Format ########
+Active Alarm - Field Format                                      <1213>
+
+Separators:
+ These characters are to separate the fields. You can use a space, 
+ period or a hyphen.
+
+There is a preview at the bottom of the window, showing how it will
+look on the display.
+# 659 ######## Mask Alarm ###########
+Alarm                                                            <1220>
+
+This field shows an alarm regardless of its status. You can use this
+field several times in a picture creating a list of all alarms in the
+project. It is possible to scroll through the list with two function
+keys.
+The user can bypass an alarm in this field.
+You must enter a function key for bypassing and two more for scrolling
+through the list.
+
+Address of Group Number Filter           Help Screen  <1251>
+Address of Alarm Number Filter           Help Screen  <1251>
+# 660 ######## Mask Alarm, Field Format ########
+Alarm, Field Format                                              <1221>
+
+Cursor Character:
+ The selected alarm is indicated with this character. You can also
+ select INVERSE, then the alarm background and text colors are swapped.
+ You can choose this from a selection window, activated with <ENTER>.
+Group Number, Alarm Number:
+ You can select, if and how the group number and the alarm number
+ should be displayed.
+Alarm text:
+ You can select, if and when the alarm message should be displayed.
+# 660 ######## Mask Alarm, Field Format ########
+Alarm, Field Format                                              <1222>
+
+Alarm Status:
+ You can choose if the alarm status should be displayed. The alarm
+ status is displayed as the condition of the alarm bits before bypass.
+ The user can also see if a by-passed alarm would actually be active if
+ it was not by-passed. The characters [4] and [5] from the status
+ abbreviation are used for display. (See Help Screen <1116>).
+Acknowledgment Status:
+ You can choose whether the acknowledgment status should be displayed.
+ The characters [2] or [3] from the Status Abbr. are used for the 
+ display of the acknowledgment status. (See Help Screen <1116>)
+# 660 ######## Mask Alarm, Field Format ########
+Alarm, Field Format                                              <1223>
+
+Bypass Status:
+ You can choose whether the bypass status should be displayed or not.
+Priority:
+ You can choose whether the priority should be displayed. It is always
+ shown as a single digit.
+Separators:
+ These characters are to separate the fields. You can use a space, 
+ period or a hyphen.
+
+There is a preview at the bottom of the window, showing how it will
+look on the display.
+# 662 ######## Mask Alarm, Hist. Alarm List Entry ########
+Alarm History List Entry                                         <1230>
+
+The panel builds, in parallel to the alarm printout, a so-called
+Alarm History List. This list contains the same entries that are also
+printed out.
+
+This field displays an entry from the history list. You can have
+several of these fields, one after another, in a picture, producing a
+list of all alarms in the projects. You can scroll through the list
+with two function keys.
+You must enter two function keys for scrolling through the list.
+
+Filter Code                            Help Screen <1270>
+Address of Filter Control Byte         Help Screen <1250>
+Address of Group Number Filter         Help Screen <1251>
+Address of Alarm Number Filter         Help Screen <1251>
+Address of Priority Filter             Help Screen <1252>
+Address of Filter Time                 Help Screen <1253>
+# 663 ######## Mask Alarm, Hist. Alarm List Entry, Field Format ########
+Alarm History List Entry, Field Format                           <1231>
+
+Cursor Character:
+ The selected alarm is indicated with this character. You can also
+ select INVERSE, then the alarm background and text colors are swapped.
+ You can choose this from a selection window, activated with <ENTER>.
+
+Time Format:
+ You can select the desired time format from a selection window with
+ <ENTER>.
+
+Group Number, Alarm Number:
+ You can select, if and how the group number and the alarm number
+ should be displayed.
+# 663 ######## Mask Alarm, Hist. Alarm List Entry, Field Format ########
+Alarm History List Entry, Field Format                           <1232>
+
+Alarm text:
+ You can select, if and when the alarm message should be displayed.
+Event:
+ An event is if an alarm is triggered reset, acknowledged, by-passed
+ or not by-passed. The characters [0], [1], [2], [8] and [9] from the
+ status abbreviation are used for display.
+Acknowledgment Status:
+ The acknowledgment status at the time of the event is always shown.
+ You can select, if the acknowledgment status should be displayed.
+ The characters [2] or [3] from the Status Abbr. are used for the 
+ display of the acknowledgment status. (See Help Screen <1116>)
+# 663 ######## Mask Alarm, Hist. Alarm List Entry, Field Format ########
+Alarm History List Entry, Field Format                           <1233>
+
+Separators:
+ These characters are to separate the fields. You can use a space, 
+ period or a hyphen.
+
+There is a preview at the bottom of the window, showing how it will
+look on the display.
+# 665 #### Erkl„rung der Filterfunktionen ##########################
+Filter Functions                                                 <1250>
+
+Address of Filter Control Byte: 
+ The Filter Code (see Help Screen <1270>) define which types of filter
+ the field will use. The filter that will actually be active is defined
+ though one byte in the PLC. This Filter Control Byte is read once per
+ cycle from the PLC address. In order to have a filter active, it must 
+ be enabled with the Filter Code Functions and selected with the Filter 
+ Control Byte. 
+ The codes to be used for the Filter Control Byte are shown on 
+ Help Screen <1260>.
+# 666 #### Erkl„rung der Filterfunktionen ##########################
+Filter Functions Continued                                       <1251>
+
+Address of Group Number Filter:
+ A group number is read from this PLC address. If the number read is a
+ valid group number (1 to amount of groups), only alarms of this group 
+ are displayed. Otherwise, this filter is deactivated. 
+Address of Alarm Number Filter:
+ The alarm number read from the PLC address is handled similar to the
+ Group Number Filter. This procedure can be used to display alarms 
+ from all groups having certain numbers or other combinations.
+# 668 #### Erkl„rung der Filterfunktionen ##########################
+Filter Functions Continued                                       <1252>
+
+Address of Priority Filter:
+ A priority number is read from the PLC. If the number read is valid 
+ (0-9), only entries having that priority or a higher priority are 
+ displayed. If an invalid number is read from the PLC, all alarms are 
+ displayed. 
+# 669 #### Erkl„rung der Filterfunktionen ##########################
+Filter Functions Continued                                       <1253>
+
+Address of Filter Time:
+ A clock time (6 bytes) is read from the PLC. Depending on the contents
+ of the Filter Control Byte (see Help Screen <1260>), only alarms which 
+ are either younger or older than the time read from the PLC address 
+ are displayed.
+# 680 #### Filtercodes Beschreibung ################################     
+Filter Functions Continued                                       <1260>
+
+   1   Time Filter "younger than" 
+   2   Time Filter "older than"
+   3   Group Filter
+   4   Priority Filter
+   5   Time Filter "younger than" and Group Filter
+   6   Time Filter "older than" and Group Filter
+   7   Time Filter "younger than" and Priority Filter
+   8   Time Filter "older than" and Priority Filter
+   9   Time Filter "younger than" and Group Filter and Priority Filter
+   10  Time Filter "older than" and Group Filter and Priority Filter
+   11  Group and Priority Filter
+# 690 #### Filtersperre ############################################
+Filter Code                                                      <1270>
+
+Enable Filter Function:
+ This entry is used to enable all Filter Functions or to disable them. 
+ If the filter function is not enabled, all alarms are displayed.
+
+PLC Time Format:
+ This entry is used to define whether the PLC time will be in binary 
+ or BCD format. This time will be used for the time filter.
+# 691 #### Filtersperre ############################################ 
+Filter Code Continued                                            <1271> 
+
+Enable Time Filter:
+ This entry defines whether the alarm field will have a time filter.
+
+Enable Group Filter:
+ This entry defines whether the alarm field will have a group and/or 
+ alarm number filter or not.
+
+Enable Priority Filter:
+ This entry defines whether the alarm field will have a priority filter
+ or not.
+# 700 #### zu keiner Maske zugeordnet #################################
+Recipe System General Information                                <1300>
+
+The recipe system groups PLC data sets into data files.
+The data is saved in the panel and can be transferred from there to
+the PLC.
+
+The recipe structure (items that makes up the recipe) and the number
+of data files (how many data files are saved in the panel for the
+structure) are defined when the project is being set up with PCS.
+# 700 #### zu keiner Maske zugeordnet #################################
+Recipe System General Information - Continued                    <1301>
+
+The panel controller provides 10 Kbytes of nonvolatile memory for
+the recipe data. More information about backup possibilities for
+recipe data can be found on help screens <1360>, <1370> and <1380>.
+
+Recipes are organized similar to PLC connections. They have a recipe
+ID and the names of the recipe items can be used in the same way as
+PLC variables. Recipe values can be displayed on the panel if a recipe
+item is connected to an output field or entered/displayed on the panel
+if a recipe item is connected to an input field as the destination
+tagname (e.g. item tagname/recipe ID) instead of a PLC variable.
+# 700 #### zu keiner Maske zugeordnet #################################
+Recipe System General Information - Continued                    <1302>
+
+Each recipe has a predefined variable with the name INDEX. If the
+data file number is written to this variable, the corresponding data
+file is selected from the recipe. All of the references to recipe
+items, as well as transfer functions, always use the data file that
+is selected with the INDEX.
+# 700 #### zu keiner Maske zugeordnet #################################
+Recipe System General Information - Continued                    <1303>
+
+Transferring recipes in and out of the PLC is done with the tagname
+for trigger. The PLC program or a corresponding key function can
+write commands to the tagname for triggering. These commands cause
+the transfer to be made. The panel expects a WORD UNSIGNED as the
+recipe tagname. The following commands are allowed:
+
+Command Code Description
+0x0001       Download the selected data file
+	     Write the data file selected with the INDEX to the PLC.
+# 700 #### zu keiner Maske zugeordnet #################################
+Recipe System General Information - Continued                    <1304>
+
+Command Code Description
+0x0002       Upload the selected data file.
+	     Read the data file from the PLC and write it to the
+	     data file selected with the INDEX.
+0x01nn       Download a certain data file.
+	     The data file no. 'nn' is written to the PLC.
+	     This command works independent from the INDEX. With this
+	     command, the PLC program can determine which data file
+	     is to be loaded into the PLC.
+	     (Please note that it is not possible to set the INDEX
+	     from the PLC.)
+# 700 #### zu keiner Maske zugeordnet #################################
+Recipe System General Information - Continued                    <1305>
+
+Internal variable information exists concerning recipe transfer and
+possible errors:
+
+Variable     Data Type
+R_STATUS     WORD UNSIGNED
+
+The value in R_STATUS:
+0   The recipe system is ready, a transfer is not being made.
+1   A download is taking place.
+2   An upload is taking place.
+3   A communication error has occurred during the data transfer.
+    The recipe system attempts to transfer as long as no errors occur
+    or until the tagname for trigger is reset to zero.
+4   Tagname error. The recipe system cannot read the tagname.
+5   Command is faulty. The recipe system has received a faulty
+    command, or the command refers to a data file that doesn't exist.
+# 700 #### zu keiner Maske zugeordnet #################################
+Recipe System General Information - Continued                    <1306>
+
+Variable     Data Type  Description
+R_NAME       STRING[8]  Name of the recipe that has information
+			in R_STATUS.
+R_ERR_CODE   WORD UNS.  Error code takes the same value as the
+			internal variable ERR_NR, see PANELWARE
+			SOFTWARE USER'S MANUAL.
+R_ERR_NODE   STRING[2]  Connection ID of the faulty nodes.
+R_ERR_NAME   STRING[10] Name of the faulty variable.
+# 700 #### Maske Rezeptliste ##########################################
+Recipe List                                                      <1310>
+
+All recipes for the system are listed in the recipe list.
+ID:
+ Recipe ID. This ID is used as the node ID if you want to connect a
+ recipe value to a field. (e.g. BACKTIME/R1 refers to the recipe
+ element "BACKTIME" in the recipe with the ID "R1")
+
+Recipe:
+ The recipe name is shown here.
+
+Data File:
+ The number of data files. Determines how many data files the recipe
+ can save.
+# 700 #### Maske Rezeptliste ##########################################
+Recipe List - Continued                                          <1311>
+
+Tagname for Trigger
+ Determines the tagname for the PLC address that will be used for
+ carrying out a recipe download or upload.
+
+File Size:
+ The size of the data file in bytes.
+
+Total Size:
+ the size of the recipe with all data files and other information.
+ Please note that a total of 10240 bytes are provided for the recipe.
+# 700 #### Maske Rezeptliste ##########################################
+Recipe List - Continued                                          <1312>
+
+With F1, you can edit the parameters for the recipe. With F2, you can
+insert a new recipe. With F3, a recipe can be erased. With F5, you can
+get into a window where you can define the recipe items.
+
+More information about the recipe system van be found on the help
+screen <1300>.
+# 700 #### Maske Rezept Definition ####################################
+Recipe Definition                                                <1320>
+
+ID:
+ Here you have to define a recipe ID for the recipe. You have to
+ define a different ID for all recipes and all PLC connections.
+ Recipe IDs are two characters long and have to begin with a letter.
+
+Recipe name:
+ All recipes have to have a name. The recipe is identified with this
+ name when making backups with the PC. The name can be up to 8
+ characters long and has to begin with a letter.
+# 700 #### Maske Rezept Definition ####################################
+Recipe Definition -Continued                                     <1321>
+
+Data Files:
+ Here you have to define how many data files the recipe should save.
+ You can have from 1 to 255 data files.
+
+Tagname for Trigger:
+ Here you have to enter the tagname for the PLC address that is used
+ to control the upload and download procedures. Internal variables
+ are allowed.
+# 700 #### Maske Rezeptelementliste ###################################
+Recipe Item List                                                 <1330>
+
+The recipe item list shows the definition of the recipe structure.
+Here you can define which items the recipe should consist of and the
+tagname that is to be used for the item when transferring a recipe.
+
+You can move the items forwards and backwards in the list. The order
+of the item in the list corresponds to the order the items will be
+transferred to the PLC.
+Recipe items without tagname entries will not be transferred to the
+PLC, they can e.g. contain information for the operator.
+# 700 #### Maske Rezeptelement Definition #############################
+Recipe Item Definition                                           <1340>
+
+Name:
+ All recipe items must have a name. The recipe item is referenced
+ with this name when it is connected to a field. The same syntax rules
+ are valid as for tagnames.
+
+Data Type:
+ Here you have to enter the data type the recipe item should be.
+ If you press ENTER, a list of possible data types will appear.
+
+Size:
+ If you select the 'String' data type, you have to enter the length
+ of the string here. The length is automatically entered by PCS for all
+ other data types.
+
+Tagname:
+ Here you can define the tagname that will be used for the item when
+ downloading a recipe. The tagname entry is optional, only the recipe
+ items with a tagname defined will be transferred to the PLC.
+ Recipe items without tagnames, normally strings, can be used for
+ operator note.
+# 700 #### Maske Rezeptinitialisierung ################################
+Recipe Initialization                                            <1350>
+
+You can set an initialization value for each recipe item in all data
+files. This value is written to the panel as the current recipe value
+when a project is transferred if:
+-  there is not a recipe already in the panel, or
+-  the parameter "Recipe Values for Download" in the "Config" menu
+   "Channel 2" is set to "Overwrite recipes with initial Values".
+# 700 #### Maske Rezeptinitialisierung ################################
+Recipe Initialization - Continued                                <1351>
+
+With the F6 and F7 function keys, you can switch page through the
+data files. With F5, you can enter the number of the data file where
+you want to define the initial values.
+
+With the F3 function key, you can delete all the values in the data
+file. Number values are set to zero, strings are made into empty
+strings.
+
+Please make sure  that the initial values are direct PLC values
+without scaling.
+# 700 #### Maske Rezept Backup ########################################
+Recipe Backup                                                    <1360>
+
+You can only carry out this function if you have your PC connected
+to the panel. PCS reads the recipe data from the panel and displays
+a list of the recipes on the screen.
+
+With the cursor keys, you can select one of the recipes from the list
+and make a backup with the F1 key. If you haven't defined a file
+name, the recipe name will be used as the file name.
+
+If a project is loaded, the project path will be suggested as the
+current path. If a project isn't loaded, the user path for PCS will
+be suggested. However, you can select another path with F3 and also
+define a file name.
+# 700 #### Maske Rezept Restore #######################################
+Recipe Restore                                                   <1370>
+
+You can only carry out this function if you have you PC connected
+to the panel.
+
+First you have to select a recipe backup file (.REC). PCS compares
+the recipe saved in the backup file with the one in the panel. If the
+recipe names match, the backup file is identified as being valid. You
+can carry out the backup. If the backup file and the recipe ion the
+panel have different recipe items, only the ones with matching names
+will be restored.
+# 700 #### Maske Rezept Restore #######################################
+Recipe Restore - Continued                                       <1371>
+
+Please note that the recipe restore function must erase the Flash
+application memory in the panel. In order keep the project in the
+panel intact, it must be loaded into the PC before the recipe restore
+function is carried out and reburned on the panel afterwards.
+# 700 #### zu keiner Maske zugeordnet #################################
+Recipe Backup Copy                                               <1380>
+
+The panel can create a backup copy of the recipe data in the Flash
+application memory. A backup copy should be made after changes are
+made to the recipe data since the recipe data stored in non-volatile
+RAM will be lost if the battery fails.
+If the panel determines that the data is incorrect (incorrect
+checksum), then it resets the recipe data with the help of the last
+backup copy. In order to inform the operator of this, the error screen
+is displayed immediately after booting and the variable ERR_NR or
+ERR_CODE contains the value 6.
+# 700 #### zu keiner Maske zugeordnet #################################
+Recipe Backup Copy - Continued                                   <1381>
+
+Creating the backup copy is controlled by the following internal
+variables:
+Variable     Data Type  Description
+R_TRIGGER    WORD UNS.  Triggers the creation of the backup copy.
+			If a value other than zero is written to this
+			variable, a backup copy is created.
+R_SIZE       LONG UNS.  Amount of memory required for a backup copy.
+			If R_SIZE is zero, the last backup copy is
+			current. It corresponds to the recipe data in
+			RAM.
+# 700 #### zu keiner Maske zugeordnet #################################
+Recipe Backup Copy - Continued                                   <1382>
+
+Variable     Data Type  Description
+R_FREE       LONG UNS.  Amount of memory available for a backup copy.
+R_FREE_NO    WORD UNS.  Corresponds to R_FREE / R_SIZE, and shows how
+			many backup copies can be put in the remaining
+			free memory. If R_SIZE is zero, R_FREE_NO is
+			also zero.
+# 700 #### zu keiner Maske zugeordnet #################################
+Recipe Backup Copy - Continued                                   <1383>
+
+After the backup copy is created, R_SIZE is set to zero. This signals
+that the backup copy is current. If recipe data is changed, then
+R_SIZE is also changed and shows the amount of memory the next backup
+copy requires.
+
+A recipe backup made with the PC erases all of the old backup copies
+and only keeps the newest. This creates space for more backup copies.
+# 700 ######### Mask Project Download ########
+Project Download                                                 <1400>
+
+To download a project you must switch the panel into Teach Mode and
+connect the panel to your PC.
+
+You can find more information about cabling and switch positions in 
+your PANELWARE HARDWARE AND INSTALLATION MANUAL.
+# 701 ######## Mask Project Upload ########
+Project Upload                                                   <1410>
+
+To be able to upload from the panel, you must create a dummy project
+(project without pictures etc.) with the hardware parameters of your
+panel.
+You can see the name of the current project in the middle of the title
+bar at the top of the screen.
+Do not use the upload function if a project other than the dummy one is
+selected!
+
+The uploaded project can be downloaded to another panel. The pictures
+and other parameters cannot be "de-compiled".
+# 710 ######## Mask Connection Replace ########
+Replace Conn.                                                    <1420>
+
+This function copies pictures and can replace the connection ID with
+a new one.
+The original picture name must be entered for picture name. These 
+pictures remain unchanged.
+For new picture name, you have to enter a new name. The picture copied
+is saved with the new name.
+You are allowed to use wild cards(*) in both names if you want to
+use the function on several pictures.
+For Connection ID entries, enter the one to be replaced first and
+then the ID that will replace it.
+#
+System Download                                                  <1430>
+
+With this function you can update the operating system of a PANELWARE
+Controller C200 or C300.
+
+You need to do this if you have controllers with older versions of the
+operating system and you want to use the advanced capabilities of the
+newer operating system version.
+
+Important Information:
+ The mode switch of the Controller must be in position 6 to be
+ able to update the operating system.
+
+ It could be possible that you have to reload the project after
+ updating the operating system.
+
+With the function "Channel 2 - Configuration" in the Menu "Config"
+you can increase the baudrate for a quicker system download. The
+baudrate in the controller will be adjusted automatically.
+# 720 ######### Mask Configuration ########
+Configuration                                                    <1500>
+
+In this window the current configuration of the
+PANELWARE CONFIGURATION SOFTWARE is displayed:
+
+Screen, Language:
+ The screen type (color, mono, LCD, plasma) and the language is shown.
+User Path:
+ You can see the current user path here.
+Channel #1:
+ This interface is reserved for future PANELWARE CONFIGURATION 
+SOFTWARE expansion.
+# 720 ######### Mask Configuration ########
+Configuration                                                    <1501>
+
+Channel #2:
+ Projects are loaded to the modular PANELWARE panel controller
+ (C200, C300, etc.) through channel #2. Here you will see which 
+ interface of your PC should be connected to the panel controller.
+
+Configuring the same interface for channels #1 and #2 is permitted.
+ Channel selection is done automatically with the project download.
+# 721 ######## Mask Screen Type Selection  ########
+Screen Selection                                                 <1502>
+
+You can select the setting which corresponds with your PC monitor.
+# 722 ######## Mask Language Selection  ########
+Language Selection                                               <1503>
+
+You can select the language that the PANELWARE CONFIGURATION SOFTWARE
+uses to display menus, messages, etc.
+The language selection has no effect on your project.
+# 723 ######## Mask User Path Entry  ########
+User Path Entry                                                  <1504>
+
+You can enter a new user path here.
+
+The PANELWARE CONFIGURATIONS SOFTWARE makes a new sub directory under
+the user path for each project.
+
+Please use this function carefully and only if you are familiar with
+the directory structure of the MS-DOS operating system! Using this
+function you can separate your work into several project groups.
+# 724 ######## Mask Channel #1 Interface Selection  ########
+Channel #1 Interface selection                                   <1505>
+
+This interface is reserved for future PANELWARE  CONFIGURATION 
+SOFTWARE expansion.
+
+You can choose if you want to use COM1 or COM2 of your PC for this
+interface.
+# 725 ######## Mask Channel #2 Interface Selection  ########
+Channel #2 Interface Selection                                   <1506>
+
+Interface:
+ The PANELWARE CONFIGURATION SOFTWARE loads the project and (if
+ necessary) the operating system through channel #2 to the modular 
+ PANELWARE panel controller.
+ You can select whether the COM1 or COM2 interface of your PC should 
+ be used for this channel.
+Set Clock:
+ You can define whether the Real-time Clock on the panel controller
+ should be synchronized with the clock of your PC during the project 
+ download.
+Baud Rate for System Download (at present, only with the C200):
+ Before downloading the operating system to the panel controller, the
+ transfer rate must be defined. The maximum baudrate depends on the 
+ PC. If the operating system cannot be sent with the set baudrate,
+ try using one lower. The panel controller adapts to the set baudrate
+ automatically.
+Transferring Recipe Values
+ Here you can set how PCS should react if it determines that, when
+ transferring a project, recipe values that are valid for the target
+ device are present. These values can either be kept or written over
+ with the values of the recipe initialization.
+# 726 ######## Mask Printer Settings  ########
+Printer Settings                                                 <1507>
+
+You can set the parameters for the printer that is connected to your
+PC.
+Lines per Page:
+ Enter here the number of lines your printer can print on each page.
+Left Margin:
+ You can enter the number of spaces to leave as a left margin.
+Page Feed (LF/FF):
+ You can set the page feed to be either control character 'FF'
+ (Form Feed) or the respective number of 'LF's (Line Feed). The user
+ manual for your printer has information on the important control
+ characters.
+# 727 ######## Mask Compiler Option  ########
+Compiler Options                                                 <1508>
+Create Documentation:
+ You can set if the compiler should create documentation about the
+ project.
+ 
+ If you choose "YES" the compiler creates a DOS text file called
+ <PROJECT_NAME.PRT> in the current project directory. This file can be
+ edited or printed with any text editor.
+ 
+ The format of the .PRT file corresponds to the parameters as set in
+ "Printer Settings".
+
+Compile Slave Projects:
+ If you choose NO for this option the compiler compiles the Main
+ Project and the current Slave Project. If the Main Project is loaded
+ as the current project, none of the Slave Projects will be compiled.
+ 
+ The name of the current Main and Slave Project is displayed
+ in the middle of the top line of your PCS screen.
+ 
+ If you choose YES for this option, all the Slave Projects will be
+ compiled.
+# 728 ######### Mask Free Memory  ########
+Free Memory                                                      <1600>
+
+The amount of memory available on you PC is shown.
+
+This information can help you if you have a memory management problem
+with your PC.
+
+For more information about memory, memory types and requirements,
+please refer to your DOS Operating System Manual.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1700>
+
+A slave project can only be loaded in connection to a main project
+  Load the main project first in order to be able to load the slave
+  project.
+A slave project can only be used in connection with a main project!
+  You have tried to create a slave project without first creating or
+  loading a main project. A main project must be loaded
+  (File Menu - Load Project)
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1701>
+
+Address not allowed for this field type!
+  The given address is not allowed for this field type. Check the
+  address entry and enter another address. Your PANELWARE Application
+  Manual contains more information about the PLC addresses and field
+  types allowed.
+Address out of range
+  You have entered an invalid PLC address. Information on address
+  syntax can be found in the corresponding applications manual.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1702>
+
+Alarm system not imported
+  PCS cannot import the alarm system of the source project with the
+  "Import Project Function". Make sure that the target device uses an
+  an alarm system!
+Background lighting cannot be installed on this panel!
+  The panel either doesn't support background lighting or it is always
+  switched on!
+Backup was not made (file cannot be opened)
+  PCS cannot make the backup file. You must give a path and directory
+  that exists, and you must define a file name that follow the MS-DOS
+  syntax rules.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1703>
+
+Cannot delete default language!
+  You tried to erase the default language. Only the additional text
+  layers can be erased, not the default language.
+Cannot execute text layer editor for -NONAME- !
+  Save the picture! When the picture is being saved, you have to give
+  it a name. The text layer system requires this name in order to
+  assign the text.
+Cannot make connection with panel!
+  The PC cannot establish a connection with the panel. Check your
+  cables and connectors as well as the settings (channel #1 or
+  channel #2).
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1704>
+
+Cannot open temporary file
+  Your PC may have problems with its file system. Check if your hard
+  disk is full or if another error has hindered files from being saved
+  on the hard disk.
+Cannot write to panel memory!
+  Your panel has an error in the memory or has an invalid operating
+  system!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1705>
+
+Compiled ESC sequence is longer than in the default language
+  Translations (text layer text) cannot be longer than the text in the
+  default language. If the translation has become longer by compiling
+  the ESC sequences, insert empty spaces into the default language so
+  you can create more space for the translation.
+Connection list is not required for this panel!
+  This panel can only be connected with a MININET station with direct
+  counter addressing. Therefore, it does not require a connection list.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1706>
+
+Contains a field with reference to unknown text group:
+  Check to see if all text groups exist. Either correct your entry or
+  create the missing text group!
+Contains key functions with invalid keys
+  The loaded/compiled project contains key functions for keys that
+  don't exist!
+Deletion denied, alarm group contains valid alarms!
+  You can only delete alarm groups if you have previously deleted all
+  of the alarms from the group.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1707>
+
+Deletion denied, connection contains valid tagname(s)!
+  You can only delete a connection, if you have already removed all of
+  the tagnames from the variable assignment table for the connection.
+Deletion denied, recipe contains valid items!
+  In order to delete a recipe, you must first remove all items from
+  the recipe.
+Deletion denied, slave project still defined!
+  In order to be able to delete a project, you have to first delete
+  the slave projects of the main project.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1708>
+
+Error at Clear Flash:
+  You panel controller has faulty FlashProm memory or an invalid
+  operating system version.
+Error at start project
+  PCS cannot start the project in the panel. Check if the panel is in
+  teach mode!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1709>
+
+Error while compiling a text group
+  This error message can be caused by the following errors:
+  -  A Global Text File cannot be read (Read error)
+  -  Your Global Text File is of an older version.
+  -  Your PC doesn't have enough application memory. (For more
+     information on memory requirements see your PCS Software Manual.)
+  -  The Global Text File that you are using belongs to another project.
+  -  The compiled project is too long.
+  -  You have exceeded the maximum allowed amount of texts.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1710>
+
+Error while compiling the keycode tables
+  This error message can be caused by the following errors:
+  -  The key assignment file cannot be read (Read error)
+  -  You are using a key assignment file of an older version.
+  -  Your PC doesn't have enough application memory. (For more
+     information on memory requirements see your PCS Software Manual.)
+  -  The key assignment file belongs to another project.
+  -  The compiled program is too long.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1711>
+
+Error while compiling the pictures
+  This error message can be caused by the following errors:
+  -  A picture file cannot be read (Read error)
+  -  The picture that you are using comes of an older version.
+  -  Your PC doesn't have enough application memory. (For more
+     information on memory requirements see your PCS Software Manual.)
+  -  The picture that you are using belongs to another project.
+  -  The compiled program is too long.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1712>
+
+Error while saving the object file
+  Your PCS cannot save an object file while compiling either because
+  more space is required on your hard disk or your access rights do not
+  allow you to overwrite an existing object file.
+Error! Error picture and first picture cannot be the same!
+  You have defined the first picture (start-up picture) as the
+  communication error picture in the project definition. Check this
+  entry or change the picture sequence in the picture directory.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1713>
+
+Error! Incomplete project definition!
+  Entries are missing from your project definition. You cannot compile
+  your project in its present state. Check for the missing entries and
+  correct them.
+Error! The subsequent report and tagname for completion exclude each
+other!
+  For a report, you can define either subsequent report or (on the
+  last report) a tagname for completion.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1714>
+
+Field is too large to fit on the display!
+  The field that you have just created is too wide and doesn't have
+  enough space in the defined position on the display. Move the field
+  to the left in order to make the required space available!
+Field type already exists, only 1 allowed per picture!
+  This field may only be used one time per picture!
+Fields are not allowed in the error picture on this panel!
+  Only mask text is allowed in the error picture on this panel.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1715>
+
+File/Directory does not exist!
+  The directory of the project that you have tried to delete is either
+  write protected or doesn't exist. Disable the write protect and check
+  your access rights!
+Function is not necessary on this panel!
+  You cannot define hardware for BRIT... devices because they are not
+  modular or expandable.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1716>
+
+Function is not possible in this edit mode!
+  Leave the current edit mode. There are PCS functions that can only
+  be carried out through the main menu.
+Function is not possible on this panel!
+  You want to carry out a PCS function that is not allowed or not
+  possible the panel connected or being created.
+Function is only possible through main menu!
+  Leave the current edit mode. There are PCS functions that can only
+  be carried out through the main menu.
+Function key has already been used!
+  You can only assign each function key one function.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1717>
+
+Group Acknowledge Key is not allowed on this panel!
+  This key cannot be used on this panel. (Only panels without alarm
+  systems)
+ID already exists!
+  You have tried to make a new connection with an ID that already
+  exists elsewhere. Each connection must have its own ID!
+ID already exists for a connection!
+  You want to create a new connection with an ID that is already being
+  used for a connection. All connections and recipes must have
+  different IDs.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1718>
+
+ID already exists for a recipe!
+  You want to create a new recipe with an ID that is already being used
+  for a recipe. All connections and recipes must have different IDs.
+Illegal address pre-selector!
+  You have entered an illegal pre-selector for a PLC address.
+  Information on the address syntax can be found in the corresponding
+  applications manual.
+Illegal connection!
+  You must select a valid connection before a connection definition can
+  be accepted!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1719>
+
+Illegal or missing parameter
+  Please use the information on which network and node parameters must
+  be used for a PLC driver from the corresponding applications manual!
+Illegal Tagname
+  The name or the connection ID of the entered PLC address Is invalid!
+  Check whether the name you have entered is correct!
+Incomplete branches have been defined! Picture is not accepted.
+  You must fill every branch displayed in the branch structure with a
+  picture name!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1720>
+
+Incomplete recipe definition!
+  You can find information on the parameters that must be defined on
+  help screen <1320>.
+Incomplete recipe item definition
+  You can find information on the recipe item parameters that you have
+  to define on help screen <1340>.
+Internal Compiler Error!
+  Should this error occur, please send your entire project to your
+  PANELWARE distributor, who will replace your software as soon as the
+  cause of the error can be determined and it is repaired!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1721>
+
+Invalid file name or wild cards!
+  All file names that are used in PCS must correspond to the rules for
+  MS-DOS operating systems. They may be max. 8 characters long and must
+  begin with a letter.
+Invalid Hardware!
+  You tried to load an operating system into a controller where it
+  it cannot run. PCS refuses to load the operating system and gives
+  this message.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1722>
+
+Invalid multiple use of a function key
+  Only one function may be defined per picture and function key. Remove
+  the double assignment (e.g. a picture change function AND a key
+  function with the same key)
+Invalid or missing driver description file (PPF-file)!
+  Your PANELWARE CONFIGURATION SOFTWARE is incomplete. Perform the
+  install again from the original installation diskette!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1723>
+
+Invalid project name!
+  Project names can only be 8 characters long and must begin with a
+  letter.
+Invalid variable name !
+  Check the variable names!
+Invalid/missing network parameter
+  Please use the information on which network and node parameters must
+  be used for a PLC driver from the corresponding applications manual!
+Invalid/missing PLC type
+  You have to define the PLC type after selecting some PLC drivers.
+  If the definition is missing. This message is given.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1724>
+
+Item name 'INDEX' is reserved
+  You cannot define a recipe item with the name 'INDEX' because the
+  word 'INDEX' is reserved for data file selection.
+Keycode table not imported, panel types differ
+  When importing a project, the keyboard data is only accepted if the
+  source and target device have the same keyboard.
+Lines/columns to remove must be empty! New setting has been ignored!
+  You have tried to make the report smaller. You can only do this if
+  you removed all text and fields from the lines and columns to be
+  deleted.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1725>
+
+Max. 20kB text is possible for one global text group!
+  You are allowed a maximum of 20 000 characters per text group! Split
+  your texts into more groups!
+Max. number of text layers reached
+  No more text layers can be created. The max. number of text layers
+  is 64.
+Maximum 250 pictures allowed in a project! Picture not accepted.
+  Adding more pictures is not possible. Try to create you project with
+  less pictures!
+Maximum number of alarms per group reached!
+  No more alarms can be defined for this alarm group.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1726>
+
+Maximum number of alarms reached!
+  No more alarms may be defined in this project.
+Maximum number of connections reached!
+  You have defined the maximum amount of connections allowed for this
+  panel.
+Maximum number of groups reached!
+  No more alarm groups can be created for this project.
+Maximum number of recipe items reached!
+  No more recipe items can be defined for this recipe.
+Maximum number of recipes reached!
+  A max. of 4 different recipes can be defined in a project.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1727>
+
+Maximum number of Tagnames per connection reached!
+  No more variables are allowed for this connection.
+Maximum number of tagnames reached!
+  A max. of 500 PLC tagnames can be used in a PANELWARE project, incl.
+  recipe items.
+Maximum three slave projects per main project!
+  You cannot define more than three slave projects for a main project.
+  If you require more than 4 panels (main and 3 slaves) in a network,
+  you have to employ another C300 controller.
+Missing alarm definition!
+  Your project contains an alarm group without an alarm.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1728>
+
+Missing Controller!
+  You must select a controller if you are creating a new project!
+Missing object file! Please compile!
+  You have to compile a project before it can be transferred to the
+  panel. (Compilation finished. Error: 0)
+Missing report name!
+  When creating a report, you must give it a distinct name.
+Module could not be burned!
+  Your panel has an error in the FlashProm memory or the operating
+  system is invalid!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1729>
+
+Multiple assigned text layers!
+  All text layers that are to be compiled must be assigned different
+  numbers.
+No bar graph fields are possible on the panel
+  Bars graphs can only be displayed on graphic displays.
+No backup made (error opening backup file)
+  PCS cannot make the backup file. You must give a path and directory
+  that exists, and you must define a file name that follow the MS-DOS
+  syntax rules.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1730>
+
+No graphics possible on this panel
+  Panels having no graphic display, do not support graphic functions
+  such as bars or lines.
+No LED functions are possible on this key
+  You can only activate LED functions on keys which are equipped with
+  an LED!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1731>
+
+No LED Functions are possible on this panel
+  The panel does not have LEDs.
+No LONG fields are possible on this panel
+  You cannot enter or display any fields with the data type LONG on
+  this panel. That was the case for older devices and operating system
+  versions. Check if you have the newest PCS version and panel
+  operating system.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1732>
+
+No memory available! Function cannot be executed!
+  Your PC doesn't have enough memory to execute this function. Ensure
+  that the PCS memory prerequisites have been fulfilled before starting
+  PCS again. Any memory resident programs that are not required should
+  be removed!
+No more fields are possible in this picture/report
+  You have defined the maximum amount of fields that are allowed in
+  this picture.
+No more key/LED functions are possible in this picture
+  You have reached the max. number of key or LED functions allowed in
+  the picture or in the report.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1733>
+
+No more lines are possible in this picture
+  You have drawn the maximum amount of lines allowed for this picture.
+  More lines are not possible. Check to see whether a line is segmented
+  in the picture. This problem can sometimes be remedied by deleting
+  segmented lines and replacing them with a single continuous line.
+No more text is possible for this global text group!
+  You can define up to a maximum of 2000 texts per text group! Split
+  your texts up into more groups!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1734>
+
+No more text is possible in this picture/report
+  You have entered the maximum allowed amount of characters allowed for
+  this mask text in the picture. By creating a new text, you can enter
+  more text in the same line if desired.
+No object code created!
+  The compiler gives this message if it didn't create any code because
+  because of another error.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1735>
+
+No picture elements deleted
+  You have tried to execute a function (e.g. <Del>), without first
+  selecting an element of the picture.
+No pictures bound!
+  You have to bind all pictures in your project. You can bind the
+  picture in the project definition mask with the function keys
+  F2 or F3.
+No PLC address defined for this Tagname!
+  You can only define the PLC variable type if the variable is used
+  in a field first!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1736>
+
+No PLC data type defined for this Tagname!
+  You have used a symbolic PLC address (variable), which is not
+  assigned in the VAT. Enter it in the VAT (Variable Assignment List)!
+No text layers enabled!
+  The compiler gives this message if you have set the compile switch to
+  'No' for all text layers. At least one text layer has to be
+  compiled.
+Not allowed for this alarm group!
+  This function is not allowed for alarm groups system alarm
+  and / or group alarms.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1737>
+
+Not allowed for this text group!
+  You cannot delete the text group #0. It contains the functions that
+  erase the screen during a screen change and turn off the key LEDs.
+Oldest or Newest Alarm not allowed in conjunction with Active Alarm
+field!
+  You may not use an "Active alarm" field in a picture with a
+  "Newest active alarm" field or an "Oldest active alarm" field.
+Only function keys from F1 to F22 are possible!
+  This panel only supports 22 function keys!
+Only function keys from F1 to F99 are possible!
+  The panel only supports 99 function keys.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1738>
+
+Only INTERNAL variables are allowed in the error picture!
+  You may only use variables of the "Internal" connection type in the
+  error picture! An example is provided in the demo project that is
+  supplied with your PANELWARE CONFIGURATION SOFTWARE.
+Only one text layer possible!
+  The panel for which you have created the project does not support
+  multiple language text layers. You can create more than one text
+  layer for the project, however, only one can be compiled. Make sure
+  that the compile switch is set to 'YES' for only one text layer and
+  'NO' for all of the others!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1739>
+
+Panel data type is too long!
+  During a VAT Import, the source file contains an invalid or too long
+  panel data type description. Check the source file!
+Panel has no recipes with name as defined in the project!
+  You have tried to restore a recipe that is not saved in the panel.
+  You can define a new recipe, in order to put it in the recipe list.
+Panel printer configuration not imported
+  If a printer cannot be connected to the target hardware, the panel
+  printer configuration will not be imported.
+Picture change by the PLC is not allowed on this panel!
+  The "Picture Change from PLC " is not for use with this panel!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1740>
+
+Picture contains a field that references an unknown text group:
+  Make sure that all text groups are available. Correct the entry or
+  create the text group that is missing!
+Picture list missing!
+  You do not have a picture directory and no picture branching
+  structure has been defined. You must create a picture directory
+  and bind the pictures for every project!
+Picture not/partially imported
+  The picture contains picture items that are not provided in the
+  target device. Elements such as (e.g. bars, lines, etc.) are ignored
+  when importing a picture.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1741>
+
+PLC address too long!
+  During a VAT import, the source file contains a PLC address that is
+  too long or has incorrect syntax. Check the source file!
+PLC data type is unknown for this connection!
+  This error can be reported by the compiler if the project contains
+  PLC data types that cannot be used by your software. Ensure that you
+  have the latest release of PCS. If not; install it!
+PLC data type too long!
+  During a VAT import, the source file contains a PLC data type that
+  is too long or has incorrect syntax. Check the source file!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1742>
+
+Please choose an edit mode first (Project, Picture, Text Groups)!
+  Before  you activate a LOAD or SAVE function, you must select an
+  editing mode from the "F2 Edit" pull-down menu!
+Please define a project first!
+  Editing functions (e.g. Edit Picture) can only be used if you have
+  first defined a picture. Either create a new project or load an
+  existing one with the Project... functions in the "F1 File"
+  pull-down menu!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1743>
+
+Program is too large!
+  The size of your project is larger that the available application
+  memory in the panel. If you have defined several text layers, try
+  compiling the project with fewer text layers!
+Project contains too many different drivers!
+  The panel controllers P150 and C200 can only support one driver at
+  a time. Remove the other connections from the connection list!
+Project contains too many PLC variables!
+  Your project contains more than 500 process variables. Please note
+  that the recipe system uses several additional process variables
+  internally that you don't see in the VAT.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1744>
+
+Recipe connection not allowed here!
+  You can only use real PLC variables here as tagnames, not recipe
+  items.
+Recipe item name already exists!
+  You have to give all recipe items a distinct name.
+Recipe item not allowed for this field! Incompatible data types!
+  You may have changed the data type of a recipe item. PCS can no
+  longer correct the data type conflict because you have previously
+  connected the item to a field. Check the field and enter a field
+  with the correct field type for the recipe item!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1745>
+
+Recipe name already used for another recipe!
+  You have to give all recipes a distinct name.
+Recipes not imported
+  The target system does not support recipes, therefore, PCS did not
+  import the recipes from the source project when importing the project
+Recipes require more memory than available (10240 Byte)
+  Reduce the number of data files! The PANELWARE panel controller
+  reserves 10 Kbytes of non-volatile memory for recipes.
+Reference to unknown connection ID!
+  The compiled project contains a variable with an undefined ID.
+  Check your connection and variable assignment tables!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1746>
+
+Report contains reference to unknown subsequent report!
+  All reports entered as subsequent reports must be created in order to
+  be able to successfully compile the project.
+Report not imported
+  The target system doesn't support reports, therefore PCS did not
+  import the report from the source project when importing the project.
+Report partially imported
+  The report from the source project contains fields that the target
+  system doesn't support. They will be ignored when importing the
+  report.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1747>
+
+Report references to illegal subsequent report (Recursion)
+  Check if you have created a loop from the subsequent reports!
+Source contains no/less text layers
+  The text layers in the target project remain empty. you must either
+  delete them or use them for translations.
+Tagname already exists with different data type
+  The variable name entered has already been used for another field
+  which has a different data type. Choose another variable name or
+  delete the unused variable names from the (VAT) Variable Assignment
+  Table!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1748>
+
+Tagname includes unknown connection
+  Variables can only be defined with existing connection IDs. Select
+  "F5 Connection" to choose an existing connection or to create
+  a new one!
+Tagname includes unknown recipe items!
+  You have tried to connect a recipe item that doesn't exist from a
+  recipe. You can only connect recipe items that exist or you have
+  accidentally entered a PLC connection instead of a recipe connection.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1749>
+
+Tagname not used in any field yet!
+  You have put a (new) variable into the VAT, which is not yet used in
+  a field. You can only assign this variable if you used it in a field,
+  since the PCS must know the data type of the field.
+Text group name missing!
+  The name of the corresponding text group must always be entered with
+  an Output Text Advanced Field.
+Text layer 0 (default) not defined
+  You have to define a text layer with the number zero as text layer
+  number in the panel. This text layer is used  at boot up and when
+  text layers are not active.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1750>
+
+Text layer file not/partially imported
+  The target project has less text or text layers. Therefore, PCS
+  couldn't import the files or partially imported the files with the
+  translations from the source project.
+Text layers partially imported
+  Only the text layers that are provided in the target project are
+  imported with a picture import. If the source project has more text
+  layers, this message will appear.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1751>
+
+The communications error picture is not in the project definition!
+  Every project must have a picture that will be displayed when a
+  communication error with the PLC occurs. The name of this picture
+  must be entered in the project definition.
+The file has the wrong ID !
+  The file that you have selected has probably been changed by another
+  program, or doesn't belong to a PANELWARE project!
+The last picture cannot be deleted!
+  You cannot delete the last picture in a picture directory!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1752>
+
+The names of the bound pictures can only be changed with <F1>!
+  If you want to bind another picture than the one that is being
+  displayed, use the F1 function key!
+The previous input key is invalid for this panel!
+  This key does not exist on older panels. Get you PANELWARE service
+  technician to update your panel!
+The selected file has an incorrect version number!
+  The selected file has been created with a newer version of PCS than
+  yours. Install the new PCS version!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1753>
+
+The selected file is not a picture/project/...
+  You have probably changed the file extension for the load function
+  and selected the wrong file.
+There is nothing to save!
+  You have selected the save function in an operating mode where PCS
+  doesn't have anything to save.
+This branch cannot be deleted!
+  You cannot delete the first two picture branches "Next" and
+  "Previous". If you do not need these branches, just define them
+  to branch to themselves. (Enter the same name as the picture name
+  on the left!)
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1754>
+
+This field type is not possible for this panel!
+  Certain fields are not supported by all panels!
+This panel does not support slave projects!
+  Slave projects can only be created on a C300 panel controller.
+This panel does not support the recipe system!
+  You cannot use recipes with this panel.
+This panel does not support the report system!
+  You cannot print out reports with this panel.
+This panel has no alarm functions!
+  Alarms are not handled by this panel.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1755>
+
+This panel has no inputs!
+  You only can select input and output functions on panels, which
+  support this function. You will get more information about inputs 
+  and outputs in your hardware manual.
+This panel has no outputs!
+  You only can select input and output functions on panels, which
+  support this function. You will get more information about inputs
+  and outputs in your hardware manual.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1756>
+
+This slave controller number has already been used for another slave
+project!
+  All slave projects must receive a different slave controller number.
+User module does not exist
+  You have tried to upload a project from a panel that contains
+  no project. No project can be uploaded from this panel.
+Variable assignment(s) partially imported!
+  During an import function, PCS was not able to get all the data for
+  variable assignments. For example, PLC addresses and PLC data types
+  are not transferred if the target project has s different PLC driver
+  defined as the source project.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1757>
+
+Variable name already exists!
+  The variable you tried to create already exists.
+Variable name too long!
+  During a VAT import, the source file contains a variable name that
+  is too long or has incorrect syntax. Check the source file!
+VAT contains illegal PLC addresses or data types
+  During a VAT import, PLC addresses and data types are checked for
+  validity. Invalid entries are not imported, the proper entries must
+  be entered manually.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1758>
+
+Version conflict in report
+  The report file has an incorrect version number. This error can
+  only occur if the file is damaged or it wasn't created with the
+  project with PCS. Please note that files may not be copied into the
+  project directory with DOS. Use the import functions if you want to
+  transfer parts of another project.
+Version Conflict: File cannot be edited!
+  The compiler has found a version conflict in a picture.
+  You can either recreate the picture or remove it!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1759>
+
+Version Conflict: Please load and save project !
+  You have loaded a project of an older version. In order to carry
+  on with the project and edit it, you must save it using the current
+  version of PCS first.
+Version Conflict: Please load and save the .TTA file !
+  You have edited a project of an older version. To continue,
+  you must save the key assignments.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1760>
+
+Warning - Invalid text layer file
+  You project contains a text layer file that is either damaged or
+  was created with an older version of PCS and not imported into the
+  project with the import function. You must enter the text layer
+  (the translations) with PCS. Do not use any other text editor to
+  create or modify text layer files!
+Warning - Missing text layer file
+  All translations are missing for the text layer. You must either
+  enter a translation for all pictures, reports, alarms, etc. or mark
+  the text layer so it will not be compiled.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1761>
+
+Warning - Text layer file not complete
+  One or more translations are missing in the text layer. The project
+  will be compiled, the panel will display an empty text string
+  instead of a translation.
+Warning: Global Text(s) contains characters and ESC sequences
+  The text group contains ESC sequences. Only use this when you
+  completely understand what the result will be. The Hardware Manual
+  can be used to tell whether you have the right sequences. You can
+  also fully utilize all of the PANELWARE system functions without
+  having to use ESC sequences.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1762>
+
+Warning! Memory fragmented - Program re-started!
+  Internal program error. Our software has been thoroughly tested, but
+  errors cannot be ruled out. It can help in the short term if you
+  leave PCS and re-start it. Furthermore, we ask that you save the
+  project and contact us. We will repair the software error as quickly
+  as possible.
+Warning! Not all pictures are bound!
+  Your project contains pictures which are not shown in the picture
+  directory or are not bound. You must bind all pictures in the picture
+  directory (i. e. define the neighboring pictures), although you
+  do NOT have to use all pictures that you have created in the project.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1763>
+
+Warning! Not INTERNAL variable!
+  You have used a variable name with an internal connection that the
+  panel doesn't recognize as an internal variable. Either remove this
+  variable or correct the names. Pay attention to upper and lower case
+  characters! A list of the internal variables can be found
+  in Appendix D of the PANELWARE Software manual.
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1764>
+
+Warning! The connected picture is not in the picture list!
+  Your picture branching structure calls pictures which are not in the
+  picture directory. All pictures called  in the picture branching
+  structure must be inserted into the picture directory and bound!
+Warning! Unused marks shows the status after the last error free
+compilation!
+  If you press "F6 Used" in the Variable Assignment Table, variables
+  which are not assigned to any field are marked as unused. If a
+  project has been changed after the last compilation, these markers
+  may be invalid. The "F6 Used" function should only be used directly
+  after a successful error free compilation!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1765>
+
+Warning: Incomplete control key definition!
+  This warning appears if you haven't defined all function keys.
+  Don't worry; NOT all function keys must be defined for a project to
+  function correctly.
+Warning: Picture contains overlapping fields
+  Your picture contains fields which overlap. In run-mode, this
+  leads to an undefined display. Change or remove these fields!
+# 900 ######### aus keiner Maske erreichbar, nur mit F9 ########
+Warnings and Error Messages                                      <1766>
+
+Write error while saving the configuration!
+  Please check your diskette! If a write error occurred on your
+  hard disk, please contact a qualified PC engineer!
+Max. of 250 pictures are allowed in a project! Picture is not accepted.
+  Binding more pictures into this project is not possible. Try making 
+  your project with less pictures!
+# 932 ######### END ########
+								 <9999>
+
+
+
+			      END OF HELP
+
+

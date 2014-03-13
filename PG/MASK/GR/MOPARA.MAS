@@ -1,0 +1,16 @@
+#VAR 00 00 20 01 78 00 35 N N J N N 00 00 00 
+#TXT 00 00 20 78  _Passwortdienst_____
+#VAR 00 25 20 01 78 00 35 N N J N N 00 00 02 
+#TXT 00 25 20 78  _Alarmbehandlung____
+#VAR 00 50 20 01 78 00 35 N N J N N 00 00 04 
+#TXT 00 50 20 78  _Timeout-Intern_____
+#TXT 00 71 02 78  __
+#VAR 01 00 20 01 78 00 35 N N J N N 00 00 01 
+#TXT 01 00 20 78  _RÅckrufparameter___
+#VAR 01 25 20 01 78 00 35 N N J N N 00 00 03 
+#TXT 01 25 20 78  _Modemparameter_____
+#VAR 01 50 20 01 78 00 35 N N J N N 00 00 05 
+#TXT 01 50 20 78  _Timeout-Busmaster__
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~

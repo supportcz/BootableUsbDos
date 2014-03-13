@@ -1,0 +1,741 @@
+%%
+1,0:1
+%%
+.1
+    TCPIP-Library Functions
+
+  ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ ATTENTION:    The functions of this library can only be used when the     บ
+  บ               B&R module is available on the controllers non-volatile     บ
+  บ               memory (User-ROM) !                                         บ
+  บ               A cold start must be carried out after downloading the B&R  บ
+  บ               module to the non-volatile memory.                          บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+    The following functions are at your disposal after importing the TCPIP
+    Library:
+
+
+    @020[UDPopen ] Opens a virtual connection with datagrams
+    @030[UDPsend ] Sends datagrams to another station
+    @040[UDPrecv ] Reads received datagram
+    @050[UDPclose] Closes datagram connection
+    @060[ETHinfo ] Information about Ethernet cards/connections
+
+
+                                      @002[ Continue ]                      @999[ End HELP ]
+.2
+    TCPIP-Library Functions (continued)
+
+    Basic communication between stations on TCP/IP Networks is possible
+    using IP addresses (Internet addresses).
+    The TCP/IP-Managers address is set in a separate configuration.
+    Function blocks use the standard-BSD-4.3 interface internally.
+
+    The function block UDP_open(), consists of a BSD service "socket" and
+    "bind". Sending information is achieved using the service "sendto",
+    receiving information by using "recvfrom".
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.20
+    UDPopen - Opening a Virtual Connection with a Datagram
+
+    @021[UDPopen] (enable,port,pvpolladr,status,cident)
+
+    Parameter-Data Type :
+    ->  enable    : BIT           The function block is only enabled when
+                                  enable = 1.
+    ->  port      : WORD          TCP/IP Port assignment.
+    ->  pvpolladr : LONG          This parameter allocates the address of a PV
+                                  (process variable)that is set to one when an
+                                  activity occurs on the assigned "Socket".
+                                  The input is set to 0 if no process variable
+                                  is used for Input-Poll.
+    <-  @025[status    ]: WORD          Error number (0 = no error).
+                                  The function block must remain enabled
+                                  (see parameter enable), until the output
+                                  contains the value 0.
+
+
+
+
+                                      @021[ Continue ]                      @001[ Overview ]
+.21
+    UDPopen - Opening a Virtual Connection with a Datagram (continued)
+
+    Parameter-Data types (continued) :
+    <-  cident    : LONG          Connection Identifier (corresponds to the
+                                  socket number). This parameter identifies the
+                                  other TCPIP-Library functions for the open
+                                  connection.
+
+    The function block UDPopen()enables a TCP/IP-Port to be opened on
+    another TCP/IP-Station. The function block must remain enabled
+    (see Input "enable"), until the output "status" value becomes 0.
+
+    Note:
+    Port numbers under 1024 are reserved by TCPIP for system operation.
+    Further UDPopen calls can be carried out by using different Port numbers.
+    The number of ports that can be opened at the same time is set by the
+    configuration.
+
+
+
+
+                                                                      @001[ Overview ]
+.25
+    UDPopen - Opening a Virtual Connections with a Datagram (continued)
+
+    <- Parameter <status    >: WORD
+
+    UDPopen()function error numbers:
+    $0000    UDPopen() successfully carried out
+    $5017    Internal PNA-Table-Overflow
+    $5030    This specific address is already in use
+    $5031    This specific address is already in use
+    $1B5A    TCPIP-Configuration module is not available
+    $FFFF    Function block is still enabled, please call up again
+
+    A list of all possible TCPIP-Library Error messages can be found in 
+    Appendix @300[Error Messages].
+
+
+
+
+
+
+
+                                       @020[ UDPopen ]                      @001[ Overview ]
+.30
+    UDPsend - Sending a Datagram to another Station
+
+    @031[UDPsend] (enable,cident,ipaddr,buffer,buflng,port,status)
+
+    Parameter-Data types :
+    ->  enable    : BIT           The function block is only enabled when
+                                  enable = 1.
+    ->  cident    : LONG          Connection Identifier (from @020[UDPopen]).
+    ->  ipaddr    : LONG          IP-Address of the receiver. The IP-Address is
+                                  the conventional type TCP/IP-Network address.
+    ->  buffer    : LONG          Send buffer address.
+    ->  buflng    : WORD          Length of the Send buffer.
+    ->  port      : WORD          Receiving TCP/IP-Port.
+                                  The desired target port can be defined here
+                                  if it does not correspond to the given port
+                                  (on UDPopen call up).
+
+
+
+
+
+                                      @031[ Continue ]                      @001[ Overview ]
+.31
+    UDPsend - Sending a Datagram to another Station (continued)
+
+    Parameter-Data types (continued) :
+    <-  @035[status    ]: WORD          Error number (0 = No error).
+                                  The function block must remain enabled
+                                  (see Parameter enable)until the output
+                                  value becomes 0.
+
+    A user defined data block can be sent over the opened connection 
+    (@020[UDPopen]) using the function block UDPsend(). Defining the data
+    block that is to be sent is carried out using the parameters "buffer" and
+    "buflng".
+    The user is responsible for the interpretation of the data.
+    The desired port location can be defined through the input parameter "port".
+    When the target port corresponds to the port given in the UDPopen call,
+    this input can be set to 0.
+
+
+
+
+
+                                      @032[ Continue ]                      @001[ Overview ]
+.32
+    UDPsend - Sending a Datagram to another Station (continued)
+
+    Note:
+    The PCC has no dynamic method of naming Stations on the TCP/IP-Network,
+    therefore the basic reference is used (IP-Addresses).
+    Port numbers under 1024 are reserved by TCPIP for system operation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.35
+    UDPsend - Sending a Datagram to another Station (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers for the UDPsend()function:
+    $0000    UDPsend() successfully carried out
+    $5009    Invalid connection identifier given (Parameter "cident")
+    $5026    Invalid destination address
+    $5027    Data cannot be transferred in one unit
+    $5031    The given address is not available
+    $5033    The target network cannot be found
+    $5037    Internal PNA-Buffer is not available
+    $FFFF    The function block must be called again
+
+    A list of all possible TCPIP-Library error messages can be found in
+    Appendix @300[Error Messages].
+
+
+
+
+
+                                       @030[ UDPsend ]                      @001[ Overview ]
+.40
+    UDPrecv - Reading a Received Datagram
+
+    @041[UDPrecv] (enable,cident,buffer,buflng,status,ipaddr,rxbuflng,port)
+
+    Parameter-Data types :
+    ->  enable    : BIT           The function block is only enabled when
+                                  enable = 1.
+    ->  cident    : LONG          Connection Identifier (from @020[UDPopen]).
+    ->  buffer    : LONG          Receive Buffer address.
+    ->  buflng    : WORD          Length of the receive Buffer.
+    <-  @045[status    ]: WORD          Error number (0 = No error).
+                                  The function block must remain enabled
+                                  (see Parameter enable)until the output
+                                  value is 0.
+    <-  ipaddr    : LONG          IP-Address. The IP-Address is
+                                  the conventional type TCP/IP-Network address.
+    <-  rxbuflng  : WORD          Actual length of received data.
+    <-  port      : WORD          Sender TCP/IP-Port.
+
+
+
+                                      @041[ Continue ]                      @001[ Overview ]
+.41
+    UDPrecv - Reading a Received Datagram (continued)
+
+    Data blocks can be received(with @020[UDPopen])via the open connection by 
+    using the UDPrecv () function block. It is also possible to check with this
+    function block, whether a data block has been received through this
+    connection. The memory required by the received data must be allocated by
+    the user.
+
+    The memory required for storing data can be provided in the form of arrays.
+    It is also possible to request the required memory through the
+    MEM_alloc()function or TMP_alloc()function(see BURTRAP-Library).
+
+    Note:
+    The PCC has no dynamic method of naming Stations on the TCP/IP-Network,
+    therefore the basic reference is used (IP-Addresses).
+    Port numbers under 1024 are reserved by TCPIP for System operation.
+
+
+
+
+
+                                                                      @001[ Overview ]
+.45
+    UDPrecv - Reading a Received Datagram (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers for the UDPrecv()function:
+    $0000    UDPrecv() successfully carried out
+    $5009    Invalid connection identifier given (Parameter "cident")
+    $5023    No input available
+    $FFFF    The function block must be called up again
+
+    A list of all possible TCPIP-Library error messages can be found in
+    Appendix @300[Error Messages].
+
+
+
+
+
+
+
+
+
+                                       @040[ UDPrecv ]                      @001[ Overview ]
+.50
+    UDPclose - Closing a Datagram Connection
+
+    @050[UDPclose] (enable,cident,status)
+
+    Parameter-Data types :
+    ->  enable    : BIT           The function block is only enabled when
+                                  enable = 1.
+    ->  cident    : LONG          Connection Identifier (from @020[UDPopen]).
+    <-  @055[status    ]: WORD          Error number (0 = No error).
+                                  The function block must remain enabled
+                                  (see Parameter enable)until the output
+                                  value becomes 0.
+
+    Every connection requires specific resources (e.g. Memory). When a
+    connection is no longer needed, it is advisable to close the connection
+    see input parameter ("cident")using the function block UDPclose(). This
+    frees up the resources that can then be used for another connection.
+
+
+
+
+                                                                      @001[ Overview ]
+.55
+    UDPclose - Closing a Datagram Connection (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers of the UDPclose()function:
+    $0000    UDPclose() successfully carried out
+    $5009    Invalid connection identifier given (Parameter "cident")
+    $FFFF    The function block must be called up again
+
+    A list of all possible TCPIP-Library error messages can be found in
+    Appendix @300[Error Messages].
+
+
+
+
+
+
+
+
+
+
+                                      @050[ UDPclose ]                      @001[ Overview ]
+.60
+    ETHinfo - Infos about Ethernet Cards/Connection
+
+    @061[ETHinfo] (enable,statadr,ethadr)
+
+    Parameter-Data types :
+    ->  enable    : BIT           The function block is only enabled when
+                                  enable = 1.
+    <-  statadr   : LONG          Enters the memory area address as statistical
+                                  data.
+    <-  ethadr    : LONG          Enters the memory area address as an Ethernet-
+                                  address 
+
+    This function block returns the addresses of two memory areas in which the
+    statistical data and Ethernet addresses have been entered.
+    The user can check the actual quality of data transfer on the driver using
+    the statistical data level.
+
+
+
+
+
+                                      @061[ Continue ]                      @001[ Overview ]
+.61
+    ETHinfo - Infos about Ethernet Cards/Connection (continued)
+
+    The structure of statistics depends on the hardware module being used.
+    Statistics for the IF101 module have the structure shown below.
+
+    (Definition in C):
+
+    typedef structure
+    {
+        /* operational statistics */
+        unsigned long     l_int;            /* total number of interrupts */
+        unsigned long     l_rint;           /* rcv interrupts             */
+        unsigned long     l_tint;           /* xmt interrupts             */
+
+        /* lance functioning errors */
+        unsigned short    l_babl;           /* xmt timeout error          */
+        unsigned short    l_cerr;           /* collision error            */
+        unsigned short    l_miss;           /* miss packet error          */
+        unsigned short    l_memr;           /* memory error               */
+
+
+                                      @062[ Continue ]                      @001[ Overview ]
+.62
+    ETHinfo - Infos about Ethernet Cards/Connection (continued)
+
+        /* receiver statistics */
+        unsigned short    r_fram;           /* frame error                */
+        unsigned short    r_oflo;           /* overflow error             */
+        unsigned short    r_crc;            /* crc error                  */
+        unsigned short    r_buff;           /* buffer error               */
+
+        /* transmitter statistics */
+        unsigned short    t_buff;           /* buffer error               */
+        unsigned short    t_uflo;           /* silo underflow             */
+        unsigned short    t_lcol;           /* late collision             */
+        unsigned short    t_lcar;           /* lost carrier               */
+        unsigned short    t_rtry;           /* set per 16 retries         */
+
+        /* ni statistics */
+        unsigned short    ni_anno;
+        unsigned short    ni_init;
+        unsigned short    ni_send;
+        unsigned short    ni_getp;
+
+                                      @063[ Continue ]                      @001[ Overview ]
+.63
+    ETHinfo - Infos about Ethernet Cards/Connection (continued)
+
+        unsigned short    ni_retp;
+        unsigned short    ni_bcst;
+        unsigned short    ni_poll;
+    } LANCE_STAT;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @060[ ETHinfo ]                      @001[ Overview ]
+.200
+    APPENDIX : LIBRARY-Information
+
+
+    @201[< General Info          >]      Requirements etc.
+
+    @210[< Software Construction >]      Software for TCPIP protocol development
+
+    @220[< Configuration         >]      TCPIP Configuration module
+
+    @250[< Syntax                >]      Syntax function declaration
+
+    @300[< Error Numbers         >]      Summary of all error numbers
+
+    
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.201
+    TCPIP-Library : General Information
+
+    The aim of this software package is to provide the most efficient
+    connection route between the B&R systems 2005 and 2010 to a required
+    Ethernet network by using the transport protocol TCP/IP. In previous
+    versions, the service and exchange of data packets was
+    carried out through data sockets. It is now possible to program simple
+    Client/Server applications using an application language (PL2000, STL
+    or LAD). The use of datagram sockets does not create any limitations
+    because small data packets are normally transferred in a logical point
+    to point method.
+    The corresponding driver can be run on the interface module IF101 or IF681.
+    These interface modules are equipped with an Ethernet connection. A LANCE
+    compatible component enables efficient data exchange through DMA.
+    The Ethernet component only receives broadcast messages and data frames
+    specifically sent to it. When data is directly received, it causes a high
+    net load and a corresponding load on the Ethernet card.
+
+
+
+
+                                      @202[ Continue ]                      @001[ Overview ]
+.202
+    TCPIP-Library : General Information (continued)
+
+    The TCP/IP connection supports TCP, UDP and ICMP. The TCPIP Library
+    currently only contains function blocks for UDP creation.
+    UDP ("Datagram Sockets") provide a non-secure, efficient data exchange
+    between two IP nodes. This functionality corresponds to that of a frame
+    driver.
+
+    Note:
+    - Before you can use the functions of the TCPIP Library in your project,
+      you must import it into the corresponding project data bank.
+
+    - It is necessary to use the PCCSW Operating system version V2.00 to run
+      the TCPIP Library on IF101. In order to use the IF681, it is necessary
+      to use PCCSW version V2.01.
+
+    - All functions of the TCPIP Library provide an @300[ Error number ] when an
+      error occurs.
+
+
+
+                                      @203[ Continue ]                      @001[ Overview ]
+.203
+    TCPIP-Library : General Information (continued)
+
+    Whether additional B&R Modules should remain available in the controllers
+    non-volatile memory(User ROM)depends on which version of TCPIP Library is
+    being used:
+ 
+    TCPIP Library V1.0:
+    In order to use this TCPIP Library version it is necessary that the
+    following B&R modules are available in User ROM:
+    TCPIPMGR.BR ... This B&R module includes FBKs that connect the LANCE driver
+                    and embedding to system software with BSD sockets.
+                    Starting with this TCPIP Library version, B&R module
+                    software TCPIPMGR.BR now includes TCPIP protocol software
+                    (license necessary). 
+                    
+    TCPIPCFG.BR ... TCPIP User configuration. Data modules with the name
+                    "TCPIPCxx" are permitted, in which xx can be used as the
+                    optional characters in the data module name. However, only
+                    one such TCPIPCxx module can be installed.
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.210
+    TCPIP-Library : Software Construction
+
+    The TCPIP manager corresponds to a particular task that enables a function
+    block to be connected to the BSD socket (name of TCPIP manager in Profiler:
+    tcpi). Every function block call sends an instruction to the TCPIP manager.
+    This means that the first time a function block is activated, the function
+    block output "status" value is given as $FFFF(busy). Adequate idle time must
+    be available in order to guarantee proper processing. 
+    The "Sockets" operate using the PNA demon (name of the PNA demon in Profiler: PNAD).
+    PNAD is responsible for the TCPIP protocol and runs with a minimum cycle
+    time of 100 msec. It instructs the driver to send Ethernet packets and
+    receives an acknowledgement in the form of an interrupt from the driver when
+    new TCPIP or ARPA packets have arrived. The ICMP services (e.g. "PING") are
+    handled internally without user intervention. The @220[TCPIP configuration] is
+    read from the TCPIP configuration module TCPIPCxx.BR during the boot
+    procedure. Both non-cyclic tasks (TCPIP Manager and PNA Demon) are
+    configured so that they have a lower priority than the cyclic task classes.
+
+
+
+
+                                      @211[ Continue ]                      @001[ Overview ]
+.211
+    TCPIP-Library : Software Construction (continued)
+
+    The Hardware driver currently uses 8 input and 8 output buffers. Multicast
+    operation is not supported. The driver delivers statistical data
+    (information about the data transfer)that can be read by the
+    corresponding function block. The driver configuration cannot be altered by
+    the user.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.220
+    TCPIP-Library : Configuration
+
+    The following points about configuration should be observed:
+    - The required data areas for TCPIP communication are made available from
+      the memory area of the operating system stack. This means that a minimum
+      size of the operating system stack has to be $20000.
+      Exception: With TCPIP-Library version V1.0, the operating system stack
+      can only be set with the value $16000 when used in conjunction with the
+      IF260(this limitation is only valid until the next TCPIP-Library version).
+      The size of the operating system stack can be set in PG2000 (in system
+      configuration). To do this, call up the function <Object><Parameter> from
+      the GDM task layer. The cursor must be positioned on the "sysconf" symbol.
+      You can then select a dialog box to declare all open system parameters
+      through the function <operating system> (see Popup-Menu item
+      <Configuration>). You can change the size of the operating system stack
+      using this dialog box (see input field <Data/Stack>).
+
+
+
+
+
+                                      @221[ Continue ]                      @001[ Overview ]
+.221
+    TCPIP-Library : Configuration (continued)
+
+    The following points about configuration should be observed(continued):
+    - Communication between function blocks and TCPIPMGR requires a Queue.
+      The default of configured Queues is normally sufficient.
+    - The configuration is replaced after a cold start.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @222[ Continue ]                      @001[ Overview ]
+.222
+    TCPIP-Library : Configuration (continued)
+
+    The TCPIP-Configuration module (Standard-Data module)has the following
+    structure:
+
+    $0000,           ; version indication - fixed to zero
+    $c0224781        ; IP-Addr: 192.34.71.xx
+    $0000,           ; reserved - fixed to zero
+    $0005,           ; number of available sockets (pNA+)
+    $0018,           ; number of available descriptors (pNA+)
+    $0040,           ; number of memory buffers (pNA+)
+    $0010,           ; number of pages (pNA+)
+    $ffff0000,       ; SubNet Mask
+    00000000,        ; reserved 1
+    00000000,        ; reserved 2
+    00000000,        ; reserved 3
+    00000000,        ; reserved 4
+    00000000,        ; reserved 5
+    00000000,        ; reserved 6
+    00000000,        ; reserved 7
+
+                                      @223[ Continue ]                      @001[ Overview ]
+.223
+    TCPIP-Library : Configuration (continued)
+
+    Declaration of the TCPIP-Configuration module:
+    - IP-Addresses are described in long words.
+    - The number of sockets corresponds to the maximum possible number of
+      simultaneous UDPopen calls.
+    - The number of available descriptors, memory buffer (up to 128 Bytes)
+      and pages defines the internal elements of pNA+.
+    - The Sub Net Mask is required for the limiting of networks.
+
+    Memory demands can be changed by setting parameters.
+
+
+
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.250
+    TCPIP-Library : Description of Syntax 
+
+    Data types:
+    Special groups of data types are allowed for different functions. Data
+    types are allocated to the following groups according to their function
+    descriptions:
+    ษออออออออหอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออป
+    บ Group  บ  BIT  ณ INT8  ณ BYTE  ณ INT16 ณ WORD  ณ INT32 ณ LONG  ณ FLOAT บ
+    ฬออออออออฮอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออน
+    บ BASE   บ       ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ NON-   บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    บ FLOAT  บ       ณ       ณ       ณ       ณ       ณ       ณ       ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ ALL    บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ ARRAY  บ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  บ
+    ศออออออออสอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออผ
+      x  Data type permitted
+     [x] Data type permitted as an array or string.
+
+                                      @251[ Continue ]                      @001[ Overview ]
+.251
+    TCPIP-Library : Description of Syntax (continued)
+
+    Arrow:
+    Arrows are used for creating input and output parameters.
+    The following arrangements are valid:
+    ษอออออออออหออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ  Arrow  บ  Meaning                                                     บ
+    ฬอออออออออฮออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ   ->    บ  Input parameter                                             บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <->   บ  In/output parameter. Functions as an output parameter.      บ
+    บ         บ  The function is normally loaded with specific information   บ
+    บ         บ  before being called up (e.g. an address).                   บ
+    บ         บ  Most variable addresses are ended with adr() [PL2000], or   บ
+    บ         บ  an address contact (LAD).                                   บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <-    บ  Output parameter                                            บ
+    ศอออออออออสออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                      @252[ Continue ]                      @001[ Overview ]
+.252
+    TCPIP-Library : Description of Syntax (continued)
+
+    Function Blocks:
+    Function blocks are not displayed graphically in this Online help file.
+    All relevant information about function blocks, such as, input parameters
+    (->), in/output parameters (<->), and output parameters (<-), can be found
+    in the Online help.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.300
+    TCPIP-Library : Function Block Error Numbers
+
+    All possible TCPIP-Library error messages are listed below:
+
+    $0000    Function block successfully carried out
+    $5017    Internal PNA-Table-Overflow
+    $5023    No input available
+    $5026    Invalid destination address
+    $5027    Data cannot be transferred in one unit
+    $5030    The address specified is already in use
+    $5031    The given address is not available
+    $5033    The target network cannot be found
+    $5037    No internal PNA-Buffer is available
+    $7002    TCPIP-Configuration module is available
+    $FFFF    Function block is still enabled, call again
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+
+.End

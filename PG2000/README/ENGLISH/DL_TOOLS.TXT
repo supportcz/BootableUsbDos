@@ -1,0 +1,210 @@
+                     D o w n l o a d   T o o l s
+
+Date         : 19. November 1997 
+
+Version      : V 2.0            
+----------------------------------------------------------------------------
+General Information:
+
+The DOS Tools are used to upload, download and delete single or multiple
+modules from the PCC. Additionally, variables or modules form the PCC can be
+shown, individual memory types can be deleted and the PCC can be reset. The
+DOS Tools can be called in a batch file and can be used as an update to the
+B&R PG2000 programming software, especially for automated processing from
+application memory. It is possible to use them with PCC SW V 1.10, V1.91 and
+also with V2.0.
+
+
+The following Tools are contained in the DOS TOOLS V2.0 package:
+
+   Tool         Version Description
+   DL           V 2.0   Download modules to the PCC
+   UL           V 2.0   Upload a module from the PCC to the PC
+   DELMOD	V 2.0	Delete one or more modules
+   CLEAR	V 2.0	Delete USRROM, FIXRAM, permanent memory
+                        and the CP260 Memcard
+   BOOT         V 2.0   Resets the PCC
+   OV           V 2.0   Display modules or variables (with Profibus index)
+
+
+Connection
+DOS TOOLS V2.0 only requires an entry for a network configuration module for
+a Profibus connection, otherwise only the interface used (COM1 or COM2) is
+entered.
+
+Examples:
+/CCOM1          Connection using interface COM1
+/CCOM2          Connection using interface COM2
+/CCOM1/PP1	Connection with PP module 1 via COM1
+/CCOM1/CAN.4	Connection with CAN nodes 4 via COM1 
+/CST1           Connection with station ST1 via Profibus (also /Nnw_pb_32.br)
+
+Return Value
+If the Tools are called in a batch file, the respective return value can be
+evaluated with the command "errorlevel" or a corresponding reaction can be
+carried out.
+
+Return value:	0 for correct processing
+                1 for faulty processing
+
+Example for a batch file (test.bat):
+	boot cold /ccom1
+	@echo off
+	if errorlevel 1 goto error
+	    echo correct processing
+	    goto end			
+	:error
+	    echo faulty processing
+	:end
+	@echo on
+ 
+Help
+When calling individual Tools without a parameter, help for the respective
+Tool is given.
+
+Interrupt the Command
+Interrupting the command takes place using CTRL C or ESCAPE.
+
+1. Download
+
+With the DL function, the user can transfer one or more B&R modules to the
+PCC. The target memory (USRROM, FIXRAM or MEMCARD) can be entered using the
+respective parameters. If no memory type is entered, the target memory is
+automatically set to USERRAM. In order to handle several modules, the option
+/F and a module list must be entered. A module list is an ASCII file which
+contains one B&R module per line. Path entries are also allowed. 
+
+Example:
+c:\pg2000\system\burtrap.br
+task_1.br
+task_2.br
+task_3.br
+
+
+DOWNLOAD               Version  V2.00             (C) B&R 1997
+
+Usage: dl <modulename> [/F<modulelist>][/C<connection>][/P<password>]
+                       [/N<networkmodule>][/T[USRROM|FIXRAM|MEMCARD]]
+
+        /F      ... Instead of the module name you can
+                    specify a filename containing a list
+                    of modules
+        /C      ... network path to target PLC (default: COM2)
+        /P      ... If the PCC ist protected by a password you
+                    have to specify it here
+        /N      ... network configuration module (only for PROFIBUS)
+        /T      ... Store module in selected memory type (USRRAM=default)
+
+Example:	dl /Flist /CCOM1 /TUSRROM
+
+
+2. Upload
+The UL function is the opposite of download. One or more B&R Modules are
+transferred from the PCC to the PC. This Tool is used similarly to the DL
+Tools.
+
+UPLOAD                 Version  V2.00             (C) B&R 1997
+
+Usage: ul <modulename> [/F<modulelist>][/C<connection>][/P<password>]
+                       [/N<networkmodule>]
+
+        /F      ... Instead of the module name you can
+                    specify a filename containing a list
+                    of modules
+        /C      ... network path to target PLC (default: COM2)
+        /P      ... If the PCC is protected by a password you
+                    have to specify it here
+        /N      ... network configuration module (only for PROFIBUS)
+
+
+Example:	ul /Flist /CCOM1 
+
+
+3. DELMOD 
+With this Tool, you can remove one or more modules from the PCC. As with the
+commands DL and UL, single modules or a list can be entered.
+
+DELMOD                 Version  V2.00             (C) B&R 1997
+
+Usage: delmod <modulename> [/F<modulelist>][/C<connection>][/P<password>]
+                           [/N<networkmodule>]
+
+        /F      ... Instead of the module name you can
+                    specify a filename containing a list
+                    of modules
+        /C      ... network path to target PLC (default: COM2)
+        /P      ... If the PCC ist protected by a password you
+                    have to specify it here
+        /N      ... network configuration module (only for PROFIBUS)
+
+Example:	delmod modul.br /CCOM1
+
+
+4. Clear 
+Since the memory is not freed when removing a module from FLASH or FIXRAM,
+the DOS Tools also provides a functions to delete these memory areas.
+Additionally, this function can be used to delete the PERMANENT memory and
+also the CP260 MEMCARD provided starting with PCCSW 1.91.
+
+
+CLEAR                  Version  V2.00             (C) B&R 1997
+
+Usage: clear [/T[USRROM|FIXRAM|MEMORY|MEMCARD]][/C<connection>]
+             [/P<password>][/N<networkmodule>][/X]
+        /T      ... memory type to be cleared
+        /C      ... network path to target PLC (default: COM2)
+        /P      ... If the PCC ist protected by a password you
+                    have to specify it here
+        /N      ... network configuration module (only for PROFIBUS)
+        /X      ... no DIAG Boot
+
+Example:	clear /TUSRROM /CCOM1 
+
+Example to delete USERROM from the PP:
+                boot  diag  /CCOM1
+                clear  /X   /CCOM1/PP10  /TUSRROM
+(In order for routing or connection to the MP to be possible, the PCC is set
+to Diagnose Mode before deleting.)
+
+5. Boot
+During installation, it can be necessary to reset the PCC. The command Boot
+provides this function. It can be to perform a cold or warm start as well as
+a Halt (PCC goes in to service mode).
+
+
+BOOT                   Version  V2.00             (C) B&R 1997
+
+Usage: boot [WARM|COLD|HALT|DIAG][/C<connection>][/P<password>][/N<networkm.>]
+
+        WARM      ... proceed a WARM start at the PCC (=default)
+        COLD      ... proceed a COLD start at the PCC
+        HALT      ... proceed a HALT start at the PCC
+        DIAG      ... proceed a DIAG start at the PCC
+        /C        ... network path to target PLC (default: COM2)
+        /P        ... If the PCC is protected by a password you
+                      have to specify it here
+        /N        ... network configuration module (only for PROFIBUS)
+
+Example:	boot WARM /CCOM1
+
+
+6. OV
+This Tool allows modules or variables (with Profibus index ), which are found
+on the controller, to be shown.
+
+
+OV                     Version  V2.00             (C) B&R 1997
+
+Usage: ov [/F<modulelist>][/C<connection>][/P<password>][/N<networkmodule>]
+          [/M][/V]
+
+        /F      ... Filename, containing a list of variable names;
+                    without this option all veriables are shown
+        /C      ... network path to target PLC (default: COM2)
+        /P      ... If the PCC ist protected by a password you
+                    have to specify it here
+        /N      ... network configuration module (only for PROFIBUS)
+        /M      ... show modules
+        /V      ... show variables (=default)
+
+Example:	ov  /CCOM1

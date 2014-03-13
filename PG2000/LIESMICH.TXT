@@ -1,0 +1,40 @@
+-----------------------------------------------------------------------------
+        PG 2000 V2.xx - Programmier Software fr
+                        die B&R RPS Familie 2000
+                                                  Copyright by B&R, 1995-1998
+-----------------------------------------------------------------------------
+
+Wenn sie das PG2000 erstmals Installieren
+=========================================
+        Wenn Sie das PG2000 noch nicht auf Ihrem System installiert haben,
+        starten sie das Installations Programm (install.exe) und w„hlen
+        die Option Installieren. Danach wird auf Ihrer Festplatte ein
+        Verzeichnis (C:\PG2000 Defaultvorschalg) mit allen ben”tigten
+        Dateien des PG2000 angelegt.
+
+Wenn sie das PG2000 bereits Installieren haben
+==============================================
+        Ab der Version 2.20 wird das PG2000 mit einem Install-Tool mit
+        Update Funktion ausgeliefert. Haben Sie bereits eine Version 2.20
+        installiert, so befindet sich in Ihrem PG2000 Verzeichnis ein
+        Batch install.bat. Um ein Update durchzufhren rufen diese Prozedur
+        auf und w„hlen Sie die Funktion Aktualisieren.
+        W„hrend des Aktualisierens, werden nur jene Dateien ersetzt, welche
+        sich seit der letzten Version ge„ndert haben. Ein weiter Vorteil des
+        Aktualisierens liegt darin, daá alle Anwendereinstellungen erhalten
+        bleiben.
+
+Standard und Ausgew„hlt
+=======================
+        Neben einer Standard Installation, welche die h„ufigst verwendeten
+        Komponenten auf Ihrem System Installiert, k”nnen Sie mit der Option
+        "Ausgew„hlt" nur spezielle Teile des PG2000 auf Ihren PC kopieren.
+        Diese Option sollte nur dann verwendet werden, wenn Sie mit den
+        einzelnen Komponenten und deren Bedeutung vertraut sind.
+
+Zus„tzliche Informationen
+=========================
+        Weiterfhrende Informationen zur Installation den PG2000 finden Sie
+        in den Manuals "PG2000 Einfhrung" und "PG2000 Software Anwender
+        Handbuch".
+

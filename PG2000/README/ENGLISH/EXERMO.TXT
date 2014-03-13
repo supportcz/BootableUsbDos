@@ -1,0 +1,178 @@
+
+           ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+           º            EXERMO  V1.40              º
+           º                                       º
+           º   Exception Handler for PCCSW V1.10   º
+           ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Date:          3 January 1997
+Author:        Bernhard Hochstrasser
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+º V1.30 -> V1.40 º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+ - Supports the new CPUs "IP151", "IF152", "CP472"
+ - Supports HW configuration recognition for 2005 expansions during
+   boot-up (IO_LIB V1.60)
+ - Exception handler is no longer installed during a download, in 
+   to save memory resources -> module must be burned and a reset must
+   be carried out on the PCC
+ - Error correction for IO exceptions which are handled with exception
+   tasks and those with forced IO_disable() inputs (XP152)
+Note: Version V1.40 is already included in PCCSW V1.90 for all
+      HW plattforms and, therefore, does not have to be loaded
+      seperately !
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+º V1.20 -> V1.30 º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+Switched to a system task to support several different HW plattforms
+parallel -> "Exception Manager"
+Support the new CPUs "CP200" and "C220"
+
+ATTENTION: When using EXERMO V1.30, the number of system tasks
+           configured must be raised by 1 (PCCSWCFG)
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+º V1.13 -> V1.20 º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+Supporting the new CPU XP152 (IO-Exception).
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+º V1.12 -> V1.13 º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+Stack errors (Code 67xx or 6800) are entered in the error logbook with the
+code EXCEPTION instead INFO so the error analysis in PG V2.10 can correctly
+evaluate it.
+
+Note: The error info can be used to determine if the user stack
+      or the supervisor stack is faulty :
+               0 ... User stack
+               1 ... Supervisor stack
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+º V1.11 -> V1.12 º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+Version V1.12 of the exception handler module "exermo.br" for PCCSW V1.10
+contains the following new functions that were not in the previous versions
+of EXERMO V1.11:
+
+ - New "Nil Pointer" exception which is given when a NIL Pointer is
+   referenced with the compiler option turned on starting with PG V2.10
+                 ÚÄÄÄÄÄÄÄÄ¿
+   Display 2010: ³N status³       Error module entry  : Code 9133
+                 ³P addr  ³       Exception number PG : 7
+                 ÀÄÄÄÄÄÄÄÄÙ
+ - New "Range Overflow" exception which is given when a field dimension is
+   exceeded with the compiler option turned on starting with PG V2.10
+                 ÚÄÄÄÄÄÄÄÄ¿
+   Display 2010: ³R status³       Error module entry  : Code 9134
+                 ³O addr  ³       Exception number PG : 6
+                 ÀÄÄÄÄÄÄÄÄÙ
+ - Supporting exceptions which are given by nachladbare firmware expansions
+   e.g. Remote IO exceptions starting with RIOTRAP V4.0
+
+ - Error correction : Even though an exception task is not provided,
+                      it is possible that an exception is ignored if the
+                      module "exermo.br" is loaded.
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+º V1.10 -> V1.11 º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+Version V1.11 of the exception handler module "exermo.br" for PCCSW V1.10
+contains the following functions that were not in previous versions
+of EXERMO V1.10:
+
+ - Used both in PCCSW V1.10 and also in PCCSW V1.05
+
+ - Standardize the handling of IO exceptions (for 2010 IO, 2005 Main IO
+   and 2005 Expansion). An IO exception is given if an error occurs when
+   accessing an IO module (exception number 128).
+
+   If an exception task is not provided, the IO exception report is given
+   in the error module or for the 2010 systems also on the display :
+
+             IO EXC for 2010 IO     IO EXC for 2005 IO
+
+                 ÚÄÄÄÄÄÄÄÄ¿             ÚÄÄÄÄÄÄÄÄ¿
+                 ³IO xx yy³             ³IO xx yy³
+                 ³Mzz  abc³             ³Mrzz abc³
+                 ÀÄÄÄÄÄÄÄÄÙ             ÀÄÄÄÄÄÄÄÄÙ
+
+        xx : "TI"=Timeout, "RP"=Repeat
+        yy : Shovel Table Priority (not available for 2005 Main IO !)
+        zz : Module address where the error has occured
+        r  : Rack 2005 (0=Main, 1=1.Expansion etc.)
+        a  : R=Read(Input),  W=Write(Output)
+        b  : N=Normal,  S=Status area of the module
+        c  : M=Module addr., K=Code, I=Internal Addr. D=Data
+
+   Note: The text "IO" in line1/column1 replaces the previous string "PE".
+
+   Error module entry :
+
+        1 WORD for the error code :
+           9111        Periell error 2010-IO
+           9150+i      Shovel error 2005 expansion i
+
+        1 LONG = 4 Byte as INFO :
+         ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+         ³Module addr  ³     Code    ³Internal addr ³ Byte length ³
+         ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+   In the code, bit 5 is used for Read/Write (0=Write, 1=Read), bit 6
+   for Status/Normal (0=Normal, 1=Status).
+   The internal address gives the offset on the IO module.
+   Only bits 0-6 are used for the length. Since 2005 main IO is always
+   shoveled bytewise, the length 1 is always used !
+
+   An IO exception task is called (exception number 128) if it is provided,
+   then the IO is handled.
+
+ - Bercksichtigung der FBKs IO_info, IO_check and IO_list
+
+ - Error info for cycle time violations
+          4=0x04  Output cycle violations
+          8=0x08  Input cycle violations
+         16=0x10  Cycle violations of the application
+         32=0x20  Internal error
+         64=0x40  Maximum cycle violation of the application
+
+ - Error correction : For task class 1-4 cycle violations, the text "TC#1"
+   is always shown on the display and the error 99120 is always entered in
+   the error module (cycle time violation task class 1).
+
+
+Limitation of the PCCSW V1.05 :
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+ - No monitoring of HS task class cycle time (max. and normal)
+
+ - No stack check for fatal errors (T:x, F:y)
+
+ - No exception tasks, so no possibility to intercept exceptions
+
+
+Important changes when using "exermo.br" V1.11 in PCCSW V1.11:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ - The module "zykexmo.br" may no longer be used, the functionality is
+   covered in "exermo.br"
+
+ - In order to turn off cycle time monitoring (to coorespond to the previous
+   behavior if the module "zykexmo" is not loaded), the FBK ZYKVL_enable (0)
+   must be called. If this FBK is not called, the cycle time default is
+   monitored in PCCSW V1.05 with EXERMO V1.11; the cycle time default is
+   not (!) monitored in PCCSW V1.10 .
+
+

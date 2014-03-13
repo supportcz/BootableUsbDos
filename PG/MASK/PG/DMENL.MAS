@@ -1,0 +1,40 @@
+#TXT 00 00 08 78  _Header:
+#VAR 00 17 45 01 78 00 66 N N J N N 00 00 00 
+#VAR 01 17 45 01 78 00 66 N N J N N 00 00 00 
+#VAR 02 17 45 01 78 00 66 N N J N N 00 00 00 
+#VAR 03 17 45 01 78 00 66 N N J N N 00 00 00 
+#TXT 04 01 12 78  Init-String:
+#TXT 05 01 05 78  Pre_:
+#VAR 05 10 64 01 78 00 66 N N J N N 00 00 00 
+#TXT 06 01 05 78  Post:
+#VAR 06 10 64 01 78 00 66 N N J N N 00 00 00 
+#TXT 08 04 23 78  Program_______________:
+#VAR 08 28 01 01 78 03 66 N N J J N 01 00 01 
+#TXT 09 04 23 78  Data_table____________:
+#VAR 09 28 01 01 78 03 66 N N J J N 02 00 02 
+#TXT 10 04 23 78  Label_list____________:
+#VAR 10 28 01 01 78 03 66 N N J J N 03 00 03 
+#TXT 11 04 23 78  Header________________:
+#VAR 11 28 01 01 78 03 66 N N J J N 04 00 04 
+#TXT 12 04 23 78  Symbolic_names________:
+#VAR 12 28 01 01 78 03 66 N N J J N 05 00 05 
+#TXT 13 04 23 78  Sequence_chart________:
+#VAR 13 28 01 01 78 03 66 N N J J N 06 00 06 
+#TXT 14 04 23 78  Ladder_diagrams_______:
+#VAR 14 28 01 01 78 03 66 N N J J N 07 00 07 
+#TXT 15 04 23 78  Ladder_addresses______:
+#VAR 15 28 01 01 78 03 66 N N J J N 08 00 08 
+#TXT 16 04 23 78  Ladder_list___________:
+#VAR 16 28 01 01 78 03 66 N N J J N 09 00 09 
+#TXT 17 04 23 78  FBK_list______________:
+#VAR 17 28 01 01 78 03 66 N N J J N 10 00 10 
+#TXT 18 04 23 78  Ladder_XREF___________:
+#VAR 18 28 01 01 78 03 66 N N J J N 11 00 11 
+#TXT 19 04 23 78  XREF_list_____________:
+#VAR 19 28 01 01 78 03 66 N N J J N 12 00 12 
+#TXT 20 04 23 78  Ladder_STL____________:
+#VAR 20 28 01 01 78 03 66 N N J J N 13 00 99 
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS YNyn

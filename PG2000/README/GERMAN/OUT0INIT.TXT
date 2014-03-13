@@ -1,0 +1,29 @@
+
+
+                      Dokumentation
+
+                       OUT0INIT.BR
+
+     Initialisieren der Outputs mit Null im Hochlauf
+
+
+
+ Datum      :      6. Juni 1994
+ Version    :      V1.10
+ Verfasser  :      Bernhard Hochstrasser
+
+
+ Der Systemtask out0init.br initialisiert in jedem Hochlauf alle
+batteriegepufferten Outputs mit dem Wert 0 (Null), und zwar vor dem Aufruf
+der Init-UPs der SPS-Tasks. Damit sind auch nach einem INIT-Hochlauf
+(POWERFAIL) alle Outputs mit Null initialisiert, sie kînnen aber im Init-UP
+eines SPS-Task auf beliebige Werte gesetzt werden.
+
+ Voraussetzung fÅr die Initialisierung der Outputs ist, da· das
+Systemtask-Modul out0init.br gebrannt bzw. fixiert ist !
+
+Achtung : Der Systemtask out0init.br initialisiert die Outputs nur in
+========  SPSSW-Versionen ab V1.10.
+          In der SPSSW-Version V1.05 werden die Outputs nicht (!)
+          initialisiert.
+

@@ -1,0 +1,442 @@
+%%
+1,0:1
+%%
+.1
+    Funktionen der Parallelprozessor-Library
+
+  ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ ACHTUNG: Da die Parallelprozessor-Library AVT-Funktionen enthlt, k”nnen  บ
+  บ          die Funktionen dieser Library nur verwendet werden, wenn das     บ
+  บ          Library-Runtime-Modul (B&R-Modul PPMAN.BR) im nullspannungs-     บ
+  บ          sicheren Speicher (Anwender-ROM) der Steuerung vorhanden ist!    บ
+  บ          Nach dem bertragen des Library-Runtime-Moduls in den null-      บ
+  บ          spannungssicheren Speicher muแ ein KALTSTART (frher "TOTALINIT" บ
+  บ          genannt) durchgefhrt werden.                                    บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+
+
+                                     @002[ Fortsetzung ]               @999[ HILFE beenden ]
+.2
+    Funktionen der Parallelprozessor-Library (Fortsetzung)
+
+    Nach dem Importieren der Parallelprozessor-Library stehen Ihnen folgende
+    Funktionen zur Verfgung:
+
+    @020[PP_ident  ] Ident-Nummer des Parallelprozessors anfordern
+    @030[PP_trigger] Starten der HS#2 am Parallelprozessor (PP-HSTC)
+    @040[PP_ready  ] Prfen, ob die HS#2 am Parallelprozessor (PP-HSTC) bereit ist
+
+    Diese Funktionen k”nnen nur auf der Zentraleinheit verwendet werden!
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ bersicht ]
+.20
+    PP_ident - Ident-Nummer des PPs anfordern
+
+    @021[PP_ident] (enable,module_no,pp_ident,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  @025[module_no ]: WORD          Moduladresse des Parallelprozessors in
+                                  dezimaler Form.
+    <-  pp_ident  : LONG          Ident-Nummer des Parallelprozessors. Diese
+                                  Ident-Nummer wird fr die anderen Funktionen
+                                  der Parallelprozessor-Library ben”tigt.
+    <-  @026[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Die Funktion PP_ident() liefert die Ident-Nummer des Parallelprozessors mit
+    der angegebenen Moduladresse. Die Ident-Nummer des Parallelprozessors (PPs)
+    wird fr die anderen Funktionen der Parallelprozessor-Library ben”tigt.
+    Die Funktion PP_ident() kann nur auf der CPU verwendet werden!
+
+
+
+                                     @021[ Fortsetzung ]                   @001[ bersicht ]
+.21
+    PP_ident - Ident-Nummer des PPs anfordern (Fortsetzung)
+
+    Ein fehlerfreier Aufruf der Funktion PP_ident() ist nur m”glich, wenn
+    am Parallelprozessor die PP-HSTC konfiguriert ist (schlagen Sie dazu im
+    Kapitel "Systemkonfiguration" des "B&R SYSTEM 2000 System-Software
+    Referenzhandbuch" nach).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ bersicht ]
+.25
+    PP_ident - Ident-Nummer des PPs anfordern (Fortsetzung)
+
+    -> Parameter <module_no >: WORD
+
+    Moduladresse des Parallelprozessors:
+
+    B&R 2010 ... Die Moduladresse des Parallelprozessors ist nicht steckplatz-
+                 abhngig, sondern wird durch einen Nummernschalter auf dem
+                 Modul eingestellt.
+    B&R 2005 ... Die Moduladresse ist durch den Steckplatz bestimmt (Steck-
+                 platzcodierung). Die Zhlung der Adressierung beginnt bei
+                 Steckplatz mit der Moduladresse 1.
+
+
+
+
+
+
+
+
+
+                                      @020[ PP_ident ]                     @001[ bersicht ]
+.26
+    PP_ident - Ident-Nummer des PPs anfordern (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion PP_ident():
+    8016    Referenziertes Systemmodul (Parallelprozessor) fehlt
+
+    Eine Liste aller m”glichen Fehlermeldungen der Parallelprozessor-Library
+    finden Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @020[ PP_ident ]                     @001[ bersicht ]
+.30
+    PP_trigger - Starten der HS#2 am PP
+
+    @030[PP_trigger] (enable,pp_ident,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  pp_ident  : LONG          Ident-Nummer des Parallelprozessors
+                                  (von @020[PP_ident]).
+    <-  @035[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion PP_trigger() k”nnen Sie am Parallelprozessor mit der ange-
+    gebenen Ident-Nummer ("pp_ident") einen Interrupt ausl”sen, der die PP-HSTC
+    startet. Ist die PP-HSTC noch nicht bereit, wird am Ausgang "status" die
+    Fehlernummer 6354 ausgegeben.
+    Die Funktion PP_trigger() kann nur auf der CPU verwendet werden!
+    Ein fehlerfreier Aufruf der Funktion PP_trigger() ist nur m”glich, wenn am
+    Parallelprozessor die PP-HSTC konfiguriert ist. Weitere Informationen zum
+    Thema "PP-HSTC" finden Sie im "B&R SYSTEM 2000 System-Software Referenz-
+    handbuch".
+
+                                                                     @001[ bersicht ]
+.35
+    PP_trigger - Starten der HS#2 am PP (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion PP_trigger():
+    6354    PP-HSTC-Zyklus noch nicht fertig
+    6355    Keine PP-HSTC am PP installiert bzw. gestartet
+
+    Eine Liste aller m”glichen Fehlermeldungen der Parallelprozessor-Library
+    finden Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+
+
+
+                                     @030[ PP_trigger ]                    @001[ bersicht ]
+.40
+    PP_ready - Prfen, ob die HS#2 am PP bereit ist
+
+    @040[PP_ready] (enable,pp_ident,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  pp_ident  : LONG          Ident-Nummer des Parallelprozessors
+                                  (von @020[PP_ident]).
+    <-  @045[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion PP_ready() k”nnen Sie feststellen, ob die PP-HSTC am
+    Parallelprozessor mit der angegebenen Ident-Nummer ("pp_ident") bereit ist,
+    d.h. ob der letzte PP-HSTC-Zyklus abgeschlossen ist. Ist die PP-HSTC noch
+    nicht bereit, wird am Ausgang "status" die Fehlernummer 6354 ausgegeben.
+    Die Funktion PP_ready() kann nur auf der CPU verwendet werden!
+    Ein fehlerfreier Aufruf der Funktion PP_ready() ist nur m”glich, wenn
+    am Parallelprozessor die PP-HSTC konfiguriert ist (schlagen Sie dazu im
+    Kapitel "Systemkonfiguration" des "B&R SYSTEM 2000 System-Software
+    Referenzhandbuch" nach).
+
+                                                                     @001[ bersicht ]
+.45
+    PP_ready - Prfen, ob die HS#2 am PP bereit ist (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion PP_ready():
+    6354    PP-HSTC-Zyklus noch nicht fertig
+    6355    Keine PP-HSTC am PP installiert bzw. gestartet
+
+    Eine Liste aller m”glichen Fehlermeldungen der Parallelprozessor-Library
+    finden Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+
+
+
+                                      @040[ PP_ready ]                     @001[ bersicht ]
+.200
+    ANHANG : LIBRARY-Informationen
+
+
+    @201[< Allgemeines       >]      Voraussetzungen etc.
+
+    @250[< Syntax            >]      Syntax fr die Erklrung der Funktionen
+
+    @300[< Fehlernummern     >]      Zusammenfassung aller Fehlernummern
+
+    @350[< Ausfhrungszeiten >]      Ausfhrungszeiten und Stackbedarf
+
+    @400[< History           >]      Neue Funktionalitten und Versionsnderungen
+
+
+
+
+
+
+
+
+
+                                                                     @001[ bersicht ]
+.201
+    Parallelprozessor-Library : Allgemeines
+
+    Bei Multiprozessoren (MPs) und Parallelprozessoren (PPs) kann neben einer
+    Timer-HSTC auch eine eigene Multiprozessor- bzw. Parallelprozessor-HS-
+    Taskklasse (kurz: MP-HSTC bzw. PP-HSTC) konfiguriert werden.
+    Die PP-HSTC wird nicht durch einen Hardware-Timer, sondern ber die
+    Funktionen der Parallelprozessor-Library in der Applikation der Haupt-CPU
+    ausgel”st. Dadurch k”nnen Teile der Applikation auf dem Parallelprozessor
+    (synchron zur Haupt-CPU) ausgefhrt werden.
+
+    Anmerkungen:
+    - Bevor Sie die Funktionen der Parallelprozessor-Library in Ihrem Projekt
+      verwenden k”nnen, mssen Sie die Library in die entsprechende Projekt-
+      Datenbank importieren.
+
+    - Die Funktionen der Parallelprozessor-Library k”nnen nur verwendet werden,
+      wenn das B&R-Modul PPMAN.BR sowohl im Anwender-ROM der Haupt-CPU als auch
+      im Anwender-ROM des Parallelprozessors vorhanden ist.
+
+
+
+                                     @202[ Fortsetzung ]                   @001[ bersicht ]
+.202
+    Parallelprozessor-Library : Allgemeines (Fortsetzung)
+
+    - Da die Parallelprozessor-Library AVT-Funktionen enthlt, k”nnen die
+      Funktionen dieser Library nur verwendet werden, wenn das Library-Runtime-
+      Modul (B&R-Modul PPMAN.BR) im Anwender-ROM der CPU vorhanden ist.
+
+    - Die Laufzeiten der Tasks in der PP-HSTC drfen nicht zu lang sein
+      (Laufzeitmessung mit dem Profiler), da eine berlastung der PP-HSTC
+      zu einem totalen Zeitengpaแ (Fehler 6002) fhren kann.
+
+    - Alle Funktionen der Parallelprozessor-Library liefern im Fehlerfall als
+      Ergebnis eine @300[Fehlernummer].
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ bersicht ]
+.250
+    Parallelprozessor-Library : Syntaxbeschreibung
+
+    Datentypen:
+    Fr viele Funktionen sind bestimmte Gruppen von Datentypen zulssig. Um
+    bei der Funktionsbeschreibung nicht alle zulssigen Datentypen anfhren
+    zu mssen, werden folgende Gruppenbezeichnungen eingefhrt:
+    ษออออออออหอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออป
+    บ Gruppe บ  BIT  ณ INT8  ณ BYTE  ณ INT16 ณ WORD  ณ INT32 ณ LONG  ณ FLOAT บ
+    ฬออออออออฮอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออน
+    บ BASIS  บ       ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ NICHT  บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    บ FLOAT  บ       ณ       ณ       ณ       ณ       ณ       ณ       ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ ALLE   บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ FELD   บ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  บ
+    ศออออออออสอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออผ
+      x  Datentyp ist zulssig
+     [x] Datentyp ist zulssig als Feldvariable oder Zeichenkette (String)
+
+                                     @251[ Fortsetzung ]                   @001[ bersicht ]
+.251
+    Parallelprozessor-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Pfeile:
+    Fr die Darstellung von Eingangs- und Ausgangsparametern werden Pfeile
+    verwendet. Dabei gilt folgende Vereinbarung:
+    ษอออออออออหออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ  Pfeil  บ  Bedeutung                                                   บ
+    ฬอออออออออฮออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ   ->    บ  Eingangsparameter                                           บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <->   บ  Ein-/Ausgangsparameter. Funktionell ist es ein Ausgangs-    บ
+    บ         บ  parameter. blicherweise wird er aber vor dem Aufruf der    บ
+    บ         บ  Funktion mit einer bestimmten Information geladen (z.B.     บ
+    บ         บ  einer Adresse). Meist wird die Adresse einer Variable mit   บ
+    บ         บ  adr() [PL2000] oder einem Adreแkontakt [KOP] angeschlossen. บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <-    บ  Ausgangsparameter                                           บ
+    ศอออออออออสออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                     @252[ Fortsetzung ]                   @001[ bersicht ]
+.252
+    Parallelprozessor-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Funktionsbl”cke:
+    Funktionsbl”cke sind in dieser Online-Hilfe nicht grafisch dargestellt.
+    Sie finden aber alle fr Funktionsbl”cke relevanten Informationen, wie
+    Eingangsparameter (->), Ein-/Ausgangsparameter (<->) und Ausgangsparameter
+    (<-) in der Online-Hilfe.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ bersicht ]
+.300
+    Parallelprozessor-Library : Fehlernummern
+
+    Die folgende Liste ist eine Zusammenfassung aller m”glichen Fehlermeldungen
+    der Parallelprozessor-Library:
+
+    6354    PP-HSTC-Zyklus noch nicht fertig
+    6355    Keine PP-HSTC am PP installiert bzw. gestartet
+    8016    Referenziertes Systemmodul (Parallelprozessor) fehlt
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ bersicht ]
+.350
+    Parallelprozessor-Library : Ausfhrungszeiten
+
+    Die folgende Tabelle zeigt die Ausfhrungszeiten der Parallelprozessor-
+    Library-Funktionen sowie deren Stackbedarf:
+
+    ษออออออออออออหอออออออออออออออัอออออออออออัอออออออออออออออัออออออออออออออป
+    บ Funktion   บ  Ausfhrungs- ณ Userstack ณ  Supervisor-  ณ bei CPU      บ
+    บ            บ  zeiten [ๆs]  ณ  [Bytes]  ณ stack [Bytes] ณ              บ
+    ฬออออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุออออออออออออออน
+    บ PP_ident   บ      150      ณ     96    ณ       50      ณ CP1xx, XP152 บ
+    บ PP_trigger บ      105      ณ     52    ณ       46      ณ CP1xx, XP152 บ
+    บ PP_ready   บ       95      ณ     52    ณ       46      ณ CP1xx, XP152 บ
+    ศออออออออออออสอออออออออออออออฯอออออออออออฯอออออออออออออออฯออออออออออออออผ
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ bersicht ]
+.400
+    Parallelprozessor-Library : History - Versionsnderungen
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.00 -> V1.10  ณ AKTUELLE VERSION: Neue Funktionalitten                 บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ Untersttzung der Parallelprozessoren des Systems B&R 2005 (CP15x, XP152, บ
+  บ IP151, IF152, usw.).                                                      บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V1.00           ณ LTERE VERSIONEN: Neue Funktionalitten                 บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ Untersttzung von CP10x und IF10x / MP100.                                บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ bersicht ]
+
+.End

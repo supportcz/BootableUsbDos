@@ -1,0 +1,2697 @@
+%%
+1,0:1
+%%
+
+.1
+    PLCSW V1.10 : New Functionality
+
+    @ 10[< Boot Up Behaviour      >]    Different Boot Up Modes
+    @ 30[< PLCIO                  >]    Initialization and Commanding
+    @ 50[< Task Classes           >]    HS-Task Classes, Interrupt Task Class
+    @ 70[< Exceptions             >]    Exception Tasks / EXC Reporting
+    @ 80[< Configuration          >]    Extended Possibilities
+    @ 95[< FIX RAM                >]    Battery backed data storage in RAM
+    @100[< CP102                  >]    2010 Low-End CPU
+    @105[< Battery Test           >]    Evaluation Possibilities
+    @110[< Key Switch             >]    Behaviour at different positions
+    @115[< Variable Access        >]    Extended Access (Panelware)
+    @120[< Profibus               >]    Configuration
+    @125[< PG2000 Communication   >]    All Serial Interfaces are usable
+    @130[< Firmware Extensions    >]    Downloadable System Modules
+    @140[< Multiprocessor         >]    MP with PLCSW
+    @131[< B&R Library            >]    New Functions
+    @136[< Remote IO              >]    Firmware extentions
+    @145[< PLCIO Configuration    >]    Disable Module "spsio"
+    @160[< Profiler V1.10         >]    Extensions
+
+    @  2[  General Info  ]            @200[ Differences to V1.05 ]            @999[ Exit Help ]
+.2
+    PLCSW V1.10
+
+    The PLCSW version V1.10, follwoing version V1.05, has been clearly extented
+    functionally. It also has differences in behaviour and operation in places.
+    All the extensions and differences to V1.05 are described in this help
+    file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @  1[ New Functionality ]         @200[ Differences to V1.05 ]            @  1[  Overview  ]
+.10
+    Boot Up Behaviour
+
+    On the PLC CPU, there are 6 different Boot Up modes, 2 new ones with
+    V1.10:
+
+    @11[ TOTALINIT        ]           V1.05 : URINIT
+    @15[ INIT             ]
+    @17[ RESET / Watchdog ]
+    @18[ RECONFIG         ]
+    @19[ ERROR            ]           new in V1.10
+    @20[ DIAGNOSE         ]           new in V1.10
+
+    A possible outcome of a boot up is SERVICE mode. The PLC goes into SERVICE
+    mode if - an error occurs during boot up or
+            - the last boot up mode was RESET/Watchdog, ERROR or DIAGNOSE or
+            - the key switch is in the SERVICE position.
+
+
+    @ 26[ FBK recognition ]             recognition of INIT / TOTALINIT in FBK
+
+
+    @ 22[  SERVICE Mode  ]            @ 25[  Problems at Boot Up  ]           @  1[  Overview  ]
+.11
+    Boot Up Mode TOTALINIT
+
+    With TOTAL INIT (FirstInit in V1.05) the entire PLC is newly initialized.
+    All RAM contents are lost, especially modules that were only loaded into
+    RAM. The system and application is constructed from the modules that are
+    located in the non-volatile memory areas (OTP, EPROM, FIX RAM V1.10).
+
+    All Pvs (INTERNAL, Input, Output) as well as the static areas of the global
+    FBKs are initialized with the value 0.
+
+    All system bus modules that are lpugged in are located and the necessary
+    initializations are done.
+
+    At the end of the boot-up, the applocations are started in the following
+    order:
+
+
+
+
+
+
+    @ 12[  Continue...   ]            @ 10[ Boot Up Behaviour ]               @  1[  Overview  ]
+.12
+    Boot Up Mode TOTALINIT (Continued)
+
+    - Call the Init-SPs of all exception tasks and activate the EXC task class.
+      From this time on, all exceptions are dealt with by the aptional available
+      user exception task.
+    - Call the Init-SPs of all other PLC tasks in this order: HS#1, HS#2, HS#3,
+      HS#4, TC#1, TC#2, TC#3, TC#4, IRQTC. If a install number is given for the
+      tasks, the Init-SPs within the tasks class are run in this order. There is
+      still no cycle time monitoring for the Init-SPs, i.e. they can take any
+      amount of time !
+      When calling Init-SPs of interrupt tasks, the interrupt is enabled. From
+      this time on, all interrupts are dealt with be this interrupt handler.
+    - Preparing of the EMERGENCY STOP RELAY and turning on the RUN led.
+    - Starting of the cyclic applications : HS task classes 1-4, task
+      classes 1-4, and non-cyclic applications (user/idle time tasks,
+      communcation).
+
+
+
+
+
+    @ 13[  Continue...   ]            @ 10[ Boot Up Behaviour ]               @  1[  Overview  ]
+.13
+    Boot Up Mode TOTALINIT (Continued)
+
+    From V1.10 on, this method guarantees that all INIT-SPs of all PLC tasks are
+    executed before the 1st cyclic part of a PLC task or interrupt task is run.
+    An exception is the exception taksk. Since exceptions can occur in the
+    INIT-SP handling of the PLC tasks, the exception tasks are activated as soon
+    as possible to allow user defined behaviour.
+
+    Hints for the start of the task classes: The task classes 1-4 (e.g cycle
+    times of 10/50/100/500 millliseconds) are started with an offset according
+    to the system cycle (10 milliseconds). This is so the minimum number of task
+    classes start at the same time. This provides some idle time for the user
+    (idle time) tasks. (In the above example, TC#1 runs each cycle, TC#2 runs in
+    cycles 2, 7, 12, 17 etc. TC#3 at 3, 13, 23, 33 etc and TC#4 in the 4th, 54th
+    and 104th cycles.)
+
+
+
+
+
+
+    @ 14[  Continue...   ]            @ 10[ Boot Up Behaviour ]               @  1[  Overview  ]
+.14
+    Boot Up Mode TOTALINIT (Continued)
+
+    Reasons for a TOTALINIT :
+
+    - TOTALINIT via communication (PG2000)
+    - Selection via keys, unless the key switch position RUN (2010 : select
+      "T"= TOTALINIT with mode, then SELECT. 2005 : Press the upper key.)
+    - APM change, if the APM contents have been changed.
+    - Fatal error while testing a new configation module (PLCSWCFG)
+    - Call the function SYSreset() with TOTALINIT mode
+    - Double reset (if the reset key is pressed during the boot up phase, the
+      PLC boots up again with a TOTALINIT)
+    - Each boot up after a diagnose mode boot up (except another diagnose)
+
+    Display Indicator on 2010 Systems : "TI"
+
+
+
+
+
+
+                                @ 10[ Boot Up Behaviour ]               @  1[  Overview  ]
+.15
+    Boot Up Mode INIT
+
+    With an INIT, all battery backed data is kept (all modules, in RAM, all
+    local and global internal PVs, PLCIO, FBK data). In this manner, all PLC
+    tasks, user tasks, TCs, HS-TCs etc. have the same state as before the INIT
+    (RUNNING or STOPPED).
+
+    ATTENTION : Since the remote IO and MP are not battery backed (on the MP,
+    only the APM is buffered, therefore the MP looses its data when the APM is
+    removed), this data is re-initialized with an INIT.
+
+    ATTENTION : Since the PLCIO values are battery backed, the outputs are also
+    maintained. The initialization with a specific value, e.g ZERO, must be done
+    in the INIT-SP.
+
+    All INIT-SPs of the PLC tasks are called in the same order as for a TOTAL
+    INIT, even if the PLC task or task class is stopped. If the PLC task or task
+    class is started again later, only the cyclic PLC task code is run.
+
+
+
+    @ 16[  Continue...   ]            @ 10[ Boot Up Behaviour ]               @  1[  Overview  ]
+.16
+    Boot Up Mode INIT (Continued)
+
+    When using IPs (Intelligent Peripherals), the modules are spooled onto the
+    corresponding module with an INIT.
+
+    ATTENTION: Newly added system bus modules are not recognized with an INIT.
+    They are only recognized and initialized with a TOTALINIT.
+
+    Reasons for an INIT :
+
+    - INIT via Communication (PG2000)
+    - Selection with the keys, unless the key switch position is RUN
+      (only 2010 : select indicator "I" with MODE, then SELECT)
+    - POWERFAIL
+    - Call the function SYSreset() with INIT mode
+    - Change the key switch position from SERVICE to PROGRAM
+
+    Display Indicator on 2010 Systems : "IN"
+
+
+
+                                @ 10[ Boot Up Behaviour ]               @  1[  Overview  ]
+.17
+    Boot Up Mode RESET / WATCHDOG
+
+    With RESET / WATCHDOG, all data in the RAM is kept, like with the INIT.
+    Neither the USER tasks or PLC tasks are started and the PLC is switched into
+    SERVICE mode. The entire USER application is inactive. An entry is made in
+    the error module "Boot Up due to Reset/Watchdog".
+
+    Reasons for a Reset / Watchdog :
+
+    - WATCHDOG didn't report at the right time due to system SW, therefore fatal
+      HW or SW error.
+    - Pressing the reset button on the CPU module 2010 / 2005
+    - Changing the key switch from PROGRAM to SERVICE.
+
+    Display Indicator on 2010 Systems : "RS"
+
+
+
+
+
+
+                                @ 10[ Boot Up Behaviour ]               @  1[  Overview  ]
+.18
+    Boot Up Mode RECONFIG
+
+    The reconfig mode has a special status. It is only used when testing a new
+    PLCSW configuration module (PLCSWCFG) to encable testina a new PLCSW
+    configuration module without burning it. It corresponds to the TOTALINIT
+    mode, except that the configuration module is taken from the RAM. If a fatal
+    error occurs during testing, you can analyse and correct the error in the
+    new configuration module with the Error Analysis.
+
+    Reason for a Reconfig :
+
+    - Testing a new configuration module with PLCSWCFG
+
+    Display Indicator on 2010 Systems : "RE"
+
+
+
+
+
+
+
+                                @ 10[ Boot Up Behaviour ]               @  1[  Overview  ]
+.19
+    Boot Up Mode ERROR
+
+    If a fatal error on the PLC occurs (in boot up or in the cyclic system), the
+    error is entered in the error module. On the 2010 systems ti is also shown
+    on the display. following this, the PLC automatically boots up in ERROR mode
+    and goes int SERVICE mode. The behaviour on ERROR is the same as for
+    RESET/Watchdog, and on 2010 systems, the error is displayey again at the end
+    of the boot up phase. Using this, you can read the error from the display on
+    2010 systems as before, but also via commuication access to the PLC, you can
+    perform an error analysis.
+
+    This mode was added in V1.10.
+
+    Reason for an ERROR :
+
+    - Fatal error during boot up or cyclic system
+
+    Display Indicator on 2010 Systems : "ER"
+
+
+
+                                @ 10[ Boot Up Behaviour ]               @  1[  Overview  ]
+.20
+    Boot Up Mode DIAGNOSE
+
+    With DIAGNOSE, only the firmware modules (= blank APM !) are installed. All
+    modules in the EPROM and FIX RAM are not installed. Using this, an error
+    caused by a downloaded module that cannot be removed with a TOTAL INIT from
+    the EPROM or FIX RAM, can be removed without having to erase the entire
+    EPROM/FIX RAM.
+    The entire FIX RAM can ONLY be deleted IN THIS MODE, SINCE it must be
+    guaranteed that no modules in FIX RAM are being referenced.
+
+    SERVICE mode is always set from disgnose mode.
+
+    WHile in diagnose mode all modules in the EPROM/FIX RAM can be displayed
+    using the PLCSWCFG ("defect" indicates that the module checksum is wrong).
+    There is also the possibility to remove individual modules so that the
+    system can be correctly boot up again.
+
+    After booting up in DIAGNOSE mode, only a TOTAL INIT or a DIAGNOSE boot can
+    be done. An INIT is not possible.
+
+
+    @ 21[  Continue...   ]            @ 10[ Boot Up Behaviour ]               @  1[  Overview  ]
+.21
+    Boot Up Mode DIAGNOSE (Continued)
+
+    This mode was added in V1.10.
+
+    Reason fo a Diagnose :
+
+    - DIAGNOSE via communication (PG2000)
+    - By simultaneously pressing the RESET button and the keys on the CPU
+      module, then releasing the RESET button.
+      The key switch must not be in the RUN possition.
+      With 2010 systems, both keys must be pressed simultaneously before the
+      RESET button can be let go, then the PLC immediately boot up in diagnose.
+      With 2005 systems, hold the only key down for 5 seconds after letting go
+      of the RESET button untill only the LEDS READY and ERROR are lit. The PLC
+      will now boot up in diagnose mode.
+
+    Display Indicator on 2010 Systems : "DI"
+
+
+
+
+                                @ 10[ Boot Up Behaviour ]               @  1[  Overview  ]
+.22
+    SERVICE Mode
+
+    As described above, if an error occurs during boot up or the boot up modes
+    RESET, ERROR and DIAGNOSE as well as turning the key switch into SERVICE
+    mode, the PLC goes into SERVICE mode. The SERVICE mode is not a boot up
+    mode, it is only the consequence of a boot up where the application is not
+    started. Only the system software runs in service mode. The entire user
+    application is inactive.
+
+    If an INIT is triggered in SERVICE mode, the PLC boots up in INIT mode and
+    starts the whole user application as it was before the SERVICE mode was
+    activated. All objects are in the same state after the INIT as they were
+    before SERVICE mode. In this waym the application can be started again after
+    an error.
+
+
+
+
+
+
+
+    @ 23[  Continue...   ]            @ 10[ Boot Up Behaviour ]               @  1[  Overview  ]
+.23
+    SERVICE Mode (Continued)
+
+    For SERVICE, the LEDS and EMERGENCY STOP relays are specially set:
+
+    2010           ³  Service          Otherwise (Application runs)
+    ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+    RUN            ³                   Green
+    READY          ³                   Yellow
+    ERROR          ³  Red
+    E. STOP Relay  ³  Open
+
+
+    2005           ³  Service          Otherwise (Application runs)
+    ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+    RUN            ³                   Green
+    READY          ³  Yellow
+    ERROR          ³  Red
+    E. STOP Relay  ³  Open
+
+
+
+    @ 24[  Continue...   ]            @ 10[ Boot Up Behaviour ]               @  1[  Overview  ]
+.24
+    SERVICE Mode (Continued)
+
+    Reasons for Service Mode :
+
+    - Error in the current boot up (read from the error module)
+    - Fatal error and the ERROR boot up caused by this (read from the error
+      module)
+    - Watchdog or pressing the RESET key
+    - DIAGNOSE Boot up
+    - Key switch set to SERVICE
+
+    Display indicator on 2010 systems : "SERVICE" in 2nd line
+
+
+
+
+
+
+
+
+
+                                @ 10[ Boot Up Behaviour ]               @  1[  Overview  ]
+.25
+    Problems During the Boot Up
+
+    The following is a list of the most commonly occurring problems during boot
+    up:
+
+   * IO Module or Expansion module missing or defective
+     When attempting to access an IO module, an exception occurs which is
+     entered in the error module. The PLC boots in ERROR mode and goes into
+     SERVICE mode. As soon as the IO module /expansion module is inserted, an
+     INIT can be triggered and the application can be started again.
+
+   * Modul defective, Incorrect checksum
+     The error is entered into the error module with the address of the module.
+     Which module it was can be found with the diagnose tool (PLCSWCFG) and
+     deleted (marked as "defect").
+
+   * No Memory
+     The memory class is entered in the error module and this information can be
+     used for reconfiguration with the PLCSWCFG !
+
+
+                                @ 10[ Boot Up Behaviour ]               @  1[  Overview  ]
+.26
+    Recognition of INIT / TOTALINIT / DOWNLOAD in a FBK
+
+    In a FBK cannot read, in reguard to remanent FBK memory (values are
+    not changed after INIT is booted), the first call after an INIT
+    directly on the memory.
+    The following process is possible to recognised 1. FUB-Aufrufs after a
+    INIT or TOTALINIT or DOWNLOAD :
+
+    * If the FBK memory is in the task local area, then it is initialized
+      with ZERO every TOTAL-INIT or every DOWNLOAD of the task, after the
+      task is removed, mit NULL initialisiert. Then it can be derived that
+      on a static FBK Internal that is always set to a value other than
+      ZERO, if the value is ZERO then a TOTALINIT or a DOWNLOAD is caused.
+
+
+    * If the FBK memory is in the PLC global area, then it is initialized
+      with ZERO with every TOTAL-INIT. Then it can be derived that on a
+      static FBK Internal that is always set to a value other than ZERO,
+      if the value is ZERO then a TOTALINIT is caused.
+
+
+                    @ 27[ Continuation ]                   @  1[  Overview   ]
+.27
+    Recognition of INIT / TOTALINIT / DOWNLOAD in a FBK (Continuation)
+
+      However,it is guarenteed for PLC global memory only for the download of
+      1. Task that the global FBK memory uses, that it is initialized with
+      ZERO. Then it is no longer known after leaving the task and a new
+      download is carried out that the task is newly loaded.
+      The "old" global FBK memory is naturally not changed.
+
+
+    * In order to recognise the first FBK call after an INIT reboot of the
+      PLC, the INIT counter must be selected (SYS_info) and saved in the FBK
+      memory. As soon as the current INIT counter is different than the
+      saved INIT counter, a INIT reboot is caused.
+      This procedure functions for task local as well as for
+      PLC global FBK memory !
+
+
+
+
+
+
+                                @ 28[   Example    ]                   @  1[  Overview   ]
+.28
+    Example for the recognition of INIT / TOTALINIT / DOWNLOAD in a FBK
+
+    ;* FUB with local FBK memory
+    ;* with  1.Call after TOTAL_INIT / DOWNLOAD is memory allocated
+    ;* with 1.Call after INIT is the memory only initialised
+    SYS_info (adr(init_count), adr(dummy), adr(dummy), adr(dummy),
+    adr(dummy))
+    if mem_ptr = 0 then
+        ;* TOTAL_INIT or DOWNLOAD, because mem_ptr or alway other than 0
+        status = MEM_alloc (mem_len, adr(mem_ptr))
+        init_flag = 1
+    else if init_count <> last_count then
+        init_flag = 1        ;* INIT, because the INIT counter is not the same
+    else
+        init_flag = 0        ;* either INIT or TOTAL_INIT after DOWNLOAD
+    endif
+    last_count = init_count  ;* find the current INIT-Count
+    if init_flag = 1 then
+        memset (mem_ptr, 0, mem_len)
+    endif
+
+                                @ 10[ Boot Up  Behaviour ]             @  1[  Overview   ]
+.30
+    PLCIO-Initialization and Instruction
+
+    @31[ PLCIO in Boot Up                  ]
+    @32[ PLCIO in Cyclic Operation         ]
+    @35[ PLCIO while downloading PLC Tasks ]
+    @37[ Memory for INTERNALS              ]
+    @38[ 2005 IO Emulation                 ]
+    @41[ System Flags                      ]
+
+    * It is also automatically recognised on 2005 systems, whether an optionally
+      available shovel processor exists and the respective initialization is
+      done.
+    * The handling of the PLCIO is described separately for the three phases:
+      boot up, cyclic system and download so that the differences are
+      highlighted.
+    * The amount of memory available for INTERNAL variables can be entered for
+      the 2010 and 2005 systems.
+    * For the 2005 IO emulation, the CPU time required can be calculated with a
+      formula.
+    * All system flags and their meanings are described.
+
+                                                                  @  1[  Overview  ]
+.31
+    PLCIO During Boot Up
+
+    The initialization of IO data during boot up and calling of the INIT-SPs of
+    PLC tasks follows these steps :
+
+    - Before calling the INIT-SPs of the PLC tasks of a task class or interrupt
+      task class, the inputs of the input modules are fetched. For PLC tasks in
+      HS task classes, due to the common IO image in the INIT-SP, there is no
+      current input values available.
+    - All INIT-SPs are executed after this.
+    - Then the outputs are sent to the output modules.
+    - For IRQ tasks, the interrupts on the IRQ module are enabled. So from this
+      time onm interrupts can occur and be handled by the interrupt tasks.
+    - The boot up phase is now complete and the cyclic and non-cyclic system
+      starts.
+
+
+
+
+
+
+    @ 32[ PLCIO in Cyclic Oper. ]     @ 30[ PLCIO Overview ]                  @  1[  Overview  ]
+.32
+    PLCIO in Cyclic Operation
+
+    - At the start of a task class cycle, a check is made as to whether the
+      requested inputs of the previous cycle were correctly fetched. If this is
+      not the case, a maximam input cycle time violation is reported. It is also
+      checked if the outputs requested in the last cycle were correctly sent to
+      the output modules. If this is not the case, a maximam output cycle time
+      violation is reported. If everything is OK, the old input image (IN) is
+      replaced by the new updated image (IN').
+
+      For HS task classes, the common IO image of the input is requested along
+      with the output at the end of the HSTC. AT the start of the HSTC cycle,
+      only a check is made if the common table was properly processed.
+
+      In the interrupt task, the inputs are fetched directly after the interrupt
+      is triggered and the end of processing by the shovel processor is waited
+      for.
+
+
+
+
+    @ 33[   Continue...   ]           @ 30[ PLCIO Overview ]                  @  1[  Overview  ]
+.33
+    PLCIO in Cyclic Operation (Continued)
+
+    - In task classes, the requested input is linked as fast as possible. A
+      test is done directly before the 1st PLC task is called to check if the
+      input shovel table requested at the start of the input cycle is completely
+      ready. (Between the request for the inputs and the callign of the 1st PLC
+      task is system management activity. The shovel processor can fetch the
+      input data in this time.) Normally, the current input is already available
+      and can be used, which means that the dead time from cycle begin to PLC
+      task execution is one cycle at worst case. Only in cases when the
+      requested inputs have not completely been processed (only possible with a
+      large number of inputs), the old input image that was shovelled in the
+      previous cycle si used again and a flag is set (System Flag _PIO_OLD = 1).
+
+      In the interrupt TC, it is as described on the previous help screen, after
+      the input has been fetched then the PLC tasks are called.
+
+
+
+
+
+    @ 34[   Continue...   ]           @ 30[ PLCIO Overview ]                  @  1[  Overview  ]
+.34
+    PLCIO in Cyclic Operation (Continued)
+
+    - At the end of the task class or interrupt TC, after calling the PLC tasks,
+      the output shovel table is sent. This must be processed by the beginning
+      of the next cycle.
+
+      For HS task classes, with the common storage of input and output in a
+      table, the output and also the input is sent/requested for the next cycle.
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @ 35[ PLCIO during Download ]     @ 30[ PLCIO Overview ]                  @  1[  Overview  ]
+.35
+    PLCIO during the Download of PLC Tasks
+
+    During download, the initialization of the PLCIO is different to boot up in
+    a few ways (INIT / TOTALINIT). It is described here separately for this
+    reason :
+
+    - In the context of the download, the installation of tasks is done parallel
+      to the already running cyclic system. The installation of the task
+      includes the PLCIO table which is put together with thepreviously existing
+      PLCIO tables of the TC/HSTC. By combining the shovel tables, the input and
+      output of the tasks already in the cyclic system is ordered. In this way,
+      no asynchronous ordering is necessary, that could hinder the rest of the
+      running cyclic system.
+    - Though IO Ordering in the cyclic system, the input is already available in
+      the INIT-SP for task classes and HS task classes. With interrupt task
+      classes, the input is separately requested, as it is not known when the
+      next interrupt will occur.
+    - Then the INIT-UP of this PLC task is called (System Flag _DOWNLOAD = 1).
+
+
+
+    @ 36[   Continue...   ]           @ 30[ SPSIO Overview ]                  @  1[  Overview  ]
+.36
+    PLCIO during Download (continued)
+
+    - Finally, in the context of task classes or HSTCs, the automatic shovelling
+      of the output is waited for.
+      With interrupt task classes, the output is also specifically ordered.
+    - Now the PLC tasks integrated into the cyclic system so that the cyclic
+      part of the task is processed in the frame of the task class, HSTC or
+      IRQ-TC.
+
+    ATTENTION: All local variables of the PLC tasks are initialized with ZERO.
+    All global data points keep their values (e.g. by OVERLOAD) !
+
+
+
+
+
+
+
+
+
+
+                                @ 30[ PLCIO Overview ]                  @  1[  Overview  ]
+.37
+    Memory for INTERNALS
+
+    On the 2010 systems with a CP100, there is 84.3 kB for analog INTERNALS (seperated
+    in 3 Banks with 25.3 / 29.5 / 29.5 kB)  and 48 kB for digital INTERNALS (3 Banks with
+    16 kB). These pools are divided among the correspondingly configured task classes / PLC
+    tasks (plc_global INTERNALs, task class global INTERNALs for each task class, local
+    INTERNALs for each PLC task). The Internals are only linear adressable inside a
+    Bank, that means there are max. 29.5 kB analoge PLC global
+    configurable Internals.
+
+
+    On 2005 systems and 2010 systems with a CP102, there is 5.3 kB for analog
+    INTERNALs and 16 kB for the digital ones.
+
+
+
+
+
+
+
+
+                                @ 30[ SPSIO Overview ]                  @  1[  Overview  ]
+.38
+    2005 IO Emulation
+
+    The processing time for the IO emulation on a 2005 main base plate has been
+    improved by approx. 35% in V1.10. The time for the enulation in LCSW V1.10
+    can be calculated with the following formula:
+
+    t_IO =  82æs             +           (a)
+            n_SC   *  3.0 æs +           (b)
+            n_IO   * 18.5 æs +           (c)
+            n_Byte *  2.3 æs             (d)
+
+    (a)   Overhead for IO ordering/requesting in general
+    (b)   Overhead per entry in the shovel table, where each PLC task or IO
+          module (optimized IO tables) needs an additional management entry
+    (c)   Basic overhead for an I/O transfer
+    (d)   Time required per byte. With digital modules, 8 bit groups are
+          packed into a single byte
+
+
+
+
+    @ 39[   Continue...   ]           @ 30[ PLCIO Overview ]                  @  1[  Overview  ]
+.39
+    2005 IO Emulation (Continued)
+
+    ATTENTION: An unavoidable consequence of optimization is that the old direct
+    I/O FBKs from V1.05 do not work for PLCSW V1.10. You must use the update
+    version V1.10 (directio.br).
+
+    EXAMPLE:
+
+    An HS task class with 8 analog channels (each is a WORD => 16 bytes) defined
+    as an array (!) and 16 digital channels also defined as arrays (two 8 bit
+    groups). The I/O data is referenced by only one PLC task, so there are 3
+    entries in the table, 2 of these fro I/O transfer:
+
+    t_IO  =  82æs  +   3 * 3 æs  +   2 * 18.5 æs  +  18 * 2.3 æs  =  169æs
+
+    The same amount of data as above, but the digital and analog channels are
+    defined as individual PV not as arrays:
+
+    t_IO  =  82æs  +  11 * 3 æs  +  10 * 18.5 æs  +  18 * 2.3 æs  =  341.4æs
+
+
+    @ 40[   Continue...   ]           @ 30[ PLCIO Overview ]                  @  1[  Overview  ]
+.40
+    2005 IO Emulation (Continued)
+
+    The example shows that using arrays on a 2005 main base plate especially for
+    analog I/O saves a lot of time.
+
+    ATTENTION : In order to load the 2005 PLC as little as possible with I/O
+    emulation, the following guidelines for creating applications should be
+    kept:
+
+    - Each I/O point should only be used in one task class so that only needs to
+      be shovelled once.
+    - The I/O points of a digital I/O module with more than 8 channedl or each
+      analog I/O module should be packed into an array so that the overhead for
+      the shovel table entries is as small as possible.
+    - With project generation with PG2000, the option "Optimized I/O tables"
+      should be selected to minimize the overhead for PLC tasks or I/O points
+      that are user more than once within a task class.
+
+
+
+
+                                @ 30[ PLCIO Overview ]                  @  1[  Overview  ]
+.41
+    System Flags
+
+    The system flags are flags that are defined by the system and are known in
+    PG2000. They can only be used in INIT-SPs (2 exceptions, see below). The
+    names f the system flags all begin with an underscore.
+
+    _INIT            Flag, if the INIT-SP was executed after an INIT
+    _TOTAL_INIT      Flag, if the INIT-SP was executed after a TOTAL INIT
+    _URINIT          -"-
+    _DOWNLOAD        Flag, if INIT-SP is being executed after a Download
+    _TC_TIME         Cycle time of the TC/HSTC in units of 100 microseconds
+                     (ATTENTION : used to be microseconds, therefore max. of 6.5
+                     secs as cycle time is possible for the proper functioning
+                     of _TC_TIME
+    _T_ZYKLUS        -"-
+    _TC_No           Taskklassennummer 1 bis 4 bei TK 1-4, -1 bis -4 bei
+                     SSTK 1-4, -8 bei EXCTK, -9 bei IRQTK
+    _TKNR            -"-
+    _TC_TSK_No       Number of PLC tasks in the current TC or HSTC/EXCTC/IRQTC
+
+
+    @ 42[   Continue...   ]           @ 30[ PLCIO Overview ]                  @  1[  Overview  ]
+.42
+    System Flags (Contiued)
+
+    _DEBUG           Flag, if INIT-SP is being executed during Debug
+
+
+    Only the following system flags can be used in cyclic operation:
+
+    _PIO_OLD         Flag, if the old input (1 cycle old) is being used in the
+                     task class :0 = current input, 1 = old input
+                     (ATTENTION: only valid in TCs not HSTCs)
+    _DEBUG           Flag, if the task is in the debug task class
+
+
+
+
+
+
+
+
+
+
+                                @ 30[ PLCIO Overview ]                  @  1[  Overview  ]
+.50
+    Task Classes, HS-Task Classes, Interrupt Task Class
+
+    @51[ Interrupt Tasks            ]    Tasks for asynchronous events
+    @54[ Default Cycle Time TC 4    ]    "As fast as possible" from V1.10
+    @56[ Interrupt Priorities       ]    HS-Task Classes and Interrupt Task Class
+    @57[ TC Communication Idle Time ]    Division of the system idle time
+
+    * Interrupts can be set up for asynchronous events on the PLCIO bus
+    * Without specifying the task parameters in PG2000 or without cycle time
+      entry, tasks in task class 4 run "as fast as possible".
+    * HS task classes and the interrupt task class can be prioritised to
+      guarantee time constant processing.
+    * The idle time in the system is divided for faster reacting
+      communicataions.
+
+
+
+
+
+
+
+                                                                  @  1[  Overview  ]
+.51
+    Interrupt Tasks
+
+    Using the interrupt task class, an individual task can be written to refer
+    to a particular asynchronous event (interrupt) on the PLCIO bus.
+
+    The prerequisite for interrupt tasks is a 2010 CPU module CP100, version
+    30.xx or later which supports interrupts. The triggering of a PLCIO
+    interrupts is only possible with special hardware (CSI module, IP module,
+    etc...). One interrupt task per interrupt module is possible. The activities of
+    the interrupt task is only run once per interrupt.
+    No interrupts are possible on 2005 systems.
+
+    Under the prerequisite: only one interrupt task and no HS task class with
+    an interrupt level greater than 5, there is an interrupt lag time (time from
+    the triggering of the interrupt on the I/O module until the first code line
+    in the respective interrupt task). The interrupt lag time is made up of the
+    HW interrupt lag time (see HW module description) plus 100 microseconds. The
+    time from triggering an interrupt to the setting of outputs that are set in
+    the interrupt task is 200 microseconds plus the runtime of the interrupt
+    task plus the HW interrupt lag time.
+
+    @ 52[   Continue...   ]           @ 50[  Task Classes  ]                  @  1[  Overview  ]
+.52
+    Interrupt Tasks (Continued)
+
+    ATTENTION: Since the interrupt tasks are called asynchronously from the
+    cyclic behaviour of the rest of the system, you can majorly disrupt the
+    cyclic runtime system by a substantially high frequency of interrupts or
+    with a heavy cyclic load. When the interrupts occur cannot be predetermined.
+
+    If another part of the application already runs in another suitably fast
+    task class, polling of the input is recommended. Thereasoning behind this is
+    that an additional I/O point via the shovel processor costs basically no
+    time and a request in the program takes less than 10 microsecs. On the
+    otherhand, the overhead for an individual task class (in this case IRQ) is
+    not necessary. By overloading the system with I/O interrupts (too frequent),
+    worst case a reset of the PLC (Watchdog) can be generated.
+
+    ATTENTION: If an I/O module triggers an interrupt that has no corresponding
+    interrupt task, the interrupt is ignored.
+
+
+
+
+    @ 53[   Continue...   ]           @ 50[  Task Classes  ]                  @  1[  Overview  ]
+.53
+    Interrupt Tasks (Continued)
+
+    Interrupt tasks can be created in the same way as cyclic tasks are in
+    PG2000. The task class IRQ = interrupt must be entered. Instead of the
+    sequence number (INST Number), the number of the I/O module generating
+    the interrupt must be entered. Only one interrupt task per interrupt module
+    is possible. If multiple interrupts are to be generated by a module (e.g.
+    multiple CSI channels), the interrupt channel must be determined by the task
+    with a request to the module for the channel. As in cyclic applications, in
+    Init-Sp can also be included. The standard acknowledgement on the PLCIO bus
+    is done by the system software, special acknowledgement (e.g. channel
+    referenced acknowledgement) must be done by the applciation. The interrupt
+    task class uses the data area for task class #1 in the same way is the HS
+    task classes.
+
+
+
+
+
+
+
+                                @ 50[  Task Classes  ]                  @  1[  Overview  ]
+.54
+    New Default Cycle Time Task Class 4 ("As fast as possile")
+
+    In the default configuration module (V1.10 on), the cycle time of task class 4 is
+    configured to 10 milliseconds and the maximum cycle time is 30 seconds (then
+    a max. cycle time violation !). In this way, without entering the task
+    parameters in PG2000 (V2.0 - default is task class 4) and without creating a
+    PLC configuation module (analysing the required cycle times and application
+    runtime), it is possible to let the application quasi-"as fast as possible".
+    Also the cycle time, that is not monitored by default, can be up to 30
+    seconds and in the fastest case, 10 milliseconds (if the application
+    requires correspondingly little time). If a cycle is complete, the
+    application is started again in the next system cycle (10 milliseconds). The
+    idle time until then is for lower priority tasks (communication or user
+    tasks). If only task class 4 is used and there is not enough time for the
+    lower priority tasks, above all communication, only a reconfiguration of
+    task class 4 or a relocation of tasks into other task classes helps. This
+    leaves more application idle time for these tasks.
+    ATTENTION : The cycle time monitoringmust not be enabled in this case
+                (ZykVL_enable) !
+
+
+    @ 55[   Continue...   ]           @ 50[  Task Classes  ]                  @  1[  Overview  ]
+.55
+    Default Cycle Time Task Class 4 (Continued)
+
+    The configuration of task class idle time for task class 4 is ineffective,
+    since the communication idle time is only until the end of the system cycle.
+    However, this time is available anyway. On the other hand, the overhead for
+    the communition idle time also costs time.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                @ 50[  Task Classes  ]                  @  1[  Overview  ]
+.56
+    Interrupt Prioritising of HSTC and IRQTC
+
+    With all HS task classes as well as with the interrupt task class, the
+    interrupt level in which the task class will be executed can be configured.
+    With this, you can configure a task class (e.g. HS task class 1) so that it
+    is always immediately executed. This configured interrupt level is set at
+    the start of the software handling of the interrupts because the hardware is
+    not configurable. From the HW, all HS task classes are triggered on IRL4 and
+    the IRQ-TC on IRL6.
+    If 2 HS task classes are used and one of these should not be interrupted
+    but can interrupt the other HSTC, the higher priority HSTC must be set to an
+    IRL >= 4 and the other to an IRL < 4. As soon as in interrupt task class is
+    used it cannot be guaranteed that a HS task class isalways executed without
+    delay. This is because if an interrupt from the HW on interrupt level 6,
+    each HS task class that is triggered by the HW on IRL 4 can be interrupted !
+
+
+
+
+
+
+                                @ 50[  Task Classes  ]                  @  1[  Overview  ]
+.57
+    Task Class Communication Idle Time
+
+    For systmems with communication time problems (e.g. PANELWARE), in V1.10 a
+    communication idle time can be configured in non-empty task classes for
+    a faster communication reaction. For this, within a task class cycle time
+    time is made available for lower priority tasks, e.g. communication. The
+    time is always there (!) not just on demand. In this way, the available
+    application idle time (see PROFILER) in the system can be evenly divided in
+    the task class cycles. If no more application idle time is available only
+    two things help, reconfiguring the cycle time of the task classes or
+    relocating tasks in slower task classes. If a task class contains no PLC
+    tasks, it is inactive and nothing happens if communication idle time is
+    configured for this task class.
+
+
+
+
+
+
+
+
+    @ 58[   Continue...   ]           @ 50[  Task Classes  ]                  @  1[  Overview  ]
+.58
+    Task Class Communication Idle Time (Continued)
+
+    The communication idle time can be entered in units of half a millisecond.
+    If the end of the system cycle (10 milliseconds) is reached within the
+    communication rest time, the communication idle time is ended. FOr this
+    reason the communication idle time can only be less than 10 milliseconds. In
+    the worst case when the task class is complete just before the end of the
+    system cycle, there is almost no communication idle time left. Main place
+    it is used is therefore task class 1 (see example).
+
+    ATTENTION: The TC communication idle time should onle  be used in systems
+    with communication reaction time problems, but enough application idle time
+    (as described in example). The disadvantage of communication idle time is
+    the additional system overhead (see time for IOTim in PROFILER). Dus to
+    this, the existing idle time is less.
+    The advantage for communication is the better division of the idle time.
+
+
+
+
+
+    @ 59[   Continue...   ]           @ 50[  Task Classes  ]                  @  1[  Overview  ]
+.59
+    Task Class Communication Idle Time (Continued)
+
+    Example :   System without communication idle time, TC#1 - 10 msecs, TC#3 -
+                100 msecs (without considering the system overhead, idle
+                includes all communication tasks as well as USER tasks and the
+                IDLE Task)
+      Due to the prioritization in the multitasking system, from the start of
+      the cycle of TC#3 for almost 50 msecs, only the application. No
+      communication is possible.
+
+          0     10    20    30    40    50    60    70    80    90   100
+          ÃÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄ´
+      TC#1ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´
+      TC#3  ÃÄÄÄ   ÄÄÄ   ÄÄÄ   ÄÄÄ   Ä´
+      Idle                            ÃÄ´ ÃÄÄÄ´ ÃÄÄÄ´ ÃÄÄÄ´ ÃÄÄÄ´ ÃÄÄÄ´
+
+
+
+
+
+
+    @ 60[   Continue...   ]           @ 50[  Task Classes  ]                  @  1[  Overview  ]
+.60
+    Task Class Communication Idle Time (Continued)
+
+    Example :   System with communiction idle time in TC#1, TC#1 - 10 msec,
+                TC#3 - 100 msec (without condidering system overhead,
+                idle imcludes all communication tasks as well as USER-Tasks and
+                the IDLE task)
+      The legally available idle time is partially divided. Every 10 msecs there
+      is a small idle time slice available.
+
+          0     10    20    30    40    50    60    70    80    90   100
+          ÃÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄÅÄÄÄÄÄ´
+      TK#1ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´   ÃÄ´
+      TK#3   ÃÄÄ    ÄÄ    ÄÄ    ÄÄ    ÄÄ    ÄÄ    Ä´
+      Rest  Ã´    Ã´    Ã´    Ã´    Ã´    Ã´    Ã´ Ã´ ÃÄÄÄ´ ÃÄÄÄ´ ÃÄÄÄ´
+
+
+
+
+
+
+
+                                @ 50[  Task Classes  ]                  @  1[  Overview  ]
+.70
+    Exception Tasks / Exception Reporting
+
+    @71[ Exception Tasks     ]
+    @73[ Exception Reporting ]
+
+    * With exception tasks you have the possiblity to handle all types of
+      exceptions in a user defined way if the default handler for exceptions
+      does not meet your demands.
+    * Exception tasks can be created in PG2000 (from V1.20 on) just like cyclic
+      tasks. The task class must be given as EXC = exception. Instead of the
+      sequence number (Inst Number), the exception number must be entered in the
+      task parameters. Only one EXC task is allowed per exception. The exception
+      task class uses the memory of task class #1, the same as HS task classes.
+    * When using exception tasks, it is important to "burn" or "fix" the module
+      "exermo.br".
+
+    * If NO (!) user defined exception task is available for the exception that
+      occurred, it is repproted in the error module and also on the displays of
+      2010 systems.
+
+
+                                                                  @  1[  Overview  ]
+.71
+    Exception Tasks
+
+    The follwoing exception numbers are supported:
+
+    EXC No.    ³ EXC Name                        ³ Display 2010
+    ÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+    2          ³ Bus Error                       ³ BE
+    3          ³ Address Error                   ³ AE
+    4          ³ Illegal Instruction             ³ II
+    5          ³ Divide Zero                     ³ DZ
+    8          ³ Privilege Violation             ³ PV
+    10 (0x0A)  ³ Unimplemented Instruction       ³ UI
+    24 (0x18)  ³ Spurious Interrupt              ³ SI
+    128 (0x80) ³ Perieller Error                 ³ PE
+    144 (0x90) ³ TC cycle time violation         ³ TC viCycle
+    145 (0x91) ³ TC Max. cycle time violation    ³ TC mxCycle
+    146 (0x92) ³ TC Input cycle time violation   ³ TC inCycle
+    147 (0x93) ³ TC Output cycle time violation  ³ TC ouCycle
+    160 (0xA0) ³ HSTC Max. cycle time violation  ³ HS mxCycle
+    161 (0xA1) ³ SSTK Cyclic time violation (IO)  ³ HS viCycle 
+    162 (0xA2) ³ System cycle time viol. (6002)  ³ SYSM Err mxCycle
+    @ 72[   Continue...   ]           @ 70[   Exceptions    ]                 @  1[  Overview  ]
+.72
+    Exception Tasks (Continued)
+
+    To work out where an exception came from, the function EXC_info() from the
+    sytem library can be called. Using this, the task class number as well as
+    the identifier of the PLC tasks can be determined if the exception occurred
+    in connection with a task. Usint the ST functions in the B&R library
+    (burtrap.br), the PLC task identifier can be used again, e.g. to determine
+    the PLC task name.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                @ 70[   Exceptions    ]                 @  1[  Overview  ]
+.73
+    Exception Reporting
+
+    ATTENTION: The exception reporting in the error module is only done if no
+    exception task is defined for the exception that occurred !
+
+    We differentiate between the default and the extended reporting.
+
+    With the default reporting (without "exermo.br"), only one error module
+    entry is made. The most important processor exceptions are obvious from
+    error number. All other exception, especially cycle time violation are
+    entered as "Default Exception Handler".
+
+    It is necessary to fix of burn the "exerme.br" module for extended
+    reporting. The extended reporting in the error module was built for all
+    processor exceptions(numbers 2 to 24):
+    - The name of the task class that caused it is also entered even if it is a
+      HS or interrupt task class (hs#1, hs#2, hs#3, hs#4, irq). On a cycle time
+      vioaltion, not only the code but also the responsible task name can be
+      read.
+
+
+    @ 74[   Continue...   ]           @ 70[   Exceptions    ]                 @  1[  Overview  ]
+.74
+    Exception Reporting (Continued)
+
+    Along with each entry in the error module, a code is entered which defines
+    the type of error module entry :
+      E     Exception        Exception that causes a boot up into error mode
+      F     Fatal Error      Fatal error that causes error mode
+      W     Warning          Warning that something is wrong
+      I     Info             Additional information to other entries
+
+    - The first line of an error module entry is made with the exception code
+      and exception dependent information.
+    - In the 2nd line of the error module entry (with the same error code), the
+      code address at the time of the exception is entered with the task name
+      "PC"(=program counter).
+    - In the 3rd line of the error module entry (with the same error code), the
+      program counter information is explained. In the HIGH WORD of the info is
+      the module index of the module that caused the error. In the LOW word is
+      the code offset in this module.
+
+
+
+    @ 75[   Continue...   ]           @ 70[   Exceptions    ]                 @  1[  Overview  ]
+.75
+    Exception Reporting (Continued)
+
+    - If the exception occurs in connection with a PLC task. the program counter
+      is not in the PLC task module (e.g. by calling an AVT FBK in the
+      resppective AVT module), a 4 line error module entry is made. The PLC task
+      index is in the HIGH WORD and ZERO is is always entered in the LOW WORD.
+
+    Example :  With division by ZERO the following error module entry is
+               generated :
+
+      Error Code Info     Task   Code
+      9104       000004   hs#1   E      1st entry of the exception
+      9104       C03000   PC     I      Division code adr.(absolute)
+      9104       11012A   hs#1   I      Code off. 0x12A in module, index 0x11
+      9104       080000   hs#1   I      PLC task with index 0x08
+
+
+
+
+
+
+    @ 76[   Continue...   ]           @ 70[   Exceptions    ]                 @  1[  Overview  ]
+.76
+    Exception Reporting (Continued)
+
+    With all exceptions that are not handled by exception tasks, a stack check
+    is performed after the exception report. After this, all system tasks as
+    well as all task classes are checked. If a stack error is found and entry is
+    made in the error module.
+
+    With a periel error in V1.10 (fatal error of the shovel processor), there is
+    an easily read report on the 2010 display :
+
+    ÚÄÄÄÄÄÄÄÄ¿    xx : "TI"=Timeout, "RP"=Repeat
+    ³PE xx yy³    yy : Shovel table priority
+    ³Mzz  abc³    zz : Module Address where the error occurred
+    ÀÄÄÄÄÄÄÄÄÙ     a : R=Read(Input),  W=Write(Output)
+                   b : N=Normal,  S=Status area of the module
+                   c : M=Module adr., K=short code, I=Internal Adr. D=Data
+
+
+
+
+
+    @ 77[   Continue...   ]           @ 70[   Exceptions    ]                 @  1[  Overview  ]
+.77
+    Exception Reporting (Continued)
+
+    Independent of the display, the periel error can be worked out with the
+    error module entry. The LONG info contains the following information in the
+    4 bytes of the LONG:
+
+    ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ³ Module Address ³ Short Code ³ Internal Adr. ³ Length in bytes ³
+    ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+    In the short code, bit 5 is used for read/write (0=write,1=read), bit 6 is
+    for status/normal (0=normal, 1=status). The internal address is the offset i
+    the I/O module. The length is contained in the bits 0-6.
+
+
+
+
+
+
+
+
+                                @ 70[   Exceptions    ]                 @  1[  Overview  ]
+.80
+    Extended Configuaration Possibilities
+
+    With the Tool PLCSWCFG, the PLCSW V1.10 can be configured, where somw
+    extension are available. The entire functional capabilities are described in
+    the Online Help of the PLCSWCFG.
+    ATTENTION: The tool PLCSWCFG V1.10 is not compatible to PLCSWV1.05. The
+    module database "modules.db" V1.05 can hawever be converted to the V1.10
+    format withe "cfgconv.exe" !
+
+    @ 81[ Task Classes                           ]
+    @ 82[ HS Task Classes                        ]
+    @ 83[ Interrupt Task Class                   ]
+    @ 84[ Exception Task Class                   ]
+    @ 95[ FIX RAM                                ]
+    @ 85[ Temorary RAM                           ]
+    @ 86[ Allowed System Cycle Time Violation    ]
+    @ 87[ Timeout for POWERFAIL                  ]
+    @ 88[ 2005 CPU with I/O Emulation            ]
+    @120[ Configurable Profibus Index Area       ]
+    @ 89[ Size of Stack and Global Data          ]
+    @ 90[ System and User Stack Increases        ]
+                                                                  @  1[  Overview  ]
+.81
+    Configuration of Task Classes
+
+    In task classes, the I/O system to be used can be entered, where with
+    smaller I/O systems, more memory is available :
+    - Basic System     Only Basis IO 2010 / 2005
+    - Remote IO        Basis IO 2010 / 2005 plus Remote IO
+    - MP               Basis IO 2010 / 2005 plus Remote IO plus MP
+
+    Task class communication idle time can also be entered.
+
+
+
+
+
+
+
+
+
+
+
+
+    @57[ TC Communication time ]      @ 80[  Configuration  ]                 @  1[  Overview  ]
+.82
+    Configuration of HS Task Classes
+
+    With HS task classes, from V1.10, the interrupt level with which the PLC
+    tasks in the HS task class are precessed, can be configured. With this you
+    can e.g. set a HS task class so that it can be interrupted by some Hs task
+    classes, but not from others. In this case, the higher priotity HS task
+    class should be set to level 7. The lower priority HS task class should be
+    configured to a level lower than 4. Also no interrupt task si allowed in the
+    system.
+
+    Note: The timer interrupt for the system clock (tick) is generated on
+    interrupt level 4 and then immediately masked to interrupt level 1 so as the
+    HS task classes are affected as little as possible.
+
+
+
+
+
+
+
+
+                                @ 80[  Configuration  ]                 @  1[  Overview  ]
+.83
+    Configuration of the Interrupt Task Class
+
+    With PLCSWCFG, you can configure whether an interrupt task class is
+    installed. For the interrupt task class, the size fo the user and supervisor
+    stacks can be configured as for HS task classes. The default values should
+    normally be appropriate (the stack load can be checked in the PROFILER).
+    Additionally, the number of interrupt capable I/O modules in the system are
+    to be handled by interrupt tasks must be entered in the interrupt task
+    class. As for HS task classes, the interrupt level for the interrupt task
+    can also be configured. Please note that for the immediate processing of the
+    interrupt task without interruption by other objects, it should be
+    configured to level 7. No HS task clsss can be configured with a interrupt
+    level larger than 5.
+
+
+
+
+
+
+
+
+                                @ 80[  Configuration  ]                 @  1[  Overview  ]
+.84
+    Configuration of the Exception Task Class
+
+    Also, the exception task class can be configured. The stack sizes (user
+    stack and system stack) and also the maximum number of possible exception
+    tasks must be entered.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                @ 80[  Configuration  ]                 @  1[  Overview  ]
+.85
+    Configuration of the Temporary RAM
+
+    The temporary RAM is used for serial communication, but can alos be used
+    in applications with the B&R library functions TMP_alloc() and TMP_free().
+    The difference to the user RAM (MEM_alloc(), MEM_free()) is this memory is
+    lost after an INIT boot up (POWERFAIL) and must be re-allocated.
+    This temporary RAM can be configured in units of 4 kB. The system needs
+    approx. 10 kB for serial communication with 3 interfaces configured.
+    The default setting is 20 kB tempoary RAM.
+
+    ATTENTION : if no more memory is available in the temporary RAM, no more
+    serial communication is possible.
+
+    The temporary RAM is taken from the system RAM, so there is correspondingly
+    less memory available (download, memory allocation with MEM_alloc).
+
+
+
+
+
+
+                                @ 80[  Configuration  ]                 @  1[  Overview  ]
+.86
+    Configuration of the Allowed Cycle Time Violation
+
+    The system cycle is 10 milliseconds. This time is monitored the same as the
+    task class cycle time is. As for the task class cycle time, the system cycle
+    time can also be allowed to be optionally extended up to 5 system cycles.
+    Using this, with short time time bottle necks (Hs task classes or interrupt
+    task class), it can be prevented that a system cycle time violation is
+    immediately reported (fatal exception that can also be cought be an
+    exception task).
+    An allowed system cycle time violation of 10 milliseconds is set up in the
+    default configuration. If no system cycle time violation is configured, each
+    violation of the system cycle causes a corresponding exception to be
+    generated.
+
+    ATTENTION : The violation of the system cycle does not delay the cycle of
+    the diverted task classes. The task classes must complete their cycles
+    unchanged, otherwise a cycle time violation occurs. If the monitoring of
+    task class cycle times is activated, the cycle time violation exception is
+    generated, otherwise the respective exception is sent when reaching the
+    maximum cycle time.
+
+                                @ 80[  Configuration  ]                 @  1[  Overview  ]
+.87
+    Configuration of the Timeout for POWERFAIL
+
+    For a fatal error or exception, a time can be set to be waited for as to
+    whether a POWERFAIL is the reason for the error, e.g. in separated system
+    with I/O extentions or remote I/O. With separate supplies of power and
+    different loading rates of a single power supply, on POWERFAIL, the supply
+    of power to the peripheral can already be lost while the PLCCPU still has
+    power. If the PLC CPU locates the error, e.g. that the peripheral doesn't
+    work any more, an exception is generated and the PLC automatically boots up
+    in ERROR mode and goes into SERVICE mode. The application is now inactive.
+    However, if a POWERFAIL timeout is configured, the error is entered into the
+    error module. If the CPU also has a POWERFAIL within the time, the next boot
+    up, after the power is reconnected, is an INIT and the application is
+    started again.
+    The entry for POWERFAIL with code 9200 is entered in the error module along
+    with the entry time of the connection to the fatal error and the POWERFAIL.
+
+
+
+
+
+                                @ 80[  Configuration  ]                 @  1[  Overview  ]
+.88
+    Configuration of the 2005 CPU without I/O Emulation
+
+    When using the 2005 CPU CP152 with the PS477 power supply and the bus
+    expansion cable, the 2005 basis I/O can be operated without I/O Emulation.
+    The cable is connected from the CPU to the power supple. Now the Basis IO
+    corresponds to the first expansion base plate in a normal 2005 system and
+    must be assigned as such in PG2000. The IO image is available via the shovel
+    processor and the CPU is not loaded with I/O emulation.
+    A limitation of this type of operation is that no system bus modules can be
+    used (remote I/O, profibus, IF050 interface modules).
+
+
+
+
+
+
+
+
+
+
+
+                                @ 80[  Configuration  ]                 @  1[  Overview  ]
+.89
+    Configuration of the Stack/Global Data Size
+
+    The memory size for stacks and global data od user tasks can be increased as
+    in V1.05 (Region 0), if a user task cannot be installed (Error 3602).
+
+    In this case but not always, the configuration module must be changed, you
+    can put stack and global data if user tasks in the APM RAM in the C-Toolbox
+    with BRMODTSK using the "-a" option.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                @ 80[  Configuration  ]                 @  1[  Overview  ]
+.90
+    Configuration of the System and User Stack Increase
+
+    Both the internal stack increase and the interrupt stack increase for the
+    user and system stask for all system and user tasks are only provided for
+    special requirements. You should only make modifications after speaking with
+    support people.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                @ 80[  Configuration  ]                 @  1[  Overview  ]
+.95
+    FIX RAM
+
+    For the battery backed storing of data modules, that can be dynamically
+    changed or for the RAM transport of modules, in V1.10, there is the
+    possibility of fixing these modules in FIX RAM. Modules that are in FIX RAM
+    are located and installed again after a TOTAL INIT, just like those in the
+    EPROM. Data in FIX RAM must be fixed in module form with OG2000 of with the
+    function DA_fix() from the B&R Library. Using the function DA_write(), the
+    data can be dynamically changed. Since data can only be stored in module
+    format, they are capable of being up/downloaded and can also be spooled to
+    an IP.
+
+    The FIX RAM is configured with the configuration module (PLCSWCFG in units
+    of 16 kB. This memory is taken from the APM RAM and the is respectively less
+    memory available (download, memory allocation with MEM_alloc()). If an APM
+    is inserted into another CPU, all modules in FIX RAM stay in the APM.
+
+
+
+
+
+    @ 96[   Continue...   ]           @ 80[  Configuration  ]                 @  1[  Overview  ]
+.96
+    FIX-RAM (Continued)
+
+    Deleting the Entire FIX RAM
+
+    The FIX RAM can be deleted with PG2000 (PLC-Other-Del FIX RAM). However
+    since it must be guaranteed that no module in FIX RAM is being referenced at
+    this time, a PLC reset in DIAGNOSE mode must be done first. After this the
+    FIX RAM can be deleted in DIAGNOSE mode. After a PLC reset in TOTALINIT
+    mode, modules can be fixed again.
+
+    If a module is removed, the area is still in use and the size of the free
+    memory in the FIX RAM is unchanged. Only after deleting the entire FIX RAM
+    is it all available.
+
+
+
+
+
+
+
+
+                                @ 80[  Configuration  ]                 @  1[  Overview  ]
+.100
+    CP102
+
+    The APM with PLCSW V1.10can also be used on 2010 systems with a CP102. In
+    the default case, no individual configuration module necessary (PLCSWCFG).
+    The CP102 can only 64kB system RAM (operating system with stacks, system
+    management, temporary RAM) and a small analog (5.3 kB) and digital (32 kB)
+    internal memory pool. Also system bus modules cannot be used (remote I/O,
+    profibus, multiprocessor). Moreover, as in 2005 systems, an RTC with second
+    resolution is set-up.
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                  @  1[  Overview  ]
+.105
+    Battery Test / Rechargeable Battery Test
+
+    Vrom V1.10 on, a battery test or rechargeable battery test is done on sall
+    PLC systems. The test result is available in PG2000 under PLC-Other-PLC
+    Info. The corresponding LEDs on the CPU are also set and cleared. The test
+    is only done once a minute so the battery is loaded as little as possibe.
+    After a battery change, in the worst case, you can only tell if everything
+    is OK after one minute. A test is immediately performed at PLC boot up.
+
+    On 2010 systems, there is a LED for the both batteries which light up if
+    the respective part is not working.
+    On 2005 systems, there is only 1 LED which lights if either or both of the
+    batteries is not functioning.
+
+    Limitation PLC 2010 : The LEDs of the CP100, are only permanantly turned on
+    from revision 30.XX on when an error occurs. On CPUs with an earlier
+    revision number, if an error occurs, the LEDs only light up for the duration
+    of the battery test, i.e. the turn on for a short time every minute.
+
+
+
+                                                                  @  1[  Overview  ]
+.110
+    Key Switch Handling
+
+    The key switch handling on PLC systems 2010 and 2005, in V1.10 is as
+    follows:
+
+    Position PROGRAM
+      In the program position, all communications are possible, in particular:
+      loading, buring and/ot fixing of modules.
+    Position SERVICE
+      When the switch is turned to SERVICE, the PLC automatically (!) boots up
+      with a RESET and goes into SERVICE mode. This makes the application
+      inactive. Each boot up in the position SERVICE always goes into SERVICE
+      mode.
+      Whe the switch is changed for SERVICE to PROGRAM, the PLCautomatically(!)
+      boots up iwth an INIT and the application is started again.
+    Position RUN
+      In the RUN position, only reading of variabnles or the handling of
+      variable lists via the communications is possible. However, no loading of
+      modules. The operation of the key on the PLC module is not possible
+      (except a HW reset).
+
+                                                                  @  1[  Overview  ]
+.115
+    Extended Variable Access
+
+    In V1.10, there are extended possibilities for variable access that have
+    been especially created for PANELWARE so that no module must be downloaded:
+
+    - Access to arrays and structures (as a whole or via the index)
+    - Access to dynamic variables
+    - Access to FBK structures
+    - Access to local variables
+    - Dynamic variable lists for access to multiple variable in on go and in one
+      request
+    - multiple GetOV for faster initialization during variable access
+
+
+
+
+
+
+
+
+
+                                                                  @  1[  Overview  ]
+.120
+    Profibus
+
+    For profibus communications, the profibus indices for the profibus objects
+    (except for index 0 and the standard data types) can be configured via the
+    configuation module (PLCSWCFG). The default configuration corresponds to our
+    earlier arrangement that it is also still in effective for the serial
+    configuration. The dynamically configured profibus indices can be determined
+    via object 0 (object directory description) using GetOV.
+
+    Also in V1.10, more network modules can be used in a system.
+
+
+
+
+
+
+
+
+
+
+
+                                @ 80[  Configuration  ]                 @  1[  Overview  ]
+.125
+    PG2000 Communication
+
+    In V1.10, all serial interfaces are configured in the standard firmware (3
+    for CP100, 2 for CP102, 2 for MP, 2 for 2005 systems).
+
+    This means that all interfaces are available for PG2000 communications.
+
+    For RS485/422 interfaces, you should use a 422/232 convertor.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                  @  1[  Overview  ]
+.130
+     Downloadable System Modules / Firmware Extensions
+
+     The following system modules are available for the firmware extensions in
+     V1.10 :
+
+     @131[ burtrap.br  ]            B&R Library
+     @132[ mathtrap.br ]            Mathematic Library
+     @133[ exermo.br   ]            Exception Handling, Cycle Time Monitoring
+     @134[ spooler.br  ]            Spooler for Intelligent Peripherals
+     @135[ mpserver.br ]            MP Server
+     @136[ riotrap.br  ]            Remote IO Functionality
+     @137[ debugger.br ]            Debugger
+     @138[ diagnose.br ]            Diagnose Tool
+     @139[ profiler.br ]            Profiler Module
+
+     ATTENTION: Except for the mathematics library, all downloadable system
+                modules are incompatible to PLCSW V1.05 !
+
+
+
+
+                                                                  @  1[  Overview  ]
+.131
+    B&R Library (burtrap.br)
+
+    The B&R library was extended with a few function groups:
+    - KEY Functions to turn on and off key handling by the CPU module through
+      the system software or the reading of the key status.
+    - SYS functions to reset the PLC or read out the system information
+    - TMP functions to allocate temporary RAM, that must be reallocated after a
+      POWER FAIL.
+    - FORCE function that determines whether a task class is being forced.
+    - DA function to fix modules in FIX RAM
+
+    A few function groups were built:
+    - PV functions to access arrays and structures
+    - ST function to determine the name of a PLC task
+
+    The utility group PIO_*() for explicit shovelling was removed and its
+    functions are covered with the DIRECT-IO FBKs which are more efficient and
+    easier to use.
+    ATTENTION: A few functions of the B&R library can not be called in LAD
+               because STRINGS or conditional calls are not possible.
+
+                                @130[ Firmware Extensions ]             @  1[  Overview  ]
+.132
+    Mathematic Library (mathtrap.br)
+
+    The mathematic library V1.10 has been extended and includes all standard
+    mathematics functions and also trigonometrical functions etc.
+
+    The module can be downloaded in both PLCSW V1.10 and V1.05.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                @130[ Firmware Extnesions ]             @  1[  Overview  ]
+.133
+    Exception Handling, Cycle Time monitoring (exermo.br)
+
+    The module EXERMO.BR provides comprehensive exception reporting on the
+    display of the 2010 and in the error module including reporting of cycle
+    time violations. It is absolutely necessary for USER defined exception
+    tasks.
+
+    Cycle time monitoring is deactivated by default. It must be activated with
+    the ZykVL_enable() function. The maximum cycle times as well as the system
+    cycle are always monitored !
+
+
+
+
+
+
+
+
+
+
+
+    @ 70[   Exceptions    ]           @130[ Firmware Extensions ]             @  1[  Overview  ]
+.134
+    Spooler (spooler.br)
+
+    The module SPOOLER.BR must be downloaded to be able to use the spooler
+    functionality of an IP.
+
+    The functionality of the spoolers includes the spooling of modules during
+    boot up as well as spool instructions via FBKSs in the cyclic system for
+    downspooling and upspooling of data and modules.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                @130[ Firmware Extensions ]             @  1[  Overview  ]
+.135
+    MP-Server (mpserver.br)
+
+    The module MPSERVER.BR has been newly inserted into V1.10. This modules
+    executes the MP-PLCSW-Boot-Up handshake.
+
+    It is necessary when using a MP PLCSW.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @140[ Multiprocessor  ]           @130[ Firmware Extensions ]             @  1[  Overview  ]
+.136
+    Remote-IO (riotrap.br)
+
+    When using remote IO it is necessary to burn or fix the module RIOTRAP.BR.
+    If this module is not on the PLC, tasks that use remote IO are not
+    installed.
+
+    To deinstall remote IO that was implemented in V1.05, is now completely
+    implemented.
+
+    Also, debugging PLC tasks with remote IO is possible in V1.10.
+
+    At PLC boot up, a timeout can be configured for remote slaves (PLCSWCFG).
+    With this it is possible to wait a configurable time at boot up, before
+    remote slaves are referenced. This is may be required with selarate power
+    supplies.
+
+
+
+
+
+
+                                @130[ Firmware Extensions ]             @  1[  Overview  ]
+.137
+    Debugger (debugger.br)
+
+    The debug module is a component of PG2000. It is automaticlly downloaded by
+    PG2000 when required.
+
+    In V1.10, FORCING of IO is also possible in the debugger.
+
+    The debugger module can be deleted in PG2000 with PLC-Module-Remove.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                @130[ Firmware Extensions ]             @  1[  Overview  ]
+.138
+    Diagnose-Tool (diagnose.br)
+
+    The diagnose module is a component of the PLCSWCFG and is for diagnosis of
+    modules in the EPROM / FIX RAM (see boot up).
+
+    The module is automatically downloaded by the PLCSWCFG and is removed on
+    completion. It can be also removed in PG2000 with PLC- Module-Remove.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                @130[ Firmware Extensions ]             @  1[  Overview  ]
+.139
+    Profiler Module (profiler.br)
+
+    The profiler module is a component of the PROFILER and performs the
+    profiling on the PLC.
+
+    The module is automatically downloaded by the PROFILER and is deleted on
+    completion. It can also be deleted in PG2000 with PLC-Module-Remove.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                @130[ Firmware Extension ]              @  1[  Overview  ]
+.140
+    Multiprocessor PLCSW 2010
+
+    Firmware Extension : mpserver.br
+
+    @141[ Boot Up of the MP     ]
+    @142[ Applications on an MP ]
+
+    PLCSW V1.10 also runs on a multiprocessor. The APM can be inserted in the
+    PLC CPU or an MP. Normally no customized configuration module is necessary.
+    The MP has only one HS task class, no interrupt task class and also no
+    display. There are however 4 task classes and an exception task class that
+    can be configured.
+
+    Requirement for a proper boot up of the MP is the module "mpserver.br". This
+    must be burned or fixed on the PLC CPU (!). Also a system bus address
+    greated than ZERO must be instakked on the MP module.
+
+
+
+
+
+                                                                  @  1[  Overview  ]
+.141
+    Boot Up of the MP
+
+    The boot up behaviour of the MP (multiprocessor) is always directed by the
+    boot up of the PLC CPU, i.e. the boot up mode of the MP is always the same
+    as the PLC CPU. If a new configuration module is being tested on the PLC
+    CPU, the boot up mode of the MP is a TOTAL INIT. On the other hand, if a new
+    configuration module is being tested on the MP, the MP goes into SERVICE
+    mode. This is because if onlt the MP boots up, no handshaking can be
+    performed. For a proper boot up of the MP, the module "mpserver.br" is
+    required on the PLC CPU so that the handshaking can be done. Without this
+    special module, the MP goes into SEVICE mode and the PLC CPU boots up
+    correctly. If an error occurs in the handshaking between the MP and the CPU,
+    both modules go into SERVICE mode and no applications is started on either.
+    Due to the fact that in the WORST CASE, the boot up of the PLC CPU with
+    firmware extensions takes a long time, the boot up time out defined as 15
+    seconds on the MP side. If an error occurs during handshake, the MP
+    concludes its boot up after this time has elapsed and goes into SERVICE
+    mode. From this point in time, communications to the MP is possible.
+
+
+
+    @142[ Applikationen am MP ]       @140[ Multiprozessor ]                  @  1[  Overview  ]
+.142
+    Applications on an MP
+
+    As on the PLC CPU, cyclic PLC tasks in 4 task classes and 1 HS task can run
+    on the MP. Exception tasks are also possible.The task classes of the PLC CPU
+    and the MP are not running synchronously.
+    Interrupt tasks ae not supported.
+
+    In PLC tasks that run on the MP, local, task class global, MP global and PLC
+    global variables can be used, but no PLCIO. The data exchange to the PLC CPU
+    can be done with MP globals and PLC globals.
+    MP globlas have the advantage, that the link between the MP and the PLCCPU
+    is not loaded. They are not accessabel by other MPs.
+    PLC globals have the disadvantage that they load the link between the PLC
+    CPU and the MP (common bus). On the other hand they have the advantage, as
+    the name says, that they are PLC global and are accessable by all MPs.
+    An MP is programming via the RS232 interface. Programmin of the MP via the
+    PLC CPU is currently not possible.
+    ATTENTION : Both MP global and PLC global variables can have parallel access
+    from the MP and PLCCPU. The values are guaranteed to be consisent for WORD
+    access, but not for LONGs (read in two separate accesses as WORDS).
+
+                                @140[ Multiprozessor ]                  @  1[  Overview  ]
+.145
+    PLCIO Configuration / Disable Module "spsio"
+
+    By burning or fixing a special data module with the name "SPSIO", it is
+    posssible to disable the IO shoveling to any IO module. The avantage of
+    disabling the PLCIO is that IO modules can be addressed by the application
+    without the IO modules being physically available, and no error occurs.
+    (e.g. PE=Periel Error).
+    The data module can be generated with PG2000 in the GDM, with the C Toolbox
+    or with the B&R library functions (DA_create(), DA_burn()). To activate the
+    module, it must be burned or stored in FIX RAM and then a TOTALINIT must be
+    performed.
+
+    * Structure of the data section
+      Each disable entry consists of 6 bytes. The end of the disable table os
+      marked with a WROD $FFFF.
+
+
+
+
+
+
+    @146[   Continue...   ]           @145[ PLCIO Configuration ]             @  1[  Overview  ]
+.146
+    PLCIO Configuration (Continued)
+
+    * Structure of a Disable Entry :
+
+      Standard PLCIO Type          (BYTE)
+      Station Number               (BYTE)
+      Module Address               (BYTE)
+      Internal Start Address       (BYTE)
+      Internal End Address         (BYTE)
+      Supplement                   (BYTE)
+
+    * Standard PLCIO Type:      Bit 7            4 3            0
+                                   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+                                   ³IO Controller ³ IOC Number  ³
+                                   ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+      Upper Nybble :  Remote     = 1
+                      Periell    = 0
+      Lower Nybble :  Differentiating between several controllers of one type
+                      (currently only IOC-Number 0 is supported)
+      Currently onlt the PLCIO types $00 for Periell_1 and $10 for Remote_1 are
+      available.
+    @147[   Continue...   ]           @145[ PLCIO Configuration ]             @  1[  Overview  ]
+.147
+    PLCIO Configuration (Continued)
+
+    * Station Number:  Periell IO :   Always 0
+                       Remote IO  :   Number of the slave station
+    * Module Address:
+      a) 2010 System Periell Bus:
+         The module address corresponds to the module address which is displayed
+         on the IO module.
+         ATTENTION : The value in the display is BCD("13"="$13").
+      b) 2010 System - Remote I/O Slave :
+         Module address is as for a)
+      c) 2005 System Main Base Plate (Base Plate 0) :
+         The module address is = $F0 for all I/O modules, the differentiation is
+         via the internal address (see below)
+      d) 2005 System Expansion (Base Plates 1-4) :
+         The module address is the same for all I/O modules on base plate n is
+         equal to $Cn, e/g/ $C1 on base plate 1. The differention on a base
+         plate is done with the internal addresses.
+      e) 2005 System - Remote I/O Slave :
+         Module address is as for c)
+
+    @148[   Continue...   ]           @145[ SPSIO-Konfiguration ]             @  1[  Overview  ]
+.148
+    PLCIO Configuration (Continued)
+
+    * Internal Start Addresse (ISA), Internal End Address (IEA)
+      The entries of the module with ISA <= internal address <= IEA are
+      disabled. In this way, individual channels can also be disabled. For the
+      other applications of the disable modules, disabling of an entire I/O
+      module, the following internal start/end addresses must be entered :
+
+      - For the above points a) and b), always setISA = 0 and IEA = $FF.
+      - For points c), d) and e):
+        The module on the right of the power supply is slot 1, and with c) the
+        CPU takes slots 1 and 2. A 16 byte data area ("normal") and an 8 byts
+        status area are reserver per slot:
+
+
+
+
+
+
+
+
+    @149[   Continue...   ]           @145[ PLCIO Configuration ]             @  1[  Overview  ]
+.149
+    PLCIO Configuration (Continued)
+
+    * Writing/Reading Data area (16 bytes each):
+
+        Slot 1 right of the power supply starts at internal address $00,
+        Slot 2 right of the power supply starts at internal address $10,
+        Slot 3 right of the power supply starts at internal address $20, etc.
+
+        For c), the 1st I/O module starts with ISA $20 (slot 3).
+
+    * Writing/Reading Status Area (8 bytes each):
+
+        Slot 1 right of the power supply starts at internal address $00,
+        Slot 2 right of the power supply starts at internal address $08,
+        Slot 3 right of the power supply starts at internal address $10, etc.
+
+        For c), the 1st I/O module starts with ISA $10 (slot 3).
+
+
+
+
+    @150[   Continue...   ]           @145[ PLCIO Configuration ]             @  1[  Overview  ]
+.150
+    PLCIO Configuration (Continued)
+
+    * Suppliment
+
+      In V1.10 there is one byte available as a supplement which currently
+      offers the following possibilities:
+
+      0 ... Both "normal" data area and staus area are disabled
+      1 ... Only the data area is disabled, but not the status area.
+      2 ... Only the status area is disabled, but not the data area
+      4 ... Disable the entire RIO slave with the given station number
+            (module address, ISA and ISE have no meaning in this case !)
+
+      2005 modules in c), d) and e) should be disabled with the values 1 or 2,
+      since errors can occur with the default code.
+
+
+
+
+
+
+    @151[   Continue...   ]           @145[ PLCIO Configuration ]             @  1[  Overview  ]
+.151
+    PLCIO Configuration (Continued)
+
+    An example of such an error is given here for the C Toolbox BRMODDAT, BRT
+    format:
+
+      #Syntax: X1 ... Hexadecimal data 1 byte in length
+      #        '#'... Comment Character
+
+      #  1st Table Entry
+      X1    0     #Standard PLCIO Type
+      X1    0     #Station Number
+      X1    F0    #Module Address
+      X1    30    #Internal Start Address
+      X1    3F    #Internal End Address
+      X1    0     #Suppliment : Data + Status
+
+      X2    FFFF  #End Marker
+
+      With this, on a 2005 main base plate, the data area of the I/O module in
+      slot 4 is disabled, but also the status areas of the I/O module in slots 7
+      and 8 are also disabled --> probably an error !!!
+    @152[   Continue...   ]           @145[ PLCIO Configuration ]             @  1[  Overview  ]
+.152
+    PLCIO Configuration (Continued)
+
+      Correctly disabling a module is slot 4 (Data + Status):
+
+      #  1st Table Entry
+      X1    0     #Standard PLCIO Type
+      X1    0     #Station Number
+      X1    F0    #Module Address
+      X1    18    #Internal Start Address
+      X1    1F    #Internal End Address
+      X1    2     #Suppliment : Status
+
+      #  2nd Table Entry
+      X1    0     #Standard PLCIO Type
+      X1    0     #Station Number
+      X1    F0    #Module Address
+      X1    30    #Internal Start Address
+      X1    3F    #Internal End Address
+      X1    1     #Suppliment : Data
+
+      X2    FFFF  #End Marker
+    @153[   Continue...   ]           @145[ PLCIO Configuration ]             @  1[  Overview  ]
+.153
+    PLCIO Configuration (Continued)
+
+    * Sorting
+
+      The individual table entries of the disable module must be in sorted form:
+
+      1) Sorted by  PLCIO type
+      2) Sort all entries with the same PLCIO type by module addresses
+      3) Sort all entries with the same module address by station number
+      4) Sort all entries with the same station number by ISA
+
+    * Example
+
+      Disable the modules with module address 5 on a 2010 system and in slot 2
+      on the right of the power supply on an RIO slave 2005 (station number 2)
+      as well as the entire RIO slave 3 (Format for creating the disable module
+      in PG2000 with the GDM) :
+
+
+
+
+    @154[   Continue...   ]           @145[ PLCIO Configuration ]             @  1[  Overview  ]
+.154
+    PLCIO Configuration (Continued)
+
+         ; PLCIO Type: PERIELL_1                (BYTE)
+         0
+         ; Station Number: always 0             (BYTE)
+         0
+         ; Module Adress: 5                     (BYTE)
+         5
+         ; Internal Start Adresse: whole module (BYTE)
+         0
+         ; Internal End Address: whole module   (BYTE)
+         $FF
+         ; Data and Status                      (BYTE)
+         0
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+         ; PLCIO Type: Remote_1                (BYTE)
+         $10
+         ; Station Number: 2                   (BYTE)
+         2
+         ; Module Address: F0 due to 2005-Slave(BYTE)
+         $F0
+    @155[   Continue...   ]           @145[ PLCIO Configuration ]             @  1[  Overview  ]
+.155
+    PLCIO Configuration (Continued)
+
+         ; Interne Start Address :Status 2     (BYTE)
+         8
+         ; Interne End Address :Status 2       (BYTE)
+         $0F
+         ; Only Status                         (BYTE)
+         2
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+         ; PLCIO Type: Remote_1                (BYTE)
+         $10
+         ; Station Number: 2                   (BYTE)
+         2
+         ; Mod.Address: F0 because 2005-Slave  (BYTE)
+         $F0
+         ; Internal Start Address: Data 2      (BYTE)
+         $10
+         ; Internal End Address: Data 2        (BYTE)
+         $1F
+         ; Only Data                           (BYTE)
+         1
+    @156[   Continue...   ]           @145[ PLCIO Configuration ]             @  1[  Overview  ]
+.156
+    PLCIO Configuration (Continued)
+
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+         ; PLCIO-Type: Remote_1                (BYTE)
+         $10
+         ; Station Number: 3                   (BYTE)
+         3
+         ; Mod. Address: irrelevant whole slave(BYTE)
+         0
+         ; Internal Start Address: -"-         (BYTE)
+         0
+         ; Internal End Address  : -"-         (BYTE)
+         0
+         ; While RIO Slave                     (BYTE)
+         4
+         ; End Marker
+         $FFFF
+
+
+
+
+    @157[   Continue...   ]           @145[ PLCIO Configuration ]             @  1[  Overview  ]
+.157
+    PLCIO Configuration (Continued)
+
+    * Example of Incorrect Entries :
+
+      Error:  The 2nd table entry would not be disabled since the module address
+              is not sorted by station number
+              (format for C-Toolbox : BRMODDAT, BRT Format) :
+
+         #  1st Table Entry
+         X1    0     #Standard PLCIO Type
+         X1    0     #Station Number
+         X1    4     #Module Address
+         X1    0     #Internal Start Address
+         X1    ff    #Internal End Address
+         X1    0     #Supplement
+
+
+
+
+
+
+    @158[   Continue...   ]           @145[ PLCIO Configuration ]             @  1[  Overview  ]
+.158
+    PLCIO Configuration (Continued)
+
+         #  2nd Table Entry
+         X1    0     #Standard PLCIO Type
+         X1    0     #Station Number
+         X1    3     #Module Address
+         X1    0     #Internal Start Address
+         X1    ff    #Internal End Address
+         X1    0     #Suppliment
+
+         X2    ffff  #End Marker
+
+
+
+
+
+
+
+
+
+
+                                                                  @  1[  Overview  ]
+.160
+    Profiler V1.10
+
+    The profiling functionality in V1.10 is divided into 4 groups - B&R Objects,
+    PLC Tasksm HS Tasks and Stack Usage.
+    With B&R Objects, the times of all ststem tasks, task classes incl. HSTCs,
+    EXCTC and IRQTC ans all interrupts are measured. The times given are net
+    times. If the objects are interrupted by higher priority objects or
+    interrupts in the cycle, this time is taken out. The number of ticks refers
+    to the "gross" runtime of the objects in system cycles (1 tick = 10 msec),
+    i.e. ticks=5 means the cycle of the object took "gross" 50 msecs, the
+    difference to the net runtime is due to the interruptions by higher priority
+    tasks in the multitasking system.
+    With PLC tasks, all PLC tasks in task classes, for HS tasks, all PLC tasks
+    in HS task classes can be profiled. These groups are only measurable
+    separately, since parallel profiling would be critical for performance
+    reasons.
+    With these 3 groups, after the selection of the group, the profiling is to
+    be uniformly executed. First the profiling data is initialized, then the
+    profiling is started, stopped and evaluated.
+
+
+    @161[   Continue...   ]           @160[  Profiler V1.10     ]             @  1[  Overview  ]
+.161
+    Profiler V1.10 (Continued)
+
+    With the numerical evaluation, there is also a semi-graphic evaluation in
+    which the percentage of CPU load is displayed for the individual objects.
+    Naturally, an evaluation can be performed without stopping. For profiling
+    consistency reasons, the profiling is stopped for the duration of the
+    evaluation and immediately restarted again. this is also the case for the
+    cyclic evaluation.
+    With the evaluation of the B&R objects, the idle time for each is also
+    shown. The system idle time and the application rest time is calculated as
+    follows:
+
+                                          System Idle Time
+                                        ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+    ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+    ³ Cycl. PLC Tasks  ³ Communication  ³ IDLE Task         ³
+    ³ System managment ³ User Tasks     ³ Profiler Overhead ³
+    ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+                       ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+                                 Application Idle Time
+
+    @162[   Continue...   ]           @160[  Profiler V1.10     ]             @  1[  Overview  ]
+.162
+    Profiler V1.10 (Continued)
+
+    Since for the profiling measurement, a software overhead is necessary. This
+    is identified and shown. During profiling, the cycle time monitoring is
+    turned off (ZykVL_enable()). If a maximumcycle time violation occurs during
+    profiling, profiling is stopped and the corresponding message is output with
+    the evaluation. The times measured until the cycle time violation are
+    however shown.
+    In extreme cases such as very heavy loading of the system, NO profilingis
+    possible.
+
+    With Stack Usage, the configured and the amount of free stack for all system
+    tasks and all task classes can be calculated to work out the amount of stack
+    that should be configured.
+
+
+
+
+
+
+
+    @163[   Continue...   ]           @160[  Profiler V1.10     ]             @  1[  Overview  ]
+.163
+    Profiler V1.10 (Continued)
+
+    The PROFILER V1.10 is also usuable with PLCSW V1.05 with the limitation that
+    only B&R objects and stack usage is supported. PLC tasks and HS tasks can
+    only be measured with PROFILER V1.05. In this version, time for interrupts
+    is not taken out. Instead of this, the objects that are interrupted by
+    interrupted have the "gross' time displayed not net.
+
+    DUring profiling, the module "profiler.br" is downloaded to the PLC by the
+    PROFILER. This module is also automatically removed when exiting the
+    profiled. Th emodule "profiler.br" can also be removed with PG2000
+    (PLC-Module-Delete).
+
+
+
+
+
+
+
+
+
+                                                                  @  1[  Overview  ]
+.200
+    Differences to Version V1.05
+
+    @210[< Boot Up Behaviour      >]   New Boot Up Modes
+    @220[< PLCIO                  >]   Neue Initialization and Commanding
+    @230[< Task Classes           >]   Including HS Task Classes
+    @240[< Exceptions             >]   Exception Reporting
+    @250[< Configuration          >]   Changed Configurations
+    @260[< Firmware Extensions    >]   Changed System Modules
+    @261[< B&R Library            >]   Changed function Scope
+    @262[< Remote IO              >]   Separated Functionality
+
+
+
+
+
+
+
+
+
+
+
+                                                                  @  1[  Overview  ]
+.210
+    Boot Up Behaviour
+
+    * Boot Up of an Application
+      In V1.05, it could not be guaranteed that all INIT-SPs of all PLC tasks
+      are called before the cyclic part of a PLC task was first executed. For
+      each task class, the INIT-SPs of the PLC tasks were run in the order
+      HS#1,HS#2, HS#3, HS#4, TC#1, TC#2, TC#3, TC#4 and then the task classes
+      immediately started.
+
+    * SERVICE Mode
+      In V1.05, SERVICE mode could only be left with a TOTAL INIT, which caused
+      all modules in RAM to be discarded and had to be reloaded. If an INIT was
+      triggered in SERVICE mode, the PLC went into SERVICE mode again.
+
+    * Behaviour on a Fatal Error
+      On a fatal error the PLC went into emergency stop, without automatically
+      booting. It had to be released with a PLC reset by pressing the reset
+      button or a POWERFAIL. Then the PLC did a RESET boot up in SERVICE mode
+      and comunication to the PLC was possible again.
+
+
+                                                                  @  1[  Overview  ]
+.220
+    PLCIO Initialization and Requesting
+
+    * PLCIO Configuration
+      On 2005 systems, using the configuration module (PLCSWCFG), you must set
+      whether only the basis system is available or also the expansion base
+      plates (shoovel processor). The configuration module must be changed when
+      using an expansion.
+
+    * PLCIO in Cyclic Operation
+      In the task classes, a one-task-class-cycle-old input image is always
+      linked : in cycle "i" IN is requested, but IN' (which was requested in
+      cycle "i-1") is given. In cycle "i+1", IN' was requested, but IN linked
+      (which was requested in cycle "i"). The input dead time from the start of
+      a cycle to the PLC task execution in the following cycle, 2 cycles in the
+      worst case.
+
+
+
+
+
+
+    @221[   Continue...   ]           @220[  PLCIO Overview  ]                @  1[  Overview  ]
+.221
+    PLCIO Initialization and Requesting (Continued)
+
+    * Memory for INTERNALs 2010
+      On the 2010 systems with a CP100, there is 84.3 kB for analog INTERNALS and
+      48 kB for digital INTERNALS. In version V1.05 in the CP100, only 5.3
+      kB analog and 16 kB digital was available.
+
+      On 2005 systems and 2010 systems with a CP102, there is 5.3 kB for analog
+      INTERNALs and 16 kB for the digital ones.
+
+    * 2005 IO Emulation
+      The processing time of the I/O Emulation on a 2005 basic systems has been
+      improved by aprox. 35% in V1.10 compared to V1.05.
+
+
+
+
+
+
+
+
+    @222[   Continue...   ]           @220[  PLCIO Overview  ]                @  1[  Overview  ]
+.222
+    PLCIO Initialization and Requesting (Continued)
+
+    * System Flags
+      In V1.05, system flags were only supported in normal task classes, they
+      could not be used in HS task classes. In V1.10, the system flags can be
+      used in all task classes (incl. HS, IRQ and EXC.), of course only in te
+      INIT-SPs.
+
+      The system flag _FORCE is no longer supported for two reasons.Firstly
+      because it could only be checked in cyclic operation and secondly the TC#1
+      is also used by the HS, EXC and IRQ task classes which could not be
+      differentiated between. Instead of this, there is a new B&R library
+      function FORCE_info() to find out if a TC or HSTC is being forced.
+
+
+
+
+
+
+
+
+                                                                  @  1[  Overview  ]
+.230
+    Task Classes, HS-Task Classes
+
+    * New Default Cycle Time - Task Class 4
+      In the default configuration module of V1.10, the cycle time of task class
+      four is set to 10 milliseconds with a maximum allowed cycle time of 30
+      sceonds. Without makig any task parameter entries in PG2000 and without
+      creating a PLC configuration module, the application runs in a quais"as
+      fast as possible" fashion.
+
+      In V1.05, the default cycle time for task calss 4 was 500 millisceonds.
+
+
+
+
+
+
+
+
+
+
+
+                                                                  @  1[  Overview  ]
+.240
+    Exception Reporting
+
+    With default reporting (without "exero.br") in v1.05, error module entries
+    were generated through the default exception handler where the processor
+    status was entered as the error code. The number was difficult to interpret
+    and there was not much documentation to support it.
+
+    In V1.10, the most important processor exceptions are obvious with clear
+    error numbers. All other exceptions, especially cycle time violations are
+    entered with the marking "Default Exception Handler".
+
+    With extended exception reporting in V1.05 (with "exermo.br"), when an error
+    ocurred in a HS task class, the task that the HS task interrupted was
+    entered in the error module. This made it unclear that the error occurred in
+    a HS task class. Also the code address of the error was included with the
+    task name so that is was not obvious as the code address.
+
+
+
+
+
+    @241    Continue...   ]           @240[    Exceptions       ]             @  1[  Overview  ]
+.241
+    Exception Reporting (Continued)
+
+    In V1.10, the HS task classes (hs#1, hs#2, hs#3, hs#4) are entered in the
+    error module. The code address is entered with "PC"=progream counter. Also
+    in V1.10, the display output on a periell error (error of the shovel
+    processor, e.g. I/O module not available) is designed for a better overview
+    so that the module that caused the error can be easily determined.
+
+    The cycle time monitoring has been extended in V1.10 to the configurable
+    system cycle time monitoring (error code 6002) as welle as to the maximum
+    cycle time of HS task classes.
+    A violation of the max. cycle time of HS task classes is reported if the HS
+    task class needs its entire configured cycle time abd the rest of the
+    system, including the system management, has not time left.
+
+
+
+
+
+
+
+                                                                  @  1[  Overview  ]
+.250
+    Configuration Possibilities
+
+    * Memory Configuration
+      The memory configuration of the mdouel area or temporary RAM is done in
+      percent in V1.05, i.e. the memory could be divided between the module area
+      (download) and temporary RAM (communication) as a percent.
+      In V1.10 the size of the temporary RAM is configured in absolute units of
+      4 kB. The remaining RAM on the CPU is used for the module area. If the
+      stacks and global data are also in RAM and there is not enough for the
+      configured temporary memory, the temporary RAM is correspondingly smaller.
+      In this case there is no module area the this RAM available. Since the
+      module area also includes the APM RAM, there is memory for downloading
+      anyway.
+      The configured temporary RAM can also be used for the application in
+      V1.10. For more information see TMP functions in the B&R library.
+
+
+
+
+
+
+    @251    Continue...   ]           @250[   Configuration     ]             @  1[  Overview  ]
+.251
+    Configuration Possibilities (Continued)
+
+    * 2005 Basis System / Expansion
+      In V1.05, you must use the PLCSWCFG to configure whether a 2005 system is
+      to be operated with expansion or as a main system alone.
+      In V1.10, it is automatically recognized if an expansion is available, so
+      this entry has been dropped.
+      New configurations are a system 2005 without emulation or without system
+      bus capability (see extended configuration).
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                  @  1[  Overview  ]
+.260
+    Downloadable System Modules / Firmware Extensions
+
+    All dowwnloadable system modules have been functionally exteneded. Those in
+    V1.10 are not compatible to PLCSW V1.05 and vice versa. An exception is the
+    mathematics library, it can be used in V1.05 of V1.10.
+
+    * Mathematics Library (mathtrap.br)
+      The V1.10 maths library has been extended and includes trigonometrical
+      functions too. The module can be downloaded in V1.10 and V1.05.
+
+    * Exception Handling, Cycle Time Monitoring (exermo.br)
+      In V1.05, the cycle time monitoring could be activated by burning the
+      moduel "zykermo.br". Cycle time monitoring was deactivated by default.
+      Since in V1.10, all exception handlers were put into "exermo.br" because
+      of exception tasks, the cycle time monitoring that is deactivated by
+      default, must be activated with the function ZykVL_enable().
+
+
+
+
+
+    @261    Continue...   ]           @260[  System Modules   ]               @  1[  Overview  ]
+.261
+    Downloadable System Modules (Continued)
+
+    * B&R-Library (burtrap.br)
+      The B&R library V1.05 can no longer be installed in V1.10 (error 8034
+      during download). If is is done the other way, each function of the B&R
+      library returns error 3313 when it is called from PLCSW V1.05.
+
+      The function group PIO_*() for explicit shoveling has been removed in
+      V1.10. The function are covered by the Direct IO FBKs (directio.br or
+      directio.slb) which are more efficient and easier to use.
+
+      ATTENTION : Each manipulation of an identifier by B&R library library
+      functions is not allowed. Otherwise the function cannot be guaranteed. In
+      special cases, the internal meaning of the PV identifier can be changed
+      from V1.05 to V1.10 to allow access to arrays and structures.
+
+
+
+
+
+
+    @262    Continue...   ]           @260[  System Modules   ]               @  1[  Overview  ]
+.262
+    Downloadable System Modules (Continued)
+
+    * Remote-IO (riotrap.br)
+      In V1.05, remote IO was a component of the standard firmware and no extra
+      module had to be loaded as a firmware extension.
+      In V1.10, the remote IO functionality has been stored in the module
+      "riotrap.br". This must be donwloaded and burned or fixed as a firmware
+      extension.
+
+    * Spooler (spooler.br)
+      The functionality of the spooler (spooling the modules in boot up as well
+      as spool instructions via FBKs in the cyclic system for downspooling and
+      upspooling of data and modules) has been packed into the module
+      "spooler.br" in V1.10/
+      In V1.05, two modules were required ("su_spool.br", "m_spool.br").
+
+
+
+
+
+
+    @263    Continue...   ]           @260[  System Modules   ]               @  1[  Overview  ]
+.263
+    Downloadable System Modules (Continued)
+
+    * Debugger (debugger.br)
+      The debugger module which was automatically downloaded by PG2000 during
+      debugging has had the FORCE functions extended.
+      Since V1.05 of the debugger is not compatible to PLCSW V1.10 and vice
+      versa, PG2000 automatically downloaded the appropriate debugger.
+
+    * Profiler Module (profiler.br)
+      This module is a component of the PROFILER and executes the profiling on
+      the PLC. The module is automaticalle downloaded by the PROFILER and
+      removed when the operation is complete. It can however also be removed
+      with PG2000.
+      In V1.05 the modules "profiler.br", "ssprofil.br" and "info.br" were used.
+      In V1.10, all the functions are included in the single module.
+
+
+
+
+
+
+                                                                  @  1[  Overview  ]
+.End
+

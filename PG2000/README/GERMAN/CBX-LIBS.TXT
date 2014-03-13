@@ -1,0 +1,46 @@
+
+    *******************************************************************
+    B&R Libraries V1.10 fÅr die C-Toolbox                   5. Mai 1994
+    *******************************************************************
+
+    Im CBX-Directory dieser Diskette finden sie fÅr die Libraries die
+    Headerfiles (Prototyping, Defines, ...) sowie die Microtec-Libraries,
+    damit diese Libraries auch mit der C-Toolbox genutzt werden kînnen
+    (FUBs bzw. Nichtzyklische Tasks).
+
+    BURTRAP : Funktionen des Moduls "burtrap.br"
+
+        FÅr die C-Toolbox werden aktuell 2 MCC-Libraries inklusive dem
+        dazugehîrigen Headerfile burtrap.h ausgeliefert, eine Library fÅr
+        die SPSSW V1.05 und eine fÅr die SPSSW-Version V1.10. Dabei hat sich
+        nur der Funktionsumfang geÑndert, er wurde fÅr V1.10 ausgebaut bzw.
+        wurden auch einige mittlerweile durch andere Aufrufe ersetzte
+        Funktionen (PIO_*, TI_*) gestrichen.
+        Die Schnittstelle der bereits in V1.05 vorhandenen Funktionen hat
+        sich allerdings nicht geÑndert, soda· ein neuerliches Linken
+        der Tasks bzw. Module nicht notwendig ist.
+
+        Anmerkung : Beim Aufruf der Funktion ERR_warning () hat sich zwar die
+                    Schnittstelle nicht geÑndert, allerdings wurde die
+                    Funktion dahinter erweitert. Es wird in V1.10 auch die
+                    Kennung USER-WARNING im Fehlerlogbuch eingetragen.
+                    Wenn die Funktion mit der MCC-Library-Version V1.05
+                    von burtrap.lib in der SPSSW V1.10 (burtrap.br)
+                    aufgerufen, fehlt diese Information bzw. ist die
+                    Information zufÑllig, weil nicht definiert, im
+                    Fehlerlogbuch. Dies zeigt sich allerdings nur bei
+                    Anzeige im PG (Falscher Fehlertyp) !
+
+        Daher sind im CBX-Directory die Dateien der Version V1.10 abgelegt
+        (burtrap.lib, burtrap.h). ZusÑtzlich ist die Version V1.05 im
+        Subdirectory LIBRARY.105\CBX abgelegt.
+
+    MATHTRAP : Funktionen des Moduls "mathtrap.br"
+
+        Diese Library wurde erst fÅr die Version V1.10 ausgebaut und steht
+        erst jetzt zur Nutzung in der C-Toolbox zur VerfÅgung. Daher ist
+        nur eine Version der MCC-Library und des Headerfiles auf dieser
+        Diskette enthalten.
+        Die Library kann auch mit der SPSSW V1.05 verwendet werden, da keine
+        VersionsabhÑngigkeit existiert.
+

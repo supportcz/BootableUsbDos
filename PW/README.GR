@@ -1,0 +1,489 @@
+                        INFORMATION
+             PANELWARE KONFIGURATIONS SOFTWARE
+                           V2.5
+
+
+A. Auf dieser Diskette sind folgende Programme enthalten
+
+        Automatische Installation aller benoetigten Dateien auf die
+        Harddisk
+
+        PANELWARE KONFIGURATIONS SOFTWARE
+
+        Kommunikationstreiber fuer MININET, MININET SPOIO und ALISK
+
+        Tableaukonfigurationsdateien fuer IT-Tableaus, P120, P125, P150
+        P1203, C200, C220, C221 und C300
+
+        Betriebssystem V 2.5 fuer P150, C200, C220, und C300
+	Betriebssystem V 3.0 fuer C221
+
+        Programm, damit alte IT-Projekte (V1.3) mit dieser Editorversion 
+        bearbeitet werden koennen.
+
+        Demoprogramme fuer MININET und ALISK 
+
+        BOOTCOMM.EXE (\PW\SYSTEM Verzeichnis) um das Betriebssystem mittels
+        Batch Datei zu uebertragen (siehe Punkt L)
+
+B. Um alle Dateien auf die Harddisk zu installieren, (z.B. Laufwerk C: ) 
+   muessen Sie das automatische Installationsprogramm von dieser Diskette 
+   verwenden. Um dieses Programm auszufuehren, muá diese Diskette in das 
+   Diskettenlaufwerk (z.B. Laufwerk A: ) eingelegt werden. Folgende Be-
+   fehlszeile ist am PC einzugeben:
+
+        C:> A:SETUP
+
+   WICHTIG:  Um die Funktionalitaet der PANELWARE KONFIGURATIONS SOFTWARE
+             zu garantieren, musz diese mit dem SETUP-PROGRAMM auf die 
+             Harddisk installiert werden. 
+
+   Dieses Installationsprogramm erzeugt (In Abhaengigkeit vom angegebenen 
+   Zielpfad) folgende Verzeichnisstruktur auf der Harddisk (z.B. C: )
+
+        C:>
+           \PW
+              \USER                     
+                 \DEMO2_AL.PRD
+                 \DEMO2_MN.PRD
+                 \COMM.01.PRD
+              \KFG                     
+              \SYSTEM
+
+C. Hinweise bei der Installation:
+
+   Die Anzahl von FILES und BUFFER muá mindestens der vom SETUP-Programm
+   geforderten Anzahl enstprechen. Ist dies nicht der Fall, so kann es
+   bei der Ausfuehrung der PANELWARE KONFIGURATIONS SOFTWARE zu Problemen
+   kommen. 
+
+        FILES   = 40
+        BUFFERS = 10
+
+D. Es ist nicht moeglich die PANELWARE KONFIGURATIONS SOFTWARE unter 
+   WINDOWS zu betreiben. Wird die PANELWARE KONFIGURATIONS SOFTWARE im 
+   DOS-Fenster betrieben, so koennen bei der Projektuebertragung Probleme 
+   auftreten.
+
+E. Ein Mausbetrieb ist mit der PANELWARE KONFIGURATIONS SOFTWARE nicht 
+   moeglich.
+
+F. Aenderungen PANELWARE KONFIGURATIONS SOFTWARE (PKS)
+   
+   PKS V1.6 auf V1.7
+
+   -    Es ist nun moeglich den C200 Tableaucontroller zu bedienen. 
+   -    Beim Uebertragen eines Projektes kann das Stellen der Uhrzeit 
+        des Tableaus optionell erlaubt werden.
+   -    Das C200 Betriebssystem kann ueber den PC auf das Tableau ueber-
+        tragen werden.
+
+   PKS V1.7 auf V1.71
+
+   -    Aenderung des C200 Betriebssystems
+
+   PKS V1.71 auf V1.8
+
+   -    Behebung aller bekannten Fehler
+   -    Projekt- / Bildimport
+   -    Import und Export von Variablenzuordnungstabellen
+   -    P150 und C300 Betriebssystemdownload
+   -    Konfigurationsfile fuer P150 
+   -    Die Tasten des 16x40 Displays koennen verwendet werden
+   -    Slavetableaus; es koennen Projekte fuer bis zu drei Slavetableaus
+        erstellt werden
+   -    Erweiterung der Anzahl von Feldern, Tasten und Ledfunktionen
+                -       64 Felder (Ein- / Ausgabefelder)
+                -       99 Tastenfunktionen
+                -       99 Ledfunktionen
+        
+        ACHTUNG !! Die Gesamtanzahl der moeglichen Felder ist abhaengig vom
+                   verwendeten Kommunikationstreiber, der Laenge der hist.
+                   Alarmliste und der Anzahl der Prozessvariablen.
+
+   -    Datenkonvertierung bei der B&R2000 Verbindung
+   -    Normierung von Word unsigned Felder
+   -    Input/Output Long mit Vorzeichen
+   -    MININET SPOIO Treiber ist enthalten
+                                          
+   PKS V1.8 auf V2.0
+
+    -   Behebung aller bekannten Fehler
+    -   Protokollsystem
+    -   Alarmsystem
+    -   Ledmatrix (Projekteditor)
+    -   Mehrsprachigkeit
+    -   Tastenfunktion Input weiterschalten
+
+    PKS V2.0 auf V2.01
+
+    -   Fehler im Compiler wurde behoben
+
+    PKS V2.01 auf V2.02
+
+    -   Aenderung des Betriebssystem (V2.0 => V2.02)
+    -   PKS Editor-Fehler wurden nicht behoben !
+    
+    PKS V2.02 auf V2.1
+
+    -   Aenderungen des Betriebssystem (V2.02 => V2.1)
+    -   Rezepte koennen bis 20 kByte erstellt werden
+    -   Erweiterung der INPUT String Funktion
+    -   Vornullen bei numerischen Eingabefelder
+    -   Quittierungsabbild fuer Alarmsystem
+    -   Alarmfelder koennen ohne Uhrzeit ausgegeben werden
+    -   Zusatzprogramme koennen jetzt Projektlokal gehalten werden.
+        Hierzu ist im Projektverzeichnis *.PRD das Verzeichnis ADD
+        zu erstellen. Alle *.BR Module in diesem Verzeichnis werden
+        bei einem Projektdownload auf das Tableau Uebertragen.
+
+    PKS V2.1 auf V2.2
+
+    -   Aenderung des Betriebssystem (V2.1 => V2.2)
+    -   Sperren von String Eingabefelder
+
+    PKS V2.2 auf V2.4
+
+    -   Aenderung des Betriebssystem (V2.2 => V2.4)
+    -   Erweiterung der Displayauswahl (4D1165 und 4D1166)
+    -   Neue Tableaubeschreibungsdateien fuer 4B1250 und 4B1203
+    -   Behebung aller bekannten Fehler
+    -   Unterstuetzung diverser PC-Laptopïs beim Projektdownload
+    -   Neue MININET / MININET SPOIO Funktionsbausteine
+    -   Unterstuetzung Betriebssystem und Projektdownload auf
+        4C2210 Controller mit 1MB FlashProm
+
+    PKS V2.4 auf V2.5
+
+    -   Aenderung des Betriebssystem (V2.4 => V2.5)
+    -   Aenderung des Betriebssystem für C221 (V2.4 => V3.0)
+    -   Neues Tableaubeschreibungsfile für C221
+    -   Maximal 849 Variablen sind fuer ein C221 Projekt moeglich
+    -   Bereinigung der Tableaubeschreibungsfiles (BRIT-Tableaus)
+        Es ist nur die jeweils letzte Versionsnummer enthalten
+    -   Eingabe von Zeichen > 127 bei BRIT-Tableaus
+    -   Projektuebertragung BRIT-Tableaus funktioniert auf allen
+        PC´s
+    -   Im Alarmsystem kann fuer Alarmgruppe 0 (Systemalarme) keine
+        SPS Variable angegeben werden
+    -   Bootcomm.exe Programm fuer Cxxx Betriebssystem Uebertragung
+
+G. Aenderungen im Betriebssystem 
+
+   C300 V1.5 auf C300 V1.6
+
+   -    Der Programmieralgorithmus des FlashProms wurde geaendert
+
+   C300 V1.6/C200 V1.7 auf C200/C300 V1.8
+
+   -    Behebung aller bekannten Fehler bei Normierung
+   -    Behebung aller bekannten Fehler im Alarmsystem
+   -    Filter im Alarmsystem
+   -    Das Brueckungsabbild wird in die SPS uebertragen
+   -    Slavetableaus; es koennen bis zu drei Slavetableaus bedient
+        werden
+   -    Normierung von Word unsigned Felder
+   -    Input/Output Long mit Vorzeichen
+   -    Parametrierbares Verhalten im Fehlerfall
+
+   C200/C300 V1.8 auf C200/C300 V2.0
+
+   -    Behebung aller bekannten Fehler
+   -    Protokollsystem
+   -    Rezeptsystem
+   -    der Hochlauf von Slavetablaus wurde geaendert
+   -    Mehrsprachigkeit
+   -    Ledmatrix
+   -    Updateverhalten von Inputfelder
+   -    Sperrverhalten von Inputfelder
+   -    Tastenfunktion Input weiterschalten    
+
+   C200/C300 V2.0 auf C200/C300 V2.02
+
+   -    Behebung aller bekannten Fehler
+
+   C200/C300 V2.02 auf C200/C300 V2.1
+
+    -   Behebung aller bekannten Fehler bei der Normierung
+    -   Behebung aller bekannten Fehler bei Tasten- / Ledmatrix
+    -   Rezepte koennen bis 20 kByte erstellt werden
+    -   Erweiterung der INPUT String Funktion
+    -   Vornullen bei numerischen Eingabefelder
+    -   Quittierungsabbild fuer Alarmsystem
+    -   Alarmfelder koennen ohne Uhrzeit ausgegeben werden
+    -   Lebenszeichenmode
+    -   Uhrzeitsynchronisation SPS => Tableau
+    -   Nummer des aktiven Eingabefeldes wird in der internen 
+        Variable INPUTFIELD abgelegt
+
+    C200/C300 V2.1 auf C200/C300 V2.2
+
+    -   Sperren von String Eingabefeldern
+    -   Erweiterung Abbildserver fuer Multiple GET_OV fuer NET2000
+
+    C200/C300 V2.2 auf C200/C300 V2.4
+
+    -   Behebung aller bekannten Fehler im Abbildserver
+    -   Erweiterung des Betriebssystems fuer 4C2210 (1MB FlashProm und
+        1MB Ram)
+    -   Behebung aller bekannten Fehler im Betriebssystem Interpreter
+
+    C200/C300 V2.4 auf C200/C300 V2.5
+
+    -   Behebung aller bekannten Fehler im Abbildserver
+
+    C221 V3.0
+
+    -	Das Betriebssystem basiert auf die Basis RPS Betriebssystem 
+  	Version 2.0
+    -   Es koennen maximal 845 Variablen verwendet werden
+    -   Dieses Betriebssystem unterstuetzt keine Online	Kommunikation. 
+
+H. Bekannte Fehler/Probleme 
+
+   Betriebssystemversion C300.#16 und C200.#17
+   
+        Werden in einer Alarmgruppe 128 Alarme definiert, so werden die 
+        ersten 8 Alarme der naechsten Gruppe nicht ausgewertet.
+        Werden max. 127 Alarme pro Gruppe verwendet, so werden alle Alarme
+        der naechsten Gruppe richtig ausgewertet.
+
+        Wird das Fehlerbild im Bildverzeichnis eingebunden, so darf vom 
+        Fehlerbild in kein anderes Bild verzweigt werden.
+
+        Die Filterfunktionen im Alarmfeld und Historischen Alarmfeld sind
+        noch nicht enthalten.
+
+        Das Brueckungsabbild wird noch nicht in die SPS uebertragen.
+
+        Historische Alarmliste
+                - Der Quittierstatus und das Ereignis werden nicht 
+                  dargestellt
+                - Wird der Cursor ueber den ersten eingetragenen Alarm
+                  positioniert, bleibt das Tableau stehen.
+
+        Kommunikation B&R 2000:
+
+            Wird als Kommunikation B&R2000 eingestellt, so ist die Ein-  
+            stellung 'dynamic' nur ab SPS Betriebssystem Version V1.10
+            moeglich. Wird die SPS Betriebssystem Version V1.05 verwendet,
+            darf nur 'read-write' eingestellt werden.
+
+            Verwendung des Alarmsystems (SPS Betriebssystem V1.05):
+              Es duerfen pro Alarmgruppe max. 32 Alarme konfiguriert                   
+              werden. Die angegebene Adresse des Alarmbitfeldes am Tableau
+              muss in der SPS mit dem Datentyp LONG definiert werden.
+              Werden bis zu 16 Alarme pro Gruppe definiert, so muss die an-
+              gegebene Adresse des Alarmbitfeldes am Tableau in der SPS als
+              Datentyp WORD definiert werden.
+            
+            Verwendung des Alarmsystems (SPS Betriebssystem V1.10):
+              Die angegebene Adresse des Alarmbitfeldes am Tableau muss in 
+              der SPS als BYTE-Feld definiert werden. 
+
+   Betriebssystemversion C300.#18 und C200.#18
+
+            Tastenmatrix / Bildnummer
+              Nach einem Power On oder einem Reset wurde die Tastenmatrix
+              nicht mit 0 initialisiert
+
+            Kommunikation B&R2000
+              Nach einem Reset oder Power On wurde fuer 2 Sekundne das 
+              Fehlerbild aufgerufen.
+
+            Ein- / Ausgabefelder
+              Bei der Ausgabe von Floatzahlen wurden Werte im Bereich 
+              von 1.0*10n bis 2.0*10n als "****" dargestellt.
+
+            Protokollausdruck
+              Wurde ein Protokoll mit einem Stringfeld mit ungerader
+              Laenge ausgedruckt, blieb der Controller mit einem Fatal
+              Sys Error stehen.
+
+   Betriebssystemversion C300.#20 und C200.#20
+
+            Tastenmatrix
+              Bei Tastenpufferung = NEIN wird bei sehr schnellen Tasten-
+              druecken die Tastenmatrix nicht immer aktualisiert
+
+            Ledmatrix
+              Bei einem Bildwechsel wurde der Ledzustand der SPS nicht              
+              immer aktualisiert
+
+            Eingabefeld Verriegelung
+              Waren alle Eingabefelder im Bild verriegelt und wurde kein
+              zusaetzliches Ausgabefeld angezeigt, wurde die Sperrvariable
+              nicht mehr aktualisiert.
+
+   Betriebssystemversion C300.#22 und C200.#22
+
+            Abbildserver
+              Konnte beim Hochlauf eine SPS Variable nicht erkannt werden
+              blieb das Tableau mit Initializing Communication stehen.
+
+              Der Multiple Get_OV des NET2000 Protokolles (ab NET2000 V1.3)
+              lieferte einen Fatal Sys Error 4703.
+
+            Normierung
+              Bei gewissen Feldparametern (z.B. Up/Downinput und Normierung)
+              wurden Input Long Felder um eine Position zu weit links
+              dargestellt.
+
+   Betriebssystemversion C300.#24 und C200.#24
+
+	    Abbildserver
+              Behebung von Hochlaufproblemen beim Einschalten des Tableaus
+            
+	    Protokollsystem
+              Wurde nur das Protokollsystem verwendet und der Drucker mit
+	      Hardware Handshake betrieben, blieb das Tableau nach dem Ab-
+	      stecken des Druckers mit einem Fatalen Fehler stehen.
+
+I. Bekannte Fehler / Probleme bei der Verwendung von BRIT- Tableaus 
+
+        BRITGR31 V1.1 / BRITGR42 V1.2
+
+        -       Wird die +p+ (previous Input) Taste gedrueckt, so kann es 
+                vorkommen, daá das Tableau abstuerzt, oder Eingabefeld 0 
+                ueberspringt. Wird der Seitenwechsel aus der SPS erlaubt, 
+                so tritt dieser Fehler nicht mehr auf.
+        
+        BRITGR31 V1.3 
+
+          Bei dieser Betriebssystem Version muss die Tableaukonfigurations-
+          datei BRITGR31.#14 ausgewaehlt werden !
+
+        -       Bei Projekten < 37 kByte wird im RUN-Mode ein Reset aus-
+                geloest. 
+
+        -       Wird von einer Seite mit gesperrten Input-Feldern auf 
+                eine Seite mit einem INPUT-Passwort Feld gewechselt, so 
+                ist dieses Feld gesperrt. Um dies zu vermeiden, muss zuerst 
+                eine Seite ohne gesperrten Input-Feldern aufgerufen werden.
+
+        BRITGR31 V1.4
+
+          Bei diesem Betriebsystem wurde bei kundenspezifischen Tableaus 
+          eine Taste nicht erkannt. Dieser Fehler tritt bei BRITGR31 Tableaus
+          nicht auf.
+
+J. Update von Tableaueditor Version V1.3 auf V2.0:
+
+        Um BRIT-Projekte, welche mit der Tableaueditor Version V1.3 er-
+        stellt wurden mit der Tableaueditor Version V2.0 bearbeiten zu
+        koennen, muss das Programm > C13TO16.EXE < von der Installations-
+        diskette auf die Harddisk des PC's installiert werden. 
+
+        Es ist moeglich ein Update der Tableaubetriebssystemversion vor-
+        zunehmen.
+
+        z.B. Ein Projekt, welches mit Editorversion V1.3 erstellt wurde
+             befindet sich im Verzeichnis C:\PW13\USER\. Der Name des
+             Projektes ist TEST.PRJ.
+
+             Aufruf:  C:>C13TO16 C:\pw13\user\test.prj 
+
+        Es wird im angegebenen Verzeichnis ein Unterverzeichnis mit dem
+        Namen des Projektes und der Endung .PRD angelegt. Es werden alle
+        im Projekt definierten Bilder, die Globaltextdatei und die 
+        Tastentabelle uebersetzt und in dieses Unterverzeichnis kopiert. 
+        Wird eine Datei nicht gefunden, wird eine Fehlermeldung ausge-
+        geben.
+
+        Um alle neuen Felder (neue Betriebssystemversion des Tableaus 
+        erforderlich) verwenden zu koennen, kann beim Aufruf des Konver-
+        tierprogramms eine Option angegeben werden.
+
+             Aufruf:  C:>C13TO16 C:\pw13\user\test.prj -v14
+
+        Es wird im Projekt die Betriebssystemversion V1.4 uebernommen.
+
+K. Mininet Funktionsbloecke
+
+   Auf der Installationsdiskette befinden sich im Verzeichnis \COMM.01 
+   alle MININET Slave Funktionsbloecke.
+   Diese Funktionsbloecke koennen in das PGUSER Verzeichnis von PROSYS
+   kopiert werden. 
+
+        NDSA.MSL        Mininet Slave Treiber fuer PIF
+        NDSB.MSL        Mininet Slave Treiber fuer CP31/PP40
+        NDSC.MSL        Mininet Slave Treiber fuer CP80/63/PP60
+        NPLS.MSL        Mininet Slave SPS
+        MDSA.MSL        Kombinierter schneller NDSA+NPLS
+        MDSB.MSL        Kombinierter schneller NDSB+NPLS
+        MDSC.MSL        Kombinierter schneller NDSB+NPLS
+        MSSA.MSL        Mininet Fast Slave Treiber fuer PIF
+        MSSB.MSL        Mininet Fast Slave Treiber fuer CP31/PP40
+        MSSC.MSL        Mininet Fast Slave Treiber fuer CP80/63/PP60
+
+   Die Einbindung dieser Funktionsbloecke in das SPS Programm ist dem 
+   Standardsoftware Anwenderhandbuch Band 2 zu entnehmen.
+
+L. BOOTCOMM.EXE
+
+   Um das Betriebssystem auch unter Windows auf einen C200, C220 oder C221 
+   uebertragen zu koennen, kann das Programm BOOTCOMM.EXE (befindet sich im
+   System Verzeichnis) verwendet werden. Hierzu sind je nach Controllertyp
+   folgende Kommandos (z.B. aus einer BATCH Datei) auszufuehren:
+
+	C200 und C220:
+
+		bootcomm c200sys.s1 -b57600 -pcom1 	
+		bootcomm c200sys.s2 -b57600 -pcom1 -nc
+
+		; Es koennen auch andere Baudraten oder die com2 Schnitt-
+		; stelle verwendet werden.
+
+	C221:
+
+		bootcomm c200_p30.s1 -b57600 -pcom1
+
+   Wird das Programm BOOTCOMM ohne Parameter aufgerufen, wird eine Hilfe
+   angezeigt.
+
+   HINWEIS: Auf dem C300 kann das Betriebssystem nur im DOS-Modus aus der 
+            PKS installiert werden. Das Uebertragen in Windows ist nicht
+            zulaessig und kann zum Verlust des Betriebssystems auf dem C300
+            fuehren ! 
+
+M. Demoprogramme
+
+   Auf der Diskette befinden sich 2 Demoprogramme. Diese Demoprogramme 
+   werden bei der Installation der PANELWARE KONFIGURATIONS SOFTWARE 
+   automatisch in das Anwenderverzeichnis kopiert. 
+
+      \DEMO2_MN.PRD         Demoprogramm MININET
+           
+         In diesem Verzeichnis befindet sich ein Demoprojekt, welches     
+         ueber MININET mit einer SPS kommuniziert. In diesem Verzeichnis
+         befindet sich auch das SPS Programm. Es wird hierfuer eine 
+         CP40 und eine PIF (Steckplatz 0) benoetigt. Mittels der sich auf
+         der Diskette befindlichen Funktionsbloecke kann eine andere 
+         SPS Konfiguration erstellt werden. 
+           
+         Die Verbindung zwischen Tableau (Interface 1) und SPS Schnitt-
+         stelle (IF3) erfolgt ueber das Kabel BRKAPC-0
+           
+        Dieses Demoprojekt wurde fuer einen C200 Tableaucontroller er-
+        stellt. Mittels Projektimport kann ein Projekt fuer den C300
+        Tableaucontroller erstellt werden.
+
+      \DEMO2_AL.PRD        Demoprogramm B&R2000
+
+        In diesem Verzeichnis befindet sich ein Demoprojekt, welches    
+        mit einer B&R 2005 oder B&R 2010 SPS kommuniziert. In diesem 
+        Verzeichnis befindet sich auch ein exportiertes SPS Programm 
+        (ALI_DEMO.XPE). Dieses Programm muss mit Hilfe von PG2000
+        zuerst importiert, gespeichert und anschlieáend compiliert 
+        werden. Das daraus entstandene Modul kann auf die SPS ueber-
+	tragen werden.
+
+        Die Verbindung zwischen Tableau (Interface 1) und SPS (RS232)
+        erfolgt ueber das Kabel 0G000100-090
+        
+        Dieses Demoprojekt wurde fuer einen C200 Tableaucontroller er-        
+        stellt. Mittels Projektimport kann ein Projekt fuer den C300
+        Tableaucontroller erstellt werden.
+
+
+        02.11.98

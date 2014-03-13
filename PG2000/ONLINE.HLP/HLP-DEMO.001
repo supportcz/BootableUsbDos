@@ -1,0 +1,74 @@
+$ This is the comment line and is ignored
+%%
+1,0:1
+%%
+.1
+This is the title line for the first screen
+1. This is the first line of the body of the text
+80 characters width
+0        1         2         3         4         5         6         7         8
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+This is the last line.                                              @2[ Next Page ]
+.2
+This is the title line for the second screen
+1. This is the first line of the body of the text (second screen)
+
+     The upper leftmost button is active first (upper preference) @2[ Test ]
+
+
+
+
+
+       Command buttons can be put anywhere => @2[ Button ]
+        (but do not have to go anywhere)
+
+
+       Any size:
+@3[ This button will send you to the next screen which is entirely blank. Try it ! ]
+
+
+
+
+
+
+This is the last line.                                              @1[ Prev Page ]
+.3
+This is blank with no command buttons
+
+You must press ESC to exit or BACKSPACE return to the last screen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+See the line below for instructions
+.End

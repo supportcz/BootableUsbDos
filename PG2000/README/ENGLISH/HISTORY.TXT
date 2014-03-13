@@ -1,0 +1,338 @@
+Expansions and Corrections in V2.24
+
+Export and Import
+=================
+¯ The entire export/import functionality was updated and the procedure
+  for exporting and importing objects (tasks, FBKs, data types, ...)
+  was unified and is now managed in a clearer manner.
+
+¯ If the entry "EXPORT_PATH=<path>" is in the PG.INI file, then
+  the entry <PATH> is used as default suggestion during export in
+  the field for the export path entry.
+
+¯ If the entry "IMPORT_PATH=<path>" is in the PG.INI file, then
+  this path is checked for ASCII files (task and FBK sources).
+
+¯ Constants can be exported in ASCII format.
+
+¯ Init values for variables in ASCII format are supported.
+
+¯ The comparison for newer ASCII files is not only made for task
+  sources, it is also made for FBK sources.
+
+¯ For PVs that have long names with the maximum possible length, it
+  was possible that they were not recognized as being the same and
+  the box with the question "Overwrite, Keep, ...." was opened.
+
+¯ When importing faulty RIO variables, error 322 is now given.
+
+¯ After project import and then using the Make instruction, a
+  significant rise in the memory requirements for pcc_global PVs
+  could occur.
+
+¯ Global PVs can now also be exported and imported in ASCII format
+  on a PP.
+
+¯ If possible, the processor links for PVs remain in tact during PV
+  import.
+
+¯ During ASCII export for a project with many LAD tasks, errors
+  7003 or 6000 could occur.
+
+¯ Changes of data types which occur during  data type import are
+  not taken into consideration for the Make instruction.
+
+¯ When importing constants, it was possible that the value of the
+  constants are always overwritten.
+
+GDM
+===
+¯ FBK list handling was implemented analog to the object lists.
+  With the GDM (Editor - Pop Up "FBK Lists"), a FBK list can be
+  created and all FBKs entered can be compiled.
+  All FBKs with source code available will be entered in the list
+  (*.FUB). Compiling the FBKs is carried out with the Make command.
+
+¯ Because of changes in the handling of the PPs in the GDM,
+  error "Missing System Bus Components" occurred if an XP152 was
+  used and was accessed when converting projects that were created
+  with version V2.22 into V2.23.
+
+¯ Single line comments in the GDM could no longer be changed completely
+  at times.
+
+¯ The entry for shifting symbols in the GDM was disabled.
+
+¯ In certain circumstances, offsets could be overlapped for linked
+  PVs (CPU <-> IP).
+
+¯ The limitations when assigning module addresses for PPs / MPs
+  (maximum address 8) were lifted.
+
+¯ When checking the GDM, large projects can cause PG to crash.
+
+¯ Checking the GDM can be interrupted with <ESC>.
+
+¯ Compiling via FBK lists can be interrupted with <ESC>.
+
+¯ When optimizing a PCC symbol with several processors, it is possible
+  that the offsets for shared variables (linked or pcc_global)
+  were no longer correct.
+
+¯ The names for the task class symbols in the GDM were changed from
+  TC#1 - TC#4, HS#1 - HS#4 to TC#1 - TC#4, HS#1 - HS#4.
+
+Code Generation
+===============
+¯ Assignments to constants are not always rejected with an error
+  message.
+
+¯ When using the setting "optimized bit handling" the statement
+  bit_var XOR bit_var (bit_var with type BIT) is not compiled
+  correctly.
+
+¯ When rebuilding tasks, the length for alias PVs were always
+  recreated with 0.
+
+¯ In individual error situations when compiling tasks, the memory
+  for the stacks was no longer freed.
+
+¯ More sensible error message given if the Rebuild Info exceeds 64k.
+  Data Bank
+
+¯ The poorly informative message "Data type no. > no < not available in
+  the in data bank" was replaced by "Data type for (ALIAS-)PV >
+  pvname < with type no. (no) not available in the data bank".
+
+¯ When attempting to delete a library in a project which has no
+  library, a crash occurred with CSCAPE error.
+
+¯ When changing the scope of a PV in the VD, the other parameters
+  for the PV are no longer deleted.
+
+¯ When printing the VD, the column for the Init Value for the PV
+  was dimensioned too wide.
+
+¯ For  projects with many data types, it was possible that the type
+  declaration for the wrong data type was opened in the data type
+  column of the VD when entering 'T'.
+  Ladder Diagram
+
+¯ LADs created with a PG version <= 2.23, are always compiled when
+  the editor was opened and closed (without making changes).
+
+¯ When inserting an empty line in the first line of a LAD, is was
+  possible that improper cross connections  were made.
+
+¯ When rebuilding LAD tasks, data types were not rebuilt which
+  are used in the Init SP.
+
+¯ When entering comments with three lines in LAD, PG could crash if
+  the three lines have the same length.
+
+¯ After cutting or deleting a marked area in the LAD editor, various
+  errors can occur (contacts are no longer assigned, visible contacts
+  are no longer recognized  -> open lines, the names of contacts were
+  no longer shown correctly, ...).
+
+Data Modules
+============
+¯ Data modules are now only compiled with Make when changes are made
+  as with tasks.
+
+¯ The display of the module parameters from the data Module editor is
+  now possible.
+
+¯ Saving on the PCC from the data module editor is now possible.
+
+¯ Compiling data modules can done via compiler settings.
+
+PV Monitor
+==========
+¯ The complete IEC String for I/O variables can now be shown in the
+  PV Monitor.
+
+¯ When exiting the PV Monitor, PG could crash.
+
+¯ The values for constants were sometime shown incorrectly in the PV
+  Monitor.
+
+¯ The precision of the display of FLOAT PVs in the PV Monitor was
+  increased.
+
+Other
+=====
+¯ In the dialog boxes which are opened after calling "Create Project",
+  "Copy Project" and "Search Project", a path browser to select a
+  directory can be called by pressing a button.
+
+¯ In the display for the error module, the program counter is given as
+  LONG.
+
+¯ The selection of the operating system during OS Download didn't
+  function properly (the first found was always loaded).
+
+¯ If a *.INI file does not exist when PG is started, one is created.
+
+¯ When entering a path with more than 30 characters with the file
+  selection box, an CSCAPE error occurred.
+
+
+Extensions and Corrections in V2.25
+
+Ladder Diagram
+==============
+¯ Because of an error in LAD in PG versions < V2.24, it was necessary to
+  build in correction into V2.24.  The corrections take effect when the  LAD
+  file is loaded into the editor. For big LAD files, this procedure could
+  take several minutes. In V2.24, this procedure was takes place each time
+  the file is opened. Opening the file in V2.25 and saving it solves this
+  problem.
+
+PL 2000
+=======
+¯ PL2000 now supports character constants such as 'x'.
+
+¯ PL2000 now supports ASSERT as a new syntax element:
+
+        Syntax : ASSERT(<logical expression>)
+
+  When the logical expression becomes 0, the ASSERT element stops the PCC.
+  (service mode).
+
+¯ When using a large number of lines in PL2000, it was possible that error
+  message 7021 was given with an invalid text message. V2.25 solves this
+  problem.
+
+Constants
+=========
+¯ When assigning a value to a constant, it was possible that no error
+  message was given.
+
+¯ Symbolic constants can now also be used within ACTION statements.
+
+Communication
+=============
+¯ With certain notebooks (e.g. : Compaq Contura), the system could
+  crash while online communication was in progress. V2.25 solves this
+  problem.
+
+Extensions and Corrections in V2.26
+
+Communication
+=============
+¯ The entire procedure for sending messages has been updated concerning
+  communication between the PC and PCC :
+  * In the bottom right the foot line, the state of the connection and
+	also information concerning the PCC  will be shown (communication
+	partner, interfaces, PCCSW version, state of the PCC).
+  * For services that take longer (download, ...), the percent finished
+	is also shown in the foot line.
+  * Error status of the connection are either prevented or a meaningful
+	message is given.
+  * The messages concerning system problems (write protection on EPROM,
+	missing system expansions, ...) was updated, to make error analysis
+	easier.
+  * Success or failure messages are set up as unit and include add.
+	information.
+  * messages without meaning or messages that have no meaning for the
+	user have been done away with.
+
+¯ Deleting the databank information when optimizing an object can
+  be blocked by the user.
+
+¯ The local memory requirements (analog and digital) for a task will be
+  output in the module parameter box. Since the actual memory requirements
+  are only available after the taskbuilder procedure (order of the offset
+  entry, alignment), the display is only valid after the conversion.
+
+Error Correction
+================
+¯ If the number of B&R modules set was smaller than the number required,
+  an error message that has no meaning for the user was given.
+
+¯ Error messages that make no sense, which could occur during module
+  download have been replaced by messages which give an exact reason
+  for the cause of the error.
+
+¯ If the DL was interrupted with ESC, it was possible that the wrong
+  text was shown in the message window.
+
+¯ If the connection was broken when selecting a task for the PV monitor,
+  a red message window appeared with the error numbers 4012 or 4252.
+
+¯ In the PV Monitor, it was possible that an incorrect value was shown
+  for structures which consist of several byte arrays.
+
+¯ When forcing values using the PV Monitor and then entering a global
+  "FORCE OFF", the status remained "f" in the PV Monitor.
+
+¯ When closing PG with ALT-F4 during an INIT-SP for a task, PG could
+  crash.
+
+¯ During spooler DL in the PCC, the error message "Service State Conflict"
+  could be given if a version of the spooler was already available.
+
+¯ When linking analog contacts in LAD by pressing the F6 key, incorrect
+  lines could be shown.
+
+¯ When creating an then removing a processor layer, it was possible that
+  the processor layer was still shown in the project path.
+
+¯ When attempting to store a module in FIX RAM if not enough memory was
+  available, an error text was given which had little meaning.
+
+¯ Synchronize in the GDM with an XP152 was not possible.
+
+¯ If error analysis was interrupted during communication, it was possible
+  that PG could crash.
+
+¯ Modules with a $ character in the name were not found in the GDM for
+  a DL.
+
+¯ After a TOTAL INIT on the CP200, the error messages "Overflow on
+  Connection" or "ALI:ERROR 2" could occur, even though connection was
+  active.
+
+¯ If a PV was declared as a structure which was larger than 65535 bytes
+  (e.g. 260 x 256 bytes), no error message was given.
+
+¯ When attempting to burn a module on a controller which has the APM set
+  to WRITE PROTECT, an incorrect error message was given.
+
+¯ When attempting to delete the FLASH on a controller which has the APM
+  set to WRITE PROTECT, an incorrect error message was given.
+
+¯ Only the first character of the library name was considered significant
+  for the libraries in the project.
+
+¯ If the SEARCH function was called in LAD, no default entry was given in
+  the menu item Symbol.
+
+¯ It was possible that comments in LAD were not completely visible.
+
+¯ It was possible that constants in LAD were not recognized as such
+  and therefore had a incorrect value.
+
+¯ The input for the offset in the offset editor was limited to 3 positions.
+
+¯ For X or T versions of the PCCSW earlier than 1.10 (e.g.: X0.53), it was
+  not possible to configure FIXRAM.
+
+¯ When using PCC global FBK alias, an error in code generation can cause
+  the FBK output to be written incorrectly is some cases.
+
+¯ The error message give when attempting to burn a module to a write
+  protected APM was incorrect (only for PCCSW V1.xx).
+
+¯ The error message given when attempting to write a module in a FIX-RAM
+  that is not configured was incorrect (only for PCCSW V1.xx).
+
+¯ When calling FBK/Functions within FBKs, was is possible that incorrect
+  code could be created for the FBK in some cases.
+
+¯ When using pcc global variables on MPs/PPs, the incorrect message
+  "CPU PV not allowed to be changed" was given during the declaration
+  of these variables on the MP side. If an offset was given for the PV
+  in the offset editor on the CPU side, then it was not possible to use
+  the PV on the MP side.

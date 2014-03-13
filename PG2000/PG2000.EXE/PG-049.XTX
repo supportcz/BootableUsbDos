@@ -1,0 +1,525 @@
+Name :Tasks ModulNr KanalNrD@atentypJa	NeinVariablenbest.OKCancelOK	CancelBearbeitenTexteditorS@chlieáen  ^F4KontaktplanHilfeToolsSpeicher-TestB@eenden    F4PV-Liste  OK  CancelTaskbuilderPL2000OK	SpeicherCompile       F9SuchenWeiter        F5MarkiereKontaktplan,PL2000,Anweisungsliste,Datenmodul,Funktionsbaustein,TextEinfgen      InsBlockIndex    LadenNameSichernZurckVorsicht !Variable wird umdefiniertALI - Report  G D M      F12KontaktStrukturLibrarysTextLinieRechtsLinksDefinitionFUBEinfg/šberSchlieáen ^F4,Sichern,Wiederherstellen,Fenster „ndern,Symbol,Vollbild ^F1,N„chstes F6Bytesbei Warmstart,bei Download,nie SpoolenModusDateiZeilenderungen in %s sichern ?R U NL”schenKein Task zur Auswahl auf der RPS vorhanden !PL2000/AWL/Text#1,Kontaktplan#6,Variable#2,Bereichseditor#5Laufwerk %c: nicht bereit !Ungltiger Pfad oder Dateiname !zu wenig Speicher !Datei kann nicht ge”ffnet werden !Zeilenmodus kopieren %s <-> %s : Leerer Datenbaum (keine gemeinsamen PVs)SystemParameter Objekt,ProjektASCII#3,Objekt#2,Objekt->Editor#1,Projekt#9,Library#6,BFU->FUB#7,Systemmerker#8,Task Rebuild#5Editor,RPS-Objekt,ASCII,ModulbeschriftungSichern war nicht erfolgreich !Mit ESC zurck, mit Backspace zur vorherigen SeiteFenster @„ndernTask RebuildZP-Status : %dNV-Initialisierung fehlerhaft !Objekte ohne NamenTasksDebugger         VerbindungDebugger     F11Keine nderungen vorgenommenKeine Richtungs„nderung erlaubt ! *** Fehler aufgetreten *** %c     Fehlercode: %uDatei wird im Read-Only-Mode ge”ffnet ! MP #2, IP #3TC1,TC2,TC3,TC4,HS1,HS2,HS3,HS4,EXC,IRQ,DAT,TXT,B&R,alleObjektDatenbaumVersetzenPrfenTaskklasseSetzenL”schenBewegenZeichnenOhne Sichern ?Verwerfen	Sichern	CancelHier ist kein Setzen m”glich !Gruppe 0/HauptCPU/RPS 1 darf nicht gel”scht werdenDieser Name ist schon vergeben !Keine gltige DatenbaumpositionKeine Eintr„ge in der B&R-ModultabelleNeuer Eintrag in die B&R-ModulrelationHier kann kein Datenbaum gezeichnet werden !<CURSOR> : Bewegen; <ENTER> : Setzen; <SPACE> : ListeEbeneEbeneGDMVarDeklObjekt Art         :                 Task
+Init Routine       :
+Resource           :
+Start (Irq/Exc) Nr.:
+Transfer Mode      :
+Installation       :
+Start              :
+Spoolen            :
+Rebuild Info       :Default,nicht InstallierenGRP :ParamTaskTaskname :Einstiegsebene : PVsFunktion in dieser Betriebsart nicht erlaubtCrossreferenzAlles L”schen?NV-Liste zu "%s" nicht vorhanden oder Datei in ArbeitOKCancelNameEingabe eines TasknamenGDM-Prfung wird gestartetTask "%s" nicht in der DatenbankTaskklasse von "%s" wurde ge„ndertCancel	OkG@enerierenDatei @kopierenIndex,Variable,Var.Liste,Domain,Prog.Inv,Event,StartFehler %d beim Einfgen der PV %sForce auf lokale PV nicht m”glich !Name  : Compiler abgebrochenPV Name : Wert : $Daten : Funktion: Index : $SchreibenForcen   PV AnzeigeListeName    : PG Version :DurchsuchenPfad         : Projektname  :  !!! Stop auf $RPS !!!Beschreibung : RPS_Name     : Datum   : Zeit    : Projekt %s mit RPS %s anlegen ?Eintrag : Wirklich alle Objekte von > %s < l”schen ?GDM-Prfung beendet%s <-> %s : Gemeinsame PVs, aber kein Datenbaum			Leerer Datenbaum (keine gemeinsamen PVs)Keine MPs und PPs zul„ssigDatenbankpfad auf RPS "%s" umgeschaltetZeichnenL”schenDiesen Kontaktplan gibt es noch nichtDatei ist gesichertFehler %dFehlerpositionen in KOP %s :Zeile %d Spalte %dKOP-Parser (mit Debuginfo): %sFehler gefunden:B&R Programmierger„t Speicher%.128sInitUPEbene entfernen#8,Ebene einziehen#9Rebuild#12,On-Line#10GDM Prfen#1,Objekt Liste~5170,FUB Liste~868,Crossreferenz#3,Einstiegsebene#4,Umbenennen#5,Verschieben#6,šbertragen     F9#14,Ebene hat mehr als ein ObjektKontaktplan,PL2000,AnweisungslisteName,Laden,Sichern,Drucken#6,Schlieáen#15Name#11,L”schen#12,Negieren#21Aliasname,l”schenDatei speichern
+GDM-Objektliste : erstellt am %s
+
+³ Nr. ³ Taskname   ³ RPS      ³Prozessor ³Typ    ³TC #  ³Init-Typ³
+ÃÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄ´GDM-Objektliste in der Datei "%s" abgelegt
+
+      n.d : Task nicht in der Datenbank eingetragen,Bereichseditor#20E@xport        Projekt %s ”ffnen ?Import der Library %sProjekt %s verstecken oder wirklich l”schen ? %s existiert bereits. Bitte vorher l”schen ! Zielprojekt Gehe zu@Monitor       F11Library nicht gefunden => kein FUB-Import m”glichOverlay Aufnehmen Bitte Suchpfad fr weitere Projekte eingeben !Suchpfad : %s wird kopiertAnalyseRPS @AbtastrateDokumentationS@chlieáenPV-Liste %s.out abgelegt%sDoppeldefinition auf I/O-Modul : %sIst fr HS-Tasks nicht erlaubt !Editor        VariablendeklarationEin	Aus	CancelTask %s im Stepbetrieb ! Starten ?Task %s ist gestoppt ! Starten ?PV's im Forcebetrieb ! Ausschalten ?FUB ohne Outparam. ist im KOP nicht erlaubt KopieNummer    ,L”schen  ,Verschieben Laden   ,Sichern ,Name    ,L”schen,Drucken,Symbol  Prozessor,GruppeSimultanGRAFCET VLD-File erzeugenerst ab RPS-SW-Version V1.10 m”glich !unvollst„ndiges Projekt %s nicht akzeptiert!ProcessorInstall-NummerInstall  I N H A L T S V E R Z E I C H N I SCrossreferenz fr %s.%s wird erstellt™@ffnenE@rzeugenKopierenPVLesenListeStart	StopWeiter	ZurckSichern	LadenWert	EndeFUB ohne Inparam. ist im KOP nicht erlaubtOK	Text	Cancel Modem Bearbeiterletzte nderungVariablenliste fr %s.%s wird erstelltProjektbeschreibungZeile einf.   e,Zeile l”schen d,Statustest    y,G D M,FUB setzen,Diverses~8126Zeile einf.   e,Zeile l”schen d,Statustest    y,G D M,rechts ³      r,³ links       l,Kontakt~191,Diverses~8126ProjektObjektliste kann nicht ge”ffnet werden !B&R-Modul kann nicht angelegt werden !GenerierenDatenbank     FUB-/Datentypwahl  TypnameKeine eingefrorenen Tasks vorhanden !*** Bearbeiten aller Tasks der Projektliste '%s' ***Die Datenbank von %s neu initialisieren !Nicht verwendete PV's und HW-Module von %s l”schenBitte Objektliste erstellen und Projekt generieren !Projekt anschlieáend neu generieren !Datei kann nicht auf sich selbst kopiert werden !RPS WechselnB&R-Library  Lokale PV im    :
+Init-Werte:
+  Merker          :
+  Output          :ein,aus**** KOP-Parser    %sKommentarTelefon-Nr. :KOP %s wurde ohne Debuginfo bersetztKOP %s wurde mit Debuginfo bersetztKOP enth„lt Fehler -> kein Umschalten m”glichVar.dekl. wurde nicht aufgerufen -> kein Umschalten m”glichUmschalten: Editor -> Statustest Download bitte nicht vergessen !!!Umschalten: Statustest -> EditorVariablendeklaration Ok.ExportImportZielpfad : Dateiname Bitte zuerst Var.dekl. aufrufenUmdefinition %s nicht erlaubt !Kopieren      ^InsNicht verwendete Eintr„ge l”schen ?Status : %dgewnschte Liste in Datei %s  abgelegtDatenbank wird durchsucht - Bitte wartenNeues Init-Unterprogramm anlegen ?Error : gleicher Filename fr unterschiedliche Sourcetypen !Datei wird gerade bearbeitet !Bitte zuerst Child-Editor schlieáen !Leeres Fenster zum Sichern !Neue Datei !Zu wenig Speicher fr ein neues Fenster !Fenster @zoomenName,Einfgen,L”schenFUB-Editor kann nicht ge”ffnet werden !Bitte Verbindung zu %s umstecken !***      Projekt-Download      ****** Projekt-Generieren beendet ******  Projekt-Download beendet  ***D@ownloadDateiname nicht komprimierbar%s in Zeile %dSyntaxberprfung, bitte wartenDownload,Overload,Start,Stop,Install.,Neustart,Speichern,Entfernen,Cancel  Ist RPS %s gestoppt ?  SpeichernInitUP %s nicht vorhanden !Ungltiger Name -> Datei wird nicht umbenannt!KOP-Monitor%sModul %s nicht in der DatenbankWarnung : PV-Monitor       ³  PV-Name        ³   Wert    ³ Force ³  Schreiben  ³einVariableBitte zuerst die PV-Liste stoppen !Noch keine PV's eingetragen !ZyklusanzahlPV-Wert :Fenster umf„rben mit CursortastenStartStopStepWertForceF. aus.vld - Datei fehlerhaftTask@klassenModule:Datei %s nicht vorhanden*** Projekt-Generieren abgebrochen ****** Projekt-Download abgebrochen   ***dezimal#21,hex #22,bin„r #23Konflikt Ausgabeformat <-> Datentyp Index :KByteSpeicherplatz reicht nicht mehr -> Bitte sichern!MByteStart,Stop,Zyklus,ZyklusanzahlWeiter mit 'RETURN'   Ersetzen mit 'e'   Ende mit 'ESC'Weiter mit 'RETURN'   Ende mit 'ESC'LadeTabelleStart,Stop,Step,Zyklus,Break,Input,Output,Schaufeln,Schlieáen Nach Zeile : Suche nach   :DebuggerStart/StopStepZyklusHaltI/OL”schenVariableZeileInput,Output,ManuellAlle l”schen,Passpoint,Bedingungzum BZDatei @umbenennenStartZyklusStepStopvorhanden,nicht vorhandenDefault,nicht StartenDefault : Datei~190,Block~387,Suchen#4,Ersetzen#5,Einfg/šber#7,Cursorbew.#8,Compile#14Password  : Modus     : CompilerModembefehl :RPS-Aktion Ok.Markieren#9,L”schen#10,Einfgen#11,Kopieren#12,Modus#13Cursorbew.EditorE@rsetzenDatei @l”schenQuelle :
+Ziel   :Datei erfolgreich kopiert !Datei erfolgreich umbenannt !Datei erfolgreich gel”scht !PG-InfoRPS-Speicheraus Meldungen INDEX gr”áer als WORDERROR %4d ** Controlmachine Expression ** Token %4d of %4dFehler %u beim Anlegen von Verzeichnis "%s"ECHO: %soutput:%cFatal Error b_lex: %sSyntaxerror: Unbekanntes SymbolFehler im Verzeichnis %s** ERROR %4d ** Controlmachine Logic ** Token %4d of %4dWARNUNG:  Feld[0-%d] -> Index: %ld  Zeile %dFehler in Feldoffsetberechnung: Index nicht in Register!Interner Fehler: Ergebnisstack korrupt!**** CODEGENERATOR %s**** CODEGENERATOR Ok.Codegenerator T3.0 ** Statistik:  #Zeilen = %3d  #Token = %3dCG-ERROR %4d in Codegenerator Zeile %4d Typ %2dCG-ERROR beim Schlieáen der DatenbankKonstanter Ausdruck in Case! Zeile %dkein freies Scratchregisteres gibt kein freies Offset-Datenregisteres gibt kein freies AdressregisterZuwenig Speicher !!ERROR  Selectvariable ist kein WORD! Zeile %dFATAL ERROR: Hilfsstack ZP_baum_abbau() zu klein !Baum zu gross (ZP_make_node)!Fataler Fehler: Zuwenig Speicher! (ZP_alloc_konst)Eingabe
+%s keine gltige Zahl!
+stopstring: 
+%sFataler Fehler: Zuwenig Speicher! (ZP_index_string)Fataler Fehler: Zuwenig Speicher! (ZP_index_longint)Konstante berschreitet Bereich !!!!ERROR: Ungltiger Action-BereichFehler in ZP_ausgabe    Status %d**** ZEILENPARSER  %sMODULO auf FLOAT-Variable ?FATAL ERROR: unbekannter Un„roperator auf FLOAT-Variable!ERROR: zuwenig Speicher fr Blockparser!!!Fehler beim ™ffnen der Zeilendatei !**** BLOCKPARSER   %sFehler beim Lesen der Zeile!ERROR:  Sprungziel ist kein LabelERROR:  zuviele Labels!!!ERROR:  Label aus Zeile %d auch in zeile %dERROR:  Label Zeile %d existiert als Statelabel in Zeile %dERROR:  Anweisung nicht in Action-Block! Zeile %dERROR:  zu groáe Schachtelungstiefe !ELSE ohne IF ! zeile %dELSE_IF ohne IF ! zeile %dENDIF ohne IF ! zeile %dEXITIF aus SELECT-Block: zeile %dEXITIF braucht Loopblock: zeile %dENDLOOP ohne LOOP ! zeile %dACTION ohne CASE! zeile %dStatelabel nicht in Select-Block ! zeile %dERROR:  State-Label aus Zeile %d auch in zeile %dERROR:  State-Label Zeile %d existiert als Label in Zeile %dERROR:  zuviele State-Labels !SELECT-Bedingung nicht in Select-Block ! zeile %dERROR:  zu groáe Schachtelungstiefe !NEXT ohne WHEN ! zeile %dERROR:  Sprungziel kein Statelabel dieses Blocks: Zeile %dERROR:  END-ACTION ohne ACTION-BLOCK! Zeile %dERROR:  Action-Nummer bereits definiert! Zeile %dENDSELECT ohne SELECT !!! zeile %dSelect-Block hat keinen State!  Zeile %dBlockparser: Zeilentyp noch nicht implementiertWARNING: Label aus Zeile %d nicht referenziertERROR:  Label aus Zeile %d nicht definiertERROR:  offener Loop-Block von Zeile %dERROR:  offener If-Block von Zeile %dERROR:  offener Select-Block von Zeile %d**** BLOCKPARSER   Ok.FATAL Error: awlpar in FUB-Beschreibung zu lang!!ERROR im Inlinefub! Status: %dERROR:  PV ist kein Feld!**** AWL-Parser    %s   Ok.**** AWL-Parser    Ok.ERROR: IL-Block offen! Zuviele offene KlammerebenenERROR: AKKU nicht definiert Zeile: %dWarnung: Fubzuweisung ge„ndert!Warnung: Vergleich signed <-> unsigned in Zeile %dWarnung: Feld ohne Index in Zeile %d (Index 0 verwendet)ACHTUNG: Datenbank- und Programmversion stimmen nicht berein ! (%d)Programm wurde beim letzten Mal nicht ordentlich verlassenEs muá ein REBUILD der Datenbank gemacht werden - bitte wartenEs werden einige vordefinierte PV's in die Datenbasis eingetragen !Fehler beim Eintrag der PV > %s <; error  (%d)Fehler beim ™ffnen von %s%s : (%d)Fehler beim Schlieáen von %s%s : (%d)FUB/UP-Name zu PV > %s < in FUB/UP-Liste nicht gefunden !FUB/UP-Name zu PV > %s < nicht vorhanden !Zu wenig Speicher um FUB/UP > %s < zu lesenFUB/UP-Name > %s < in der Datenbank nicht vorhanden !<WARNING>: > %s FUB %s() < ; %2d.Eingang: Name > %s < nicht verwendet<WARNING>: > %s FUB %s() < ; %2d.Ausgang: Name > %s < nicht verwendetDatentyp der lokalen/dynamischen (ALIAS-)PV > %s < nicht angegebenZu wenig Speicher um (ALIAS-)PV > %s < zu lesen(ALIAS-)PV-Name > %s < in der Datenbank nicht vorhandenDatentyp der (ALIAS-)PV > %s < mit der Typnr (%d) in der Datenbank nicht vorhandenDatentyp der PV-Komponente > %s < mit der Typnr (%d) in DB nicht vorhandenFUB/UP-Name in FUB/UP-Liste nicht gefunden !FUB/UP-Name nicht vorhanden !Fehler (%d) beim Record Nr.%3d > %s <%3dRecord Nr.%3d schon vorhanden > %s <EXPORT der Task > %s <Task wird in der B&R-Modultabelle gesuchtSource-Datei wird ge”ffnetEx/Import- Datei > %s < wird ge”ffnetEs werden die Bl”cke der Source-Datei kopiertDer Datenbankblock wird in der Ex/Import- Datei angesprochen*** Datens„tze-Importieren ****** Datens„tze-Exportieren ****** Datens„tze-L”schen ***DB-Fehler aufgetreten ! error (%d)Fehler bei RPS: %s , error (%d) aufgetretenFehler bei RPS: %s CPU: %s Typ: %c, error (%d) aufgetretenDATENBANK NICHT MEHR FUNKTIONSTšCHTIG -- ALLES GEL™SCHT !Datenbank-Datei %s wird bearbeitetOption '-IR.' nur fr intelligenten Regler erlaubtUnbekannter IO-TYPZu wenig Speicher - Abbruch erforderlich !<WARNING>: Datentyp der (ALIAS-)PV > %s < wurde ge„ndert<WARNING>: Datentyp der PV-Komponente > %s < wurde ge„ndert> %s < diese Option ist nicht erlaubt !Unbekannte Inputdatei (nicht vorhanden oder falsch angegeben) !Datentypnr > %d < in der Datenbank nicht vorhandenIMPORT ** Datei: %s ** >>> %sEX/IMPORT konnte nicht durchgefhrt werden ! Error (%d)Bitte LOGFILE > %s.LOG < kontrollierenEX/IMPORT erfolgreich beendetDas INIT-Unterprogramm wird ex/importiertDas EXCEPTION-Modul wird ex/importiertDas Inhaltsverzeichnis des Datenbankblockes wird erstellt-PVS:    Datenbank - Ex/Import der verwendeten PV's-DATYP:  Datenbank - Ex/Import der verwendeten Datentypen-FUB/UP: Datenbank - Ex/Import der verwendeten FUB's/UP's-EX,%s-IM,%s-ERR,%s,(%d)FUB/UP-Code von > %s < konnte nicht gelesen/geschrieben werden<WARNING>: Variable > %s < im Source nicht vorhanden !Keine Datens„tze vorhanden !TASK > %s < existiert schon; Neuen Namen oder 'ndern' angeben !DATENBANKVERSION von Programm und Importdatei unterschiedlich !Datentyp der PV > %s < ungltig; Typnr = %dTASK: Originalname > %s < -- Importname > %s < !DATEI: %s existiert bereits - Belassen ?LOGFILE: > %s < konnte nicht ge”ffnet werden ! **** FUB/UP-Datentyp nicht gefunden  **** -?-?-?-?-?-?-?-?-?-?-PV-Tabelle ges„ubert, %3d Record(s) gel”schtHardware-Modul-Zuordnung ges„ubert, %3d Record(s) gel”schtTASK > %s < konnte nicht gefunden werden. Error (%d)Fehler beim Eintrag der Struktur > %s <; error  (%d)Belassen	ndern	ndern glob.	Cancel %s "%s" in der Datenbank vorhanden !  Alle Elemente in die Datenbank eintragen ? Es werden keine FUBS/UPS importiert !ndern	Cancel==> PG-Initialisierung - Bitte warten <==Hardwarezuordnung (X.X...) kann nicht interpretiert werden ! PV-Name "%s"; Zwei verschiedene Offsets angegeben ! PV-Name "%s,... "; Zuviele PV's in der PV-Liste   ! PV-Name "%s"; Datentyp "%s" existiert nicht in der Datenbank ! Kennung "%s" noch nicht implementiert ! PV-Name "%s"; unbekannter IO-Typ ! [ P | R | N | Hardwarezuordnung(X.X.X)] bei (M)erkern nicht erlaubt ! PV-Name "%s"; Fehler bei der Offsetangabe ! PV-Name "%s"; Ungltige Kanalnummer; [0-255] ! PV-Name "%s"; Keine Hardwarezuordnung erlaubt - nur MERKER ! PV-Name "%s"; MERKER nicht in einem IN-/OUT- Block definieren! PV-Name "%s"; IN-Var im OUT-Block oder OUT-Var im IN-Block ! PV-Name "%s,... "; Langname bei einer PV-Liste nicht zul„ssig ! PV-Name "%s"; Fehler beim Datenbankeintrag (%d) ! PV-Name "%s"; Fehler bei der Offsetvorvergabe (%d) ! PV-Name "%s"; Beim (I)ntelligenten Regler nur Offsetvorvergabe ! PV-Name "%s"; Fehler beim Eintrag der Hardwarezuordnung (%d) ! PV-Name "%s"; Unerlaubte Feldl„nge "%d" angegeben ! Unerlaubte Processornummer "%d"; gltig [0-7](MP/PP) [0-63](IP) ! REBUILD o.k. Speicherbedarf auf RPS Merker     TC #1     TC #2     TC #3     TC #4    rps-globaldigitalanalogSpeicher lokal: Analog :       Byte
+                Digital:       BitRckwand    :
+Moduladresse:
+Zykluszeit  :        æs2005 I/O,2010 I/O,Remote I/OIP ParameterMaster Nr. :
+Slave Nr.  :
+Slave Typ  :B&R 2005,B&R 2010BrennenDrucken       ***    Projekt-Speichern beendet    ******  Projekt-Speichern abgebrochen  ****** Projekt-Datei erstellt, Ausdruck wird gestartet ****** Projekt-Ausdruck abgebrochen  ****** Projekt-Ausdruck starten (Bitte warten) ******    Projekt-Speichern starten    ***verfgbar    frei DOS :
+ UMB :
+ XMS :
+ EMS :
+ Disk:Bitte zuerst Liste startenDatei fr Parametrierung nicht gefundenParameter: Zeile %d ignoriertParameter: Status %d in Zeile %dParameter: lokale Variable in Zeile %d ignoriertProzeáparameter einstellenParametrierung abgeschlossenMake,Compiler,ParserEinstellungen sichern ?EinstellungenCopyright by B&RZeitfaktor(ms): RPS-Abtastrate Service   Datei %s wird bearbeitetStruktur l”schenNur fr Projektfiles erlaubt ! Init.RIO Zu wenig Platz auf dem Ziellaufwerk !Projektbearbeitung unterbrechen ?Ersetzen ? (J)a (N)ein (A)lle (E)ndeZeile %dVor/ZurckDatei %s kann nicht ge”ffnet werden. Print: Fehler in Datei %s in Zeile %dPrint: Maske in %s abgelegtZeile %d zu langStatus %d in Zeile %dFensterliste    Layout sichernMacro : Ausl”sekombination festlegenMacro : Nur <CTRL><...> Kombination erlaubtMacro : Definition abgebrochenMacro existiert bereits ! L”schen (J)a (N)ein ?Zyklus(æs):S„ubernEinfgen,L”schen,Schreiben,Force#16,Anzeige~346Laden#8,Sichern#9Start#10,Stop#11,Zyklus#12,Zyklusanzahl#13,Task...#142010-I/O#5,2005-I/O#9Name,Laden,SichernEditor,Datei,Projekt,ModulbeschriftungModultyp2010-I/O,REMOTE-I/O~664,2005-I/O#2Slave 2010#3,Slave 2005#4 Moduldefinition Station  : Rckwand : Modulnr. : Masternr.: Modulmode: Parameter,Export,Import,Rebuild,PV-ListeCrossreferenz#7,RIO-Konfig#9,FUB-Liste#4,Datentyp-Liste#5,Library L”schen#10Verbindung zur RPS %s nicht projektiert !B&R,AWL,KOP,EntfernenFile %s existiert ! šberschreiben ?Task %s aus B&R-Modul wiederhergestelltBei Rebuild wiederhergestellt --> Es wird keine Rebuild-Info fr diesen Task erzeugt !Task rckbersetzt**** TASKBUILDER   %s**** TASKBUILDER   Ok.TB-Status : %d**** InitUPungltige RIO-Parameter; Master : 1-4; Slave : 1-32RPS @HaltWarmstartZeile,SpalteEditorkonfigurationaktuellen Source berschreiben ?Bitte zuerst VD sichern !Neu           Sichern @alsungltige Moduladresse; 2010: 1-99; 2005: 1-13; RIO:1-32 !Zykluszeit < 100 usec ungltig !VD-Sync.MarkierenAusschneiden  DelObjektR U N        F9nderungen in der SYSTEM-Library sind nicht erlaubt !Module einer PROJECT-Library drfen nicht ge„ndert werden !Es k”nnen nur USER-FUBS/UPS zu einer Library gebunden werden !Angegebener Librarytyp (%c) und Typ der Library (%c) stimmen nicht bereinFUB/UP "%s" in der Library nicht enthalten !Es wird eine neue Library ( %s ) erzeugtReinit der Hashtabelle !Undeklarierte Struktur-Komponente %s !<WARNING>: Datentyp der ReadOnly-PV > %s < wurde ge„ndert 
+ Kontrolle im Bereichseditor durchfhren !<WARNING>: Datentyp > %s < enth„lt doppelte Strukturkomponente > %s < ! Nr.   FUB/UP   Kennung Bit/Byte  In-Param   Typ   Out-Param   Typ LokalAVTInlineUP<INTWARNING>: Unterschiedlicher Offset der PV <%s>: NV => %0X DB => %0X !PV-Werte   :GlobalPermanentTK# Nr. PV-Name Kennung RPSIO-Typ Taskname TC Nr. Name Bit/Byte Element Typ Len Datenbank hat alte Version ! Update ? Verstecken	L”schen	CancelProjekt-Pfad ist zu lang !Verbotene Zeichen in Projekt-Beschreibung !Verbotene Zeichen im Projekt-Namen verwendet !Verbotene Zeichen im RPS-Namen verwendet !IMPORT beendet: %d Objekte, %d FehlerEXPORT beendet: %d Objekte, %d FehlerProjekt Export gestartet (%s)
+Zielpfad: %sTask,Datenmodul,Library,Erweiterung,Funktionsblock,Datentyp,KonstanteExportiere %s %sKein Sourcefile %s%s vorhanden !File hat altes Export-Format !  Bitte mit ext. Tool einspielen !<WARNING>: PV > %s < ist Read Only ! Wird nicht ge„ndert !Es muá ein Neuinit der Datenbank gemacht werden !<WARNING>: Library-FUB > %s < nicht in der Datenbank !Fehler beim Einfrieren der Task > %s < ! Error (%d)Fehler beim Auftauen der Task > %s < ! Error (%d)Daten nicht im Exportfile vorhanden !Importdatei enth„lt %s < %s >Importieren	CancelSoll Source mitexportiert werden ?<WARNING>: Ungltige Deklaration der PV > %s < ! Wird nicht importiert !ndern	BelassenImportieren nicht m”glich ! (XPE-Format nicht abw„rtskompatibel)Fehler beim L”schen. Medium schreibgeschtzt ?PG-Objekt > %s < gel”schtB&R,KOP,AWL,TextErsetzen     :Datei %s gel”scht.Fehler beim L”schen der Datei %s.Dateien und Datenbankeintr„ge von > %s < l”schen ?Datei %s l”schen ?EntfernenOKCancelLib-InfoLib-HilfeLib-InfoLibrary   :Version   :Typ       :Erzeuger  :Datum     :SystemProjektPfad AuswahlHilfetexte fr Library "%s" nicht gefunden!Import LibraryProjekt: Pfad   : Routing: Sollen Variablen, die nicht vom Projekt ben”tigt
+werden, aus der Datenbank gel”scht werden ?Abgleich durchfhren mit :
+Verzeichnis :RPS Online,VerzeichnisACHTUNG : Durch den Kaltstart der RPS gehen alle
+Daten und Module im flchtigen Speicher verloren.
+Kaltstart trotzdem durchfhren ?ACHTUNG : Durch den Hochlauf im Diagnosemode gehen
+alle Daten und Module im flchtigen Speicher
+verloren. Diagnosehochlauf trotzdem durchfhren ?OK	Probieren	Cancel RPS-Basiskonfiguration KonfigurationRPS Name    :                        Projekt :RPS Speicher:  analog  : $     Byte  (min : $     Byte)                digital : $     Bit   (min : $     Bit)                 FIX-RAM :       kByte
+TC-Stack (TC_1 - TC_4) : $     ByteBetr.System Daten/Stack: $         Byte ------------------------------------------------------ Taskklasse  :
+
+Zykluszeit  :  Dauer   :       ms (æs bei HS_TC)
+               Toleranz:       msTC Speicher :  analog  : $     Byte  (min : $     Byte)                digital : $     Bit   (min : $     Bit)  TC-Stack (HS_1 - HS_4) : $     ByteWiederherstellenTC_1,TC_2,TC_3,TC_4,HS_1,HS_2,HS_3,HS_4,Gr”sse des FIX-RAM in Vielfachen von 16 kB !Groesse des HS-TC-Stack in Vielfachen von 64 ($40) Byte !TC-Merkerbereich in Vielfachen von 16 ($10) Byte !Zykluszeitgroesse in Vielfachen von 10 ms !LogfileKeine Backup-Files vorhanden ACHTUNG : RPS wird resetiert (Reconfig-Mode) File %s am PG bereits vorhanden. Trotzdem Upload von der RPS ?Ja	Nein	CancelL”schen aller Backup-Files ?OK	L”schen	CancelErzeugt :
+Gr”áe   : ByteObjekt Art         : Datenmodul
+
+Spoolen            :
+Rebuild Info       :
+Zielspeicher       :ACHTUNG : Unvollst„ndiges Projekt-Make ! Trotzdem s„ubern ?Modul %s unver„ndert. Kein Download notwendigACHTUNG : Task %s ist inkonsistent zum Projekt! Trotzdem šbertragen?ACHTUNG : Projekt wurde neu bersetzt! Totzdem Einzelbertragen?Maskenfiles %sMASKEN\*.MSK nicht vorhandenErzeugenBeendenHiermit beenden Sie die PG 2000 SitzungSichern alssysconfDB-NeuinitDB-S„ubernLibrary > %s < l”schen ?UmbenennenOptimierenEbene entfernenMerker     TC #1     TC #2     TC #3     TC #4    mp-globalProjekt stempeln :Version  :
+Revision :
+Zusatz   :Variable %s nicht verkettet.Name        :
+Version     :
+Datum       :
+L„nge       :
+Startadresse:Modul-InfoNein	JaFormat       :
+   Verzeichnis  :
+
+   Name         :RPS/CPU      :Librarys     :
+   Datenmodule  :
+   Erweiterungen:
+   Tasks        :-alle-,-keine-,-einige-Typ          :
+   Objekt       :Task,Konstante,Fub,Datentyp,Datenmodul,Erweiterung,Library,EditorXPE,ASCII,BRASCII-Projekt-ExportQuelle:Ziel:DatentypenBelassen,ndern,NachfragenOptimierenAllgemein:
+  Generieren     :
+  ASCII Import    :
+I/O:
+  I/O-Tabellen    :
+  I/O-Emulation   :
+  Bit Behandlung  :
+Runtime:
+  Range Check     :
+  Check adr(0)    :
+Install:
+  Transfer Mode   :
+  Spoolen         :
+  Rebuild Info    :Modultyp : MP100#45,IF100#46,XP152#17,IP151#35,IF152#34,IF260#42,IP350#53,IP152#54,IP161#52Erstellen#35,Compile#36fubs.prfFUB Listenfile : 
+FUB Liste : erstellt am %s
+
+³ Nr. ³  FUB Name  ³      Typ       ³
+ÃÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´Kontaktplan,PL2000,AnweisungslisteFUB Liste in der Datei "%s" abgelegt
+³%3d  ³ %-10.10s ³ %-15.15s³*** Bearbeiten aller FUBs der FUB Liste '%s' ****** FUB Listenbearbeitung beendet ****** FUB Listenbearbeitung abgebrochen ***Ungltiger Export-NameUngltige Import-DateiOK	Cancel	VerzeichnisImport Li@braryDie Modulnr. muá im Bereich %d - %d liegenDie Modulnr. %d darf nicht ver„ndert werden*** Rcksetzen der Offsets fr RPS > %s < Prozessor > %s < ***Durch die Neuorganisation des Speichers gehen
+alle Informationen, die in Variablen gespeichert
+wurden, verloren.
+Optimieren trotzdem durchfhren ?Verzeichnis  :
+
+   Name         :
+   Inhalt       :Optionen:
+   Existierende :%s "%s" existiertNachfragebereits! Soll %s berschrieben werden ?Beim Speichern stempeln :
+
+Info :
+      Version:
+      Datum  :
+Speicher lokal :
+      Analog :       Byte
+      Digital:       BitJa	Nein	Alle	Keine	CancelKein ASCII-Export fr Kontaktplan zul„ssig !Kein Modul "%s.br" gefunden. Bitte zuerst compilieren !OKAlleKeineCancelDatei kann nur in ein Textfenster importiert werden!Datei kann nur in den Bereichseditor importiert werden!Datenbankpfad existiert bereits !Fehler %u beim Erzeugen des Moduls "%s"Fehler beim Anlegen eines Directoriesungltiges Zeichen in StringFalsche bzw. ungltige Datenangabeungltige Zahlenbasis (2-36 zul.)Bin„re Eingabe ber 32 Bit nicht m”glichW„hlen,Auflegen,Befehl,SichernModemverbindung abgebrochenW„hlen (90 Sek. Timeout), Abbruch mit <ESC>M@odem     Der Prozessor %s existiert nicht in der DatenbankSoll die Library
+
+durch die
+
+ersetzt werden ?L@”schenNeuer %s vorhanden! Einlesen?'Spalte' und 'Zeilenbindg. aus' nur ohne Syntaxcheck !'VD-Sync. ein' nur mit Syntaxcheck m”glich!keine Projekte gefunden die nicht schon in der Auswahl sindRIO-Master :RIO-Konfiguration TC #%dBlockgr”áe(Byte)  Blockanzahl(max.)TC #1  :  TC #2  :  TC #3  :  TC #4  :  TC #1-4:  Digital I/O,Analog I/ORIO-Konfiguration %sRIO-Zuordnung ge„ndert. Bitte ein Projekt Optimieren durchfhren !KOP#0,PL2000#1,AWL#3Library    : IN (x2)OUTI/O-Bereich:bereitdrucktFUB %s bereits vorhanden ! šberschreiben ?Hilfe  F10falscher oder zu langer Projektpfad !Die Grundeinstellungen wurden gesichert.optimiert,standardDefault,bei Download,bei Warmstart,nie SpoolenZielspeicher       :
+Range Check        :
+Check adr(0)       :
+Opt. I/O Emulation :
+Lokale Merker      :Nachfragen,Automatisch,Kein Import PV-Monitor    Datei %s unver„ndert. Kein šbersetzen notwendigDer Bereich fr den permanenten Speicher wurde 
+ver„ndert. Es muá ein Optimieren des Projektes
+durchgefhrt werden. Soll das Optimieren des 
+Projektes gestartet werden ?FUB %s existiert bereits ! šberschreiben ?Task %s konnte nicht wiederhergestellt werden (Fehler %d)Keine RB-Info vorhanden !
+Datenrebuild durchfhren ?WiederherstellenModul %s konnte nicht geladen werden.Folgende Module sind auf der RPS und im Projekt unterschiedlich :* Modul %s   RPS     : V%-5.5s %-20.20s %-6s Byte   Projekt : V%-5.5s %-20.20s %-6s ByteFolgende Module sind nur auf der RPS vorhanden :Folgende Module sind nur im Projekt vorhanden :Projekt VergleichProjekt Vergleich beendet.
+Es wurden keine Unterschiede zwischen RPS und Projekt festgestellt.Projekt Vergleich beendet.
+Es wurden Unterschiede zwischen RPS und Projekt festgestellt.
+N„here Information ist im Meldungsfenster zu finden.Lese Modulinfo : %sVergleichExchange,UpdateDefault,Exchange,UpdateUSR-ROM,FIX-RAM,MEM-CRDbei Download,bei Warmstart,nie SpoolenEditor zu Modul %s offen. Kein Konsistenzcheck m”glich.Folgende Module wurden seit dem letzten Compile ver„ndert :Fehler %d : Rekursiver Aufruf des FUB "%s" im FUB "%s"ungltige RIO-Konfiuration, max. 13.5 kByte bzw. 16 kBit fr Out+In+In'ÉÍËÑ»º º³ºÌÍÎØ¹º º³ºÇÄ×Å¶ÈÍÊÏ¼Daten In#1,Daten Out#2 (gefiltert) Name   gltig   Datentyp   L„nge   I/O-Typ   Init-Wert   Langname  Moduladr.  Modultyp  Kanalnr.  Slot VDPVFilterKein gltiger Name eingegeben !Datentyp u. Gueltigkeitsbereich passen nicht zusammen !I/O-Typ fr Alias-PV ungltig !I/O-Typ fr Struktur-PV ungltig !L„nge fr lokale PV's max 255!I/O-Typ nicht zul„ssig !bei lokalen PV's ist als I/O-Typ nur Merker zul„ssig !bei rps_globalen PV's ist als I/O-Typ nur Merker oder MP/PP zul„ssig !bei tk_globalen PV's ist dieser I/O-Type nicht zul„ssig !INPUT,OUTPUT,STATIC2010,2005,2003 Master  Slave  Slavetyp  Moduladr.  Modultyp  Kanalnr.  Slot  Rckwand  Moduladr.  Modultyp  Kanalnr. Digit. In #1,Digit. Out#2,Analog In #3,Analog Out#4,Transp.In #5,Transp.Out#6,Status In #7,Status Out#8KONSTANTEDigit. IO IP  Kanal  Richtung  Bit Nr.Kein Datentyp eingetragen !Datentyp-ListeVar.Dekl.: UndotypedefFUB_ALIASSchlieáen,SichernLaden#11,Sichern#12,Name#13,L”schen#14Einfgen#21,L”schen#22,Bewegen#23,Name#24,Undo#25Ungltige L„ngenangabe !Ungltige Moduladresse (1 - 99) !Ungltige Moduladresse (1 - 13) !RIO-Master zwischen 1 und 8 !RIO-Slave zwischen 1 und 127 !Rckwand muá eingegeben werden !Modultyp muá eingegeben werden !Slavetyp muá eingegeben werden !tk_globalrps_globalproc_globallokaldynamischalleundef.IP-I/OMERKER2010-I/OREMOTE-I/O2005-I/OMP/PPIPReferenzSuchenName    : gltig  :Datentyp:I/O Typ :2003-I/OPV darf nicht ge„ndert werden ==>  Read Only !Ungltige Moduladresse (1 - 8) !Variable %s hat falschen Datentyp !Kein IP eingetragen !PV muá einer PV am IP zugeordnet werden !Nur analoge Datentypen erlaubt !Nur digitaler Datentyp erlaubt !CAN-Bus Nr. zwischen 1 und 8 !Fehlerhafte IP-Verkettung !CAN-Slave zwischen 1 und 32 !Fehlerhafte IO-Eingabe !Falscher Initial-Wert !Init-Werte: Filename : Trennzeile: Index: Ja,NeinCAN-I/ORecord Nr.: %dBasis,Erweit. 1,Erweit. 2,Erweit. 3,Erweit. 4In#1,Out#2Richtung muá eingegeben werden !Langtext  : I/O-Krzel: Undeklarierte PV's vorhanden ! Deklarieren ?Setzen,L”schenHardwarezuordnungUngltige Kanalnummer !PV existiert auf der CPU nicht !CPU-PV darf nicht ge„ndert werden !Ungltige Slotnummer ! Bus Nr.  Knotennr.  Moduladr.  Modultyp  Kanalnr.  Slot remanent,0Komponente   Datentyp   L„ngeTyp Dekl.: Struktur darf nicht doppelt verwendet werden !Komponente %s wird verschoben !Neue Zeile kann nicht verschoben werden !StrukturKomponenteStrukturname existiert bereits !Gesamte Struktur l”schen ?Komponente %s hat falschen Datentyp !Alte Struktur sichern ?****frei****Laden#11,Umbenennen#12,L”schen#13Einfgen#21,L”schen#22,Bewegen#23,Name#24Fehler beim Export von %s !  Status: %dDateiname: Undeklarierte Komponente !Datentyp-ExportFUB-ExportKomp +Komp -Keine Datentypen vorhanden !DokumentationDrucker,Objekt,ProjektDrucker   :          Vorschub :Kopfzeile :Fuázeile  :DruckenProjektDeckblatt      :ObjektAllgemein Ausgabe  :Variablen    :Parameter    :Beschreibung :          Spalten  :Seite     Zeilen   :R„nder    Oben     :          Unten    :          Links    :          Rechts   :Abst„nde  Kopfzeile:          Fuázeile :GDM                :Globale Variable   :Cross-Referenz     :Inhaltsverzeichnis :Datentypen         :------------------------------------------Datentypen   :Konfiguration      :TTY,ISO,IBM,HPLJ,EPSONNein,JaKeine,Vor,NachObjekteOK	CancelBehalten	L”schen	WartenPRINT hat noch nicht alle Dateien gedruckt!Ausgabedatei fr DruckVorspann  :Device existiert nichtSAP existiert nichtAuftragsberlauf bei VerbindungPaket nicht zuordbarCE_WRONG_KFG_VERSIONkein Speicher fr ALIVerbindungsnummer existiert nichtVerbindung ist inaktivVerbindung ist bereits aktivKeine End-Knoten VerbindungVerbindung existiert nichtCE_WARNG_HIDDEN_ABORTCE_RED_MCB_FAILCE_RED_WRONG_PTRCE_FREE_MCB_FAILCE_FREE_WRONG_PTRKommunikations-Init fehlerhaftCE_SIO_HWERRCE_SIO_NODRVCE_SIO_BUSYCE_INIT_INV_TIMERTICKCE_INIT_NO_ONE_IRQ_TIMERZu viele Daten fr ein TelegrammCE_FRAME_OVERRUNCE_L7_CODING_INVCE_UNSUFF_LIST_SIZECE_WRONG_SAPLI_TYPECE_NUMBER_TOO_BIGDatenpaket zu groá fr VersendenDienst wird nicht untersttztOV-Version nicht kompatibelCE_DEV_SAPLI_NOT_AVAILABLEApplader ist blockiertUngltiger Dateiname fr AppladerApplikationslader arbeitet nichtCE_ALI_BADFNCE_CLIENT_NOT_LOADEDCE_ALI_SYSTEM_WRONG_COMMANDCE_SAPLI_CNT_INVCE_OFFSET_INVCE_FILEPOS_INVCE_FILESIZE_INVCE_FILEOPEN_INVCE_SAPLI_TYP_INVCE_ASIC1_TIMEOUTCE_DL_WRONG_INIT_STATUSCE_DL_FILE_OPEN_ERRCE_SAPLI_TYP_NOT_SUPPORTED
+Konfig-Datei %s nicht gefunden
+Konfig-Datei %s ungltig ! Fehler %u** ALI-ERROR ** CSC_$%02X %.2s_SAP %sALI: Fehler %u
+*** EH_fatal, status : %d ***
+*** EH_warning, status : %d error_info: $%08lx ***
+*** EH_communication_error, &RQB = %Fp, sapli_nr : %d ***VFD_STATEAPPL_REFAPPL_REF APPL_UNREACHDEFINITIONDEFINITION OBJ_UNDEFDEFINITION OBJ_INCONSISTDEFINITION NAME_EXISTSRESOURCERESOURCE MEM_UNAVAILRESOURCE SERV_OVERFLOWSERVICESERVICE STATE_CONFLICTSERVICE PDU_SIZESERVICE CONSTR_CONFLICTSERVICE PARAM_INCONSISTSERVICE ILLEGAL_PARAMACCESSACCESS OBJ_INVALIDACCESS HW_FAULTACCESS ACCESS_DENIEDACCESS INVALID_ADRESSACCESS ATTR_INCONSISTACCESS OBJ_UNSUPPORTACCESS NON_EXISTACCESS TYPE_CONFLICTACCESS NAME_UNSUPPORTOVOV NAME_OVERFLOWOV OVERFLOWOV WRITE_PROTECTOV EXT_OVERFLOWOV DESCR_OVERFLOWOV OPERAT_PROBLEMOTHER
+** Verbindung unterbrochen durch %s reason:%hu **local Userlocal FMSlocal LLIVerbindungsberwachungremote Userremote FMSremote L2
+** ALI - REJECT because Invoke ID %hu **Invoke ID %hu already exist **Max. Services Overflow **Feature not supported (connection oriented) **Feature not supported (not connection oriented) **PDU Size **User Error **KI: Operation fertigKI: keine Antwort vom ALI w„hrend WartezeitALI: Fehler MIC%04x(%u)ALI: C=$%04xModul '%s' existiert nicht auf der RPSKI: Objektverzeichnis ist unleserlichKI: zuwenig SpeicherKI: Verbindung fehltKI: Timer nicht gefundenKI: Auftrag ID=%d abgebrochen!Benutzer hat Operation mit <ESC> abgebrochen!ALI: Request-Message! MI = $%04XALI: Debug-Message ALI: Unconfirmed Message! MI = $%04XKI: Response ohne Auftrag! MI = $%04XALI: UNKNOWN Message MI = $%04XALI: Fenster ist vollKI: RQB fehltRPS-Fehlercode %u.Zuwenig Speicher auf RPS (%u)Kein gltiges Objekt (%u)SM: Fehler beim Aufruf RTC-HWTrap (%u)SM: Der Offset ist falsch (%u)SM: L„nge und Offs passen nicht (%u)SM: Falscher Datentyp fr den Auftrag (%u)Password falsch (%u)SM: ERR_PGSM_WRONG_SP (%u)BOOT Modul nicht gefunden (%u)Speichertyp nicht oder im unzureichenden Ausmaá vorhanden (%u)SM: ERR_PGSM_WRONG_EXE (%u)Zu wenig freier Speicher (%u)EPROM/FLASH nicht gel”scht (%u)SM: ERR_PGSM_SYSROMMODUL (%u)EPROM/FLASH nicht programmierbar (Schreibschutz ?) (%u)Keine gltige TRAP Nummer (%u)Objekt ist im falschen Status (%u)Modul '%s' kann nicht gel”scht werden (Schreibschutz ?) (%u)Falsche Bits gesetzt (%u)Timeout im Init RIO (%u)Falsche Moduladresse im Init RIO (%u)EPROM/FLASH nicht gel”scht (V) (%u)Vergleich nach Speichern fehlgeschlagen (%u)falsche USR Nummer (%u)Funktion wird nicht untersttzt (%u)RPS ist nicht im Diagnose Mode (%u)Ok.RPS-Programmieren '%s' fertig.Modul '%s' gel”scht.Remote-IO Initialisierung fertigSpeicher gel”scht, bitte SOFORT eine Kaltstart durchfhren !!!RPS Zeit: %sTask '%s' wurde gestopptTask '%s' war nicht gestartet !Task '%s' wurde gestartetTask '%s' war nicht gestoppt !Task '%s' ist nicht frisch installiert !Task '%s' ist nicht vorhanden !Task '%s' wurde frisch installiert. (weiter mit Neustart)Task '%s' war schon installiert !Taskklasse wurde gestartetTaskklasse wurde gestopptTaskklasse war nicht gestoppt !Taskklasse war nicht gestartet !OVDM:%u,state=%sStefan.keyOV: Ver=%u Len=%u DM:$%04X-$%04X PI:$%04X-$%04X VL:$%04X-$%04XModul-ListeTask-ListeTask-KlassenVerbindungfertig;FEHLER;UNTERBROCHENSoll das Objekt
+%11s %-7s %s
+durch
+%11s %-7s %s
+ersetzt werden?%s - !Service!%s - !Diag! <OFF-LINE> nicht m”glich (Statuskonflikt oder Schlsselschalter)Falsche Verbindung! Fortsetzen?RPS-Reset;Init,Total-Init,Reset,DiagnoseKaltstart,Diagnose,FIXRAM l”schen,FLASH l”schen,Memcard l”schen,Perm. Speicher l”schen,RPSSW UpdateOkKonfigCancelWarmstart,Kaltstart,Reset,Reconfig,NMI-Copy,Diagnose,ErrorRPS-Datenverkehr. Abbruch mit ESCObjekt und Aktion anw„hleneine Datei zum Download ausw„hlenStartStopCancelRPS-Task-Aktion Ok.Liste erzeugt, index = $%04XListe gel”schtTask erzeugt, index = $%04XRPS-Verbindungsaufbau. Abbruch mit ESCIndex	VariableVar.Liste	DomainProg.Inv	EventStart	CancelDownloadOverloadStartStopNeustartEntferneCancelDownloadBrennenFixierenUploadInstallEntferneInfoCancelDownload %s l„uft. %02u Prozent. Abbruch mit ESCDownload '%s' %sUpload %s l„uft. %02u Prozent. Abbruch mit ESCUpload '%s' %s%s - !NotAus!RPS-Programmieren noch nicht fertigInit Ein Aus   Kaltstart,DiagnoseRemote-IO Initialisierung FehlerOK	Passwt	CancelObjektverzeichnisRPS-Info2010;2005;2003;;;;;;BTCPU;C200;;;;MP2010;2010;;;Nein; Ja 10 ms;1 s;**EPROM;FLASHSystem     :HW-Version :MHzSystem-RAM :RPSIO-RAM  :KBRTC        :Aufl”sung  :AWS        :NF-Speicher:RPSSW-Version :Hochlaufgrund :RPS-FreispeicherSystem        :NF-Speicher   :Anwender-RAM  :Tempor„r      :byte********Fixiert       :Akku       :Batterie   :Leer,VollRAM,FLASHRAM,ROM,FIXRPS-Uhr setzenSoll auf der RPS tats„chlich ein %s durchgefhrt werden?205:CP15x;c,@cfme960.br,2005,16.67,210:CP10x;c,@cfme910.br,2010,16.67,2MP:MP100;m,@cfme910.br,2010,16.67,2PP:PP100;p,@cfme910.br,2010,16.67,2BT:C300;b,@cfc300.br,PANEL,16.67,E#A:C200;b,@cfc200.br,PANEL,16.67,152:XP152;c,@cfxp152.br,2005,16.00,040:CP200;c,@cfcp200.br,2010,33.33,220:C220;c,@cfc220.br,PANEL,16.67,IF1:IF10x;m,@cfif100.br,2010,16.67,151:IP151;c,@cfip151.br,2005,16.00,IF5:IF152;p,@cfif152.br,2005,16.00,472:CP472;c,@cfcp472.br,2003,16.00,470:CP470;c,@cfcp470.br,2003,16.00,474:CP474;c,@cfcp474.br,2003,16.00,260:CP260;c,@cfcp260.br,2005,38.40,IF6:IF260;c,@cfif260.br,2005,25.16,772:CP772;c,@cfcp772.br,2003,16.00,770:CP770;c,@cfcp770.br,2003,16.00,774:CP774;c,@cfcp774.br,2003,16.00,041:CP210;c,@cfcp210.br,2010,33.33,251:LS251;c,@cfls251.br,LS,38.40,A70:AC701;c,@cfac701.br,2003,16.00,350:IP350;c,@cfip350.br,2005,16.00,IP5:IP152;c,@cfip152.br,2005,16.00,161:IP161;c,@cfip161.br,2005,25.16,BAU:QBAUE;c,@cfqbaue.br,2003,16.00,430:CP430;c,@cfcp430.br,2003,16.00,476:CP476;c,@cfcp476.br,2003,25.16,HI3:PP00;c,@cfpp00.br,3000,25.16,Brenne SPS-Info ! System Download 9600,19200,38400,57600,115200COM1,COM2RPS-Reset JETZT drcken!
+Baudrate: Port: Typ : Ver.: Rev.: L”sche Userflash !L”sche Systemflash !Systembertragung !šbertragung erfolgreich beendet !šbertragung abgebrochen !Auf Ihrem Zielsystem ist noch
+ keine RPSSW installiert.Verbindungsaufbau mit Bootmanager -  Bitte warten !Soll die ausgew„hlte RPSSW
+ installiert werden ?ME???#4921,XP152#4922,C200#4923,IF260#4926,IF???#4924,CP200#4921,CP?7?#4922,IP151#4924,CP210#4921,CP260#4925,IP350#4925,LS251#4924,IP152#4924,IP161#4924,CP430#4922,PP00#4922 Defaulttext fr nicht gefundenen HW-Typ!  Schalten Sie die RPS nun aus und
+ stellen Sie den Schalter am
+ AWS von Stellung ERASE auf OK. Schalten Sie die RPS nun aus und
+ stellen Sie eine gltige CAN-Knoten-
+ nummer (ungleich Null) ein. Bitte drehen Sie den Mode-Schalter
+ auf eine Stellung ungleich 6!
+ Anschlieáend RESET. Schalten Sie die RPS nun aus und
+ stellen Sie eine gltige CAN-Knoten-
+ nummer (ungleich Null) ein. Bitte drehen Sie den Mode-Schalter
+ auf eine Stellung ungleich 0!
+ Anschlieáend RESET. Bitte stellen Sie den Mode-Schalter
+ auf die Stellung 1!
+ Anschlieáend RESET.bertragenHardware:Software:Es wurde keine RPSSW installiert. Die Installation wurde erfolgreich
+ abgeschlossen.Soll System Download abgebrochen werden ?RPSSW @UpdateKnotenschalter ($01-$20):$Knotennummer Offset :$Modem async. :Modem init   :l”sche   USRl”sche   SYSdownload SYSfertig      unterbrochenbrenne  InfoCAN-Baudrate :CAN-Basis ID :Falsche Knotennummer !Falscher Knotennummer Offset !Ungltige CAN-Baudrate !Ungltige CAN-Basis ID !Falscher Modem-Async String !Falscher Modem-Init String !**Fehler: kann Zusatzmodul '%s' nicht ”ffnen!**Fehler: Zusatzmodul '%s' hat falsches Format!**Fatal: Speichermangel!Zusatzmodul '%s' angeh„ngt.Zusatzmodul '%s' ausgetauscht.Beschreibung :Task-BeschreibungDatenbankpfad existiert noch nicht. Kein Zugriff m”glich !Objekt hat keinen Namen ![8(!-'|+--|/->|@-~)]Ungltige Charakter im Namen !Falsche Ebene : Kein Einfgen m”glich !Block-L”schen nicht m”glich : Objekte mit Childobjekten !Zyklische Task#1,Interrupt Task#5,Exception Task#6,Textdatei#4,Datenmodul#2,B&R Modul#7,Systemmodul#9,Konfiguration#8       Task-Zustand :
+Speicher-Typ :Ungltige Bezeichnungen oder '#@~,' in der BeschreibungTaskklasse  :
+Modulnummer :Taskklasse  :
+Exception-Nr:Zeile %d Spalte %d : Offener Datenbaum
+³%3d  ³ %-10.10s ³ %-8.8s ³ %-8.8s ³  %-4s ³   -  ³  %-4s  ³
+³%3d  ³ %-10.10s ³ %-8.8s ³ %-8.8s ³  %-4s ³  %2d  ³  %-4s  ³RPSPROZESSORGRUPPETASKEbene : %s  Zeile %d Spalte %dtask.prjTC1,TC2,TC3,TC4,   ,   ,   ,   ,   ,   ,   ,   ,   ,   ,   ,   ,HS1,HS2,HS3,HS4,IRQ,EXCTC1,TC2,TC3,TC4,HS1,HS2,HS3,HS4,IRQ,EXCKontaktplan,PL2000,AnweisungslisteKontaktplan,PL2000,   ,AnweisungslisteCursor : Fenster verschieben; SHFT-Cursor : Gr”áe „ndernVerschieben der HauptCPU ist nicht zul„ssig !MP,IP,alleautark,asynchronUngltiger Betriebsmode !Busnummer      :
+Zykluszeit(ms) :Eingabe der Prozessordaten HauptCPU vorhanden. Block kann nicht eingefuegt werden.HauptCPU nicht definiert !Schleife im DatenbaumKein Objekt am DatenbaumendeIPs und MP/PPs am gleichen Datenbaum sind nicht erlaubtKeine Variablen zur Verkettung definiert Datentyp oder L„nge der PVs stimmen nicht bereinPV-Name  :
+Datentyp :
+L„nge    :  ** HauptCPU-Seite **   ** Prozessorseite ** Parameter fr Prozessor %s nicht definiertObjektlisteBitte zuerst Variablendeklaration schlieáen !WARNUNG : Datenbankpfad fr RPS-Objekt "%s" existiert nicht !WARNUNG : RPS-Objekt zum Datenbankpfad "%s" ist nicht in der GDM eingetragen !Datenbankpfad zur RPS "%s" wurde angelegtDatenbankpfad wurde von "%s" auf "%s" umbenanntDatenbankpfad zur aktuellen RPS kann nicht gel”scht werden !Datenbankpfad zur RPS > %s < l”schen ?Datenbankpfad zur RPS "%s" wurde gel”scht !Datenbankpfad zur RPS "%s" existiert bereitsAlle Datenbankeintr„ge vom Prozessor > %s < l”schen ?Projektfile : GDM-Fenster ist gesichertSRC,DAT,TXT,LIB,B&R,n.d. Dateien Kein Platz zum L”schen der Zeile oder Spalte !Kein Eintrag zum Prozessor > %s < in der Datenbank ! Eintragen ?Ebene wurde eingefgtEbene wurde entferntBitte zuerst Bereichseditor oder VD schlieáen !Objekt > %s < l”schen ?WARNUNG : Objekt zu Modul "%s" ist nicht in der GDM eingetragen !Aktuelles Fenster als GDM-Einstiegsfenster abgespeichertWARNUNG : Objektparameter zu Modul "%s" nicht definiert.Zeichnen,L”schen,Zeichnen/L”schen aus,ProzessvariablenErstellen#2,Compile#25,šbertragen#29,RUN#26,Speichern#27,Drucken#28Objektliste ungltig : Modul %s (RPS %s, Prozessor %s) nicht in der GDMAlle nicht verwendeten PVs werden gel”scht ! Trotzdem Objekt optimieren ?*** Projekt-Bearbeitung RPS > %s < Prozessor > %s < ***A@bgleichL”schen der Module auf der RPS :
+L”schen des Objektes in der GDM:
+L”schen von src-und br-Modulen :Bitte Verbindung zu RPS > %s < Prozessor > %s < umstecken !GDM-Ebene zu RPS > %s < Prozessor > %s < nicht vorhandenGDM-Abgleich beendetnicht bekannt,NC Treiber,NC DatenmodulUSR-ROM,FIX-RAM,MEM-CRD,SYS-ROMGDMBUR,KOP,AWLDie GDM wird bearbeitet<CURSOR> : Bewegen; <ENTER> : SetzenUnterschiede zwischen Modulen am PG und auf der RPS. Liste sichern?Projektbearbeitung beendetObjekt Art         : 
+
+Installation       :
+Start              :
+Spoolen            :
+Rebuild Info       :
+Zielspeicher       :Modul Info    : Version:   .  .
+                Datum  :
+                L„nge  :       ByteRekonstruktion der Datenbank   :
+Rekonstruktion der Sourcen     :
+Rekonstruktion der Datenpunkte :Projekt AbgleichZeile+Zeile-Keine gltige Datei ausgew„hlt !ACHTUNG : Vor dem Abgleich wird ein
+Neu-Init der Datenbank durchgefhrt.
+Nachfolgend bitte Projekt generieren !Die Versionsdaten k”nnen erst nach dem Compile vergeben werden !Das Modul          befindet sich
+bereits im Projekt. Soll das Modul
+
+     L„nge  :       Byte
+     Datum  :
+     Version:
+
+durch
+
+     L„nge  :       Byte
+     Datum  :
+     Version:
+
+ersetzt werden ?Das Modul %s ist bereits in der GDM eingetragen !Ab der PG2000 Version V2.30 ist der Kontaktplan
+Monitor ber den Menpunkt Objekt - Monitor
+zu ”ffnen !Ein,Aus,Defaultlibvers.lstVersions-Liste:Library-Versionsliste : erstellt am %s
+
+	  |Modulname   |Typ  |Projekt |PG2000  |Projekt |PG2000  |
+	  |            |     |  *.br  |  *.br  |  *.slb |  *.slb |
+	  |------------+-----+--------+--------+--------+--------|
+	  | %-10.10s | %-3.3s | %-6.6s | %-6.6s | %-6.6s | %-6.6s |%c
+memmap.lstSpeicher-Liste:Speicherbelegungs-Liste : erstellt am %s
+
+Ungltiger Dateiname oder Datei existiert bereits
+	  *...Versions KonfliktLibrary-Versionsliste in '%s' abgelegt	  |Speicherklasse     |konfiguriert |belegt       |
+	  |-------------------+-------------+-------------|Speicherbelegungs-Liste in '%s' abgelegt
+	  |Name         |Tk#  |Bedarf       |
+	  |-------------+-----+-------------|,Library Liste#21,Speicher Liste#22Default,Merker Pool,USR-RAMEditorfenster zu %s ist offen !  Bitte zuerst schlieáen !**** PL2000-Parser %s**** PL2000-Parser OkZuwenig SpeicherUnerwarteter Datenstruktur-EintragKeine Rebuild-Information im TaskPV-Definition in RB-Info fehltKein Textbuffer vorhandenKeine FUB-Info im RB-BlockPV-Offset gr”áer als 32767 Bytes: Falsche oder inkompatible Rebuild-InformationUnerwarteter Typ-EintragMaximale Codel„nge berschrittenLabel-Index doppelt vergebenUndefinierter Label-IndexLabel-Offset auáerhalb Short-BereichsPV-Gr”áe ber 32767 Bytes: Task zu komplex (zuviele Verzweigungen oder PVs)Falscher FUB-Eintrag; bitte neu bersetzenInline-Funktion wie (ALIAS-)FUB aufgerufenAdreáregister gesperrtUnerwartete RegisterkennungPV-Name enth„lt ungltiges ZeichenMehrere PV's zu analogem (transp.) Ausgangšberschneidung bei HW-Definition der PVOffset-Liste voll - ber 50 verschiedene IO-TypenRebuild-Info unvollst„ndig weil zu groáFehlerhafter S-AWL-Bit-CodeFehlerhafter S-AWL-CodeUnerlaubte S-AWL-AdressierungsartUnerlaubte S-AWL-Adressierungsart - zwei <EA>Unerlaubter IO-Typ fr HS-TaskUnerlaubter S-AWL-OperandentypUnerlaubte S-AWL-Anweisung bei NOTBIT-EmulationRegister-Allokierungsrestriktion - bitte Ausdruck vereinfachenFalscher Offset an TB_putByte bergebenNicht rckgangig machbare Adreáregister-Ver„nderungAnalog-I/O - Datenbank neu konfigurieren bzw. initialisierenDigital-I/O - Datenbank neu konfigurieren bzw. initialisierenUnimplementierter IO-TypUnerlaubter IO-Typ fr diese TaskklasseDatei PGTXT.HFC nicht verfgbar => keine RB-InformationFehlerhafte Descriptor-Datei bzw. fehlender VariableneintragZuwenig Speicher im RIO-DPRRIO-Offset und Block passen nicht zusammenRIO-Blockberlauf, evtl. neu initialisieren und generierenFalsche RIO-BlocknummerFalscher Offseteintrag, bitte Projekt optimierenPV erst nach šbersetzung im Exchange-Modus verwendbarI/O-Variable darf maximal 127 Bytes umfassenKein Offset im Bereichseditor vergeben fr PV Identisches Rebuild unm”glich (RIO-Konflikt)! Weiter ?Update im Flash-Mode nicht zul„ssig, da das bestehende Modul im RAM liegtUpdate im FIXRAM-Mode nicht zul„ssig, da das bestehende Modul im RAM liegtUpdate nicht zul„ssig, da die IO-Sektions unterschiedlich sindUpdate nicht zul„ssig, da die ID-Sektions unterschiedlich sindUpdate nicht zul„ssig, da die DT-Sektions unterschiedlich sindUpdate nicht zul„ssig, da die Anzahl der IO's ge„ndert wurdeUpdate nicht zul„ssig, da die Taskklasse ge„ndert wurdeUpdate nicht zul„ssig, da die Reihenfolgenummer ge„ndert wurdeUpdate nicht zul„ssig, da die Anzahl der PP's ge„ndert wurdeUpdate nicht zul„ssig, da die Anzahl der Systembuseintr„ge ge„ndert wurdeUpdate nicht zul„ssig, da die Anzahl der AVT's ge„ndert wurdeUpdate nicht zul„ssig, da die AVT-Eintr„ge ge„ndert wurdenUpdate nicht zul„ssig, da eine lokale Variable ge„ndert wurdeUpdate nicht zul„ssig, da eine globale Variable ge„ndert wurdeUpdate nicht zul„ssig, da das Update-Modul nicht vorhanden istUpdate nicht zul„ssig, da nderungen in bezug auf Peripherieprozessoren vorgenommen wurdenUpdate nicht zul„ssig, da eine lokale Variable nicht gefunden wurdeUpdate nicht zul„ssig, da die Datentypnummer unterschiedlich istUpdate nicht zul„ssig, da die Datentypkennung unterschiedlich istUpdate nicht zul„ssig, da die Arrayl„nge unterschiedlich istUpdate nicht zul„ssig, da der Datentypname unterschiedlich istUpdate nicht zul„ssig, da die L„nge der Datenstruktur in Byte unterschiedlich istUpdate nicht zul„ssig, da die L„nge der Digitaldaten fr FUB-Alias unterschiedlich istUpdate nicht zul„ssig, da die L„nge der Analogdaten fr FUB-Alias unterschiedlich istUpdate nicht zul„ssig, da der Name eines Strukturelements ge„ndert wurdeUpdate nicht zul„ssig, da der Offset des Elements in der Struktur unterschiedlich istUpdate nicht zul„ssig, da die Anzahl der Elemente unterschiedlich istUpdate nicht zul„ssig, da die L„nge des tasklokalen Datenbereichs BYTE gr”áer istUpdate nicht zul„ssig, da die L„nge des tasklokalen Datenbereichs BIT gr”áer istUpdate nicht zul„ssig, da noch kein BR-Modul im Exchange-Modus generiert wurdeUpdate nicht zul„ssig, da der Speicher nicht ausreichend istUpdate nicht zul„ssig, da die Einstellung fr Lokale Merker ge„ndert wurdeIO-Tabellen-Optimierung ein, bitte nur Projektdownload!Ja	NeinIO-Modul fr Taskklasse OBJ-Block nicht vorhandenBetriebsartProgrammteil wird nie ausgefhrtIO-Module __iotk<Taskklasse> werden nicht automatisch gebrannt!FUB-Definition fehltStrukturen als šbergabeparameter nicht erlaubtDatenmodulstruktur : %s**** DATENMODUL    %s**** DATENMODUL    Ok.FUB-Parameter nicht mehr verwendetDateiname enth„lt unerlaubte ZeichenFUB nicht in der Datenbank vorhandenPV-Doppeldefinition auf I/O-Modul: Modul nicht in der DatenbankInitUP nicht vorhandenKeine Prozessor-Verkettungsinformation fr PVKein passender SYSCONF-Eintrag fr CAN-BusnummerCAN-I/O verwendet, obwohl kein SYSCONF-Modul vorhandenPV berschreitet 8-Bit-Bereich bei digitalem CAN-I/ODateizugriffspfad zu langDatei konnte nicht umbenannt werdenWarnung Fehler Fehler Interner Fehler %s(keine genaue Information verfgbar)Problem mit Speicherplatz oder DateizugriffenGrundlegendes Problem, evtl. Fehler bei DatenbankzugriffSpalte  Fehler* Modul generiert: * Update-Modul generiert: Taskbuilder l„uft: %s-InitUPTaskbuilder l„uft: * Funktionsblock erstellt: Taskbuilder l„uft: %s (%d KB)Taskbuilder l„uft: %s (%d PVs)Datenbankproblem; evtl. passende Library zu FUB importierennderung im Offsetbereich, bitte Projekt optimierenFalscher Index in Namensliste; versuchen Sie, alles neu zu bersetzenDatentyp-Informationssektion gr”áer als 64KBDatentypgr”áe ueber 32KB: Datentyp enhaelt Array-Komponente mit mehr als 4095 Elementen: 16-Bit-Beschr„nkung berschrittenUnerwarteter DatentypUnerwarteter Token-TypFehler beim Lesen eines TokenUnerwarteter ZeilentypLOOP-Variable darf nicht dynamisch seinUnerwarteter OperatorLStack nicht leerFalscher Condition-CodeEinfache PV wird als Array verwendetACTION-Wert wurde doppelt verwendetErster Parameter (AKKU) ist kein EingabeparameterDatenbank konnte nicht korrekt geschlossen werdenFalsche ParameteranzahlFalscher ParametertypUngltige Zuweisung oder falscher ParametertypAusdruck zu komplex; bitte vereinfachenKein Register mehr freiZu wenig SpeicherAusdruck zu komplex; bitte vereinfachenExpression- bzw. Logik-Stack-Tiefe unter 0Linker Operand des ACCESS-Operators keine dynamische VariableFalscher FUB-ModusFehlerstatus bei Code-Generierung fr Inline-FUBCASE-Ausdruck ist konstanter WertFunktionsaufrufe zu tief verschachteltZuweisung auf eine KonstanteFalsche S-SAWL-AdressierungsartFalsche Anwendung einer FunktionAlias-Aufruf einer FunktionPV ben”tigt ber 32767 BytesCode-Generierung fr Inline-FUBUnerlaubter S-AWL-OperandentypFalscher DatentypNicht zusammenpassende DatentypenOperation auf diesen Datentyp nicht erlaubtArray-Index ist kein Integer-WertKein Alias-FUB-Aufruf moeglichZugriff auf Library nicht m”glichArray-Index hat Datentyp gr”áer als WORDKonstanter Array-Index auáerhalb Array-BereichFeldoffsetberechnung: Index nicht in RegisterSELECT-Variable ist nicht vom Typ WORDMOD-Funktion nicht auf FLOAT-Wert anwendbarUnbekannter Un„roperator auf FLOAT-Wert angewandtVorzeichenloser Wert mit vorzeichenbehaftetem Wert verglichenFeld ohne Index angesprochen; Index 0 verwendetFalscher Zwischencode; bitte neu bersetzenEXITIF ohne LOOP-BlockZu viele LabelCode-Generator l„uft: %s* Code-Generator: %ld Fehler-InitUPPL2000-Block-Parser l„uft: %s* PL2000-Block-Parser: %ld FehlerZu wenig SpeicherAkku-Inhalt nicht durch Lade-Operation definiertOffener Block am Textende (KlammerungsfehlerOperator ist keine erweiterbare FunktionGrundlegendes Parser-ProblemInkorrekte AWL-SyntaxInkorrekte IL-SyntaxZuviele offene KlammerebenenBSTCK-UnterlaufFalsches Zeichen im AWL-QuelltextFalsches Zeichen im IL-QuelltextAWL-Zeilen-Parser l„uft: %sIL-Zeilen-Parser l„uft: %s* AWL-Zeilen-Parser: %ld Fehler* IL-Zeilen-Parser: %ld FehlerGrundlegendes Parser-ProblemInkorrekte PL2000-SyntaxFalsches Zeichen im PL2000-QuelltextZweiter Action-Wert kleiner oder gleich erstem WertAction-Wert ist keine Konstante zwischen 0 und 65535Zuwenig SpeicherZuwenig SpeicherZeile zu lang; bitte aufteilenNegation einer Float-KonstantenUnerlaubte String-OperationOperator auf unpassenden Datentyp angewandtFalscher Datentyp bei KonstantenbearbeitungAusdruck zu kompliziert; bitte vereinfachen1. Action-Wert ist keine Konstante zwischen 0 und 655352. Action-Wert ist keine Konstante zwischen 0 und 65535Zuviele Symbole; bitte Zeile aufteilenZuwenig SpeicherGrundlegendes Scanner-ProblemNegative Konstante kleiner als -(2^31)Division durch Null* PL2000-Zeilen-Parser: %ld Fehler-InitUPPL2000-Zeilen-Parser l„uft: %sZu viele STATE-AnweisungenACTION-Wert wurde bereits verwendetKeine passende IF-Anweisung im aktuellen BlockKeine passende IF-Anweisung im aktuellen BlockEXITIF aus SELECT-BlockKeine passende ACTION-Anweisung im aktuellen BlockKeine passende CASE-Anweisung im aktuellen BlockKeine passende CASE-Anweisung im aktuellen BlockZu viele ACTION-AnweisungenUnerwarteter control_stack-EintragZu wenig SpeicherReferenziertes Label nicht definiertZu groáe SchachtelungstiefeSTATE-Label bereits definiert; siehe Zeile: SELECT-Block ohne STATE-AnweisungAnweisung in ACTION-Block nicht erlaubtKeine passende CASE-Anweisung im aktuellen BlockBereits ein ELSEACTION-Eintrag im aktuellen BlockDifferenz zwischen ACTION-Konstanten gr”áer 511Keine passende SELECT-Anweisung im aktuellen BlockZu viele LabelKeine passende SELECT-Anweisung im aktuellen BlockKeine passende WHEN-Anweisung im aktuellen BlockSprungziel ist kein STATE-Label dieses BlocksKeine passende SELECT-Anweisung im aktuellen BlockSTATE-Label kann nicht mit GOTO erreicht werdenLabel bereits definiert; siehe Zeile: Label bereits definiert; siehe Zeile: Keine passende LOOP-Anweisung im aktuellen BlockKeine passende LOOP-Anweisung im aktuellen BlockLabel nicht referenziertLOOP ohne passendes ENDLOOPIF- oder ELSE-Block ohne passendes ENDIFSELECT ohne passendes ENDSELECTSTATE-Label im SELECT-Block bereits definiert; siehe Zeile: WHEN ohne passendes NEXTACTION ohne passendes ENDACTIONCASE ohne passendes ENDCASEName   gltig   Wert  F Force Format Write Task  PV-MonitorDezimalHexBin„rCharTC-Info    :*******************************WertReferenzPV-Name   : OKCancelTask...Debuggergltig    :Datentyp  :L„nge     :I/O-Typ   :Bezugstask:      StringStopRunIdleStep???IRQEXCHSTCKOP-Monitor, PV-Monitor  Unterschied RPS-Objekt <-> PG !Statustest (mit Upload) durchfhren ? Unterschied Task <-> Sourcedatei     Statustest durchfhren ?PV-Monitor Unterschied RPS-Objekt <-> PG !
+ Statustest nicht m”glich. Datei nach letztem Compile ge„ndert!
+  Statustest nicht m”glich.ÄÄÄÄÄÄÄÄÄÄÄ,ÄÄÄÄÄÄÄÄÄÄ¿,ÄÄÄÄÄÄÄÄÄÄÙ,          ³,          À,          Ú,ÄÄÄÄÄÄÄÄÄÄ´,          Ã,ÄÄÄÄÄÄÄÄÄÄÂ,ÄÄÄÄÄÄÄÄÄÄÁ,ÄÄÄÄÄÄÄÄÄÄÅ,ÄÄÄÄ´ ÃÄÄÄÄ,ÄÄÄÄ´ ÃÄÄÄ¿,ÄÄÄÄ´ ÃÄÄÄÙ,ÄÄÄÄ´ ÃÄÄÄ´,ÄÄÄÄ´ ÃÄÄÄÂ,ÄÄÄÄ´ ÃÄÄÄÁ,ÄÄÄÄ´ ÃÄÄÄÅ,ÄÄÄÄÄÄÄ( ) , º ÇÄÄÄÄÄÄÄ, º ÇÄÄÄÄÄÄ¿, º ÇÄÄÄÄÄÄÙ,ÍÍÍÍµ ÆÍÍÍÍ,ÍÍÍÍµ ÃÄÄÄÄ,ÄÄÄÄ´ ÆÍÍÍÍ,ÄÄÄÄÄ(( )) ,ÍÍÍÍÍÍÍÍÍÍÍ,           ,ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿,³                    ³,ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´,´                    Ã,´                    ³,³                    Ã,ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ,                      ,ÄÄÄÄÄÄÄÄÄÄ ,          Ä,ÍÍÍÍÍÍÍ( )  ÉÍÍÍÍÍÍÍÍÍÍÍ» , º           º , ÈÍÍÍÍÍÍÍÍÍÍÍ¼ , ÉÍÍÍÍÍÍÍCPUÍ» , ÉÍÍÍÍÍÍÍÍPPÍ» , ÉÍÍÍÍÍÍÍÍMPÍ» , ÖÄÄÄÄÄÄÄÄÄÄÄ· , ÓÄÄÄÄÄÄÄÄÄÄÄ½ , ³           ³ , ÀÄÄÄÄÄÄÄÄÄÄÄÙ ,               , ÚÄÄÄÄÄÄTC#1Ä¿ , ÚÄÄÄÄÄÄTC#2Ä¿ , ÚÄÄÄÄÄÄTC#3Ä¿ , ÚÄÄÄÄÄÄTC#4Ä¿ , ÚÄÄÄÄÄÄHS#1Ä¿ , ÚÄÄÄÄÄÄHS#2Ä¿ , ÚÄÄÄÄÄÄHS#3Ä¿ , ÚÄÄÄÄÄÄHS#4Ä¿ , ÉÍÍÍÍÍÍÍÍIPÍ» , ÚÄÄÄÄÄÄÄDATÄ¿ , ÚÄÄÄÄÄÄÄLIBÄ¿ , ÚÄÄÄÄÄÄÄTXTÄ¿ , ÚÄÄÄÄÄÄÄIRQÄ¿ , ÚÄÄÄÄÄÄÄEXCÄ¿ , ÚÄÄÄÄÄÄÄB&RÄ¿ ÉÍÍÍÍÍ»,º     º,ÈÍÍÍÍÍ¼,ÕÍÍÍÍÍ¸,ÔÍÍÍÍÍ¾,ÚÄÄÄÄÄ¿,ÀÄÄÄÄÄÙ,³     ³,   ³   ,Å,       ,ÚÄÄÁÄÄ¿,ÀÄÄÂÄÄÙ,ÕÍÍÏÍÍ¸,ÔÍÍÑÍÍ¾,ÈÍÍÑÍÍ¼,ÉÍÍÏÍÍ»,ÜÜÜÜÜÜÜ,Û     Û,ßßßßßßß, 0 Å   , 1 Ø   , Graphik-Info wird wiederhergestellt. Bitte warten !Fehler in Zeile %d Spalte %d : Symbol ohne Namen !Fehler %d aufgetreten. Lesen der PV-Liste gestoppt.Force ein,Force ausFehler %d aus der NVSymbol: alle,FUBFunktionsbl”ckeFubnameBeim Inlinefub in Zeile %d Spalte %d sind nicht alle Param. angeschlossen.Aliasname:L”schen#11,rechts ³#12,³ links#13Unterschiedliche Typen zwischen Zeile %d Spalte %d und Zeile %d Spalte %ddezimal,hex,bin„rMaximale Zeilenanzahl erreicht**** KOP-Parser    Ok ³linksrechts³ Start/StopErsetzen > %s < wurde ver„ndert ! Sichern und RUN ?  Source-Datei > %s < wurde ver„ndert ! šbersetzen und Download ?  Task > %s < ist nicht auf der RPS ! Download ? Suchrichtung :
+Startposition:Vor,ZurckSuchmuster nicht gefunden !%d Suchmuster ersetztFehler %d beim Parsen des InitUPCursor,Anfang,EndeFehler %d bei Verwendung der Konstante in Zeile %d Spalte %dFehler %d in Zeile %d Spalte %d : Kein analoger Eingang fr die StringkonstanteFehler %d bei Verwendung der Variablen '%s': Keine dynamischen Variablen erlaubtZeile %d Spalte %d : Linie ohne AbschluáFUB in Zeile %d Spalte %d hat keine angschlossenen Inparam.FUB in Zeile %d Spalte %d hat keine angschlossenen Outparam.FUB in Zeile %d Spalte %d hat weder angschlossenen In- noch Outparam.Kontakt in Zeile %d Spalte %d hat keinen NamenFUB %s in Zeile %u Spalte %u hat sich ge„ndert. Bitte Erneuern! /+-&SRA1 ÄÄ´ ÃÄÄ,2 ÄÄ´/ÃÄÄ,3   º ÇÄÄ,4 ÄÄ( ),5 ÄÄ(/),6 Ä(( )),7 ÄÄ´+ÃÄÄ,8 ÄÄ´-ÃÄÄ,9 ÄÄ´&ÃÄÄ,0 ÄÄ(S),q ÄÄ(R),w ÄÄ(+),t ÄÄ(-),u ÄÄ(&),o   ºAÇÄÄZeile %u Spalte %u : Phantom gel”schtZeile %u Spalte %u : Phantom-Link gel”schtZeile %u Spalte %u : Element gel”schtZeile %u Spalte %u : FUB erneuertZeile %u Spalte %u : FUB zu langZeile %u Spalte %u : FUB zu kurzZeile %u Spalte %u : FUB falscher Input Pos.%uZeile %u Spalte %u : FUB falscher Output Pos.%uZeile %u Spalte %u : FUB kaputtZeile %u Spalte %u : Interner Text-FehlerImportBlockmodus     :
+Zeilenbindung  :
+Cursorbewegung :
+Labelfeld      :
+Tabulator      :
+Import Pfad    :Ja,NeinEin,AusUngltige Eingabe !ASCII~8208,Var.dekl.#4,Parameter#11,Compile#5,R U N#8,G D M#12Zwischenablage ist leerKein markierter Bereich oder zu wenig Speicher!Import#13,Export#14Sourcetext wurde auf "%s" geschriebenDiese Aktion ist fr ein InitUP nicht zul„ssig !ASCII-Export,Task-ExportInitUP ™ffnen,InitUP L”schenInitUP %s gel”schtInitUP %s l”schen ?Zeile,Spalte,ZeichenEinfgen,šberschreibenFolgen,VerlassenSichern	Cancelberspringen,nicht berspringenZuwenig Speicher verfgbarZeile ist zu langzu viele ZeilenMonitor-Fehler %u bei %uMonitor-Fehler %u Zeile %u Spalte %uB&R Source Level DebuggerZ:%3d S:%2d %sDebugger ”ffnet Debug-File "%s"Debugger abgebrochen: kann Task nicht laden!Download Debugtask %s DM-index = $%04X, PI-index = $%04XDebugger abgebrochen; MI-code = $%04X, stat = %d, msg = %dDebugger abgebrochen; Task nicht verfgbar!OV_Eintrag fr Debug-Task unleserlich!Debug-Task "%s" wird installiert.Debuggerfehler: Task nicht installierbar!Debugger kann ohne RPS-Verbindung nicht ge”ffnet werdenDebug-Task ist installiert.Debug-Task wird initialisiert.Initialisierung fehlgeschlagen.Fehler bei Init-Start !Debug-Task Initialisierung l„uft.Fehler bei Init-Done !Debug-Task ist initialisiert.Fehler beim De-installieren !Debug-Task deinstalliert%s-Daten aus TC#%d werden kopiert.IO-Kopieren Ok.Debug-Zeile starten.Debug-Task starten.Debug-Task l„uft.Debug-Register lesen.Debug-Register gelesen.Debug-Task stoppen.Debug-Task gestoppt.Debug-Task Exception $%02X.Debug-Task Zyklus %u.Debug-Task Break %u.Copy Input %s, Copy Output %s.Falscher Source-TypSource-File kann nicht ge”ffnet werdenAlte Debug-Info, "%s" neu compilieren!Zuwenig Blockspeicher, andere Fenster schlieáenKeine Debug-Info (evtl. 1-Zeiler), "%s" erweitern und compilieren!Source-Block nicht lesbarDebug-Domain nicht verfgbarModul DEBUGGER.BR nicht gefundenZuwenig Hauptspeicher, andere Fenster schlieáenDebugger: Lader akzeptiert Task nicht!Debugger: %s.src File kann nicht ge”ffnet werden!Debug-Task tracen.Debug-Task traced %u.Debug-Task "%s" muá neu compiliert werden!Breakpoint setzen in Zeile %uFehler bei Set-Break !Breakpoint nr %u gesetzt.Breakpoint nr %u l”schen in Zeile %uFehler bei Clear-Break !Breakpoint nr %u gel”scht.alle Breakpoint l”schen.Fehler bei ClearAll-Break !alle Breakpoint gel”scht.Fehlt Fortsetzung bei c=%u s=%u !Debug-Message %u nicht behandelt.die Debug-Task ist in der RPS nicht vorhanden !die Debug-Task ist in einem falschen State !keine bereinstimmenden Basepointer !die Debug-Task ist keine RPS-Task !es existieren keine In/Out-Daten fr die Debug-Task !keine Debug-Task oder Startadresse nicht im Codebereich !Stopadresse nicht im Codebereich !die Breakpointtabelle ist bereits voll !der Breakpoint existiert bereits !der Breakpoint liegt nicht im Codebereich !nicht definierte Aktionsnummer !der Breakpoint existiert nicht !max. Anzahl von Debug-Task berschritten !Modultyp wird vom Debugger nicht untersttzt !falsche Startadresse !falsche spec_id !kein Breakpoint gesetzt !es existiert keine Debugtaskklasse !es existiert keine angeg. Taskklasse !es existiert keine Schaufeltabelle !kein Speicher zum Anlegen der Debug-Task verfgbar !die Modultabelle hat keinen freien Eintrag verfgbar !falsche Registernummer !Fehler TC_install !Fehler ST_install !Fehler t_create !Fehler TC_deinstall !Fehler ST_deinstall !Fehler MO_deinstall !unbekannter RPS-Debuggerfehler %u !Debug-Message: invoke = %u , error = %uAnzahl    : AnalyseAnalyseRE_read_quit: Falscher MI-Code
+Ende der Fehlerliste
+
+Keine weiteren Eintr„ge mehr vorhanden
+Fehler beim Schreiben der Datei %s !Fehlerbericht an Datei %s angeh„ngtEintrag   : Moduladr.: Modultyp: Slot: Kanal: Int. Offset: Bytelen: Ein-/Ausg.Befehl hat an Cursorposition keine AuswirkungE/A bewegen abschlieáen mit <RETURN> (Ausstieg mit <ESC>)Kein Ein- oder Ausgang an dieser PositionZeile l”schen an Cursorposition nicht m”glichZeile setzen an Cursorposition nicht m”glichEin-/Ausgang setzen an Cursorposition nicht m”glichFUB im Read only Modus ge”ffnet !Keine Ein-/Ausg„nge zur Auswahl !Variablenname kann nicht doppelt verwendet werden !Warnung: Variable %s nicht im Source vorhanden !FUB nicht in der Datenbank !I/O~12022,Zeile~12023,Kommentar#5,Drucken#6Bewegen nach Cursorposition nicht m”glichVerzeichnis#2,FUB Entfernen#4Typ        : B&R Aufruf : Keine FUB's in der Datenbank !Kommentar  : LibrarysWarnung: Variable %s hat falschen Gltigkeitsbereich !Setzen#31,L”schen#32,Bewegen#33,Umbenennen#34Einfgen#41,L”schen#42FUB aus der Datenbank l”schen ?VOIDUNDEFLibrary    : Maximal %d Ein-/Ausg„nge zul„ssig !Keine E/A-Info vorhanden => FUB neu bersetzen ! Name   Datentyp   L„nge   Bytes   Offset bereichBereichAnalog#1,Digital#2Analog#1,Status#4Bereichswahldigital,analogOffsetsAnzeige    :PV einf.PV entf.BerechnenKontrolleSortierenHex,DezimalOffsetcheck:BereichN (normal),R (read only),F (eingefroren)Offset nicht zul„ssig !Keine PV's zur Auswahl !Zu viele PV's zur Auswahl !Offsetberschneidung !Bereichsberschreitung !Offset-Check o.k. !Offset nicht aligned !Ex/ImportVariable %s in der Datenbank vorhanden !Belassen	Importieren	Cancel <ESC>Bereich darf nicht ver„ndert werden !AnalogDigitalStatusVariable %s ist Read Only aber nicht im definierten Bereich!Bereich in Exportfile bereits vorhanden !šberschreiben	CancelProzessor %s in der Datenbank vorhanden !Importieren	CancelUnterschiedliche Struktur-L„ngen => Bereichseditor sichern ! Name   Datentyp   Wert KonstantenBIT,INT8,INT16,INT32,BYTE,WORD,LONG,FLOAT,STRINGDie Konstante %s ist bereits definiert.Konstanten-EditorKonstantenKonstanten-ListeKonstanteMonitorGruppe/Name Sp./Anz. Zst. æs Max./Mittel/Min.RPS-MonitorServiceDiagNotausReihenfolgenr.:EXC-Nummer    :Modulnummer   :Start/Stop        SPS-SonderDownloadObj.Handl.Alles /  Name        :
+Objekttyp   :
+Version     :
+Datum       :
+L„nge       :
+Startadresse:Info,Start,Stop,Download,Upload,Entfernen,Speichern,Install,NeustartInfo,Download,Upload,Speichern,EntfernenRPS-@MonitorStart,StopStart,Stop,Reset SPS,SPS-Uhr lesen,SPS-Uhr setzen,Init.RIO,SPS-Info,Parameter,Force aus,NF l”schen~16024RAM#28,FLASH#29PV-MonitorStart RPS,Stop RPSSoll der Task `%s'
+angehalten werden?Sollen alle Task der Gruppe %s
+angehalten werden?Soll die RPS tats„chlich gestoppt werden ?Soll das Objektnullspannungssicher imhinterlegt werden?Objekt speichernDie nderung wird erst nach einem Kaltstart wirksam!HinweisWarnungRckfrage beim Stoppen      :Ziel fr Speichern aus
+Objektparametern bernehmen :Bitte warten...Download nicht m”glich, da Datei
+%s
+nicht gefunden.Soll das Modul `%s'
+entfernt werden?SPLSpooladresse:Fehler beim Speichern:
+%sSYSRAMFLAFIXCRDTC_%dHS_%dEXCIRQDATSYSTEMCONFIGCNCUSROPTLIBEXHSYSCONNWCONMODBUGFIXOM/ALI: Fehler MIC%04x(%u) RPSSW Konfiguration OK	Default	CancelRPS Name       :
+ Prozessor Typ  :
+ RPSSW Version  : 
+ Paáwort        :
+ Konfiguriere   :
+ Zielspeicher   :Modul Info
+     Version   :
+     Datum     :
+     Zeit      :
+     L„nge     :Speicher,Module,Taskklassen,HS Taskklassen,Exceptions,Interrupts,TimeOut's,Modem On-Line,Betriebssystem,Remote I/O,PB Indizes%sSoll die Konfiguration auf der RPS gespeichert werden?Die nderungen am Konfigurationsmodul
+gehen verloren.Die Standardwerte fr die CPU "%s"
+konnten nicht gelesen werden!Fehler: %s!Das Konfigurationsmodul wird mit den
+Standardwerten fr die CPU "%s" berschrieben.Globale Merker
+   Analog   (min:        ):         Byte
+   Digital  (min:        ):         BitsPermanente Merker
+   Analog                 :         Byte   Digital                :         Bit Speicher
+   FIX-RAM                :         kByte
+   Tempor„r               :         kByteAnzahl der Taskklassen :
+Taskklasse             :
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄZeitverhalten
+  Dauer                :       ms
+  Toleranz             :       ms
+  Restzeit             :       msMerker
+  analog   (min:      ):       Byte
+  digital  (min:      ):       BitStackgr”áe
+  User                 :       Byte
+  Interrupt            :       ByteTCLogbucheintr„ge          :
+Zyklische Tasks(min     ):
+Restzeittasks  (min     ):System Tasks   (min     ):
+B&R Module     (min     ):File "%s" am PG bereits vorhanden.
+Soll ein Upload von der RPS erfolgen?Ja	Nein	CancelAnzahl der HS-Klassen :
+HS-Taskklasse         :
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄZeitbasis             :
+Zykluszeit            :       ms
+Unterbrechbar         :HSTCnie,durchÿIRQ-TK,immerHW-Timer,RIO/PP-FUBAnzahl    (min:      ):
+Unterbrechbar         :Erlaubte Systemzeit Verletzung :       sec
+Warten
+   bei Kaltstart               :       sec
+   bei Warmstart               :       sec
+   nach Powerfail              :       secIF1,inaktivwirdÿignoriert.,h„ltÿdieÿRPSÿan.,l”stÿeinÿWarmstart aus.,l”stÿeinen Kaltstart aus.Schnittstelle  :
+Initialisierung:
+
+W„hlstring:
+
+Fehlerbehandlung:
+  Eine Unterbrechung der VerbindungKommunikation
+  Kommunikations Kan„le :
+  Parallele Verbindungen:
+  Framebearbeitung      :
+  Ger„tetreiber         :
+  Force Auftr„ge        :
+  PV Tabellen           :
+  Log. Variablenlisten  :
+  Phy. Variablenlisten  :
+Mit einem Kaltstart werden die Daten in der RPS bernommen.
+Soll ein Kaltstart durchgefhrt werden?Master,ISL2M,1M,500k,181k,100kJa,Nein1,2Enable,Disable,DefaultInaktiv,Aktiv,ExceptionInaktiv,Aktiv,ExceptionKonfigurationen       :
+Einstellungen fr     :
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Steckplatz            :
+Betriebsart           :
+Baudrate              :
+Redundanz             :
+TimeoutIO             :              msSlaveTimeOut          :              sec
+Max. Stationen        :
+Repeat Count          :
+Priorit„ten           :
+Slaves                :
+   Ausfall quittieren :
+   Ready   quittieren :
+Hot Plug              :                  von   bis
+Datentyp         $     $
+Struktur         $     $
+Variablenliste   $     $
+Program Invoc    $     $
+Domain           $     $
+Prozeávariable   $     $Druckennderungen am Konfigurationsmodul Speichern?Keine Verbindung zur RPS!Weiter	CancelSystemkonfigurationsmodul auf der RPS
+ist nicht mit dem PG Modul ident!Speicher,Module,Taskklassen,HS Taskklassen,Exceptions,Interrupts,TimeOut's,Betriebssystem,Remote I/O,CAN I/O,2003 I/0,PB Indizes,Kommunikation14,1,2,3,4,5,6,7,9,10,13,12,11,14Konnte Systemkonfiguration nicht speichern!Konnte Konfigurationsmodul nicht von RPS laden!Anzahl der aktualisierten IO-Kan„le pro IO-Zyklus:Alle,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16V1.10,V1.90,V2.00Die RPSSW Version stimmt nicht mit der RPS berein!Die RPS ist durch ein Paáwort geschtzt. Ohne korrektes
+Paáwort ist ein Aufbau der Verbindung nicht m”glich!
+Paáwort:Paáwort <Paáwort!> Die aktuelle Konfiguration der RPS stimmt
+nicht mit dem Projekt berein!
+Soll jetzt abgeglichen werden?Download	Upload	CancelFIXRAM l”schenAchtung: W„hrend des L”schens des %s
+         werden auch alle Speicherbereiche
+         der RPS gel”scht!FLASH l”schenSpeicher wird gel”scht.
+Bitte warten...Fehler: Kann Section %d nicht ”ffnen!Fehler: Section %d hat falsche Gr”áe!Service,KaltstartSystem,RestzeitWarmstart,KaltstartDiagnose,KaltstartDie aktuelle Konfiguration der RPS stimmt
+nicht mit dem Projekt berein!Upload	Weiter	CancelDefinieren Sie den Prozessortyp
+und die Version der RPSSW.
+
+Prozessor:
+RPSSW    :Permanenten Speicher l”schenDas Konfigurationsmodul wurde fr
+eine RPS vom Typ "%s" erzeugt.
+Die aktuelle RPS ist vom Typ "%s"!Das Paáwort auf der RPS entspricht nicht der Konfiguration!
+Kein Kaltstart nach dem SYSCONF Download?
+Paáwort:Konfigurationen       :
+Einstellungen fr     :
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Steckplatz            :
+Subslot               :
+Interface             :
+Baudrate              :
+SlaveTimeOut          :              msTimeoutIO             :              ms
+Repeat Count          :
+Unterbrechbar         :
+Anzahl ANP Module     :
+Anzahl Slaves         :
+Exception ausl”sen    :IF1,IF2,IF3,IF4 20 kBIT/s,125 kBIT/s,250 kBIT/s,500 kBIT/s   fehlendem Modul    :OK	Slaves	CancelParameter fr Slave Nr.:
+Knoten Nummer:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Idlezeit
+  Digital IN :       ms   Digital OUT:       ms
+  Analog  IN :       ms   Analog  OUT:       msZykluszeit              Inhibitzeit
+  Digital IN :       ms   Digital IN :       ms
+  Analog  IN :       ms   Analog  IN :       msB&R OS
+  Systembuskarten       :
+  AVT-Eintr„ge          :
+  Semaphoren            :
+  Queues                :
+  Daten/Stack           :$  Hochlaufverhalten
+     nach Fehler        :
+     nach Reset         :
+     nach Powerfail     :Online IF als Modem IF :
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ 11 Bit, 29 BitAnzahl der Konfigurationen :
+Konfigurations Nummer      :
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Steckplatz               :
+Subslot                  :
+Interface                :
+Typ                      :
+ Baudrate   :
+ Parity     :
+ Databits   :
+ Stop Bits  :Seriell,CAN,PB,EthernetParameter2400 BIT/s,9600 BIT/s,19200 BIT/s,38400 BIT/s,57600 BIT/s,115200 BIT/snone,even,odd81,2 Baudrate  :
+ Basis ID  :
+ ID-L„nge  :
+ Max Knoten:Lokal,PS,SL1,SL2,SL3,SL4,SL5,SL6,SL7,SL8,SL9,SL10,SL11,SL12,SL13Lokal,SL1,SL2,SL3,SL4,SL5,SL6,SL7,SL8,SL9,SL10,SL11,SL12,SL13User Flash,System Flash,MEM CardNur fr 2003 CPUs einstellbar.nie,immerSysconf mit Vorlage "%s" gedruckt (%s). Baudrate   :
+ Parity     :
+ Databits   :
+ Stop Bits  :
+ Idle Zeit  :
+ Init String: Init String: Idle Zeit  :Fix RAM im Bereich von 0 bis 64kB!Diese CPU untersttzt kein Fix RAM!Tempor„r RAM von 12kB bis 256kB!Tempor„r RAM von 8kB bis 128kB!Tempor„r RAM von 8kB bis 256kB!Logbucheintragungen von 16 bis 150!Logbucheintragungen von 16 bis 500!min. 20, max. 65535 B&R Module!min. 10, max. 65535 Systemtasks!Restzeit von 0 bis 10ms in 0.5ms Schritten!User-Stack min. 512Byte max. 64kByte!System-Stack min. 640Byte max 64kByte!HS Zykluszeit min. 1ms max. 65.535ms!HS Zykluszeit min. 0.5ms max. 65.535ms!Powerfail maximal 32.51sec!Kommunikationskan„le min. 5 max. 65535!Ger„tetreiber min. 6 max. 65535!AVT Eintr„ge min. 20 max. 5461!Semaphoren min. 1!Queues min. 1!max. 127 Stationen!HS User-Stack min. 256Byte max. 16320Byte!HS System-Stack min. 640Byte max. 64kB!Maximal 8 RIO Konfigurationen!Konfig. des Tempor„r RAMs nicht erforderlich!Max. eine HS Klasse und eine RIO/PP Timer Klasse!Zyklusdauer von 10 bis 5000ms in 10ms Schritten!Zeitwert von 0 bis 2.55sec!Zeitwert von 0 bis 65sec!Speicherbereich unzul„ssig!Speicherbereich von 0 bis 192kByte!Keine IRQ Tasks zul„ssig!Summe glob. u. perm. Merker muá kleiner 64kB sein!Zeitwert von 0 bis 65530ms!Speicherbereich von 0 bis 65520!Zeitwert von 0 bis 254000ms!Zeitwert von 0 bis 655sec!Ungltiger Steckplatz!Ungltige Subslotnummer!Ungltiges Interface!Einstellung von 1 bis 32!Ungltige Baudzahl!Timeout von 0 bis 65535!Lifeguardtime von 0 bis 65535!ANP von 0 bis 255!Retries von 0 bis 255!Ungltige Einstellung des Users! Terminate?Knotennummer von 1 bis 32!Ungltiger Zeitwert, 0 bis 65535Einstellung von 0 bis 15!Gleiche Schnittstellen in der Konfiguration!kein SS,SS1,SS2,SS3Wert von 5 bis 512 zul„ssig!Wert von 5 bis 128 zul„ssig!Mindestens 1 (CPU) bis max. 14 bei 2005 Systemen!Mindestens 10 bis max. 65535!InfoInfoSystem:
+  Hardware     :
+  Revision     :
+  Hochlaufgrund:
+Speicher:
+  RPS I/O:
+  System :
+AWS:
+  Type    :            Puff. CPU:
+  Speicher:            Puff. AWS:
+  RPSSW   :
+RTC:
+  Datum:
+  Zeit :
+Knotennummer:$Keine Verbindung zur RPS!2010;2005;2003;;;;;;BTCPU;C200;;;;MP2010;2010;;;Warmstart,Kaltstart,Reset,Reconfig,NMI-Copy,Diagnose,ErrorLeer,OK,NV,NTEPROM/RAM,FLASH/RAMForcen ausBelegungSetzenSpeicherbelegung            belegt  frei
+System   :                  Byte
+SYS  ROM :                  Byte
+User ROM :                  ByteUser RAM :                  Byte
+FIX  RAM :                  Byte
+Tempor„r :                  Byte
+Mem Card :                  ByteCAN Info:        
+  Knotennummer:$
+  CAN-ID      :
+  Baudrate    :        kBitDiagnoseModul :L”schen	Beenden	AbbrechenRPS befindet sich nicht im Diagnosemodus!Diagnose-Modul Download...Verbinung mit Diagnose Task aufnehmen...Daten von RPS lesen...ID des des Diagnose Tasks holen...Datenaustausch mit RPS...Lese %ld Bytes von insgesamt %d, %ld bereits gelesen...OKdefektEPROMFLASHFIXRAMDEL   Fehler beim L”schen eines Moduls!Diagnose: Verbindungs Fehler!Diagnose: Kein Diagnose-Modul auf der RPS!Diagnose: Keine Module auf der RPS!Diagnose: Kein verfgbarer Speicher!Daten werden von der RPS gelesen.
+Bitte warten...Soll ein Kaltstart durchgefhrt werden?M.CARDFLASHsFIXRAMsPermanenten SpeichersL”schen des "%s" kann einige Minuten dauern!
+Der L”schvorgang auf der RPS kann nicht unterbrochen werden!
+Wollen Sie den PG2000 Vorgang abbrechen?Memcard SpeichersMemcard l”schenPWD: %s%d, %dErfolgreich: %s
+Pfad: %sRouting: %s (%s)ResetEs soll ein Reset auf einem PP durchgefhrt werden!
+Es wird auf die CPU geschaltet!
+Ein Reset auf der CPU wirkt auch auf die PP's.Zum L”schen des FLASHs/FIXRAMs/MEMCARD Speichers auf einem PP
+wird die CPU in Diagnose-Mode geschaltet.
+Anschlieáend wird auf der CPU ein Kaltstart durchgefhrt.Auf einem PP kann kein Permanenter Speicher konfiguriert werden!Ein RPSSW-Update wird nur bei einer direkten Verbindung durchgefhrt!Kein Speicher!RoutingSegment RPS Name Knoten Nr. Slot Subslot Interface CAN,IF1,IF2,IF3,IF4Segment Name erforderlich!> AR Tabelle <Konnte Liste nicht anlegen!Netz TabelleNetz Tabelle (Home)RPS Name erforderlich!Knotennummer erforderlich!Slot Fehler!Sub Slot Fehler!Schnittstelle erforderlich!Aufbauen der Verbindung mit...
+ RPS:
+
+ Pfad:Auto-Routing ein!Auto-Routing aus!OkKonfigAR TabAR einCancelAutoManuellRouting %s: %s (%s)@NetzwerkDer Netzwerkbetrieb erfordert eine 
+RPSSW Version gr”áer gleich V1.91!Verbindungsaufnahme ber "%s" nicht m”glich!
+%sVerbindungEs konnte keine lokale Verbindung aufgebaut werden!Station ist nicht erreichbar!%u. Die RPS "%s" wurde in der Netzwerktabelle nicht gefunden.%u. Es konnte keine lokale Verbindung
+    auf %4.4s aufgebaut werden.%u. Die lokale RPS l„uft mit einer OS Version kleiner %s.%u. Die RPS mit dem Pfad "%s" meldet sich nicht.ACHTUNG : Die RPS "%s" wurde in der Routing Tabelle 
+          nicht gefunden!
+          %sDie aktuelle Verbindung bleibt bestehen!Eine lokale Verbindung wird aufgebaut!ACHTUNG : Die lokale RPS "%s" wurde in der
+          Routing Tabelle nicht gefunden!
+          %sVerbindungsaufbau PG  <-->  RPSVerbindungsaufbau PG < -- > RPSW„hlen Sie bitte den lokalen Prozessor aus.
+Lokale RPS:
+Fr diese Sitzung merken:LokalFestlegen einer lokalen RPS.Die lokale RPS konnte nicht festgestellt werden!Kein Speicher fr Verbindungen!nderungen des Moduls "%s" werden auf der RPS
+nach einem Kaltstart bernommen!
+Soll ein Kaltstart durchgefhrt werden?Zu wenig Platz im "%s" fr das Modul "%s"!
+Ben”tigt: %ld, vorhanden %ld Byte.
+%sRam,SYS ROM,Fix RAM,User ROM,Memcard SpeicherDownload Modul: "%s", Ziel: "%s", Ben”tigt: %ld, vorhanden %ld ByteL”schen Sie den Zielspeicher und versuchen Sie es erneut.Zielspeicher nicht verfgbar oder nicht konfiguriert!@On-LineAllgemein
+  Variablen Update   :         ms
+PV Anzeige
+  Format             :
+  TC-Info            :
+Sicherheitsbest„tigungen
+  Stoppen            :
+  L”schen            :  Warmstart          :
+  RPS Halt           :
+Speichern Monitor
+  Objektparameter    :
+RPSSW Download
+  Baudrate           :On-LineUpdate der RPS System SoftwareEin RPSSW Update ohne Bootmanager ist ab RPSSW Version 2.00 m”glich!
+Aktivieren Sie den Bootmanager um auf eine neue RPSSW umzusteigen!RPSSW Update, Bitte warten...Download Modul "%s" auf der RPS gel”scht!Download Rebuildinfo entfernt.OS Download: Datei "%s" gew„hlt!Ein Update konnte nicht durchgefhrt werden!Abtastrate von 55 bis 59950ms einstellbar!Wiederholen	OfflineZielspeicher nicht verfgbar, da RPS im Diagnose Mode!"%s" ist kein gltiger Verbindungsname.Die Version der "%s" untersttzt kein SYS ROM.ZusatzmoduleL”schenEinfgenOKCancel                      	      $     +    	 9   	 	 B   
+ 
+ K    
+ U     _     n     y     ~     ƒ          Ÿ     §     ­     ³     ¾     Ä     Ï     ß     å     ö    D ş     B    T   
+ Y     c  !  h  "  l  #  s  $ 
+ y  %  ƒ  &  œ  '  ª  (  ¸  )  ¿  *  Ç  +  Ï  ,  Ó  -  Ø  .  Ş  / 
+ ã  0  í  1 
+ ğ  2 V ú  3  P  4 & U  5  {  6  €  7  …  8  Š  9  ¤  :  ©  ; - °  < ; İ  >    ?   3  @  S  A " f  B  ˆ  C 4   D  Ñ  E 
+ ×  F  á  G ^ ï  H ) M  I  v  J 2 •  K  Ç  L  Ö  M  â  N  ğ  O    P  !  Q  &  R 
+ 8  S  B  T  S  U ! o  V 1   W ' Á  X  è  Y 8 õ  Z  -  [ 	 3  \ 	 <  ]  E  ^ 
+ K  _  U  `  [  a  b  b  i  c  q  d    e  —  f 2 µ  g   ç  h    i & &  j & L  k , r  l 5   m  Ó  n  Ù  o  ß  p  â  q Ñ é  r  º  s  Ô  t  Ù  u  Ş  v 
+ â  w  ì  x  ı  y ,  	  z  ,	  {  9	  | 5 G	  }  |	  ~  Š	    ¡	  €   »	   " Û	  ‚ 	 ı	  ƒ  
+  „  
+  … 4  
+  † ! T
+  ‡ # u
+  ˆ  ˜
+  ‰   
+  Š 
+ ´
+  ‹  ¾
+  Œ  Æ
+   
+ Î
+   	 Ø
+   	 á
+    ê
+  ‘  ğ
+  ’ 
+ ó
+  “  ı
+  ” 
+   •    –    —  #  ˜  2  ™  A  š  W  ›  f  œ 
+ u   
+     ‰  Ÿ 
+ ¨    * ²  ¡  Ü  ¢ 2 ï  £ ( !  ¤  I  ¥ ' c  ¦  Š  §  ’  ¨ % ™  ª  ¾  « 	 Ñ  ¬  Ú  ­  ö  ®    ¯  &  °  6  ±  K  ²  S  ³  Y  ´ # _  µ  ‚  ¶  —  ·    ¸ " 3  ¾ ) U  ¿  ~  À  œ  Á  ­  Â ! ¼  Ã D İ  Ä C !  Å * d  Æ 5   Ç  Ã  È  Õ  É  å  Ê  ø  Ë -   Ì - :  Í  g  Î  t  Ï  {  Ğ 1   Ñ  ¾  Ò  Å  Ó . Ğ  Ô  ş  Õ  	  Ö    ×    Ø  .  Ù 
+ ;  Ú  E  Û % ]  Ü   ‚  İ  ¢  Ş  ±  ß  Å  à " Ó  á   õ  â $   ã , 9  ä  e  å ! j  æ 3 ‹  ç  ¾  è  Î  é  Ö  ê  Ş  ë & ï  ì ,   í 	 A  î  J  ï  X  ğ % _  ñ % „  ò  ©  ó 	 °  ô  ¹  õ  Á  ö  Ã  ÷  È  ø 0 Í  ù * ı  ú  '  û  5  ü 
+ <  ı  F  ş & U  ÿ  {   N   o Ü   K  ( R  & z  
+     ª   ¸   Ë  	% Ó  
+4 ø  ) ,  2 U  4 ‡  % »  1 à        G (   o   v  	 ‹   ”  % ¡  $ Æ  - ê  ;   ! R  " s    •   µ   Í    Ó  !
+ Ù  " ã  # î  $   % ,  &# >  ' a  (& l  )( ’  *" º  +< Ü  ,   -% 6  . [  / w  0) ƒ  1 ¬  2 »  3' Ğ  4" ÷  5"   6" ;  7" ]  8	   9 ˆ  : ¥  ; ³  <I Ò  =   >	 4  ? =  @. X  A †  B! ‘  C
+ ²  D ¼  E5 Î  F   G   H#   I 1  J N  K	 Z  L! c  M „  N ‰  O   P ‘  Q •  R š  S    T ·  U Ã  V É  W Ê  X& â  Y&   Z .  [$ J  \ n  ] u  ^1 z  _ «  ` °  a7 Î  b$   c )  d -  e= 4  f q  g   h   i
+ •  j Ÿ  k £  l ©  m ­  n °  o ·  p ¿  q Ä  r  Ø  s ø  t ş  u    v    w    x    y  "   z "   { ;   |
+ P   }L Z   ~ ¦    ²   € ¾    Æ   ‚ Ó   ƒ7 á   „
+ !  … "!  †	 (!  ‡ 1!  ˆ ?!  ‰ P!  Š k!  ‹ ˆ!  Œ ¤!   «!   ·!   º!  ‘ Å!  ’: Ú!  “+ "  ” ?"  •	 G"  – P"  — e"  ˜ „"  ›8 œ"  œ, Ô"  8  #  Ÿ' 8#  ¡ _#  ¢ t#  £= Š#  ¤/ Ç#  ¥% ö#  ¦% $  § @$  ¨( [$  ©" ƒ$  « ¥$  ¬- ¸$  ±2 å$  ³ %  µ2 4%  ¶. f%  ·3 ”%  ¸4 Ç%  ¹$ û%  º  &  »! ?&  ¼ `&  ½ u&  ¾9 &  À* É&  Á$ ó&  Â '  Ã ,'  Ä! H'  Å i'  Æ+ ‚'  Ç; ­'  È1 è'  É% (  Ê >(  Ë U(  Ì o(  Î! ‡(  Ï" ¨(  Ğ Ê(  Ñ æ(  Ò+  )  Ó1 +)  Ô< \)  Õ ˜)  ×1 ¶)  Ø% ç)  Ù *  Ú: %*  Û. _*  Ü1 *  İ" ¾*  Ş( à*  ß/ +  à. 7+  á* e+  â' +  ã% ¶+  ä) Û+  å ,  ç1 ,  è K,  é i,  ê ‚,  ë ,  ì ³,  í Ê,  î% æ,  ï -  ğ2 *-  ñ8 \-  õD ”-  ö: Ø-  ÷> .  øC P.  ù. “.  ú" Á.  û% ã.  ü9 /  ı* A/  ş+ k/  ÿ5 –/   E Ë/  E 0  B U0  / —0  7 Æ0  R ı0  J O1  , ™1   Å1  	% â1  
+ 2  $ 
+2   .2  ) D2   m2  % ‡2  - ¬2  < Ù2   3   33   Q3  " k3  + 3  : ¸3  9 ò3  " +4  2 M4   4  * ‘4  8 »4  ; ó4  ' .5   ? U5  !2 ”5  " Æ5  #7 ã5  $& 6  % @6  &) ]6  '& †6  (9 ¬6  )3 å6  *9 7  +9 Q7  , Š7  - 7  . –7  /> ¢7  06 à7  1 8  2@ 28  3? r8  4+ ±8  50 Ü8  6( 9  7. 49  8+ b9  9 9  :, ¢9  ;: Î9  <4 :  =4 <:  ># p:  ?& “:  @, ¹:  A% å:  B 
+;  C) ;  D= @;  E4 };  F4 ±;  G? å;  H( $<  I# L<  JF o<  K, µ<  L/ á<  M= =  N? M=  O= Œ=  P@ É=  Q2 	>  R5 ;>  SA p>  T? ±>  U4 ğ>  VB $?  W f?  X r?  Y< Š?  Z Æ?  [ Í?  \F Ó?  ]3 @  ^ L@  _ h@  `& t@  a š@  b «@  c ²@  d' Á@  e' è@  f7 A  g% FA  h/ kA  i' šA  j ÁA  k" ÒA  l ôA  m' B  n 5B  o  RB  p0 rB  q ¢B  r ¼B  s ØB  t ìB  u C  v C  w  C  x /C  y ?C  z JC  { bC  | rC  }
+ C  ~% šC  ! ¿C  €$ àC   D  ‚
+ D  ƒ% D  „% ;D  … `D  † {D  ‡ ‹D  ˆ  D  ‰ ±D  Š$ ¿D  ‹+ ãD  Œ E  / ,E   [E   fE  / mE  ‘ œE  ’5 ­E  “ âE  ” ÷E  •& 	F  – /F  —" 7F  ˜ YF  ™ rF  š ƒF  › F  œ ™F   ¤F   ¯F  Ÿ( ºF   L âF  ¡) .G  ¢ WG  £# lG  ¤' G  ¥ ¶G  ¦9 ÓG  § H  ¨ H  © 3H  ª IH  « WH  ¬3 bH  ­	 •H  ®	 H  ¯ §H  ° ³H  ±  ÆH  ² æH  ³ ÿH  ´ I  µ: I  ¶  TI  · tI  ¸	 |I  ¹ …I  º —I  » I  ¼5 ­I  ½; âI  ¾> J  ¿J [J  À, ¥J  Á( ÑJ  Â ùJ  Ã& K  Äe 7K  ÅG œK  ÆC ãK  Ç &L  È +L  É .L  Ê 4L  ËI 6L  Ì L  Í ‹L  Î	 ‘L  Ï šL  Ğ* L  Õ" ÇL  Ö' éL  ß M  à )M  á+ CM  â. nM  ã* œM  ä% ÆM  å% ëM  æ* N  çE :N  è N  é  N  ê@ ¯N  ë: ïN  ì1 )O  í6 ZO  î3 O  ï1 ÃO  ğ% ôO  ñ P  ò 6P  ó" HP  ôH jP  õ ²P  ö@ ÁP  ÷. Q  ø /Q  ù HQ  ú XQ  û fQ  ü! xQ  ı2 ™Q  ş ËQ  ÿ	 İQ    æQ   R   
+R   R    R   +R   6R   AR   GR  	 NR  
++ ZR   …R  	 “R  	 œR  	 ¥R  \ ®R  ( 
+S   2S  ƒ HS  ‘ ËS    \T  ! oT  " ‡T  #. ”T  $8 ÂT  %8 úT  &H 2U  '' zU  (8 ¡U  )a ÙU  *8 :V  +8 rV  ,# ªV  - ÍV  .( İV  /, W  09 1W  12 jW  2+ œW  3 ÇW  4 ÎW  5. êW  6> X  7 VX  8 dX  9 €X  : ‘X  ; ¤X  <_ ©X  =; Y  >- CY  ?D pY  @@ ´Y  A* ôY  B Z  C &Z  D' -Z  E TZ  F _Z  G
+ fZ  H
+ pZ  I zZ  J
+ ’Z  K
+ œZ  L ¦Z  M; µZ  N ğZ  O  [  P "[  QE >[  R
+ ƒ[  S [  T3 ”[  U Ç[  VD Õ[  W \  X  0\  YA P\  Z ‘\  [ \  \ ±\  ] ¸\  ^
+ ½\  _ Ç\  `
+ á\  aè ë\  b Ó]  cP Ş]  d .^  e E^  f M^  g ^^  h' y^  i&  ^  j" Æ^  k$ è^  l _  m0 )_  n% Y_  o) ~_  p §_  q ½_  r Ó_  s è_  t* ÷_  u+ !`  v> L`  w’ Š`  x3 a  y Oa  z ja  {	 {a  |' „a  }ƒ «a  ~ .b  , Gb  €7 sb   ªb  ‚4 ¾b  ƒ7 òb  …! )c  è' Jc  ~% qc   –c  €" ²c  ! Ôc  ‚( õc  Ü d  İ ;d  Ş+ Vd  ß d  à1 d  á- ¾d  â ëd  ã ód  ä6 e  å+ Fe  æ; qe  ç ¬e  è ¸e  é# Ğe  ê
+ óe  ë
+ ıe  ì
+ f  í
+ f  î
+ f  ï %f  ğ ;f  ñB Of  ò ‘f  ó ¥f  ô ²f  õ ¹f  ö ¼f  ÷ Èf  ø Îf  ù* Ôf  ú
+ şf  û% g  ü( -g  ı Ug  ş. gg  ÿh •g   " ıg   h  / .h  © ]h  * i  9 0i  4 ii   i  % ­i  	A Òi  
+
+ j  ' j  ' Dj  0 kj  / ›j   Êj  ^ Ûj   9k   Æk  	 Ùk   âk   ñk   l  & l  7 El  ; |l  6 ·l  G íl  ˜ 4m  ™ Rm  š hm  ›C tm  œ% ·m   Üm   Şm  Ÿ àm    æm  ¡7 n  ¢ <n  £" [n  ¤ }n  ¥ ›n  ¦6 ³n  §F én  ¨9 /o  © ho  ª {o  «> ‰o  ¬) Ço  ­g ğo  ®	 Wp  ¯	 `p  ° ip  ± †p  ² ¡p  ³ ¯p  ´ ºp  µ ¾p  ¶	 Åp  · Îp  ¸& ßp  ¹1 q  º 6q  »! Nq  ¼! oq  ½ q  ¾ ­q  ¿  Ëq  À  ëq  Á  r  Â	 +r  Ã
+ 4r  Ä >r  Å Ir  Æ	 Nr  Ç Wr  È [r  É ar  Ê gr  Ë mr  Ì
+ ur  Í r  Î ‡r  Ï Œr  Ğ r  Ñ –r  Ò
+ œr  Ó	 ¦r  Ô	 ¯r  Õ	 ¸r  Ö Ár  ×. Ér  Ø  ÷r  Ù# s  Ú :s  Û) Os  Ü  xs  İ  ˜s  Ş ¸s  ß Ös  à ñs  á t  â &t  ã =t  ä It  å Tt  æ `t  ç gt  è nt  é ut  ê- ƒt  ë
+ °t  ì  ºt  í Út  î æt  ï, òt  ğ u  ñ ,u  ò =u  ó  Tu  ô# tu  õ —u  ö9 ­u  ÷
+ æu  ü ğu  ı v  ş. v  ÿ Fv   	) ev  	 v  	
+ –v  	   v  	 Àv  	% Úv  	 ÿv  	 w  	! "w  		) Cw  
+	' lw  	 “w  	 w  	 ¸w  	
+ Çw  	 Ñw  	 ×w  	 İw  ¸ ùw   x   x   'x   ;x    Fx  ! Qx  " Xx  # _x  $ ox  % ux  & ‰x  ' —x  ( ¥x  ) ³x  * Çx  + Ûx  , ïx  - y  . y  / +y  0 ?y  1 Sy  2 gy  3 {y  4 y  5 £y  6* ·y  7 áy  8 ïy  9 z  : z  ;  z  < .z  =	 5z  > >z  ?+ Uz  @ €z  A –z    ¡z  ¡ ·z  ¢ Êz  £ éz  ¤ ız  ª {  «! &{  ¬ G{  ­ ]{  ® y{  ¯ ”{  ° ®{  ´ Ã{  µ Ò{  ¾ â{  ¿ ò{  È |  É !|  Ê -|  Ë 9|  Ì D|  Í Y|  Ò  q|  Ó ‘|  Ô ¡|  Õ ±|  Ü Ä|  İ ×|  Ş  è|  ß }  à %}  á @}  æ Z}  ç! p}  è  ‘}  ğ ±}  ñ ½}  ú Ñ}  û ì}  ü ü}  ı 	~  ş ~  ÿ &~    5~   E~   U~   l~   ~   ™~  % ¸~  	% İ~  
+      3 .  : a  	 ›   ¤   ¬  
+ Á   Ë   ß   ÷   €   €   )€   ?€   F€   \€   l€   ƒ€   š€   ¯€   µ€    Ç€  ! Ö€  " ê€  # ÿ€  $   % (  & 8  ' L  ( a  ) c  * s  + ~  ,   -   . ®  / ¿  62 Ä  7
+ ö  8	  ‚  9	 	‚  : ‚  ; (‚  <
+ 3‚  =	 =‚  T F‚  U _‚  V o‚  W ‚  X. ¦‚  Y2 Ô‚  Z ƒ  [ ƒ  h ƒ  i+ 2ƒ  j ]ƒ  k tƒ  l& €ƒ  m% ¦ƒ  n Ëƒ  o ßƒ  p óƒ  q „  r- )„  s  V„  t v„  u$ ‰„  v% ­„  w Ò„  “ ñ„  ” …  š …  › %…  œ B…  & […   …  Ÿ$ Ÿ…   * Ã…  ¡ í…  ¢ †  £ †  ¤> 9†  ¥ w†  ¦ ’†  § ¯†  ¨ Î†  ©7 ë†  ª "‡  «" @‡  ¬< b‡  ­ ‡  ® ·‡  ¯% Ï‡  °# ô‡  ±, ˆ  ² Cˆ  ³$ Zˆ  ´# ~ˆ  Ì  ¡ˆ  Í ¡ˆ  Î ¤ˆ  Ï Âˆ  Ğ  Öˆ  Ñ> öˆ  Ò 4‰  Ó  @‰  Ô @‰  Õ X‰  Ö w‰  × ‰  Ø( ®‰  Ù Ö‰  Ú9 õ‰  Û! .Š  á OŠ  â iŠ  ã ‚Š  ä  ¡Š  0 ÁŠ  1
+ ÑŠ  2> ÛŠ  3 ‹  4
+ $‹  5 .‹  6
+ :‹  7 D‹  8? ^‹  9 ‹  : «‹  ; ¶‹  <5 Â‹  = ÷‹  ”( Œ  •c >Œ  – ¡Œ  —: ±Œ  ˜! ëŒ  ™   š! &  › G  œ X   k   ‡  Ÿ •   & °  ¡; Ö  ¢5   £= F  ¤0 ƒ  ¥ ³  ¦. Ã  § ñ  ¨ ÿ  ©#   ª /  « ;  ¬ >  ­  P  ¯  P  ° p  ± €  ² ‘  ³0 ™  ´	 É  µ Ò  ¶ Ş  · é  ¸ õ  ¹   º   »   ¼   ½   ¾ *  ¿ 6  À B  Á N  Â ]  Ã l  Ä |  Å ‹  Æ š  Ç ©  È ¸  É ¼  Ê Ä  Ë Ó  Ì ß  Í	 ë  Î	 ô  Ï ı  Ğ ‘  Ñ8 ‘  Ú# N‘  Û# q‘  Ü# ”‘  İ# ·‘  Ş" Ú‘  ß" ü‘  à# ’  á# A’  â" d’  ã# †’  ä# ©’  å# Ì’  æ# ï’  ç# “  è# 5“  é# X“  ê# {“  ë# “  ì# Á“  í# ä“  î# ”  ï! *”  ğ# K”  ñ# n”  ò# ‘”  ó# ´”  ô# ×”  õ# ú”  ö# •  ÷! @•  % a•  & r•  ' ƒ•  (	  •  *# ©•  + Ì•  , Ò•  - Ø•  . Ş•  / ä•  0 ö•  1 
+–  2! –  3 >–  47 W–  53 –  60 Á–  7­ ñ–  8* —  9^ È—  :d &˜  ;W Š˜  <d á˜  =W E™  >N œ™  B
+ ê™  C	 ô™  D	 ı™  E! š  F3 'š  G) Zš  H ƒš  I š  J ªš  K Àš  L Îš  M Üš  N èš  O ôš  P  ›  Q ›  R ›  S $›  T 2›  U @›  V V›  W t›  X Œ›  Y ¤›  Z Á›  [- İ›  \/ 
+œ  ] 9œ  ^ Qœ  _ lœ  ì Šœ  í ˜œ  î: ©œ  ï ãœ  ğ üœ  ñ   ò' .  ó9 U  ôu   õ   ö 
+  ÷7 '  ø ^  ù y  ú& ”  û= º  ü> ÷  ı 5Ÿ  ş	 8Ÿ  ÿ AŸ    GŸ   KŸ   iŸ  W qŸ  ' ÈŸ  " ïŸ  &    8 7   - o   	
+ œ   
+ ¦    ¶   ! Ï    ğ   7 ¡   B¡   \¡   q¡  7 ¡  ) Ä¡  1 í¡    ¢   >¢   U¢  * l¢   –¢  - ¡¢  = Î¢  N £  ) Y£  / ‚£  < ±£   & í£  !+ ¤  ", >¤  #5 j¤  $ Ÿ¤  % ­¤  & Æ¤  '	 Ş¤  (. ç¤  )@ ¥  * U¥  + j¥  ,/ ~¥  - ­¥  .A Ä¥  /8 ¦  08 =¦  16 u¦  2C «¦  3G î¦  4I 5§  57 ~§  6	 µ§  7b ¾§  8;  ¨  98 [¨  : “¨  ;& §¨  < Í¨  = ì¨  > ï¨  ? ú¨  @$ ©  AC 5©  B x©  C ’©  D\ ª  Eb mª  F Ïª  G ßª  H åª  I  ëª  Jo «  K@ z«  LÈ º«  M1 ‚¬  Ng ³¬  O ­  P )­  Q 4­  R( C­  S´ k­  T? ®  U
+ ^®  V h®  W* w®  X1 ¡®  Y Ò®  Z& ë®  [i ¯  \( z¯  ]N ¢¯  ^# ğ¯  _ °  ƒ9 .°  ‡ g°  ˆ |°  p ‘°  q" ¡°  r! Ã°  s ä°  t ±  u ±  v" 5±  w- W±  x „±  y  œ±  z ¼±  { Ø±  |% ñ±  } ²  ~0 1²  * a²  €* ‹²  „ µ²  … Ë²  " æ²  ˜* ³  ™' 2³  ¢1 Y³  £' Š³  ¬ ±³  ­ Ì³  ¯! ã³  ±- ´  ² 1´  ³ O´  ´/ m´  µ> œ´  ¶' Ú´  ·3 µ  Õ< 4µ  Ö= pµ  × ­µ  Ø' Åµ  7 ìµ  < #¶  8 _¶  9* z¶  :: ¤¶  ; Ş¶  <0 õ¶  =5 %·  >, Z·  B- †·  L7 ³·  jI ê·  kJ 3¸  l> }¸  m> »¸  n> ù¸  o< 7¹  p7 s¹  q> ª¹  r< è¹  sI $º  t= mº  u: ªº  v= äº  w> !»  x> _»  yZ »  zC ÷»  {@ :¼  |A z¼  }< »¼  ~> ÷¼  Q 5½  €V †½  U Ü½  ‚H 1¾  ƒU y¾  „E Î¾  …Q ¿  †P d¿  ‡N ´¿  ˆ< À  ‰J >À  7 ˆÀ   ¿À   ÆÀ   ŞÀ   ÷À    Á  ? "Á   aÁ  	. uÁ  
+ £Á   ºÁ   ÏÁ  " åÁ  $ Â  $ +Â  # OÂ   rÂ   Â  - ¤Â  0 ÑÂ  6 Ã  4 7Ã   kÃ  # „Ã   §Ã   ¯Ã    ¶Ã  ! ½Ã  " ÍÃ  #$ ÏÃ  $- óÃ  %8  Ä  & XÄ  ' _Ä  ( fÄ  ) yÄ  * “Ä  + ¨Ä  , ¯Ä  - ÂÄ  . İÄ  / úÄ  2; Å  33 SÅ  4E †Å  5, ËÅ  6 ÷Å  7? Æ  8! PÆ  d É×  e á×  f ç×  g î×  h ô×  i
+ ú×  n Ø  o Ø  p Ø  q Ø  r Ø  s #Ø  t BØ  u FØ  v NØ  w ZØ  x kØ  y sØ  z ~Ø  { ‰Ø  | ”Ø  } ŸØ  ~ ªØ   °Ø  € ¶Ø   ºØ  ‚ ½Ø  ƒ ÁØ  „ ÅØ  … ÈØ  † ËØ  ‡ ÎØ  ˆ ĞØ  ‰ ÒØ  ª! éØ  «% 
+Ù  ¬! /Ù  ­ PÙ  ®
+ mÙ  °; wÙ  ±A ²Ù  AÀ óÙ  B¾ ³Ú  C­ qÛ  DĞ Ü  EÏ îÜ  F« ½İ  m3 hŞ  n2 ›Ş  ²3 ÍŞ  ³  ß  ´ ß  ¸ 'ß  ¹ /ß  º 7ß  » Fß  ¼J Mß  ½
+ —ß  ¿! ¡ß  ÀI Âß  Á à  Â à  Ã :à  Ä Oà  Å Và  Æ
+ ^à  Ç hà  È, pà  ÉA œà  Ê0 İà  Ì á  Í
+ *á  Î 4á  Ñ Oá  Ò  dá  Ó „á  Ô< –á  ÕO Òá  ÖP !â  ×( qâ  Ø; ™â  Ù< Ôâ  ÚE ã  Û. Uã  Ü? ƒã  à Âã  á† Êã  â% Pä  ä* uä  å% Ÿä  æ! Ää  ç  åä  è  å  é. %å  ê/ Så  ë ‚å  ì) ¡å    Êå  	 e Ğå  
+  5æ    <æ    Cæ   > Væ    ”æ   / «æ    Úæ   % íæ   0 ç    Bç    Zç    vç    ˆç    ›ç    ¯ç    Åç    Õç    ãç  0  è  1  è  7  -è  4! <è  5!$ Tè  (# qÆ  )# †Æ  *# œÆ  +# ¹Æ  ,#' ÏÆ  /# öÆ  0# Ç  1# Ç  2#$ 3Ç  4## WÇ  5#1 zÇ  6#1 «Ç  <# ÜÇ  =# óÇ  >#. È  ?#' 6È  @# ]È  A# tÈ  B#' …È  C#* ¬È  E#= ÖÈ  F# É  G#0 %É  H#! UÉ  I#& vÉ  J# œÉ  K# ¸É  P#  ×É  Q# ÷É  R# Ê  S# .Ê  T# MÊ  Z# kÊ  [#! |Ê  \#+ Ê  ]#! ÈÊ  ^# éÊ  _#! Ë  #( (Ë  ˜#. PË  ™#- ~Ë  ¨#& «Ë  ¹#+ ÑË  º#1 üË  ì#= -Ì  í#/ jÌ  ñ#+ ™Ì  ò# ÄÌ  ó# ÚÌ  @$ èÌ  A$  Í  B$ Í  C$ #Í  D$! @Í  ¹$ aÍ  %0 rÍ  ‚%, ¢Í  ƒ%( ÎÍ  „% öÍ  …% Î  †% 'Î  ‡% ;Î  ˆ% WÎ  ‰%! fÎ  Š%  ‡Î  Ğ% §Î  Ñ% ÂÎ  Ò% ÜÎ  Ó% ûÎ  H& Ï  I& 5Ï  J&$ MÏ  K&3 qÏ  L&4 ¤Ï  M& ØÏ  N& èÏ  O& øÏ  P& Ğ  Q& 5Ğ  R&+ PĞ  S&+ {Ğ  V&+ ¦Ğ  W&7 ÑĞ  X&7 Ñ  Z&& ?Ñ  [& eÑ  ˜& uÑ  ™&& ’Ñ  š& ¸Ñ  ¢&" ËÑ  £& íÑ  ¤& ôÑ  ­& Ò  ®&# ,Ò  ¯&. OÒ  °&. }Ò  ±& «Ò  ²&2 ÂÒ  ³&0 ôÒ  ´&0 $Ó  µ& TÓ  ·&" oÓ  ¹& ‘Ó  º&$ ¢Ó  »& ÆÓ  ¼&, áÓ  ½&! Ô  ¾&' .Ô  À&0 UÔ  Á&1 …Ô  Â&/ ¶Ô  Ã&2 åÔ  Ä& Õ  Å&2 %Õ  Æ&0 WÕ  Ç&- ‡Õ  È&2 ´Õ  É&/ æÕ  Ê&& Ö  Ë&& ;Ö  Ì&0 aÖ  Í&0 ‘Ö  Î& ÁÖ  Ï& ÙÖ  Ğ&( ôÖ  Ñ& ×  Ò&< ;×  Ó& w×  Ô& ×  Õ& ®×  ' xè  ' ‘è  ' Ÿè  ', ¾è  '8 êè  ': "é  '+ \é  '& ‡é  '! ­é  ') Îé  '7 ÷é  ' .ê  ' Iê  ' gê  ' †ê  '! ê   ' ¾ê  !' Ôê  "' ñê  #' ë  $'" &ë  %' Hë  &' Wë  '' kë  (' ~ë  )' ë  *' ¤ë  +' »ë  ,' Îë  -' âë  .' ıë  /' ì  0' &ì  1' Dì  2'& Wì  3'& }ì  4'/ £ì  5'B Òì  6' í  7' -í  8'  Ií  9'/ ií  :'& ˜í  ;'1 ¾í  <' ïí  =' î  >'* î  t' @î  u' ]î  v' sî  w'$ Œî  x' °î  y' Èî  z' âî  {' úî  |' ï  0*! .ï  ”*! Oï  •*/ pï  –*, Ÿï  —*% Ëï  ˜*# ğï  ™*5 ğ  š*9 Hğ  ›*" ğ  œ*( £ğ  *" Ëğ  *+ íğ  Ÿ*  ñ   *  8ñ  ¡** Xñ  ¢*. ‚ñ  £* °ñ  ¤* Æñ  ¥* ×ñ  ¦*$ ğñ  §*& ò  ¨*$ :ò  ©*4 ^ò  ª*6 ’ò  «* Èò  ¬* àò  ­* óò  ®* ó  ¯* ó  °* ,ó  ±* Aó  ²*# Vó  ³*' yó  ù*  ó  ú* ¬ó  û* ³ó  ü* ºó  ı* Øó  ş*( îó  ÿ*$ ô   +# :ô  + ]ô  + iô  +
+ tô  + ~ô  + „ô  + ‹ô  +	 ˜ô  á.
+ ¡ô  â.- «ô  ã.9 Øô  ä.) õ  å.- :õ  æ., gõ  ç.3 “õ  è.! Æõ  é.! çõ  ê.3 ö  ë.0 ;ö  ì. kö  í.+ ‡ö  î.) ²ö  ï. Ûö  ğ. øö  ñ. ÷  ò. ÷  ó. 0÷  ô. =÷  õ.6 E÷  ö.- {÷  ÷. ¨÷  ø. ¾÷  ù. İ÷  ú. á÷  û. æ÷  ü.# ó÷  ı.0 ø  É2* Fø  Ê2 pø  Ë2 wø  Ì2 ~ø  Í2 ø  Î2 ¡ø  Ï2 ­ø  Ğ2 »ø  Ñ2 Âø  Ò2 Îø  Ó2 Öø  Ô2	 Şø  Õ2	 çø  Ö2	 ğø  ×2 ùø  Ø2 ù  Ù2 ù  Ú2( ù  Û2 ?ù  Ü2 Vù  İ2 nù  Ş2 ‰ù  ß2 Ÿù  à2 ·ù  á2 Êù  â2	 àù  ã2( éù  ä2! ú  å2% 2ú  æ2 Wú  ç2 ]ú  è2 dú  é2< jú  ê2) ¦ú  ë2 Ïú  ì2) ãú  í2 û  î2< û  7 Zû  7
+ rû  70 |û  7' ¬û  7 Óû  7
+ äû  7 îû  7	 şû  €> ü  >- ü  ‚> ;ü  ƒ> Fü  „> Mü  …> Qü  †> Wü  ‡> fü  ˆ> uü  ‰>  „ü  Š>
+ „ü  ‹> ü  Œ>
+ –ü  >  ü  >
+ ¨ü  >
+ ²ü  > ¼ü  ‘> ¾ü  ’>S ¿ü  “>D ı  ”>( Vı  •> ~ı  –>
+ Šı  —>h ”ı  ˜> üı  ™>
+ ş  š> ş  ›>% 'ş  œ>1 Lş  >* }ş  > §ş  Ÿ> ¶ş   > Ìş  ¡> Şş  ¢>4 îş  £> "ÿ  ¤> )ÿ  ¥> 0ÿ  ¦>4 Mÿ  §> ÿ  ¨>3 ÿ  ©>$ Ãÿ  ª> çÿ  «> êÿ  ¬> ÷ÿ  ­>   ®>   ¯>   °>   ±>   ¼>   ½> $  ¾> )  ¿> ,  À> /  Á> 2  Â> 8  Ã> >  Ä> A  Å> D  Æ> G  Ç> J  È> M  É> S  Ê> [  ä> a   A {  ¡A   ¢Ak ¡  £AN  ¤A} Z ¥A × ¦A6 Ù §A5  ¨A@ D ©A „ ªAS  «A` â ¬A: B ­A( | ®A\ ¤ ¯AW   °As W ±AM Ê ²AR  ³A i ´AP k µA5 » ¶AH ğ ·A 8 ¸AU F ¹AP › ºA ë »A ï ¼A  ½A/  ¾A² G ¿A ù ÀAR  ÁAe V ÂAŞ » ÃAc ™	 ÄA
+ ü	 ÅA 
+ ÆA 
+ ÇA !
+ ÈA $
+ ÉA :
+ ÊA Q
+ ËAá h
+ ÌAĞ I ÍA±  ÎA Ê ÏA, Ñ ĞA ı ÑA  ÒAG # ÓA j ÔA! ø ÕA+  ÖA/ D ×A2 s ØA+ ¥ ÙA Ğ ÚA3 á ÛAu  ÜA ‰ İA  ŞAg œ ßA  àA  áAj ' âA ‘ ãA'  äA% Å åA% ê ôA  õA   öA / ÷A B øAH T ùA œ úAQ ° ûA  üAc  ıAn € şAá î ÿAŸ Ï  B n B+ } B ¨ B ¿ BÂ Ï Bƒ ‘ B‰  Ba  BK ş B I BØ X B7 0 B g B	 ~ BF ‡ B Í B Ú B Û B3 Ş B@  B= Q B   B ® B	 Ì B' Õ BS ü B O B \ hB" i iB# ‹ jB  ® kB Î lB í mB#  nB# / oB R pB  q qB+ ‘ rB% ¼ sB& á tB%  uB' , vB S wB' n xB  • yB µ zB Ô {B æ |B ô }B*  ~B' 1 B X €B- v B1 £ ‚B0 Ô ƒB  „B  …B 8 †B# S ‡B v ˆB2  ‰B Á ŠB  Ü ‹B ü ŒB  \D 2 ]D H ^D ` _D u `D  aD ¡ bD ¹ cD × dD é eD+ ÿ fD *  gD  D  hD d  iD, }  jD ©  kD ¼  lD Ø  mD1 ô  nD %! ˆE B! ‰E F! ŠEÕ J! ‹E " ŒE0 8" E: h" E ¢" E ¯" E
+ Â" ‘E Ì" ’E Ô" ìE Ú" íE{ ê" îEƒ e# ïEN è# öE 6$ ÷E >$ øE E$ ùE) ^$ úE ‡$ ûE( ¡$ üE É$ ıE" ß$ şE % ÿE7 %  F Q% F S% F Y% F ^% F c% F i% F! o% 
+F % F* ­% F# ×% F$ ú% F1 & F' O& F v& QF |& RF ‚& SF ‰& TF’ & UF 0' VF A' 8J P' 9J W' :J ]' ;J u' <J …' =J‚ Š' >J¡ ( ?J@ ­( @JE í( AJ 2) BJ @) CJ3 G) DJ z) EJ ) FJ §) GJ µ) HJ Ğ) IJ Ü) JJ ï) KJ * LJ * MJ +* NJ ;* OJ, V* PJ ‚* QJ “* RJ ¤* SJ Â* TJ Æ* UJ Í* VJ	 à* WJF é* XJ/ /+ YJ
+ ^+ ZJ3 h+ [J ›+ \J= ¸+ ]JE õ+ ^J9 :, _J0 s, `J[ £, aJ( ş, bJ& &- cJa L- dJ ­- eJ Ì- fJQ ë- gJ <. hJ A. iJ0 ].  N . !Nv ¬. "NP "/ #N- r/ $NC Ÿ/ %N9 â/ &N5 0 'N P0 (N« X0 )N| 1 *N 1 +N †1 ,N‡ ¤1 -N +2 .N) H2 /N q2 0N  2 1N, ¯2 2N* Û2 3N 3 4N6 3 5N' N3 6N. u3 7N £3 8N ¯3 ‡	8LÉ3 

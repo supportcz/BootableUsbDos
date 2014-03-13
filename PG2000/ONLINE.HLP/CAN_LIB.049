@@ -1,0 +1,3070 @@
+%%
+1,0:1
+%%
+.1
+    Funktionen der CAN-Library V2.0
+    @020[CANopen ] CAN - Initialisieren des CAN-Controllers
+    @030[CANwrite] CAN - Daten senden
+    @177[CANquwr ] CAN - Daten schnell senden
+    @040[CANread ] CAN - Daten lesen
+    @050[CANdftab] CAN - Variablen-Tabelle definieren
+    @060[CANrwtab] CAN - Variablen-Tabelle bearbeiten
+    @070[CANnode ] CAN - CAN-Knotennummer lesen
+    @075[CANxnode] CAN - CAN-Knotennummer des x-ten CAN-Knotenschalters lesen
+    @150[CANqueue] CAN - Definieren einer Empfangsqueue fr einen CAN Identifier
+    @155[CANrd   ] CAN - Auslesen von Nachrichten aus der Queue
+    @160[CANexcep] CAN - Verknpfen einer Exceptionstask mit einer CAN Nachricht
+    @165[CANgetid] CAN - Lesen der CAN Daten aus der getriggerten Exceptiontask
+    @170[CANrtr  ] CAN - Senden eines RTR Request
+    @175[CANupd  ] CAN - Modifizieren des RTR Sendepuffer
+    @180[CANngp  ] CAN - Node Guarding Fub fr NMT Slave Knoten (CAL)
+    @182[CANbtreg] CAN - Bit Timing Register setzen
+    @080[CMSinit ] CAN - Liste von CMS-Objekten definieren
+    @140[CMSmain ] CAN - Liste von CMS-Objekten bearbeiten
+    @185[CMSdlreq] CAN - Multiplexed Domain Download Request laut CAL
+
+    @002[ Fortsetzung ]                      @200[ ANHANG ]                  @999[ HILFE beenden ]
+.2
+    Funktionen der CAN-Library (Fortsetzung)
+    @190[CMSdlcon] CAN - Multiplexed Domain Download Confirmation laut CAL
+    @195[GetNdNr]  SYS - Lesen der im CRM gespeicherten Knotennummer
+    @196[SetNdNr]  SYS - Setzen einer Knotennummer im CRM fr den Hochlauf
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º ACHTUNG: Da die CAN-Library AVT-Funktionen enth„lt, k”nnen die Funk-      º
+  º          tionen dieser Library nur verwendet werden, wenn das Library-    º
+  º          Runtime-Modul (B&R-Modul CAN_LIB.BR) auf der CPU (Anwender-ROM)  º
+  º          vorhanden ist!                                                   º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+
+
+				       @200[ ANHANG ]                      @001[ šbersicht ]
+.20
+    CANopen - Initialisieren des CAN-Controllers
+
+    @021[CANopen] (enable,baud_rate,cob_anz,adr(error_adr),device,info,
+	     us_ident,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+								  enable = 1 ist
+    ->  @025[baud_rate ]: BYTE          Baudrate
+    ->  @026[cob_anz   ]: WORD          Anzahl der m”glichen Kommunikationsobjekte
+    <-> error_adr : WORD          Fehler-PV:
+								  $4000 ... Daten-Overflow im Empfangspuffer
+									    des CAN-Controllers
+								  $8000 ... CAN-Bus im BusOff-Zustand
+								  Der Wert der Fehler-PV wird von der Funktion
+								  CANopen() nicht automatisch rckgesetzt.
+								  D.h. nach dem Auswerten der Fehler-PV muá der
+								  Anwender den Wert der PV auf 0 rcksetzen.
+
+
+
+				     @021[ Fortsetzung ]                   @001[ šbersicht ]
+.21
+    CANopen - Initialisieren des CAN-Controllers (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    ->  @027[device    ]: LONG          An diesem Eingang wird die Adresse eines
+								  Strings bergeben, welcher die verwendete
+								  CAN-Schnittstelle eindeutig beschreibt.
+    ->  info      : WORD          Dieser Parameter hat derzeit noch keine
+								  Funktion (Reserve).
+    <-  us_ident  : LONG          Anwender-Ident. Diese Ident-Nummer wird fr
+								  die anderen Funktionen der CAN-Library be-
+								  n”tigt.
+    <-  @029[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion CANopen() wird der CAN-Controller initialisiert und die
+    ben”tigten Ressourcen (z.B. Speicher) werden angefordert.
+    Da die Ressourcenvergabe und Initialisierung zeitaufwendig ist, wird die
+    Funktion CANopen() im INIT-UP (Initialisierungs-Unterprogramm) der Task
+    aufgerufen. Fr jede CAN-Schnittstelle ist nur ein CANopen-Aufruf im INIT-
+    UP zul„ssig.
+
+
+								     @001[ šbersicht ]
+.25
+    CANopen - Initialisieren des CAN-Controllers (Fortsetzung)
+
+    -> Parameter <baud_rate >: BYTE
+
+    Mit dem Parameter "baud_rate" wird die Baudrate festgelegt. Die Baudrate
+    wird in Einheiten zu 10000 Bit/s (z.B. 25 = 250 kBit/s) angegeben:
+
+	     1 ..... 10 kBit/s
+	     2 ..... 20 kBit/s
+	     5 ..... 50 kBit/s
+	    10 .... 100 kBit/s
+	    12 .... 125 kBit/s
+	    25 .... 250 kBit/s (B&R-Standard)
+	    50 .... 500 kBit/s
+	   100 ... 1000 kBit/s
+
+
+
+
+
+
+				       @020[ CANopen ]                     @001[ šbersicht ]
+.26
+    CANopen - Initialisieren des CAN-Controllers (Fortsetzung)
+
+    -> Parameter <cob_anz   >: WORD
+
+    Mit dem Parameter "cob_anz" wird die maximale Anzahl von m”glichen COBs
+    (COB = Kommunikationsobjekt) angegeben.
+    Die Anzahl der m”glichen COBs muá gr”áer oder gleich der Summe aller ver-
+    wendeten CAN-Identifier sein (CAN-Identifier, die der Funktion CANdftab()
+    in einer Variablen-Tabelle bergeben werden + CAN-Identifier, welche tem-
+    por„r fr CANwrite() und CANread() ben”tigt werden).
+    Die Summe der verwendeten CAN-Identifier ist auf 2047 beschr„nkt, d.h. fr
+    den Parameter "cob_anz" muá ein Wert kleiner oder gleich 2047 angegeben
+    werden. Fr die COB-Verwaltung ("cob_anz") werden pro COB 56 Byte Speicher
+    ben”tigt.
+
+
+
+
+
+
+
+				       @020[ CANopen ]                     @001[ šbersicht ]
+.27
+    CANopen - Initialisieren des CAN-Controllers (Fortsetzung)
+
+    -> Parameter <device    >: LONG
+
+    An diesem Eingang wird die Adresse eines Strings bergeben, welcher die
+    verwendete CAN-Schnittstelle eindeutig beschreibt.
+
+    Format des Strings:
+    [SL<x>].[SS<x>].[IF<x>]
+    SL: Slot (Steckplatz) mit der Nummer <x>. Die m”glichen Steckplatznummern
+	bewegen sich von 0 (CPU-Steckplatz) bis 15 (letzter Systembussteck-
+	platz).
+    SS: Subslot mit der Nummer <x>. Der Subslot beschreibt den Steckplatz
+	innerhalb eines Moduls (CP260, CP472: <x> = 1 oder 2).
+    IF: Schnittstelle mit der Nummer <x>.
+
+    Als Trennzeichen der Argumente ist ein Punkt (".") vorgeschrieben. Es kann
+    aber auch jedes andere bliche Trennzeichen verwendet werden.
+    Zwischen Groá- und Kleinschreibung wird nicht unterschieden.
+
+
+				     @028[ Fortsetzung ]                   @001[ šbersicht ]
+.28
+    CANopen - Initialisieren des CAN-Controllers (Fortsetzung)
+
+    Anmerkung:
+    Wenn "device" = 0 ist (keine String-Adresse angegeben), wird die Standard-
+    CAN-Schnittstelle verwendet. Die Standard-CAN-Schnittstelle wird aber auch
+    verwendet, wenn fr "device" statt der Adresse eines Strings in der Form
+    "[SL<x>].[SS<x>].[IF<x>]" die Adresse des Strings "CAN" bergeben wird.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				       @020[ CANopen ]                     @001[ šbersicht ]
+.29
+    CANopen - Initialisieren des CAN-Controllers (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion CANopen():
+    3090    "device" <> 0 ist im Basissystem V1.10 nicht zul„ssig
+    8801    Kein Speicher fr Ressourcen im Anwender-RAM frei
+			("cob_anz" verringern bzw. Speicher vergr”áern)
+    8813    CAN-Treiber (CAN2000.BR) nicht installiert
+    8815    Unzul„ssige Baudrate
+    8816    "cob_anz" = 0 oder zu groá (max. 2047)
+    8826    CAN-Treiber (CAN2000.BR) ist zu alt (< V1.50)
+
+    Eine Liste aller m”glichen Fehlermeldungen der CAN-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+				       @020[ CANopen ]                     @001[ šbersicht ]
+.30
+    CANwrite - Daten senden
+
+    @031[CANwrite] (enable,us_ident,can_id,adr(data_adr),data_lng,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+								  enable = 1 ist
+    ->  us_ident  : LONG          Anwender-Ident (von @020[CANopen])
+    ->  can_id    : LONG          CAN-Identifier
+    ->  data_adr  : @250[ALLE]          Daten (max. 8 Byte), die gesendet werden
+								  sollen
+    ->  data_lng  : BYTE          L„nge der Daten in Byte (max. 8 Byte)
+    <-  @035[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Durch die Funktion CANwrite() wird eine CAN-Nachricht mit dem angegebenen
+    CAN-Identifier (Eingangsparameter "can_id") dem CAN-Controller zum Senden
+    bergeben. Erst wenn diese CAN-Nachricht erfolgreich gesendet wurde, wird
+    der Status der Funktion (Parameter "status") auf 0 gesetzt. Die Funktion
+    ist vom Benutzer zyklisch aufzurufen, damit ber den Ausgang "status" das
+    erfolgreiche Senden des Puffers kontrolliert werden kann.
+
+				     @031[ Fortsetzung ]                   @001[ šbersicht ]
+.31
+    CANwrite - Daten senden (Fortsetzung)
+
+    Nachrichten werden aber nur dann gesendet, wenn der Ausgang "status" 0
+    ist. D.h. solange der zuletzt bergebene CAN-Identifier nicht ausgesendet
+    wurde, wird kein weiterer Puffer bernommen. Ist der Sendepuffer des CAN-
+    Controllers gerade besetzt ("busy"), so werden weitere Nachrichten in eine
+    Sende-Queue gelegt. Es k”nnen maximal 64 Eintr„ge in der Sende-Queue
+    zwischengespeichert werden. Ist die Sende-Queue voll, wird am Ausgang
+    "status" eine entsprechende Fehlernummer (8810) ausgegeben.
+    Im Sende-Interrupt wird die Sende-Queue abgearbeitet (FIFO = "First In,
+    First Out"). Die Sende-Queue wird auch voll, wenn der Knoten nicht am CAN-
+    Bus ist, oder wenn sich kein aktiver Knoten im Netzwerk befindet. Wird der
+    Funktion CANwrite() ein neuer CAN-Identifier bergeben, wird der zuvor ge-
+    setzte CAN-Identifier aus der CAN-Treiber-Verwaltung gel”scht (ca. 1 ms).
+
+    Wenn in einer Task die Funktion CANwrite() mehrmals mit dem gleichen CAN-
+    Identifier verwendet wird, so ist darauf zu achten, daá nur ein gleich-
+    zeitiger Auftrag pro CAN-Identifier m”glich ist (sonst Fehler 8809). In
+    der Funktion selbst wird fr jeden CAN-Identifier (beim ersten Aufruf)
+    intern ein tempor„res COB (COB = Kommunikationsobjekt) angelegt.
+
+				      @032[ Beispiel ]                     @001[ šbersicht ]
+.32
+    CANwrite - Daten senden (Beispiel)
+
+    Es wird eine CAN-Nachricht mit dem CAN-Identifier $100 auf den CAN-Bus
+    gesendet. Der CAN-Treiber wird im INIT-UP der Task mit CANopen() ge”ffnet:
+
+    INIT-UP der Task:
+      enable = 1
+      baud_rate = 25       ; Baudrate = 250 kBit/s
+      cob_anz = 10
+      CANopen(enable,baud_rate,cob_anz,adr(error_adr),0,0,us_ident,rc_open)
+
+    Zyklischer Teil der Task:
+      if (rc_open = 0) then
+	  ; Sende Daten (8 Byte) mit CAN-Identifier $100
+	  CANwrite(enable,us_ident,$100,adr(data_adr),8,rc_write)
+	  	if ((rc_write <> 0) AND (rc_write <> 1)) then
+	      ; Fehlerbehandlung CANwrite()
+	  	endif
+      endif
+
+
+								     @001[ šbersicht ]
+.35
+    CANwrite - Daten senden (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion CANwrite():
+    0       Daten wurden erfolgreich am CAN-Bus versendet
+    1       Funktion noch aktiv (Senden)
+    8800    Zuwenig COBs vorhanden
+			("cob_anz" in CANopen() vergr”áern)
+    8804    Falscher CAN-Identifier (> 2047)
+    8805    Falscher "us_ident"
+    8806    CAN-Identifier wird im System schon verwendet
+    8809    CAN-Auftrag mit dem gleichen CAN-Identifier in Arbeit (busy)
+    8810    Sende-Queue voll oder kein aktiver Knoten im Netz
+    8811    CAN-Bus ist BusOff
+    8813    CAN-Treiber (CAN2000.BR) nicht installiert
+    8814    L„nge der Daten > 8 Byte
+
+    Eine Liste aller m”glichen Fehlermeldungen der CAN-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+				      @030[ CANwrite ]                     @001[ šbersicht ]
+.40
+    CANread - Daten lesen
+
+    @041[CANread] (enable,us_ident,can_id,adr(data_adr),data_lng,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           0 -> 1 ... Puffer fr den CAN-Identifier
+								     definieren
+								  1 -> 0 ... Puffer fr den CAN-Identifier
+								     wieder l”schen
+								  1 ........ Daten vom Controller bernehmen
+    ->  us_ident  : LONG          Anwender-Ident (von @020[CANopen])
+    ->  can_id    : LONG          CAN-Identifier
+    <-> data_adr  : 8 BYTE (FELD) Feldvariable, in der die gelesenen Daten
+								  gespeichert werden
+    <-  data_lng  : BYTE          L„nge der Daten in Byte
+    <-  @045[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion CANread() k”nnen CAN-Nachrichten aus dem CAN-Controller
+    ausgelesen werden.
+
+
+				     @041[ Fortsetzung ]                   @001[ šbersicht ]
+.41
+    CANread - Daten lesen (Fortsetzung)
+
+    Mit dem Eingang "enable" wird dem CAN-Controller mitgeteilt, ob ein Puffer
+    fr den angegebenen CAN-Identifier definiert ("enable" 0 -> 1) bzw. wieder
+    gel”scht ("enable" 1 -> 0) werden soll. Wenn "enable" = 1 ist, werden die
+    aktuellen Daten vom CAN-Controller bernommen.
+    Mit der Funktion CANread() k”nnen maximal 13 verschiedene CAN-Identifier
+    gleichzeitig definiert werden. Die Funktion CANread() hat gegenber der
+    Funktion CANdftab() den Vorteil, daá fr diese CAN-Identifier kein
+    Interrupt auf der CPU ausgel”st wird und daher die CPU-Belastung durch
+    den CAN-Bus reduziert wird.
+    In der Funktion selbst wird fr jeden CAN-Identifier (beim ersten Aufruf)
+    intern ein tempor„res COB (COB = Kommunikationsobjekt) angelegt.
+
+
+
+
+
+
+
+
+				      @042[ Beispiel ]                     @001[ šbersicht ]
+.42
+    CANread - Daten lesen (Beispiel)
+
+    Es wird eine CAN-Nachricht mit dem CAN-Identifier $100 gelesen.
+    Der CAN-Treiber wird im INIT-UP der Task mit CANopen() ge”ffnet:
+
+    INIT-UP der Task:
+      enable = 1
+      r_enable = 1
+      baud_rate = 25       ; Baudrate = 250 kBit/s
+      cob_anz = 10
+      CANopen(enable,baud_rate,cob_anz,adr(error_adr),0,0,us_ident,rc_open)
+
+    Zyklischer Teil der Task:
+      if (rc_open = 0) then
+	  ; Hole neue Daten von CAN-Identifier $100
+	  CANread(r_enable,us_ident,$100,adr(data_adr),data_lng,rc_read)
+	  if (rc_read = 0) then
+	      ; Sende Daten ber CAN-Identifier $200
+	      CANwrite(enable,us_ident,$200,adr(data_adr),8,rc_write)
+	  endif
+     endif
+								     @001[ šbersicht ]
+.45
+    CANread - Daten lesen (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion CANread():
+    0       Daten erhalten
+    8804    Falscher CAN-Identifier (> 2047)
+    8805    Falscher "us_ident"
+    8811    CAN-Bus ist BusOff
+    8812    Kein Puffer mehr frei (max. 13 m”glich)
+    8813    CAN-Treiber (CAN2000.BR) nicht installiert
+    8859    L„nge der Nachricht ist falsch
+    8872    Nachricht ging verloren (Puffer wurde bereits berschrieben), Daten
+			sind aber konsistent
+    8875    Nachricht ist inkonsistent (w„hrend CANread() wurden neue Daten
+			empfangen)
+    8877    Keine Nachricht vorhanden
+
+    Eine Liste aller m”glichen Fehlermeldungen der CAN-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+				       @040[ CANread ]                     @001[ šbersicht ]
+.50
+    CANdftab - Variablen-Tabelle definieren
+
+    @051[CANdftab] (enable,us_ident,adr(table_adr),tab_num,tab_ident,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+								  enable = 1 ist
+    ->  us_ident  : LONG          Anwender-Ident (von @020[CANopen])
+    ->  @055[table_adr ]: @250[ALLE]          Variablen-Tabelle. Die Variablen-Tabelle kann
+								  ber ein Strukturfeld oder ein Datenmodul
+								  erstellt werden.
+    ->  tab_num   : WORD          Anzahl der Eintr„ge in der Variablen-Tabelle
+    <-  tab_ident : LONG          Tabellen-Identifier fr CANrwtab()
+    <-  @059[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Durch diese Funktion wird eine vom Anwender definierte @055[Variablenliste]
+    (Variablen-Tabelle) mit Daten ber den CAN-Bus versorgt.
+    Die Daten k”nnen sowohl gelesen als auch geschrieben werden. šber eine
+    Event-Variable (Event-PV) kann der Anwender Sende- oder Lese-Aktionen
+    kontrollieren.
+
+				     @051[ Fortsetzung ]                   @001[ šbersicht ]
+.51
+    CANdftab - Variablen-Tabelle definieren (Fortsetzung)
+
+    Beim Senden (WRITE) werden die Daten der Variablen nur gesendet, wenn die
+    Event-Variable auf 1 gesetzt ist. Wurde die CAN-Nachricht versendet, so
+    wird die Event-Variable wieder auf 0 gesetzt. Umgekehrt wird beim Lesen
+    (READ) eines angegebenen CAN-Identifiers der Wert der Event-Variable auf 1
+    gesetzt, wenn Daten gelesen wurden.
+    Um Zykluszeitprobleme zu vermeiden, wird die Funktion CANdftab() nur ein-
+    mal im INIT-UP (Initialisierungs-Unterprogramm) der Task aufgerufen. Das
+    zyklische Senden bzw. Lesen der Daten bernimmt die Funktion @060[CANrwtab].
+
+
+
+
+
+
+
+
+
+
+
+								     @001[ šbersicht ]
+.55
+    CANdftab - Variablen-Tabelle definieren (Fortsetzung)
+
+    -> Parameter <table_adr >: @250[ALLE] (beliebiger Datentyp)
+
+    Variablen-Tabelle.
+    Die Variablen-Tabelle kann ber ein @056[Strukturfeld] oder ein @057[Datenmodul] im
+    Programmiersystem PG2000 definiert werden. D.h. fr "adr(table_adr)" wird
+    entweder die Adresse eines Strukturfeldes (ein Feld-Element pro Prozeá-
+    variable) oder die Startadresse eines Datenmoduls (ein Datenmodul-Eintrag
+    pro Prozeávariable) angegeben. Die Startadresse des Datenmoduls k”nnen Sie
+    mit der Funktion DA_info() (siehe B&R-TRAP-Library) ermitteln.
+
+
+
+
+
+
+
+
+
+
+				      @050[ CANdftab ]                     @001[ šbersicht ]
+.56
+    CANdftab - Variablen-Tabelle definieren (Fortsetzung)
+
+    Format der Struktur (fr Variablen-Tabelle):
+    can_id   : LONG               CAN-Identifier
+    pv_name  : 32 BYTE (FELD)     Name der Prozeávariable (PV)
+    event_pv : 32 BYTE (FELD)     Name der Event-PV zum Triggern
+								  (Datentyp der Event-PV: BIT oder BYTE)
+    info     : LONG               Bit 0 = 0 ... READ (Daten lesen)
+								  Bit 0 = 1 ... WRITE (Daten senden)
+
+
+
+
+
+
+
+
+
+
+
+
+				     @057[ Fortsetzung ]                   @001[ šbersicht ]
+.57
+    CANdftab - Variablen-Tabelle definieren (Fortsetzung)
+
+    Format des Datenmoduls (fr Variablen-Tabelle):
+		ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ 1.
+		³                 ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ 2.
+		³                 ³                         ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ 3.
+		³                 ³                         ³                 ÚÄÄÄÄÄ 4.
+    ÄÄÄÄÁÄÄÄÄ ÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄÄÁÄÄÄÄ
+    $00000100,"motor                  ","ev_mot                 ",$00000001
+    $00000101,"schalter               ","ev_sch                 ",$00000000
+    $00000090,"stop                   ","ev_stop                ",$00000000
+
+    1. CAN-Identifier
+       (Dieser Eintrag muá ein LONG sein)
+    2. Name der Prozeávariable (nullterminierter String)
+       (31 Zeichen + Nullbyte)
+    3. Name der Event-PV zum Triggern (nullterminierter String)
+       (31 Zeichen + Nullbyte)
+    4. Daten lesen (Bit 0 = 0) / Daten senden (Bit 0 = 1)
+       (Dieser Eintrag muá ein LONG sein)
+
+				     @058[ Fortsetzung ]                   @001[ šbersicht ]
+.58
+    CANdftab - Variablen-Tabelle definieren (Fortsetzung)
+
+    Pro Variable der Variablen-Tabelle k”nnen maximal 8 Byte Daten gelesen oder
+    gesendet werden. Die Datenkonsistenz ist fr die einfachen Datentypen (BIT,
+    INT8, INT16, usw.) garantiert. Fr Strukturen und Felder muá der Anwender
+    die Datenkonsistenz kontrollieren.
+    W„hrend dem Lesen der Variablen kann der Anwender ein šberschreiben der
+    zu lesenden Daten durch Setzen der Event-Variable (Event-PV) auf $FF ver-
+    hindern. Nach dem Lesen muá der Anwender die Event-Variable wieder auf 0
+    setzen.
+    Fr jede Variable der Variablen-Tabelle werden zur Verwaltung 22 Byte
+    Speicher des Anwender-RAMs ben”tigt.
+
+    Anmerkung:
+    Eine mit READ definierte Variable wird vom CAN-Treiber beim Eintreffen
+    eines Frames berschrieben (interruptgesteuert), auáer die Event-PV ist
+    auf $FF gesetzt. Damit ein Knoten im CAN-Netzwerk aktiv ist, muá zumindest
+    ein CAN-Identifier definiert werden.
+
+
+
+				      @050[ CANdftab ]                     @001[ šbersicht ]
+.59
+    CANdftab - Variablen-Tabelle definieren (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion CANdftab():
+    8800    Zuwenig COBs vorhanden
+			("cob_anz" in CANopen() vergr”áern)
+    8802    Falscher Tabellen-Identifier ("tab_ident")
+			(lokaler Funktionsblock-Speicher zerst”rt)
+    8804    Falscher CAN-Identifier (> 2047)
+    8805    Falscher "us_ident"
+    8806    COB schon definiert
+    8811    CAN-Bus ist BusOff
+    8813    CAN-Treiber (CAN2000.BR) nicht installiert
+    8826    CAN-Treiber (CAN2000.BR) ist zu alt (< V1.50)
+    8833    Dynamische Variablen werden nicht untersttzt
+
+    Eine Liste aller m”glichen Fehlermeldungen der CAN-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+
+				      @050[ CANdftab ]                     @001[ šbersicht ]
+.60
+    CANrwtab - Variablen-Tabelle bearbeiten
+
+    @061[CANrwtab] (enable,tab_ident,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+								  enable = 1 ist
+    ->  tab_ident : LONG          Tabellen-Identifier von @050[CANdftab]
+    <-  @065[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit dieser Funktion wird die mit der Funktion CANdftab() definierte Liste
+    von Variablen (Variablen-Tabelle) bearbeitet (lesen bzw. senden). Die Funk-
+    tion CANrwtab() muá zyklisch aufgerufen werden (zyklischer Teil der Task).
+
+    Beim Senden (WRITE) werden die Daten der Variablen nur gesendet, wenn die
+    Event-Variable auf 1 gesetzt ist. Wurde die CAN-Nachricht versendet, so
+    wird diese Event-Variable von der Funktion wieder auf 0 gesetzt. Umgekehrt
+    wird beim Lesen (READ) eines angegebenen CAN-Identifiers der Wert der
+    Event-Variable von der Funktion auf 1 gesetzt, wenn Daten gelesen wurden.
+
+
+				     @061[ Fortsetzung ]                   @001[ šbersicht ]
+.61
+    CANrwtab - Variablen-Tabelle bearbeiten (Fortsetzung)
+
+    Geht der CAN-Bus in den BusOff-Zustand, wird bei jedem Aufruf von
+    CANrwtab() der CAN-Controller wieder neu initialisiert.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				      @062[ Beispiel ]                     @001[ šbersicht ]
+.62
+    CANrwtab - Variablen-Tabelle bearbeiten (Beispiel)
+
+    Es wird eine definierte Liste von Variablen gelesen und beschrieben:
+
+    INIT-UP der Task:
+      enable = 1
+      ev_sch = 0          ; Event-PV "ev_sch" initialisieren
+      ev_mot = 0          ; Event-PV "ev_mot" initialisieren
+      ev_stop = 0         ; Event-PV "ev_stop" initialisieren
+      rc_def = 1          ; "rc_def" auf 1 initialisieren fr zykl. Teil
+      baud_rate = 25      ; Baudrate = 250 kBit/s
+      CANopen(enable,baud_rate,10,adr(error_adr),0,0,us_ident,rc_open)
+      if (rc_open = 0) then
+		  ; Tabelle mit 3 Eintr„gen wurde im Datenmodul "cantab" erstellt
+		  status = DA_ident("cantab",0,adr(da_ident))
+		  if (status = 0) then
+		      status = DA_info(da_ident,adr(table),adr(len),adr(ram))
+	    	  if (status = 0) then
+			  CANdftab(enable,us_ident,table,3,tab_id,rc_def)
+		      endif
+		  endif
+      endif                    @063[ Fortsetzung - Beispiel ]              @001[ šbersicht ]
+.63
+    CANrwtab - Variablen-Tabelle bearbeiten (Beispiel - Fortsetzung)
+
+    Datenmodul "cantab" erstellt im PG2000:
+      ; Die L„nge der Variablennamen ist 31 Byte + 1 Nullbyte (nullterminiert)
+      ; Variable "motor" mit CAN-Identifier $100 und Event-PV "ev_mot" WRITE
+      ; Variable "schalter" mit CAN-Identifier $101 und Event-PV "ev_sch" READ
+      ; Variable "stop" mit CAN-Identifier $90 und Event-PV "ev_stop" READ
+      $00000100, "motor                  ","ev_mot                 ",$00000001
+      $00000101, "schalter               ","ev_sch                 ",$00000000
+      $00000090, "stop                   ","ev_stop                ",$00000000
+
+
+
+
+
+
+
+
+
+
+
+			       @064[ Fortsetzung - Beispiel ]              @001[ šbersicht ]
+.64
+    CANrwtab - Variablen-Tabelle bearbeiten (Beispiel - Fortsetzung)
+
+    Zyklischer Teil der Task:
+      if (rc_def = 0) then
+	  if (ev_stop <> 0) then         ; STOP
+	      ev_stop = 0
+	      motor = 0                  ; Motor aus
+	      ev_mot = 1
+	  else if (ev_sch <> 0) then
+	      ev_sch = 0
+	      motor = 1                  ; Motor einschalten
+	      ev_mot = 1
+	  endif
+	  ; Zykl. Update der Daten z.B. alle 50 ms in der Taskklasse TC#2
+	  CANrwtab(enable,tab_id,rc_rw)
+	  if (rc_rw <> 0) then
+	      ; Fehlerbehandlung CANrwtab()
+	  endif
+      endif
+
+
+								     @001[ šbersicht ]
+.65
+    CANrwtab - Variablen-Tabelle bearbeiten (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion CANrwtab():
+    8802    Falscher Tabellen-Identifier ("tab_ident")
+			(lokaler Funktionsblock-Speicher zerst”rt)
+    8810    Sende-Queue voll
+    8811    CAN-Bus ist BusOff
+    8814    L„nge einer Write-PV > 8 Byte
+
+    Eine Liste aller m”glichen Fehlermeldungen der CAN-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+				      @060[ CANrwtab ]                     @001[ šbersicht ]
+.70
+    CANnode - CAN-Knotennummer lesen
+
+    @070[CANnode] (enable,node_nr,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+								  enable = 1 ist
+    <-  node_nr   : BYTE          Knotennummer der CAN-Station ($00 bis $FF)
+    <-  @071[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Bei einigen Modulen mit CAN-Schnittstellen wird die CAN-Knotennummer ber
+    zwei Hex-Schalter eingestellt. Mit der Funktion CANnode() kann die (mit
+    Hilfe der Hex-Schalter) eingestellte CAN-Knotennummer ermittelt werden.
+    Wenn kein Hex-Schalter fr die Knotennummer vorhanden ist, wird am Ausgang
+    "status" eine entsprechende Fehlernummer ausgegeben.
+
+
+
+
+
+
+								     @001[ šbersicht ]
+.71
+    CANnode - CAN-Knotennummer lesen (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion CANnode():
+    8825    Kein Nummernschalter vorhanden oder CAN2000-Treiber (CAN2000.BR)
+		    nicht installiert (< V1.40)
+
+    Eine Liste aller m”glichen Fehlermeldungen der CAN-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+
+
+
+				       @070[ CANnode ]                     @001[ šbersicht ]
+.75
+    CANxnode - CAN-Knotennummer des x-ten Knotenschalters lesen
+
+    @075[CANxnode] (enable,us_ident,node_nr,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+								  enable = 1 ist
+    ->  us_ident  : LONG          Anwender-Ident (von @020[CANopen])
+    <-  node_nr   : BYTE          Knotennummer der CAN-Station ($00 bis $FF)
+    <-  @076[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Bei einigen Modulen mit CAN-Schnittstellen wird die CAN-Knotennummer ber
+    zwei Hex-Schalter (sog. CAN-Knotenschalter) eingestellt. Mit der Funktion
+    CANxnode() kann die, mit dem x-ten CAN-Knotenschalter eingestellte, Knoten-
+    nummer ermittelt werden. Wenn der entsprechende CAN-Knotenschalter nicht
+    vorhanden ist, wird am Ausgang "status" eine entsprechende Fehlernummer
+    ausgegeben.
+    Fr IF-Module, die nur einen CAN-Knotenschalter, aber zwei CAN-Controller
+    haben (z.B. IF672), wird fr den zweiten CAN-Controller die eingestellte
+    Knotennummer plus 1 (Knotennummer + 1) zurckgegeben.
+
+								     @001[ šbersicht ]
+.76
+    CANxnode - CAN-Knotennummer des x-ten Knotenschalters lesen (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion CANxnode():
+    8805    Falscher "us_ident"
+    8825    Kein Nummernschalter vorhanden oder CAN2000-Treiber (CAN2000.BR)
+			nicht installiert (< V1.40)
+
+    Eine Liste aller m”glichen Fehlermeldungen der CAN-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+
+
+				      @075[ CANxnode ]                     @001[ šbersicht ]
+.80
+    CMSinit - Liste von CMS-Objekten definieren
+
+    @081[CMSinit] (enable,us_ident,user_type,queue_cnt,adr(modul_name),cms_entry,
+	     cms_ident,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+								  enable = 1 ist
+    ->  us_ident  : LONG          Anwender-Ident (von @020[CANopen])
+    ->  user_type : BYTE          0 ... CMS_k_CLIENT
+								  1 ... CMS_k_SERVER
+    ->  queue_cnt : WORD          Dieser Parameter hat derzeit noch keine
+								  Funktion (Reserve).
+    ->  modul_name: LONG          Name des Datenmoduls mit den CMS-Objekten
+    <-  cms_entry : WORD          Fehler-Eintragsnummer oder Anzahl der
+								  CMS-Objekte im CMS-Datenmodul
+    <-  cms_ident : LONG          CMS-Identifier fr @140[CMSmain]
+    <-  @085[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+
+
+				     @081[ Fortsetzung ]                   @001[ šbersicht ]
+.81
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+    Mit Hilfe der Funktionsbl”cke CMSinit() und CMSmain() k”nnen CMS-Objekte
+    gesendet und empfangen werden. Die CMS-Objekte werden in einem @110[Datenmodul]
+    definiert, welches sowohl fr den Client als auch fr den Server verwendet
+    werden kann. Die Unterscheidung zwischen Client und Server erfolgt in der
+    Funktion CMSinit() durch den Eingangsparameter "user_type" (0 = Knotentyp
+    Client, 1 = Knotentyp Server). Werden beide Typen (Client und Server) auf
+    einem Knoten ben”tigt, so mssen zwei Datenmodule erstellt werden.
+    Die CMS-Dienst-Anforderung bzw. -Erkennung wird ber sog. @090[Event-Variablen]
+    (Event-PVs) gesteuert.
+
+    Um Zykluszeitverletzungen zu vermeiden, sollte die Funktion CMSinit() nur
+    im INIT-UP (Initialisierungs-Unterprogramm) der Task aufgerufen werden.
+    Der Speicherbedarf fr die Verwaltung betr„gt pro Eintrag im Datenmodul
+    22 Byte + 54 Byte pro verwendeter CAN-ID. Fr Multiplexed Variablen werden
+    noch zus„tzlich (Max-Multiplexer*2) Byte pro CAN-ID ben”tigt.
+    Fr die Verwaltung im CAN2000-Treiber werden pro verwendetem Block 512 Byte
+    allokiert, wobei die Bits 8 bis 10 der CAN-ID die Block-Nummer bestimmen.
+
+
+				     @082[ Fortsetzung ]                   @001[ šbersicht ]
+.82
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+    Der Parameter "cms_ident" wird fr den Funktionsblock CMSmain() ben”tigt.
+    Mit dem Parameter "cms_entry" kann man von der Applikation aus fehlerhafte
+    Eintr„ge erkennen. Werden Variablen, welche im CMS-Datenmodul angegeben
+    wurden, auf der RPS nicht gefunden, so wird am Ausgang "status" eine ent-
+    sprechende Fehlernummer ausgegeben (der Funktionsblock wird aber trotzdem
+    weiter abgearbeitet).
+
+
+
+
+
+
+
+
+
+
+
+
+
+								     @001[ šbersicht ]
+.85
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion CMSinit():
+    3019    Datenmodul ("modul_name") nicht vorhanden
+    8800    Zuwenig COBs vorhanden
+			("cob_anz" in CANopen() vergr”áern)
+    8801    Kein Speicher fr Ressourcen im Anwender-RAM frei
+    8802    Falscher CMS-Identifier ("cms_ident")
+			(lokaler Funktionsblock-Speicher zerst”rt)
+    8804    Falscher CAN-Identifier (> 2047)
+    8805    Falscher "us_ident"
+    8806    COB schon definiert
+    8813    CAN-Treiber (CAN2000.BR) nicht installiert
+    8814    Falscher Datentyp der Event-PV (BYTE) oder ungltige
+			Datenl„nge der PV
+    8821    Falscher "user_type"
+			("user_type" = 0 ... Client, "user_type" = 1 ... Server)
+    8833    Dynamische Variablen werden nicht untersttzt
+
+				     @086[ Fortsetzung ]                   @001[ šbersicht ]
+.86
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+    8822    Syntax-Fehler bei der Definition der CMS-Objekte im Datenmodul
+			(siehe "cms_entry")
+    8823    Komplexe Struktur nicht erlaubt
+    147xx   Variable fehlt oder Syntax des Variablennamens falsch
+			(xx ist ein Wert zwischen 00 und 15)
+
+    Eine Liste aller m”glichen Fehlermeldungen der CAN-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+
+
+
+				       @080[ CMSinit ]                     @001[ šbersicht ]
+.90
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+    Steuerung der CMS-Objekte ber Event-Variablen:
+    Die Event-Variablen werden entweder von der Applikation aus gesetzt, um
+    bestimmte CAN-Nachrichten ber den Funktionsblock CMSmain() zu versenden,
+    oder sie werden beim Empfang von CAN-Nachrichten vom CAN2000-Treiber im
+    CAN2000-Interrupt wieder rckgesetzt.
+
+    @091[Steuerung der Event-Variablen am Client]
+    @098[Steuerung der Event-Variablen am Server]
+
+    Achtung:
+    Das Rcksetzen der Event-Variablen erfolgt im CAN-Interrupt asynchron zur
+    zyklischen RPS-Task, d.h. es k”nnen sehr wohl mehrere CAN-Nachrichten
+    zwischen zwei CMSmain() Aufrufen auf dasselbe CMS-Objekt gesendet werden,
+    wobei nur die letzten Daten in der zugewiesenen Variable gepuffert werden.
+    Es muá daher von der Applikation aus am CAN-Bus garantiert werden, daá die
+    Inhibite-Zeiten eingehalten werden und somit keine Daten verloren gehen
+    k”nnen.
+
+
+    @110[ CMS-Datenmodul ]       @120[ COB-Vergabe fr die CMS-Objekte ]         @001[ šbersicht ]
+.91
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+    Steuerung der Event-Variablen am Client:
+    In der folgenden Tabelle sind die šberg„nge der Event-Variable fr die an-
+    gegebenen CMS-Objekte angegeben.
+    In der Tabelle werden folgende Abkrzungen verwendet:
+    R.O. ....... ReadOnly
+    W.O. ....... WriteOnly
+    B.Var. ..... Basic Variable
+    M.Var. ..... Multiplexed Variable
+    R/W Var. ... R/W Variable
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³          ³     Zustand der Event-Variable     ³                   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Dienst ³ Objekt-  ³   Appli-   ³ CMSmain  ³  CAN2000   ³ Ereignis          º
+ º        ³ typ      ³   kation   ³          ³            ³                   º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º R.O.   ³ B.Var.   ³   0 -> 1   ³          ³            ³ RTR-Request ist   º
+ º        ³          ³            ³          ³            ³ zu senden         º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+				     @092[ Fortsetzung ]                   @001[ šbersicht ]
+.92
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³          ³     Zustand der Event-Variable     ³                   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Dienst ³ Objekt-  ³   Appli-   ³ CMSmain  ³  CAN2000   ³ Ereignis          º
+ º        ³ typ      ³   kation   ³          ³            ³                   º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º R.O.   ³ B.Var.   ³            ³ 1 -> $40 ³            ³ RTR-Request wird  º
+ º        ³          ³            ³          ³            ³ gesendet          º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º R.O.   ³ B.Var.   ³            ³          ³  $40 -> 0  ³ Confirmation      º
+ º        ³          ³            ³          ³            ³ wurde empfangen   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º W.O.   ³ B.Var.   ³   0 -> 1   ³          ³            ³ Request ist zu    º
+ º        ³          ³            ³          ³            ³ senden            º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º W.O.   ³ B.Var.   ³            ³ 1 -> $40 ³            ³ Request wird      º
+ º        ³          ³            ³          ³            ³ gesendet          º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+				     @093[ Fortsetzung ]                   @001[ šbersicht ]
+.93
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³          ³     Zustand der Event-Variable     ³                   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Dienst ³ Objekt-  ³   Appli-   ³ CMSmain  ³  CAN2000   ³ Ereignis          º
+ º        ³ typ      ³   kation   ³          ³            ³                   º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º W.O.   ³ B.Var.   ³            ³          ³  $40 -> 0  ³ Request wurde am  º
+ º        ³          ³            ³          ³            ³ CAN-Bus gesendet  º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º R.O.   ³ M.Var.   ³   0 -> 1   ³          ³            ³ Request ist zu    º
+ º        ³          ³            ³          ³            ³ senden            º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º R.O.   ³ M.Var.   ³            ³ 1 -> $40 ³            ³ Request wird      º
+ º        ³          ³            ³          ³            ³ gesendet          º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º R.O.   ³ M.Var.   ³            ³          ³ $40 -> $80 ³ Request wurde     º
+ º        ³          ³            ³          ³            ³ gesendet          º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+				     @094[ Fortsetzung ]                   @001[ šbersicht ]
+.94
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³          ³     Zustand der Event-Variable     ³                   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Dienst ³ Objekt-  ³   Appli-   ³ CMSmain  ³  CAN2000   ³ Ereignis          º
+ º        ³ typ      ³   kation   ³          ³            ³                   º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º R.O.   ³ M.Var.   ³            ³          ³ $80 -> 0   ³ Confirmation      º
+ º        ³          ³            ³          ³            ³ wurde empfangen   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º W.O.   ³ M.Var.   ³   0 -> 1   ³          ³            ³ Request ist zu    º
+ º        ³          ³            ³          ³            ³ senden            º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º W.O.   ³ M.Var.   ³            ³ 1 -> $40 ³            ³ Request wird      º
+ º        ³          ³            ³          ³            ³ gesendet          º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º W.O.   ³ M.Var.   ³            ³          ³ $40 -> 0   ³ Request wurde am  º
+ º        ³          ³            ³          ³            ³ CAN-Bus gesendet  º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+				     @095[ Fortsetzung ]                   @001[ šbersicht ]
+.95
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³          ³     Zustand der Event-Variable     ³                   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Dienst ³ Objekt-  ³   Appli-   ³ CMSmain  ³  CAN2000   ³ Ereignis          º
+ º        ³ typ      ³   kation   ³          ³            ³                   º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º Read   ³ R/W Var. ³   0 -> 1   ³          ³            ³ Read Request      º
+ º        ³          ³            ³          ³            ³ ist zu senden     º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Read   ³ R/W Var. ³            ³ 1 -> $40 ³            ³ Read Request      º
+ º        ³          ³            ³          ³            ³ wird gesendet     º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Read   ³ R/W Var. ³            ³          ³ $40 -> $80 ³ Read Request      º
+ º        ³          ³            ³          ³            ³ wurde gesendet    º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Read   ³ R/W Var. ³            ³          ³  xx -> $FF ³ Failure Frame     º
+ º        ³          ³            ³          ³            ³ empfangen         º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+				     @096[ Fortsetzung ]                   @001[ šbersicht ]
+.96
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³          ³     Zustand der Event-Variable     ³                   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Dienst ³ Objekt-  ³   Appli-   ³ CMSmain  ³  CAN2000   ³ Ereignis          º
+ º        ³ typ      ³   kation   ³          ³            ³                   º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º Read   ³ R/W Var. ³            ³          ³ $80 -> 0   ³ Read Confirmation º
+ º        ³          ³            ³          ³            ³ wurde empfangen   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Write  ³ R/W Var. ³   0 -> 2   ³          ³            ³ Write Request     º
+ º        ³          ³            ³          ³            ³ ist zu senden     º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Write  ³ R/W Var. ³            ³ 2 -> $40 ³            ³ Write Request     º
+ º        ³          ³            ³          ³            ³ wird gesendet     º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Write  ³ R/W Var. ³            ³          ³ $40 -> $80 ³ Write Request     º
+ º        ³          ³            ³          ³            ³ wurde gesendet    º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+				     @097[ Fortsetzung ]                   @001[ šbersicht ]
+.97
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³          ³     Zustand der Event-Variable     ³                   º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Dienst ³ Objekt-  ³   Appli-   ³ CMSmain  ³  CAN2000   ³ Ereignis          º
+ º        ³ typ      ³   kation   ³          ³            ³                   º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º Write  ³ R/W Var. ³            ³          ³  xx -> $FF ³ Failure Frame     º
+ º        ³          ³            ³          ³            ³ empfangen         º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Write  ³ R/W Var. ³            ³          ³ $80 -> 0   ³ Write Confirmationº
+ º        ³          ³            ³          ³            ³ wurde empfangen   º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+				   @090[ Event-Variable ]                  @001[ šbersicht ]
+.98
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+    Steuerung der Event-Variablen am Server:
+    In der folgenden Tabelle sind die šberg„nge der Event-Variable fr die an-
+    gegebenen CMS-Objekte angegeben.
+    In der Tabelle werden folgende Abkrzungen verwendet:
+    R.O. ....... ReadOnly
+    W.O. ....... WriteOnly
+    B.Var. ..... Basic Variable
+    M.Var. ..... Multiplexed Variable
+    R/W Var. ... R/W Variable
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³          ³   Zustand der Event-Variable   ³                     º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Dienst ³ Objekt-  ³  Appli-  ³ CMSmain  ³ CAN2000  ³ Ereignis            º
+ º        ³ typ      ³  kation  ³          ³          ³                     º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º R.O.   ³ B.Var.   ³  0 -> 1  ³          ³          ³ Daten in CMSmain in º
+ º        ³          ³          ³          ³          ³ Controller kopieren º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+				     @099[ Fortsetzung ]                   @001[ šbersicht ]
+.99
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³          ³   Zustand der Event-Variable   ³                     º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Dienst ³ Objekt-  ³  Appli-  ³ CMSmain  ³ CAN2000  ³ Ereignis            º
+ º        ³ typ      ³  kation  ³          ³          ³                     º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º R.O.   ³ B.Var.   ³          ³  1 -> 0  ³          ³ Daten wurden in den º
+ º        ³          ³          ³          ³          ³ Controller kopiert  º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º W.O.   ³ B.Var.   ³          ³          ³  xx -> 1 ³ Write Indication    º
+ º        ³          ³          ³          ³          ³ wurde empfangen     º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º R.O.   ³ M.Var.   ³          ³          ³  xx -> 1 ³ Read-Indication     º
+ º        ³          ³          ³          ³          ³ wurde empfangen     º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º R.O.   ³ M.Var.   ³          ³ 1 -> $40 ³          ³ Read-Response       º
+ º        ³          ³          ³          ³          ³ wird gesendet       º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+				     @100[ Fortsetzung ]                   @001[ šbersicht ]
+.100
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³          ³   Zustand der Event-Variable   ³                     º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Dienst ³ Objekt-  ³  Appli-  ³ CMSmain  ³ CAN2000  ³ Ereignis            º
+ º        ³ typ      ³  kation  ³          ³          ³                     º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º R.O.   ³ M.Var.   ³          ³          ³ $40 -> 0 ³ Read-Response       º
+ º        ³          ³          ³          ³          ³ wird gesendet       º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º W.O.   ³ M.Var.   ³          ³          ³  xx -> 1 ³ Write-Indication    º
+ º        ³          ³          ³          ³          ³ wurde empfangen     º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Read   ³ R/W Var. ³          ³          ³  xx -> 1 ³ Read-Indication     º
+ º        ³          ³          ³          ³          ³ wurde empfangen     º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Read   ³ R/W Var. ³          ³ 1 -> $40 ³          ³ Read-Response       º
+ º        ³          ³          ³          ³          ³ wird gesendet       º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+				     @101[ Fortsetzung ]                   @001[ šbersicht ]
+.101
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+ ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Client ³          ³   Zustand der Event-Variable   ³                     º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Dienst ³ Objekt-  ³  Appli-  ³ CMSmain  ³ CAN2000  ³ Ereignis            º
+ º        ³ typ      ³  kation  ³          ³          ³                     º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º Read   ³ R/W Var. ³          ³          ³ $40 -> 0 ³ Read-Response       º
+ º        ³          ³          ³          ³          ³ wurde gesendet      º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Write  ³ R/W Var. ³          ³          ³  xx -> 2 ³ Write-Indication    º
+ º        ³          ³          ³          ³          ³ wurde empfangen     º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Write  ³ R/W Var. ³          ³ 2 -> $40 ³          ³ Write-Response      º
+ º        ³          ³          ³          ³          ³ wird gesendet       º
+ ÇÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+ º Write  ³ R/W Var. ³          ³          ³ $40 -> 0 ³ Write-Response      º
+ º        ³          ³          ³          ³          ³ wurde gesendet      º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+				   @090[ Event-Variable ]                  @001[ šbersicht ]
+.110
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+    CMS-Datenmodul fr Client und Server:
+    Das Datenmodul kann im PG2000 definiert werden und beinhaltet alle CMS-
+    Objekte, welche im CAN-Netzwerk verwendet werden k”nnen. Dieses Datenmodul
+    kann sowohl fr den Client als auch fr den Server verwendet werden. Die
+    Unterscheidung zwischen Client und Server erfolgt in der Funktion CMSinit()
+    durch den Eingangsparameter "user_type" (0 = Client, 1 = Server).
+    Werden fr mehrere CMS-Server-Knoten unterschiedliche Datenmodule ben”tigt,
+    so werden diese auch am CMS-Client-Knoten mit der Funktion CMSinit() ber-
+    geben. Bei der Definition der Identifier fr Client und Server ist darauf
+    zu achten, daá die COBs fr diese Identifier nur einmal pro Knoten
+    definiert werden k”nnen.
+
+
+
+
+
+
+
+
+				     @111[ Fortsetzung ]                   @001[ šbersicht ]
+.111
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+      ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @112[ 1.]
+      ³      ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @112[ 2.]
+      ³      ³         ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @112[ 3.]
+      ³      ³         ³      ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @113[ 4.]
+      ³      ³         ³      ³   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @113[ 5.]
+      ³      ³         ³      ³   ³   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @114[ 6.]
+      ³      ³         ³      ³   ³   ³      ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @114[ 7.]
+      ³      ³         ³      ³   ³   ³      ³        ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @114[ 8.]
+      ³      ³         ³      ³   ³   ³      ³        ³         ÚÄÄÄÄÄÄÄÄÄÄÄ @116[ 9.]
+      ³      ³         ³      ³   ³   ³      ³        ³         ³         ÚÄ @116[10.]
+     ÄÁÄ ÄÄÄÄÁÄÄÄÄ ÄÄÄÄÁÄÄÄÄ ÄÁÄ ÄÁÄ ÄÁÄ ÄÄÄÄÁÄÄÄ ÄÄÄÄÁÄÄÄÄ ÄÄÄÄÁÄÄÄÄ ÄÄÄÄÁÄÄÄÄÄ
+    "%%P",$00000300,$00000000,'R','B',000,00000000,$00000000,"bvar_re","ebvar_re"
+    "%%P",$00000101,$00000201,'R','M',001,00000000,$00000000,"mvar_re","emvar_re"
+    "%%P",$00000000,$00000202,'W','B',000,00000000,$0000000c,"bvar_wr","ebvar_wr"
+    ; hochpriores Objekt !
+    "%%P",$00000103,$00000203,'W','M',002,00000000,$00000000,"mvar_wr","emvar_wr"
+
+
+
+    @090[ Event-Variable ]       @120[ COB-Vergabe fr die CMS-Objekte ]         @001[ šbersicht ]
+.112
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+     1. Bezeichnung:  start_str
+		Datentyp:	  BYTE (FELD)
+		L„nge:        3
+		Beschreibung: Kennung fr neuen CMS-Eintrag ("%%P")
+
+     2. Bezeichnung:  client_id
+		Datentyp:     LONG
+		L„nge:        4
+		Beschreibung: Client-CAN-Identifier
+
+     3. Bezeichnung:  server_id
+		Datentyp:     LONG
+		L„nge:        4
+		Beschreibung: Server-CAN-Identifier
+
+
+
+
+
+    @111[ CMS-Datenmodul ]                 @113[ Fortsetzung ]                   @001[ šbersicht ]
+.113
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+     4. Bezeichnung:  access_typ
+		Datentyp:     BYTE
+		L„nge:        1
+		Beschreibung: Zugriff auf das Objekt (ReadOnly, WriteOnly, Read/Write,
+			    	  DL, UL, usw.):
+				      'R' ... ReadOnly
+			    	  'W' ... WriteOnly
+				      'A' ... Read/Write
+
+     5. Bezeichnung:  object_typ
+		Datentyp:     BYTE
+		L„nge:        1
+		Beschreibung: Typ des Objektes (Basic Variable, Multiplexed Variable,
+				      Domain, Events, usw.):
+				      'B' ... Basic Variable
+			    	  'M' ... Multiplexed Variable
+
+
+
+    @111[ CMS-Datenmodul ]                 @114[ Fortsetzung ]                   @001[ šbersicht ]
+.114
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+     6. Bezeichnung:  mux_nr
+		Datentyp:     BYTE
+		L„nge:        1
+		Beschreibung: Multiplexer fr Multiplexed Variable (0 - 127)
+
+     7. Bezeichnung:  len
+		Datentyp:     LONG
+		L„nge:        4
+		Beschreibung: L„nge der Daten (z.B. bei Domains)
+
+     8. Bezeichnung:  info
+		Datentyp:     LONG
+		L„nge:        4
+		Beschreibung: Zus„tzliche Informationen:
+			    	  Bit 0 = 0   CMS-Format laut CiA/DS202-3
+				      Bit 0 = 1   B&R-Format: keine Konvertierung laut CiA,
+								  daher bessere Leistung in der Interrupt-
+								  behandlung von Feldern und Strukturen.
+
+				     @115[ Fortsetzung ]                   @001[ šbersicht ]
+.115
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+				  Dieses Format kann bei der Kommunikation
+				  B&R2000 CPU <-> B&R2000 CPU verwendet werden.
+		      Bit 1       Reserve
+		      Bit 2 = 0   Standardpriorit„t: Transmit-Behandlung ber
+						  Sende-Queue (Transmit Queue) siehe CANwrite().
+		      Bit 2 = 1   Hochpriores Objekt: Pro CAN-Knoten k”nnen
+						  max. 13 Objekte definiert werden, welche im
+						  CAN-Controller einen eigenen Puffer zugeteilt
+						  bekommen (ist nur fr Sende-Richtung m”glich).
+						  Achtung: Auch Basic Variablen mit ReadOnly-
+						  Zugriff werden in diesen Pufferbereich gelegt.
+		      Bit 3 = 1   Overwrite-Modus: Fr hochpriore Objekte kann
+						  in diesem Modus der Puffer im CAN-Controller
+						  jederzeit berschrieben werden. Es erfolgt
+						  keine Kontrolle, ob die zuletzt bergebenen
+						  Daten gesendet wurden.
+
+
+
+    @111[ CMS-Datenmodul ]                 @116[ Fortsetzung ]                   @001[ šbersicht ]
+.116
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+     9. Bezeichnung:  pv_name
+		Datentyp:     BYTE (FELD)
+		L„nge:        max. 32
+		Beschreibung: Name der PV (Syntax wie PG2000)
+
+    10. Bezeichnung:  ev_pv_name
+		Datentyp:     BYTE (FELD)
+		L„nge:        max. 32
+		Beschreibung: Name der Event-PV (Syntax wie PG2000)
+
+
+
+
+
+
+
+
+
+
+				   @111[ CMS-Datenmodul ]                  @001[ šbersicht ]
+.120
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+    COB-Vergabe der CMS-Objekte fr Client und Server:
+    Fr die im Datenmodul definierten CMS-Objekte werden Kommunikationsobjekte
+    (COB = Kommunikationsobjekt) am Client- und am Server-Knoten (abh„ngig vom
+    "@113[object_typ]" und vom "@113[access_typ]") definiert. Die COBs mit den angegebenen
+    Identifiern k”nnen pro Knoten nur einmal definiert werden.
+    Fr die RTR-Dienste stehen pro Knoten maximal 13 Objekte (freie Puffer im
+    CAN-Controller) zur Verfgung.
+
+    Basic Variable:
+     - @121[ReadOnly  ]
+     - @122[WriteOnly ]
+     - @123[Read/Write]
+
+    Multiplexed Variable
+     - @125[ReadOnly  ]
+     - @126[WriteOnly ]
+     - @127[Read/Write]
+
+
+    @090[ Event-Variable ]               @110[ CMS-Datenmodul ]                  @001[ šbersicht ]
+.121
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+    Basic Variable: ReadOnly
+    Dieser Dienst wird ber eine RTR-Anforderung (RTR-Request) abgebildet
+    (max. 10 pro Knoten).
+
+    Client-Knoten:                                           Server-Knoten:
+    --------------                                           --------------
+    COB-Definition                                           COB-Definition
+    Receive RTR-COB                                          Transmit RTR-COB
+    mit Client-ID                                            mit Client-ID
+
+						     ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=1 + CMSmain    --->³    RTR mit Client-ID     ³
+						     ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+			 ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			 ³    Data mit Client-ID    ³<---    RTR Response des
+			 ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ        CAN-Controllers
+
+
+
+			   @120[ COB-Vergabe fr die CMS-Objekte ]         @001[ šbersicht ]
+.122
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+    Basic Variable: WriteOnly
+
+    Client-Knoten:                                           Server-Knoten:
+    --------------                                           --------------
+    COB-Definition                                           COB-Definition
+    Transmit COB                                             Receive COB
+    mit Server-ID                                            mit Server-ID
+
+						     ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=1 + CMSmain    --->³    Data mit Server-ID    ³    ev_pv=1
+    ev_pv=0 (CAN2000)        ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+
+
+
+
+
+
+			   @120[ COB-Vergabe fr die CMS-Objekte ]         @001[ šbersicht ]
+.123
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+    Basic Variable: Read/Write
+
+    Client-Knoten:                                           Server-Knoten:
+    --------------                                           --------------
+    COB-Definition                                           COB-Definition
+    Receive COB mit                                          Transmit COB mit
+    Client-ID                                                Client-ID
+    Transmit COB mit                                         Receive COB mit
+    Server-ID                                                Server-ID
+
+    Read:
+						     ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=1 + CMSmain    --->³  ReadReq. mit Server-ID  ³    ev_pv=1 (CAN2000)
+						     ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+						 ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=0 (CAN2000)    ³    Data mit Client-ID    ³<---    CMSmain
+						 ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ        ev_pv=0 (CAN2000)
+
+
+				     @124[ Fortsetzung ]                   @001[ šbersicht ]
+.124
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+    Write:
+						     ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=2 + CMSmain    --->³    Data mit Server-ID    ³    ev_pv=2 (CAN2000)
+						     ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+						 ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=0 (CAN2000)    ³ WriteResp. mit Client-ID ³<---    CMSmain
+						 ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ        ev_pv=0 (CAN2000)
+
+
+
+
+
+
+
+
+
+
+
+
+			   @120[ COB-Vergabe fr die CMS-Objekte ]         @001[ šbersicht ]
+.125
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+    Multiplexed Variable: ReadOnly
+
+    Client-Knoten:                                           Server-Knoten:
+    --------------                                           --------------
+    COB-Definition                                           COB-Definition
+    Receive COB mit                                          Transmit COB mit
+    Client-ID                                                Client-ID
+    Transmit COB mit                                         Receive COB mit
+    Server-ID                                                Server-ID
+
+						     ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=1 + CMSmain    --->³ ReadReq. mit Server-ID ³      ev_pv=1 (CAN2000)
+						     ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+						 ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=0 (CAN2000)    ³   Data mit Client-ID   ³<---      CMSmain
+						 ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ          ev_pv=0 (CAN2000)
+
+
+
+			   @120[ COB-Vergabe fr die CMS-Objekte ]         @001[ šbersicht ]
+.126
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+    Multiplexed Variable: WriteOnly
+
+    Client-Knoten:                                           Server-Knoten:
+    --------------                                           --------------
+    COB-Definition                                           COB-Definition
+    Transmit COB mit                                         Receive COB mit
+    Server-ID                                                Server-ID
+
+						     ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=1 + CMSmain    --->³   Data mit Server-ID   ³      ev_pv=1
+						     ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+
+
+
+
+
+
+			   @120[ COB-Vergabe fr die CMS-Objekte ]         @001[ šbersicht ]
+.127
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+    Multiplexed Variable: Read/Write
+
+    Client-Knoten:                                           Server-Knoten:
+    --------------                                           --------------
+    COB-Definition                                           COB-Definition
+    Receive COB mit                                          Transmit COB mit
+    Client-ID                                                Client-ID
+    Transmit COB mit                                         Receive COB mit
+    Server-ID                                                Server-ID
+
+    Read:
+						     ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=1 + CMSmain    --->³  ReadReq. mit Server-ID  ³    ev_pv=1 (CAN2000)
+						     ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+						 ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=0 (CAN2000)    ³    Data mit Client-ID    ³<---    CMSmain
+						 ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+				     @128[ Fortsetzung ]                   @001[ šbersicht ]
+.128
+    CMSinit - Liste von CMS-Objekten definieren (Fortsetzung)
+
+    Write:
+						     ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=2 + CMSmain    --->³    Data mit Server-ID    ³    ev_pv=2 (CAN2000)
+						     ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+						 ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ev_pv=0 (CAN2000)    ³ WriteResp. mit Client-ID ³<---    CMSmain
+						 ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+
+
+
+
+
+
+
+
+
+
+			   @120[ COB-Vergabe fr die CMS-Objekte ]         @001[ šbersicht ]
+.140
+    CMSmain - Liste von CMS-Objekten bearbeiten
+
+    @141[CMSmain] (enable,cms_ident,cms_mode,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+								  enable = 1 ist
+    ->  cms_ident : LONG          CMS-Identifier (von @080[CMSinit])
+    ->  cms_mode  : LONG          2 ... Senden/Update der Daten
+    <-  @145[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion CMSmain() kann die mit CMSinit() definierte Liste von
+    CMS-Objekten bearbeitet werden. Die Funktion CMSmain() ist vom Benutzer
+    zyklisch aufzurufen, um fr die CMS-Objekte die entsprechenden Aktionen
+    einzuleiten. šber die @090[Event-PVs] k”nnen die Ereignisse von der Applikation
+    aus gesteuert und kontrolliert werden. Ein Senden der Daten wird dadurch
+    angezeigt, daá die Applikation die Event-PV auf den Wert 1 (oder 2) setzt.
+    Wurden die Daten erfolgreich ber den CAN-Bus gesendet, so wird diese
+    Event-PV vom CAN2000-Treiber im CAN-Interrupt wieder auf 0 gesetzt.
+
+
+				      @141[ Beispiel ]                     @001[ šbersicht ]
+.141
+    CMSmain - Liste von CMS-Objekten bearbeiten (Beispiel)
+
+    Beispiel mit CMSinit() und CMSmain():
+    Im PG2000 muá ein Datenmodul mit den CMS-Objekten angelegt werden.
+
+    Datenmodul "cms_s1" erstellt im PG2000:
+
+    ;str³client-ID³server-ID³acc³obj³mul³  len   ³  info   ³variable ³ event_pv
+    ;ÄÄÄÅÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÅÄÄÄÅÄÄÄÅÄÄÄÅÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄ
+    "%%P",$00000300,$00000000,'R','B',000,00000000,$00000000,"bvar_re","ebvar_re"
+    "%%P",$00000101,$00000201,'R','M',001,00000000,$00000000,"mvar_re","emvar_re"
+    "%%P",$00000000,$00000202,'W','B',000,00000000,$0000000c,"bvar_wr","ebvar_wr"
+    ; hochpriores Objekt !
+    "%%P",$00000103,$00000203,'W','M',002,00000000,$00000000,"mvar_wr","emvar_wr"
+
+
+
+
+
+
+
+			       @142[ Fortsetzung - Beispiel ]              @001[ šbersicht ]
+.142
+    CMSmain - Liste von CMS-Objekten bearbeiten (Beispiel - Fortsetzung)
+
+    INIT-UP der Task:
+      enable = 1
+      ebvar_re = 0            ; Event-PV initialisieren
+      emvar_re = 0            ; Event-PV initialisieren
+      ebvar_wr = 0            ; Event-PV initialisieren
+      emvar_wr = 0            ; Event-PV initialisieren
+      rc_def = 1              ; rc_def fr den zyklischen Teil auf 1
+			      ; inititialisieren
+      baud_rate = 25          ; Baudrate = 250kBit/s
+      cob_anz = 10
+      CANopen(enable,baud_rate,cob_anz,adr(error),0,0,op_ident,rc_open)
+      if (rc_open = 0) then
+	  ; Einstellung fr Client- oder Server-Knoten
+	  usertyp = CLIENT    ; 0 = Client
+	  usertyp = SERVER    ; 1 = Server
+	  queue_cnt = 0       ; Keine Receive-Queue anlegen
+	  CMSinit(enable,op_ident,user_typ,queue_cnt,"cms_s1",cms_entry,
+		  cms_ident,ci_status)
+      endif
+			       @143[ Fortsetzung - Beispiel ]              @001[ šbersicht ]
+.143
+    CMSmain - Liste von CMS-Objekten bearbeiten (Beispiel - Fortsetzung)
+
+    Zyklischer Teil der Task:
+      if (ci_status = 0) then
+	  	if usertyp = CLIENT then
+	    	  ; Basic Variable - ReadOnly         ID=$300
+		      if ebvar_re = 0 then
+				  ebvar_re = 1
+	    	  endif
+		      ; Basic Variable - WriteOnly        ID=$202
+		      bvar_wr = bvar_wr + 1
+	    	  if ebvar_wr = 0 then
+				  ebvar_wr = 1
+		      endif
+	    	  ; Multiplexed Variable - WriteOnly  ID=$203
+		      mvar_wr = mvar_wr + 1
+		      if emvar_wr = 0 then
+				  emvar_wr = 1
+		      endif
+	 	 endif
+   	  endif
+			       @144[ Fortsetzung - Beispiel ]              @001[ šbersicht ]
+.144
+    CMSmain - Liste von CMS-Objekten bearbeiten (Beispiel - Fortsetzung)
+
+	      ; Read Variable - Read/Write         ID=$210
+	      if ebvar0rw = 0 then
+		  ebvar0rw = READ
+	      endif
+	  else
+	      ; Server
+	      ebvar_re = 1    ; Update RTR-Puffer
+	  endif
+	  CMSmain(1,cms_ident,WRITE,cm_status)
+      endif
+
+
+
+
+
+
+
+
+
+								     @001[ šbersicht ]
+.145
+    CMSmain - Liste von CMS-Objekten bearbeiten (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion CMSmain():
+    8802    Falscher CMS-Identifier ("cms_ident")
+    8810    Sende-Queue voll
+    8811    CAN-Bus ist BusOff
+    8824    Falscher "cms_mode"
+    8876    Sendepuffer nicht frei (busy), wenn z.B. hochpriores Objekt ohne
+			Overwrite-Modus definiert wurde
+
+    Eine Liste aller m”glichen Fehlermeldungen der CAN-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+				       @140[ CMSmain ]                     @001[ šbersicht ]
+.150
+    CANqueue - Definieren einer Empfangsqueue fr einen CAN Identifier
+
+    @0151[CANqueue] (enable,us_ident,can_id,size,q_ident,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+								  enable = 1 ist
+    ->  us_ident  : LONG          Anwender-Ident (von @020[CANopen])
+    ->  can_id    : LONG          CAN-Identifier fr die Empfangsqueue
+    ->  size      : WORD          Anzahl der Telegramme in der Queue
+								  size=0 -> Inhalt der Queue l”schen
+    <-  q_ident   : LONG          Identifier fr den Fub CANrd
+    <-  @151[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion CANqueue kann fr einen CAN Identifier eine Queue in
+    Leserichtung installiert werden. Wird fr size ein Wert gr”áer Null
+    angegeben, wird eine Empfangsqueue fr die angegebene CAN Identifier
+    eingerichtet. Gel”scht wird die Queue und der zugeh”rige COB durch
+    nochmaligen Aufruf mit enable=0. Mit dem Wert Null am Eingang size und
+    enable=1 wird der Inhalt der Queue gel”scht.
+
+				     @151[ Fortsetzung ]                   @001[ šbersicht ]
+.151
+    CANqueue - Definieren einer Empfangsqueue  (Fortsetzung)
+
+    Dieser FUB kann auch im LOOP aufgerufen werden, wenn sich die can_id im
+    LOOP „ndert. Wenn die Queue voll ist, werden keine weiteren Telegramme mehr
+    aufgenommen (status=8810).
+    Pro Eintrag (size) werden 10 Byte im Speicher fr die Queue ben”tigt
+
+    Fehlernummern der Funktion CANqueue():
+    0       Queue wurden erfolgreich angelegt
+    8801    Kein Speicher fr Ressourcen in der MEMCL_USER vorhanden
+			- size verringern bzw. Speicherklasse MEMCL_USER vergr”áern
+    8803    Queue wurde fr diese can_id schon angelegt
+    8805    Falscher "us_ident"
+    8806    CAN-Identifier wird im System schon verwendet
+    8808    Fub Speicher wurde zerst”rt (handle)
+    8813    CAN-Treiber (CAN2000.BR) nicht installiert
+
+
+    Eine Liste aller m”glichen Fehlermeldungen der CAN-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+								     @001[ šbersicht ]
+.155
+    CANrd - Auslesen von Nachrichten aus der mit CANqueue definierten Queue
+
+    @0156[CANrd] (enable,q_ident,adr(data_adr),size,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+								  enable = 1 ist
+    ->  q_ident   : LONG          Queue-Ident (von @150[CANqueue])
+    <-> data_adr  : 8 BYTE (FELD) Feldvariable, in der die gelesenen Daten
+								  gespeichert werden
+    <-  size      : WORD          L„nge des Telegramms in der Queue
+    <-  @0156[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Um mit der Funktion CANrd arbeiten zu k”nnen, muá zuvor mit der Funktion
+    CANqueue eine Empfangsqueue eingerichtet werden. Existiert keine Empfangs
+    Queue oder ist diese leer, liefert die Funktion einen Fehler im Status.
+    Befinden sich Daten in der Queue, werden diese in dem Puffer am Eingang
+    data kopiert. Am Ausgang size, wird die L„nge des Telegramms zurckgegeben.
+
+
+
+				     @156[ Fortsetzung ]                   @001[ šbersicht ]
+.156
+    CANrd - Auslesen von Nachrichten aus der mit CANqueue definierten Queue
+
+    Ist die Empfangs Queue voll (status=8810), so werden keine weiteren
+    Telegramme in die Queue aufgenommen, bis  die Queue mit dem FUB CANrd
+    ausgelesen wurde.
+    Dieser FUB kann auch im LOOP aufgerufen werden, wenn sich die can_id im
+
+    Fehlernummern der Funktion CANrd():
+    0       Daten aus der Queue gelesen
+    8802    q_ident = 0 (es wurde z.B. kein CANqueue ausgefhrt)
+    8808    Fub Speicher wurde zerst”rt (handle)
+    8810    Empfangs Queue ist voll (die Daten sind aber ok)
+	8826    data_adr ist 0 (NIL Pointer)
+	8877    Keine Daten in der Empfangs Queue
+
+
+    Eine Liste aller m”glichen Fehlermeldungen der CAN-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+
+
+								     @001[ šbersicht ]
+.160
+    CANexcep - Verknpfen einer Exceptionstask mit einer CAN Nachricht
+
+    @0161[CANexcep] (enable,us_ident,can_id, exc_nr,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+								  enable = 1 ist
+    ->  us_ident  : LONG          Anwender-Ident (von @020[CANopen])
+    ->  can_id    : LONG          CAN Identifier fr die auszul”sende Exception
+    ->  exc_nr    : BYTE          Nummer der Exception fr die Exceptiontask
+								  (208-223 sind fr CAN reserviert)
+    <-  @0161[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion CANexcep wird bei Empfang eines Frames mit dem CAN
+    Identifier can_id eine zuvor installierte Exceptionstask mit der
+    angegebenen exc_nr aktiviert. Es ist dabei zu bercksichtigen, dass diese
+    Exceptionstask im Kontext des CAN-Interrupt Handlers (Callback) aufgerufen
+    wird. Der Overhead fr die Exceptiontaskklasse liegt bei einer CP15x bei
+    ca. 150 ms. Hinzu kommt noch der Applikationsteil der Task.
+
+
+				     @161[ Fortsetzung ]                   @001[ šbersicht ]
+.161
+    CANexcep - Verknpfen einer Exceptionstask mit einer CAN Nachricht
+
+    Daher ist dieser Fub in einem zyklischen System sehr kritisch. Es k”nnen
+    auch mehrere CAN-Identifier fr ein und die selbe exc_nr definiert werden,
+    da in der Exceptiontask die can_id mit der Funktion CANgetid() ermittelt
+    werden kann.
+
+    Fehlernummern der Funktion CANexcep():
+    0       Exception wurde mit dem CAN Identifier verknpft
+	8800    Ungltige exc_nr (208-223)
+	8805    Falscher user_ident
+    8807    Falscher CAN Identifier (>2047)
+	8808    Fub Speicher wurde zerst”rt (handle)
+	8813    CAN Driver nicht installiert (CAN2000.br)
+
+
+    Eine Liste aller m”glichen Fehlermeldungen der CAN-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+
+
+								     @001[ šbersicht ]
+.165
+    CANgetid - Lesen der CAN Daten aus der getriggerten Exceptiontask
+
+    @0166[CANgetid] (enable,adr(data_adr),data_len,can_id,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+								  enable = 1 ist
+    <-> data_adr  : 8 BYTE (FELD) Feldvariable, in der die gelesenen Daten
+								  gespeichert werden
+    <-  data_lng  : BYTE          L„nge der Daten in Byte
+    <-  can_id    : LONG          CAN Identifier welche die Excpetion ausl”ste
+    <-  @0166[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit dieser Funktion kann im Kontext der Exceptiontask die can_id bestimmt
+    werden, welche die Exception ausgel”st hat. Es k”nnen somit auch mehrere
+    CAN-Identifier fr ein und die selbe exc_nr mit der Funktion CANexcep()
+    definiert werden. Dem Fub wird ein Datenbereich mit einer L„nge von 8 Byte
+    bergeben, in welchen die empfangenen Daten mit der L„nge data_len kopiert
+    werden
+
+
+				     @166[ Fortsetzung ]                   @001[ šbersicht ]
+.166
+    CANgetid - Lesen der CAN Daten aus der getriggerten Exceptiontask
+
+    Fehlernummern der Funktion CANgetid():
+
+    0       Daten gelesen
+    8813    CAN Driver nicht installiert (CAN2000.br)
+
+
+
+
+
+
+
+
+
+
+
+    Eine Liste aller m”glichen Fehlermeldungen der CAN-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+
+								     @001[ šbersicht ]
+.170
+    CANrtr - Senden eines RTR Request
+
+    @0171[CANrtr] (enable,request,us_ident,can_id,adr(data_adr),data_lng,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+								  enable = 1 ist
+    ->  request   : BIT           0...Datenpuffer pollen, 1...RTR Request senden
+    ->  us_ident  : LONG          Anwender-Ident (von @020[CANopen])
+    ->  can_id    : LONG          CAN-Identifier
+    <-> data_adr  : 8 BYTE (FELD) Feldvariable, in der die gelesenen Daten
+								  gespeichert werden
+    <-  data_lng  : BYTE          L„nge der Daten in Byte
+    <-  @0171[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion CANrtr kann ein RTR-Request Frame am CAN Bus gesendet
+    werden. Fr das Senden des RTR-Request muá der Parameter request auf 1
+    gesetzt werden. Der Fub ist danach solange aufzurufen (mit request=0), bis
+    Daten empfangen wurden (status=0).
+
+
+				     @171[ Fortsetzung ]                   @001[ šbersicht ]
+.171
+    CANrtr - Senden eines RTR Request
+
+    Mit dem šbergang enable 1->0 kann der COB im Speicher wieder gel”scht werden
+    und somit k”nnen beliebig viele RTR Identifier im System verwaltet werden.
+    W„hrend das Anforderungtelegramm (Remote Frame Request) von mehreren
+    Empf„ngerknoten gesendet werden kann, darf es fr die angeforderte
+    Nachricht aber nur einem Sendeknoten geben (CANupd).
+
+    Fehlernummern der Funktion CANrtr():
+	0       Daten erhalten
+	1       FUB working, keine Response erhalten
+	8800    Zuwenig COB's vohanden (cob_anz in CANopen vergr”áern)
+	8805    falscher user_ident
+    8807    CAN-Identifier wird im System schon verwendet
+	8808    us_ident nicht gltig
+	8811    CAN Bus ist BusOff
+	8813    CAN Driver nicht installiert (CAN2000.br)
+	8814    L„nge > 8 Byte
+
+    Eine Liste aller m”glichen Fehlermeldungen der CAN-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+								     @001[ šbersicht ]
+.175
+    CANupd - Modifizieren des RTR Sendepuffer
+
+    @0176[CANupd] (enable,us_ident,can_id,adr(data_adr),data_lng,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+								  enable = 1 ist
+    ->  us_ident  : LONG          Anwender-Ident (von @020[CANopen])
+    ->  can_id    : LONG          CAN-Identifier
+    <-> data_adr  : 8 BYTE (FELD) Adresse auf die Update Daten
+    ->  data_lng  : BYTE          L„nge der Update Daten Byte
+    <-  @0176[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion CANupd kann fr ein RTR-Request Anforderungstelegramm die
+    Nachricht fr die Antwort am Sendeknoten bereit gestellt werden. Mit dem
+    šbergang enable 1->0 kann der COB im Speicher gel”scht werden und somit
+    k”nnen beliebig viele Identifier im System verwaltet werden. W„hrend das
+    Anforderungtelegramm (Remote Frame Request) von mehreren Empf„ngerknoten
+    gesendet werden kann, darf es fr die angeforderte Nachricht aber nur einem
+    Sendeknoten geben (CANupd).
+
+				     @176[ Fortsetzung ]                   @001[ šbersicht ]
+.176
+    CANupd - Modifizieren des RTR Sendepuffer
+
+
+    Fehlernummern der Funktion CANupd():
+	0       Daten modifiziert
+	8800    Zuwenig COB's vohanden (cob_anz in CANopen vergr”áern)
+	8805    falscher user_ident
+    8808    CAN-Identifier wird im System schon verwendet
+	8808    us_ident nicht gltig
+	8811    CAN Bus ist BusOff
+	8813    CAN Driver nicht installiert (CAN2000.br)
+	8814    L„nge > 8 Byte
+
+
+
+
+
+
+    Eine Liste aller m”glichen Fehlermeldungen der CAN-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+.177
+    CANquwr - Daten schnell senden
+
+    @178[CANquwr] (enable,us_ident,can_id,adr(data_adr),data_lng,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+								  enable = 1 ist
+    ->  us_ident  : LONG          Anwender-Ident (von @020[CANopen])
+    ->  can_id    : LONG          CAN-Identifier
+    ->  data_adr  : @250[ALLE]          Daten (max. 8 Byte), die gesendet werden
+								  sollen
+    ->  data_lng  : BYTE          L„nge der Daten in Byte (max. 8 Byte)
+    <-  @179[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Durch die Funktion CANquwr() wird eine CAN-Nachricht mit dem angegebenen
+    CAN-Identifier (Eingangsparameter "can_id") dem CAN-Controller zum Senden
+    bergeben. Mit dieser Funktion k”nnen mehrere Sendeauftr„ge abgesetzt werden,
+    auch wenn der CAN-Controller noch nicht mit dem vorherigen Sendeauftrag
+    fertig ist.
+
+
+				     @178[ Fortsetzung ]                   @001[ šbersicht ]
+.178
+    CANquwr - Daten schnell senden (Fortsetzung)
+
+    Ist der Sendepuffer des CAN-Controllers gerade besetzt ("busy"), so werden
+    weitere Nachrichten in eine Sende-Queue gelegt. Es k”nnen maximal 64
+    Eintr„ge in der Sende-Queue zwischengespeichert werden. Ist die Sende-
+    Queue voll, wird am Ausgang "status" eine entsprechende Fehlernummer (8810)
+    ausgegeben. Im Sende-Interrupt wird die Sende-Queue abgearbeitet (FIFO =
+    "First In, First Out"). Die Sende-Queue wird auch voll, wenn der Knoten
+    nicht am CAN-Bus ist, oder wenn sich kein aktiver Knoten im Netzwerk
+    befindet.
+
+    Ein Beispiel wird hier nicht angefhrt, da der Aufruf dieser Funktion
+    identisch zu der Funktion @030[CANwrite] ist. Es braucht allerdings nicht
+    gewartet werden bis der Sendeauftrag abgearbeitet wurde.
+
+
+
+
+
+
+
+				     @179[ Fortsetzung ]                   @001[ šbersicht ]
+.179
+    CANquwr - Daten schnell senden (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion CANwrite():
+    0       Daten wurden erfolgreich am CAN-Bus versendet
+    8800    Zuwenig COBs vorhanden
+			("cob_anz" in CANopen() vergr”áern)
+    8804    Falscher CAN-Identifier (> 2047)
+    8805    Falscher "us_ident"
+    8806    CAN-Identifier wird im System schon verwendet
+	8808	"us_ident" nicht gltig
+    8810    Sende-Queue voll oder kein aktiver Knoten im Netz
+    8811    CAN-Bus ist BusOff
+    8813    CAN-Treiber (CAN2000.BR) nicht installiert
+    8814    L„nge der Daten > 8 Byte
+
+
+
+
+
+
+    Eine Liste aller m”glichen Fehlermeldungen der CAN-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+				      @177[ CANquwr ]                     @001[ šbersicht ]
+.180
+    CANngp - Node Guarding Fub fr NMT Slave Knoten (CAL)
+
+    @0181[CANngp] (enable,us_ident,can_id,nd_state,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+								  enable = 1 ist
+    ->  us_ident  : LONG          Anwender-Ident (von @020[CANopen])
+    ->  can_id    : LONG          CAN-Identifier
+    ->  nd_state  : BYTE          Knoten Status
+    <-  @0181[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Dieser FUB kann fr das Node Guarding Protocol laut CAL am NMT-Slave
+    verwendet werden. Von dem Parameter nd_state werden nur die unteren 7 bit
+    (bit0-6) bernommen. Das Toggle Bit wird im Transmit Interrupt der Node
+    Guard Response behandelt. šber den status (=0) kann vom Benutzer von einem
+    zum n„chsten FUB Aufruf kontrolliert werden, ob ein neuer RTR-Request
+    empfangen wurde. Wurde kein RTR Request empfangen so ist der status (8877)
+    gesetzt, der nd_state wird aber bernommen.
+
+
+				     @181[ Fortsetzung ]                   @001[ šbersicht ]
+.181
+    CANngp - Node Guarding Fub fr NMT Slave Knoten (CAL)
+
+    Mit dem šbergang enable 1->0 kann der COB im Speicher wieder gel”scht werden
+    und somit k”nnen beliebig viele Identifier im System verwaltet werden.
+    W„hrend das Anforderungtelegramm (Remote Frame Request mit CANrtr) von
+    mehreren Empf„ngerknoten gesendet werden kann, darf es fr die angeforderte
+    Nachricht aber nur einem Sendeknoten geben.
+
+    Fehlernummern der Funktion CANngp():
+    0       Es wurde ein RTR Request seit dem letzten Aufruf erhalten
+	8800    Zuwenig COB's vohanden (cob_anz in CANopen vergr”áern)
+	8805    falscher user_ident
+    8809    CAN-Identifier wird im System schon verwendet
+	8808    us_ident nicht gltig
+	8811    CAN Bus ist BusOff
+	8813    CAN Driver nicht installiert (CAN2000.br)
+    8814    L„nge > 8 Byte
+	8877    Kein RTR Request empfangen, nd_state wird aber gesetzt
+
+    Eine Liste aller m”glichen Fehlermeldungen der CAN-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+									 @001[ šbersicht ]
+.182
+    CANbtreg - Setze die Bit Timing Register Werte
+
+    @0183[CANbtreg] (enable,us_ident,treg0,treg1,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+								  enable = 1 ist
+    ->  us_ident  : LONG          Anwender-Ident (von @020[CANopen])
+    ->  treg0     : LONG          Bit Timing Register 0
+								  bit0-5: BRP Baud Rate Prescaler
+								  bit6-7: SJW Synchronization Jump Width
+    ->  treg1     : LONG          Bit Timing Register 1
+								  bit0-3: TSEG1 Time Segment1
+								  bit4-6: TSEG2 Time Segment2
+								  bit7:   SPL   Sampling Mode
+    <-  @0184[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+
+
+
+
+				     @183[ Fortsetzung ]                   @001[ šbersicht ]
+.183
+    CANbtreg - Setze die Bit Timing Register Werte
+
+    Dieser FUB dient zur Konfiguration spezieller Bit Timing Register Werte fr
+    den CAN Kontroller (Intel 82527).Es ist somit m”glich beliebige Baudraten
+    auáerhalb der Standard Baudraten einzustellen. Der FUB muá nach dem CANopen
+    zur šbernahme der eingestellten Werte einmal aufgerufen werden. Der CAN
+    Kontroller wird w„hrend der Konfiguration gestoppt, neu initialisiert und
+    danach wieder gestartet. Es ist darauf zu achten, dass im Hochlauf der RPS
+    der CAN Kontroller auch von der INA Kommunikation mit den Standard
+    Baudraten (siehe auch CANopen) initialisiert wird. Dies kann u.U. zu einer
+    Bus St”rung im Hochlauf fhren. šber die Konfiguration im sysconf Modul der
+    RPSSW kann die INA Kommunikation fr CAN disabled werden. Wird unter dem
+    Punkt Kommunikation kein Device (=0) angegeben, so werden default zwei
+    serielle und eine CAN Schnittstelle eingerichtet. Nur wenn man explizit
+    Devices fr die INA Kommunikation angibt, dann werden auch nur diese
+    eingerichtet. Somit kann das CAN Device disabled werden.
+
+
+
+
+
+				     @184[ Fortsetzung ]                   @001[ šbersicht ]
+.184
+    CANbtreg - Setze die Bit Timing Register Werte
+
+    Fehlernummern der Funktion CANbtreg():
+
+    0       Die neuen Bit Timing Register wurden gesetzt
+	8805    falscher user_ident
+	8808    us_ident nicht gltig
+	8813    CAN Driver nicht installiert (CAN2000.br)
+	8815    FUB wird von dieser Systemsoftware nicht untersttzt (< V2.20)
+
+
+
+
+
+
+
+
+
+
+    Eine Liste aller m”glichen Fehlermeldungen der CAN-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+								     @001[ šbersicht ]
+.185
+    CMSdlreq - Multiplexed Domain Download Request laut CAL
+
+    @0186[CMSdlreq] (enable,initiate,us_ident,client_id,server_id,mux,
+		     adr(data_adr),add_code,err_class,err_code,dl_len,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT     Der Funktionsblock wird nur ausgefhrt, wenn
+			    			enable = 1 ist
+    ->  initiate  : BIT     1=Neuer Domain Initiate Request
+    ->  us_ident  : LONG    Anwender-Ident (von @020[CANopen])
+    ->  client_id : LONG    CAN Ident. fr den Sende-COB vom Client zum Server
+    ->  server_id : LONG    CAN Ident. fr den Sende-COB vom Server zum Client
+    ->  mux       : LONG    Multiplexer (siehe unten)
+    ->  data_adr  : ADR     Adresse auf die Download Daten
+    ->  data_lng  : LONG    L„nge der Download Daten
+    <-  add_code  : WORD    Additional Code bei Abort
+    <-  err_class : BYTE    Fehlerklasse laut CANopen
+    <-  err_code  : BYTE    Fehler laut CANopen
+    <-  dl_len    : LONG    L„nge der bereits gesendeten Daten
+    <-  @0187[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+				     @186[ Fortsetzung ]                   @001[ šbersicht ]
+.186
+    CMSdlreq - Multiplexed Domain Download Request laut CAL
+
+    Mit diesem FUB kann ein "multiplexed Domain" Objekt mit beliebiger
+    Datenl„nge vom Client zum Server bertragen werden. Die Segmentierung der
+    Daten auf einzelne CAN Frames erfolgt laut der CAL Spezifikation CiA/DS202-2
+    (CMS MULTIPLEXED DOMAIN PROTOCOLS). Wenn die Datenl„nge < 5 Byte ist,
+    erfolgt die šbertragung mit dem "expedited Domain Download" Protokoll. Mit
+    dem Parameter initiate=1 wird ein neuer Initiate Domain Transfer gestartet
+    und ein u.U. noch aktives Domain Download unterbrochen. Fr die šbertragung
+    der Daten muá der FUB zyklisch aufgerufen werden, bis der Domain Transfer
+    fertig ist (status=0). In jedem FUB Aufruf wird ein Segment (Domain Request)
+    mit max. 8 Daten Byte ber den CAN BUS bertragen, wenn fr das letzte
+    Segment eine Confirmation empfangen wurde. šber den Parameter dl_len kann
+    die L„nge der bereits gesendeten Daten kontrolliert werden. šber das enable
+    Bit (fallende Flanke) werden die COB's und die FUB Verwaltung wieder frei
+    gegeben werden.
+
+
+
+
+
+				     @187[ Fortsetzung ]                   @001[ šbersicht ]
+.187
+    CMSdlreq - Multiplexed Domain Download Request laut CAL
+
+    Fehlernummern der Funktion CMSdlreq():
+    0       Download wurde erfolgreich durchgefhrt
+    1       Download aktiv und noch nicht fertig (dl_len != data_len)
+	8805    Falscher user_ident
+    8808    Falscher CAN Identifier (>2047)
+    8809    Falscher user_ident
+	8808    Fub Speicher wurde zerst”rt (handle)
+    8813    CAN Driver nicht installiert (CAN2000.br)
+    8828    Abort Protokoll wurde an der Server gesendet (>add_code)
+    8829    Abort Protokoll wurde vom Server empfangen
+
+    Error Class:            5   Service Error
+							6   Access Error
+
+    Error code: 	        3   Parameter inconsist
+							7   Type Conflict
+
+
+
+				     @188[ Fortsetzung ]                   @001[ šbersicht ]
+.188
+    CMSdlreq - Multiplexed Domain Download Request laut CAL
+
+    Additional Code:    16  Toggle Bit Fehler
+						18  Buffer am Server fr Domain zu klein
+						49  Mehr Domaindaten gesendet als in Domain Initiate
+						    Protokoll eingetragen
+
+    Eine Liste aller m”glichen Fehlermeldungen der CAN-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+
+
+
+
+								     @001[ šbersicht ]
+.190
+    CMSdlcon - Multiplexed Domain Download Confirmation laut CAL
+
+    @0191[CMSdlcon] (enable,initiate,us_ident,client_id,server_id,mux,
+		     adr(data_adr),add_code,err_class,err_code,dl_len,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT     Der Funktionsblock wird nur ausgefhrt, wenn
+						    enable = 1 ist
+    ->  initiate  : BIT     1=Neuer Domain Initiate Request
+    ->  us_ident  : LONG    Anwender-Ident (von @020[CANopen])
+    ->  client_id : LONG    CAN Ident. fr den Sende-COB vom Client zum Server
+    ->  server_id : LONG    CAN Ident. fr den Sende-COB vom Server zum Client
+    ->  mux       : LONG    Multiplexer (siehe unten)
+    ->  data_adr  : ADR     Adresse auf die Download Daten
+    ->  data_lng  : LONG    L„nge der Download Daten
+    <-  add_code  : WORD    Additional Code bei Abort
+    <-  err_class : BYTE    Fehlerklasse laut CANopen
+    <-  err_code  : BYTE    Fehler laut CANopen
+    <-  dl_len    : LONG    L„nge der bereits gesendeten Daten
+    <-  @192[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+				     @191[ Fortsetzung ]                   @001[ šbersicht ]
+.191
+    CMSdlcon - Multiplexed Domain Download Confirmation laut CAL
+
+    Mit diesem FUB kann ein "multiplexed Domain" Objekt mit beliebiger
+    Datenl„nge am Server empfangen werden. Die Segmentierung der Daten auf
+    einzelne CAN Frames erfolgt laut der CAL Spezifikation CiA/DS202-2
+    (CMS MULTIPLEXED DOMAIN PROTOCOLS). Wenn die Datenl„nge < 5 Byte ist,
+    erfolgt die šbertragung mit dem "expedited Domain Download" Protokoll.
+    Fr den Empfang der Daten muá der FUB zyklisch aufgerufen werden, bis der
+    Domain Transfer fertig ist (status=0). Mit dem Parameter initiate=1 wird
+    der FUB fr den Empfang einer neuen Domain aktiviert. šber den Parameter
+    dl_len kann die L„nge der bereits empfangenen Daten kontrolliert werden.
+    šber das enable Bit (fallende Flanke) werden die COB's und die FUB
+    Verwaltung wieder frei gegeben. Fr die zu empfangende Domain muá
+    ein entsprechend groáer Speicherblock an den FUB angeschlossen werden
+    (data_adr, data_len).
+
+
+
+
+
+
+				     @192[ Fortsetzung ]                   @001[ šbersicht ]
+.192
+    CMSdlcon - Multiplexed Domain Download Confirmation laut CAL
+
+    Fehlernummern der Funktion CMSdlreq():
+    0       Download wurde erfolgreich durchgefhrt
+    1       Download aktiv und noch nicht fertig (dl_len != data_len)
+	8805    Falscher user_ident
+    8810    Falscher CAN Identifier (>2047)
+    8811    Falscher user_ident
+	8808    Fub Speicher wurde zerst”rt (handle)
+	8813    CAN Driver nicht installiert (CAN2000.br)
+	8828    Abort Protokoll wurde an der Client gesendet (>add_code)
+	8829    Abort Protokoll wurde vom Client empfangen
+
+    Error Class:            5   Service Error
+							8   Access Error
+
+    Error code: 	        3   Parameter inconsist
+							9   Type Conflict
+
+
+
+				     @193[ Fortsetzung ]                   @001[ šbersicht ]
+.193
+    CMSdlcon - Multiplexed Domain Download Confirmation laut CAL
+
+    Additional Code:    16  Toggle Bit Fehler
+						19  Buffer am Server fr Domain zu klein
+						49  Mehr Domaindaten gesendet als in Domain Initiate
+							Protokoll eingetragen
+
+
+
+
+
+
+
+    Eine Liste aller m”glichen Fehlermeldungen der CAN-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+								     @001[ šbersicht ]
+.195
+    GetNdNr - Lesen der im CRM gespeicherten Knotennummer
+
+    GetNdNr (enable,adr(dev_adr),nodenr,status)
+
+    Parameter-Datentypen :
+     -> enable    : BIT         1... FUB aktivieren
+    <-> dev_adr   : LONG        16 Byte Buffer fr Device String
+								z.B.: "SLx.SSx.IFx"
+	<-  nodenr    : BYTE        gespeicherte Knotennummer
+
+
+
+		status:     0               Knotennummer wurde gelesen
+					14901           keine Knotennummer im CRM gespeichert
+
+	Mit dieser Funktion wird die abgespeicherte Knotennummer und die Device
+	Beschreibung unabhaengig vom aussen eingestellten Knotenschalter aus dem
+	CRM (critical memory) gelesen.
+
+
+
+				     @197[ Fortsetzung ]                   @001[ šbersicht ]
+.196
+    SetNdNr - Setzen einer neuen Knotennummer im CRM
+
+    SetNdNr (enable,adr(device),nodenr,status)
+
+    Parameter-Datentypen :
+     -> enable    : BIT         1... FUB aktivieren
+     -> device    : LONG        Device String   z.B.: "SL0.SS1.IF2"
+	 -> nodenr    : BYTE        Neue Knotennummer
+
+
+
+		status:     0               Knotennummer wurde gespeichert
+					8252            Device Beschreibung ungueltig
+
+	Mit dieser Funktion wird die neue Knotennummer und die Device Beschreibung
+	unabhaengig vom aussen eingestellten Knotenschalter im  CRM (critical
+	memory) gespeichert.
+
+
+
+
+				     @197[ Fortsetzung ]                   @001[ šbersicht ]
+.197
+  GetNdNr und SetNdNr
+
+Mit den Fubs SetNdNr() und GetNdNr() besteht die Moeglichkeit die Knotennummer
+auf der RPS in einem Batterie gebufferten RAM-Speicher (CRM=critical memory)
+hochlauffest zu speichern. Diese Nummer wird ab der RPSSW V2.21 im n„chsten
+Hochlauf bernommen, sofern die externe Knotennummer auf $FE eingestellt ist.
+
+Es gelten folgende Bedingungen fr die dynamische Knotennummer Vergabe:
+
+* Die Knotennummer Vergabe im Hochlauf wird ab der RPSSW Version V2.21 (X4.01)
+  untersttzt
+* Durch die Einstellung $FE am externen Knotennummerschalter wird die
+  Knotennummervergabe aktiviert (d.h. im  n„chsten Hochlauf bernommen). Ist
+  im CRM keine Knotennummer (=0) gesetzt, so wird die externe Knotennummer
+  bernommen ($FE).
+* Es kann nur eine Knotennummer fr ein Device ber den Hochlauf  gespeichert
+  und ver„ndert werden.
+* Die Ablage erfolgt im CRM (Knotennummer und Devicedescriptor "SLx.SSx.IFx")
+* Die Knotennummer kann fr ein beliebiges Medium und IF ver„ndert werden
+
+
+				     @198[ Fortsetzung ]                   @001[ šbersicht ]
+.198
+  Fortsetzung GetNdNr und SetNdNr
+
+* Die neue Knotennummer wird in jedem Hochlauf (Kaltstart, Warmstart,
+  Diagnose, Service) bernommen.
+* Dem FUB CANnode und CANxnode wird die neue Knotennummer bergeben
+* Nach der Knotennummer Neueinstellung ber den FUB SetNdNr() muá ein
+  Warmstart (bzw. ein Hochlauf) ausgel”st werden.
+* Die im CRM gespeicherte Knotennummer kann durch den FUB SetNdNr (nodenr=0)
+  bzw. durch šbertragen des Systems im Bootstrap Mode (bei externer
+  Knotenschalterstellung=0) gel”scht und deaktiviert werden. Wird das System
+  im Run Mode auf die RPS bertragen, so wird das CRM und die Knotennummer
+  nicht gel”scht
+* Mit den Fubs CANnode, CANxnode und GetNdNr wird immer die im CRM hinterlegte
+  Knotennummer gelesen, sofern extern $FE im letzten Hochlauf eingestellt war
+
+
+
+
+
+
+
+								     @001[ šbersicht ]
+.200
+    ANHANG : LIBRARY-Informationen
+
+
+    @201[< Allgemeines     >]      Voraussetzungen etc.
+
+    @210[< Interruptzeiten >]      Interruptzeiten
+
+    @250[< Syntax          >]      Syntax fr die Erkl„rung der Funktionen
+
+    @300[< Fehlernummern   >]      Zusammenfassung aller Fehlernummern
+
+    @375[< History         >]      Neue Funktionalit„ten und Versions„nderungen
+
+
+
+
+
+
+
+
+
+								     @001[ šbersicht ]
+.201
+    CAN-Library : Allgemeines
+
+    Fr den Zugriff auf den CAN-Bus am B&R 2000 System werden in der CAN-
+    Library Funktionen zur Verfgung gestellt, mit denen CAN-Frames (maximal
+    8 Byte) gelesen oder beschrieben werden k”nnen. Es werden nur Einzel-
+    Frames gesendet.
+    Es besteht die M”glichkeit, Variablen-Tabellen an den Funktionsblock
+    CANdftab() anzuschlieáen und diese Variablen-Tabellen anschlieáend mit
+    dem Funktionsblock CANrwtab() zyklisch zu aktualisieren.
+    Mit Hilfe der Funktionsbl”cke CMSinit() und CMSmain() k”nnen CMS-Objekte
+    gesendet und empfangen werden. Die CMS-Objekte werden in einem Datenmodul
+    definiert, welches sowohl fr den Client als auch fr den Server verwendet
+    werden kann. Die Unterscheidung zwischen Client und Server erfolgt in der
+    Funktion CMSinit() durch den Eingangsparameter "user_type" (0 = Client,
+    1 = Server). Die CMS-Dienst-Anforderung bzw. -Erkennung wird ber sog.
+    Event-Variablen (Event-PVs) gesteuert.
+    Die Funktionsbl”cke CANopen(), CANdftab() und CMSinit() sind aus Laufzeit-
+    grnden im Initialisierungs-Unterprogramm (INIT-UP) der Task aufzurufen.
+    Alle anderen Funktionsbl”cke k”nnen im zyklischen Teil der Task verwendet
+    werden.
+
+				     @202[ Fortsetzung ]                   @001[ šbersicht ]
+.202
+    CAN-Library : Allgemeines (Fortsetzung)
+
+    Im CAN2000-Treiber wird die Maskierung von Identifiern untersttzt, d.h.
+    es wird nur fr die mit den Funktionsbl”cken CANdftab() und CMSinit()
+    definierten Receive-Identifier ein Interrupt auf der CPU ausgel”st.
+    Alle anderen CAN-Empfangsnachrichten l”sen keinen Interrupt aus.
+    Generell ist zu beachten, daá der CAN-Controller als Standalone Controller
+    von der RPS-CPU aus betrieben wird und somit jedes Read oder Write von
+    CAN-Nachrichten (der definierten Identifier) einen Interrupt auf der RPS-
+    CPU ausl”st. Weiters werden nur Standard-CAN-Identifier vom CAN2000-Treiber
+    untersttzt.
+
+
+
+
+
+
+
+
+
+
+				     @203[ Fortsetzung ]                   @001[ šbersicht ]
+.203
+    CAN-Library : Allgemeines (Fortsetzung)
+
+    Anmerkungen:
+    - Bevor Sie die Funktionen der CAN-Library in Ihrem Projekt verwenden
+      k”nnen, mssen Sie diese Library in die entsprechende Projekt-Datenbank
+      importieren.
+
+    - Die Funktionen dieser Library k”nnen nur verwendet werden, wenn der CAN-
+      Treiber CAN2000.BR auf der Zentraleinheit (Anwender-ROM) vorhanden ist!
+
+    - Da die CAN-Library AVT-Funktionen enth„lt, k”nnen die Funktionen dieser
+      Library nur verwendet werden, wenn das Library-Runtime-Modul (B&R-Modul
+      CAN_LIB.BR) auf der Zentraleinheit (Anwender-ROM) vorhanden ist!
+
+    - Alle Funktionen der CAN-Library liefern im Fehlerfall als Ergebnis eine
+      @300[Fehlernummer].
+
+
+
+
+
+				       @200[ ANHANG ]                      @001[ šbersicht ]
+.210
+    CAN-Library : Interruptzeiten
+
+    Die Zeiten in der folgenden Tabelle wurden auf einem IP151-Modul mit dem
+    Profiler gemessen und entsprechen der Laufzeit des CAN-Interrupthandlers
+    (CAN2000 V1.50). Fr die Worst-Case-Zeit ist zus„tzlich die angefhrte
+    @213[Interrupt-Latenzzeit] zu bercksichtigen. Bei einer h”heren Buslast ist
+    unter Umst„nden noch die Sende-Queue-Behandlung (siehe CANwrite) im CAN-
+    Interrupthandler zu bercksichtigen. Der Sende-Auftrag aus der Sende-
+    Queue an den CAN-Controller beansprucht zus„tzlich ca. 35 æs (IP151) in
+    der Sende-Interruptbehandlung.
+
+ ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Interruptzeiten fr IP151  ³      CLIENT [æs]      ³      SERVER [æs]      º
+ ÌÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍ¹
+ º Class  ³ Access ³ Datentyp ³ Transm.IRQ ³ Rec.IRQ  ³ Transm.IRQ ³ Rec.IRQ  º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍ¹
+ º B.Var. ³ R.O.   ³   LONG   ³            ³ 111 (40) ³            ³          º
+ º B.Var. ³ W.O.   ³   LONG   ³   61 (17)  ³          ³            ³   111    º
+ º B.Var. ³ Read   ³   LONG   ³   61 (16)  ³ 117 (44) ³     61     ³    80    º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍ¼
+
+				     @211[ Fortsetzung ]                   @001[ šbersicht ]
+.211
+    CAN-Library : Interruptzeiten (Fortsetzung)
+
+ ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Interruptzeiten fr IP151  ³      CLIENT [æs]      ³      SERVER [æs]      º
+ ÌÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍ¹
+ º Class  ³ Access ³ Datentyp ³ Transm.IRQ ³ Rec.IRQ  ³ Transm.IRQ ³ Rec.IRQ  º
+ ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍ¹
+ º B.Var. ³ Write  ³   LONG   ³   61 (17)  ³  82 (32) ³     61     ³   115    º
+ º M.Var. ³ R.O.   ³   LONG   ³   66 (21)  ³ 118 (47) ³     65     ³    76    º
+ º M.Var. ³ W.O.   ³   LONG   ³   66 (21)  ³          ³            ³   117    º
+ º M.Var. ³ Read   ³   LONG   ³   71 (22)  ³ 120 (47) ³     66     ³   122    º
+ º M.Var. ³ Write  ³   LONG   ³   71 (21)  ³  86 (33) ³     65     ³   123    º
+ ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍ¼
+
+    In der Tabelle wurden folgende Abkrzungen verwendet:
+    R.O. ....... ReadOnly
+    W.O. ....... WriteOnly
+    B.Var. ..... Basic Variable
+    M.Var. ..... Multiplexed Variable
+
+
+				     @212[ Fortsetzung ]                   @001[ šbersicht ]
+.212
+    CAN-Library : Interruptzeiten (Fortsetzung)
+
+    Bei Strukturen und Feldern erh”ht sich die Interruptzeit zirka um den
+    Faktor 1,2.
+
+    Um die Interruptzeiten fr die verschiedenen CPU-Typen zu erhalten, mssen
+    Sie die auf dem IP151-Modul gemessenen Interruptzeiten mit den unten an-
+    gegebenen Faktoren multiplizieren:
+
+    ÉÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍ»
+    º CPU-Typ º Faktor º
+    ÌÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍ¹
+    º  IF100  º  1,00  º
+    º  CP104  º  1,20  º
+    º  IF152  º  1,00  º
+    º  CP472  º  1,00  º
+    º  XP152  º  1,20  º
+    º  CP260  º  0,30  º
+    ÈÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍ¼
+
+
+				     @213[ Fortsetzung ]                   @001[ šbersicht ]
+.213
+    CAN-Library : Interruptzeiten (Fortsetzung)
+
+    Die Interrupt-Latenzzeiten fr den CAN-Interrupt liegen im Bereich 10 bis
+    30 æs (IF152/IP151/XP152/CP472). Wenn die RPSSW Version V1.10 verwendet
+    wird (CP104/C220), kann sich die Latenzzeit bei zus„tzlichen PV-Zugriffen
+    ber die serielle Schnittstelle auf 100 æs erh”hen.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				       @200[ ANHANG ]                      @001[ šbersicht ]
+.250
+    CAN-Library : Syntaxbeschreibung
+
+    Datentypen:
+    Fr viele Funktionen sind bestimmte Gruppen von Datentypen zul„ssig. Um
+    bei der Funktionsbeschreibung nicht alle zul„ssigen Datentypen anfhren
+    zu mssen, werden folgende Gruppenbezeichnungen eingefhrt:
+    ÉÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍ»
+    º Gruppe º  BIT  ³ INT8  ³ BYTE  ³ INT16 ³ WORD  ³ INT32 ³ LONG  ³ FLOAT º
+    ÌÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍ¹
+    º BASIS  º       ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º NICHT  º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    º FLOAT  º       ³       ³       ³       ³       ³       ³       ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º ALLE   º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º FELD   º  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  º
+    ÈÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍ¼
+      x  Datentyp ist zul„ssig
+     [x] Datentyp ist zul„ssig als Feldvariable oder Zeichenkette (String)
+
+				     @251[ Fortsetzung ]                   @001[ šbersicht ]
+.251
+    CAN-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Pfeile:
+    Fr die Darstellung von Eingangs- und Ausgangsparametern werden Pfeile
+    verwendet. Dabei gilt folgende Vereinbarung:
+    ÉÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º  Pfeil  º  Bedeutung                                                   º
+    ÌÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º   ->    º  Eingangsparameter                                           º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <->   º  Ein-/Ausgangsparameter. Funktionell ist es ein Ausgangs-    º
+    º         º  parameter. šblicherweise wird er aber vor dem Aufruf der    º
+    º         º  Funktion mit einer bestimmten Information geladen (z.B.     º
+    º         º  einer Adresse). Meist wird die Adresse einer Variable mit   º
+    º         º  adr() [PL2000] oder einem Adreákontakt [KOP] angeschlossen. º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <-    º  Ausgangsparameter                                           º
+    ÈÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+				     @252[ Fortsetzung ]                   @001[ šbersicht ]
+.252
+    CAN-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Funktionsbl”cke:
+    Funktionsbl”cke sind in dieser Online-Hilfe nicht grafisch dargestellt.
+    Sie finden aber alle fr Funktionsbl”cke relevanten Informationen, wie
+    Eingangsparameter (->), Ein-/Ausgangsparameter (<->) und Ausgangsparameter
+    (<-) in der Online-Hilfe.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				       @200[ ANHANG ]                      @001[ šbersicht ]
+.300
+    CAN-Library : Fehlernummern der CAN-Funktionsbl”cke
+
+    Die folgende Liste ist eine Zusammenfassung aller m”glichen Fehlermeldungen
+    der CAN-Library:
+    3019    Datenmodul ("modul_name") nicht vorhanden
+    3090    "device" <> 0 ist im Basissystem V1.10 nicht zul„ssig
+    8800    Zuwenig COBs vorhanden
+			("cob_anz" in CANopen() vergr”áern)
+    8801    Kein Speicher fr Ressourcen im Anwender-RAM frei
+			("cob_anz" verringern bzw. Speicher vergr”áern)
+    8802    Falscher Tabellen-Identifier ("tab_ident")
+			(lokaler Funktionsblock-Speicher zerst”rt)
+    8804    Falscher CAN-Identifier (> 2047)
+    8805    Falscher "us_ident"
+    8806    CAN-Identifier wird im System schon verwendet
+    8808    COB Verwaltung zerst”rt
+    8809    CAN-Auftrag mit dem gleichen CAN-Identifier in Arbeit (busy)
+    8810    Sende-Queue voll oder kein aktiver Knoten im Netz
+    8811    CAN-Bus ist BusOff
+    8812    Kein Puffer mehr frei (max. 13 m”glich)
+
+				     @301[ Fortsetzung ]                   @001[ šbersicht ]
+.301
+    CAN-Library : Fehlernummern der CAN-Funktionsbl”cke (Fortsetzung)
+
+    8813    CAN-Treiber (CAN2000.BR) nicht installiert
+    8814    L„nge der Daten > 8 Byte
+    8815    Unzul„ssige Baudrate
+    8816    "cob_anz" = 0 oder zu groá (max. 2047)
+    8821    Falscher "user_type"
+			("user_type" = 0 ... Client, "user_type" = 1 ... Server)
+    8822    Syntax-Fehler bei der Definition der CMS-Objekte im Datenmodul
+			(siehe "cms_entry")
+    8823    Komplexe Struktur nicht erlaubt
+    8824    Falscher "cms_mode"
+    8825    Kein Nummernschalter vorhanden oder CAN2000-Treiber (CAN2000.BR)
+			nicht installiert (< V1.40)
+    8826    CAN-Treiber (CAN2000.BR) ist zu alt (< V1.50)
+    8832    CMS Multiplexer Definitionfehler: unterschiedl. Object_typ, access_typ
+			bzw. ID bzw. wird ein Multiplexer mehrfach fr eine ID verwendet
+    8833    Dynamische Variablen werden nicht untersttzt -->normale PV
+			verwenden
+    8859    L„nge der Nachricht ist falsch
+
+				     @302[ Fortsetzung ]                   @001[ šbersicht ]
+.302
+    CAN-Library : Fehlernummern der CAN-Funktionsbl”cke (Fortsetzung)
+
+    8872    Nachricht ging verloren (Puffer wurde bereits berschrieben), Daten
+			sind aber konsistent
+    8875    Nachricht ist inkonsistent (w„hrend CANread() wurden neue Daten
+			empfangen)
+    8876    Sendepuffer nicht frei (busy), wenn z.B. hochpriores Objekt ohne
+			Overwrite-Modus definiert wurde
+    8877    Keine Nachricht vorhanden
+    147xx   Variable fehlt oder Syntax des Variablennamens falsch
+			(xx ist ein Wert zwischen 00 und 15)
+
+
+
+
+
+
+
+
+
+				       @200[ ANHANG ]                      @001[ šbersicht ]
+.375
+    CAN-Library : History - Versions„nderungen
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.61.1 -> V2.0 ³ AKTUELLE VERSION: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Die FUBs CANMulrd und CANMulOp wurden implementiert                     º
+  º - Fehlerkorrekturen im Laufe der FUB-Implementierungen                    º
+  º - Alle bekannten Fehler der CAN_Lib wurden in dieser Version behoben      º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+
+
+
+
+
+				     @376[ Fortsetzung ]                   @001[ šbersicht ]
+.376
+    CAN-Library : History - Versions„nderungen
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.57 -> V1.61.1³ AKTUELLE VERSION: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Der FUB CANMulQueue wurde implementiert aber noch nicht getestet        º
+  º - Fehlerkorrekturen im Laufe der FUB-Implementierungen                    º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				     @377[ Fortsetzung ]                   @001[ šbersicht ]
+
+				       @200[ ANHANG ]                      @001[ šbersicht ]
+.377
+    CAN-Library : History - Versions„nderungen
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.56 -> V1.57  ³ AKTUELLE VERSION: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - CANdftab: Dynamische Variable werden mit dem Fehler 8833 abgelehnt      º
+  º - CMSinit  : komplexe PV's werden untersttzt (Strukturen, Felder)        º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.55 -> V1.56  ³ Fehlerbehebung                                          º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º                                                                           º
+  º - CANquwr : Fehler im .slb-File wurde behoben                             º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+				     @378[ Fortsetzung ]                   @001[ šbersicht ]
+
+				       @200[ ANHANG ]                      @001[ šbersicht ]
+.378
+    CAN-Library : History - Versions„nderungen
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.54 -> V1.55  ³ Fehlerbehebung                                          º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - CANquwr : Funktion in die Libary implementiert                          º
+  º - CANdftab: Fehler 8833 wird bei der Verwendung einer dynamische          º
+  º             PV ausgegeben                                                 º
+  º - CMSinit : Abort Frame von $40 auf $80 geaendert                         º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+				     @379[ Fortsetzung ]                   @001[ šbersicht ]
+.379
+    CAN-Library : History - Versions„nderungen
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.53 -> V1.54  ³ Fehlerbehebung                                          º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - CMSdlreq: Abort Frame von $40 auf $80 geaendert                         º
+  º - CMSdlcon: Abort Frame von $40 auf $80 geaendert                         º
+  º                                                                           º
+  º                                                                           º                                                                         º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+				     @380[ Fortsetzung ]                   @001[ šbersicht ]
+.380
+    CAN-Library : History - Versions„nderungen
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.52 -> V1.53  ³ AKTUELLE VERSION: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - CANbtreg: Neuer Fub fr Bit Timing Register                             º
+  º - CANopen:  info=$80 -> extended Identifier                               º
+  º - CANdftab: Die Eventvariablen werden auf 0 initialisiert                 º
+  º - SetNdNr und GetNdNr: Neue Fubs fr dynamische Knotennummervergabe       º                                                                         º
+  º - CANwrite: Die CANwrite Struktur wurde um ein Byte aligned (fuer AS-IEC) º
+  º - CMSdlcon: InitiateDomainDownload Response wurde laut CAL korrigiert     º
+  º                                                                           º
+  º   CAN_LIB.BR ist mit einer Warmstartkennung gekennzeichnet (AS)           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  º                                                                           º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+				     @390[ Fortsetzung ]                   @001[ šbersicht ]
+.390
+    CAN-Library : History - Versions„nderungen
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.51 -> V1.52  ³ AKTUELLE VERSION: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - CANqueue  Fehlerkorrekturen:                                            º
+  º   1. Im Loop wurde beim 2. Aufruf der Fehler 8808 gesetzt                 º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.50 -> V1.51  ³ AKTUELLE VERSION: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - CANqueue  Fehlerkorrekturen:                                            º
+  º   1. Prfen der Inputparameter auf 0 (wenn enable=0 -> kein status)       º
+  º   2. Im Warmstart wurde Speicher mehrfach allokiert                       º
+  º                                                                           º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+				     @391[ Fortsetzung ]                   @001[ šbersicht ]
+.391
+    CAN-Library : History - Versions„nderungen
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.42 -> V1.50  ³ AKTUELLE VERSION: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Neue FUBs: CANqueue,CANrd,CANexcep,CANgetid,CANrtr,CANupd,CANngp        º
+  º              CMSdlreq,CMSdlcon                                            º
+  º - Untersttzung der Uncontrolled Event laut CAL durch die FUBs CMSinit()  º
+  º   und CMSmain()                                                           º                                                                         º
+  º - Modifikationen im CANwrite                                              º
+  º   1. negative Flanke im enable Bit l”scht den COB                         º
+  º   2. Aufruf von beliebiger Position im Source mit der selben CAN-ID im    º
+  º      Source m”glich                                                       º
+  º   3. Loopf„hig mit unterschiedlicher can_id                               º
+  º - Modifikation im CANdftab():                                             º
+  º   1. neg. Flanke im enable Bit l”scht die COB's und den zugeh. VW-Speicherº
+  º   2. internes Verriegelungsflag (Bedienung im CAN-Interrupt) wurde auf dieº
+  º      Event Variable verlagert                                             º
+  º - Die PV-Funktionen Referenz erfolgt ab der V1.50 in die RPSSW (systrap)  º
+  º - Im FUB CMSinit wird bei Multiplexer Definitionsfehlern die Fehlernummer º
+  º   8832 gesetzt (Fehler5596)                                               º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+				     @400[ Fortsetzung ]                   @001[ šbersicht ]
+.400
+    CAN-Library : History - Versions„nderungen
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.41 -> V1.42  ³ AKTUELLE VERSION: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Umstellen der Funktionen fr den CAN2000-Treiber V1.50 (Funktions-      º
+  º   verteiler statt DE-Schnittstelle).                                      º
+  º - CANopen(): Eine Erweiterung des Funktionsblocks CANopen() erm”glicht    º
+  º   den Einsatz von Modulen mit mehreren CAN-Schnittstellen (z.B. CP260).   º
+  º - Funktionsblock CANxnode() zum Lesen der Knotennummer des x-ten CAN-     º
+  º   Knotenschalters.                                                        º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+
+				     @401[ Fortsetzung ]                   @001[ šbersicht ]
+.401
+    CAN-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.40 -> V1.41  ³ LTERE VERSIONEN: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Das Rcksetzen von Event-Variablen in der CAN2000-Interruptbehandlung   º
+  º   auf der Client-Seite erfolgt nur, wenn die Event-Variable den ent-      º
+  º   sprechenden Wert haben. Damit wird sichergestellt, daá keine weiteren   º
+  º   neuen Auftr„ge verloren gehen.                                          º
+  º - Am Server werden im FUB CMSmain() bei ReadyOnly Basic Variablen nur     º
+  º   dann die Daten kopiert, wenn die Event-Variable = 1 ist.                º
+  º - CMSinit(): Fr Variablen, welche im Datenmodul angegeben wurden, auf    º
+  º   der RPS jedoch nicht vorhanden sind, wird im Callback eine Dummy-       º
+  º   Adresse fr das Kopieren eingetragen.                                   º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+				     @402[ Fortsetzung ]                   @001[ šbersicht ]
+.402
+    CAN-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.37 -> V1.40  ³ LTERE VERSIONEN: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Speicheroptimierung im CAN2000-Treiber von 8-KByte auf 512-Byte-Bl”cke  º
+  º   abh„ngig von den Bits 8-10 der definierten CAN-Identifier.              º
+  º - Hochpriore Puffer-Behandlung von max. 13 Objekten (RTR + Hochpriore) im º
+  º   CAN-Controller.                                                         º
+  º - Overflow Bit bei Nachrichtenverlust von definierten CAN-Identifiern in  º
+  º   CANopen().                                                              º
+  º - Funktionsblock CANnode() zum Lesen der eingestellten Knotennummer.      º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+				     @403[ Fortsetzung ]                   @001[ šbersicht ]
+.403
+    CAN-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.36 -> V1.37  ³ LTERE VERSIONEN: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Strukturen und Felder werden im Format laut CAL - CMS Encoding Rules    º
+  º   CiA/DS201-3 bertragen (auáer Bit-Strukturen und Bit-Felder).           º
+  º - CMSinit() und CMSmain(): nderung der Funktionen fr die Receive Queue, º
+  º   welche aber erst ab der Version V1.40 der CAN-Library im Funktions-     º
+  º   umfang enthalten ist.                                                   º
+  º - Korrektur in den PV-Funktionen (Pvx_access) fr den Zugriff auf Alias-  º
+  º   Strukturen im CMS-Datenmodul.                                           º
+  º - Korrektur fr den Zugriff auf Multiplexed Variablen, wenn ein           º
+  º   Multiplexer empfangen wird, der nicht im Datenmodul definiert wurde     º
+  º   (falsche Event-Variable wurde bedient).                                 º
+  º - Stackerh”hung im Funktionsblock CMSinit().                              º
+  º - CMSinit() durchl„uft alle Eintr„ge des Datenmoduls, auch wenn die ange- º
+  º   gebenen Variablen nicht vorhanden sind. Somit kann man mit CMSmain()    º
+  º   die vorhandenen Variablen bedienen. CMSinit() liefert trotzdem einen    º
+  º   Fehler.                                                                 º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+				     @404[ Fortsetzung ]                   @001[ šbersicht ]
+.404
+    CAN-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.35 -> V1.36  ³ LTERE VERSIONEN: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Multiplexed Variablen k”nnen ber einen CAN-Identifier verwendet werden.  º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º V1.31 -> V1.35  ³ LTERE VERSIONEN: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - CMS-Funktionen CMSinit() und CMSmain() fr die Objekte Basic Variable   º
+  º   und Multiplexed Variable mit den Zugriffen ReadOnly, WriteOnly und      º
+  º   Read-Write.                                                             º
+  º - Automatisches Wiederaufsetzen des CAN-Controllers aus dem BusOff-       º
+  º   Zustand im CAN2000-Treiber. Der BusOff-Zustand kann aber sehr wohl      º
+  º   ber die Variable "error_adr" der Funktion CANopen() erkannt werden.    º
+  º - Zugriff auf Struktur- und Feldelemente ber den Variablennamen.         º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+				     @405[ Fortsetzung ]                   @001[ šbersicht ]
+.405
+    CAN-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.31           ³                                                         º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Erste Version der Online-Hilfe fr die CAN-Library.                       º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				       @200[ ANHANG ]                      @001[ šbersicht ]
+
+.End

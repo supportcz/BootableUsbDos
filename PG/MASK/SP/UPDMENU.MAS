@@ -1,0 +1,11 @@
+#VAR 00 00 24 01 78 00 35 N N J N N 00 00 00 
+#TXT 00 00 24 78  __Cargar_desde_el_PLC___
+#VAR 01 00 24 01 78 00 35 N N J N N 00 00 01 
+#TXT 01 00 24 78  __Almancenar_en_el_PLC__
+#VAR 02 00 24 01 78 00 35 N N J N N 00 00 02 
+#TXT 02 00 24 78  __Reset_PLC_____________
+#VAR 03 00 24 01 78 00 35 N N J N N 00 00 03 
+#TXT 03 00 24 78  __Continuar_PLC_________
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`

@@ -1,0 +1,6 @@
+;
+;    "Treiberbeschreibungsfile" fuer Rezeptsystem
+;
+; Filename      Modulname               
+REZEPT          00.rezept              
+DSrezept        ff.dsrezept       	

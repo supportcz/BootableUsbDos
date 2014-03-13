@@ -1,0 +1,1454 @@
+%%
+1,0:1
+%%
+.1
+    System Library Functions
+
+  ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ ATTENTION: As the system library only contains inline functions and local บ
+  บ          function blocks (no AVT function blocks!), no library            บ
+  บ          runtime module needs to be transferred to the controller.        บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+    After the system library has been imported, the following function groups
+    are available:
+
+    @020[< Bit Handling         >]      Conditional setting/resetting of bits
+    @030[< Data Type Conversion >]      Conversion into other data types
+    @050[< Exceptions           >]      Information about Exceptions
+    @060[< Edge Recognition     >]      Recognition of signal changes
+    @070[< Shift Operations     >]      Bit wise shifting of data
+    @080[< Memory Management    >]      Copy and fill memory range
+    @090[< String Handling      >]      Handling character strings
+    @100[< Cycle Time Functions >]      Monitoring on/off
+    @110[< Increment Functions  >]      Incrementing variables
+
+                                      @200[ APPENDIX ]                      @999[ End HELP ]
+.20
+    System Library - Bit Handling
+
+    Bit Handling:
+    Functions for conditional setting/resetting bits in variables:
+
+    @021[PRESET ] Conditional Latch
+    @022[RESET  ] Conditional Unlatch
+    @023[BIT_CLR] Set a bit in a variable to logical 0 
+    @024[BIT_SET] Set a bit in a variable to logical 1 
+    @025[BIT_TST] Test a bit in a variable 
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.21
+    System Library - Bit Handling (continued)
+
+    newval = @021[PRESET](enable,oldval)
+
+    Parameter data types:
+    ->  enable    : BIT           Enable
+    ->  oldval    : BIT           Output value if "enable" = 0
+    <-  newval    : BIT           The "newval" output is set
+                                  (logical 1), if "enable" = 1
+
+    If the "enable" input is logical, the "newval" output is set (logical 1).
+    (logic 1). If "enable" = 0, "newval" = "oldval" (see @026[Example]).
+
+
+
+
+
+
+
+
+
+                                    @020[ Bit Handling ]                    @001[ Overview ]
+.22
+    System Library - Bit Handling (continued)
+
+    newval = @022[RESET](enable,oldval)
+
+    Parameter data types:
+    ->  enable    : BIT           Enable
+    ->  oldval    : BIT           Output value if "enable" = 0
+    <-  newval    : BIT           The "newval" output is erased
+                                  (logical 0), if "enable" = 1
+
+    If the "enable" input is logical 1, the "newval" output is erased
+    (logic 0). If "enable" = 0, "newval" = "oldval" (see @026[Example]).
+
+
+
+
+
+
+
+
+
+                                    @020[ Bit Handling ]                    @001[ Overview ]
+.23
+    System Library - Bit Handling (continued)
+
+    var_out = @023[BIT_CLR](var,cnt)
+
+    Parameter data types :
+    ->  var       : @250[BASIS]         Input variable
+    ->  cnt       : BYTE          Number of bits to be cleared (log. 0)
+    <-  var_out   : @250[BASIS]         Output variable with cleared bit
+
+    Bit number "cnt" is cleared (see @027[Example]).
+    The result "var_out" has the same data type as the input variable
+    "var".
+
+
+
+
+
+
+
+
+
+                                    @020[ Bit Handling ]                    @001[ Overview ]
+.24
+    System Library - Bit Handling (continued)
+
+    var_out = @024[BIT_SET](var,cnt)
+
+    Parameter data types :
+    ->  var       : @250[BASIS]         Input variable
+    ->  cnt       : BYTE          Number of bits to be cleared (log. 1)
+    <-  var_out   : @250[BASIS]         Output variable with cleared bit
+
+    Bit number "cnt" is set (see @028[Example]).
+    The result "var_out" has the same data type as the input variable
+    "var".
+
+
+
+
+
+
+
+
+
+                                    @020[ Bit Handling ]                    @001[ Overview ]
+.25
+    System Library - Bit Handling (continued)
+
+    out = @025[BIT_TST](var,cnt)
+
+    Parameter data types :
+    ->  var       : @250[BASIS]         Input variable
+    ->  cnt       : BYTE          Number of the bit to be tested
+    <-  out       : BIT           Value of the bit number "cnt"
+
+    The function returns the state (0 or 1) of the bit number "cnt"
+    (see @027[Example]).
+
+
+
+
+
+
+
+
+
+
+                                    @020[ Bit Handling ]                    @001[ Overview ]
+.26
+    System Library - Bit Handling (example)
+
+    Example of PRESET() / RESET():
+    The bit variable "output" is dependent on two inputs:
+
+         Set Input "Start" = 1 ... "Output" (logical 1)
+         Reset Input "Stop" = 1 .... "Output" (logical 0)
+
+    The reset input "Stop" is dominant! That means that if both inputs ("Start"
+    and "Stop") are set, the reset input "Stop" has precedence.
+
+      Output = PRESET((Start AND NOT Stop),Output)
+      Output = RESET(Stop,Output)
+
+
+
+
+
+
+
+
+                                    @020[ Bit Handling ]                    @001[ Overview ]
+.27
+    System Library - Bit Handling (example)
+
+    Example of BIT_CLR() / BIT_TST():
+    If bit 3 in the variable "Mask" is set, a defined command should be carried
+    out. The bit should then be cleared again.
+         ฺฤยฤยฤยฤยฤยฤยฤยฤยฤยฤยฤยฤยฤยฤยฤฟ
+         ณ ณ ณ ณ ณ ณ ณ ณ ณ ณ ณ ณXณ ณ ณ ณ
+         ภฤมฤมฤมฤมฤมฤมฤมฤมฤมฤมฤมฤมฤมฤมฤู
+          ย                     ย ย ย ย
+          ณ                     ณ ณ ณ ภฤฤฤฤฤ Bit 0
+          ณ                     ณ ณ ภฤฤฤฤฤฤฤ Bit 1
+          ณ                     ณ ภฤฤฤฤฤฤฤฤฤ Bit 2
+          ณ                     ภฤฤฤฤฤฤฤฤฤฤฤ Bit 3
+          ณ                                   :
+          ภฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤ Bit 15
+
+      if BIT_TST(Mask,3) = 1 then
+          ; Command(s)
+          Mask = BIT_CLR(Mask,3)    ; Acknowledge Bit 3
+      endif
+
+                                    @020[ Bit Handling ]                    @001[ Overview ]
+.28
+    System Library - Bit Handling (example)
+
+    Example of BIT_SET():
+    If the "Automatic" operation is set, ("Auto" = 1), bits 6 and 7
+    in the variable "B_Art" should be set.
+            ฺฤยฤยฤยฤยฤยฤยฤยฤฟ
+            ณXณXณ ณ ณ ณ ณ ณ ณ
+            ภฤมฤมฤมฤมฤมฤมฤมฤู
+    Bit No.7 6 5 4 3 2 1 0
+
+      if Auto = 1 then
+          B_Art = BIT_SET(B_type,7)    ; set Bit 7 
+          B_Art = BIT_SET(B_type,6)    ; set Bit 6 
+      endif
+
+    However the following code is better:
+
+      B_Art = B_type OR %%11000000      ; set Bits 6+7 
+
+
+
+                                    @020[ Bit Handling ]                    @001[ Overview ]
+.30
+    System Library - Data Type Conversion
+
+    Data Type Conversion:
+    If two variables with different data types meet in an operation,the
+    compiler automatically converts the "smaller" data type to the "larger"
+    data type ("Up Conversion"). We will describe this type of data conversion
+    as implicit (automatic) data conversion. Conversion to a smaller data type
+    is not possible with implicit data type conversion ("Down Conversion").
+    A down conversion(explicit data type conversion) must be carried out by the
+    user via the standard functions (see @039[Example 1] and @040[Example 2]).
+    Standard functions for explicit data type conversion:
+
+    @032[BIT  ] Convert to BIT
+    @033[BYTE ] Convert to BYTE
+    @034[INT8 ] Convert to INT8
+    @035[WORD ] Convert to WORD
+    @036[INT16] Convert to INT16
+    @037[LONG ] Convert to LONG
+    @038[INT32] Convert to INT32
+
+
+                                      @031[ Continue ]                      @001[ Overview ]
+.31
+    System Library - Data Type Conversion (continued)
+
+    Explicit data type conversion is also used if, for example, two numbers
+    with the same data type are added or multiplied and the result exceeds
+    the range of this data type (see @041[Example 3]). In this case, one of
+    the variables must be explicitly converted to a data type which
+    corresponds to the result of the operation (explicit "Up Conversion").
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.32
+    System Library - Data Type Conversion (continued)
+
+    bit_pv = @032[BIT](var)
+
+    Parameter data types :
+    ->  var       : @250[NOT FLOAT]   Input variable
+    <-  bit_pv    : BIT         Variable after conversion.
+
+    Converts a variable to BIT.
+
+
+
+
+
+
+
+
+
+
+
+
+                                @030[ Data Type Conversion ]                @001[ Overview ]
+.33
+    System Library - Data Type Conversion(Continued)
+
+    byte_pv = @033[BYTE](var)
+
+    Parameter data types :
+    ->  var       : @250[NOT FLOAT]   Input variable
+    <-  byte_pv   : BYTE        Variable after conversion
+
+    Converts a variable to BYTE.
+
+
+
+
+
+
+
+
+
+
+
+
+                                @030[ Data Type Conversion ]                @001[ Overview ]
+.34
+    System Library - Data Type Conversion (continued)
+
+    int8_pv = @034[INT8](var)
+
+    Parameter data types :
+    ->  var       : @250[NOT FLOAT]   Input variable
+    <-  int8_pv   : INT8        Variable after conversion
+
+    Converts a variable to INT8.
+
+
+
+
+
+
+
+
+
+
+
+
+                                @030[ Data Type Conversion ]                @001[ Overview ]
+.35
+    System Library - Data Type Conversion (continued)
+
+    word_pv = @035[WORD](var)
+
+    Parameter data types :
+    ->  var       : @250[NOT FLOAT]   Input variable
+    <-  word_pv   : WORD        Variable after conversion
+
+    Converts a variable to WORD.
+
+
+
+
+
+
+
+
+
+
+
+
+                                @030[ Data Type Conversion ]                @001[ Overview ]
+.36
+    System Library - Data Type Conversion (continued)
+
+    int16_pv = @036[INT16](var)
+
+    Parameter data types :
+    ->  var       : @250[NOT FLOAT]   Input variable
+    <-  int16_pv  : INT16       Variable after conversion
+
+    Converts a variable to INT16.
+
+
+
+
+
+
+
+
+
+
+
+
+                                @030[ Data Type Conversion ]                @001[ Overview ]
+.37
+    System Library - Data Type Conversion (continued)
+
+    long_pv = @037[LONG](var)
+
+    Parameter data types :
+    ->  var       : @250[NOT FLOAT]   Input variable
+    <-  long_pv   : LONG        Variable after conversion
+
+    Converts a variable to LONG.
+
+
+
+
+
+
+
+
+
+
+
+
+                                @030[ Data Type Conversion ]                @001[ Overview ]
+.38
+    System Library - Data Type Conversion (continued)
+
+    int32_pv = @038[INT32](var)
+
+    Parameter data types :
+    ->  var       : @250[NOT FLOAT]   Input variable
+    <-  int32_pv  : INT32       Variable after conversion
+
+    Converts a variable to INT32.
+
+
+
+
+
+
+
+
+
+
+
+
+                                @030[ Data Type Conversion ]                @001[ Overview ]
+.39
+    System Library - Data Type Conversion (example 1)
+
+    Example 1:
+    Example for explicit down conversion. The two least significant bytes
+    of the LONG variable address are to be saved in the WORD variable
+    "Offset":
+
+      Offset = WORD(Address)
+
+    Attention!
+    Data is lost with an explicit down conversion!
+
+
+
+
+
+
+
+
+
+
+    @040[ Example 2 ]                 @030[ Data Type Conversion ]                @001[ Overview ]
+.40
+    System Library - Data Type Conversion (example 2)
+
+    Example 2:
+    Example for explicit down conversion. The INT16 variable "Var1"
+    should be assigned to the INT8 variable "Var2":
+
+      Var2 = INT8(Var1)           ; Var1 is converted to INT8
+
+    Attention!
+    Please note that when converting signed data types (INT data types)
+    to data types without a sign, small negative numbers become large
+    positive numbers!
+
+
+
+
+
+
+
+
+
+    @041[ Example 3 ]                 @030[ Data Type Conversion ]                @001[ Overview ]
+.41
+    System Library - Data Type Conversion (example 3)
+
+    Example 3:
+    Example for explicit up conversion.
+    Two BYTE numbers ("Byte_Var1" and "Byte_Var2") should be added and saved
+    in a WORD variable ("result"):
+
+      Result = WORD(Byte_Var1) + WORD(Byte_Var2)
+
+    Attention!
+    Without an explicit up conversion, these two BYTE numbers would first
+    be added (overflow possible!) and the result implicitly converted to 
+    data type WORD.
+
+
+
+
+
+
+
+
+                                @030[ Data Type Conversion ]                @001[ Overview ]
+.50
+    System Library - Exceptions
+
+    Exceptions:
+    At the moment, this function group only contains the function EXC_info(),
+    which is used in exception tasks to determine which task caused the
+    exception.
+
+    @051[EXC_info] Information concerning cause of exception
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.51
+    System Library - Exceptions (continued)
+
+    @051[EXC_info](task_class,task_ident)
+
+    Parameter data types :
+    <-  @055[task_class]: INT8         Task class
+    <-  @056[task_ident]: LONG         Ident number
+
+    The EXC_info() function can only be called in an exception task. It
+    returns information concerning the task which caused the exception
+    (task class and ident number). You can get more information about
+    the task which caused the exception using the ident number
+    (see also B&R BURTRAP Library). Here is an @052[Example].
+
+
+
+
+
+
+
+
+                                     @050[ Exceptions ]                     @001[ Overview ]
+.52
+    System Library - Exceptions (example)
+
+    Example:
+    Determine which task caused the exception and request further
+    information about this task (task name, group number):
+
+      EXC_info(Task class,Id_No)
+      if Id_Nr <> $FFFFFFFF then
+           Status=ST_name(Id_No,adr(T_Name[0]),adr(Group))
+      endif
+
+
+
+
+
+
+
+
+
+
+
+                                     @050[ Exceptions ]                     @001[ Overview ]
+.55
+    System Library - Exceptions (continued)
+
+    <- Parameter <task_class>: INT8
+
+    Task class which caused the exception:
+    1 to 4 ..... Standard task class 1 to 4 (TC#1 to TC#4)
+    -1 to -4 ... High speed task class 1 to 4 (HS#1 to HS#4)
+    -8 .......... Exception task class (EXC)
+    -9 .......... Interrupt task class (IRQ)
+    0 ........... No task class context
+                  This means that the exception was neither triggered by 
+                  a task in a time-controlled task class (Standard or 
+                  high speed TC), nor by a task in an event-controlled task
+                  class (IRQ or EXC task class).
+
+
+
+
+
+
+
+                                      @051[ EXC_info ]                      @001[ Overview ]
+.56
+    System Library - Exceptions (continued)
+
+    <- Parameter <task_ident>: LONG
+
+    PCC task ident number (Standard, high speed, IRQ or EXC task) which
+    caused the exception:
+    $FFFFFFFF ... No PCC task context. This means that the exception was
+    not triggered by a PCC task (e.g. I/O exception).
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @051[ EXC_info ]                      @001[ Overview ]
+.60
+    System Library - Edge Recognition
+
+    Edge Recognition:
+    Signal changes can be recognized and evaluated using the edge
+    recognition functions:
+
+    @061[EDGE   ] Both edges (changes from 0 to 1 and from 1 to 0)
+    @062[EDGEPOS] Positive edge (changes from 0 to 1)
+    @063[EDGENEG] Negative edge (changes from 1 to 0)
+
+    Edge recognition functions must be called in every task cycle. This
+    means that edge recognition functions should not be used in conditional
+    statements such as "if" statements (see @064[Example])!
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.61
+    System Library - Edge Recognition (continued)
+
+    out = @061[EDGE](in)
+
+    Parameter data types :
+    ->  in        : BIT           Input signal, which is monitored for
+                                  changes
+    <-  out       : BIT           Set to log. 1 for one task cycle, if the 
+                                  input signal changes
+
+    If the input "in" changes from 0 to 1 or from 1 to 0, the "out"
+    output is set to logical 1 for a task cycle. This function must be
+    called in every task cycle (see @064[Example])!
+
+
+
+
+
+
+
+
+                                  @060[ Edge Recognition ]                  @001[ Overview ]
+.62
+    System Library - Edge Recognition (continued)
+
+    out = @062[EDGEPOS](in)
+
+    Parameter data types:
+    ->  in        : BIT           Input signal, which is monitored for changes
+    <-  out       : BIT           Set to log. 1 for one task cycle if the 
+                                  input signal changes from 0 to 1
+
+    If the "in" input changes from 0 to 1 (positive edge), the "out" output
+    is set to logical 1 for one task cycle.
+    This function must be called in every cycle (see @064[Example])!
+
+
+
+
+
+
+
+
+
+                                  @060[ Edge Recognition ]                  @001[ Overview ]
+.63
+    System Library - Edge Recognition (continued)
+
+    out = @063[EDGENEG](in)
+
+    Parameter data types :
+    ->  in        : BIT           Input signal, which is monitored for changes
+    <-  out       : BIT           Set to log. 1 for one task cycle if the input
+                                  signal changes from 1 to 0
+
+    If the "in" input changes from 1 to 0 (negative edge), the "out" output
+    is set to logical 1 for one task cycle.
+    This function must be called in every task cycle (see @064[Overview])!
+
+
+
+
+
+
+
+
+
+                                  @060[ Edge Recognition ]                  @001[ Overview ]
+.64
+    System Library - Edge Recognition (example)
+
+    Example:
+
+      if EDGEPOS(switch_1) = 1 then    ; Switch_1 0->1 ?
+          LED = not LED                ; if yes, invert LED
+          Var = EDGENEG(switch_2)      ; Attention!
+      endif
+
+    Attention!
+    The EDGENEG() function in the previous sample can deliver unexpected
+    results, since it is in an "if" statement, and is only called if the 
+    condition is met. This type of use should be avoided since edge
+    recognition functions must be called in each task cycle.
+
+
+
+
+
+
+
+                                  @060[ Edge Recognition ]                  @001[ Overview ]
+.70
+    System Library - Shift Operations
+
+    Shift Operations:
+    Variables can be manipulated bit wise using shift operations:
+
+    @071[ASR] Arithmetic shift cnt bits to the right
+    @072[LSL] Shift cnt bits to the left
+    @073[LSR] Shift cnt bits to the right
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.71
+    System Library - Shift Operation (continued)
+
+    var_out = @071[ASR](var,cnt)
+
+    Parameter data types:
+    ->  var       : @250[BASIS]         Variable to be manipulated bit wise
+    ->  cnt       : BYTE          Number of bits
+    <-  var_out   : @250[BASIS]         Variable after shift operation
+
+    The contents of the variable "var" will be shifted "cnt" bits to the right
+    (see @074[Example]). The most significant bit (sign bit) remains. The data
+    type of the variable "var_out" is identical to the input variable "var".
+
+
+
+
+
+
+
+
+
+                                   @070[ Shift Operation ]                  @001[ Overview ]
+.72
+    System Library - Shift Operation (continued)
+
+    var_out = @072[LSL](var,cnt)
+
+    Parameter data types :
+    ->  var       : @250[BASIS]         Variable to be manipulated bit wise
+    ->  cnt       : BYTE          Number of bits
+    <-  var_out   : @250[BASIS]         Variable after shift operation
+
+    The contents of the variable "var" will be shifted "cnt" bits to the left
+    (see @075[Example]). The most significant bit (sign bit) remains. The data
+    type of the variable "var_out" is identical to the input variable "var".
+
+
+
+
+
+
+
+
+
+                                   @070[ Shift Operation ]                  @001[ Overview ]
+.73
+    System Library - Shift Operation (continued)
+
+    var_out = @073[LSR](var,cnt)
+
+    Parameter data types :
+    ->  var       : @250[BASIS]         Variable to be manipulated bit wise
+    ->  cnt       : BYTE          Number of bits
+    <-  var_out   : @250[BASIS]         Variable after shift operation
+
+    The contents of the variable "var" is shifted "cnt" bits to the right
+    (see @076[Example]). The data type of the variable "var_out" is identical
+    to the input variable "var".
+
+
+
+
+
+
+
+
+
+                                   @070[ Shift Operation ]                  @001[ Overview ]
+.74
+    System Library - Shift Operation (example)
+
+    Example:
+    The INT16 value "Data" should be halved (a one position shift to the
+    right corresponds to division by 2). When executing a logical shift
+    for negative numbers, the sign bit is also shifted. This means that 
+    the result would be incorrect. Arithmetic shifts with ASR() function
+    does not shift the most significant bit (sign bit), only the other bits
+    are shifted to the right. Please note that the smallest value which can
+    be achieved is -1.
+
+      Data = ASR(Data,1)               ; Data / 2
+
+
+
+
+
+
+
+
+
+                                   @070[ Shift Operation ]                  @001[ Overview ]
+.75
+    System Library - Shift Operation (example)
+
+    Example 1:
+    The WORD variable "Factor" should be multiplied by 4. Shifting the 
+    bits two positions to the right corresponds to multiplying by 4:
+
+      Factor = LSL(Factor,2)             ; Factor * 4
+
+    Example 2:
+     The WORD variable "Mask" should be created from two individual bytes
+     "Info1"and "Info2":
+                       ฺฤยฤยฤยฤยฤยฤยฤยฤฟ ฺฤยฤยฤยฤยฤยฤยฤยฤฟ
+                       ณ ณ ณ ณ ณ ณ ณ ณ ณ ณ ณ ณ ณ ณ ณ ณ ณ ณ
+                       ภฤมฤมฤมฤมฤมฤมฤมฤู ภฤมฤมฤมฤมฤมฤมฤมฤู
+                            "Info1"           "Info2"
+                       ภฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤู
+                                     "Mask"
+
+      Mask = LSL(WORD(Info1),8)         ; Info1 8 Bits left
+      Mask = Mask + WORD(Info2)         ; add Info2 
+
+                                   @070[ Shift Operation ]                  @001[ Overview ]
+.76
+    System Library - Shift Operation (example)
+
+    Example:
+    The BYTE variable "Char" is to be assigned to one byte of the LONG
+    variable "Code". Which byte (0 to 3) is determined by "Byte_No".
+
+      Char = BYTE(LSR(Code,(Byte_No * 8)))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   @070[ Shift Operation ]                  @001[ Overview ]
+.80
+    System Library - Memory Management
+
+    Memory Management:
+    These functions are used to copy or fill memory areas:
+
+    @081[memcpy] Copy memory area
+    @082[memset] Fill memory area with certain values
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.81
+    System Library - Memory Management (continued)
+
+    nxt_adr = @081[memcpy](adr(dest_p),adr(src_p),length)
+
+    Parameter data types :
+    <-> dest_p    : @250[ALL]          Target address
+    ->  src_p     : @250[ALL]          Data to be copied (source address)
+    ->  length    : LONG         Number of bytes to be copied
+    <-  nxt_adr   : LONG         Address of the data copied (new)
+
+    The function memcpy() copies data from memory area "src_p" to memory
+    area "dest_p" (see @083[Example]).
+    Make sure that enough memory is allocated at the target address to copy
+    all data, otherwise data could be overwritten when copying occurs.
+
+
+
+
+
+
+
+                                  @080[ Memory Management ]                 @001[ Overview ]
+.82
+    System Library - Memory Management (continued)
+
+    nxt_adr = @082[memset](adr(dest_p),value,length)
+
+    Parameter data types :
+    <-> dest_p    : @250[ALL]          Target address (data to be initialized)
+    ->  value     : BYTE         Initialization value
+    ->  length    : LONG         Number of bytes to be initialized
+    <-  nxt_adr   : LONG         Address of initialized data
+
+    All memory locations at the target address are overwritten with the 
+    initialization value "value" (see @084[Example]).
+
+
+
+
+
+
+
+
+
+                                  @080[ Memory Management ]                 @001[ Overview ]
+.83
+    System Library - Memory Management (example)
+
+    Example:
+    A 50 byte send buffer "Buffer[]" should be written to with new data
+    (array variable "Frame[]", Length "Frame_L"). The remaining bytes are
+    to be filled with 0.
+
+      ; Write new data to send buffer:
+      n_adr = memcpy(adr(Buffer[0]),adr(Frame[0]),Frame_L)
+      ; Fill the remaining bytes with 0:
+      n_adr = memset(n_adr,0,(50 - Frame_L))
+
+
+
+
+
+
+
+
+
+
+                                  @080[ Memory Management ]                 @001[ Overview ]
+.84
+    System Library - Memory Management (example)
+
+    Example:
+    A 30 byte buffer memory "Buffer[]" should be initialized with the
+    following values:
+
+    Buffer[0] to Buffer[9] ..... fill with 0
+    Buffer[10] to Buffer[19] ... fill with 1
+    Buffer[20] to Buffer[29] ... fill with 2
+
+      nxt_adr = memset(adr(Buffer[0]),0,10)
+      nxt_adr = memset(adr(Buffer[10]),1,10)
+      nxt_adr = memset(adr(Buffer[20]),2,10)
+
+
+
+
+
+
+
+
+                                  @080[ Memory Management ]                 @001[ Overview ]
+.90
+    System Library - String Handling
+
+    String Handling:
+    These functions are used to manipulate character strings:
+
+    @091[strcpy] Copies one string to another
+    @092[strlen] Returns the length of a string
+    @093[strcat] Adds one string to the end of another
+    @094[itoa  ] Converts an INT number to an ASCII string
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.91
+    System Library - String Handling (continued)
+
+    nxt_adr = @091[strcpy](adr(dest_p),adr(src_p))
+
+    Parameter data types :
+    <-> dest_p    : BYTE (ARRAY)   Target string
+    ->  src_p     : BYTE (ARRAY)   Source string (string to be copied)
+    <-  nxt_adr   : LONG           Address of "dest_p" (for daisy-chaining)
+
+    The string "src_p" is copied to "dest_p" (see @095[Example]). Make sure that
+    the defined length of the BYTE array "dest_p" is large enough to accept
+    the source string "src_p".
+    The result "nxt_adr" is the address of the terminating null byte in
+    string "dest_p". This enables the function to be daisy-chained.
+    The string "src_p" to be copied can also be a string constant or a 
+    constant string (e.g.: "ABCabc").
+
+
+
+
+
+                                   @090[ String Handling ]                  @001[ Overview ]
+.92
+    System Library - String Handling (continued)
+
+    length = @092[strlen](adr(src_p))
+
+    Parameter data types :
+    ->  src_p     : BYTE (ARRAY)  String, for which the length is to
+                                  be determined
+    <-  length    : WORD          Length of string
+
+    Returns the length of the string "src_p" (see @095[Example]).
+
+
+
+
+
+
+
+
+
+
+
+                                   @090[ String Handling ]                  @001[ Overview ]
+.93
+    System Library - String Handling (continued)
+
+    nxt_adr = @093[strcat](adr(dest_p),adr(src_p))
+
+    Parameter data types :
+    <-> dest_p    : BYTE (ARRAY)  Target string, where string "src_p" is
+                                  to be added
+    ->  src_p     : BYTE (ARRAY)  Source string (string to be added to
+                                  string "dest_p")
+    <-  nxt_adr   : LONG          Address of "dest_p" (for daisy-chaining)
+
+    The string "src_p" is added to "dest_p" (see @095[Example]).
+    The result "nxt_adr" is the address of the terminating zero byte in
+    the string "dest_p". This enables the function to be daisy-chained.
+    The source string "src_p" can also be a string constant or a constant
+    string (e.g. "ABCabc").
+
+
+
+
+
+                                   @090[ String Handling ]                  @001[ Overview ]
+.94
+    System Library - String Handling (continued)
+
+    length = @094[itoa](value,adr(dest_p))
+
+    Parameter data types :
+    ->  value     : INT8,INT16,   Numerical value, which is to be converted
+                    INT32         into a string
+    <-> dest_p    : BYTE (ARRAY)  Target string
+    <-  length    : WORD          Length of the new string
+
+    Converts a number from INT8, INT16 or INT32 to an ASCII string,
+    and returns the length of the new string (see @095[Example]).
+
+
+
+
+
+
+
+
+
+                                   @090[ String Handling ]                  @001[ Overview ]
+.95
+    System Library - String Handling (example)
+
+    Example:
+    Two INT16 values "value1" and "value2" are to be entered into a report
+    buffer "Rep_Buff" as an ASCII string with format "value1: x  value2: y"
+    (x and y are numbers like 1, 100, -100, 2000).
+    The length of the string is saved in "Str_L".
+
+      nxt_adr = strcpy(adr(Rep_buff[0]),"value1: ")
+      itoa(value1,nxt_adr)
+      nxt_adr = strcat(nxt_adr,"  value2: ")
+      itoa(value2,nxt_adr)
+      Str_L = strlen(adr(Rep_Buff[0]))
+
+
+
+
+
+
+
+
+                                   @090[ String Handling ]                  @001[ Overview ]
+.100
+    System Library - Cycle Time Functions
+
+    Cycle Time Functions:
+    You can turn cycle time monitoring for normal task classes on/off
+    (enable/disable) using the function ZYKVL_enable().
+
+    @101[ZYKVL_enable] Turn on/off cycle time monitoring
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.101
+    System Library - Cycle Time Functions (continued)
+
+    status = @101[ZYKVL_enable](mode)
+
+    Parameter data types :
+    ->  mode      : BYTE          0 ..... Turn off cycle time monitoring
+                                  $FF ... Turn on cycle time monitoring
+    <-  status    : WORD          Error number (no meaning, so is always 0)
+
+    You can enable/disable cycle time monitoring for standard task classes
+    using the function ZYKVL_enable() from the system library.
+    If cycle time monitoring is activated for standard task classes, the 
+    exception "TC Cycle Time Violation" (exception no. 144) is triggered 
+    each time the defined cycle time is exceeded for a standard task class 
+    (simple cycle time violation (see @103[Example]).
+    Cycle time monitoring is disabled for standard task classes by default;
+    i.e. exceeding the defined cycle times (simple cycle violations) are
+    ignored! However, the maximum cycle times are monitored
+    (see "B&R System 2000 System Software Reference Manual".
+
+
+                                      @102[ Continue ]                      @001[ Overview ]
+.102
+    System Library - Cycle Time Functions (continued)
+
+    You can only enable/disable the monitoring of simple cycle times of
+    standard task classes using the function ZYKVL_enable().
+    Monitoring maximum cycle times cannot be influenced by the user, and is
+    therefore always active!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                @100[ Cycle Time Functions ]                @001[ Overview ]
+.103
+    System Library - Cycle Time Functions (example)
+
+    Example:
+    An endless loop in the standard task class TC#4 causes a cycle time
+    violation after a few seconds (standard). If cycle time monitoring is
+    activated, the cycle time violation is registered after the defined
+    task class cycle time.
+
+      ZYKVL_enable($FF)                  ; Activate cycle time monitoring
+      Blocked = 0                        ; Only execute loop once
+      a = 0                              ; Initialize counter
+
+
+
+
+
+
+
+
+
+
+                                 @104[ Continue - Example ]                 @001[ Overview ]
+.104
+    System Library - Cycle Time Functions (example - continued)
+
+    Cyclic Task (TC#4):
+    If an exception task exists for exception no. 144, the endless loop
+    is executed until the exit condition "Exc_Task_Fl" = 1 is met:
+
+      if Blocked = 0 then                ; Only once!
+          loop                           ; Attention!
+              a = a + 1                  ; Endless loop
+          exitif Exc_Task_Fl = 1         ; Exit condition
+          endloop
+          Blocked = 1                    ; Only once!
+      endif
+
+    Exception task (Exception No. 144):
+    In our example, we used the PCC global variable "Exc_Task_Fl" to
+    interrupt the endless loop:
+
+      Exc_Task_Fl = 1
+
+
+                                @100[ Cycle Time Functions ]                @001[ Overview ]
+.110
+    System Library - Increment Functions
+
+    Increment Functions:
+    These function groups only contain the function INC() at the moment
+
+    @111[INC] Increment a variable
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.111
+    System Library - Increment Functions (continued)
+
+    var_out = @111[INC](var)
+
+    Parameter data types :
+    ->  var       : @250[NOT FLOAT]   Variable to be incremented
+    <-  var_out   : @250[NOT FLOAT]   Variable after incrementing
+
+    The value of the input variable "var" is incremented by 1 in every
+    task cycle.
+
+
+
+
+
+
+
+
+
+
+
+                                 @110[ Increment Functions ]                @001[ Overview ]
+.200
+    APPENDIX : LIBRARY Information
+
+
+    @201[< General Information >]     Requirements etc.
+
+    @250[< Syntax              >]      Syntax for explaining the functions
+
+    @400[< History             >]      New Functionalities and Version Changes
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.201
+    System Library : General Information
+
+    The functions of the system library don't contain any AVT function
+    blocks and therefore they don't need a library runtime module in the
+    PCC. The code is integrated into the application program.
+
+    Notes:
+    - The system library is automatically imported into the data bank when
+      a project is created. This means that the functions of the system
+      library are available immediately after the project has been created.
+
+    - As the system library only contains inline functions and local 
+      function blocks (no AVT function blocks!), no library runtime module
+      needs to be transferred to the controller.
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.250
+    System Library : Syntax Description
+
+    Data types:
+    Certain groups of data types are allowed for many functions. So that
+    not all the allowed data types have to be stated in the function
+    description, the following group names will be used:
+    ษออออออออหอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออป
+    บ Group  บ  BIT  ณ INT8  ณ BYTE  ณ INT16 ณ WORD  ณ INT32 ณ LONG  ณ FLOAT บ
+    ฬออออออออฮอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออน
+    บ BASIS  บ       ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ NOT    บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    บ FLOAT  บ       ณ       ณ       ณ       ณ       ณ       ณ       ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ ALL    บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ ARRAY  บ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  บ
+    ศออออออออสอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออผ
+      x  Data type is allowed
+     [x] Data type is allowed as an array variable or character string
+
+                                      @251[ continue ]                      @001[ Overview ]
+.251
+    System Library : Syntax Description (continued)
+
+    Arrows:
+    Arrows are used to display input and output parameters. The following
+    arrangement is used for this purpose:
+    ษอออออออออหออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ  Arrow  บ  Meaning                                                     บ
+    ฬอออออออออฮออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ   ->    บ  Input parameter                                             บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <->   บ  Input/output parameter. Functions as an output parameter.   บ
+    บ         บ  However, it normally carries certain information before the บ
+    บ         บ  function is called (e.g. address. The address of a variable บ
+    บ         บ  is normally terminated with adr() [PL2000] or an address    บ
+    บ         บ  contact [LAD].                                              บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <-    บ  Output parameter                                            บ
+    ศอออออออออสออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                      @252[ continue ]                      @001[ Overview ]
+.252
+    System Library : Syntax Description (continued)
+
+    Function blocks:
+    Function blocks are not graphically represented in this Online Help.
+    However, you can find all relevant information about function blocks 
+    (i.e. input parameters (->), input/output parameters (<->) and output
+    parameters (<-) in the Online Help.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.400
+    System Library : History - Version Changes
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V2.20 -> V2.23  ณ CURRENT VERSION: New functionalities                    บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ Adaptation of the programming system library (SYSTEM.SLB) to CPUs without บ
+  บ Bit logic.                                                                บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V2.10 -> V2.20  ณ OLDER VERSIONS: New functionalities                     บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ Adaptation of the programming system library (SYSTEM.SLB) to the CP200:   บ
+  บ Adaptation of the functions EXC_info() and ZYKKVL_enable() was necessary  บ
+  บ due to changed exception handling.                                        บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+
+.End

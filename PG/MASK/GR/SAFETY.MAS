@@ -1,0 +1,9 @@
+#TXT 00 00 01 78  _
+#VAR 00 02 19 01 78 00 35 N N J N N 00 00 49 
+#TXT 00 02 19 78  _RÅckrufnummer_-1-_
+#VAR 01 02 19 01 78 00 35 N N J N N 00 00 50 
+#TXT 01 02 19 78  _RÅckrufnummer_-2-_
+#TXT 01 22 01 78  _
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`

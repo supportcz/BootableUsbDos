@@ -1,0 +1,419 @@
+%%
+1,0:1
+%%
+.1
+    Funktionen der Multiprozessor-Library
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º ACHTUNG: Da die Multiprozessor-Library AVT-Funktionen enth„lt, k”nnen     º
+  º          die Funktionen dieser Library nur verwendet werden, wenn das     º
+  º          Library-Runtime-Modul im nullspannungssicheren Speicher          º
+  º          (Anwender-ROM) der Steuerung vorhanden ist! Das Runtime-Modul    º
+  º          dieser Library ist im B&R-Modul MPSERVER.BR integriert, d.h.     º
+  º          es wird mit dem MP-Server auf die Zentraleinheit bertragen.     º
+  º          Nach dem šbertragen des Library-Runtime-Moduls in den null-      º
+  º          spannungssicheren Speicher muá ein KALTSTART (frher "TOTALINIT" º
+  º          genannt) durchgefhrt werden.                                    º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+                                     @002[ Fortsetzung ]               @999[ HILFE beenden ]
+.2
+    Funktionen der Multiprozessor-Library (Fortsetzung)
+
+    Nach dem Importieren der Multiprozessor-Library stehen Ihnen folgende
+    Funktionen zur Verfgung:
+
+    @020[MP_ident  ] Ident-Nummer des Multiprozessors anfordern
+    @030[MP_trigger] Starten der HS#2 am Multiprozessor (MP-HSTC)
+    @040[MP_ready  ] Prfen, ob die HS#2 am Multiprozessor (MP-HSTC) bereit ist
+
+    Diese Funktionen k”nnen nur auf der Zentraleinheit verwendet werden!
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.20
+    MP_ident - Ident-Nummer des MPs anfordern
+
+    @021[MP_ident] (enable,module_no,mp_ident,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  module_no : WORD          Moduladresse des Multiprozessors in dezimaler
+                                  Form. Die Moduladresse des Multiprozessors
+                                  ist nicht steckplatzabh„ngig, sondern wird
+                                  durch einen Nummernschalter auf dem Modul
+                                  eingestellt.
+    <-  mp_ident  : LONG          Ident-Nummer des Multiprozessors. Diese
+                                  Ident-Nummer wird fr die anderen Funktionen
+                                  der Multiprozessor-Library ben”tigt.
+    <-  @025[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Die Funktion MP_ident() liefert die Ident-Nummer des Multiprozessors mit
+    der angegebenen Moduladresse. Die Ident-Nummer des Multiprozessors (MPs)
+    wird fr die anderen Funktionen der Multiprozessor-Library ben”tigt.
+
+                                     @021[ Fortsetzung ]                   @001[ šbersicht ]
+.21
+    MP_ident - Ident-Nummer des MPs anfordern (Fortsetzung)
+
+    Die Funktion MP_ident() kann nur auf der CPU verwendet werden!
+    Ein fehlerfreier Aufruf der Funktion MP_ident() ist nur m”glich, wenn
+    am Multiprozessor die MP-HSTC konfiguriert ist (schlagen Sie dazu im
+    Kapitel "Systemkonfiguration" des "B&R SYSTEM 2000 System-Software
+    Referenzhandbuch" nach).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.25
+    MP_ident - Ident-Nummer des MPs anfordern (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion MP_ident():
+    8016    Referenziertes Systemmodul (Multiprozessor) fehlt
+
+    Eine Liste aller m”glichen Fehlermeldungen der Multiprozessor-Library
+    finden Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @020[ MP_ident ]                     @001[ šbersicht ]
+.30
+    MP_trigger - Starten der HS#2 am MP
+
+    @031[MP_trigger] (enable,mp_ident,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  mp_ident  : LONG          Ident-Nummer des Multiprozessors
+                                  (von @020[MP_ident]).
+    <-  @035[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion MP_trigger() k”nnen Sie am Multiprozessor mit der ange-
+    gebenen Ident-Nummer ("mp_ident") einen Interrupt ausl”sen, der die MP-HSTC
+    startet. Ist die MP-HSTC noch nicht bereit, wird am Ausgang "status" die
+    Fehlernummer 6354 ausgegeben.
+    Die Funktion MP_trigger() kann nur auf der CPU verwendet werden!
+    Ein fehlerfreier Aufruf der Funktion MP_trigger() ist nur m”glich, wenn
+    am Multiprozessor die MP-HSTC konfiguriert ist.
+
+
+
+                                     @031[ Fortsetzung ]                   @001[ šbersicht ]
+.31
+    MP_trigger - Starten der HS#2 am MP (Fortsetzung)
+
+    Weitere Informationen zum Thema "MP-HSTC" finden Sie im "B&R SYSTEM 2000
+    System-Software Referenzhandbuch".
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.35
+    MP_trigger - Starten der HS#2 am MP (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion MP_trigger():
+    6354    MP-HSTC-Zyklus noch nicht fertig
+    6355    Keine MP-HSTC am MP installiert bzw. gestartet
+
+    Eine Liste aller m”glichen Fehlermeldungen der Multiprozessor-Library
+    finden Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+
+
+
+                                     @030[ MP_trigger ]                    @001[ šbersicht ]
+.40
+    MP_ready - Prfen, ob die HS#2 am MP bereit ist
+
+    @040[MP_ready] (enable,mp_ident,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  mp_ident  : LONG          Ident-Nummer des Multiprozessors
+                                  (von @020[MP_ident]).
+    <-  @045[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion MP_ready() k”nnen Sie feststellen, ob die MP-HSTC am
+    Multiprozessor mit der angegebenen Ident-Nummer ("mp_ident") bereit ist,
+    d.h. ob der letzte MP-HSTC-Zyklus abgeschlossen ist. Ist die MP-HSTC noch
+    nicht bereit, wird am Ausgang "status" die Fehlernummer 6354 ausgegeben.
+    Die Funktion MP_ready() kann nur auf der CPU verwendet werden!
+    Ein fehlerfreier Aufruf der Funktion MP_ready() ist nur m”glich, wenn
+    am Multiprozessor die MP-HSTC konfiguriert ist (schlagen Sie dazu im
+    Kapitel "Systemkonfiguration" des "B&R SYSTEM 2000 System-Software
+    Referenzhandbuch" nach).
+
+                                                                     @001[ šbersicht ]
+.45
+    MP_ready - Prfen, ob die HS#2 am MP bereit ist (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion MP_ready():
+    6354    MP-HSTC-Zyklus noch nicht fertig
+    6355    Keine MP-HSTC am MP installiert bzw. gestartet
+
+    Eine Liste aller m”glichen Fehlermeldungen der Multiprozessor-Library
+    finden Sie im Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+
+
+
+                                      @040[ MP_ready ]                     @001[ šbersicht ]
+.200
+    ANHANG : LIBRARY-Informationen
+
+
+    @201[< Allgemeines   >]      Voraussetzungen etc.
+
+    @250[< Syntax        >]      Syntax fr die Erkl„rung der Funktionen
+
+    @300[< Fehlernummern >]      Zusammenfassung aller Fehlernummern
+
+    @400[< History       >]      Neue Funktionalit„ten und Versions„nderungen
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.201
+    Multiprozessor-Library : Allgemeines
+
+    Bei Multiprozessoren (MPs) und Parallelprozessoren (PPs) kann neben einer
+    Timer-HSTC auch eine eigene Multiprozessor- bzw. Parallelprozessor-HS-
+    Taskklasse (kurz: MP-HSTC bzw. PP-HSTC) konfiguriert werden.
+    Die MP-HSTC wird nicht durch einen Hardware-Timer, sondern ber die
+    Funktionen der Multiprozessor-Library in der Applikation der Haupt-CPU
+    ausgel”st. Dadurch k”nnen Teile der Applikation auf dem Multiprozessor
+    (synchron zur Haupt-CPU) ausgefhrt werden.
+
+    Anmerkungen:
+    - Bevor Sie die Funktionen der Multiprozessor-Library in Ihrem Projekt
+      verwenden k”nnen, mssen Sie die Library in die entsprechende Projekt-
+      Datenbank importieren.
+
+    - Die Funktionen der Multiprozessor-Library k”nnen nur verwendet werden,
+      wenn der MP-Server (B&R-Modul MPSERVER.BR) sowohl im Anwender-ROM der
+      Haupt-CPU als auch im Anwender-ROM des Multiprozessors vorhanden ist.
+
+
+
+                                     @202[ Fortsetzung ]                   @001[ šbersicht ]
+.202
+    Multiprozessor-Library : Allgemeines (Fortsetzung)
+
+    - Die MP-HSTC wird erst ab BUGFIX 5 der Betriebssystem-Version 1.10
+      (B&R-Modul BUGFIX.BR mit der Versionsnummer 1.15) untersttzt. D.h. die
+      Funktionen der Multiprozessor-Library k”nnen nur aufgerufen werden, wenn
+      das Modul BUGFIX.BR mit der Versionsnummer 1.15 (oder h”her) sowohl im
+      Anwender-ROM der CPU als auch im Anwender-ROM des Multiprozessors vor-
+      handen ist.
+
+    - Da die Multiprozessor-Library AVT-Funktionen enth„lt, k”nnen die Funkti-
+      onen dieser Library nur verwendet werden, wenn das Library-Runtime-Modul
+      im Anwender-ROM der CPU vorhanden ist. Das Runtime-Modul dieser Library
+      ist im B&R-Modul MPSERVER.BR integriert, d.h. es wird mit dem MP-Server
+      auf die CPU bertragen.
+
+    - Alle Funktionen der Multiprozessor-Library liefern im Fehlerfall als
+      Ergebnis eine @300[Fehlernummer].
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.250
+    Multiprozessor-Library : Syntaxbeschreibung
+
+    Datentypen:
+    Fr viele Funktionen sind bestimmte Gruppen von Datentypen zul„ssig. Um
+    bei der Funktionsbeschreibung nicht alle zul„ssigen Datentypen anfhren
+    zu mssen, werden folgende Gruppenbezeichnungen eingefhrt:
+    ÉÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍ»
+    º Gruppe º  BIT  ³ INT8  ³ BYTE  ³ INT16 ³ WORD  ³ INT32 ³ LONG  ³ FLOAT º
+    ÌÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍ¹
+    º BASIS  º       ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º NICHT  º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    º FLOAT  º       ³       ³       ³       ³       ³       ³       ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º ALLE   º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º FELD   º  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  º
+    ÈÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍ¼
+      x  Datentyp ist zul„ssig
+     [x] Datentyp ist zul„ssig als Feldvariable oder Zeichenkette (String)
+
+                                     @251[ Fortsetzung ]                   @001[ šbersicht ]
+.251
+    Multiprozessor-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Pfeile:
+    Fr die Darstellung von Eingangs- und Ausgangsparametern werden Pfeile
+    verwendet. Dabei gilt folgende Vereinbarung:
+    ÉÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º  Pfeil  º  Bedeutung                                                   º
+    ÌÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º   ->    º  Eingangsparameter                                           º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <->   º  Ein-/Ausgangsparameter. Funktionell ist es ein Ausgangs-    º
+    º         º  parameter. šblicherweise wird er aber vor dem Aufruf der    º
+    º         º  Funktion mit einer bestimmten Information geladen (z.B.     º
+    º         º  einer Adresse). Meist wird die Adresse einer Variable mit   º
+    º         º  adr() [PL2000] oder einem Adreákontakt [KOP] angeschlossen. º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <-    º  Ausgangsparameter                                           º
+    ÈÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @252[ Fortsetzung ]                   @001[ šbersicht ]
+.252
+    Multiprozessor-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Funktionsbl”cke:
+    Funktionsbl”cke sind in dieser Online-Hilfe nicht grafisch dargestellt.
+    Sie finden aber alle fr Funktionsbl”cke relevanten Informationen, wie
+    Eingangsparameter (->), Ein-/Ausgangsparameter (<->) und Ausgangsparameter
+    (<-) in der Online-Hilfe.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.300
+    Multiprozessor-Library : Fehlernummern
+
+    Die folgende Liste ist eine Zusammenfassung aller m”glichen Fehlermeldungen
+    der Multiprozessor-Library:
+
+    6354    MP-HSTC-Zyklus noch nicht fertig
+    6355    Keine MP-HSTC am MP installiert bzw. gestartet
+    8016    Referenziertes Systemmodul (Multiprozessor) fehlt
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.400
+    Multiprozessor-Library : History - Versions„nderungen
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.20           ³                                                         º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Erste Version der Online-Hilfe fr die Multiprozessor-Library.            º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+
+.End

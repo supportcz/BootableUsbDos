@@ -1,0 +1,6 @@
+;
+;    Treiberbeschreibungsfile fuer NET2000   
+;
+;Filename      Modulname        
+N2000       00.n2000
+DSN2000		ff.DSn2000  

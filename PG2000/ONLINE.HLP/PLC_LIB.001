@@ -1,0 +1,1960 @@
+%%
+1,0:1
+%%
+.1
+    Functions of the PLC Library
+
+  ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ ATTENTION: As the system library only contains local function blocks      บ
+  บ            (no AVT function blocks!), no library runtime module needs to  บ
+  บ            transferred to the controller.                                 บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+    After the PLC library has been imported, the following function groups
+    are available:
+
+    @020[< Signal Flow               >] Limitation, Hysteresis, Scaling, etc.
+    @090[< Conversion Functions      >] Conversion for data types, etc.
+    @130[< Comparison Functions      >] Comparison of data types, etc.
+    @200[< Real Time Clock Functions >] Daylight saving time On/Off switching, etc.
+
+
+
+
+
+
+                                      @500[ APPENDIX ]                      @999[ End HELP ]
+.20
+    PLC Library - Signal Flow
+
+    Signal flow functions (Limitations, Hysteresis, Scaling, etc.):
+
+    @021[sig_disk]   Discriminator, Tolerance range check, etc.
+    @030[sig_limi]   Upper / Lower Limits
+    @040[sig_PT2H]   Two position controller with hysteresis
+    @050[sig_PT3H]   Three position controller with hysteresis
+    @060[sig_nsca]   Scaling with straight line comparison - n coordinates
+    @070[sig_scal]   Scaling with straight line comparison - 2 coordinates
+    @080[sig_sign]   Signum negative, positive range
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.21
+    sig_disk - Discriminator, Tolerance range check, etc.
+
+    @022[sig_disk] (enable,x_max,x_min,y_on,y_off,x,y_disk)
+
+    Parameter Data Types:
+    ->  enable    : BIT           The FBK is only executed if enable=1
+    ->  x_max     : INT16         Upper switching limit
+    ->  x_min     : INT16         Lower switching limit
+    ->  y_on      : INT16         Upper output value
+    ->  y_off     : INT16         Lower output value
+    ->  x         : INT16         Current analog value
+    <-  y_disk    : INT16         Function dependent output value
+
+    Within a tolerance range of "x_min/x_max" the FBK "Discriminator" outputs
+    the value "y_on". If the analog value "x" falls outside the tolerance
+    range, the value "y_off" is output.
+
+    y_disk = 0          if:     enable = 0
+    y_disk = y_off      if:     x_min >  x >= x_max
+    y_disk = y_on       if:     x_min <= x <  x_max
+
+                                      @022[ continue ]                      @001[ Overview ]
+.22
+    sig_disk - Discriminator, checking tolerance range, etc. (continued)
+
+    Within a tolerance range of "x_min/x_max" the FBK "Discriminator" outputs
+    the value "y_on". If the analog value "x" falls outside the tolerance
+    range, the value "y_off" is output.
+
+                         y
+                        ณ
+    y_on  - - - -ษออออออุออออออป   y_disk = y_off   if:  x_min >  x >= x_max
+                 บ      ณ      บ   y_disk = y_on    if:  x_min <= x <  x_max
+                 บ      ณ      บ
+                 บ      ณ      บ
+    y_off ฤฤฤออออผฤฤฤฤฤฤลฤฤฤฤฤฤศออออฤฤฤฤฤฤฤx
+               x_min    ณ    x_max
+
+
+    If the tolerance range is given a defined time factor, this function block
+    can be used to realize a timed LIMITED CRITERIA. This means that another
+    function can only be enabled during a certain time period "t_min/t_max".
+
+
+    @023[ continue ]                        @021[ sig_disk ]                      @001[ Overview ]
+.23
+    sig_disk - Discriminator, checking tolerance range, etc. (continued)
+
+    Using the function block sig_disk, a TIME CRITICAL PULSE with an optional
+    pulse level and height can be generated depending on a periodical or
+    non-periodical signal:
+
+          x, y
+    y_on ณ-------ษออป-ษป----------ษออป-ษป-----
+         ณ       บ  บ+บบ          บ  บ+บบ
+    x_maxณ-------บ--/-\บ----------บ--/-\บ-----
+    x_minณ_ _ _ _บ/_บ_บ\_ _ _ _ _ บ/_บ_บ\_ _ _
+         ณ      /บ  บ บบ\        /บ  บ บบ\
+         ณ    /  บ  บ บบ \     /  บ  บ บบ \
+         ณ  /    บ  บ บบ  \  /    บ  บ บบ  \
+        ฤล+ออออออผฤฤศอผศอออ+ออออออผฤฤศอผศอออ+อฤฤฤt
+
+    ---  ... given data "y_on/x_max/x_min"
+    อออ  ... y_disk output
+    +/\  ... x input
+
+
+    @020[ Signal Flow ]                     @021[ sig_disk ]                      @001[ Overview ]
+.30
+    sig_limi - Upper and lower limit limitation
+
+    @031[sig_limi] (enable,select,x_max,x_min,x,high,low,y_limi)
+
+    Parameter Data Types:
+    ->  enable    : BIT           The FBK is only executed if enable=1
+    ->  select    : BIT           Enable upper/lower limit monitor
+    ->  x_max     : INT16         Upper switching limit
+    ->  x_min     : INT16         Lower switching limit
+    ->  x         : INT16         Current analog value
+    <-  high      : BIT           Input size "x" is >= "x_max".
+    <-  low       : BIT           Input size "x" is <= "x_min".
+    <-  y_limi    : INT16         Function dependent output value
+
+
+
+
+
+
+
+
+                                      @031[ continue ]                      @001[ Overview ]
+.31
+    sig_limi - Upper and lower limit limitation (continued)
+
+    Input size "x" is monitored with limits "x_max" and "x_min"
+    and is limited depending on the control input "select":
+    y_limi = 0          if:     enable = 0           =>  high = low = 0
+    y_limi = x_max      if:     x >= x_max           =>  high = 1
+    y_limi = x          if:     x_min  < x <  x_max
+    y_limi = x_min      if:     x <= x_min           =>  low  = 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @032[ continue ]                        @030[ sig_limi ]                      @001[ Overview ]
+.32
+    sig_limi - Upper and lower limit limitation (continued)
+
+    Input size "x" is monitored with limits "x_max" and "x_min" and is limited
+    depending on the control input "select" or copied directly to output 
+    "y_limi".
+    y_limi = 0          if:     enable = 0            =>  high = low = 0
+    y_limi = x_max      if:     x >= x_max            =>  high = 1 (low = 0)
+    y_limi = x          if:     x_min  < x <  x_max   =>  high = low = 0
+    y_limi = x_min      if:     x <= x_min            =>  low  = 1 (high = 0)
+
+             x, y
+            ณ
+            ณ ณ              ฺฤฤฟ
+    x_max   ล +อป          ษอฯออุอออออออ y_limi
+            ณ : ศอป      ษอผ    ภฤฤฤฤฤฤฤ Analog value flow x
+    x_min   ล :   ศอัออัอผ
+            ณ :     ภฤฤู
+        ฤฤฤฤลฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤt
+            select=1 (Limit to MAX/MIN value)
+
+
+    @020[ Signal Flow ]                     @030[ sig_limi ]                      @001[ Overview ]
+.40
+    sig_PT2H - Two Position Controller with Hysteresis
+
+    @041[sig_PT2H] (enable,x_start,xs,h,y_max,y_min,x,y_pt2h)
+
+    Parameter Data Types:
+    ->  enable    : BIT           The FBK is only executed if enable=1
+    ->  x_start   : INT16         Select upper/lower switch value after
+                                  First_Scan
+    ->  xs        : INT16         Set value
+    ->  h         : WORD          Hysteresis (switching difference)
+    ->  y_max     : INT16         Upper output value
+    ->  y_min     : INT16         Lower output value
+    ->  x         : INT16         Current analog value
+    <-  y_pt2h    : INT16         Function dependent output value
+
+
+
+
+
+
+
+                                      @041[ continue ]                      @001[ Overview ]
+.41
+    sig_PT2H - Two Position Controller with Hysteresis (continued)
+
+    With two position controllers, two different switching values "y_max/y_min"
+    can be output depending on the status.
+
+    y_pt2h = 0          if:     enable = 0
+    y_pt2h = y_min      if:     x <= (xs - h)
+    y_pt2h = y_max      if:     x >= (xs + h)
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @042[ continue ]                        @040[ sig_PT2H ]                      @001[ Overview ]
+.42
+    sig_PT2H - Two Position Controller with Hysteresis (continued)
+
+    In the switching range "(xs ๑ h)" on the hysteresis line, the output
+    "y_pt2h" depends on which switch level is active at that time 
+    ("y_max/y_min"), and whether the signal "x" is increasing or decreasing
+    (e.g. if the lower switching level "y_min" is active, and "x" increases to
+    the switching range, then the switching limit is "(xs + h)").
+
+
+           y
+          ณ
+          ณ            ณ
+    y_max ล - - - -ษอออุอออหอออออ y_pt2h
+          ณ           ณ   บ
+          ณ        บ   ณ   บ            y_pt2h = y_min  if:  x <= (xs - h)
+          ณ        บ   ณ               y_pt2h = y_max  if:  x >= (xs + h)
+    y_min ล - -ออออสอออุอออผ
+    ฤฤฤฤฤฤลฤฤฤฤฤฤฤฤลฤฤฤลฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤt
+               (xs-h)  xs  (xs+h)
+
+
+    @043[ Special Case ]                    @040[ sig_PT2H ]                      @001[ Overview ]
+.43
+    sig_PT2H - Two Position Controller with Hysteresis (continued)
+
+    SPECIAL CASE Hysteresis = 0:
+    The switching limit is defined exactly with the set value "xs" in this
+    special case. If the analog value exactly reaches the switching limit, the
+    switch is made one time in the respective direction. For another switch to
+    be made, "x" must remain away from the switching limit "xs" for at least
+    one FBK cycle.
+
+           y           if:  x < xs      y_pt2h = y_min
+          ณ                  x > xs      y_pt2h = y_max
+          ณ          ณ       x = xs      single switch of y_min->y_max
+    y_max ล - - - - -ษออออออ             or y_max->y_min.
+          ณ                 x = xs ๑ 1  minimum deviation (e.g. if
+          ณ          บ                   y_pt2h=y_max and x=xs+1) to
+          ณ                             switch at x=xs.
+    y_min ล - -ออออออผ
+    ฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤt
+                     xs
+
+
+    @020[ Signal Flow ]                     @040[ sig_PT2H ]                      @001[ Overview ]
+.50
+    sig_PT3H - Three Position Controller with Hysteresis
+
+    @051[sig_PT3H] (enable,x_start,xs1,xs2,h1,h2,y_max,y_mid,y_min,x,error,y_pt3h)
+
+    Parameter Data Types:
+    ->  enable    : BIT           The FBK is only executed if enable=1
+    ->  x_start   : INT16         Upper/lower switch value select after
+                                  First_Scan
+    ->  xs1       : INT16         Set value 1
+    ->  xs2       : INT16         Set value 2
+    ->  h1        : WORD          Hysteresis 1 (switching difference)
+    ->  h2        : WORD          Hysteresis 2 (switching difference)
+    ->  y_max     : INT16         Upper output value
+    ->  y_mid     : INT16         Middle output value
+    ->  y_min     : INT16         Lower output value
+    ->  x         : INT16         Current analog value
+    ->  @056[error     ]: BIT           Error definitions: 0 = No error
+                                                     1 = Error
+    <-  y_pt3h    : INT16         Function dependent output value
+
+
+                                      @051[ continue ]                      @001[ Overview ]
+.51
+    sig_PT3H - Three Position Controller with Hysteresis (continued)
+
+    ATTENTION:
+    The set value "xs2" must always be higher than "xs1"!
+
+    Three different switching levels "y_max/y_mid/y_min" can be output
+    with a three position controller depending on the status.
+
+    In the switching range "(xs ๑ h)" on the hysteresis line, the output
+    signal "y_pt3h" depends on which switch level is active at that time
+    "y_max/y_mid/y_min", and whether the signal "x" is increasing or decreasing
+    (e.g. if the lower switching level "y_min" is active, and "x" increases
+    to the switching range, then the switching limit is "(xs1 + h1)").
+
+
+
+
+
+
+
+
+    @052[ continue ]                        @050[ sig_PT3H ]                      @001[ Overview ]
+.52
+    sig_PT3H - Three Position Controller with Hysteresis (continued)
+
+    y_pt3h = 0              if:                   enable = 0
+
+    Switching:        Old switch levels:      Switch levels:
+    y_pt3h = y_min    if: y_max/y_mid         x <= (xs1 - h1)
+    y_pt3h = y_mid          y_min             (xs1 + h1) <= x < (xs2 + h2)
+                            y_mid             (xs1 - h1) <  x < (xs2 + h2)
+                            y_max             (xs2 - h2) >= x
+    y_pt3h = y_max          y_min/y_mid       x >= (xs2 + h2)
+
+           y
+    y_max ล - - - - - - - - - - - - ษอออุอออหอออออ
+          ณ                            ณ   
+    y_mid ล - - - -ษอออุอออหออออออออสอออุอออผ
+          ณ           ณ           :   :   :
+    y_min ล - -ออออสอออุอออผ        :   :   :
+    ฤฤฤฤฤฤลฤฤฤฤฤฤฤฤลฤฤฤลฤฤฤลฤฤฤฤฤฤฤฤลฤฤฤลฤฤฤลฤฤฤฤฤฤฤฤt
+             (xs1-h1) xs1 (xs1+h1)  ณ   ณ   ณ
+                              (xs2-h2) xs2 (xs2+h2)
+
+    @053[ Special case 1 ]                  @050[ sig_PT3H ]                      @001[ Overview ]
+.53
+    sig_PT3H - Three Position Controller with Hysteresis (continued)
+
+    SPECIAL CASE Hysteresis = 0:
+    In this case the switching point is exactly the set value "xs". If the
+    analog value reaches the switching point, the y value is switched in the
+    respective direction once. To cause another y value change, "x" must not
+    equal "xs" for at least one FBK cycle.
+
+     if:  x = xs ๑ 1  minimum deviation (e.g. if y_pt3h=y_max and x=xs2+1)
+           y         to cause a switch at x=xs2.
+          ณ
+    y_max ล - - - - - - - - - - - - - - ษอออออ
+          ณ                               Special case:
+          ณ                               * h1 or h2 = 0
+    y_mid ล - - - -ษอออุอออหออออออออออออผ  * h1 and h2 = 0
+          ณ           ณ               :
+    y_min ล - -ออออสอออุอออผ            :
+    ฤฤฤฤฤฤลฤฤฤฤฤฤฤฤลฤฤฤลฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤt
+             (xs1-h1) xs1 (xs1+h1)     xs2
+
+
+    @054[ Special case 2 ]                  @050[ sig_PT3H ]                      @001[ Overview ]
+.54
+    sig_PT3H - Three Position Controller with Hysteresis (continued)
+
+    SPECIAL CASE Hysteresis = 0:
+    A tolerance monitor can be made by carrying out a special definition of
+    the three position controller. If the analog value is within the tolerance
+    range "xs1/xs2", switching value "y_mid = 0" is output. If the analog value
+    falls outside the tolerance range, switching level "y_min = y_max = 1" is
+    output.
+
+           y
+          ณ
+    y_min ณ
+    y_max ล - - อออออออป- - - - - - - - ษอออออ
+          ณ                              Special case:
+          ณ            บ                บ  h1 and h2 = 0
+          ณ            บ                บ  y_min = y_max = 1
+    y_mid ณ                              y_mid = 0
+    ฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤศออออออออออออออออผฤฤฤฤฤฤฤฤฤฤฤฤt
+                       ณ                ณ
+                      xs1              xs2
+
+    @055[ Special case 3 ]                  @050[ sig_PT3H ]                      @001[ Overview ]
+.55
+    sig_PT3H - Three Position Controller with Hysteresis (continued)
+
+    SPECIAL CASE MIXED Hysteresis:
+    Depending on the parameters defined, various special hysteresis curves can
+    be obtained. Signal flow direction should be considered in this case.
+
+           y
+          ณ
+          ณ
+    y_max ล - - -ฺฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤษอออออ
+          ณ                  ณ            บ  Special case:
+          ณ      ณ            ณ              Mixed Hysteresis
+    y_mid ล - - -ณ-ฺฤฤฤลฤฤษออุออออออออออออผ
+          ณ      ณ    ณ     :            :
+    y_min ล - -ออฯอฯอออุอออผ  :            :
+    ฤฤฤฤฤฤลฤฤฤฤฤฤลฤลฤฤฤลฤฤฤลฤฤลฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤt
+             (xs1-h1) xs1 (xs1+h1)         ณ
+                 ณ            ณ            ณ
+           (xs2-h2)          xs2        (xs2+h2)
+
+
+    @020[ Signal flow ]                     @050[ sig_PT3H ]                      @001[ Overview ]
+.56
+    sig_PT3H - Three Position Controller with Hysteresis (continued)
+
+    PT3H ERROR DEFINITION:
+    The defined set value "xs1" must always be less than "xs2" !!
+    If this condition is not met, the FBK output "error" is set, the FBK is not
+    executed and the value of "y_pt3h" is set to equal zero.
+
+                     y_pt3h = 0  and  error = 1    if:  xs1 > xs2
+           y
+          ณ
+          ณ
+    y_max ล - - - -ษอออุอออหออออออออออออออออออออ
+          ณ           ณ   บ                    ERROR CASE:
+          ณ        บ   ณ                       xs2 < xs1
+    y_mid ล - - - -ศอออุอออสออออออออหอออุอออป
+          ณ        :   :   :           ณ   
+    y_min ล - -อออออออออออออออออออออสอออุอออผ
+   ฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤลฤฤฤลฤฤฤลฤฤฤฤฤฤฤฤลฤฤฤลฤฤฤลฤฤฤฤฤฤฤฤt
+                   ณ   ณ   ณ  (xs1-h1) xs1 (xs1+h1)
+             (xs2-h2) xs2 (xs2+h2)
+
+                                      @050[ sig_PT3H ]                      @001[ Overview ]
+.60
+    sig_nsca - Scaling on a straight line, n coordinates
+
+    @061[sig_nsca] (enable,n,param,x,error,active,exceed,y_nsca)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if
+                                  enable = 1.
+    ->  n         : WORD          Number of coordinates (x/y value pairs).
+    ->  @062[param     ]: LONG          Start address of the scaling parameter.
+    ->  x         : INT16         Current analog value.
+    <-  @063[error     ]: BIT           Error definition: 0 = no error
+                                                    1 = error
+    <-  active    : BIT           Output active=1, if the FBK is being
+                                  processed.
+    <-  exceed    : BIT           Output exceed=1, if x < x1 or > xn.
+    <-  y_nsca    : INT16         Function dependent output value.
+
+    The curve of calculation is defined by "n" coordinates (xi, yi) with
+    1 <= i <= n. The coordinates essential to interpolation are determined
+    through a successive approximation. A complete calculation is done every
+    program cycle.
+                                      @061[ continue ]                      @001[ Overview ]
+.61
+    sig_nsca - Scaling on a straight line, n coordinates (continued)
+
+    The FBK calculates input size x according to the linearization in
+    corresponding intervals (y(i) = k * x(i) + d). If x is higher than or lower
+    than x1, the interval [x(n-1), xn] or interval [x1, x2] will be used for
+    the interpolation and the "exceed" output will be set !
+
+           y                             y(i) = k * x(i) + d
+    y(4) ฤล--------------------------+
+          ณ                         /:    k = (y(i+1) - y(i)) / (x(i+1) - x(i))
+          ณ                       /  :
+    y(3) ฤล---------------------+    :
+          ณ                   / :    :    The calculation curve is defined
+          ณ                /    :    :    through "n" coordinates:
+    y(2) ฤล--------------+      :    :
+          ณ             /:      :    :    (xi, yi)  whereas:  1 <= i <= n
+    y(1) ฤล------------+ :      :    :
+        ฤฤลฤฤฤฤฤฤฤฤฤฤฤฤลฤลฤฤฤฤฤฤลฤฤฤฤลฤฤฤฤฤฤ x
+                    x(1) x(2)   x(3) x(4)            Example: n = 4
+
+
+    @020[ Signal Flow ]                     @060[ sig_nsca ]                      @001[ Overview ]
+.62
+    sig_nsca - Scaling on a straight line, n coordinates (continued)
+
+    -> Parameter <param     >: LONG
+
+    Start address for scaling parameters:
+    x1       : INT16            - Coordinate 1 X-coordinate
+    y1       : INT16            - Coordinate 1 Y-coordinate
+    x2       : INT16            - Coordinate 2 X-coordinate
+    y2       : INT16            - Coordinate 2 Y-coordinate
+    :          :                  :
+    xn       : INT16            - Coordinate n X-coordinate
+    yn       : INT16            - Coordinate n Y-coordinate
+    xi, yi ... coordinates of the linearization curve
+
+    - The number (n) of x/y coordinates is entered to FBK input "n".
+    - The "x" coordinates must be defined in sequence (low to high CONTINUOUS)
+      to allow a proper determination of the current coordinate.
+    - At least 2 coordinates must be defined, otherwise the "error" FBK output
+      is set.
+
+
+                                      @060[ sig_nsca ]                      @001[ Overview ]
+.63
+    sig_nsca - Scaling on a straight line, n coordinates (continued)
+
+    PREREQUISITES and ERROR PARAMETER DEFINITION:
+    - The "x" coordinates must be defined in sequence (low to high CONTINUOUS)
+      to allow a proper determination of the current coordinate.
+    - At least 2 coordinates must be defined, otherwise the "error" FBK output
+      is set.
+    - A division by ZERO will also set the "error" output. This error can occur
+      during operation if (x(i+1) - x(i)) = 0 occurs i.e. two neighbouring
+      coordinates may NOT have THE SAME "x" value.
+      ==> Configuration with straight line equations is not possible!
+    - If Error occurs "error=1" wird:     active = 0
+                                          exceed = 0
+                                          y_nsca = 0  is set!
+    - FBK not enabled "enable=0":         y_nsca = x  and no control over the
+                                                      FBK inputs!
+
+
+
+
+
+                                      @060[ sig_nsca ]                      @001[ Overview ]
+.70
+    sig_scal - Scaling on a straight line - 2 Coordinates
+
+    @071[sig_scal] (enable,param,x,error,active,y_scal)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1.
+    ->  @072[param     ]: LONG          Start address of the scaling parameters.
+    ->  x         : INT16         Current analog value.
+    <-  @073[error     ]: BIT           Error parameters: 0 = no error
+                                                    1 = error
+    <-  active    : BIT           Output active=1, if FBK is being processed.
+    <-  y_scal    : INT16         Function dependent output value.
+
+
+
+
+
+
+
+
+                                      @071[ continue ]                      @001[ Overview ]
+.71
+    sig_scal - Scaling on a straight line - 2 Coordinates (continued)
+
+    The calculation curve is defined with 2 coordinates (x1, y1) and (x2, y2).
+    The FBK converts the INT16 value x to INT16 value "y_scal" according to the
+    following straight line equation.
+
+           y                          y = k * x + d
+    y(2) ฤล--------------------+
+          ณ                   /:       k = (y2 - y1) / (x2 - x1)
+          ณ                 /  :
+          ณ               /    :
+          ณ             /      :
+          ณ           /        :
+          ณ         /          :
+    y(1) ฤล-------+            :
+    ฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤ x
+                x(1)         x(2)
+
+
+
+
+    @020[ Signal Flow ]                     @070[ sig_scal ]                      @001[ Overview ]
+.72
+    sig_scal - Scaling on a straight line - 2 Coordinates (continued)
+
+    -> Parameter <param     >: LONG
+
+    Start address for scaling parameters:
+    x1       : INT16            - coordinate 1 X coordinate
+    y1       : INT16            - coordinate 1 Y coordinate
+    x2       : INT16            - coordinate 2 X coordinate
+    y2       : INT16            - coordinate 2 Y coordinate
+    xi, yi ... coordinates of the linearization curve
+
+
+
+
+
+
+
+
+
+
+
+                                      @070[ sig_scal ]                      @001[ Overview ]
+.73
+    sig_scal - Scaling on a straight line - 2 Coordinates (continued)
+
+    ERROR PARAMETER DEFINITION and FBK output "y_scal":
+    - FBK output "error" is set with a division by ZERO.
+      This error is possible during operation if (x2 - x1) = 0 occurs
+      i.e. two neighboring coordinates may NOT have THE SAME "x" value.
+    - If an ERROR "error=1" occurs:       active = 0
+                                          y_scal = 0  is set!
+    - FBK not enabled "enable=0":         y_scal = x  and no control over the
+                                                      FBK inputs!
+
+
+
+
+
+
+
+
+
+
+
+                                      @070[ sig_scal ]                      @001[ Overview ]
+.80
+    sig_sign - Signum negative/positive area
+
+    @081[sig_sign] (enable,x,y_sign)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1.
+    ->  x         : INT16         Current analog value.
+    <-  y_sign    : INT16         Function dependent output value.
+
+    The connected analog value "x" is checked for its validity. If the analog
+    value lies in the positive area, value 1 is output.
+
+    y_sign = 0     if:     enable = 0
+
+    y_sign = 1     if:       x > 0
+    y_sign = 0               x = 0
+    y_sign = -1              x < 0
+
+
+
+                                      @081[ continue ]                      @001[ Overview ]
+.81
+    sig_sign - Signum negative/positive area (continued)
+
+    The connected analog value "x" is checked for its validity. If the analog
+    value lies in the positive area, value 1 is output.
+
+
+                                      y_sign = 1       if:     x > 0
+                                      y_sign = 0               x = 0
+                                      y_sign = -1              x < 0
+                  y
+                 ณ
+                 ษออออออออออ  +1
+                 บ
+                 บ
+    ฤฤฤฤฤฤฤฤฤฤฤฤฤบฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤx
+                 บ 0
+                 บ
+       ออออออออออผ - - - - -  -1
+                 ณ
+
+
+    @020[ Signal Flow ]                     @080[ sig_sign ]                      @001[ Overview ]
+.90
+    PLC-Library - Conversion Functions
+
+    Conversion Functions(convert data types, units of measurement, etc.):
+
+    @091[AI_4_20 ]   Convert a 0-20 mA analog input as a 4-20 mA input
+    @100[AO_4_20 ]   Convert a 0-20 mA analog output as a 4-20 mA output
+    @110[met_to_i]   Convert millimeter -> inch (metric/inch)
+    @120[i_to_met]   Convert inch -> millimeter (inch/metric)
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.91
+    AI_4_20 - 0-20 mA analog input -> 4-20 mA input
+
+    @092[AI_4_20] (enable,IN,OUT)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if
+                                  enable = 1.
+    ->  IN        : INT16         0-20 mA value range of analog input.
+    <-  OUT       : INT16         Converted 4-20 mA value range of analog
+                                  input.
+
+    The FBK AI_4_20() converts the 0-20mA value range of an analog input to a
+    4-20mA value range.
+
+    If the input "enable" =0, the input "IN" is copied to the output "OUT".
+
+
+
+
+
+
+                                      @092[ continue ]                      @001[ Overview ]
+.92
+    AI_4_20 - 0-20 mA analog input -> 4-20 mA input (continued)
+
+    The FBK AI_4_20() converts the 0-20mA value range of an analog input to a
+    4-20mA value range:
+
+    OUT = IN                    if:     enable = 0
+
+    OUT = convert to IN         if:     enable = 1
+
+            IN
+    32767 ฤล----------+
+           ณ         /:
+           ณ       /  :
+           ณ     /    :
+           ณ   /      :
+           ณ /        :
+     6554 ฤล          :
+       0 ฤฤลฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤ OUT
+           0        32767
+
+
+    @090[ Conversion Functions ]             @091[ AI_4_20 ]                      @001[ Overview ]
+.100
+    AO_4_20 - 0-20 mA analog output -> 4-20 mA output
+
+    @101[AO_4_20] (enable,IN,OUT)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1.
+    ->  IN        : INT16         0-20 mA value range of analog output.
+    <-  OUT       : INT16         Converted 4-20 mA value range of analog 
+                                  output.
+
+    The FBK AO_4_20() converts the 0-20mA value range of an analog input to a
+    4-20mA value range.
+
+    If the input "enable" =0, the input "IN" is copied to the output "OUT".
+
+
+
+
+
+
+                                      @101[ continue ]                      @001[ Overview ]
+.101
+    AO_4_20 - 0-20 mA analog output -> 4-20 mA output (continued)
+
+    The FBK AO_4_20() converts the 0-20mA value range of an analog input to a
+    4-20mA value range:
+
+    OUT = IN                   if:     enable = 0
+
+    OUT = convert to IN        if:     enable = 1
+
+            IN
+    32767 ฤล--------------------+
+           ณ                   /:
+           ณ                 /  :
+           ณ               /    :
+           ณ             /      :
+           ณ           /        :
+           ณ         /          :
+       0 ฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤ OUT
+           0      6554        32767
+
+
+    @090[ Conversion Functions ]             @100[ AO_4_20 ]                      @001[ Overview ]
+.110
+    met_to_i - Convert Millimeter -> Inch
+
+    @111[met_to_i] (enable,mm,exp_mm,exp_inch,inch)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1.
+    ->  mm        : INT32         Input for Millimeter value (Mantissa).
+    ->  exp_mm    : INT8          Exponential to the power 10 of the mm value.
+    ->  exp_inch  : INT8          Exponential to the power 10 of inch value.
+    <-  inch      : INT32         Inch value output (Mantissa).
+
+    The FBK met_to_i() converts millimeter values to inch values.
+    The resolution can be defined according to the exponential of both systems
+    of measurement. A complete conversion is done with every program cycle.
+    The run-time is mainly determined by the difference in the two exponential
+    powers. If the input "enable=0", the FBK output is set to zero.
+
+
+
+
+                                       @111[ Example ]                      @001[ Overview ]
+.111
+    met_to_i - Convert Millimeter -> Inch (continued) 
+
+    Example:
+    313.690 mm with a resolution of 1/1000 mm (= 10^-3) should be converted
+    to an inch value with a resolution of 1/100 inches (= 10^-2) inches.
+
+      enable   = 1
+      mm       = 313690
+      exp_mm   = -3               ; 10s power of the mm value
+      exp_inch = -2               ; 10s power of the inch value
+      met_to_i (enable,mm,exp_mm,exp_inch,inch)
+
+    The FBK returns the result 1235.
+
+    313.690 mm (313690 * 10^-3) corresponds to 1235 * 10^-2 inch = 12.35 inch.
+
+
+
+
+
+
+    @090[ Conversion Functions ]            @110[ met_to_i ]                      @001[ Overview ]
+.120
+    i_to_met - Convert Inch -> Millimeter
+
+    @121[i_to_met] (enable,inch,exp_inch,exp_mm,mm)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1.
+    ->  inch      : INT32         Input for inch value (Mantissa).
+    ->  exp_inch  : INT8          Exponential to the power 10 of the inch
+                                  value.
+    ->  exp_mm    : INT8          Exponential to the power 10 of the mm value.
+    <-  mm        : INT32         Output of millimeter value (Mantissa).
+
+    The FBK converts inch values to millimeter values. The resolution can be 
+    defined according to the exponential of both systems of measurement. 
+    A complete conversion is done with every program cycle. The run-time is 
+    mainly determined by the difference in the two exponential powers.
+    If the input "enable=0", the FBK output "mm" is set to zero.
+
+
+
+                                       @121[ Example ]                      @001[ Overview ]
+.121
+    i_to_met - Convert Inch -> Millimeter (continued)
+
+    Example:
+    The value 12.35 inches with a resolution of 1/100 inch (= 10^-2) should be 
+    converted to metric with a resolution of 1/1000 mm (= 10^-3).
+
+      enable   = 1
+      inch     = 1235
+      exp_inch = -2               ; 10s power of the inch value
+      exp_mm   = -3               ; 10s power of the mm value
+      i_to_met (enable,inch,exp_inch,exp_mm,mm)
+
+
+    The FBK returns the result 313690.
+
+    12.35 inches(1235 * 10^-2 inches) corresponds to 
+    313690 * 10^-3 mm = 313.690 mm.
+
+
+
+
+    @090[ Conversion Functions ]            @120[ i_to_met ]                      @001[ Overview ]
+.130
+    PLC Library - Compare Functions
+
+    Compare Functions (compare data types, select according to different 
+    criteria etc.):
+
+    @131[cmp_2I16]   Compare two INT16 values
+
+    @140[sel_bit ]   Read a Bit from a Variable
+    @150[sel_high]   Select between two INT16 values
+    @160[sel_tmax]   Timed Maximum or limiting a minimum value
+    @170[sel_tmin]   Timed Minimum or limiting a maximum value
+    @180[sel_1of2]   Select INT16 values (1 of 2)
+    @190[sel_1of4]   Select INT16 values (1 of 4; cascadable)
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.131
+    cmp_2I16 - Compare INT16 values 
+
+    @132[cmp_2I16] (enable,data_a,data_b,a_gt_b,a_eq_b,a_lt_b)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1.
+    ->  data_a    : INT16         Input value 1
+    ->  data_b    : INT16         Input value 2
+    <-  a_gt_b    : BIT           data_a > data_b
+    <-  a_eq_b    : BIT           data_a = data_b
+    <-  a_lt_b    : BIT           data_a < data_b
+
+    The FBK cmp_2I16() compares two INT16 values and sets one of the three
+    FBK outputs depending on the result of the compare. A comparison is made
+    with every program cycle.
+
+    If input "enable"=0, all outputs are set to ZERO.
+
+
+
+                                       @132[ Example ]                      @001[ Overview ]
+.132
+    PLC Library - Example 2 Compare INT16 values
+
+    Example:
+    Two INT16 values are compared. Statistic counters increase depending on the 
+    outcome.
+
+      cmp_2I16 (1,data_a,data_b,a_gt_b,a_eq_b,a_lt_b)
+
+      if a_gt_b = 1 then
+          more_count = more_count + 1         ; data_a > data_b
+      else if a_lt_b = 1 then
+          less_count = less_count + 1         ; data_a < data_b
+      else
+          equal_count = equal_count + 1       ; data_a = data_b
+      endif
+
+
+
+
+
+
+    @130[ Compare Functions ]               @131[ cmp_2I16 ]                      @001[ Overview ]
+.140
+    sel_bit - Read a Bit from a Variable
+
+    @141[sel_bit] (enable,select,data,bit_val)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1.
+    ->  select    : BYTE          Desired Bit number (0 to 31).
+    ->  data      : LONG          Variable
+    <-  bit_val   : BIT           Masked Bit.
+
+    The Bit is masked out with the offset "select" from the variable "data"
+    and output to FBK output "bit_val".
+
+    If the input "enable=0", the FBK output "bit_val" is set to ZERO.
+
+
+
+
+
+
+                                       @141[ Example ]                      @001[ Overview ]
+.141
+    sel_bit - Read a Bit from a Variable (continued)
+
+    Example:
+    The highest value bit (bit with the offset "select=15") should be masked
+    out of an INT16 variable.
+
+      select = 15                 ; Highest value bit of an INT16 variable
+      sel_bit (1,select,data,bit_val)
+      ; If the value of "bit_val"=1, the value of "data" is negative
+      
+
+
+
+
+
+
+
+
+
+
+
+    @130[ Compare Functions ]                @140[ sel_bit ]                      @001[ Overview ]
+.150
+    sel_high - Select between two INT16 values
+
+    @151[sel_high] (enable,data_a,data_b,data_hi,data_lo)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1.
+    ->  data_a    : INT16         Input value 1
+    ->  data_b    : INT16         Input value 2
+    <-  data_hi   : INT16         Largest of the two input sizes.
+    <-  data_lo   : INT16         Smallest of the two input sizes.
+
+    The larger of the two input sizes is copied to the output "data_hi" and
+    the smaller copied to output "data_lo". A sort is made with every program
+    cycle.
+
+    If input "enable"= 0, all outputs are set to ZERO.
+
+
+
+
+                                       @151[ Example ]                      @001[ Overview ]
+.151
+    sel_high - Select between two INT16 values (continued)
+
+    Example:
+    The highest value of either "data_a" or "data_b", should be passed on to
+    another function.
+
+      sel_high (1,data_a,data_b,data_hi,data_lo)
+      ; The highest of the two values "data_a/data_b" is always output to
+      ; output "data_hi".
+
+
+
+
+
+
+
+
+
+
+
+
+    @130[ Compare Functions ]               @150[ sel_high ]                      @001[ Overview ]
+.160
+    sel_tmax - Timed Maximum or Limiting a Minimum Value
+
+    @161[sel_tmax] (enable,preset,y_start,y,y_tmax)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1.
+    ->  preset    : BIT           y_tmax reset to start value "y_start"
+                                  As long as "preset" remains set, "y_start"
+                                  is evaluated as the existing maximum value.
+    ->  y_start   : INT16         Start value of y_tmax after First-Scan or
+                                  when the "preset" input is set.
+    ->  y         : INT16         Analog value
+    <-  y_tmax    : INT16         Maximum analog value of "y" output.
+
+    The minimum value of "y" that occurs in cyclic operation is output to FBK
+    output "y_tmax". Entering a new minimum value in cyclic operation is done
+    by using "preset" and "y_start.
+    If input "enable"=0, the FBK output "y_tmax" is set to ZERO.
+
+
+                                      @161[ continue ]                      @001[ Overview ]
+.161
+    sel_tmax - Timed Maximum or Limiting a Minimum Value (continued)
+
+    The start maximum value "y_start" is set automatically during the
+    First_Scan when "enable=1" (also after "enable=0"), without setting
+    "preset".
+    The FBK input "preset" is meant for entering a new minimum value for
+    cyclic operation.
+
+
+             y
+            ณ
+            ณ ณ              ษออัอออออออ y_tmax
+    y_start ล +อัออออออออออัอผ  ณ
+            ณ : ภฤฟ      ฺฤู    ภฤฤฤฤฤฤฤ Analog value y
+            ณ :   ภฤฟ  ฺฤู
+            ณ :     ภฤฤู
+        ฤฤฤฤลฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤt
+            preset=1 (ONLY for one FBK call)
+
+
+
+    @162[ continue ]                        @160[ sel_tmax ]                      @001[ Overview ]
+.162
+    sel_tmax - Timed Maximum or Limiting a Minimum Value (continued)
+
+    As long as FBK input "preset" remains set, the FBK sel_tmax() works like a
+    limitation of a maximum value:
+
+
+             y
+            ณ
+            ณ ณ              ษออป
+    y_start ล +อัออออออออออัอผ  ศอออออออ y_tmax (MINIMUM y_start)
+            ณ : ภฤฟ      ฺฤู    ภฤฤฤฤฤฤฤ Analog value y
+            ณ :   ภฤฟ  ฺฤู
+            ณ :     ภฤฤู
+        ฤฤฤฤลฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤt
+            preset always 1
+
+
+
+
+
+
+    @130[ Compare Functions ]               @160[ sel_tmax ]                      @001[ Overview ]
+.170
+    sel_tmin - Timed Minimum or Limiting a Maximal Value
+
+    @171[sel_tmin] (enable,preset,y_start,y,y_tmin)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1.
+    ->  preset    : BIT           Reset y_tmin to start value "y_start".
+                                  As long as "preset" remains set, "y_start" is
+                                  evaluated as the existing minimum value.
+    ->  y_start   : INT16         Start value of y_tmin after First-Scan or
+                                  when the "preset" input is set.
+    ->  y         : INT16         Analog value
+    <-  y_tmin    : INT16         Minimum analog value of "y" output.
+
+    The minimum value of "y" that occurs in cyclic operation is output to
+    FBK output "y_tmin". Entering a new minimum value in cyclic operation is 
+    done by means of "preset" and "y_start".
+    If input "enable"=0, the FBK output "y_tmin" is set to ZERO.
+
+
+                                      @171[ continue ]                      @001[ Overview ]
+.171
+    sel_tmin - Timed Minimum or Limiting a Maximal Value (continued)
+
+    The start minimum value "y_start" is set automatically during the
+    First_Scan when "enable=1" (also after "enable=0"), without setting
+    "preset".
+    The FBK input "preset" is meant for entering a new maximum value for
+    cyclic operation.
+
+
+             y
+            ณ
+            ณ ณ              ฺฤฤฟ
+    y_start ล +อป          ฺฤู  ณ
+            ณ : ศอป      ฺฤู    ภฤฤฤฤฤฤฤ Analog value y
+            ณ :   ศอป  ฺฤู
+            ณ :     ศออฯออออออออออออออออ y_tmin
+        ฤฤฤฤลฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤt
+            preset=1 (ONLY for FBK call)
+
+
+
+    @172[ continue ]                        @170[ sel_tmin ]                      @001[ Overview ]
+.172
+    sel_tmin - Timed Minimum or Limiting a Maximal Value (continued)
+
+    As long as FBK input "preset" remains set, the FBK sel_tmin() functions as 
+    a limitation of a maximum value:
+
+
+             y
+            ณ
+            ณ ณ              ฺฤฤฟ
+    y_start ล +อป          ษอฯออุอออออออ y_tmin (MAXIMUM y_start)
+            ณ : ศอป      ษอผ    ภฤฤฤฤฤฤฤ Analog value y
+            ณ :   ศอป  ษอผ
+            ณ :     ศออผ
+        ฤฤฤฤลฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤt
+            preset always 1
+
+
+
+
+
+
+    @130[ Compare Functions ]               @170[ sel_tmin ]                      @001[ Overview ]
+.180
+    sel_1of2 - Selecting 1 of 2 INT16 values
+
+    @180[sel_1of2] (enable,select,data_a,data_b,data_out)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1.
+    ->  select    : BIT           Select an FBK input size:
+                                  select = 0 -> data_a
+                                  select = 1 -> data_b
+    ->  data_a    : INT16         Input value 1 (select = 0)
+    ->  data_b    : INT16         Input value 2 (select = 1)
+    <-  data_out  : INT16         Output size
+
+    One of two input sizes is selected and copied to the output "data_out".
+    Selection is done with the "select" input ("select" = 0 -> "data_a",
+    "select" = 1 -> "data_b").
+    If "enable" is set to 0, "data_out"=0 is set.
+
+
+
+                                  @130[ Compare Functions ]                 @001[ Overview ]
+.190
+    sel_1of4 - Select 1 INT16 value from 4 INT16 values
+
+    @191[sel_1of4] (enable,select,data_a,data_b,data_c,data_d,cascade,data_out)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1.
+    ->  select    : BYTE          Select an FBK input value:
+                                  select = 0 -> data_a
+                                  select = 1 -> data_b
+                                  select = 2 -> data_c
+                                  select = 3 -> data_d
+    ->  data_a    : INT16         Input value 1 (select = 0)
+    ->  data_b    : INT16         Input value 2 (select = 1)
+    ->  data_c    : INT16         Input value 3 (select = 2)
+    ->  data_d    : INT16         Input value 4 (select = 3)
+    <-  cascade   : BYTE          Output for cascading several FBKs.
+    <-  data_out  : INT16         Output size
+
+
+
+                                      @191[ continue ]                      @001[ Overview ]
+.191
+    sel_1of4 - Select 1 INT16 value from 4 INT16 values (continued)
+
+    Select 1 of 4 input values to be copied to the output "data_out".
+    Selection is carried out with the "select" input ("select" = 0 ->
+    "data_a", "select" = 1 -> "data_b", etc.).
+    If the input "enable" is set to 0, "data_out"=0 is set.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @192[ continue ]                        @190[ sel_1of4 ]                      @001[ Overview ]
+.192
+    sel_1of4 - Select 1 INT16 value from 4 INT16 values (continued)
+
+    CASCADING:
+    Up to a maximum of 83 FBKs can be cascaded according to the following 
+    diagram:
+                                  * cascade = 0           if: select <= 3
+             ฺฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฟ  * cascade = select - 3      select >  3
+             ณ        sel_1of4 ณ
+             รฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤด   enable
+    enable  ฤด enable          ณ     ณ  ฺฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฟ
+    select  ฤด select          ณ     ณ  ณ        sel_1of4 ณ
+     #0     ฤด data_a          ณ     ณ  รฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤด
+     #1     ฤด data_b          ณ     ภฤฤด enable          ณ
+     #2     ฤด data_c  cascade รฤฤฤฤฤฤฤฤด select          ณ
+     #3     ฤด data_d data_out รฤฤฤฤฤฤฤฤด data_a          ณ
+             ภฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤู  #4   ฤด data_b          ณ
+                                  #5   ฤด data_c  cascade รฤ
+                                  #6   ฤด data_d data_out รฤ  out
+                                        ภฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤู
+    ATTENTION: The "enable" input must be connected on every FBK!
+
+    @130[ Compare Functions ]               @190[ sel_1of4 ]                      @001[ Overview ]
+.200
+    PLC-Library - Real Time Clock Functions
+
+    Real Time Clock Functions (DST - Normal Time Switch , etc.):
+
+    @201[RTC_bfix]   Changing the Real Time Clock in Milliseconds
+    @210[RTC_snC ]   Calculation for Daylight Saving Time Switch
+    @220[RTC_snF ]   DST - Normal Time Switch 
+
+
+
+
+
+
+
+    ATTENTION:
+    The PLC library RTC functions require the BURTRAP library functions
+    RTC_gettime(), RTC_settime() and SYS_info(). This means that RTC 
+    functions can only be used if the BURTRAP library Runtime module 
+    (B&R module BURTRAP.BR) is available in the controllers non-volatile 
+    memory (Application ROM).
+
+                                                                      @001[ Overview ]
+.201
+    RTC_bfix - Changing the Real Time Clock in Milliseconds
+
+    @202[RTC_bfix] (enable,err_msec,status)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1.
+    ->  err_msec  : INT32         RTC correction value 
+    <-  @204[status    ]: WORD          Error number (0 = no error)
+
+    The real-time clock is corrected at 1:07 o'clock by a defined correction
+    value "err_msec". The out of the ordinary time (1:07) should avoid any
+    problems caused by time corrections during diverse evaluation programs.
+    If the input "enable"=0, all output are set to ZERO.
+    MAXIMUM Correction Time:  ๑2 min ("err_msec" = ๑120.000 msec) per day
+                              ๑1 hour and 6 minutes (๑3.690.000 msec) TOTAL
+    MINIMUM Correction Time:  ๑1 sec (๑1000 msec) during this TOTAL time, no
+                              switch is made. The milliseconds are added up 
+                              and accepted during the next correction cycle).
+
+
+                                      @202[ continue ]                      @001[ Overview ]
+.202
+    RTC_bfix - Changing the Real Time Clock in Milliseconds (continued)
+
+    SWITCHING:
+
+    - The MAXIMUM CORRECTION TIME is ๑2 minutes (๑120.000msec) per day.
+
+    - The MAXIMUM TOTAL CORRECTION VALUE is limited to ๑1 hours and 6 minutes
+      (๑3.690.000msec). If this value is exceeded an error will occur on FBK
+      output "status" and the remaining correction time will be ignored.
+
+    - To standardize this for the 2005/2010 systems (2005 does not support
+      msec.), the correction values are added up, and only switched after a
+      TIME DIFFERENCE of >= 1sec. Remaining msec are added to next correction.
+
+    - If the FBK is NOT ACTIVATED for several days/weeks/months, it corrects 
+      from the last correction date (exact days per month and switching year 
+      are taken into account).
+
+
+
+
+    @203[ continue ]                        @201[ RTC_bfix ]                      @001[ Overview ]
+.203
+    RTC_bfix - Changing the Real Time Clock in Milliseconds (continued)
+
+    SWITCHING:
+
+    - Immediately after a POWER ON or after a WARMSTART, any possible missed
+      corrections are checked for and made if needed. The total correction time
+      is only switched if no date change is found, otherwise the correction is
+      made at the standard time or with a Power ON or WARMSTART.
+
+    - After a DOWNLOAD, or COLDSTART, the current clock time is taken as the
+      correct time and the current date is recorded as the last
+      switching point.
+
+    - The recommended time correction value is MAXIMUM just under 1sec per day.
+      This value can vary according to the system however (i.e. at a
+      correction time of 900msec per day, every 10th day no correction is
+      made and otherwise a correction time of 1 sec per day).
+
+
+
+
+    @200[ RTC Functions ]                   @201[ RTC_bfix ]                      @001[ Overview ]
+.204
+    RTC_bfix - Changing the Real Time Clock in Milliseconds (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers RTC_bfix():
+    2073    No RTC available
+    3313    Invalid B&R Library Version
+    3584    No time available (ERR_BUR_NOTIME)
+    5605    Maximum correction time per day exceeded
+            (invalid value: "err_msec" = 0 or > ๑120.000)
+    5606    Maximum Total correction time exceeded
+            ("err_msec" total > ๑3.690.000)
+
+    A list of all possible PLC library error messages can be found in appendix
+    @600[Error Messages].
+
+
+
+
+
+
+                                      @201[ RTC_bfix ]                      @001[ Overview ]
+.210
+    RTC_snC - Calculation for Daylight Saving Time Switch
+
+    @211[RTC_snC] (enable,adr(nt_to_st),adr(st_to_nt),active,summer,normal)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if
+                                  enable = 1.
+    ->  @214[nt_to_st  ]: RTC_switch    Data for switch to DST
+    ->  @214[st_to_nt  ]: RTC_switch    Data for switch to normal time
+    <-  active    : BIT           Calculation status: 0 = finished
+                                                      1 = calculating
+    <-  @216[summer    ]: LONG          Address for FBK internal DST structure
+    <-  @216[normal    ]: LONG          Address for FBK internal normal time
+                                  structure
+
+    The FBK RTC_snC() calculates "nt_to_st" and "st_to_nt" according to the
+    parameters defined for the respective switching points for the current
+    year. Two structures are set up in the FBK as standard and filled out
+    with the respective data.
+
+
+                                      @211[ continue ]                      @001[ Overview ]
+.211
+    RTC_snC - Calculation for Daylight Saving Time Switch (continued)
+
+    The addresses of these structures are given through FBK outputs "summer"
+    and "normal". Function block RTC_snF() must be transferred to the PCC.
+
+    Notes:
+    - The addresses of the FBK internal SWITCHING STRUCTURES are always given
+      to the outputs "summer" and "normal". This is also valid when input
+      "enable"=0.
+
+    - The standard structured addresses in "summer" and "normal" can be
+      connected directly to FBK RTC_snF() which does the actual switching.
+
+    - Only after a DOWNLOAD, COLDSTART (previously "TOTALINIT") or a change of
+      the input data (including year), a new calculation for the switching 
+      points is carried out.
+      During the calculation, the FBK output "active"=1 remains set.
+      To guarantee consistency of the data, the switching points may only be
+      evaluated when "active"=0 (only required if using RTC_snC() and RTC_snF()
+      in different task classes).
+
+    @212[ continue ]                         @210[ RTC_snC ]                      @001[ Overview ]
+.212
+    RTC_snC - Calculation for Daylight Saving Time Switch (continued)
+
+    Notes:
+
+    - If input "enable"= 0, all data of the FBK internal structures is reset
+      to 0 (this causes an error message of 5600 (invalid year) in the active
+      RTC_snF() FBK, but doesn't cause a function error).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @213[ Example ]                          @210[ RTC_snC ]                      @001[ Overview ]
+.213
+    RTC_snC - Calculation for Daylight Saving Time Switch (continued)
+
+    Example:
+    There is currently no fixed date for switching to and from DST in Europe. 
+    The time change date is decided according to the following criteria:
+
+      ;*** DST start:  LAST weekend in March ***
+      nt_to_st.month = 3  ; DST begins in March
+      nt_to_st.week  = 0  ; Last weekend of the month
+      nt_to_st.day   = 5  ; Switching day is a Saturday
+      nt_to_st.hour  = 4  ; Desired switching hour
+      ;*** DST end:    LAST weekend in September ***
+      st_to_nt.month = 9  ; DST End in September
+      st_to_nt.week  = 0  ; Last weekend of the month
+      st_to_nt.day   = 5  ; Switching day is a Saturday
+      st_to_nt.hour  = 4  ; Desired switching hour
+      ;*** Calculation for switching *** ("summer" and "normal" are LONG PVs)
+      RTC_snC (1,adr(nt_to_st),adr(st_to_nt),snC_activ,summer,normal)
+      ;****************** DST - Normal Time Switch ********************
+      RTC_snF (1,summer,normal,snF_status)
+
+    @200[ RTC Functions ]                    @210[ RTC_snC ]                      @001[ Overview ]
+.214
+    RTC_snC - Calculation for Daylight Saving Time Switch (continued)
+
+    ->  Parameter <nt_to_st  >: RTC_switch structure and
+    ->  Parameter <st_to_nt  >: RTC_switch structure
+
+    "RTC_switch" structure:
+    month      : BYTE           Switching month (1 to 12). Limited to 12 i.e.
+                                value > 12 corresponds to 12.
+    week       : BYTE           Week in month (0 to 6). Limited to 6 i.e. 
+                                value > 6 corresponds to 0.
+                                0 = LAST week
+                                1 = first week
+                                :
+    day        : BYTE           Weekday (0 to 6). Limited to Modulo of 7
+                                (rest are multiples of 7) i.e. 7 corresponds to
+                                0, 11 corresponds to 4, etc.
+                                0 = Monday
+                                :
+                                6 = Sunday
+    hour       : BYTE           Switching hour
+
+                                      @215[ continue ]                      @001[ Overview ]
+.215
+    RTC_snC - Calculation for Daylight Saving Time Switch (continued)
+
+    The respective switching times "nt_to_st" and "st_to_nt" for the current
+    year are calculated according to these parameters and entered in the FBK
+    internal structure.
+    Since the FBK RTC_snC() also takes care of the switching year, the 
+    calculations can be made automatically for every year.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @210[ RTC_snC ]                      @001[ Overview ]
+.216
+    RTC_snC - Calculation for Daylight Saving Time Switch (continued)
+
+    <-  Parameter <summer>: LONG and
+    <-  Parameter <normal>: LONG
+
+    Address for FBK internal DST time structure.
+    Structure FBK internal DST and normal:
+    year       : WORD           Current year given by RTC_gettime()
+    month      : BYTE           Switching  month (obtained from structure 
+                                RTC_switch)
+    day        : BYTE           Calculated switching day (from structure RTC_
+                                switch)
+    reserve    : BYTE           Reserve
+    hour       : BYTE           Switching hour (from structure RTC_switch)
+    minute     : BYTE           Switching minute: always 0
+    millisec   : WORD           always 0 (not evaluated in RTC_snF())
+    microsec   : WORD           always 0 (not evaluated in RTC_snF())
+
+
+
+
+                                      @217[ continue ]                      @001[ Overview ]
+.217
+    RTC_snC - Calculation for Daylight Saving Time Switch (continued)
+
+    The addresses in the FBK internal SWITCHING STRUCTURES are ALWAYS given for
+    the "summer" and "normal" outputs.
+    When "enable"=0, all data of the FBK internal structures are reset to 0.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @210[ RTC_snC ]                      @001[ Overview ]
+.220
+    RTC_snF - DST - Normal Time Switch 
+
+    @221[RTC_snF] (enable,summer,normal,status)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1.
+    ->  @224[summer    ]: LONG          Address of the DST structure.
+    ->  @224[normal    ]: LONG          Address of the Normal time structure.
+    <-  @226[status    ]: WORD          Error number (0 = no error)
+
+    The standard structure addresses "summer" and "normal" of the calculation
+    FBK RTC_snC() can be connected directly to FBK RTC_snF() which executes
+    the actual switching.
+    The FBK RTC_snF() corrects the current time at the two switching times
+    defined. At switching point "summer", the time is set an hour ahead (DST),
+    at switching point "normal", the time is set back an hour (normal time).
+
+
+
+
+                                      @221[ continue ]                      @001[ Overview ]
+.221
+    RTC_snF - Normal Time Switch (continued)
+
+    SWITCHING:
+    - After a DOWNLOAD or COLDSTART (previously "TOTALINIT") the current time
+      is accepted as valid depending on the date (within DST or normal time).
+
+    - After a POWER ON or after a late FBK enable, a required switch is done
+      IMMEDIATELY, or after the tolerance time is exceeded.
+
+      + 1 hour:           latest: 22xx o'clock    Earliest: 0xx o'clock
+      - 1 hour:                   23xx o'clock              1xx o'clock
+
+    - If the FBK isn't activated without the DST time switch until after the
+      Normal time switch, neither switching procedure is performed since the
+      current time in this case is still the normal time and visa versa.
+
+
+
+
+
+
+    @222[ continue ]                         @220[ RTC_snF ]                      @001[ Overview ]
+.222
+    RTC_snF - Normal Time Switch (continued)
+
+    Switching:
+    - If the switching time point should for any reason be changed several
+      times in a year, the following should be taken into consideration. The
+      FBK only switch from DST to normal time or visa versa (i.e. no more than
+      one switch from DST to normal or the other way around on different days
+      in the same year).
+
+    - During the time that the FBK RTC_snC() is inactive, the error message
+      5600 (invalid year) is output to FBK RTC_snF(), but doesn't lead to any
+      function errors. As soon as the FBK RTC_snC() is active again, the FBK
+      RTC_snF() sets the switching point control.
+
+
+
+
+
+
+
+
+    @223[ Example ]                          @220[ RTC_snF ]                      @001[ Overview ]
+.223
+    RTC_snF - Normal Time Switch (continued)
+
+    Example:
+    There is currently no fixed date for switching to and from DST in Europe. 
+    The time change date is decided according to the following criteria:
+
+      ;*** DST start:  LAST weekend in March ***
+      nt_to_st.month = 3  ; DST starts in March
+      nt_to_st.week  = 0  ; last weekend of the month
+      nt_to_st.day   = 5  ; switching day is a Saturday
+      nt_to_st.hour  = 4  ; desired switching hour
+      ;*** DST end:    LAST weekend in September ***
+      st_to_nt.month = 9  ; DST end in September
+      st_to_nt.week  = 0  ; last weekend of the month
+      st_to_nt.day   = 5  ; switching day is a Saturday
+      st_to_nt.hour  = 4  ; desired switching hour
+      ;*** Calculation for switching *** ("summer" and "normal" are LONG PVs)
+      RTC_snC (1,adr(nt_to_st),adr(st_to_nt),snC_activ,summer,normal)
+      ;****************** DST - Normal Time Switch ********************
+      RTC_snF (1,summer,normal,snF_status)
+
+    @200[ RTC Functions ]                    @220[ RTC_snF ]                      @001[ Overview ]
+.224
+    RTC_snF - Normal Time Switch (continued)
+
+    ->  Parameter <summer>: LONG and
+    ->  Parameter <normal>: LONG
+
+    Address of the DST and normal time structure. Structure of DST and normal
+    time:
+    year       : WORD           Year to switch to
+    month      : BYTE           Switching month
+    day        : BYTE           Switching day
+    reserve    : BYTE           Reserve
+    hour       : BYTE           Switching hour
+    minute     : BYTE           Switching minute
+    millisec   : WORD           Is ignored in RTC_snF()
+    microsec   : WORD           Is ignored in RTC_snF()
+
+    Structure addresses "summer" and "normal" from the RTC_snC() FBK can be
+    connected directly to the respective inputs of the RTC_snF() FBK, which
+    performs the switching procedure.
+
+
+                                      @225[ continue ]                      @001[ Overview ]
+.225
+    RTC_snF - Normal Time Switch (continued)
+
+    The switching time must be selected so that the date does not change
+    (take into consideration ๑1 hour).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @220[ RTC_snF ]                      @001[ Overview ]
+.226
+    RTC_snF - Normal Time Switch (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers RTC_snF():
+    2073    No RTC available
+    3313    Invalid B&R BURTRAP library version
+    3584    No time available (ERR_BUR_NOTIME)
+    5600    Switching time point not for current year (or RTC_snC() is
+            deactivated)
+    5601    Switching month exchanged 
+    5602    Defined switching time will cause a date change
+
+    A list of all possible PLC library error messages can be found in appendix
+    @600[Error Messages].
+
+    ATTENTION:
+    Error numbers 5600/5601/5602 are output on FBK output "status" until the
+    parameter in "summer" and "normal" are corrected. Otherwise, NO switch 
+    procedure is executed.
+
+                                       @220[ RTC_snF ]                      @001[ Overview ]
+.500
+    APPENDIX : LIBRARY Information
+
+
+    @501[< General Information >]      Requirements etc.
+
+    @550[< Syntax              >]      Syntax for describing the functions
+
+    @600[< Error Numbers       >]      Summary of all Error numbers
+
+    @650[< Execution Times     >]      Execution times and Stack requirements
+
+    @700[< History             >]      New functions and version changes
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.501
+    PLC Library : General Information
+
+    Notes:
+    - Before you can use the PLC library functions in your project, you
+      must import the library into the appropriate project data bank.
+
+    - Since the PLC library only contains local FBKS (no AVT function blocks),
+      you do not need to transfer the library runtime module to the controller.
+
+    - PLC library RTC functions require the BURTRAP library functions 
+      RTC_gettime(), RTC_settime() and SYS_info(). This means that the RTC
+      functions can only be used if the BURTRAP library Runtime module
+      (B&R module BURTRAP.BR) is available in the controllers non-volatile
+      memory (application ROM).
+
+    - Some PLC library functions deliver an @600[Error Numbers] in the event of an 
+      error.
+
+
+
+
+                                      @500[ APPENDIX ]                      @001[ Overview ]
+.550
+    PLC Library : Syntax Description
+
+    Data Types:
+    Certain groups of data types are allowed for many functions. So that
+    not all the allowed data types have to be stated in the function
+    description, the following group names will be used:
+    ษออออออออหอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออป
+    บ Group  บ  BIT  ณ INT8  ณ BYTE  ณ INT16 ณ WORD  ณ INT32 ณ LONG  ณ FLOAT บ
+    ฬออออออออฮอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออน
+    บ BASIS  บ       ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ NOT    บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    บ FLOAT  บ       ณ       ณ       ณ       ณ       ณ       ณ       ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ ALL    บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ ARRAY  บ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  บ
+    ศออออออออสอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออผ
+      x  Data type is allowed
+     [x] Data type is allowed as an array variable or character string
+
+                                      @551[ continue ]                      @001[ Overview ]
+.551
+    PLC Library : Syntax Description (continued)
+
+    Arrows:
+    Arrows are used to display input and output parameters. The following
+    arrangement is used for this purpose:
+    ษอออออออออหออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ  Arrow  บ  Meaning                                                     บ
+    ฬอออออออออฮออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ   ->    บ  Input parameter                                             บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <->   บ  Input/output parameter. Functions as an output parameter.   บ
+    บ         บ  However, it normally carries certain information before the บ
+    บ         บ  function is called (e.g. address). The address of a variableบ
+    บ         บ  is normally terminated with adr() [PL2000] or an address    บ
+    บ         บ  contact [LAD].                                              บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <-    บ  Output parameter                                            บ
+    ศอออออออออสออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                      @552[ continue ]                      @001[ Overview ]
+.552
+    PLC Library : Syntax Description (continued)
+
+    Function blocks:
+    Function blocks are not graphically represented in this Online Help.
+    However, you can find all relevant information about function blocks 
+    (i.e. input parameters (->), input/output parameters (<->) and output
+    parameters (<-) in the Online Help.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @500[ APPENDIX ]                      @001[ Overview ]
+.600
+    PLC Library FBK ERROR NUMBERS
+
+    The following list is a summary of all possible PLC library error messages: 
+
+    2073    RTC_*(): No RTC available
+    3313    RTC_*(): Invalid B&R BURTRAP library version
+    3584    RTC_*(): No time available (ERR_BUR_NOTIME)
+
+    5600    RTC_snF(): Switching time point not for current year 
+    5601    RTC_snF(): Switching month exchanged 
+    5602    RTC_snF(): Defined switching time will cause a date change
+
+    5605    RTC_bfix(): Maximum correction time per day exceeded
+    5606    RTC_bfix(): Maximum total correction time exceeded
+
+
+
+
+
+
+
+                                      @500[ APPENDIX ]                      @001[ Overview ]
+.650
+    PLC Library : Execution Times
+
+    The following table shows the execution times and stack requirements of the
+    PLC library functions:
+ ษออออออออออหอออออออออออออออัอออออออออออัอออออออออออออออัอออออออออออออออออออออป
+ บ Function บ  Execution    ณ Userstack ณ  Supervisor   ณ Notes               บ
+ บ          บ  times [ๆsec] ณ  [Bytes]  ณ stack [Bytes] ณ                     บ
+ ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุอออออออออออออออออออออน
+ บ sig_disk บ   37.1-39.5   ณ     24    ณ       -       ณ                     บ
+ บ sig_limi บ   43.0-45.4   ณ     24    ณ       -       ณ                     บ
+ บ sig_PT2H บ   51.4-54.6   ณ     28    ณ       -       ณ.. Standard parameterบ
+ บ          บ   51.4-59.7   ณ           ณ               ณ.. h=0               บ
+ บ sig_PT3H บ   64.4-73.9   ณ     24    ณ       -       ณ.. Standard parameterบ
+ บ          บ   64.4-83.5   ณ           ณ               ณ.. h=0               บ
+ บ sig_nsca บ  163.4-169.5  ณ    108    ณ       -       ณ.. n=2               บ
+ บ          บ  163.4-212.5  ณ           ณ               ณ.. n=10              บ
+ บ          บ  163.4-233.5  ณ           ณ               ณ.. n=50              บ
+ บ          บ    ca. 10.2   ณ.. time per Approximation Scan (above included)  บ
+ บ          บ    ca. 18.4   ณ.. max. time variation for LONG multiplication   บ
+ ศออออออออออสอออออออออออออออฯอออออออออออฯอออออออออออออออฯอออออออออออออออออออออผ
+
+                                      @651[ continue ]                      @001[ Overview ]
+.651
+    PLC Library : Execution Times (continued)
+
+ ษออออออออออหอออออออออออออออัอออออออออออัอออออออออออออออัอออออออออออออออออออออป
+ บ Function บ  Execution    ณ Userstack ณ  Supervisor   ณ Notes               บ
+ บ          บ  times [ๆsec] ณ  [Bytes]  ณ stack [Bytes] ณ                     บ
+ ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุอออออออออออออออออออออน
+ บ sig_scal บ  113.9-119.4  ณ     76    ณ       -       ณ                     บ
+ บ sig_sign บ   28.8-30.3   ณ     24    ณ       -       ณ                     บ
+ ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุอออออออออออออออออออออน
+ บ AI_4_20  บ   23.2-24.3   ณ     24    ณ       -       ณ                     บ
+ บ AO_4_20  บ     23.8      ณ     24    ณ       -       ณ                     บ
+ บ i_to_met บ               ณ    164    ณ       -       ณ   see met_to_i()    บ
+ บ met_to_i บ 1017.9-1119.0 ณ    156    ณ       -       ณ.. Exponents Diff=1  บ
+ บ          บ 1163.2-1258.9 ณ           ณ               ณ.. Exponents Diff=2  บ
+ บ          บ 1310.1-1404.8 ณ           ณ               ณ.. Exponents Diff=3  บ
+ บ          บ 1458.6-1558.7 ณ           ณ               ณ.. Exponents Diff=4  บ
+ บ          บ 1745.9-1847.0 ณ           ณ               ณ.. Exponents Diff=6  บ
+ บ          บ   ca. 146.7   ณ.. time per additional exponents difference      บ
+ บ          บ   ca. 101.2   ณ.. max. time variation for FLOAT multiplication  บ
+ ศออออออออออสอออออออออออออออฯอออออออออออฯอออออออออออออออฯอออออออออออออออออออออผ
+
+                                      @652[ continue ]                      @001[ Overview ]
+.652
+    PLC Library : Execution Times (continued)
+
+ ษออออออออออหอออออออออออออออัอออออออออออัอออออออออออออออัอออออออออออออออออออออป
+ บ Function บ  Execution    ณ Userstack ณ  Supervisor   ณ Notes               บ
+ บ          บ  times [ๆsec] ณ  [Bytes]  ณ stack [Bytes] ณ                     บ
+ ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุอออออออออออออออออออออน
+ บ cmp_2I16 บ   37.2-40.2   ณ     24    ณ       -       ณ                     บ
+ บ sel_bit  บ   36.2-40.3   ณ     24    ณ       -       ณ                     บ
+ บ sel_high บ      35.1     ณ     24    ณ       -       ณ                     บ
+ บ sel_tmax บ   39.1-41.0   ณ     24    ณ       -       ณ.. "preset"=1/0      บ
+ บ sel_tmin บ   39.1-41.0   ณ     24    ณ       -       ณ.. "preset"=1/0      บ
+ บ sel_1of2 บ      33.2     ณ     24    ณ       -       ณ                     บ
+ บ sel_1of4 บ   40.5-42.6   ณ     24    ณ       -       ณ                     บ
+ ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุอออออออออออออออออออออน
+ บ RTC_bfix บ  254.6-349.0  ณ    152    ณ       42      ณ.. 1 year deact/hour บ
+ บ RTC_snC  บ  207.2-336.6  ณ    132    ณ       22      ณ.. Max calculate/hourบ
+ บ RTC_snF  บ  195.9-225.4  ณ     68    ณ       22      ณ.. Max Switching/hourบ
+ ศออออออออออสอออออออออออออออฯอออออออออออฯอออออออออออออออฯอออออออออออออออออออออผ
+
+
+
+                                      @500[ APPENDIX ]                      @001[ Overview ]
+.700
+    PLC Library : History - Version Changes
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.01           ณ                                                         บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ First version of PLC library Online Help                                  บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @500[ APPENDIX ]                      @001[ Overview ]
+
+.End

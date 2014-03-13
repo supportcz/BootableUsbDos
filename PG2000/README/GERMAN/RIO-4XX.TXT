@@ -1,0 +1,106 @@
+
+                                R I O
+
+
+                       V E R S I O N     V 4.50
+
+Achtung!
+========
+Ø Durch einen Fehler in der RIO-ISL Firmware V4.0 mÅssen bei Einsatz von
+  RIO V4.1 oder hîher auch alle ISL-Stationen auf V4.1 hochgerÅstet 
+  werden! Ein RIO-ISL V4.0 kann nur mit RIO Version V4.0 am Master
+  betrieben werden.
+
+Ø RIO-ISL V4.1 vertrÑgt sich wieder mit allen RIO Versionen
+
+Ø Bei Einsatz des RIO_list FUBs bzw. RIO-Spoolers darf im rio.exe
+  HilfsProgramm keine Slave Modulinformation angefordert werden, da dies 
+  den Ablauf des FUBs stîren kann.
+
+Ø Es ist entweder das Modul
+       rio_lib.br (mit RIO Fubs)
+  oder 
+       riotrap.br (ohne RIO Fubs)
+  zu verwenden.
+
+Ø Es mu· das Modul bugfix.br (V1.14 oder hîher) und exermo.br auf der
+  Steuerung gebrannt sein!
+  
+Remote I/O V4.00
+================
+Ø Beseitigen eines Fehlers in der Slave Firmware bei Ziehen eines
+  Outputmoduls.
+  RIO_init FUB
+
+Ø Bei ISL-Betrieb kann nun Åber den RIO_init FUB die am ISL-Modul
+  eingestellte Slaveadresse ausgelesen werden (siehe DOKU).
+
+Ø Bei Auftreten einer RIO Exception wird der Fehler nun richtig im 
+  Fehlermodul eingetragen, und kann mit dem PG ausgelesen werden.
+  Der Info Parameter hat folgende Bedeutung:
+      $MMSSTTCC
+                 MM Master Steckplatz Nummer
+                 SS Slave Nummer
+                 TT Slave Typ ($10=2005,$11=2010,$12=ISL2005,$13=ISL2010)
+                 CC Slave FehlerzÑhler
+
+Ø Beseitigen eines Fehlers beim Overload von Tasks (IO von anderen
+  Tasks wurde nicht mehr upgedated)
+
+Remote I/O V4.20
+================
+Ø Bei der Einstellung des MAX-Station Parameters auf Werte < 32 konnte
+  ein Fehler bei der Konfiguration der Slaves auftreten. Ab V4.2 kann 
+  der MAX-Station Parameter wie gewÅnscht eingestellt werden.
+
+Ø Ein zusÑtzlicher FUB wurde eingefÅhrt "RIO_list" der das Auslesen
+  der Modulkonfiguration eines Slaves erlaubt.
+
+Ø Das Spoolen Åber RIO ist nun mîglich.
+
+Remote I/O V4.21
+================
+Ø RIOTRAP, RIOLIB arbeitet jetzt auch mit Bugfix >= V1.20 zusammen
+  (Fehler bis incl. V4.2: Verwendung von Masternummer >= 2 im PG kommt 
+  es zu einem Fehler)
+
+Ø Fehler in den RIO-FUBs V4.20 bei ISL Betrieb behoben (Compilerfehler
+  Microtec V4.3)
+
+Remote I/O V4.30
+================
+Ø Fehler beim Overload: Die AusgÑnge am Slave fallen kurz ab
+  wurde beseitigt
+
+Ø CP200 UnterstÅtzung (VBR) => RIOSST/EXC OK
+
+Ø Verriegelung im Service Mode wurde beseitigt (DL im Service nun mîglich)
+
+Remote I/O V4.40
+================
+Ø Limitierung: bei sehr vielen Tasks die gleiche RIO Variablen verwenden 
+  kommt es zu bis zu achtfachen Duplizierungen von SchaufeleintrÑgen 
+  durch die SPS-SW. Die bisherige Limitierung auf 64 EintrÑge wurde
+  erweitert auf 256 EintrÑge.
+
+Remote I/O V4.50
+================
+Ø Output Bits innerhalb eines Bytes kînnen nun in verschiedenen 
+  Taskklassen verwendet werden, ohne da· es zu öberlagerungen
+  kommt.
+
+Ø RIO Slave 2003 wird unterstÅtzt
+
+Ø Bei Download im Service-Mode konnte es zum Stillstand des Downloads
+  kommen;
+
+Ø Bei Taskklassen mit Inputvariablen ohne Init-Up wurden teilwesie fehler-
+  haften Inputdaten geliefert.
+
+Ø liefert der RIO_in oder RIO_out FUB einen Fehler wird damit nicht
+  mehr die RIO-Konfiguration fÅr weitere RIO_in bzw. RIO_out Aurufe
+  ungÅltig gesetzt. Es kann somit im nÑchsten Zyklus wieder fortgesetzt
+  werden.
+
+Ø Slave IO Fehlermeldungen werden nur mehr auf den betreffenden Block
+  gemeldet (nicht mehr global auf alle Blîcke)

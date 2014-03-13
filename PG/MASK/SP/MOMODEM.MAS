@@ -1,0 +1,37 @@
+#TXT 00 00 43 78  _1)_Tipo_de_modem_(H=Hayes_AT_/_C=CCITT)_:_
+#VAR 00 43 01 01 78 03 66 N N J N N 00 00 01 
+#TXT 00 72 01 78  _
+#TXT 02 00 48 78  _2)_Conexi¢n_si_DTR=ON/Desconexi¢n_si_DTR=OFF_:_
+#VAR 02 48 01 01 78 04 66 N N N J N 00 00 02 
+#TXT 02 51 05 78  (S/N)
+#TXT 03 00 48 78  _3)_Detecci¢n_autom tica_de_baudios___________:_
+#VAR 03 48 01 01 78 04 66 N N J J N 00 00 03 
+#TXT 03 51 05 78  (S/N)
+#TXT 05 00 16 78  _4)_Baudios___:_
+#VAR 05 16 05 01 78 00 42 N N J N N 00 00 04 
+#TXT 07 00 51 78  _5)_Numero_de_timbres____________________________:_
+#VAR 07 51 02 01 78 00 78 N N J N N 00 00 05 
+#TXT 07 55 06 78  (1-15)
+#TXT 08 00 51 78  _6)_Sobretiempo_Reset_indicad._timbres___________:_
+#VAR 08 51 03 01 78 00 78 N N J N N 00 00 06 
+#TXT 08 55 05 78  (seg)
+#TXT 10 00 51 78  _7)_Demora_despues_de_conexi¢n___________________:_
+#VAR 10 51 02 01 78 00 78 N N J N N 00 00 07 
+#TXT 10 55 05 78  (seg)
+#TXT 11 00 51 78  _8)_Demora_despues_de_desconex.ACK_desde_modem___:_
+#VAR 11 51 02 01 78 00 78 N N J N N 00 00 08 
+#TXT 11 55 05 78  (seg)
+#TXT 12 00 51 78  _9)_Espera_de_ACK_desde_modem____________________:_
+#VAR 12 51 02 01 78 00 78 N N J N N 00 00 09 
+#TXT 12 55 10 78  (100*mseg)
+#TXT 13 00 51 78  10)_Sobretiempo_de_escape_para_modem_____________:_
+#VAR 13 51 03 01 78 00 78 N N J N N 00 00 10 
+#TXT 13 55 09 78  (10*mseg)
+#TXT 15 00 51 78  11)_Sobretiempo_LOGOUT___________________________:_
+#VAR 15 51 03 01 78 00 78 N N J N N 00 00 11 
+#TXT 15 55 10 78  (100*mseg)
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~
+#KS HChc
+#KS SNsn

@@ -1,0 +1,29 @@
+#TXT 00 00 24 78  __1)_Dialogsprache_____:
+#VAR 00 25 10 01 78 00 42 N N J N N 00 00 01 
+#TXT 00 75 01 78  _
+#TXT 01 00 24 78  __2)_Mnemonics_________:
+#VAR 01 25 08 01 78 00 42 N N J N N 00 00 02 
+#TXT 02 00 24 78  __3)_Betriebsmodus_____:
+#VAR 02 25 06 01 78 00 42 N N J N N 00 00 03 
+#TXT 04 00 24 78  __4)_Default-Directory_:
+#VAR 04 25 50 01 78 00 66 N N J N N 04 00 04 80 
+#TXT 05 00 24 78  __5)_Standard-Directory:
+#VAR 05 25 50 01 78 00 66 N N J N N 05 00 05 80
+#TXT 06 00 24 78  __6)_User-Directory____:
+#VAR 06 25 50 01 78 00 66 N N J N N 06 00 06 80
+#TXT 08 00 24 78  __7)_Standard-Klartexte:
+#VAR 08 25 50 01 78 00 66 N N J N N 07 00 07 80
+#TXT 09 00 24 78  *_8)_EXE-Datei_________:
+#VAR 09 25 50 01 78 00 66 N N J N N 08 00 08 80
+#TXT 11 00 46 78  __9)_MAESTRO-Terminal-Emulation_in_Farbe_____:
+#VAR 11 47 04 01 78 00 42 N N J N N 00 00 09 
+#TXT 12 00 46 78  _10)_Zeichen_umdefinieren_m”glich____________:
+#VAR 12 47 04 01 78 00 42 N N J N N 00 00 10 
+#TXT 13 00 46 78  _11)_Zeichensatz_aus_zwei_Definitionsdateien_:
+#VAR 13 47 04 01 78 00 42 N N J N N 00 00 11 
+#TXT 15 10 52 78  *)_Diese_Parameter_werden_erst_nach_Neustart_aktiv_!
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS 0123456789ABCDEFabcdef
+#KS 3457

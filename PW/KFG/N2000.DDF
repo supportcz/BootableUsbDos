@@ -1,0 +1,36 @@
+*               
+*       Datatype Description File for NET2000
+*
+13,                             * Anzahl der Variablentypen in der SPS
+BIT,1,1,0,                      * Klartextname, dattyps_sps, pvlen, swap
+INT8,2,1,0,
+INT16,3,2,0,
+INT32,4,4,0,
+BYTE,5,1,0,
+WORD,6,2,0,
+LONG,7,4,0,
+FLOAT,8,4,0,
+STRING,9,1,0,
+BCD2,14,1,0,
+BCD4,15,2,0,
+BCD8,16,4,0,
+BCD6,17,3,0,
+8,                              * Anzahl der Feldparametertypen
+* 		dattyp_bti, Anz- und Liste der zul. Variablentypen
+1,7,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,							*BIT
+3,11,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,BCD2,BCD4,BCD8,BCD6,		*INT16
+4,11,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,BCD2,BCD4,BCD8,BCD6,		*INT32
+5,11,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,BCD2,BCD4,BCD8,BCD6,		*BYTE
+6,11,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,BCD2,BCD4,BCD8,BCD6,		*WORD
+7,11,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,BCD2,BCD4,BCD8,BCD6,		*LONG
+8,1,FLOAT,															*FLOAT
+9,1,STRING,															*VISIBLE_STRING
+*
+*	BTI-Datentypen BCDx derzeit nicht moeglich !
+*
+* 14,6,INT8,INT16,INT32,BYTE,WORD,LONG,BCD2,BCD4,BCD8,BCD6,			*BCD2
+* 15,6,INT8,INT16,INT32,BYTE,WORD,LONG,BCD2,BCD4,BCD8,BCD6,			*BCD4
+* 16,6,INT8,INT16,INT32,BYTE,WORD,LONG,BCD2,BCD4,BCD8,BCD6,			*BCD8
+1,                              * Anzahl der ABG-Eintr„ge
+X,0,1,999,13,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,FLOAT,STRING,BCD2,BCD4,BCD8,BCD6,0,0,   * 999 -> keine Pruefung
+

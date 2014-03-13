@@ -1,0 +1,141 @@
+    Folgend eine Reihe von Hinweisen, wie die Speicherausnutzung des PC
+    wÑhrend der PG-Sitzung verbessert werden kann.
+
+Empfehlungen zur Installation und zum Betrieb des PG
+
+1 Hardware
+1.1 CPU: Benutzen Sie einen AT, mindestens '286 jedoch am besten '386 oder '486.
+1.2 NDP: Ein Math. Coprozessor wird nicht benîtigt, beeinflu·t die Programm-
+         ausfÅhrung jedoch nicht, falls vorhanden.
+1.3 Speicher: BestÅcken Sie Ihren Rechner mit soviel RAM, wie geht oder
+         vorhanden ist. Empfohlen werden mindestens 4 MB.
+1.4 Harddisk ist unbedingt erforderlich.
+1.5 Serielle Schnittstellen sind optional und es sollten 2 vorhanden sein: eine
+         fÅr die Maus und die andere fÅr die Kommunikation zur SPS. Sie mÅssen
+         richtig als COM1: und COM2: konfiguriert sein.
+1.6 Profi: Optional kann eine ProfiBus-Karte eingesetzt werden.
+
+2 Setup
+2.1 Shadow: Stellen Sie im Bios-Setup die Verwendung des Shadow-Ram fÅr Video-
+         und Bios-Eprom ein.
+2.2 Cache: Der Speicherbereich einer evtl. eingesetzten ProfiBus-Karte mu· in
+         einem non-cacheable-area liegen.
+
+3 Betriebsystem
+folgende Betriebsysteme kînnen verwendet werden:
+3.1 DRDOS Version 6.0 oder hîher (Novell/Digital Research)
+3.2 MSDOS Version 5 oder hîher (Microsoft)
+3.3 MSDOS Version 3.3 (Microsoft)
+
+4 CONFIG.SYS
+Die Einstellungen im File CONFIG.SYS wirken sich am stÑrksten auf die
+Geschwindigkeit und das Speicherangebot fÅr Anwendungsprogramme aus. Die hier
+investierte Sorgfalt kommt allen Anwendungsprogrammen zugute und erhîht die
+ArbeitsqualitÑt im PG durch Erhîhung des Arbeitsspeichers.
+4.1 Speicherverwaltung
+Um den Hauptspeicher voll nutzen zu kînnen, ist eine Speicherverwaltung zu
+installieren, sofern das Betriebsystem keine anbietet.
+4.1.1 QEMM Version 5.12 oder hîher (Quarterdeck)
+die entsprechende Zeile im File CONFIG.SYS sollte so aussehen:
+DEVICE=QEMM386.SYS RAM VREMS FRAME=C800
+im Falle von DRDOS zusÑtzlich und unmittelbar danach:
+DEVICE=HIDOS.SYS /BDOS=FFFF
+HIDOS=ON
+im Falle von MSDOS zusÑtzlich und unmittelbar danach:
+DOS=HIGH
+legen Sie soviele Treiber als mîglich mit LOADHI.SYS in den oberen
+Speicherbereich.
+4.1.2 MAX386 Version 5.10 oder hîher (Qualitas)
+die entsprechende Zeile im File CONFIG.SYS sollte so aussehen:
+DEVICE=386MAX.SYS EMS=2048
+HIDOS=ON oder DOS=HIGH
+legen Sie soviele Treiber als mîglich mit 386LOAD.SYS in den oberen
+Speicherbereich.
+4.1.3 EMM386.SYS (im Lieferumfang von DRDOS)
+die entsprechende Zeile im File CONFIG.SYS sollte so aussehen:
+DEVICE=EMM386.SYS /B=FFFF /I=D800-F000 /R=NONE /V /F=C800
+HIDOS=ON
+legen Sie soviele Treiber als mîglich mit HIDEVICE in den oberen Speicherbereich.
+4.1.4 EMM386.EXE (im Lieferumfang von MSDOS oder Windows)
+die entsprechende Zeile im File CONFIG.SYS sollte so aussehen:
+DEVICE=HIMEM.SYS
+DEVICE=EMM386.EXE 2048 RAM FRAME=C800
+DOS=HIGH,UMB
+legen Sie soviele Treiber als mîglich mit DEVICEHIGH in den oberen
+Speicherbereich.
+
+4.2 Parameter
+4.2.1 FILES Setzen Sie mindestens
+FILES=40
+ein Wert bis zu 60 ist fÅr das PG noch sinnvoll und wird ausgenutzt.
+4.2.2 STACKS Setzen Sie jedenfalls
+STACKS=0,0
+um die serielle Kommunikation zur SPS nicht zu stîren und die Meldung
+"interner StapelspeicherÅberlauf" des Betriebsystems zu verhindern.
+4.2.3 BUFFERS
+Setzen Sie den Wert entsprechend den Empfehlungen des Disk-Cache-Programmes
+oder auf
+BUFFERS=20 fÅr MSDOS oder
+HIBUFFERS=20 fÅr DRDOS.
+4.2.4 COUNTRY Setzen Sie die Landeskennzahl, in deren Sprache die MenÅs und
+Texte des PG angezeigt werden sollen, z.B:
+COUNTRY=049,,COUNTRY.SYS
+installieren sie keine umschaltbaren Codeseiten wenn es sich vermeiden
+lÑ·t, da sie Speicherplatz verbrauchen!
+4.3 Treiberprogramme
+Installieren Sie nur Treiberprogramme, die Sie auch wirklich benîtigen !
+FÅr den Betrieb des PG ist kein ANSI.SYS erforderlich.
+Verschieben Sie die restlichen Treiber in den oberen Speicher soweit es geht.
+Beispiel:
+DEVICEHIGH=MOUSE.SYS
+Manche Betriebsysteme erlauben den Tastaturtreiber als Device-Treiber schon im
+CONFIG.SYS zu laden wobei dann dieser den Hauptspeicher Åberhaupt nicht belastet
+(DRDOS). Beispiel:
+HIINSTALL=KEYB.COM GR+ /MH
+4.3.1 RamDisk Beim Betrieb eines Programmes mit hohem Speicherbedarf ergibt es
+keinen Sinn eine RAM-Disk zu installieren.
+4.3.2 Netzwerk Wenn Sie Netzwerktreiber installieren mÅssen, lassen Sie alle nicht
+fÅr den reinen Workstationbetrieb benîtigten Komponenten weg wie etwa EMAIL,
+MESSAGE, CHAT, REMOTE usw.
+     Achten Sie darauf, da· der Netzwerkserver das File-Locking unterstÅtzt falls
+Sie die Datenbank oder die Projektfiles auf einer gemeinsam genutzten Platte halten.
+4.3.3 Stacker, DoubleStor, AddStor und Consorten
+     Da vereinzelt Probleme mit jedem dieser Plattenkompressionsprogramme beim
+Betrieb des PG berichtet wurden, ist die Empfehlung dahingehend, diese Programme
+nicht zu verwenden.
+     Auch wenn das PG auf einer nichtkomprimierten Partition betrieben wird,
+bestehen die Probleme weiter allein durch die Anwesenheit des Kompressions-
+programmes im Arbeitsspeicher.
+     Einige dieser Programme brauchen au·erdem viel Speicherplatz fÅr ihre
+Datenpuffer soda· dem PG ein stark eingeschrÑnktes Speicherangebot bleibt.
+     Laden Sie den Kompressions-Treiber vor dem EMM386-Treiber um die
+Belegung des oberen Speichers zu verhindern.
+
+5 AUTOEXEC.BAT
+Die Einstellungen im File AUTOEXEC.BAT laden alle benîtigten speicherresidenten
+Programme und setzen die Umgebungsvariablen wie sie die Anwendungsprogramme
+benîtigen.
+5.1 Keyboard Versuchen Sie den Keyboardtreiber in den oberen Speicher zu
+verschieben.
+5.2 Mouse Versuchen Sie den Mousetreiber in den oberen Speicher zu verschieben.
+5.3 Disk-Cache Ein Disk-Cache-Programm kann die Compilation eines SPS-
+Programmes auf die 6-fache Geschwindigkeit beschleunigen. Es wird empfohlen
+einen Disk_Cache zu installieren, es sollte aber kein zu gro·er Pufferspeicher
+reserviert werden, 512 KB sind immer genug. Ist mehr Arbeitspeicher als 4 MB
+vorhanden, kann auch mehr reserviert werden. Es sollten nach Installation des Cache
+noch 3MB, mindestens aber 2 MB EXT- oder EMS-Speicher zur VerfÅgung stehen.
+Versuchen Sie das Cache-Programm in den oberen Speicher zu verschieben.
+     Einige Beispiele (unvollstÑndig):
+5.3.1 PC-Cache ist Teil der PCTOOLS (Central Point Software) und in jeder Version
+verwendbar.
+5.3.2 SuperPck ab Version 4.04 (Multisoft) ist im Lieferumfang von DRDOS
+enthalten.
+5.3.3 SmartDrive (Microsoft) ist im Lieferumfang von MSDOS oder Windows
+enthalten und ist erst ab der Version 4.0 geeignet, Version 3.13 ist ungeeignet!
+5.4 Tools die speicherresident geladen werden mÅssen verbrauchen Speicherplatz,
+der beim Betrieb des PG fehlt. Dazu gehîren Programme, die die Uhrzeit einblenden,
+oder "Taschenrechner" oder Programme wie SideKick.
+     Einige dieser Programme versuchen beim Aufrufen das unterbrochene
+Programm auf Disk auszulagern um so selbst zu Speicher zu kommen. Das fÅhrt bei
+aktiver Kommunikation PG<->SPS in den meisten FÑllen zum Rechnerabsturz!
+     Laden Sie im Zweifelsfall diese Tools nicht.

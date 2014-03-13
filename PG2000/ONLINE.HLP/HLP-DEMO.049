@@ -1,0 +1,75 @@
+$ Dies ist eine Kommentarzeile, die vom Hilfeinterpreter ignoriert wird.
+%%
+1,0:1
+%%
+.1
+Das ist die Titelzeile der ersten Hilfeseite      
+1. Das ist die erste Zeile der Online-Hilfe
+maximal 80 Zeichen breit
+0        1         2         3         4         5         6         7         8
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Das ist die letzte Zeile                                         @002[ N„chste Seite ]
+.2
+Das ist die Titelzeile der zweiten Hilfeseite
+1. Das ist die erste Zeile der zweiten Hilfeseite                ÚÄÄÄÄÄÄÄ>@002[ Test ]
+                                                                 ³
+   Die Verweismarke, die der oberen linken Bildschirmecke am n„chsten liegt,
+   wird zuerst aktiviert (invers dargestellt).
+
+
+
+
+
+       Verweise k”nnen beliebig gesetzt werden => @002[ Verweis ]
+       (Auch wenn sie keine Funktion besitzen)
+
+
+       Die Gr”áe ist nur durch den Bildschirm begrenzt!
+
+@003[ Dieser Verweis aktiviert einen Bildschirm, der keinerlei Verweismarken enth„lt ]
+
+
+
+
+Das ist die letzte Zeile                                       @001[ Vorherige Seite ]
+.3
+Das ist eine leere Seite ohne Verweise
+
+Diese Seite kann nur mittels ESC oder BACKSPACE verlassen werden!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Beachten Sie die Hinweise in der Fuázeile
+
+.End

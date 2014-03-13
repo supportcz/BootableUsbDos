@@ -1,0 +1,1960 @@
+%%
+1,0:1
+%%
+.1
+    Funktionen der PLC-Library
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º ACHTUNG: Da die PLC-Library nur lokale Funktionsbl”cke (keine AVT-        º
+  º          Funktionsbl”cke!) enth„lt, muá kein Library-Runtime-Modul        º
+  º          in die Steuerung bertragen werden.                              º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+    Nach dem Importieren der PLC-Library stehen Ihnen folgende Funktionsgruppen
+    zur Verfgung:
+
+    @020[< Signalverl„ufe        >]  Begrenzung, Hysterese, Skalierung, usw.
+    @090[< Umwandlungsfunktionen >]  Konvertierung von Datentypen, Maáeinheiten, usw.
+    @130[< Vergleichsfunktionen  >]  Vergleichen von Datentypen, usw.
+    @200[< Echtzeituhrfunktionen >]  Sommerzeit/Normalzeit-Umschaltung, usw.
+
+
+
+
+
+
+                                       @500[ ANHANG ]                  @999[ HILFE beenden ]
+.20
+    PLC-Library - Signalverl„ufe
+
+    Funktionen fr Signalverl„ufe (Begrenzung, Hysterese, Skalieren, usw.):
+
+    @021[sig_disk]   Diskriminator, šberprfen auf Toleranzbereich, usw.
+    @030[sig_limi]   Begrenzung auf Ober-/Untergrenze
+    @040[sig_PT2H]   Zweipunktglied mit Hysterese
+    @050[sig_PT3H]   Dreipunktglied mit Hysterese
+    @060[sig_nsca]   Skalieren ber Geradengleichung - n Sttzpunkte
+    @070[sig_scal]   Skalieren ber Geradengleichung - 2 Sttzpunkte
+    @080[sig_sign]   Signum negativer/positiver Bereich
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.21
+    sig_disk - Diskriminator, šberprfen auf Toleranzbereich, usw.
+
+    @022[sig_disk] (enable,x_max,x_min,y_on,y_off,x,y_disk)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  x_max     : INT16         Obere Schaltgrenze.
+    ->  x_min     : INT16         Untere Schaltgrenze.
+    ->  y_on      : INT16         Oberer Schaltwert.
+    ->  y_off     : INT16         Unterer Schaltwert.
+    ->  x         : INT16         Aktueller Analogwert.
+    <-  y_disk    : INT16         Funktionsabh„ngiger Ausgabewert.
+
+    Der Funktionsblock "Diskriminator" gibt innerhalb eines Toleranzbereiches
+    "x_min/x_max" den Schaltwert "y_on" aus. Befindet sich der Analogwert "x"
+    auáerhalb des Toleranzbereiches, wird der Schaltwert "y_off" ausgegeben.
+    y_disk = 0          wenn:     enable = 0
+    y_disk = y_off      wenn:     x_min >  x >= x_max
+    y_disk = y_on       wenn:     x_min <= x <  x_max
+
+                                     @022[ Fortsetzung ]                   @001[ šbersicht ]
+.22
+    sig_disk - Diskriminator, šberprfen auf Toleranzbereich, usw. (Fortsetzung)
+
+    Der Funktionsblock "Diskriminator" gibt innerhalb eines Toleranzbereiches
+    "x_min/x_max" den Schaltwert "y_on" aus. Befindet sich der Analogwert "x"
+    auáerhalb des Toleranzbereiches, wird der Schaltwert "y_off" ausgegeben.
+
+                         y
+                        ³
+    y_on  - - - -ÉÍÍÍÍÍÍØÍÍÍÍÍÍ»   y_disk = y_off   wenn:  x_min >  x >= x_max
+                 º      ³      º   y_disk = y_on    wenn:  x_min <= x <  x_max
+                 º      ³      º
+                 º      ³      º
+    y_off ÄÄÄÍÍÍÍ¼ÄÄÄÄÄÄÅÄÄÄÄÄÄÈÍÍÍÍÄÄÄÄÄÄÄx
+               x_min    ³    x_max
+
+
+    Wenn der Toleranzbereich einen definierten Zeitfaktor darstellt, dann kann
+    mit diesem Funktionsblock ein zeitlich EINGESCHRNKTES KRITERIUM realisiert
+    werden. D.h. nur w„hrend einer bestimmten Zeitdauer "t_min/t_max" wird eine
+    andere Funktion freigegeben.
+
+    @023[ Fortsetzung ]                     @021[ sig_disk ]                     @001[ šbersicht ]
+.23
+    sig_disk - Diskriminator, šberprfen auf Toleranzbereich, usw. (Fortsetzung)
+
+    Mit der Funktion sig_disk() k”nnen (in Abh„ngigkeit eines periodischen oder
+    nichtperiodischen Signals) auch ZEITUNKRITISCHE IMPULSE mit beliebig ein-
+    stellbarer Impuls- und Pegelh”he generiert werden:
+
+          x, y
+    y_on ³-------ÉÍÍ»-É»----------ÉÍÍ»-É»-----
+         ³       º  º+ºº          º  º+ºº
+    x_max³-------º--/-\º----------º--/-\º-----
+    x_min³_ _ _ _º/_º_º\_ _ _ _ _ º/_º_º\_ _ _
+         ³      /º  º ºº\        /º  º ºº\
+         ³    /  º  º ºº \     /  º  º ºº \
+         ³  /    º  º ºº  \  /    º  º ºº  \
+        ÄÅ+ÍÍÍÍÍÍ¼ÄÄÈÍ¼ÈÍÍÍ+ÍÍÍÍÍÍ¼ÄÄÈÍ¼ÈÍÍÍ+ÍÄÄÄt
+
+    ---  ... eingezeichnete Kenndaten "y_on/x_max/x_min"
+    ÍÍÍ  ... y_disk Ausgang
+    +/\  ... x Eingang
+
+
+    @020[ Signalverl„ufe ]                  @021[ sig_disk ]                     @001[ šbersicht ]
+.30
+    sig_limi - Begrenzung auf Ober-/Untergrenze
+
+    @031[sig_limi] (enable,select,x_max,x_min,x,high,low,y_limi)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  select    : BIT           Freigabe der Ober-/Untergrenzen-šberwachung.
+    ->  x_max     : INT16         Obere Schaltgrenze.
+    ->  x_min     : INT16         Untere Schaltgrenze.
+    ->  x         : INT16         Aktueller Analogwert.
+    <-  high      : BIT           Die Eingangsgr”áe "x" ist >= "x_max".
+    <-  low       : BIT           Die Eingangsgr”áe "x" ist <= "x_min".
+    <-  y_limi    : INT16         Funktionsabh„ngiger Ausgabewert.
+
+
+
+
+
+
+
+                                     @031[ Fortsetzung ]                   @001[ šbersicht ]
+.31
+    sig_limi - Begrenzung auf Ober-/Untergrenze (Fortsetzung)
+
+    In Abh„ngigkeit vom Steuereingang "select" wird die Eingangsgr”áe "x" auf
+    die zwei Schranken "x_max" und "x_min" berwacht:
+    y_limi = 0          wenn:     enable = 0           =>  high = low = 0
+    y_limi = x_max      wenn:     x >= x_max           =>  high = 1
+    y_limi = x          wenn:     x_min  < x <  x_max
+    y_limi = x_min      wenn:     x <= x_min           =>  low  = 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @032[ Fortsetzung ]                     @030[ sig_limi ]                     @001[ šbersicht ]
+.32
+    sig_limi - Begrenzung auf Ober-/Untergrenze (Fortsetzung)
+
+    Die Eingangsgr”áe "x" wird auf die zwei Schranken "x_max" und "x_min" ber-
+    wacht und abh„ngig vom Steuereingang "select" in der Amplitude begrenzt
+    oder direkt auf den Ausgang "y_limi" kopiert.
+    y_limi = 0          wenn:     enable = 0            =>  high = low = 0
+    y_limi = x_max      wenn:     x >= x_max            =>  high = 1 (low = 0)
+    y_limi = x          wenn:     x_min  < x <  x_max   =>  high = low = 0
+    y_limi = x_min      wenn:     x <= x_min            =>  low  = 1 (high = 0)
+
+             x, y
+            ³
+            ³ ³              ÚÄÄ¿
+    x_max   Å +Í»          ÉÍÏÍÍØÍÍÍÍÍÍÍ y_limi
+            ³ : ÈÍ»      ÉÍ¼    ÀÄÄÄÄÄÄÄ Analogwertverlauf x
+    x_min   Å :   ÈÍÑÍÍÑÍ¼
+            ³ :     ÀÄÄÙ
+        ÄÄÄÄÅÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄt
+            select=1 (Begrenzung auf MAX-/MIN-Wert)
+
+
+    @020[ Signalverl„ufe ]                  @030[ sig_limi ]                     @001[ šbersicht ]
+.40
+    sig_PT2H - Zweipunktglied mit Hysterese
+
+    @041[sig_PT2H] (enable,x_start,xs,h,y_max,y_min,x,y_pt2h)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  x_start   : INT16         Auswahl oberer/unterer Schaltwert nach
+                                  First_Scan.
+    ->  xs        : INT16         Sollwert
+    ->  h         : WORD          Hysterese (Schaltdifferenz)
+    ->  y_max     : INT16         Obere Schaltschwelle.
+    ->  y_min     : INT16         Untere Schaltschwelle.
+    ->  x         : INT16         Aktueller Analogwert.
+    <-  y_pt2h    : INT16         Funktionsabh„ngiger Ausgabewert.
+
+
+
+
+
+
+                                     @041[ Fortsetzung ]                   @001[ šbersicht ]
+.41
+    sig_PT2H - Zweipunktglied mit Hysterese (Fortsetzung)
+
+    Bei einem Zweipunktglied k”nnen je nach Zustand zwei verschiedene Schalt-
+    schwellen "y_max/y_min" ausgegeben werden.
+    y_pt2h = 0          wenn:     enable = 0
+    y_pt2h = y_min      wenn:     x <= (xs - h)
+    y_pt2h = y_max      wenn:     x >= (xs + h)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @042[ Fortsetzung ]                     @040[ sig_PT2H ]                     @001[ šbersicht ]
+.42
+    sig_PT2H - Zweipunktglied mit Hysterese (Fortsetzung)
+
+    Im Schaltbereich "(xs ñ h)" der Hysteresekennlinie h„ngt das Ausgangssignal
+    "y_pt2h" davon ab, welche Schaltschwelle gerade aktiv ist ("y_max/y_min"),
+    und ob das Signal "x" steigt oder f„llt. Ist z.B. die untere Schaltschwelle
+    "y_min" aktiv und "x" steigt im Schaltbereich an, dann ist die Schaltgrenze
+    "(xs + h)" ausschlaggebend.
+
+           y
+          ³
+          ³            ³
+    y_max Å - - - -ÉÍÍÍØÍÍÍËÍÍÍÍÍ y_pt2h
+          ³           ³   º
+          ³        º   ³   º            y_pt2h = y_min  wenn:  x <= (xs - h)
+          ³        º   ³               y_pt2h = y_max  wenn:  x >= (xs + h)
+    y_min Å - -ÍÍÍÍÊÍÍÍØÍÍÍ¼
+    ÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÅÄÄÄÅÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄt
+               (xs-h)  xs  (xs+h)
+
+
+
+    @043[ Sonderfall ]                      @040[ sig_PT2H ]                     @001[ šbersicht ]
+.43
+    sig_PT2H - Zweipunktglied mit Hysterese (Fortsetzung)
+
+    SONDERFALL Hysterese = 0:
+    Die Schaltgrenze ist in diesem Sonderfall mit dem Sollwert "xs" identisch.
+    Erreicht der Analogwert genau die Schaltgrenze, dann wird nur einmal in die
+    entsprechende Richtung gewechselt. Um einen weiteren Schaltvorgang zu be-
+    wirken, muá "x" die Schaltgrenze "xs" mindestens fr einen FUB-Durchlauf
+    verlassen haben.
+
+           y         wenn:  x < xs      y_pt2h = y_min
+          ³                  x > xs      y_pt2h = y_max
+          ³          ³       x = xs      Einmaliges Schalten von y_min->y_max
+    y_max Å - - - - -ÉÍÍÍÍÍÍ             oder y_max->y_min.
+          ³                 x = xs ñ 1  Minimal-Abweichung (z.B.: wenn
+          ³          º                   y_pt2h=y_max und x=xs+1) um ein
+          ³                             Schalten bei x=xs zu bewirken.
+    y_min Å - -ÍÍÍÍÍÍ¼
+    ÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄt
+                     xs
+
+
+    @020[ Signalverl„ufe ]                  @040[ sig_PT2H ]                     @001[ šbersicht ]
+.50
+    sig_PT3H - Dreipunktglied mit Hysterese
+
+    @051[sig_PT3H] (enable,x_start,xs1,xs2,h1,h2,y_max,y_mid,y_min,x,error,y_pt3h)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  x_start   : INT16         Auswahl oberer/unterer Schaltwert nach
+                                  First_Scan.
+    ->  xs1       : INT16         Sollwert 1
+    ->  xs2       : INT16         Sollwert 2
+    ->  h1        : WORD          Hysterese 1 (Schaltdifferenz)
+    ->  h2        : WORD          Hysterese 2 (Schaltdifferenz)
+    ->  y_max     : INT16         Obere Schaltschwelle.
+    ->  y_mid     : INT16         Mittlere Schaltschwelle.
+    ->  y_min     : INT16         Untere Schaltschwelle.
+    ->  x         : INT16         Aktueller Analogwert.
+    ->  @056[error     ]: BIT           Fehlparametrierungen: 0 = kein Fehler
+                                                        1 = Fehler
+    <-  y_pt3h    : INT16         Funktionsabh„ngiger Ausgabewert.
+
+                                     @051[ Fortsetzung ]                   @001[ šbersicht ]
+.51
+    sig_PT3H - Dreipunktglied mit Hysterese (Fortsetzung)
+
+    ACHTUNG:
+    Der Sollwert "xs2" muá immer gr”áer sein als der Sollwert "xs1"!
+
+    Bei einem Dreipunktglied k”nnen je nach Zustand drei verschiedene Schalt-
+    schwellen ("y_max/y_mid/y_min") ausgegeben werden.
+
+    Im Schaltbereich "(xs ñ h)" der Hysteresekennlinie h„ngt das Ausgangs-
+    signal "y_pt3h" davon ab, welche Schaltschwelle gerade aktiv ist
+    ("y_max/y_mid/y_min"), und ob das Signal "x" steigt oder f„llt. Ist z.B.
+    die untere Schaltschwelle "y_min" aktiv und "x" steigt im Schaltbereich
+    an, dann ist die Schaltgrenze "(xs1 + h1)" ausschlaggebend.
+
+
+
+
+
+
+
+
+    @052[ Fortsetzung ]                     @050[ sig_PT3H ]                     @001[ šbersicht ]
+.52
+    sig_PT3H - Dreipunktglied mit Hysterese (Fortsetzung)
+
+    y_pt3h = 0        wenn:                   enable = 0
+
+    Schaltvorgang:    alte Schaltschwelle:    Schaltgrenzen:
+    y_pt3h = y_min    wenn: y_max/y_mid       x <= (xs1 - h1)
+    y_pt3h = y_mid          y_min             (xs1 + h1) <= x < (xs2 + h2)
+                            y_mid             (xs1 - h1) <  x < (xs2 + h2)
+                            y_max             (xs2 - h2) >= x
+    y_pt3h = y_max          y_min/y_mid       x >= (xs2 + h2)
+
+           y
+    y_max Å - - - - - - - - - - - - ÉÍÍÍØÍÍÍËÍÍÍÍÍ
+          ³                            ³   
+    y_mid Å - - - -ÉÍÍÍØÍÍÍËÍÍÍÍÍÍÍÍÊÍÍÍØÍÍÍ¼
+          ³           ³           :   :   :
+    y_min Å - -ÍÍÍÍÊÍÍÍØÍÍÍ¼        :   :   :
+    ÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÅÄÄÄÅÄÄÄÅÄÄÄÄÄÄÄÄÅÄÄÄÅÄÄÄÅÄÄÄÄÄÄÄÄt
+             (xs1-h1) xs1 (xs1+h1)  ³   ³   ³
+                              (xs2-h2) xs2 (xs2+h2)
+
+    @053[ Sonderfall 1 ]                    @050[ sig_PT3H ]                     @001[ šbersicht ]
+.53
+    sig_PT3H - Dreipunktglied mit Hysterese (Fortsetzung)
+
+    SONDERFALL Hysterese = 0:
+    Die Schaltgrenze ist in diesem Sonderfall mit dem Sollwert "xs" identisch.
+    Erreicht der Analogwert genau die Schaltgrenze, dann wird nur einmal in die
+    entsprechende Richtung gewechselt. Um einen weiteren Schaltvorgang zu be-
+    wirken, muá "x" die Schaltgrenze "xs" mindestens fr einen FUB-Durchlauf
+    verlassen haben.
+
+    wenn:  x = xs ñ 1  Minimal-Abweichung (z.B.: wenn y_pt3h=y_max und x=xs2+1)
+           y          um ein Schalten bei x=xs2 zu bewirken.
+          ³
+    y_max Å - - - - - - - - - - - - - - ÉÍÍÍÍÍ
+          ³                               Sonderf„lle:
+          ³                               * h1 oder h2 = 0
+    y_mid Å - - - -ÉÍÍÍØÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍ¼  * h1 und  h2 = 0
+          ³           ³               :
+    y_min Å - -ÍÍÍÍÊÍÍÍØÍÍÍ¼            :
+    ÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÅÄÄÄÅÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄt
+             (xs1-h1) xs1 (xs1+h1)     xs2
+
+    @054[ Sonderfall 2 ]                    @050[ sig_PT3H ]                     @001[ šbersicht ]
+.54
+    sig_PT3H - Dreipunktglied mit Hysterese (Fortsetzung)
+
+    SONDERFALL Hysterese = 0:
+    šber eine Sonderparametrierung des Dreipunktgliedes kann eine Toleranz-
+    berwachung realisiert werden. Wenn sich der Analogwert innerhalb des
+    Toleranzbereiches "xs1/xs2" befindet, wird die Schaltschwelle "y_mid = 0"
+    ausgegeben. Befindet sich der Analogwert auáerhalb des Toleranzbereiches,
+    wird die Schaltschwelle "y_min = y_max = 1" ausgegeben.
+
+           y
+          ³
+    y_min ³
+    y_max Å - - ÍÍÍÍÍÍÍ»- - - - - - - - ÉÍÍÍÍÍ
+          ³                              Sonderfall:
+          ³            º                º  h1 und h2 = 0
+          ³            º                º  y_min = y_max = 1
+    y_mid ³                              y_mid = 0
+    ÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼ÄÄÄÄÄÄÄÄÄÄÄÄt
+                       ³                ³
+                      xs1              xs2
+
+    @055[ Sonderfall 3 ]                    @050[ sig_PT3H ]                     @001[ šbersicht ]
+.55
+    sig_PT3H - Dreipunktglied mit Hysterese (Fortsetzung)
+
+    SONDERFALL VERSCHACHTELTE Hysteresen:
+    Je nach Parametrierung k”nnen verschiedene Sonderformen der Hysterese
+    erzielt werden, wobei der Signalverlauf in solchen F„llen konkret berlegt
+    sein sollte.
+
+           y
+          ³
+          ³
+    y_max Å - - -ÚÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÉÍÍÍÍÍ
+          ³                  ³            º  Sonderfall:
+          ³      ³            ³              Verschachtelte Hysteresen
+    y_mid Å - - -³-ÚÄÄÄÅÄÄÉÍÍØÍÍÍÍÍÍÍÍÍÍÍÍ¼
+          ³      ³    ³     :            :
+    y_min Å - -ÍÍÏÍÏÍÍÍØÍÍÍ¼  :            :
+    ÄÄÄÄÄÄÅÄÄÄÄÄÄÅÄÅÄÄÄÅÄÄÄÅÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄt
+             (xs1-h1) xs1 (xs1+h1)         ³
+                 ³            ³            ³
+           (xs2-h2)          xs2        (xs2+h2)
+
+    @020[ Signalverl„ufe ]                  @050[ sig_PT3H ]                     @001[ šbersicht ]
+.56
+    sig_PT3H - Dreipunktglied mit Hysterese (Fortsetzung)
+
+    PT3H FEHLPARAMETRIERUNG:
+    Der parametrierte Sollwert "xs1" muá immer kleiner sein als der Wert "xs2"!
+    Wird diese Bedingung nicht eingehalten, wird der FUB-Ausgang "error" ge-
+    setzt, der FUB gesperrt und der Wert von "y_pt3h" gleich Null gesetzt.
+
+                     y_pt3h = 0  und  error = 1    wenn:  xs1 > xs2
+           y
+          ³
+          ³
+    y_max Å - - - -ÉÍÍÍØÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ
+          ³           ³   º                    FEHLERFALL:
+          ³        º   ³                       xs2 < xs1
+    y_mid Å - - - -ÈÍÍÍØÍÍÍÊÍÍÍÍÍÍÍÍËÍÍÍØÍÍÍ»
+          ³        :   :   :           ³   
+    y_min Å - -ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍØÍÍÍ¼
+   ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÅÄÄÄÅÄÄÄÅÄÄÄÄÄÄÄÄÅÄÄÄÅÄÄÄÅÄÄÄÄÄÄÄÄt
+                   ³   ³   ³  (xs1-h1) xs1 (xs1+h1)
+             (xs2-h2) xs2 (xs2+h2)
+
+                                      @050[ sig_PT3H ]                     @001[ šbersicht ]
+.60
+    sig_nsca - Skalieren ber Geradengleichung - n Sttzpunkte
+
+    @061[sig_nsca] (enable,n,param,x,error,active,exceed,y_nsca)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  n         : WORD          Anzahl der Sttzpunkte (x/y-Wertepaare).
+    ->  @062[param     ]: LONG          Startadresse der Skalierungsparameter.
+    ->  x         : INT16         Aktueller Analogwert.
+    <-  @063[error     ]: BIT           Fehlparametrierungen: 0 = kein Fehler
+                                                        1 = Fehler
+    <-  active    : BIT           Der Ausgang active=1, wenn der FUB gerade
+                                  abgearbeitet wird.
+    <-  exceed    : BIT           Der Ausgang exceed=1, wenn x < x1 oder > xn.
+    <-  y_nsca    : INT16         Funktionsabh„ngiger Ausgabewert.
+
+    Die Umrechnungskurve ist durch "n" Sttzpunkte (xi, yi) mit 1 <= i <= n
+    definiert. Die fr die Interpolation maágeblichen Sttzpunkte werden durch
+    sukzessive Approximation ermittelt. Je Programmdurchlauf erfolgt eine
+    komplette Berechnung.
+                                     @061[ Fortsetzung ]                   @001[ šbersicht ]
+.61
+    sig_nsca - Skalieren ber Geradengleichung - n Sttzpunkte (Fortsetzung)
+
+    Der FUB rechnet die Eingangsgr”áe x nach der Linearisierungsgeraden im
+    entsprechenden Intervall um (y(i) = k * x(i) + d).
+    Ist x gr”áer als xn oder kleiner als x1, so wird fr die Interpolation
+    das Intervall [x(n-1), xn] bzw. das Intervall [x1, x2] verwendet und der
+    Ausgang "exceed" gesetzt!
+
+           y                             y(i) = k * x(i) + d
+    y(4) ÄÅ--------------------------+
+          ³                         /:    k = (y(i+1) - y(i)) / (x(i+1) - x(i))
+          ³                       /  :
+    y(3) ÄÅ---------------------+    :
+          ³                   / :    :    Die Umrechnungskurve ist durch
+          ³                /    :    :    "n" Sttzpunkte definiert:
+    y(2) ÄÅ--------------+      :    :
+          ³             /:      :    :    (xi, yi)  wobei:  1 <= i <= n
+    y(1) ÄÅ------------+ :      :    :
+        ÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÅÄÄÄÄÄÄÅÄÄÄÄÅÄÄÄÄÄÄ x
+                    x(1) x(2)   x(3) x(4)            Beispiel: n = 4
+
+    @020[ Signalverl„ufe ]                  @060[ sig_nsca ]                     @001[ šbersicht ]
+.62
+    sig_nsca - Skalieren ber Geradengleichung - n Sttzpunkte (Fortsetzung)
+
+    -> Parameter <param     >: LONG
+
+    Startadresse der Skalierungsparameter:
+    x1       : INT16            - Sttzpunkt 1 X-Koordinate
+    y1       : INT16            - Sttzpunkt 1 Y-Koordinate
+    x2       : INT16            - Sttzpunkt 2 X-Koordinate
+    y2       : INT16            - Sttzpunkt 2 Y-Koordinate
+    :          :                  :
+    xn       : INT16            - Sttzpunkt n X-Koordinate
+    yn       : INT16            - Sttzpunkt n Y-Koordinate
+                                xi, yi ... Sttzpunkte der Linearisierungskurve
+
+    - Die Anzahl der x/y-Sttzpunkt-Koordinaten wird am Eingang "n" bergeben.
+    - Um die korrekte Ermittlung der aktuellen Sttzpunkte zu erm”glichen,
+      mssen die "x"-Sttzpunkte in aufsteigender Reihenfolge (STETIG)
+      definiert werden.
+    - Es mssen mindestens 2 Sttzpunkte definiert werden, andernfalls wird
+      der Ausgang "error" gesetzt.
+
+                                      @060[ sig_nsca ]                     @001[ šbersicht ]
+.63
+    sig_nsca - Skalieren ber Geradengleichung - n Sttzpunkte (Fortsetzung)
+
+    VORAUSSETZUNGEN und FEHLPARAMETRIERUNGEN:
+    - Um die korrekte Ermittlung der aktuellen Sttzpunkte zu erm”glichen,
+      mssen die "x"-Sttzpunkte in aufsteigender Reihenfolge (STETIG)
+      definiert werden.
+    - Es mssen mindestens 2 Sttzpunkte definiert werden, andernfalls wird
+      der Ausgang "error" gesetzt.
+    - Bei einer Division durch NULL wird ebenfalls der Ausgang "error" gesetzt.
+      Dieser Fehler ist w„hrend des Betriebes m”glich, wenn (x(i+1) - x(i)) = 0
+      ergibt. D.h. zwei benachbarte Sttzpunkte drfen KEINE GLEICHEN "x"-Werte
+      beinhalten. ==> Konfiguration ber Geraden-Gleichung nicht l”sbar!
+    - Im Fehlerfall "error=1" wird:       active = 0
+                                          exceed = 0
+                                          y_nsca = 0  gesetzt!
+    - FUB nicht freigegeben "enable=0":   y_nsca = x  und keine Kontrolle der
+                                                      FUB-Eing„nge!
+
+
+
+
+                                      @060[ sig_nsca ]                     @001[ šbersicht ]
+.70
+    sig_scal - Skalieren ber Geradengleichung - 2 Sttzpunkte
+
+    @071[sig_scal] (enable,param,x,error,active,y_scal)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  @072[param     ]: LONG          Startadresse der Skalierungsparameter.
+    ->  x         : INT16         Aktueller Analogwert.
+    <-  @073[error     ]: BIT           Fehlparametrierungen: 0 = kein Fehler
+                                                        1 = Fehler
+    <-  active    : BIT           Der Ausgang active=1, wenn der FUB gerade ab-
+                                  gearbeitet wird.
+    <-  y_scal    : INT16         Funktionsabh„ngiger Ausgabewert.
+
+
+
+
+
+
+
+                                     @071[ Fortsetzung ]                   @001[ šbersicht ]
+.71
+    sig_scal - Skalieren ber Geradengleichung - 2 Sttzpunkte (Fortsetzung)
+
+    Die Umrechnungskurve ist durch 2 Sttzpunkte (x1, y1) und (x2, y2)
+    definiert.
+    Der FUB rechnet nach folgender Geradengleichung den INT16-Wert "x"
+    in den INT16-Wert "y_scal" um.
+
+           y                          y = k * x + d
+    y(2) ÄÅ--------------------+
+          ³                   /:       k = (y2 - y1) / (x2 - x1)
+          ³                 /  :
+          ³               /    :
+          ³             /      :
+          ³           /        :
+          ³         /          :
+    y(1) ÄÅ-------+            :
+    ÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄ x
+                x(1)         x(2)
+
+
+
+    @020[ Signalverl„ufe ]                  @070[ sig_scal ]                     @001[ šbersicht ]
+.72
+    sig_scal - Skalieren ber Geradengleichung - 2 Sttzpunkte (Fortsetzung)
+
+    -> Parameter <param     >: LONG
+
+    Startadresse der Skalierungsparameter:
+    x1       : INT16            - Sttzpunkt 1 X-Koordinate
+    y1       : INT16            - Sttzpunkt 1 Y-Koordinate
+    x2       : INT16            - Sttzpunkt 2 X-Koordinate
+    y2       : INT16            - Sttzpunkt 2 Y-Koordinate
+                                xi, yi ... Sttzpunkte der Linearisierungskurve
+
+
+
+
+
+
+
+
+
+
+
+                                      @070[ sig_scal ]                     @001[ šbersicht ]
+.73
+    sig_scal - Skalieren ber Geradengleichung - 2 Sttzpunkte (Fortsetzung)
+
+    FEHLPARAMETRIERUNGEN und FUB-Ausgang "y_scal":
+    - Bei einer Division durch NULL wird der FUB-Ausgang "error" gesetzt.
+      Dieser Fehler ist w„hrend des Betriebes m”glich, wenn (x2 - x1) = 0
+      ergibt. D.h. die zwei definierten Sttzpunkte drfen KEINE GLEICHEN
+      "x"-Werte beinhalten.
+    - Im Fehlerfall "error=1" wird:       active = 0
+                                          y_scal = 0  gesetzt!
+    - FUB nicht freigegeben "enable=0":   y_scal = x  und keine Kontrolle der
+                                                      FUB-Eing„nge!
+
+
+
+
+
+
+
+
+
+
+                                      @070[ sig_scal ]                     @001[ šbersicht ]
+.80
+    sig_sign - Signum negativer/positiver Bereich
+
+    @081[sig_sign] (enable,x,y_sign)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  x         : INT16         Aktueller Analogwert.
+    <-  y_sign    : INT16         Funktionsabh„ngiger Ausgabewert.
+
+    Der angeschlossene Analogwert "x" wird auf seine Wertigkeit berprft.
+    Liegt der Analogwert im positiven Bereich, wird der Wert 1 ausgegeben.
+
+    y_sign = 0     wenn:     enable = 0
+
+    y_sign = 1     wenn:     x > 0
+    y_sign = 0               x = 0
+    y_sign = -1              x < 0
+
+
+
+                                     @081[ Fortsetzung ]                   @001[ šbersicht ]
+.81
+    sig_sign - Signum negativer/positiver Bereich (Fortsetzung)
+
+    Der angeschlossene Analogwert "x" wird auf seine Wertigkeit berprft.
+    Liegt der Analogwert im positiven Bereich, wird der Wert 1 ausgegeben.
+
+
+                                      y_sign = 1     wenn:     x > 0
+                                      y_sign = 0               x = 0
+                                      y_sign = -1              x < 0
+                  y
+                 ³
+                 ÉÍÍÍÍÍÍÍÍÍÍ  +1
+                 º
+                 º
+    ÄÄÄÄÄÄÄÄÄÄÄÄÄºÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄx
+                 º 0
+                 º
+       ÍÍÍÍÍÍÍÍÍÍ¼ - - - - -  -1
+                 ³
+
+
+    @020[ Signalverl„ufe ]                  @080[ sig_sign ]                     @001[ šbersicht ]
+.90
+    PLC-Library - Umwandlungsfunktionen
+
+    Umwandlungsfunktionen (Konvertierung von Datentypen, Maáeinheiten, usw.):
+
+    @091[AI_4_20 ]   0-20 mA analogen Eingang als 4-20 mA Eingang auswerten
+    @100[AO_4_20 ]   0-20 mA analogen Ausgang als 4-20 mA Ausgang verwenden
+    @110[met_to_i]   Umwandlung Millimeter -> Inch (Metrisch/Zoll)
+    @120[i_to_met]   Umwandlung Inch -> Millimeter (Zoll/Metrisch)
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.91
+    AI_4_20 - 0-20 mA analogen Eingang -> 4-20 mA Eingang
+
+    @092[AI_4_20] (enable,IN,OUT)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  IN        : INT16         0-20 mA Wertebereich des analogen Eingangs.
+    <-  OUT       : INT16         Umgewandelter 4-20 mA Wertebereich des
+                                  analogen Eingangs.
+
+    Der Funktionsblock AI_4_20() rechnet den 0-20 mA Wertebereich eines
+    analogen Eingangskanals auf einen 4-20 mA Wertebereich um.
+
+    Ist der Eingang "enable" gleich 0, wird der Eingang "IN" auf den Ausgang
+    "OUT" kopiert.
+
+
+
+
+
+                                     @092[ Fortsetzung ]                   @001[ šbersicht ]
+.92
+    AI_4_20 - 0-20 mA analogen Eingang -> 4-20 mA Eingang (Fortsetzung)
+
+    Der Funktionsblock AI_4_20() rechnet den 0-20 mA Wertebereich eines
+    analogen Eingangskanals auf einen 4-20 mA Wertebereich um:
+
+    OUT = IN                    wenn:     enable = 0
+
+    OUT = umgewandelter IN      wenn:     enable = 1
+
+            IN
+    32767 ÄÅ----------+
+           ³         /:
+           ³       /  :
+           ³     /    :
+           ³   /      :
+           ³ /        :
+     6554 ÄÅ          :
+       0 ÄÄÅÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄ OUT
+           0        32767
+
+
+    @090[ Umwandlungsfunktionen ]            @091[ AI_4_20 ]                     @001[ šbersicht ]
+.100
+    AO_4_20 - 0-20 mA analogen Ausgang -> 4-20 mA Ausgang
+
+    @101[AO_4_20] (enable,IN,OUT)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  IN        : INT16         0-20 mA Wertebereich des analogen Ausgangs.
+    <-  OUT       : INT16         Umgewandelter 4-20 mA Wertebereich des
+                                  analogen Ausgangs.
+
+    Der Funktionsblock AO_4_20() rechnet den 0-20 mA Wertebereich eines
+    analogen Ausgangskanals auf einen 4-20 mA Wertebereich um.
+
+    Ist der Eingang "enable" gleich 0, wird der Eingang "IN" auf den Ausgang
+    "OUT" kopiert.
+
+
+
+
+
+                                     @101[ Fortsetzung ]                   @001[ šbersicht ]
+.101
+    AO_4_20 - 0-20 mA analogen Ausgang -> 4-20 mA Ausgang (Fortsetzung)
+
+    Der Funktionsblock AO_4_20() rechnet den 0-20 mA Wertebereich eines
+    analogen Ausgangskanals auf einen 4-20 mA Wertebereich um:
+
+    OUT = IN                   wenn:     enable = 0
+
+    OUT = umgewandelter IN     wenn:     enable = 1
+
+            IN
+    32767 ÄÅ--------------------+
+           ³                   /:
+           ³                 /  :
+           ³               /    :
+           ³             /      :
+           ³           /        :
+           ³         /          :
+       0 ÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄ OUT
+           0      6554        32767
+
+
+    @090[ Umwandlungsfunktionen ]            @100[ AO_4_20 ]                     @001[ šbersicht ]
+.110
+    met_to_i - Umwandlung Millimeter -> Inch
+
+    @111[met_to_i] (enable,mm,exp_mm,exp_inch,inch)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  mm        : INT32         Eingang fr den Millimeter-Wert (Mantisse).
+    ->  exp_mm    : INT8          Exponent der Zehnerpotenz des Millimeter-
+                                  Wertes.
+    ->  exp_inch  : INT8          Exponent der Zehnerpotenz des Zoll-Wertes.
+    <-  inch      : INT32         Ausgabe des Zoll-Wertes (Mantisse).
+
+    Der Funktionsblock met_to_i() rechnet Millimeter-Werte in Zoll-Werte um.
+    Die Aufl”sung kann durch die Zehnerpotenzen der beiden Maásysteme bestimmt
+    werden. Je Programmdurchlauf erfolgt eine komplette Wandlung.
+    Die Laufzeit des Funktionsblocks wird haupts„chlich von der Differenz der
+    beiden Zehnerpotenzen bestimmt.
+    Ist der Eingang "enable" gleich 0, wird der FUB-Ausgang "inch" auf NULL
+    gesetzt.
+
+                                      @111[ Beispiel ]                     @001[ šbersicht ]
+.111
+    met_to_i - Umwandlung Millimeter -> Inch (Fortsetzung) 
+
+    Beispiel:
+    313,690 mm mit einer Aufl”sung von 1/1000 mm (= 10^-3) sollen in einen
+    Zoll-Wert mit der Aufl”sung von 1/100 Zoll (= 10^-2) umgewandelt werden.
+
+      enable   = 1
+      mm       = 313690
+      exp_mm   = -3               ; Zehnerpotenz des Millimeter-Wertes
+      exp_inch = -2               ; Zehnerpotenz des Zoll-Wertes
+      met_to_i (enable,mm,exp_mm,exp_inch,inch)
+
+    Der Funktionsblock liefert das Ergebnis 1235.
+
+    313,690 mm (313690 * 10^-3) entsprechen 1235 * 10^-2 Zoll = 12,35 Zoll.
+
+
+
+
+
+
+    @090[ Umwandlungsfunktionen ]           @110[ met_to_i ]                     @001[ šbersicht ]
+.120
+    i_to_met - Umwandlung Inch -> Millimeter
+
+    @121[i_to_met] (enable,inch,exp_inch,exp_mm,mm)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  inch      : INT32         Eingang fr den Zoll-Wert (Mantisse).
+    ->  exp_inch  : INT8          Exponent der Zehnerpotenz des Zoll-Wertes.
+    ->  exp_mm    : INT8          Exponent der Zehnerpotenz des Millimeter-
+                                  Wertes.
+    <-  mm        : INT32         Ausgabe des Millimeter-Wertes (Mantisse).
+
+    Der Funktionsblock i_to_met() rechnet Zoll-Werte in Millimeter-Werte um.
+    Die Aufl”sung kann durch die Zehnerpotenzen der beiden Maásysteme bestimmt
+    werden. Je Programmdurchlauf erfolgt eine komplette Wandlung.
+    Die Laufzeit des Funktionsblocks wird haupts„chlich von der Differenz der
+    beiden Zehnerpotenzen bestimmt.
+    Ist der Eingang "enable" gleich 0, wird der FUB-Ausgang "mm" auf NULL
+    gesetzt.
+
+                                      @121[ Beispiel ]                     @001[ šbersicht ]
+.121
+    i_to_met - Umwandlung Inch -> Millimeter (Fortsetzung)
+
+    Beispiel:
+    Der Wert 12,35 Zoll mit einer Aufl”sung von 1/100 Zoll (= 10^-2) soll in
+    das metrische Maásystem mit der Aufl”sung von 1/1000 mm (= 10^-3) umge-
+    wandelt werden.
+
+      enable   = 1
+      inch     = 1235
+      exp_inch = -2               ; Zehnerpotenz des Zoll-Wertes
+      exp_mm   = -3               ; Zehnerpotenz des Millimeter-Wertes
+      i_to_met (enable,inch,exp_inch,exp_mm,mm)
+
+
+    Der Funktionsblock liefert das Ergebnis 313690.
+
+    12,35 Zoll (1235 * 10^-2 Zoll) entsprechen 313690 * 10^-3 mm = 313,690 mm.
+
+
+
+
+    @090[ Umwandlungsfunktionen ]           @120[ i_to_met ]                     @001[ šbersicht ]
+.130
+    PLC-Library - Vergleichsfunktionen
+
+    Vergleichsfunktionen (Vergleichen von Datentypen, Ausw„hlen anhand ver-
+    schiedener Kriterien, usw.):
+
+    @131[cmp_2I16]   Zwei INT16-Werte vergleichen
+
+    @140[sel_bit ]   Bit aus Variable ausmaskieren
+    @150[sel_high]   Selektieren zwischen zwei INT16-Werten
+    @160[sel_tmax]   Zeitliches Maximum bzw. Begrenzung auf Minimalwert
+    @170[sel_tmin]   Zeitliches Minimum bzw. Begrenzung auf Maximalwert
+    @180[sel_1of2]   Auswahl eines INT16-Wertes (1 aus 2)
+    @190[sel_1of4]   Auswahl eines INT16-Wertes (1 aus 4; kaskadierbar)
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.131
+    cmp_2I16 - Zwei INT16-Werte vergleichen
+
+    @132[cmp_2I16] (enable,data_a,data_b,a_gt_b,a_eq_b,a_lt_b)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  data_a    : INT16         Eingangswert 1
+    ->  data_b    : INT16         Eingangswert 2
+    <-  a_gt_b    : BIT           data_a > data_b
+    <-  a_eq_b    : BIT           data_a = data_b
+    <-  a_lt_b    : BIT           data_a < data_b
+
+    Der Funktionsblock cmp_2I16() vergleicht zwei INT16-Werte und setzt (ab-
+    h„ngig vom Ergebnis des Vergleichs) einen der drei FUB-Ausg„nge.
+    Bei jedem Programmdurchlauf wird ein Vergleich durchgefhrt.
+
+    Ist der Eingang "enable" gleich 0, so werden alle Ausg„nge auf NULL ge-
+    setzt.
+
+
+                                      @132[ Beispiel ]                     @001[ šbersicht ]
+.132
+    PLC-Library - Beispiel 2 INT16-Werte vergleichen
+
+    Beispiel:
+    Zwei INT16-Werte sollen miteinander verglichen werden. Je nach Wertigkeit
+    sollen verschiedene Statistikz„hler erh”ht werden.
+
+      cmp_2I16 (1,data_a,data_b,a_gt_b,a_eq_b,a_lt_b)
+
+      if a_gt_b = 1 then
+          more_count = more_count + 1         ; data_a > data_b
+      else if a_lt_b = 1 then
+          less_count = less_count + 1         ; data_a < data_b
+      else
+          equal_count = equal_count + 1       ; data_a = data_b
+      endif
+
+
+
+
+
+
+    @130[ Vergleichsfunktionen ]            @131[ cmp_2I16 ]                     @001[ šbersicht ]
+.140
+    sel_bit - Bit aus Variable ausmaskieren
+
+    @141[sel_bit] (enable,select,data,bit_val)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  select    : BYTE          Gewnschte Bit-Nummer (0 bis 31).
+    ->  data      : LONG          Variable
+    <-  bit_val   : BIT           Ausmaskiertes Bit.
+
+    Aus der Variable "data" wird das Bit mit dem Offset "select" ausmaskiert
+    und am FUB-Ausgang "bit_val" ausgegeben.
+
+    Ist der Eingang "enable" gleich 0, so wird der FUB-Ausgang "bit_val" auf
+    NULL gesetzt.
+
+
+
+
+
+                                      @141[ Beispiel ]                     @001[ šbersicht ]
+.141
+    sel_bit - Bit aus Variable ausmaskieren (Fortsetzung)
+
+    Beispiel:
+    Aus einer INT16-Variable soll das h”chstwertige Bit (Bit mit dem Offset
+    "select"=15) ausmaskiert werden.
+
+      select = 15                 ; h”chstwertiges Bit einer INT16-Variable
+      sel_bit (1,select,data,bit_val)
+      ; Wenn der Wert von "bit_val" gleich 1 ist, liegt der Wert von "data"
+      ; im negativen Zahlenbereich.
+
+
+
+
+
+
+
+
+
+
+
+    @130[ Vergleichsfunktionen ]             @140[ sel_bit ]                     @001[ šbersicht ]
+.150
+    sel_high - Selektieren zwischen zwei INT16-Werten
+
+    @151[sel_high] (enable,data_a,data_b,data_hi,data_lo)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  data_a    : INT16         Eingangswert 1
+    ->  data_b    : INT16         Eingangswert 2
+    <-  data_hi   : INT16         Hier wird der gr”áere der beiden Eingangs-
+                                  werte ausgegeben.
+    <-  data_lo   : INT16         Hier wird der kleinere der beiden Eingangs-
+                                  werte ausgegeben.
+
+    Der gr”áere der beiden Eingangswerte wird auf den Ausgang "data_hi", der
+    kleinere auf den Ausgang "data_lo" kopiert.
+    Bei jedem Programmdurchlauf wird eine Sortierung durchgefhrt.
+
+    Ist der Eingang "enable" gleich 0, so werden alle Ausg„nge auf NULL ge-
+    setzt.
+
+                                      @151[ Beispiel ]                     @001[ šbersicht ]
+.151
+    sel_high - Selektieren zwischen zwei INT16-Werten (Fortsetzung)
+
+    Beispiel:
+    Es soll jeweils der gr”áere von zwei Werten ("data_a" oder "data_b") an
+    eine andere Funktion weitergegeben werden.
+
+      sel_high (1,data_a,data_b,data_hi,data_lo)
+      ; Am FUB-Ausgang "data_hi" wird immer der gr”áere der beiden Werte
+      ; ("data_a" und "data_b") ausgegeben.
+
+
+
+
+
+
+
+
+
+
+
+
+    @130[ Vergleichsfunktionen ]            @150[ sel_high ]                     @001[ šbersicht ]
+.160
+    sel_tmax - Zeitliches Maximum bzw. Begrenzung auf Minimalwert
+
+    @161[sel_tmax] (enable,preset,y_start,y,y_tmax)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  preset    : BIT           Rcksetzen von y_tmax auf den Startwert
+                                  y_start. Solange preset gesetzt bleibt,
+                                  wird y_start als vorhandener Maximalwert
+                                  ausgewertet.
+    ->  y_start   : INT16         Startwert von y_tmax nach First-Scan oder
+                                  bei gesetztem preset-Eingang.
+    ->  y         : INT16         Analogwert
+    <-  y_tmax    : INT16         Aufgetretener Maximalwert von y.
+
+    Der im zyklischen Betrieb aufgetretene Maximalwert von "y" wird am FUB-
+    Ausgang "y_tmax" ausgegeben. Die Vorgabe eines neuen Maximalwertes im
+    zyklischen Betrieb erfolgt mittels "preset" und "y_start".
+    Ist der Eingang "enable" gleich 0, so wird der FUB-Ausgang "y_tmax" auf
+    NULL gesetzt.
+                                     @161[ Fortsetzung ]                   @001[ šbersicht ]
+.161
+    sel_tmax - Zeitliches Maximum bzw. Begrenzung auf Minimalwert (Fortsetzung)
+
+    Die šbernahme des Start-Maximalwertes "y_start" beim First_Scan von
+    "enable"=1 (auch nach "enable"=0) erfolgt automatisch (ohne Setzen von
+    "preset").
+    Der FUB-Eingang "preset" ist fr den zyklischen Betrieb vorgesehen, um
+    einen neuen Maximalwert vorzugeben.
+
+
+             y
+            ³
+            ³ ³              ÉÍÍÑÍÍÍÍÍÍÍ y_tmax
+    y_start Å +ÍÑÍÍÍÍÍÍÍÍÍÍÑÍ¼  ³
+            ³ : ÀÄ¿      ÚÄÙ    ÀÄÄÄÄÄÄÄ Analogwertverlauf y
+            ³ :   ÀÄ¿  ÚÄÙ
+            ³ :     ÀÄÄÙ
+        ÄÄÄÄÅÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄt
+            preset=1 (NUR fr einen FUB-Aufruf)
+
+
+
+    @162[ Fortsetzung ]                     @160[ sel_tmax ]                     @001[ šbersicht ]
+.162
+    sel_tmax - Zeitliches Maximum bzw. Begrenzung auf Minimalwert (Fortsetzung)
+
+    Solange der FUB-Eingang "preset" gesetzt bleibt, arbeitet der FUB
+    sel_tmax() wie eine Begrenzung auf einen Minimalwert:
+
+
+             y
+            ³
+            ³ ³              ÉÍÍ»
+    y_start Å +ÍÑÍÍÍÍÍÍÍÍÍÍÑÍ¼  ÈÍÍÍÍÍÍÍ y_tmax (MINIMAL y_start)
+            ³ : ÀÄ¿      ÚÄÙ    ÀÄÄÄÄÄÄÄ Analogwertverlauf y
+            ³ :   ÀÄ¿  ÚÄÙ
+            ³ :     ÀÄÄÙ
+        ÄÄÄÄÅÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄt
+            preset immer 1
+
+
+
+
+
+
+    @130[ Vergleichsfunktionen ]            @160[ sel_tmax ]                     @001[ šbersicht ]
+.170
+    sel_tmin - Zeitliches Minimum bzw. Begrenzung auf Maximalwert
+
+    @171[sel_tmin] (enable,preset,y_start,y,y_tmin)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  preset    : BIT           Rcksetzen von y_tmin auf den Startwert
+                                  y_start. Solange preset gesetzt bleibt,
+                                  wird y_start als vorhandener Minimalwert
+                                  ausgewertet.
+    ->  y_start   : INT16         Startwert von y_tmin nach First-Scan oder
+                                  bei gesetztem preset-Eingang.
+    ->  y         : INT16         Analogwert
+    <-  y_tmin    : INT16         Aufgetretener Minimalwert von y.
+
+    Der im zyklischen Betrieb aufgetretene Minimalwert von "y" wird am FUB-
+    Ausgang "y_tmin" ausgegeben. Die Vorgabe eines neuen Minimalwertes im
+    zyklischen Betrieb erfolgt mittels "preset" und "y_start".
+    Ist der Eingang "enable" gleich 0, so wird der FUB-Ausgang "y_tmin" auf
+    NULL gesetzt.
+                                     @171[ Fortsetzung ]                   @001[ šbersicht ]
+.171
+    sel_tmin - Zeitliches Minimum bzw. Begrenzung auf Maximalwert (Fortsetzung)
+
+    Die šbernahme des Start-Minimalwertes "y_start" beim First_Scan von
+    "enable"=1 (auch nach "enable"=0) erfolgt automatisch (ohne Setzen von
+    "preset").
+    Der FUB-Eingang "preset" ist fr den zyklischen Betrieb vorgesehen, um
+    einen neuen Maximalwert vorzugeben.
+
+
+             y
+            ³
+            ³ ³              ÚÄÄ¿
+    y_start Å +Í»          ÚÄÙ  ³
+            ³ : ÈÍ»      ÚÄÙ    ÀÄÄÄÄÄÄÄ Analogwertverlauf y
+            ³ :   ÈÍ»  ÚÄÙ
+            ³ :     ÈÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ y_tmin
+        ÄÄÄÄÅÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄt
+            preset=1 (NUR fr einen FUB-Aufruf)
+
+
+
+    @172[ Fortsetzung ]                     @170[ sel_tmin ]                     @001[ šbersicht ]
+.172
+    sel_tmin - Zeitliches Minimum bzw. Begrenzung auf Maximalwert (Fortsetzung)
+
+    Solange der FUB-Eingang "preset" gesetzt bleibt, arbeitet der FUB
+    sel_tmin() wie eine Begrenzung auf einen Maximalwert:
+
+
+             y
+            ³
+            ³ ³              ÚÄÄ¿
+    y_start Å +Í»          ÉÍÏÍÍØÍÍÍÍÍÍÍ y_tmin (MAXIMAL y_start)
+            ³ : ÈÍ»      ÉÍ¼    ÀÄÄÄÄÄÄÄ Analogwertverlauf y
+            ³ :   ÈÍ»  ÉÍ¼
+            ³ :     ÈÍÍ¼
+        ÄÄÄÄÅÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄt
+            preset immer 1
+
+
+
+
+
+
+    @130[ Vergleichsfunktionen ]            @170[ sel_tmin ]                     @001[ šbersicht ]
+.180
+    sel_1of2 - Auswahl eines INT16-Wertes aus zwei INT16-Werten
+
+    @180[sel_1of2] (enable,select,data_a,data_b,data_out)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  select    : BIT           Selektieren eines FUB-Eingangswertes:
+                                  select = 0 -> data_a
+                                  select = 1 -> data_b
+    ->  data_a    : INT16         Eingangswert 1 (select = 0)
+    ->  data_b    : INT16         Eingangswert 2 (select = 1)
+    <-  data_out  : INT16         Ausgangsgr”áe
+
+    Aus zwei Eingangswerten wird ein Wert ausgew„hlt und auf den Ausgang
+    "data_out" kopiert. Die Auswahl erfolgt durch den Eingang "select"
+    ("select" = 0 -> "data_a", "select" = 1 -> "data_b").
+    Wird an "enable" der Wert 0 angeschlossen, so wird "data_out" auf den
+    Wert 0 gesetzt.
+
+
+                                @130[ Vergleichsfunktionen ]               @001[ šbersicht ]
+.190
+    sel_1of4 - Auswahl eines INT16-Wertes aus vier INT16-Werten
+
+    @191[sel_1of4] (enable,select,data_a,data_b,data_c,data_d,cascade,data_out)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  select    : BYTE          Selektieren eines FUB-Eingangswertes:
+                                  select = 0 -> data_a
+                                  select = 1 -> data_b
+                                  select = 2 -> data_c
+                                  select = 3 -> data_d
+    ->  data_a    : INT16         Eingangswert 1 (select = 0)
+    ->  data_b    : INT16         Eingangswert 2 (select = 1)
+    ->  data_c    : INT16         Eingangswert 3 (select = 2)
+    ->  data_d    : INT16         Eingangswert 4 (select = 3)
+    <-  cascade   : BYTE          Ausgang zur Kaskadierung mehrerer FUBs.
+    <-  data_out  : INT16         Ausgangsgr”áe
+
+
+
+                                     @191[ Fortsetzung ]                   @001[ šbersicht ]
+.191
+    sel_1of4 - Auswahl eines INT16-Wertes aus vier INT16-Werten (Fortsetzung)
+
+    Aus vier Eingangswerten wird ein Wert ausgew„hlt und auf den Ausgang
+    "data_out" kopiert. Die Auswahl erfolgt durch den Eingang "select"
+    ("select" = 0 -> "data_a", "select" = 1 -> "data_b", usw.).
+    Wird am Eingang "enable" der Wert 0 angeschlossen, so wird "data_out"
+    auf den Wert 0 gesetzt.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @192[ Fortsetzung ]                     @190[ sel_1of4 ]                     @001[ šbersicht ]
+.192
+    sel_1of4 - Auswahl eines INT16-Wertes aus vier INT16-Werten (Fortsetzung)
+
+    KASKADIERUNG:
+    Es k”nnen bis zu 83 FUBs nach folgendem Schema kaskadiert werden:
+                                  * cascade = 0           wenn: select <= 3
+             ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿  * cascade = select - 3        select >  3
+             ³        sel_1of4 ³
+             ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´   enable
+    enable  Ä´ enable          ³     ³  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    select  Ä´ select          ³     ³  ³        sel_1of4 ³
+     #0     Ä´ data_a          ³     ³  ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+     #1     Ä´ data_b          ³     ÀÄÄ´ enable          ³
+     #2     Ä´ data_c  cascade ÃÄÄÄÄÄÄÄÄ´ select          ³
+     #3     Ä´ data_d data_out ÃÄÄÄÄÄÄÄÄ´ data_a          ³
+             ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ  #4   Ä´ data_b          ³
+                                  #5   Ä´ data_c  cascade ÃÄ
+                                  #6   Ä´ data_d data_out ÃÄ  out
+                                        ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+    ACHTUNG: Bei jedem FUB muá der Eingang "enable" angeschlossen werden!
+
+    @130[ Vergleichsfunktionen ]            @190[ sel_1of4 ]                     @001[ šbersicht ]
+.200
+    PLC-Library - Echtzeituhrfunktionen
+
+    Echtzeituhrfunktionen (Sommerzeit/Normalzeit-Umschaltung, usw.):
+
+    @201[RTC_bfix]   Echtzeituhr um ms-Zeiteinheiten korrigieren
+    @210[RTC_snC ]   Berechnung Sommerzeit/Normalzeit-Umschaltung
+    @220[RTC_snF ]   Sommerzeit/Normalzeit-Umschaltung
+
+
+
+
+
+
+
+    ACHTUNG:
+    Die RTC-Echtzeituhrfunktionen der PLC-Library ben”tigen die Funktionen
+    RTC_gettime(), RTC_settime() und SYS_info() der BURTRAP-Library. Aus
+    diesem Grund k”nnen die RTC-Echtzeituhrfunktionen nur verwendet werden,
+    wenn das Runtime-Modul der BURTRAP-Library (B&R-Modul BURTRAP.BR) im
+    nullspannungssicheren Speicher (Anwender-ROM) der Steuerung vorhanden ist.
+
+                                                                     @001[ šbersicht ]
+.201
+    RTC_bfix - Echtzeituhr um ms-Zeiteinheiten korrigieren
+
+    @202[RTC_bfix] (enable,err_msec,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  err_msec  : INT32         Korrekturwert fr die Echtzeituhr (RTC).
+    <-  @204[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Die Echtzeituhr wird jeweils um 1.07 Uhr um den angegebenen Korrekturwert
+    "err_msec" korrigiert. Der ungew”hnliche Zeitpunkt der Korrektur soll ver-
+    hindern, daá diverse Auswertungsprogramme durch die Zeitkorrektur Probleme
+    bekommen.
+    Ist der Eingang "enable" gleich 0, werden alle Ausg„nge auf NULL gesetzt.
+    MAXIMALE Korrekturzeiten:  ñ2 min ("err_msec" = ñ120.000 ms) pro Tag
+                               ñ1 Stunde und 6 Minuten (ñ3.690.000 ms) GESAMT
+    MINIMALE Korrekturzeit:    ñ1 s (ñ1000 ms). Unter dieser GESAMT-Zeit wird
+                               nicht geschaltet (die ms werden aufsummiert und
+                               bei der n„chsten Korrektur bercksichtigt).
+
+                                     @202[ Fortsetzung ]                   @001[ šbersicht ]
+.202
+    RTC_bfix - Echtzeituhr um ms-Zeiteinheiten korrigieren (Fortsetzung)
+
+    SCHALTVERHALTEN:
+
+    - Die MAXIMALE KORREKTURZEIT betr„gt ñ2 Minuten (ñ120.000ms) pro Tag.
+
+    - Der MAXIMALE GESAMT-KORREKTURWERT wird auf ñ1 Stunde und 6 Minuten
+      (ñ3.690.000ms) beschr„nkt. Wird dieser Wert berschritten, wird eine
+      Fehlermeldung am FUB-Ausgang "status" ausgegeben und die restliche
+      Korrekturzeit verf„llt.
+
+    - Um den Schaltvorgang bei 2005/2010-Systemen zu vereinheitlichen (2005
+      untersttzt keine Millisekundenwerte), werden die Korrekturwerte auf-
+      summiert. Die Korrektur wird erst bei einem ZEITUNTERSCHIED von >= 1 s
+      durchgefhrt. Die verbleibenden Rest-Millisekunden werden jeweils ge-
+      speichert und bei der n„chsten Korrektur bercksichtigt.
+
+    - Falls der FUB mehrere Tage/Wochen/Monate NICHT AKTIVIERT wird, berechnet
+      dieser die Korrekturzeit bis zum letzten Korrekturdatum nach (exakte Tage
+      pro Monat und Schaltjahr bercksichtigt).
+
+    @203[ Fortsetzung ]                     @201[ RTC_bfix ]                     @001[ šbersicht ]
+.203
+    RTC_bfix - Echtzeituhr um ms-Zeiteinheiten korrigieren (Fortsetzung)
+
+    SCHALTVERHALTEN (Fortsetzung):
+
+    - Unmittelbar nach einem POWER ON oder WARMSTART (alte Bezeichnung: INIT)
+      werden evtl. angefallene KORREKTUREN NACHGEHOLT. Die gesamte Korrektur-
+      zeit wird allerdings nur dann verwendet, wenn dadurch keine Datums-
+      „nderung auftritt. Andernfalls wird erst beim eigentlichen Schaltzeit-
+      punkt oder bei einem sp„teren POWER ON bzw. WARMSTART (alte Bezeichnung:
+      INIT) korrigiert.
+
+    - Nach einem DOWNLOAD oder einen KALTSTART (frher "TOTALINIT" genannt)
+      wird die aktuelle Uhrzeit als korrekt bernommen und somit das aktuelle
+      Datum als letzter Schaltzeitpunkt vorgemerkt.
+
+    - Der Richtwert der Korrekturzeiten liegt MAXIMAL knapp unter 1 s pro Tag.
+      Dieser Wert kann jedoch systemspezifisch schwanken. D.h. bei einer
+      Korrekturzeit von 900 ms pro Tag wird jeden 10. Tag "nicht" korrigiert.
+      Sonst wird t„glich um 1 s korrigiert.
+
+
+    @200[ Echtzeituhrfunktionen ]           @201[ RTC_bfix ]                     @001[ šbersicht ]
+.204
+    RTC_bfix - Echtzeituhr um ms-Zeiteinheiten korrigieren (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion RTC_bfix():
+    2073    Keine RTC (Echtzeituhr) vorhanden
+    3313    Ungltige Version der BURTRAP-Library
+    3584    Keine Zeit verfgbar (ERR_BUR_NOTIME)
+    5605    Maximale Korrekturzeit pro Tag berschritten
+            (ungltiger Wert: "err_msec" = 0 oder > ñ120.000)
+    5606    Maximale Gesamt-Korrekturzeit berschritten
+            ("err_msec" gesamt > ñ3.690.000)
+
+    Eine Liste aller m”glichen Fehlermeldungen der PLC-Library finden Sie im
+    Anhang @600[Fehlermeldungen].
+
+
+
+
+
+
+                                      @201[ RTC_bfix ]                     @001[ šbersicht ]
+.210
+    RTC_snC - Berechnung Sommerzeit/Normalzeit-Umschaltung
+
+    @211[RTC_snC] (enable,adr(nt_to_st),adr(st_to_nt),active,summer,normal)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  @214[nt_to_st  ]: RTC_switch    Daten fr Sommerzeit-Umschaltung.
+    ->  @214[st_to_nt  ]: RTC_switch    Daten fr Normalzeit-Umschaltung.
+    <-  active    : BIT           Berechnungsstatus: 0 = fertig
+                                                     1 = Berechnung
+    <-  @216[summer    ]: LONG          Adresse der FUB-internen Sommerzeit-Struktur.
+    <-  @216[normal    ]: LONG          Adresse der FUB-internen Normalzeit-Struktur.
+
+    Der Funktionsblock RTC_snC() berechnet (anhand der Parameter "nt_to_st" und
+    "st_to_nt") die entsprechenden Schaltzeitpunkte des aktuellen Jahres.
+    Der Funktionsblock stellt zwei Strukturen bereit. In diese Strukturen
+    werden die entsprechenden Schaltdaten eingetragen. Die Adressen dieser
+    Strukturen k”nnen mit Hilfe der FUB-Ausg„nge "summer" und "normal" an den
+    Funktionsblock RTC_snF() bergeben werden.
+
+                                     @211[ Fortsetzung ]                   @001[ šbersicht ]
+.211
+    RTC_snC - Berechnung Sommerzeit/Normalzeit-Umschaltung (Fortsetzung)
+
+    Anmerkungen:
+    - An den Ausg„ngen "summer" und "normal" werden immer die Adressen der
+      FUB-internen SCHALTSTRUKTUREN ausgegeben. Dies gilt auch, wenn der
+      Eingang "enable" gleich 0 ist.
+
+    - Die bereitgestellten Struktur-Adressen (siehe Ausgang "summer" und
+      "normal") k”nnen direkt an den Funktionsblock RTC_snF() angeschlossen
+      werden. Dieser Funktionsblock fhrt das eigentliche Umschalten aus.
+
+    - Nur nach einem DOWNLOAD, KALTSTART (frher "TOTALINIT" genannt) oder
+      bei einer nderung der Eingangsdaten (inkl. Jahr) erfolgt eine Neu-
+      berechnung der Schaltzeitpunkte.
+      W„hrend der Berechnungsdauer bleibt der FUB-Ausgang "active" gesetzt.
+      Um die Konsistenz der Daten zu gew„hrleisten, drfen die Schaltzeit-
+      punkte erst bei "active"=0 ausgewertet werden (dies ist allerdings nur
+      erforderlich, wenn RTC_snC() und RTC_snF() in verschiedenen Taskklassen
+      verwendet werden).
+
+
+    @212[ Fortsetzung ]                      @210[ RTC_snC ]                     @001[ šbersicht ]
+.212
+    RTC_snC - Berechnung Sommerzeit/Normalzeit-Umschaltung (Fortsetzung)
+
+    Anmerkungen (Fortsetzung):
+    - Wenn der Eingang "enable" gleich 0 ist, werden alle Daten der FUB-
+      internen Strukturen auf 0 zurckgesetzt. Wenn der FUB RTC_snF() aktiv
+      ist, bewirkt dies die Fehlermeldung 5600 (ungltiges Jahr). Diese
+      Fehlermeldung fhrt aber zu keiner Fehlfunktion.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @213[ Beispiel ]                         @210[ RTC_snC ]                     @001[ šbersicht ]
+.213
+    RTC_snC - Berechnung Sommerzeit/Normalzeit-Umschaltung (Fortsetzung)
+
+    Beispiel:
+    Zur Zeit ist in den europ„ischen Staaten kein fixes Datum festgelegt.
+    Derzeit wird noch nach folgenden Kriterien geschaltet:
+
+      ;*** SOMMERZEIT-Anfang:  LETZTES Wochenende im M„rz ***
+      nt_to_st.month = 3  ; Sommerzeit-Anfang im M„rz
+      nt_to_st.week  = 0  ; letztes Wochenende des Monats
+      nt_to_st.day   = 5  ; Schalttag ist ein Samstag
+      nt_to_st.hour  = 4  ; gewnschte Schaltstunde
+      ;*** SOMMERZEIT-Ende:    LETZTES Wochenende im September ***
+      st_to_nt.month = 9  ; Sommerzeit-Ende im September
+      st_to_nt.week  = 0  ; letztes Wochenende des Monats
+      st_to_nt.day   = 5  ; Schalttag ist ein Samstag
+      st_to_nt.hour  = 4  ; gewnschte Schaltstunde
+      ;*** Berechnung der Schalttage *** ("summer" und "normal" sind LONG-PVs)
+      RTC_snC (1,adr(nt_to_st),adr(st_to_nt),snC_activ,summer,normal)
+      ;****************** Sommer-Normalzeit-Umschaltung ********************
+      RTC_snF (1,summer,normal,snF_status)
+
+    @200[ Echtzeituhrfunktionen ]            @210[ RTC_snC ]                     @001[ šbersicht ]
+.214
+    RTC_snC - Berechnung Sommerzeit/Normalzeit-Umschaltung (Fortsetzung)
+
+    ->  Parameter <nt_to_st  >: RTC_switch-Struktur und
+    ->  Parameter <st_to_nt  >: RTC_switch-Struktur
+
+    Elemente der Struktur "RTC_switch":
+    month      : BYTE           Schaltmonat (1 bis 12). Dieser Wert wird auf 12
+                                begrenzt. Werte > 12 entsprechen 12.
+    week       : BYTE           Woche im Monat (0 bis 6). Dieser Wert wird auf
+                                6 begrenzt. Werte > 6 entsprechen 0.
+                                0 = LETZTE Woche
+                                1 = erste Woche
+                                :
+    day        : BYTE           Wochentag (0 bis 6). Begrenzung auf Modulo
+                                von 7 (Rest vom Vielfachen von 7). D.h. 7
+                                entspricht 0, 11 entspricht 4 , usw.
+                                0 = Montag
+                                :
+                                6 = Sonntag
+    hour       : BYTE           Schaltstunde
+
+                                     @215[ Fortsetzung ]                   @001[ šbersicht ]
+.215
+    RTC_snC - Berechnung Sommerzeit/Normalzeit-Umschaltung (Fortsetzung)
+
+    Anhand der Parameter "nt_to_st" und "st_to_nt" werden die entsprechenden
+    Schaltzeitpunkte fr das aktuelle Jahr berechnet und in die FUB-interne
+    Struktur eingetragen.
+    Da der Funktionsblock RTC_snC() auch Schaltjahre bercksichtigt, k”nnen
+    die Berechnungen fr jedes beliebige Jahr automatisch durchgefhrt werden.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @210[ RTC_snC ]                     @001[ šbersicht ]
+.216
+    RTC_snC - Berechnung Sommerzeit/Normalzeit-Umschaltung (Fortsetzung)
+
+    <-  Parameter <summer    >: LONG und
+    <-  Parameter <normal    >: LONG
+
+    Adresse der FUB-internen Sommerzeit- und Normalzeit-Struktur.
+    Elemente der FUB-internen Sommerzeit- und Normalzeit-Struktur:
+    year       : WORD           Aktuelles Jahr
+                                (wird von RTC_gettime() geliefert)
+    month      : BYTE           Schaltmonat
+                                (mittels Struktur RTC_switch bergeben)
+    day        : BYTE           Berechneter Schalttag
+                                (mittels Struktur RTC_switch bergeben)
+    reserve    : BYTE           Reserve
+    hour       : BYTE           Schaltstunde
+                                (mittels Struktur RTC_switch bergeben)
+    minute     : BYTE           Schaltminute: immer 0
+    millisec   : WORD           immer 0 (wird in RTC_snF() nicht ausgewertet)
+    microsec   : WORD           immer 0 (wird in RTC_snF() nicht ausgewertet)
+
+
+                                     @217[ Fortsetzung ]                   @001[ šbersicht ]
+.217
+    RTC_snC - Berechnung Sommerzeit/Normalzeit-Umschaltung (Fortsetzung)
+
+    An den Ausg„ngen "summer" und "normal" werden immer die Adressen der FUB-
+    internen SCHALTSTRUKTUREN ausgegeben. Dies gilt auch bei "enable" gleich 0.
+    Wenn der Eingang "enable" gleich 0 ist, werden allerdings alle Daten der
+    FUB-internen Strukturen auf 0 zurckgesetzt.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @210[ RTC_snC ]                     @001[ šbersicht ]
+.220
+    RTC_snF - Sommerzeit/Normalzeit-Umschaltung
+
+    @221[RTC_snF] (enable,summer,normal,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  @224[summer    ]: LONG          Adresse der Sommerzeit-Struktur.
+    ->  @224[normal    ]: LONG          Adresse der Normalzeit-Struktur.
+    <-  @226[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Die bereitgestellten Struktur-Adressen des Funktionsblocks RTC_snC()
+    (siehe Ausgang "summer" und "normal") k”nnen direkt an den Funktions-
+    block RTC_snF() angeschlossen werden. Dieser Funktionsblock fhrt das
+    eigentliche Umschalten aus.
+    Der Funktionsblock RTC_snF() korrigiert die aktuelle Uhrzeit an den zwei
+    bergebenen Schaltzeitpunkten. Beim Schaltzeitpunkt "summer" wird die Uhr-
+    zeit um eine Stunde erh”ht (Sommerzeit), beim Schaltzeitpunkt "normal"
+    wird die Uhrzeit um eine Stunde verringert (Normalzeit).
+
+
+                                     @221[ Fortsetzung ]                   @001[ šbersicht ]
+.221
+    RTC_snF - Sommerzeit/Normalzeit-Umschaltung (Fortsetzung)
+
+    SCHALTVERHALTEN:
+    - Nach einem DOWNLOAD oder KALTSTART (frher "TOTALINIT" genannt) wird
+      die aktuelle Zeit als gltige Sommer- oder Normalzeit bernommen (die
+      Entscheidung zwischen Sommer- und Normalzeit erfolgt anhand des Datums).
+
+    - Nach einem POWER ON oder nach einer versp„teten FUB-Freigabe wird ein
+      erforderlicher Schaltvorgang (Schaltvorg„nge) SOFORT oder nach dem
+      šBERSCHREITEN der Toleranzzeiten NACHGEHOLT.
+
+      + 1 Stunde:       sp„testens: 22xx Uhr    frhestens: 0xx Uhr
+      - 1 Stunde:                   23xx Uhr                1xx Uhr
+
+    - Wenn die Sommerzeit-Umschaltung nicht durchgefhrt wurde und der FUB
+      erst nach der Normalzeit-Umschaltung wieder aktiviert wird, werden die
+      beiden Schaltvorg„nge "nicht durchgefhrt", da die aktuelle Zeit in
+      diesem Fall die Normalzeit ist.
+
+
+
+    @222[ Fortsetzung ]                      @220[ RTC_snF ]                     @001[ šbersicht ]
+.222
+    RTC_snF - Sommerzeit/Normalzeit-Umschaltung (Fortsetzung)
+
+    SCHALTVERHALTEN (Fortsetzung):
+    - Falls die Schaltzeitpunkte aus Testgrnden mehrmals in einem Jahr ver-
+      „ndert werden sollten, ist folgendes zu beachten:
+      Der FUB schaltet nur von Sommer- auf Normalzeit oder umgekehrt (also
+      kein mehrmaliges Durchfhren von Sommerzeit-Umschaltungen an ver-
+      schiedenen Tagen in einem Jahr).
+
+    - Wenn der FUB RTC_snC() deaktiviert ist, wird am Ausgang "status" des FUBs
+      RTC_snF() die Fehlermeldung 5600 (ungltiges Jahr) ausgegeben. Dies fhrt
+      jedoch zu keiner Fehlfunktion. Sobald der FUB RTC_snC() wieder aktiv ist,
+      setzt der FUB RTC_snF() die Schaltzeitpunkt-Kontrolle fort.
+
+
+
+
+
+
+
+
+    @223[ Beispiel ]                         @220[ RTC_snF ]                     @001[ šbersicht ]
+.223
+    RTC_snF - Sommerzeit/Normalzeit-Umschaltung (Fortsetzung)
+
+    Beispiel:
+    Zur Zeit ist in den europ„ischen Staaten kein fixes Datum festgelegt.
+    Derzeit wird noch nach folgenden Kriterien geschaltet:
+
+      ;*** SOMMERZEIT-Anfang:  LETZTES Wochenende im M„rz ***
+      nt_to_st.month = 3  ; Sommerzeit-Anfang im M„rz
+      nt_to_st.week  = 0  ; letztes Wochenende des Monats
+      nt_to_st.day   = 5  ; Schalttag ist ein Samstag
+      nt_to_st.hour  = 4  ; gewnschte Schaltstunde
+      ;*** SOMMERZEIT-Ende:    LETZTES Wochenende im September ***
+      st_to_nt.month = 9  ; Sommerzeit-Ende im September
+      st_to_nt.week  = 0  ; letztes Wochenende des Monats
+      st_to_nt.day   = 5  ; Schalttag ist ein Samstag
+      st_to_nt.hour  = 4  ; gewnschte Schaltstunde
+      ;*** Berechnung der Schalttage *** ("summer" und "normal" sind LONG-PVs)
+      RTC_snC (1,adr(nt_to_st),adr(st_to_nt),snC_activ,summer,normal)
+      ;****************** Sommer-Normalzeit-Umschaltung ********************
+      RTC_snF (1,summer,normal,snF_status)
+
+    @200[ Echtzeituhrfunktionen ]            @220[ RTC_snF ]                     @001[ šbersicht ]
+.224
+    RTC_snF - Sommerzeit/Normalzeit-Umschaltung (Fortsetzung)
+
+    ->  Parameter <summer    >: LONG und
+    ->  Parameter <normal    >: LONG
+
+    Adresse der Sommerzeit- und Normalzeit-Struktur. Elemente der Sommerzeit-
+    und Normalzeit-Struktur:
+    year       : WORD           Jahr in dem geschaltet wird
+    month      : BYTE           Schaltmonat
+    day        : BYTE           Schalttag
+    reserve    : BYTE           Reserve
+    hour       : BYTE           Schaltstunde
+    minute     : BYTE           Schaltminute
+    millisec   : WORD           wird in RTC_snF() nicht ausgewertet
+    microsec   : WORD           wird in RTC_snF() nicht ausgewertet
+
+    Die bereitgestellten Struktur-Adressen des Funktionsblocks RTC_snC()
+    (siehe Ausgang "summer" und "normal") k”nnen direkt an den Funktions-
+    block RTC_snF() angeschlossen werden. Dieser Funktionsblock fhrt das
+    eigentliche Umschalten aus.
+
+                                     @225[ Fortsetzung ]                   @001[ šbersicht ]
+.225
+    RTC_snF - Sommerzeit/Normalzeit-Umschaltung (Fortsetzung)
+
+    Der Schaltzeitpunkt muá so gew„hlt werden, daá keine Datums-nderung
+    erfolgt (ñ1 Stunde beachten).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @220[ RTC_snF ]                     @001[ šbersicht ]
+.226
+    RTC_snF - Sommerzeit/Normalzeit-Umschaltung (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion RTC_snF():
+    2073    Keine RTC (Echtzeituhr) vorhanden
+    3313    Ungltige Version der BURTRAP-Library
+    3584    Keine Zeit verfgbar (ERR_BUR_NOTIME)
+    5600    Schaltzeitpunkte nicht fr das aktuelle Jahr
+            (oder RTC_snC() deaktiviert)
+    5601    Schaltmonate vertauscht
+    5602    Angegebener Schaltzeitpunkt wrde eine Datums„nderung bewirken
+
+    Eine Liste aller m”glichen Fehlermeldungen der PLC-Library finden Sie im
+    Anhang @600[Fehlermeldungen].
+
+    ACHTUNG:
+    Die Fehlernummern 5600/5601/5602 werden solange am FUB-Ausgang "status"
+    ausgegeben, bis die Parameter "summer" und "normal" korrigiert sind.
+    Andernfalls wird KEIN Schaltvorgang durchgefhrt.
+
+                                       @220[ RTC_snF ]                     @001[ šbersicht ]
+.500
+    ANHANG : LIBRARY-Informationen
+
+
+    @501[< Allgemeines       >]      Voraussetzungen etc.
+
+    @550[< Syntax            >]      Syntax fr die Erkl„rung der Funktionen
+
+    @600[< Fehlernummern     >]      Zusammenfassung aller Fehlernummern
+
+    @650[< Ausfhrungszeiten >]      Ausfhrungszeiten und Stackbedarf
+
+    @700[< History           >]      Neue Funktionalit„ten und Versions„nderungen
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.501
+    PLC-Library : Allgemeines
+
+    Anmerkungen:
+    - Bevor Sie die Funktionen der PLC-Library in Ihrem Projekt verwenden
+      k”nnen, mssen Sie die Library in die entsprechende Projekt-Datenbank
+      importieren.
+
+    - Da die PLC-Library nur lokale Funktionsbl”cke (keine AVT-Funktionsbl”cke)
+      enth„lt, muá kein Library-Runtime-Modul in die Steuerung bertragen
+      werden.
+
+    - Die RTC-Echtzeituhrfunktionen der PLC-Library ben”tigen die Funktionen
+      RTC_gettime(), RTC_settime() und SYS_info() der BURTRAP-Library. Aus
+      diesem Grund k”nnen die RTC-Echtzeituhrfunktionen nur verwendet werden,
+      wenn das Runtime-Modul der BURTRAP-Library (B&R-Modul BURTRAP.BR) im
+      nullspannungssicheren Speicher (Anwender-ROM) der Steuerung vorhanden
+      ist.
+
+    - Einige Funktionen der PLC-Library liefern im Fehlerfall als Ergebnis eine
+      @600[Fehlernummer].
+
+                                       @500[ ANHANG ]                      @001[ šbersicht ]
+.550
+    PLC-Library : Syntaxbeschreibung
+
+    Datentypen:
+    Fr viele Funktionen sind bestimmte Gruppen von Datentypen zul„ssig. Um
+    bei der Funktionsbeschreibung nicht alle zul„ssigen Datentypen anfhren
+    zu mssen, werden folgende Gruppenbezeichnungen eingefhrt:
+    ÉÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍ»
+    º Gruppe º  BIT  ³ INT8  ³ BYTE  ³ INT16 ³ WORD  ³ INT32 ³ LONG  ³ FLOAT º
+    ÌÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍ¹
+    º BASIS  º       ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º NICHT  º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    º FLOAT  º       ³       ³       ³       ³       ³       ³       ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º ALLE   º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º FELD   º  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  º
+    ÈÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍ¼
+      x  Datentyp ist zul„ssig
+     [x] Datentyp ist zul„ssig als Feldvariable oder Zeichenkette (String)
+
+                                     @551[ Fortsetzung ]                   @001[ šbersicht ]
+.551
+    PLC-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Pfeile:
+    Fr die Darstellung von Eingangs- und Ausgangsparametern werden Pfeile
+    verwendet. Dabei gilt folgende Vereinbarung:
+    ÉÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º  Pfeil  º  Bedeutung                                                   º
+    ÌÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º   ->    º  Eingangsparameter                                           º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <->   º  Ein-/Ausgangsparameter. Funktionell ist es ein Ausgangs-    º
+    º         º  parameter. šblicherweise wird er aber vor dem Aufruf der    º
+    º         º  Funktion mit einer bestimmten Information geladen (z.B.     º
+    º         º  einer Adresse). Meist wird die Adresse einer Variable mit   º
+    º         º  adr() [PL2000] oder einem Adreákontakt [KOP] angeschlossen. º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <-    º  Ausgangsparameter                                           º
+    ÈÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @552[ Fortsetzung ]                   @001[ šbersicht ]
+.552
+    PLC-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Funktionsbl”cke:
+    Funktionsbl”cke sind in dieser Online-Hilfe nicht grafisch dargestellt.
+    Sie finden aber alle fr Funktionsbl”cke relevanten Informationen, wie
+    Eingangsparameter (->), Ein-/Ausgangsparameter (<->) und Ausgangsparameter
+    (<-) in der Online-Hilfe.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @500[ ANHANG ]                      @001[ šbersicht ]
+.600
+    FEHLER-NUMMERN der PLC-Library-FUBs
+
+    Die folgende Liste ist eine Zusammenfassung aller m”glichen Fehlermeldungen
+    der PLC-Library:
+
+    2073    RTC_*(): Keine RTC (Echtzeituhr) vorhanden
+    3313    RTC_*(): Ungltige Version der BURTRAP-Library
+    3584    RTC_*(): Keine Zeit verfgbar (ERR_BUR_NOTIME)
+
+    5600    RTC_snF(): Schaltzeitpunkte nicht fr das aktuelle Jahr
+    5601    RTC_snF(): Schaltmonate vertauscht
+    5602    RTC_snF(): Schaltzeitpunkt wrde eine Datums„nderung bewirken
+
+    5605    RTC_bfix(): Maximale Korrekturzeit pro Tag berschritten
+    5606    RTC_bfix(): Maximale Gesamt-Korrekturzeit berschritten
+
+
+
+
+
+
+                                       @500[ ANHANG ]                      @001[ šbersicht ]
+.650
+    PLC-Library : Ausfhrungszeiten
+
+    Die folgende Tabelle zeigt die Ausfhrungszeiten der PLC-Library-Funktionen
+    sowie deren Stackbedarf:
+ ÉÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Funktion º  Ausfhrungs- ³ Userstack ³  Supervisor-  ³ Anmerkung           º
+ º          º  zeiten [æs]  ³  [Bytes]  ³ stack [Bytes] ³                     º
+ ÌÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º sig_disk º   37,1-39,5   ³     24    ³       -       ³                     º
+ º sig_limi º   43,0-45,4   ³     24    ³       -       ³                     º
+ º sig_PT2H º   51,4-54,6   ³     28    ³       -       ³.. Standardparameter º
+ º          º   51,4-59,7   ³           ³               ³.. h=0               º
+ º sig_PT3H º   64,4-73,9   ³     24    ³       -       ³.. Standardparameter º
+ º          º   64,4-83,5   ³           ³               ³.. h=0               º
+ º sig_nsca º  163,4-169,5  ³    108    ³       -       ³.. n=2               º
+ º          º  163,4-212,5  ³           ³               ³.. n=10              º
+ º          º  163,4-233,5  ³           ³               ³.. n=50              º
+ º          º    ca. 10,2   ³.. Zeit pro Approximations-Scan (oben inkl.)     º
+ º          º    ca. 18,4   ³.. max. Zeitschwankung fr LONG-Multiplikation   º
+ ÈÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                     @651[ Fortsetzung ]                   @001[ šbersicht ]
+.651
+    PLC-Library : Ausfhrungszeiten (Fortsetzung)
+
+ ÉÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Funktion º  Ausfhrungs- ³ Userstack ³  Supervisor-  ³ Anmerkung           º
+ º          º  zeiten [æs]  ³  [Bytes]  ³ stack [Bytes] ³                     º
+ ÌÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º sig_scal º  113,9-119,4  ³     76    ³       -       ³                     º
+ º sig_sign º   28,8-30,3   ³     24    ³       -       ³                     º
+ ÌÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º AI_4_20  º   23,2-24,3   ³     24    ³       -       ³                     º
+ º AO_4_20  º     23,8      ³     24    ³       -       ³                     º
+ º i_to_met º               ³    164    ³       -       ³ siehe met_to_i()    º
+ º met_to_i º 1017,9-1119,0 ³    156    ³       -       ³.. Exponenten-Diff=1 º
+ º          º 1163,2-1258,9 ³           ³               ³.. Exponenten-Diff=2 º
+ º          º 1310,1-1404,8 ³           ³               ³.. Exponenten-Diff=3 º
+ º          º 1458,6-1558,7 ³           ³               ³.. Exponenten-Diff=4 º
+ º          º 1745,9-1847,0 ³           ³               ³.. Exponenten-Diff=6 º
+ º          º   ca. 146,7   ³.. Zeit pro zus„tzliche Exponenten-Differenz     º
+ º          º   ca. 101,2   ³.. max. Zeitschwankung fr FLOAT-Multiplikation  º
+ ÈÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                     @652[ Fortsetzung ]                   @001[ šbersicht ]
+.652
+    PLC-Library : Ausfhrungszeiten (Fortsetzung)
+
+ ÉÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º Funktion º  Ausfhrungs- ³ Userstack ³  Supervisor-  ³ Anmerkung           º
+ º          º  zeiten [æs]  ³  [Bytes]  ³ stack [Bytes] ³                     º
+ ÌÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º cmp_2I16 º   37,2-40,2   ³     24    ³       -       ³                     º
+ º sel_bit  º   36,2-40,3   ³     24    ³       -       ³                     º
+ º sel_high º      35,1     ³     24    ³       -       ³                     º
+ º sel_tmax º   39,1-41,0   ³     24    ³       -       ³.. "preset"=1/0      º
+ º sel_tmin º   39,1-41,0   ³     24    ³       -       ³.. "preset"=1/0      º
+ º sel_1of2 º      33,2     ³     24    ³       -       ³                     º
+ º sel_1of4 º   40,5-42,6   ³     24    ³       -       ³                     º
+ ÌÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+ º RTC_bfix º  254,6-349,0  ³    152    ³       42      ³.. 1 Jahr deakt./std.º
+ º RTC_snC  º  207,2-336,6  ³    132    ³       22      ³.. Max. Berechn./std.º
+ º RTC_snF  º  195,9-225,4  ³     68    ³       22      ³.. Max. Schalten/std.º
+ ÈÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                       @500[ ANHANG ]                      @001[ šbersicht ]
+.700
+    PLC-Library : History - Versions„nderungen
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.01           ³                                                         º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Erste Version der Online-Hilfe fr die PLC-Library.                       º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @500[ ANHANG ]                      @001[ šbersicht ]
+
+.End

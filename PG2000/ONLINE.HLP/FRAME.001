@@ -1,0 +1,2445 @@
+%%
+1,0:1
+%%
+.1
+    Frame Driver Library Functions
+
+    @020[FRM_xopen] Initialize an interface (eXtended open)
+    @040[FRM_open ] Initialize an interface
+    @080[FRM_mode ] Change the interface parameters
+    @090[FRM_read ] Read data and place it in the read buffer
+    @100[FRM_rbuf ] Release the receive buffer
+    @110[FRM_gbuf ] Request a send buffer
+    @120[FRM_write] Send data in send buffer
+    @130[FRM_robuf] Release the send buffer
+    @140[FRM_close] De-initialize the interface
+    @150[FRM_ctrl ] Control the interface
+
+
+  ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ NOTE: The functions of this library can only be used if the Frame Driver  บ
+  บ       DVFRAME.BR is available on the CPU User-ROM                         บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                      @200[ APPENDIX ]                      @999[ End HELP ]
+.20
+    FRM_xopen - Initialize an interface - eXtended open
+
+    @021[FRM_xopen] (enable,device,mode,config,status,ident)
+
+    Parameter Data Types :
+    ->  @025[enable   ] : BIT           The function block is only executed if
+                                  enable = 1
+    ->  @026[device   ] : LONG          Use this input to enter the string address
+                                  which uniquely identifies the interface to
+                                  be used.                                  
+    ->  @028[mode     ] : LONG          Enter a string address for configuring
+                                  interface parameters at this input.
+    ->  @030[config   ] : LONG          Represents the address of a configuration
+                                  structure (optional input). Normally it is
+                                  not necessary to define this structure.
+    <-  @033[status   ] : WORD          Error number (0 = no error)
+    <-  ident     : LONG          Interface driver ID code (required for
+                                  the other Frame Driver library functions)
+    
+
+
+                                      @021[ Continue ]                      @001[ Overview ]
+.21
+    FRM_xopen - Initialize an interface - eXtended open (continued)
+
+
+    Before data in "frames" can be sent or received using the functions
+    FRM_write() and FRM_read(), the interface to be used must first be
+    initialized. Interfaces are initialized with the FRM_xopen() function.
+    For initialization, information such as the slot and interface number,
+    baud rate, number of buffers and their size must be entered. Up to 16
+    interfaces can be operated simultaneously using the function FRM_xopen().
+
+    Note:
+    - Using the FRM_xopen() function block requires that PCCSW version V1.91
+      or higher is installed.
+    - The IF050 and IF060 modules (passive interface modules) can only be used
+      if the FRAME-BASE driver FBIF050.BR (for IF050) and FBIF060.BR (for 
+      IF060) are available on the CPU (User-ROM).
+
+
+
+
+
+                                                                      @001[ Overview ]
+.25
+    FRM_xopen - Initialize an interface - eXtended open (continued)
+
+    -> Parameter <enable    >: BIT
+
+    If the input "enable" is set when the function FRM_xopen() is called,
+    the interface will be initialized and the buffer for the Frame Driver
+    allocated.
+    After successful execution of FRM_xopen(), the "enable" input must be
+    set back to 0.
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @020[ FRM_xopen ]                     @001[ Overview ]
+.26
+    FRM_xopen - Initialize an interface - eXtended open (continued)
+
+    -> Parameter <device    >: LONG
+
+    In this input the string address is entered which uniquely identifies the
+    interface to be used.                                  
+    String Format:
+    [SL<x>].[SS<x>].[IF<x>]
+    SL: Slot with number <x>. Possible slot numbers run from 0 (CPU slot) to
+        15 (last system bus slot).
+    SS: Subslot with number <x>. Subslots are the the slots within a module
+        which are used for screw-in modules. (CP260, CP472: <x> = 1 or 2).
+    IF: Interface number <x>.
+
+    The separator for arguments is a point ("."), but other separator types
+    can be used.
+    No distinction is made between upper and lower case letters.
+
+
+
+
+                                      @027[ Continue ]                      @001[ Overview ]
+.27
+    FRM_xopen - Initialize an interface - eXtended open (continued)
+
+    Example of a valid device description:
+
+    "IF2"
+    "SL5.IF3"
+    "SS1.IF1"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @020[ FRM_xopen ]                     @001[ Overview ]
+.28
+    FRM_xopen - Initialize an interface - eXtended open (continued)
+
+    -> Parameter <mode      >: LONG
+
+    An input string used to configure interface parameters.
+
+    Strings Format:
+    [<Type>],[<Baudrate>],[<Parity>],[<Data bits>],[<Stop bits>],[<Options>]
+
+    Type:      The interface can be initialized as any of the following
+               interface types, according to what the hardware supports:
+                            [RS232|RS422|RS485|TTY|RS422BUS]
+               Default: RS232
+    Baudrate:  The following baudrates may be configured:
+               [300|600|1200|2400|4800|9600|19200|38400|57600|115200]
+               Default: 57600
+    Parity:    Possible settings are [N|O|E], i.e. none, odd or even.
+               Default: none
+
+
+
+                                      @029[ Continue ]                      @001[ Overview ]
+.29
+    FRM_xopen - Initialize an interface - eXtended open (continued)
+
+    Data bits: 7 or 8 data bits may be used [7|8].
+               Default: 8 data bits
+    Stop bits: 1 or 2 stop bits may be used [1|2].
+               Default: 1 stop bit
+    Options:  If RS232 is selected as the interface type, the following options
+              are valid:
+               [HW] ... Hardware Handshake (RTS/CTS) or
+               [RT] ... for controlling an external coupler (INT1) with the
+                        RTS line.
+
+    The separator for arguments is a point ("."), but other separator types
+    can be used.
+    No distinction is made between upper and lower case letters.
+    Parameters can be specified in any order.
+
+    Example of a valid mode description:
+    "19200,7,E,1"
+    "RS485,N,8,1,9600"
+    "RS232, 38400, HW"
+                                      @020[ FRM_xopen ]                    @001[ Overview ]
+.30
+    FRM_xopen - Initialize an interface - eXtended open (continued)
+
+    -> Parameter <config    >: LONG
+
+    The address of a configuration structure can be entered for this input.
+    This entry is optional.
+
+    Structure Elements:
+    idle       : WORD           @223[Max. idle time between characters]
+                                (default value: 4)
+    delimc     : WORD           Activate frame termination character
+                                (default value: 0)
+    delim      : 2 BYTE (ARRAY) @222[Frame termination character]
+                                (default value: 0,0)
+    tx_cnt     : WORD           Number of send buffers (max. 8)
+                                (default value: 2)
+    rx_cnt     : WORD           Number of receive buffers (max. 8)
+                                (default value: 2)
+
+
+
+                                      @031[ Continue ]                      @001[ Overview ]
+.31
+    FRM_xopen - Initialize an interface - eXtended open (continued)
+
+    tx_len     : WORD           Length of the send buffer
+                                (default value: 256 bytes)
+    rx_len     : WORD           Length of the receive  buffer
+                                (default value: 256 bytes)
+    argc       : WORD           Number of additional arguments in "argv"
+                                (default value: 0)
+    @032[argv       ]: LONG           Address of a LONG array with additional
+                                arguments.
+                                (default value: 0)
+
+
+
+
+
+
+
+
+
+
+                                      @020[ FRM_xopen ]                     @001[ Overview ]
+.32
+    FRM_xopen - Initialize an interface - eXtended open (continued)
+
+    The structure element "argv" contains the address of a LONG array with
+    additional arguments. Each argument consists of two LONG elements.
+    The first LONG element contains the argument number, and the second, the
+    value of the argument. the following arguments are evaluated:
+
+    ษออออออัออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ  No. ณ Meaning                                                          บ
+    ฬออออออุออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ   0  ณ Baudrate (enables the usual baudrates to be set                  บ
+    วฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ  15  ณ Address of an RX-Poll PV (USER-communication: receive frame)     บ
+    วฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ  17  ณ Address of a TX-Poll PV (USER-communication: send frame)         บ
+    วฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ (14) ณ Only used by the C-interface.                                    บ
+    บ      ณ USER-communication via an event: Frame receive.                  บ
+    ศออออออฯออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+                                        @031[ Back ]                        @001[ Overview ]
+.33
+    FRM_xopen - Initialize an interface - eXtended open (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers for the FRM_xopen() function:
+      258   Frame Driver not loaded
+     3008   Frame Driver not loaded
+     8074   Device to be accessed does not exist, or FRAME-BASE driver for
+            the IF050/IF060 is not loaded.
+     8252   Syntax error in the device string (see parameter "device")
+     8253   Syntax error in the Mode string (see parameter "mode")
+     8254   The maximum number of devices allowed open at the same time
+            was exceeded.
+     8255   PCCSW version to old (PCCSW version 1.91 or higher must be used).
+    14808   A setting in the Mode string (see Parameter "mode") is not
+            supported by the interface.
+
+    A list of all possible Frame Driver error messages can be found in the 
+    @300[error messages] appendix.
+
+
+                                      @020[ FRM_xopen ]                     @001[ Overview ]
+.40
+    FRM_open - Initialize an Interface
+
+    @041[FRM_open] (enable,dvnr,frmdelim,baud,mode,rxbufcnt,txbufcnt,rxbuflng,
+              txbuflng,arginfo,adr(argliste),status,ident)
+
+    Parameter Data Types:
+    ->  @045[enable   ] : BIT           The function block is only executed if
+                                  enable = 1
+    ->  @046[dvnr     ] : BYTE          Number of interface used
+    ->  @055[frmdelim ] : LONG          Frame termination character
+    ->  @056[baud     ] : WORD          Baud rate
+    ->  @057[mode     ] : LONG          Interface configuration
+    ->  @062[rxbufcnt ] : WORD          Number of receive buffers (RX)
+    ->  @062[txbufcnt ] : WORD          Number of send buffers (TX)
+    ->  @063[rxbuflng ] : WORD          Maximum size of receive buffer
+    ->  @063[txbuflng ] : WORD          Maximum size of send buffer
+    ->  @064[arginfo  ] : LONG          Number of additional parameters in "argliste"
+    ->  @064[argliste ] : LONG (ARRAY)  List of additional parameters for arrays 
+                                  (extended parameter definition)
+
+
+                                      @021[ Continue ]                      @001[ Overview ]
+.41
+    FRM_open - Initialize an Interface (continued)
+
+    <-  @073[status   ] : WORD          Error number (0 = no error)
+    <-  ident     : LONG          Interface driver ID code (required by
+                                  other Frame Driver functions)
+
+    Before data in "frames" can be sent or received using the functions
+    FRM_write() and FRM_read(), the interface to be used must first be
+    initialized. Initialization is carried out with the FRM_open() function.
+    For initialization, information such as the interface number, baud rate,
+    number and size of buffers etc. must be entered. 
+
+    NOTE:
+    - The function FRM_open() can only be used if the Frame Driver modules
+      DVFRAME.BR or DVFRAME3.BR (required for IF050 interface) is available
+      on the CPU (User-ROM).
+
+    - From version 3.10 of the Frame Driver library and version 1.91 of the
+      PCCSW, the FRM_xopen() function can also be used to initialize interfaces.
+
+
+                                       @042[ Example ]                      @001[ Overview ]
+.42
+    FRM_open - Initialize an Interface (example)
+
+    The B&R 2010 system is to be used. The data will be will be sent/received
+    via the lower CPU interface (RS232). Default values will be used for the
+    other input parameters:
+
+      ; Standard initialization e.g. in INIT SP of task
+      dvnr = 1                ; B&R 2010: bottom interface (RS232)
+      frmdelim = 0            ; Frame idle time
+      baud = 96               ; Baud rate 9600
+      mode = $0101            ; No parity, 8 data bits, 1 stop bit
+      rxbufcnt = 1            ; 1 receive buffer
+      txbufcnt = 1            ; 1 send buffer
+      rxbuflng = $0010        ; 16 byte receive buffer
+      txbuflng = $0080        ; 128 byte send buffer
+      arginfo = 0             ; No additional parameters
+
+
+
+
+
+                                 @043[ Continue - Example ]                 @001[ Overview ]
+.43
+    FRM_open - Initialize an Interface (example - continued)
+
+      ; INITIALIZE the desired interface
+      ; Initialization must be carried out error-free in order for all
+      ; other Frame Driver functions to be work (opnstatus = 0) !!!
+
+      if open = 0 then
+          FRM_open(1,dvnr,frmdelim,baud,mode,rxbufcnt,txbufcnt,rxbuflng,
+                   txbuflng,arginfo,adr(argliste),opnstatus,frmident)
+          open = 1
+      endif
+
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.45
+    FRM_open - Initialize an Interface (continue)
+
+    -> Parameter <enable    >: BIT
+
+    If the "enable" input is set when the FRM_open() function is called, the
+    interface is initialized and the Frame Driver buffers are allocated.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @040[ FRM_open ]                      @001[ Overview ]
+.46
+    FRM_open - Initialize an Interface (continued)
+
+    -> Parameter <dvnr      >: BYTE
+
+    Interface Numbers:
+    ษอออออออัอออออออออออออออออออออออออออัออออออัอออออออออออออออออัอออออออออออออป
+    บ Moduleณ Interface                 ณ dvnr ณ Type            ณ Driver      บ
+    ฬอออออออุอออออออออออออออออออออออออออุออออออุอออออออออออออออออุอออออออออออออน
+    บ CP100 ณ IF1 (top interface)       ณ 0    ณ RS232           ณ DVFRAME.BR  บ
+    บ       ณ IF3 (middle interface)    ณ 2    ณ RS485/RS422     ณ DVFRAME.BR  บ
+    บ       ณ IF2 (bottom interface)    ณ 1    ณ RS232/TTY       ณ DVFRAME.BR  บ
+    ฬอออออออุอออออออออออออออออออออออออออุออออออุอออออออออออออออออุอออออออออออออน
+    บ CP200 ณ IF1 (top interface)       ณ 0    ณ RS232           ณ DVFRAME.BR  บ
+    บ       ณ IF3 (middle interface)    ณ 2    ณ RS485/RS422     ณ DVFRAME.BR  บ
+    บ       ณ IF2 (bottom interface)    ณ 1    ณ RS232           ณ DVFRAME.BR  บ
+    ฬอออออออุอออออออออออออออออออออออออออุออออออุอออออออออออออออออุอออออออออออออน
+    บ CP104 ณ IF1 (top interface)       ณ 0    ณ RS232           ณ DVFRAME.BR  บ
+    บ       ณ IF2 (bottom interface)    ณ 1    ณ RS232/TTY       ณ DVFRAME.BR  บ
+    ศอออออออฯอออออออออออออออออออออออออออฯออออออฯอออออออออออออออออฯอออออออออออออผ
+
+
+                                      @047[ Continue ]                      @001[ Overview ]
+.47
+    FRM_open - Initialize an Interface (continued)
+
+    Interface Numbers (continued):
+    ษอออออออัอออออออออออออออออออออออออออัออออออัอออออออออออออออออัอออออออออออออป
+    บ Moduleณ Interface                 ณ dvnr ณ Type            ณ Driver      บ
+    ฬอออออออุอออออออออออออออออออออออออออุออออออุอออออออออออออออออุอออออออออออออน
+    บ IF10x ณ IF1                       ณ 0    ณ RS232           ณ DVFRAME.BR  บ
+    บ       ณ IF3                       ณ 2    ณ RS485/RS422/RIO ณ DVFRAME.BR  บ
+    บ       ณ IF2                       ณ 1    ณ RS232/TTY       ณ DVFRAME.BR  บ
+    ฬอออออออุอออออออออออออออออออออออออออุออออออุอออออออออออออออออุอออออออออออออน
+    บ MP100 ณ IF1 (top interface)       ณ 0    ณ RS232           ณ DVFRAME.BR  บ
+    บ       ณ IF3 (bottom interface)    ณ 2    ณ RS485/RS422     ณ DVFRAME.BR  บ
+    ฬอออออออุอออออออออออออออออออออออออออุออออออุอออออออออออออออออุอออออออออออออน
+    บ CP15x ณ IF2 (top interface)       ณ 1    ณ RS485/RS422/TTY ณ DVFRAME.BR  บ
+    บ       ณ IF1 (bottom interface)    ณ 0    ณ RS232           ณ DVFRAME.BR  บ
+    ฬอออออออุอออออออออออออออออออออออออออุออออออุอออออออออออออออออุอออออออออออออน
+    บ XP152 ณ Bottom interface          ณ 0    ณ RS232           ณ DVFRAME.BR  บ
+    ฬอออออออุอออออออออออออออออออออออออออุออออออุอออออออออออออออออุอออออออออออออน
+    บ IP151 ณ Bottom interface          ณ 0    ณ RS232           ณ DVFRAME.BR  บ
+    ศอออออออฯอออออออออออออออออออออออออออฯออออออฯอออออออออออออออออฯอออออออออออออผ
+
+                                      @048[ Continue ]                      @001[ Overview ]
+.48
+    FRM_open - Initialize an Interface (continued)
+
+    Interface Numbers (continued):
+    ษอออออออัอออออออออออออออออออออออออออัออออออัอออออออออออออออออัอออออออออออออป
+    บ Moduleณ Interface                 ณ dvnr ณ Type            ณ Driver      บ
+    ฬอออออออุอออออออออออออออออออออออออออุออออออุอออออออออออออออออุอออออออออออออน
+    บ IF152 ณ Lower interface           ณ 0    ณ RS232           ณ DVFRAME.BR  บ
+    ฬอออออออุอออออออออออออออออออออออออออุออออออุอออออออออออออออออุอออออออออออออน
+    บ CP470 ณ RS232 interface           ณ 0    ณ RS232           ณ DVFRAME.BR  บ
+    ฬอออออออุอออออออออออออออออออออออออออุออออออุอออออออออออออออออุอออออออออออออน
+    บ CP770 ณ RS232 interface           ณ 0    ณ RS232           ณ DVFRAME.BR  บ
+    ฬอออออออุอออออออออออออออออออออออออออุออออออุอออออออออออออออออุอออออออออออออน
+    บ CP474 ณ RS232 interface           ณ 0    ณ RS232           ณ DVFRAME.BR  บ
+    บ       ณ Interface module for      ณ      ณ RS232 or        ณ             บ
+    บ       ณ slot 1                    ณ 1    ณ RS485/RS422     ณ DVFRAME.BR  บ
+    บ       ณ Interface module for      ณ      ณ RS232 or        ณ             บ
+    บ       ณ slot 2                    ณ 2    ณ RS485/RS422     ณ DVFRAME.BR  บ
+    ศอออออออฯอออออออออออออออออออออออออออฯออออออฯอออออออออออออออออฯอออออออออออออผ
+
+
+
+                                      @049[ Continue ]                      @001[ Overview ]
+.49
+    FRM_open - Initialize an Interface (continued)
+
+    Interface Numbers (continued):
+    ษอออออออัอออออออออออออออออออออออออออัออออออัอออออออออออออออออัอออออออออออออป
+    บ Moduleณ Interface                 ณ dvnr ณ Type            ณ Driver      บ
+    ฬอออออออุอออออออออออออออออออออออออออุออออออุอออออออออออออออออุอออออออออออออน
+    บ CP774 ณ RS232 interface           ณ 0    ณ RS232           ณ DVFRAME.BR  บ
+    บ       ณ Interface module for      ณ      ณ RS232 or        ณ             บ
+    บ       ณ slot 1                    ณ 1    ณ RS485/RS422     ณ DVFRAME.BR  บ
+    บ       ณ Interface module for      ณ      ณ RS232 or        ณ             บ
+    บ       ณ slot 2                    ณ 2    ณ RS485/RS422     ณ DVFRAME.BR  บ
+    ฬอออออออุอออออออออออออออออออออออออออุออออออุอออออออออออออออออุอออออออออออออน
+    บ IF050 ณ IF1 (upper interface)     ณ 3    ณ RS232           ณ DVFRAME3.BR บ
+    บ @050[(1)]   ณ IF3 (middle interface)    ณ 5    ณ RS485/RS422     ณ DVFRAME3.BR บ
+    บ       ณ IF2 (lower interface)     ณ 4    ณ RS232/TTY       ณ DVFRAME3.BR บ
+    ฬอออออออุอออออออออออออออออออออออออออุออออออุอออออออออออออออออุอออออออออออออน
+    บ IF050 ณ IF1 (upper interface)     ณ 6    ณ RS232           ณ DVFRAME3.BR บ
+    บ @050[(2)]   ณ IF3 (middle interface)    ณ 8    ณ RS485/RS422     ณ DVFRAME3.BR บ
+    บ       ณ IF2 (lower interface)     ณ 7    ณ RS232/TTY       ณ DVFRAME3.BR บ
+    ศอออออออฯอออออออออออออออออออออออออออฯออออออฯอออออออออออออออออฯอออออออออออออผ
+
+                                      @050[ Continue ]                      @001[ Overview ]
+.50
+    FRM_open - Initialize an Interface (continued)
+
+    Interface Module IF050:
+    The IF050 interface module has three serial interfaces.
+    The user can insert the IF050 interface module in any position on the base
+    plate. It is also possible to use more than one interface. These interfaces
+    are numbered in ascending order starting at the CPU and moving outwards.
+    The interface module on the far left (IF050 (1)) is assigned numbers
+    3, 4 and 5, the next interface module (IF050 (2)) is assigned interface
+    numbers 6, 7 and 8, etc.
+
+
+
+
+
+
+
+
+
+
+
+                                      @031[ Continue ]                      @001[ Overview ]
+.51
+    FRM_open - Initialize an Interface (continued)
+
+    Example:
+      ฺฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤ Power supply
+      ณ   ฺฤฤฤฤฤฤฤฤฤฤฤฤฤฤ CPU
+      ณ   ณ  ฺฤฤฤฤฤฤฤฤฤฤฤ I/O module
+      ณ   ณ  ณ ฺฤฤฤฤฤฤฤฤฤ Interface module IF050 (1):
+      ณ   ณ  ณ ณ             IF1 ... Interface number ("dvnr") 3
+      ณ   ณ  ณ ณ             IF3 ... Interface number ("dvnr") 5
+      ณ   ณ  ณ ณ             IF2 ... Interface number ("dvnr") 4
+      ณ   ณ  ณ ณ ฺฤฤฤฤฤฤฤ I/O module
+      ณ   ณ  ณ ณ ณ ฺฤฤฤฤฤ I/O module
+      ณ   ณ  ณ ณ ณ ณ ฺฤฤฤ Interface module IF050 (2):
+    ฺฤฤฤยฤฤฤยฤยฤยฤยฤยฤฟ      IF1 ... Interface number ("dvnr") 6
+    ณ   ณ   ณ ณ ณ ณ ณ ณ      IF3 ... Interface number ("dvnr") 8
+    ณ   ณ   ณ ณ ณ ณ ณ ณ      IF2 ... Interface number ("dvnr") 7
+    ภฤฤฤมฤฤฤมฤมฤมฤมฤมฤู
+   
+
+
+
+                                      @052[ Continue ]                      @001[ Overview ]
+.52
+    FRM_open - Initialize an Interface (continued)
+
+    The following limitations exist for the IF050 module at the moment,
+    UNLESS the FRM_xopen() function is used:
+
+    - To operate an IF050 module, the Frame Driver DVFRAME3.BR (supports
+      the interface numbers 3 to 8) must be loaded on the CPU (User-ROM)
+      At the moment, only two interface modules are supported. This is in
+      fact a software limitation, and drivers to support additional interface
+      modules are available on request.
+
+    - The contents of buffers which are not managed by Frame Driver can also
+      be sent via the CPU interfaces, using the FRM_write() function. This can
+      prove useful for constant frames or constant text. On the IF050 interface
+      module, however, this is not allowed. In this case buffers must be
+      requested with the FRM_gbuf() function before they are sent with the
+      FRM_write() function.
+
+
+
+
+                                      @053[ Continue ]                      @001[ Overview ]
+.53
+    FRM_open - Initialize an Interface (continued)
+
+    Limitations for the IF050 (continued):
+
+    - The IF050 interface module has 576 bytes of buffer memory for
+      all three interfaces. This buffer area is equally divided among the
+      three interfaces on the module (6 bytes are reserved for buffer
+      handling). This means that 190 bytes of buffer memory are available
+      per IF050 interface. The number of receive buffers multiplied by their
+      respective sizes, added to the number of send buffers multiplied by
+      their sizes, is therefore limited to 190 bytes.
+
+    - For hardware reasons, interrupt handling for IF050 modules takes
+      considerably longer than for the CPU interfaces.
+
+
+
+
+
+
+
+                                      @054[ Continue ]                      @001[ Overview ]
+.54
+    FRM_open - Initialize an Interface (continued)
+
+    Limitations for the IF050 (continued):
+
+    - Note: If Frame Driver is used with the IF050 and CPU interfaces,
+      the stack for the task classes in the system configuration must be 
+      increased by at least 256 bytes.
+
+    - From version 2.10 of Frame Driver onwards, it is no longer necessary
+      to execute a cold restart (previously called: TOTALINIT) after inserting
+      a new IF050 module. This means that from this driver version onwards, new
+      interface modules can also be inserted during normal PCC operation 
+      (before the FRM_open() function is called). However, the following
+      limitations apply:
+      1. If an IF050 interface module is inserted in a slot, the FRM_close()
+         function must be called before it is removed.
+      2. Once an IF050 module has been removed, all further attempts to insert
+         an IF050 module (after a successful insertion) must be carried out on
+         the same slot.
+      3. Faulty insertion causes an exception leading to a system E-Stop.
+
+                                      @040[ FRM_open ]                      @001[ Overview ]
+.55
+    FRM_open - Initialize an Interface (continued)
+
+    -> Parameter <frmdelim  >: LONG
+
+    Definition of Frame Termination:
+    ฺฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฟ
+    ณEEEEEEEEณDDDDDDDDณCBAAAAAAณAAAAAAAAณ
+    ภฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤู
+
+    A ... Bits 0 to 13:   @223[Max. idle time between characters] 
+                          (0 = default value 4)
+    B ... Bit 14:         Enable for frame termination character 1
+    C ... Bit 15:         Enable for frame termination character 2
+    D ... Bits 16 to 23:  @222[Frame termination character 1    ]
+    E ... Bits 24 to 31:  @222[Frame termination character 2    ]
+
+    A distinction in the frame termination is made between reading and writing:
+
+    * @221[Frame termination when reading  ]
+    * @225[Frame termination when writing  ]
+
+                                      @040[ FRM_open ]                      @001[ Overview ]
+.56
+    FRM_open - Initialize an Interface (continued)
+
+    -> Parameter <baud      >: WORD
+
+    The baud rate is set using the "baud" parameter. The baud rate is
+    entered in units of kbaud (e.g. 192 = 19200 baud). If the value 0 is
+    entered for the "baud" parameter, the default setting for the interface
+    is used.
+        24 ..... 2400 Baud
+        48 ..... 4800 Baud
+        96 ..... 9600 Baud
+       192 .... 19200 Baud
+       384 .... 38400 Baud
+       576 .... 57600 Baud
+      1152 ... 115200 Baud
+      3470 ... 347000 Baud
+
+    RS232 interface:         Baudrate < 115200 Baud
+    RS422/RS485 interface:   Baudrate < 347000 Baud
+
+
+                                      @040[ FRM_open ]                      @001[ Overview ]
+.57
+    FRM_open - Initialize an Interface (continued)
+
+    -> Parameter <mode      >: LONG
+
+    Basic interface parameters:
+    ฺฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฟ
+    ณJI000000ณ00H0GGGGณF0ED000Cณ0B00000Aณ
+    ภฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤู
+
+    A,B,C,D,E and F ... Bit 0 to 15:     @058[Asynchronous Parameter            ]
+    G ................. Bit 16 to 19:    @059[Interface Configuration           ]
+    H ................. Bit 21:          @060[Interface Configuration           ]
+    I and J ........... Bit 30 to 31:    @061[Handshake for RS232 Interfaces    ]
+
+
+
+
+    
+
+
+
+                                      @040[ FRM_open ]                      @001[ Overview ]
+.58
+    FRM_open - Initialize an Interface (continued)
+
+    Asynchronous Parameter:
+    ษออออออออออออัออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ Bit Number ณ Meaning                                                    บ
+    ฬออออออออออออุออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ Bit 0      ณ Enable for asynchronous parameter (1 = enable)             บ
+    วฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ Bit 6      ณ Stop bit (0 = 1 stop bit / 1 = 2 stop bits)                บ
+    วฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ Bit 8      ณ Data bits (0 = 7 data bits / 1 = 8 data bits)              บ
+    วฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ Bit 12     ณ Parity (0 = no parity / 1 = parity used)                   บ
+    วฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ Bit 13     ณ Receive parity (0 = odd / 1 = even)                        บ
+    วฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ Bit 14     ณ Always 0                                                   บ
+    วฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ Bit 15     ณ Send parity (0 = odd / 1 = even)                           บ
+    ศออออออออออออฯออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+                                        @057[ Back ]                        @001[ Overview ]
+.59
+    FRM_open - Initialize an Interface (continued)
+
+    Interface Configuration:
+    ษออออออออออออัออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ Bit Number ณ Meaning                                                    บ
+    ฬออออออออออออุออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ Bit 16     ณ 0, 1 ... Standard configuration: RS232 or RS422            บ
+    วฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ Bit 17     ณ 1 ...... RS485 for 2010/dvnr = 2; 2005/dvnr = 1;           บ
+    บ            ณ          IF050/dvnr = 2 + 3n, where n = number of the IF050บ
+    บ            ณ          beginning with 0                                  บ
+    วฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ Bit 18     ณ 1 ...... Double RS485 (i.e. transmitter not                บ
+    บ            ณ          always turned on, 4-wire cable)                   บ
+    วฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ Bit 19     ณ 1 ...... TTY for 2005/dvnr = 1 (TTY does not work for the  บ
+    บ            ณ          2010 in the present version)                      บ
+    ศออออออออออออฯออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                      @060[ Continue ]                      @001[ Overview ]
+.60
+    FRM_open - Initialize an Interface (continued)
+
+    Interface Configuration (continue):
+    ษออออออออออออัออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ Bit Number ณ Meaning                                                    บ
+    ฬออออออออออออุออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ Bit 21     ณ 1 ...... Explicit RS422 setting (absolutely necessary      บ
+    บ            ณ          for C200/C220)                                    บ
+    ศออออออออออออฯออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+    Until Frame Driver V2.40, errors which occurred due to incorrect 
+    configuration (e.g. dvnr=0 and RS485) were not detected and could lead
+    to erroneous behavior. The interface configuration was accepted independent
+    of bit 0 of the "mode" variable.
+    From PCCSW V1.91 onwards, and from Frame Driver V3.00 onwards, incorrect
+    configurations are recognized and rejected by the driver !
+
+
+
+
+
+                                        @057[ Back ]                        @001[ Overview ]
+.61
+    FRM_open - Initialize an Interface (continued)
+
+    Handshake for RS232 Interface:
+    ษออออออออออออัออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ Bit Number ณ Meaning                                                    บ
+    ฬออออออออออออุออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ Bit 30     ณ 1 = Hardware handshake (RTS/CTS)                           บ
+    บ            ณ Using the CTS line, a transfer in progress by the driver   บ
+    บ            ณ can be "frozen". It continues again after release by the   บ
+    บ            ณ released by the CTS line. The driver does not yet handle   บ
+    บ            ณ an input overflow error with the RTS line.                 บ
+    วฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ Bit 31     ณ 1 = Software handshake                                     บ
+    บ            ณ Using the XON/XOFF control characters, a driver message    บ
+    บ            ณ can be "frozen" and then "thawed" again".                  บ
+    บ            ณ From version V3.00 of the Frame Driver onwards, and        บ
+    บ            ณ version V1.91 of the PCCSW operating system onwards,       บ
+    บ            ณ software handshaking is no longer supported!               บ
+    ศออออออออออออฯออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+                                        @057[ Back ]                        @001[ Overview ]
+.62
+    FRM_open - Initialize an Interface (continued)
+
+    -> Parameter <rxbufcnt  >: WORD
+
+    Number of receive buffers (1 to 8).
+
+    -> Parameter <txbufcnt  >: WORD
+
+    Number of send buffers (1 to 8). Transferal to the caller takes place
+    asynchronously (!). i.e. if the "status" parameter of the FRM_write()
+    function is 0, it doesn't mean that the buffer has actually been transferred
+    yet.
+
+    NOTE:
+    If an RS485 or RS422 network is used, requesting more than one buffer to be
+    sent at the same time is NEVER allowed.
+    From version V3.00 of Frame Driver onwards, and version V1.91 of the
+    PCCSW onwards, this limitation has been lifted.
+
+
+
+                                      @040[ FRM_open ]                      @001[ Overview ]
+.63
+    FRM_open - Initialize an Interface (continued)
+
+    -> Parameter <rxbuflng  >: WORD
+
+    Maximum size of the receive buffer (1 to 2048).
+    The IF050 interface module only provides 190 bytes of buffer memory
+    per interface. This means that the number of receive buffers multiplied
+    by their size, added to the number of send buffers multiplied by
+    their size, is limited to 190 bytes.
+
+    -> Parameter <txbuflng  >: WORD
+
+    Maximum size of the send buffer (1 to 2048).
+    The IF050 interface module only provides 190 bytes of buffer memory.
+    This means that the number of receive buffers multiplied by their sizes,
+    added to the number of send buffers multiplied by their sizes, is
+    limited to 190 bytes.
+
+
+
+
+                                      @040[ FRM_open ]                      @001[ Overview ]
+.64
+    FRM_open - Initialize an Interface (continued)
+
+    -> Parameter <arginfo   >: LONG
+
+    and
+
+    -> Parameter <argliste  >: LONG (ARRAY)
+
+    These two input parameters belong together and allow extended parameter
+    definition. Most parameters can be defined "normally" (see input parameter
+    of the FRM_open() function) and also in "argliste". If a parameter is set
+    twice, the entry in "argliste" takes precedence. The "arginfo" input
+    determines the number of parameters in "argliste". "argliste" is a LONG
+    array, which is divided into pairs of values. The first LONG value is the
+    parameter number, the second LONG value is the parameter itself. If the
+    input parameters "arginfo" and "argliste" are not used, they should always
+    be set to 0.
+
+
+
+
+                                      @065[ Continue ]                      @001[ Overview ]
+.65
+    FRM_open - Initialize an Interface (continued)
+
+    ษอออออัอออออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออป
+    บ No. ณ Meaning           ณ Detailed Description                          บ
+    ฬอออออุอออออออออออออออออออุอออออออออออออออออออออออออออออออออออออออออออออออน
+    บ  0  ณ Baud rate         ณ Baud rate in units of 100 (96 = 9600 Baud)    บ
+    วฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ  1  ณ Asynchronous      ณ Bit 6 ... Stop bit                            บ
+    บ     ณ Parameter         ณ           (0 = 1 stop bit / 1 = 2 stop bits)  บ
+    บ     ณ                   ณ Bit 8 ... Data bits                           บ
+    บ     ณ                   ณ           (0 = 7 data bits / 1 = 8 data bits) บ
+    บ     ณ                   ณ Bit 12 .. Parity                              บ
+    บ     ณ                   ณ           (0 = off / 1 = on)                  บ
+    บ     ณ                   ณ Bit 13 .. Receive parity                      บ
+    บ     ณ                   ณ           (0 = odd / 1 = even)                บ
+    บ     ณ                   ณ Bit 15 .. Send parity                         บ
+    บ     ณ                   ณ           (0 = odd / 1 = even)                บ
+    ศอออออฯอออออออออออออออออออฯอออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                      @066[ Continue ]                      @001[ Overview ]
+.66
+    FRM_open - Initialize an Interface (continued)
+
+    ษอออออัอออออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออป
+    บ No. ณ Meaning           ณ Detailed Description                          บ
+    ฬอออออุอออออออออออออออออออุอออออออออออออออออออออออออออออออออออออออออออออออน
+    บ  2  ณ Frame             ณ Frame termination character 1 in High Word.   บ
+    บ     ณ Termination       ณ Frame termination character 2 in Low Word. If บ
+    บ     ณ Character         ณ the second frame termination character is not บ
+    บ     ณ                   ณ used, the value must be set to $8000.         บ
+    วฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ  3  ณ Frame             ณ Frame termination character 3 in High Word.   บ
+    บ     ณ Termination       ณ Frame termination character 4 in Low Word. If บ
+    บ     ณ Character         ณ the fourth frame termination character is not บ
+    บ     ณ                   ณ used, the value must be set to $8000.         บ
+    ศอออออฯอออออออออออออออออออฯอออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+                                      @067[ Continue ]                      @001[ Overview ]
+.67
+    FRM_open - Initialize an Interface (continued)
+
+    ษอออออัอออออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออป
+    บ No. ณ Meaning           ณ Detailed Description                          บ
+    ฬอออออุอออออออออออออออออออุอออออออออออออออออออออออออออออออออออออออออออออออน
+    บ  4  ณ Idle time         ณ Max. idle time between characters.            บ
+    บ     ณ                   ณ The time between receiving two consecutive    บ
+    บ     ณ                   ณ characters is known as "idle time".           บ
+    บ     ณ                   ณ If this time exceeds the set idle time value, บ
+    บ     ณ                   ณ the Frame Driver assumes that the frame is    บ
+    บ     ณ                   ณ complete. The length of a character is used   บ
+    บ     ณ                   ณ as the unit of idle time.                     บ
+    ศอออออฯอออออออออออออออออออฯอออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+                                      @068[ Continue ]                      @001[ Overview ]
+.68
+    FRM_open - Initialize an Interface (continued)
+
+    ษอออออัอออออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออป
+    บ No. ณ Meaning           ณ Detailed Description                          บ
+    ฬอออออุอออออออออออออออออออุอออออออออออออออออออออออออออออออออออออออออออออออน
+    บ  5  ณ Handshake         ณ $00001000 ... Hardware handshake RTS/CTS      บ
+    บ     ณ                   ณ $00002000 ... Software handshake XON/XOFF     บ
+    บ     ณ                   ณ $00004000 ... RTS operation when sending      บ
+    บ     ณ                   ณ This option can be used to switch an RS485    บ
+    บ     ณ                   ณ coupler (e.g. INT1). This option is no longer บ
+    บ     ณ                   ณ supported from version V3.00 of the frame     บ
+    บ     ณ                   ณ driver onwards, and from version V1.91 of the บ
+    บ     ณ                   ณ PCCSW onwards.                                บ
+    บ     ณ                   ณ $00008000 ... RTS without Receive when sendingบ
+    วฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ  6  ณ rxbuflng          ณ Maximum size of the receive buffer            บ
+    วฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ  7  ณ txbuflng          ณ Maximum size of the send buffer               บ
+    ศอออออฯอออออออออออออออออออฯอออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+                                      @069[ Continue ]                      @001[ Overview ]
+.69
+    FRM_open - Initialize an Interface (continued)
+
+    ษอออออัอออออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออป
+    บ No. ณ Meaning           ณ Detailed Description                          บ
+    ฬอออออุอออออออออออออออออออุอออออออออออออออออออออออออออออออออออออออออออออออน
+    บ  8  ณ rxbufcnt          ณ Number of receive buffers                     บ
+    วฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ  9  ณ txbufcnt          ณ Number of send buffers                        บ
+    วฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ 10  ณ Interface Type    ณ Bit 1 ... 0 = RS232, 1 = RS485                บ
+    บ     ณ                   ณ Bit 2 ... 1 = 4-wire RS485                    บ
+    บ     ณ                   ณ Bit 3 ... 1 = TTY                             บ
+    บ     ณ                   ณ Bit 4 ... Reserved                            บ
+    บ     ณ                   ณ Bit 5 ... 1 = RS422                           บ
+    วฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ 11  ณ Multidrop         ณ Addresses for multidrop                       บ
+    บ     ณ                   ณ (not yet implemented)                         บ
+    ศอออออฯอออออออออออออออออออฯอออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                      @070[ Continue ]                      @001[ Overview ]
+.70
+    FRM_open - Initialize an Interface (continued)
+
+    ษอออออัอออออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออป
+    บ No. ณ Meaning           ณ Detailed Description                          บ
+    ฬอออออุอออออออออออออออออออุอออออออออออออออออออออออออออออออออออออออออออออออน
+    บ 12  ณ Callout           ณ Array of callout jumps (no longer supported   บ
+    บ     ณ                   ณ from version V3.00 of the Frame Driver and    บ
+    บ     ณ                   ณ version  V1.91 of the PCCSW)                  บ
+    วฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ 13  ณ Restore           ณ $00000000 ... @141[Restore Functionality]           บ
+    วฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ 14  ณ Event Task        ณ Event diverted to fixed task:                 บ
+    บ     ณ                   ณ High Word ... High Word (Taskid)              บ
+    บ     ณ                   ณ Low Word .... Event mask                      บ
+    ศอออออฯอออออออออออออออออออฯอออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+                                      @071[ Continue ]                      @001[ Overview ]
+.71
+    FRM_open - Initialize an Interface (continued)
+
+    ษอออออัอออออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออป
+    บ No. ณ Meaning           ณ Detailed Description                          บ
+    ฬอออออุอออออออออออออออออออุอออออออออออออออออออออออออออออออออออออออออออออออน
+    บ 15  ณ Address PV        ณ The address of the process variable (data     บ
+    บ     ณ                   ณ type BYTE) responsible for polling the        บ
+    บ     ณ                   ณ inputs. If a new value is written to an       บ
+    บ     ณ                   ณ input, the variable (PV) is set to 1. Once    บ
+    บ     ณ                   ณ FRM_read() has been called, the PV should be  บ
+    บ     ณ                   ณ reset to 0 by the application program.        บ
+    วฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ 16  ณ Misc              ณ Bit 0: 1 = on the IF050, the entire internal  บ
+    บ     ณ                   ณ memory (576 bytes) is used for the first      บ
+    บ     ณ                   ณ interface. The other interfaces can therefore บ
+    บ     ณ                   ณ no longer be used.                            บ
+    ศอออออฯอออออออออออออออออออฯอออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+                                      @072[ Continue ]                      @001[ Overview ]
+.72
+    FRM_open - Initialize an Interface (continued)
+
+    ษอออออัอออออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออป
+    บ No. ณ Meaning           ณ Detailed Description                          บ
+    ฬอออออุอออออออออออออออออออุอออออออออออออออออออออออออออออออออออออออออออออออน
+    บ 17  ณ Address PV        ณ Available from version V3.00 of the frame     บ
+    บ     ณ                   ณ driver, and from version V1.91 of the PCCSW.  บ
+    บ     ณ                   ณ The address of a PV (data type BYTE) is       บ
+    บ     ณ                   ณ entered here, which indicates when a frame    บ
+    บ     ณ                   ณ has been completely transferred (the PV is    บ
+    บ     ณ                   ณ set to 1 when transferal is complete).        บ
+    ศอออออฯอออออออออออออออออออฯอออออออออออออออออออออออออออออออออออออออออออออออผ
+
+    Example    
+    To define parameter 13 (restore after FRM_close()), for example, the
+    following values must be entered:
+
+      arginfo = 1
+      argliste[0] = 13                 ; Parameter number
+      argliste[1] = $00000000          ; Parameter value
+
+                                      @040[ FRM_open ]                      @001[ Overview ]
+.73
+    FRM_open - Initialize an Interface (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers for the function FRM_open():
+     258    Driver not loaded
+    3008    Driver not loaded
+    8070    Incorrect configuration for the device
+    8074    Referenced device does not exist
+    8076    IF050: Device needs too much internal memory
+
+    You can find a list of all possible Frame Driver library error messages
+    in the @300[Error Messages] appendix.
+
+
+
+
+
+
+
+
+                                      @020[ FRM_open ]                      @001[ Overview ]
+.80
+    FRM_mode - Change the Interface Parameters
+
+    @081[FRM_mode] (enable,ident,mode,status)
+
+    Parameter Data Types:
+    ->  enable    : BIT           The function block is only executed if
+                                  enable = 1
+    ->  ident     : LONG          Interface driver ID code
+                                  (from @020[FRM_xopen] or @040[FRM_open])
+    ->  @085[mode     ] : LONG          The address of a string used to configure
+                                  interfaces is entered here.
+    <-  @088[status   ] : WORD          Error number (0 = no error)
+
+    The function FRM_mode() enables the values for baudrate, asynchronous
+    parameters (parity, data bits, stop bits), and also the value for maximum
+    idle time between characters to be modified during operation.
+    The function FRM_mode() has a significantly shorter execution time than
+    the functions FRM_xopen() and FRM_open().
+    A prerequisite for using FRM_mode() is PCCSW version 1.91 or higher.
+
+
+                                      @081[ Continue ]                      @001[ Overview ]
+.81
+    FRM_mode - Change the Interface Parameters (continued)
+
+    The following parameters can be changed with FRM_mode():
+    - Baudrate
+    - asynchronous parameters (parity, data bits, stop bits)
+    - max. idle time between characters (for frame end detection)
+
+    Execution Time Measurement:
+    The following table shows the execution time for the function FRM_mode()
+    when changing various parameters. The times were measured on a CP104.
+
+    ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออหอออออออออออออออป
+    บ Action to be carried out                                บExec. time [ๆs]บ
+    ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออฮอออออออออออออออน
+    บ Change baudrate                                         บ      604      บ
+    บ Change asynchronous parameters                          บ      693      บ
+    บ Change max. idle time                                   บ      546      บ
+    บ Change Baudrate, asynchronous parameters and            บ     1069      บ
+    บ max. idle time.                                         บ               บ
+    ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออสอออออออออออออออผ
+
+                                                                     @001[ Overview ]
+.85
+    FRM_mode - Change the Interface Parameters (continued)
+
+    -> Parameter <mode      >: LONG
+
+    The address of a string used for configuring interfaces is entered here.
+
+    String Format: [<Type>],[<Baud rate>],[<Parity>],[<Data bits>],
+                   [<Stop bits>],[<Options>],[<Idle>]
+
+    Type:      The interfaces can be configured as
+               [RS232|RS422|RS485|TTY|RS422BUS] according to what the hardware
+               supports.
+               Default: RS232
+    Baudrate:  The interfaces can be configured with the following baudrates:
+               [300|600|1200|2400|4800|9600|19200|38400|57600|115200]
+               Default: 57600
+    Parity:    The settings [N|O|E] for no parity, odd parity or even parity
+               Default: no Parity
+
+
+
+                                      @086[ Continue ]                      @001[ Overview ]
+.86
+    FRM_mode - Change the Interface Parameters (continued)
+
+    Data bits: The settings [7|8] for 7 or 8 data bits are possible.
+               Default: 8 data bits
+    Stop bits: The settings [1|2] for 1 or 2 stop bits are possible.
+               Default: 1 stop bit
+    Options:   If interface type RS232 is selected, the following options
+               are possible:
+               [HW] ... for hardware handshaking (RTS/CTS) or
+               [RT] ... for controlling an external coupler (INT1) with the
+                        RTS line.
+    Idle:      @223[Max. idle time between characters]. The time between receiving
+               consecutive characters is known as idle time. If the set maximum
+               value is exceeded (max. idle time between characters), Frame
+               Driver assumes the frame is complete. The unit of idle time is
+               the length of a character.
+               The following syntax must be observed when entering this
+               parameter:
+               [I=<x>] ... allowed values for <x> are from 1 to 255
+
+
+                                      @087[ Continue ]                      @001[ Overview ]
+.87
+    FRM_mode - Change the Interface Parameters (continued)
+
+    The predefined separator for arguments is a point ("."). Any other usual
+    separating character can be used.
+    Entries are not case sensitive and may be in any order.
+
+    Example of a valid mode description:
+
+    "19200,7,E,1,I=2"
+    "RS485,N,8,1,9600"
+    "RS232, 38400, HW, I=3"
+
+
+
+
+
+
+
+
+
+
+                                      @080[ FRM_mode ]                     @001[ Overview ]
+.88
+    FRM_mode - Change the Interface Parameters (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers for FRM_mode():
+      258   Frame Driver is not loaded
+     3008   Frame Driver is not loaded
+     8251   Device not ready
+     8253   Syntax error in Mode string (see "mode" parameter)
+    14814   Function not available (not implemented in FBASE driver)
+
+    A list of all possible Frame Driver library error messages is given in the
+    appendix @300[Error Messages].
+
+
+
+
+
+
+
+
+                                      @080[ FRM_mode ]                      @001[ Overview ]
+.90
+    FRM_read - Receive Data and Place it in the Receive Buffer
+
+    @091[FRM_read] (enable,ident,status,buffer,buflng)
+
+    Parameter Data Types:
+    ->  enable    : BIT           The function block is only executed 
+                                  if enable = 1
+    ->  ident     : LONG          Driver code for the interface
+                                  (from @020[FRM_xopen] or @040[FRM_open])
+    <-  @095[status   ] : WORD          Error number (0 = no error)
+    <-  buffer    : LONG          Address of the receive buffer
+    <-  buflng    : WORD          Size of the receive buffer
+
+    The FRM_read() function starts the data reading process, i.e. Frame Driver
+    makes the request to receive data and to place it in a receive buffer.
+    The function returns the address (parameter "buffer") and the size 
+    (parameter "buflng") of the receive buffer, thereby enabling data to be
+    received (e.g. copy the data with the function memcpy() from the system
+    library).
+
+
+                                      @091[ Continue ]                      @001[ Overview ]
+.91
+    FRM_read - Receive Data and Place it in the Receive Buffer (continued)
+
+    In order to enable easy access to the receive buffer, you should set up an
+    array or structure with access to the specified receive buffer in the
+    PL2000 programming language, or create a special access FBK in LAD.
+
+    Note!
+    Once the data has been receive, you must release the receive buffer using
+    the @100[FRM_rbuf] function, in order to enable further data to be received.
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @092[ Example ]                      @001[ Overview ]
+.92
+    FRM_read - Receive Data and Place it in the Receive Buffer (example)
+
+      ; Check if receive data is available
+      FRM_read(1,frmident,rstatus,inbufadr,inbuflng)
+
+      if rstatus = 0 then
+          ; Application-dependent evaluation of the data received
+          incnt = incnt + 1
+          memcpy(insave_adr,inbufadr,inbuflng)
+          ; Release receive buffer
+          FRM_rbuf(1,frmident,inbufadr,inbuflng,rbstatus)
+      endif
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.95
+    FRM_read - Read Data and Place it in the Receive Buffer (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers for the FRM_read() function:
+       1    No message received
+      60    No message received
+     258    Driver is not loaded
+    3008    Driver is not loaded
+    8079    Defective buffer received
+    8210    8210 + x; Analysis of the defective buffer. x is between 1 and 31,
+            is decoded as follows:
+            ฺฤยฤยฤยฤยฤยฤยฤยฤฟ
+            ณ ณ ณ ณFณPณBณOณ ณ
+            ภฤมฤมฤมฤมฤมฤมฤมฤู
+            O ... Bit 1: Overrun error (receive overrun occurred)
+            B ... Bit 2: Break received
+            P ... Bit 3: Parity error (character with incorrect parity received)
+            F ... Bit 4: Framing error (no stop bit received)
+    8251    Device not ready
+
+                                      @096[ Continue ]                      @001[ Overview ]
+.96
+    FRM_read - Read Data and Place it in the Receive Buffer (continued)
+
+    You can find a list of all possible Frame Driver library error messages
+    in the @300[Error Messages] appendix.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @090[ FRM_read ]                      @001[ Overview ]
+.100
+    FRM_rbuf - Release the Receive Buffer
+
+    @101[FRM_rbuf] (enable,ident,buffer,buflng,status)
+
+    Parameter Data Types:
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1
+    ->  ident     : LONG          Driver code for the interface
+                                  (from @020[FRM_xopen] or @040[FRM_open])
+    ->  buffer    : LONG          Address of receive buffer
+    ->  buflng    : WORD          Size of the receive buffer
+    <-  @105[status   ] : WORD          Error number (0 = no error)
+
+    After reading the data using the FRM_read() function, you must release the
+    buffer again in order to be able to use it again. For this purpose you will
+    need the FRM_rbuf() function. If more than one receive buffer is used, the
+    release process can be delayed until all the buffers have been used.
+
+
+
+
+                                      @101[ Continue ]                      @001[ Overview ]
+.101
+    FRM_rbuf - Release the Receive Buffer (continued)
+
+    The input parameters "buffer" and "buflng" from the FRM_rbuf() function
+    must correspond to the output parameters "@090[buffer]" and "@090[buflng]" from the
+    FRM_read() function, otherwise an error number will be returned at the 
+    "status" output.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @102[ Example ]                      @001[ Overview ]
+.102
+    FRM_rbuf - Release the Receive Buffer (example)
+
+      ; Check if receive data is available
+      FRM_read(1,frmident,rstatus,inbufadr,inbuflng)
+
+      if rstatus = 0 then
+          ; Application-dependent evaluation of the data received
+          incnt = incnt + 1
+          memcpy(insave_adr,inbufadr,inbuflng)
+          ; Release receive buffer
+          FRM_rbuf(1,frmident,inbufadr,inbuflng,rbstatus)
+      endif
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.105
+    FRM_rbuf - Release the Receive Buffer (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers for the FRM_rbuf() function:
+     258    Driver not loaded
+    3008    Driver not loaded
+    8072    Incorrect buffer specified
+    8251    Device not ready
+
+    You can find a list of all possible Frame Driver library error messages
+    in the @300[Error Messages] appendix.
+
+
+
+
+
+
+
+
+
+                                      @100[ FRM_rbuf ]                      @001[ Overview ]
+.110
+    FRM_gbuf - Request a Send Buffer
+
+    @081[FRM_gbuf] (enable,ident,status,buffer,buflng)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1
+    ->  ident     : LONG          Driver code for the interface
+                                  (from @020[FRM_xopen] or @040[FRM_open])
+    <-  @115[status   ] : WORD          Error number (0 = no error)
+    <-  buffer    : LONG          Address of receive buffer
+    <-  buflng    : WORD          Size of receive buffer
+
+    A free send buffer is requested using the FRM_gbuf() function. The
+    function returns the address (parameter "buffer") and size (parameter
+    "buflng") of a free send buffer.
+    The buffers are managed by the driver and therefore you (the user) don't
+    need to be concerned about buffer availability.
+
+
+
+                                      @111[ Continue ]                      @001[ Overview ]
+.111
+    FRM_gbuf - Request a Send Buffer (continued)
+
+    Other buffers can also be sent. In this case, you must make sure that
+    the buffer contents are not manipulated before processing by the driver.
+
+    In order to access the send buffer easily, you should set up an array
+    or structure in PL2000 with access to the specified address, or create
+    a special access FBK in a ladder diagram.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @112[ Example ]                      @001[ Overview ]
+.112
+    FRM_gbuf - Request a Send Buffer (example)
+
+      ; Request send buffer
+      ; Data is only sent if buffer is correctly reserved (gbstatus = 0) !!
+      FRM_gbuf(1,frmident,gbstatus,outbufadr,outbuflng)
+      if (gbstatus = 0) then
+          ; Prepare send data - output fixed string
+          obuf access outbufadr                ; Assign send buffer
+          strcpy(outbufadr,"Frame Driver - Outputtest")
+          olng = strlen(outbufadr)
+          obuf[olng  ] = $a                    ; Carriage Return
+          obuf[olng+1] = $d                    ; Line Feed
+          obuf[olng+2] = 0
+          olng = olng + 2
+          ; Send send data via interface
+          FRM_write(1,frmident,outbufadr,olng,wstatus)
+          if (wstatus <> 0) then
+              ; ERROR evaluation: Release send buffer if error occurs
+              FRM_robuf(1,frmident,outbufadr,outbuflng,rostatus)
+          endif
+      endif
+                                                                      @001[ Overview ]
+.115
+    FRM_gbuf - Request a Send Buffer (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers for the FRM_gbuf() function:
+     258    Driver not loaded
+    3008    Driver not loaded
+    8071    No buffer available
+    8251    Device not ready
+
+    You can find a list of all possible Frame Driver library error messages
+    in the @300[Error Messages] appendix.
+
+
+
+
+
+
+
+
+
+                                      @110[ FRM_gbuf ]                      @001[ Overview ]
+.120
+    FRM_write - Request a Send Buffer
+
+    @091[FRM_write] (enable,ident,buffer,buflng,status)
+
+    Parameter Data Types:
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1
+    ->  ident     : LONG          Driver code for the interface
+                                  (from @020[FRM_xopen] or @040[FRM_open])
+    ->  buffer    : LONG          Address of receive buffer
+    ->  buflng    : WORD          Size of the receive buffer
+    <-  @125[status   ] : WORD          Error number (0 = no error)
+
+    This function makes arrangements for the Frame Driver to send the data to
+    the write buffer. The write buffer is sent immediately (if possible). If
+    the write buffer is requested with the FRM_gbuf() functions, it is 
+    automatically released for use again, once the data has been sent. The
+    input parameters "buffer" and "buflng" from the FRM_write() function must
+    correspond to the output parameters "@110[buffer]" and "@110[buflng]" from the
+    FRM_gbuf() function.
+
+                                      @121[ Continue ]                      @001[ Overview ]
+.121
+    FRM_write - Send Data in Write Buffer (continued)
+
+    The contents of buffers which are not handled by the Frame Driver can also
+    be sent (useful for constant frames or constant texts).
+    In this case, you must make sure that the buffer contents are not
+    manipulated before processing by the driver.
+
+    Note!
+    Calling the FRM_write() function from several different task classes is
+    not allowed!
+
+
+
+
+
+
+
+
+
+
+
+                                       @122[ Example ]                      @001[ Overview ]
+.122
+    FRM_write - Send Data in Write Buffer (example)
+
+      ; Request Write Buffer
+      ; Only send data if buffer is correctly reserved (gbstatus = 0) !!
+      FRM_gbuf(1,frmident,gbstatus,outbufadr,outbuflng)
+      if (gbstatus = 0) then
+          ; Prepare write data - output fixed string
+          obuf access outbufadr
+          strcpy(outbufadr,"Frame Driver - Outputtest")
+          olng = strlen(outbufadr)
+          obuf[olng  ] = $a                    ; Carriage Return
+          obuf[olng+1] = $d                    ; Line Feed
+          obuf[olng+2] = 0
+          olng = olng + 2
+          ; Send write data via interface
+          FRM_write(1,frmident,outbufadr,olng,wstatus)
+          if (wstatus <> 0) then
+              ; ERROR evaluation: Release write buffer if error occurs
+              FRM_robuf(1,frmident,outbufadr,outbuflng,rostatus)
+          endif
+      endif
+                                                                      @001[ Overview ]
+.125
+    FRM_write - Send Data in Write Buffer (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers for the FRM_write() function:
+     258    Driver not loaded
+    3008    Driver not loaded
+    8072    Incorrect buffer specified
+    8078    The instruction cannot be carried out. The Write queue already
+            contains the maximum allowed number of write buffers (see function
+            FRM_xopen() and FRM_open()).
+    8251    Device not ready
+
+    You can find a list of all possible Frame Driver library error messages
+    in the @300[Error Messages] appendix.
+
+
+
+
+
+
+                                      @120[ FRM_write ]                     @001[ Overview ]
+.130
+    FRM_robuf - Release the Write Buffer
+
+    @101[FRM_robuf] (enable,ident,buffer,buflng,status)
+
+    Parameter Data Types:
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1
+    ->  ident     : LONG          Driver code for the interface
+                                  (from @020[FRM_xopen] or @040[FRM_open])
+    <-  @135[status   ] : WORD          Error number (0 = no error)
+    <-  buffer    : LONG          Address of receive buffer
+    <-  buflng    : WORD          Size of the receive buffer
+
+    If the status (output parameter "status") from FRM_write() is not 0, 
+    a write error has occurred and the write buffer is not automatically 
+    released for reuse. In this case, the write buffer must be released
+    manually with the FRM_robuf() function.
+    The input parameters "buffer" and "buflng" from the FRM_robuf() function
+    must correspond to the output parameters "@110[buffer]" and "@110[buflng]" from
+    FRM_gbuf(), otherwise the "status" output returns an error.
+
+                                       @131[ Example ]                      @001[ Overview ]
+.131
+    FRM_robuf - Release the Write Buffer (example)
+
+      ; Request write buffer
+      ; Only send data if buffer is correctly reserved (gbstatus = 0) !!
+      FRM_gbuf(1,frmident,gbstatus,outbufadr,outbuflng)
+      if (gbstatus = 0) then
+          ; Prepare write data - output fixed string
+          obuf access outbufadr
+          strcpy(outbufadr,"Frame Driver - Output test")
+          olng = strlen(outbufadr)
+          obuf[olng  ] = $a                    ; Carriage return
+          obuf[olng+1] = $d                    ; Line feed
+          obuf[olng+2] = 0
+          olng = olng + 2
+          ; Send write data via interface
+          FRM_write(1,frmident,outbufadr,olng,wstatus)
+          if (wstatus <> 0) then
+              ; ERROR evaluation: Release write buffer if error occurs
+              FRM_robuf(1,frmident,outbufadr,outbuflng,rostatus)
+          endif
+      endif
+                                                                      @001[ Overview ]
+.135
+    FRM_robuf - Release the Write Buffer (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers for the FRM_robuf():
+     258    Driver not loaded
+    3008    Driver not loaded
+    8072    Incorrect buffer specified
+    8251    Device not ready
+
+    You can find a list of all possible Frame Driver
+    library error messages in the @300[Error Messages] appendix.
+
+
+
+
+
+
+
+
+
+                                      @130[ FRM_robuf ]                     @001[ Overview ]
+.140
+    FRM_close - De-initialize the Interface
+
+    @111[FRM_close] (enable,ident,status)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1
+    ->  ident     : LONG          Driver code for the interface
+                                  (from @020[FRM_xopen] or @040[FRM_open])
+    <-  @145[status   ] : WORD          Error number (0 = no error)
+
+    Every device driver requires system resources (e.g. memory). If a device
+    is no longer needed, it makes sense to de-initialize the corresponding
+    device driver, and free-up the memory used by it. The FRM_close() function
+    is used to do this for the Frame Driver DVFRAME.BR (or DVFRAME3.BR) module.
+
+
+
+
+
+
+                                      @141[ Continue ]                      @001[ Overview ]
+.141
+    FRM_close - De-initialize the Interface (continued)
+
+    The interface used by Frame Driver can easily be used for other purposes.
+    e.g. the online connection to a PC required for programming with PG2000.
+    When initializing the interface using the FRM_open() function, the
+    so-called @070[Restore Functionality] can be activated. This means that the 
+    interface parameters in use before initialization (with FRM_open()) can be
+    saved and then restored again after deactivating the Frame Driver interface
+    (with FRM_close()). This can prove useful when the need arises to switch
+    between communication with PG2000 and using the Frame Driver interface
+    during runtime.
+    From version V3.00 of the Frame Driver, and version V1.91 of the
+    operating system PCCSW onwards, restoring the ALI driver happens
+    automatically, however, other configurations cannot be restored.
+
+
+
+
+
+
+
+                                      @142[ Continue ]                      @001[ Overview ]
+.142
+    FRM_close - De-initialize the Interface (continued)
+
+    * Initializing the Interface:
+      The restore functionality is switched on with "@064[arginfo]" and 
+      "@064[argliste]" in the extended parameter definition:
+
+        arginfo = 1
+        argliste[0] = 13
+        argliste[1] = $00000000
+
+      The interface settings are saved on initializing the interface with
+      FRM_open().
+
+    * De-initializing the Interface:
+      When de-initializing the interface with the FRM_close())
+      function, the saved interface settings are restored.
+      In this way an interface can be used for more than one purpose.
+
+
+
+
+                                       @143[ Example ]                      @001[ Overview ]
+.143
+    FRM_close - De-initialize the Interface (example)
+
+      ; Task INIT SP - OPEN interface
+      FRM_open(1,dvnr,frmdelim,baud,mode,rxbufcnt,txbufcnt,rxbuflng,txbuflng,
+               arginfo,adr(argliste),opnstatus,frmident)
+
+      ; Cyclic part of task - DE-INITIALIZE interface
+      if (close_flag = 1) and (opnstatus = 0) then
+          close_flag = 0
+          FRM_close(1,frmident,clstatus)
+          if clstatus = 0
+              opnstatus = 0xFFFF               ; Interface DE-INITIALIZED
+          endif
+      endif
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.145
+    FRM_close - De-initialize the Interface (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers for the FRM_gobuf():
+     258    Driver not loaded
+    3008    Driver not loaded
+    8072    Incorrect buffer specified
+    8251    Device not ready
+
+    You can find a list of all possible Frame Driver
+    library error messages in the @300[Error Messages] appendix.
+
+
+
+
+
+
+
+
+
+                                      @140[ FRM_close ]                     @001[ Overview ]
+.150
+    FRM_ctrl - Control the Interface
+
+    @120[FRM_ctrl] (enable,ident,ioctrl,inarg,status,outarg)
+
+    Parameter Data Types:
+    ->  enable    : BIT           The function block is only executed if 
+                                  enable = 1
+    ->  ident     : LONG          Driver code of the interface
+                                  (from @020[FRM_xopen] or @040[FRM_open])
+    ->  @155[ioctrl   ] : WORD          Control selection
+    ->  inarg     : LONG          Input argument
+    <-  @157[status   ] : WORD          Error number (0 = no error)
+    <-  outarg    : LONG          Result of control call
+
+    Using the FRM_ctrl() function, the DSR/DTR signals of the modem-capable
+    interfaces can be controlled by the user. In the case of RTS hardware
+    handshaking, the communication status can also be read.
+
+
+
+
+                                                                      @001[ Overview ]
+.155
+    FRM_ctrl - Control the Interface (continued)
+
+    -> Parameter <ioctrl    >: WORD
+
+    Different commands are carried out, depending on the value of this
+    parameter:
+
+    - "ioctrl" = $10:
+      Checks if the RTS hardware handshake is presently active. This 
+      corresponds to the FRM_hshake_active function. If RTS hardware 
+      handshaking is active, the user can check if a partner station is
+      available.
+      "inarg" .... no effect
+      "outarg" ... 1 (handshaking active) or 0 (handshaking inactive)
+
+    - "ioctrl" = $11:
+      The status of the DSR signal is read. Only works on modem-capable
+      interfaces!
+      "inarg" .... no effect
+      "outarg" ... status of the DSR signal (0 or 1)
+
+                                      @156[ Continue ]                      @001[ Overview ]
+.156
+    FRM_ctrl - Control the Interface (continued)
+
+    - "ioctrl" = $12:
+      The status of the DTR signal is set or reset according to the value
+      in "inarg". This call only works on modem-capable interfaces!
+      "inarg" .... 0 or 1 for DTR signal
+      "outarg" ... no effect
+
+    From version V3.00 of the Frame Driver onwards, and version V1.91 of
+    the PCCSW operating system onwards, additional functions are available:
+
+    "ioctrl" = $21 ... Read status of the control line DCD
+    "ioctrl" = $22 ... RX active (is a read buffer initialized?)
+    "ioctrl" = $23 ... TX active (is frame transfer active?)
+    "ioctrl" = $24 ... Set/reset control line DTR
+    "ioctrl" = $25 ... Function number reserved
+    "ioctrl" = $26 ... Read status of the control line DSR
+    "ioctrl" = $27 ... Set/reset control line RTS
+    "ioctrl" = $28 ... Read status of the control line CTS
+    "ioctrl" = $29 ... Read status of control line RI
+
+                                      @150[ FRM_ctrl ]                      @001[ Overview ]
+.157
+    FRM_ctrl - Control the Interface (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers for the FRM_ctrl() functions:
+      258   Driver not loaded
+     3008   Driver not loaded
+     8073   Incorrect or invalid driver command in "ioctrl"
+     8251   Device not ready
+    14813   The control line on the interface is not present or not used
+    14814   Function is not supported at present
+
+    You can find a list of all possible Frame Driver library error messages
+    in the @300[Error Messages] appendix.
+
+
+
+
+
+
+
+                                      @150[ FRM_ctrl ]                      @001[ Overview ]
+.200
+    APPENDIX : LIBRARY Information
+
+
+    @201[< General Information    >]      Requirements etc.
+   
+    @210[< Frame Driver           >]      Frame driver description
+
+    @220[< Frame Limitation       >]      Frame end recognition when
+                                    sending and receiving
+
+    @250[< Syntax                 >]      Syntax for function descriptions
+
+    @300[< Error Numbers          >]      Summary of all error numbers
+
+    @400[< History                >]      New functions and version changes
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.201
+    Frame Driver Library : General Information
+
+    With the help of the Frame Driver, you can exchange data with external
+    devices (e.g. printers, operator panels, CRT terminals etc.), which cannot
+    communicate via a standard network.
+    The function blocks in the Frame Driver library make it possible to send
+    and receive data as "frames". Frame Driver takes care of the hardware 
+    side of data exchange without changing the data in the frame. This allows
+    fast and simple application-specific communication.
+    You can find detailed information on "Frame Driver" in the "B&R System
+    2000 Advanced Programming Manual".
+
+
+
+
+
+
+
+
+
+
+                                      @202[ Continue ]                      @001[ Overview ]
+.202
+    Frame Driver Library : General Information (continued)
+
+    Notes:
+    - Before you can use the Frame Driver library functions in your project,
+      you must import the library into the appropriate project data bank.
+
+    - The library functions can only be used if the Frame Driver module
+      DVFRAME.BR is available on the CPU (User-ROM)!
+
+    - FRM_xopen():
+      The IF050 and IF060 modules (passive interface modules) can only be used
+      with this command if the FRAME BASE driver FBIF050.BR (for IF050) and
+      FBIF060.BR (for IF060) are available on the CPU (User-ROM)!
+
+    - FRM_open():
+      The IF050 modules can only be used with this command if the Frame Driver
+      module DVFRAME3.BR is available on the CPU (User-ROM)!
+
+    - All functions in the Frame Driver library return an @300[error number] if a
+      problem occurs.
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.210
+    Frame Driver Library : General Information 
+
+    General Information about Frame Driver:
+
+    The Frame Driver enables frames to be sent and received without the 
+    driver manipulating (making any changes) to these frames (byte stream).
+    Frame Driver therefore enables simple protocols to be implemented, 
+    independent of hardware. The user need only implement medium access
+    locking (master-slave, master-master), and the protocol 
+    framing (station addresses, checksums etc.). A printer, terminal or
+    operator interface panel can be controlled using the Frame Driver. The
+    following functions are handled by Frame Driver:
+
+    * Hardware initialization of the interface in configuration mode.
+    * Buffer management for the interface (up to 8 buffers are possible in the
+      receive or send direction and these can be different sizes).
+    * Glitch-free sending of send buffers, i.e. there is no delay between
+      the transmitted characters.
+
+
+
+                                      @211[ Continue ]                      @001[ Overview ]
+.211
+    Frame Driver Library : General Information (continued)
+
+    General Information about Frame Driver (continued):
+
+    * Separating the byte stream received into individual frames according to
+      the user settings (@220[Frame Limitation]).
+    * Hardware handshake based on the RTS/CTS signals (currently only as
+      sender).
+    * XON/XOFF software handshaking (no longer supported from PCCSW v1.91).
+    * Use of an external coupler with RTS signal e.g. RS485 switching.
+    * Can support two IF050 modules in B&R 2005 system.
+    * Overlays the PG interface allowing PG communication to be restored once
+      frame driver interface is closed (@141[Restore Functionality])
+    * Operation via C toolbox by idle time tasks.
+
+    These functions are available independent of system used
+    (B&R 2010, B&R 2005, B&R 2003).
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.220
+    Frame Driver Library : Frame End Recognition
+
+    Frame end recognition is handled differently according to whether data is
+    being sent or received:
+
+    * @221[Frame End Recognition when receiving data]
+    * @225[Frame End Recognition when sending data  ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.221
+    Frame Driver Library : Frame End Recognition (continued)
+
+    Frame end recognition when receiving data:
+
+    A frame contains a number of related bytes which are transmitted one after
+    another. Three ways exist to distinguish the beginning of one frame from
+    the end of another:
+
+    * @222[Frame termination character      ]
+    * @222[Known length                     ]
+    * @223[Max. idle time between characters]
+
+    When configuring Frame Driver, one, two or all three of these possibilities
+    may be combined.
+
+
+
+
+
+
+
+                                      @222[ Continue ]                      @001[ Overview ]
+.222
+    Frame Driver Library : Frame End Recognition (continued)
+
+    * Frame Termination Characters:
+      A particular character is sent at the end of a frame. In this way,
+      regardless of the frame length, Frame Driver will know that a frame has
+      been completely received, and that any further data belongs to a new
+      frame.den
+      Parameters "config" (function FRM_xopen()) and "frmdelim" (function
+      FRM_open()) k”nnen maximal 2 Frame-Abschluแzeichen definiert werden,
+      obwohl der Frame-Treiber bis zu 4 Frame-Abschluแzeichen haben kann.
+      Werden mehr als 2 Frame-Abschluแzeichen ben”tigt, muแ dies ber die
+      erweiterte parameter definition mit "@064[arginfo]" and "@064[argliste]" (Function
+      FRM_open()) angegeben werden.
+
+    * Length Recognition:
+      The number of characters received corresponds to the configured maximum
+      number of characters which can be stored in a buffer. Once the last
+      character has been received, the entire frame is placed in a buffer. Any
+      characters received after this belong to the next frame.
+
+
+                                      @223[ Continue ]                      @001[ Overview ]
+.223
+    Frame Driver Library : Frame End Recognition (continued)
+
+    Frame end recognition when receiving data: (continued)
+
+    * Max. idle time between characters:
+      The time between receiving two consecutive characters is known as idle
+      time. If the value configured for this parameter is exceeded, Frame
+      Driver interprets this as meaning that the frame is complete. The unit
+      of idle time is the length of a character (default is 4 characters).
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @224[ Continue ]                      @001[ Overview ]
+.224
+    Frame Driver Library : Frame End Recognition (continued)
+
+    Example of frame end recognition when receiving data:
+    The following parameters are entered for the frame termination:
+
+         Number of characters:                10
+         Frame termination characters:        $F1, $F2
+         Max. idle time between characters:   3 characters
+
+    Data received:
+    - Station 1 sends 10 characters:
+      The number of characters making up a frame is reached. The frame is
+      complete and so is placed in receive buffer 1. Now for buffer 2.
+    - 3 characters are received from station 2. 5 characters later, station 3
+      sends 8 characters of which the last character is $F1:
+      The maximum idle time was exceeded and so the data from station 2 is
+      placed in receive buffer 2. Now for buffer 3.
+      $F1 is a frame termination character. The data from station 3 will be
+      placed in receive buffer 3, etc.
+
+
+                                        @220[ Back ]                        @001[ Overview ]
+.225
+    Frame Driver Library : Frame End Recognition (continued)
+
+    Frame recognition when sending:
+
+    * Frames are defined by the sender in the corresponding function block
+      call. The data in the buffer specified will be transferred without
+      delay.
+
+    * The buffer length must be smaller than the maximum length configured for
+      the buffer (see parameter "config" for the function FRM_xopen() or the
+      parameter "txbuflng" for the function FRM_open()).
+
+    * You must make certain that the protocol (e.g. Master-Slave protocol)
+      to be used for the data medium (e.g. RS485) is logically available.
+      Frame Driver itself exerts no control over this. Point-to-point full
+      duplex operation (RS232, RS422) causes no problem in this respect.
+
+
+
+
+
+                                        @220[ Back ]                        @001[ Overview ]
+.250
+    Frame Driver Library : Syntax Description
+
+    Data Types:
+    For many functions, certain groups of data types are allowed. Instead of
+    listing the allowed data types one by one in the function description, the
+    following group names are used instead:
+    ษออออออออหอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออป
+    บGroup   บ  BIT  ณ INT8  ณ BYTE  ณ INT16 ณ WORD  ณ INT32 ณ LONG  ณ FLOAT บ
+    ฬออออออออฮอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออน
+    บINTEGRALบ       ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บNOT     บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    บFLOAT   บ       ณ       ณ       ณ       ณ       ณ       ณ       ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บALL     บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บARRAY   บ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  บ
+    ศออออออออสอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออผ
+      x  Data type is allowed
+     [x] Data type is allowed as an array variable or character string
+
+                                      @251[ Continue ]                      @001[ Overview ]
+.251
+    Frame Driver Library : Syntax Description (continued)
+
+    Arrows:
+    Arrows are used to display input and output parameters. The following
+    arrangement is used for this purpose:
+    ษอออออออออหออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ  Arrow  บ  Description                                                 บ
+    ฬอออออออออฮออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ   ->    บ  Input parameter                                             บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <->   บ  Input/output parameter. It is functionally an output        บ
+    บ         บ  parameter. However, it normally carries certain information บ
+    บ         บ  before the function is called (e.g. address). The address   บ
+    บ         บ  of a variable is normally terminated with adr() [PL2000]    บ
+    บ         บ  or an address contact (LAD).                                บ 
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <-    บ  Output parameter                                            บ
+    ศอออออออออสออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                      @252[ Continue ]                      @001[ Overview ]
+.252
+    Frame Driver Library : Syntax Description (continued)
+
+    Function blocks:
+    Function blocks are not represented graphically in this online help.
+    However, you can find all relevant information about function blocks 
+    (i.e. input parameters (->), input/output parameters (<->) and output
+    parameters (<-)) in the online help.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.300
+    Frame Driver Library : Error Numbers
+
+    The following list is a summary of all possible Frame Driver library error
+    messages:
+
+       1    No message received
+      60    No message received
+     258    Frame Driver not loaded
+    3008    Driver Driver not loaded
+    8070    Incorrect device configuration
+    8071    No buffer available
+    8072    Incorrect buffer specified
+    8073    Incorrect or invalid command in "ioctrl"
+    8074    Referenced driver does not exist or FRAME BASE driver for the
+            IF050/IF060 is not loaded.
+    8076    IF050: Device needs too much internal memory
+    8078    The instruction cannot be carried out. The Write queue already
+            contains the maximum allowed number of write buffers (see function
+            FRM_xopen() and FRM_open()).
+    8079    Buffer received was defective
+   
+                                      @301[ Continue ]                      @001[ Overview ]
+.301
+    Frame Driver Library : Error Numbers (continued)
+
+     8210   8210 + x. To be able to analyze erroneous buffer in detail, an
+            error number is returned, which can be decoded via the value of x:
+            ฺฤยฤยฤยฤยฤยฤยฤยฤฟ
+            ณ ณ ณ ณFณPณ ณOณ ณ
+            ภฤมฤมฤมฤมฤมฤมฤมฤู
+            O ... Bit 1: Overrun error (read overrun occurred)
+            P ... Bit 3: Parity error (character received with incorrect parity)
+            F ... Bit 4: Framing error (no stop bit received)
+
+     8250   Another write command is still active
+     8251   Device not ready
+     8252   Syntax error in the device string (see "device" parameter)
+     8253   Syntax error in the mode string (see "mode" parameter)
+     8254   The maximum number of devices allowed open at the same time
+            was exceeded.
+     8255   PCCSW version too old (PCCSW version 1.91 or higher must be used).
+    14808   A setting in the Mode string (see Parameter "mode") is not
+            supported by the interface.
+
+                                      @302[ Continue ]                      @001[ Overview ]
+.302
+    Frame Driver Library : Error Numbers (continued)
+
+
+    14813   The control line on the interface is not present or not used
+    14814   Function is not supported at present
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+.400
+    Frame Driver Library : History - version changes
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V3.10 -> V3.20  ณ CURRENT VERSION: New functionality/error corrections    บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ FRM_mode(): enables interface parameters to be changed during operation.  บ
+  บ PCCSW version V1.91 or higher is a requirement for using the FRM_mode()   บ
+  บ function.                                                                 บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V3.00 -> V3.10  ณ PREVIOUS VERSIONS: New functionality/error corrections  บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - FRM_xopen(): Enables up to 16 interfaces to be used simultaneously      บ
+  บ   PCCSW version V1.91 or higher is a requirement for using the FRM_mode() บ
+  บ   function.                                                               บ
+  บ - The FRM_xopen() function can only be used with the IF050 and IF060      บ
+  บ   modules (passive interface modules) if the FRAME BASE driver FBIF050.BR บ
+  บ   (for IF050) and FBIF060.BR (for IF060) are available in User-ROM on the บ
+  บ   CPU.                                                                    บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+                                      @401[ Continue ]                      @001[ Overview ]
+.401
+    Frame Driver Library : History - version changes (continued)
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V3.00 -> V3.10  ณ PREVIOUS VERSIONS: New functionality/error corrections  บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - The driver DVFRAME3.BR is no longer needed when using the FRM_xopen()   บ
+  บ   function with an IF050 interface.                                       บ
+  บ   The restrictions which apply when using FRM_open() with the IF050, do   บ
+  บ   not apply to FRM_xopen().                                               บ
+  บ - The poll variables for USER communication (RX-, TX-Poll-PV) are now     บ
+  บ   incremented by Frame Driver.                                            บ
+  บ - Error corrections:                                                      บ
+  บ   - BUS error with NC154 + IF050 corrected.                               บ
+  บ   - "Total time bottleneck in system" (6002) with IF050 corrected.        บ
+  บ   - IF050 initialization (port A handling) corrected.                     บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+                                      @402[ Continue ]                      @001[ Overview ]
+.402
+    Frame Driver Library : History - Version Changes
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V2.40 -> V3.00  ณ PREVIOUS VERSIONS: new functions/error corrections      บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Supports new CPU types (XP152, IP151, IF152, CP472).                    บ
+  บ - From version V1.19 of the PCCSW onwards, all the Frame Driver calls     บ
+  บ   will be converted internally to "FBASE" functions. The FBASE drivers    บ
+  บ   are integral components of the PCCSW.                                   บ
+  บ - "Software Handshake" has been removed from the Frame Driver functions.  บ
+  บ - "Controlling the INT1 coupler via RTS with echo" has been removed       บ
+  บ   from the Frame Driver functions.                                        บ
+  บ - Introduction of a "TX Poll PV" in order to enable end of a frame        บ
+  บ   transfer to be recognized.                                              บ
+  บ - Extension of the FRM_ctrl() function.                                   บ
+  บ - "Restoring" the ALI configuration after a FRM_close() is a standard     บ
+  บ   feature of the FBASE driver (now always carried out).                   บ
+  บ - Error corrections have also been made in the "old" code part.           บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+                                      @403[ Continue ]                      @001[ Overview ]
+.403
+    Frame Driver Library : History - Version Changes (continued)
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V2.30 -> V2.40  ณ PREVIOUS VERSIONS: Error correction                     บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ Error correction: With IF050, the remote master error communication to    บ
+  บ                   the PCC CPU didn't work (B&R System 2005).              บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V2.20 -> V2.30  ณ PREVIOUS VERSIONS: New Functions                        บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - FRM_ctrl(): The DSR/DTR signals from the modem-capable interfaces can   บ
+  บ   be operated by the user, using this FBK. If RTS hardware handshaking    บ
+  บ   is used, the communication status can be read.                          บ
+  บ - The RTS option for the handshake with an RS485 coupler has been extendedบ
+  บ   to include a "receiver-disable" possibility (argument number 5).        บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+                                      @404[ Continue ]                      @001[ Overview ]
+.404
+    Frame Driver Library : History - Version Changes (continued)
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V2.10 -> V2.20  ณ OLDER VERSIONS: New functions/error correction          บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ New functions:                                                            บ
+  บ - FRM_read(): Polling the inputs (approx. 300ๆsec) by calling FRM_read()  บ
+  บ   can not be reduced to a single poll variable with an if statement       บ
+  บ   (argument number 15).                                                   บ
+  บ                                                                           บ
+  บ Error correction:                                                         บ
+  บ - RS485 did not function correctly on System 2005 (main CPU), and the     บ
+  บ   corresponding LED was incorrectly set. This error has been corrected.   บ
+  บ - Integration of a lock to avoid the bus error (error 9100), which could  บ
+  บ   occur with an FRM_read()/FRM_write() to a non-initialized driver.       บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+                                      @405[ Continue ]                      @001[ Overview ]
+.405
+    Frame Driver Library : History - Version Changes (continued)
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V2.00 -> V2.10  ณ PREVIOUS VERSIONS: New Functions/Error Correction       บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ New functions                                                             บ
+  บ - FRM_close() implemented enabling overlay of another driver.             บ
+  บ - FRM_open(): The stack required for this version has been reduced.       บ
+  บ - FRM_read() contains extended error details for defective buffers.       บ
+  บ - FRM_read() (C calling interface) supports the timeout/receive active    บ
+  บ   option.                                                                 บ
+  บ - The IF050 interface module (B&R system 2005) must be inserted before    บ
+  บ   the FRM_open() function is called but no longer need be before an       บ
+  บ   URINIT.                                                        บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+                                      @406[ Continue ]                      @001[ Overview ]
+.406
+    Frame Driver Library : History - Version Changes (continued)
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V2.00 -> V2.10  ณ PREVIOUS VERSIONS: New Functions/Error Correction       บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ Error correction:                                                         บ
+  บ - There were problems with version V2.00 when a remote master or a        บ
+  บ   network card was inserted next to an IF050.                             บ
+  บ - If two IF050 modules were used at the same time, interrupts could be    บ
+  บ   lost. This error has been corrected in PCCSW V1.10; for PCCSW V1.05,    บ
+  บ   Bugfix 15 (F) must be loaded.                                           บ
+  บ - The FRM_reloutbuf function (C calling interface) did not function       บ
+  บ   correctly.                                                              บ
+  บ - There were problems when more than one write buffer was used.           บ
+  บ   The error "no buffer available" was returned although write buffers     บ
+  บ   were still available.                                                   บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+                                      @407[ Continue ]                      @001[ Overview ]
+.407
+    Frame Driver Library : History - Version Changes (continued)
+
+  ษออออออออออออออออออออัออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.05.3 -> V2.00   ณ PREVIOUS VERSIONS: New Functions                     บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ New functions:                                                            บ
+  บ - Support for the PCCSW V1.10.                                            บ
+  บ - Two IF050 modules are supported.                                        บ
+  บ - IF050 does not have to be available during driver download.             บ
+  บ - The interface is completely initialized by FRM_open(); i.e. it can be   บ
+  บ   "loaded over" an existing driver (e.g. PG driver) without problems.     บ
+  บ   A RESTORE of the old driver has not yet been implemented.               บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+                                      @408[ Continue ]                      @001[ Overview ]
+.408
+    Frame Driver Library : History - Version Changes (continued)
+
+  ษออออออออออออออออออออัออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.05.2 -> V1.05.3 ณ PREVIOUS VERSIONS: New Functions                     บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ New functions:                                                            บ
+  บ - The new FBKs V1.05.3 don't work with the old driver (name changed       บ
+  บ   from sfi to frm).                                                       บ
+  บ - FRM_open(): The FBK interface has had major changes (additional or      บ
+  บ    different parameters).                                                 บ
+  บ - HW and SW handshake for the RS232 line.                                 บ
+  บ - Four frame termination characters are supported.                        บ
+  บ - New files for programming with the C toolbox (C interface).             บ
+  บ   New include file frame.e (previously dvframe.e).                        บ
+  บ - Example in the form of an exported task (FRMTEST.XPE) to simplify       บ
+  บ   the operation/familiarization of the FBKs with displayable characters   บ
+  บ   for a terminal or a terminal emulation (PG version V1.25 export file).  บ
+  บ - Preparation for multidrop mode and for jumping out of the driver        บ
+  บ   (C programming) for better handling of special situations.              บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+                                      @200[ APPENDIX ]                      @001[ Overview ]
+
+
+
+.End

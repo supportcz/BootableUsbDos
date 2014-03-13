@@ -1,0 +1,32 @@
+*
+*       Datatype Description File for NET2000/CAN
+*
+13,                             * Anzahl der Variablentypen in der SPS
+BIT,1,1,0,                      * Klartextname, dattyps_sps, pvlen, swap
+INT8,2,1,0,
+INT16,3,2,0,
+INT32,4,4,0,
+BYTE,5,1,0,
+WORD,6,2,0,
+LONG,7,4,0,
+FLOAT,8,4,0,
+STRING,9,1,0,
+BCD2,14,1,0,
+BCD4,15,2,0,
+BCD8,16,4,0,
+BCD6,17,3,0,
+*
+8,                              * Anzahl der Feldparametertypen
+*               dattyp_bti, Anz- und Liste der zul. Variablentypen
+1,7,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,                                                        *BIT
+3,10,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,BCD2,BCD4,BCD8,           *INT16
+4,10,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,BCD2,BCD4,BCD8,           *INT32
+5,10,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,BCD2,BCD4,BCD8,           *BYTE
+6,10,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,BCD2,BCD4,BCD8,           *WORD
+7,10,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,BCD2,BCD4,BCD8,           *LONG
+8,1,FLOAT,                                                                                                                      *FLOAT
+9,1,STRING,                                                                                                                     *VISIBLE_STRING
+*
+1,                              * Anzahl der ABG-Eintr„ge
+X,0,1,999,13,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,FLOAT,STRING,BCD2,BCD4,BCD8,BCD6,0,0,   * 999 -> keine Pruefung
+

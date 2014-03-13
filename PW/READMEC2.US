@@ -1,0 +1,89 @@
+                      INFORMATION
+                NET2000/CAN Driver V2.0 for
+             PANELWARE CONFIGURATION SOFTWARE
+
+
+A. This diskette contains the following programs:
+
+        Automatic installation of all required files to the
+        hard disk
+
+        Communication driver for NET2000/CAN
+
+B. Required version of the PANELWARE CONFIGURATION SOFTWARE
+
+   PANELWARE CONFIGURATION SOFTWARE Rev. 02.00 or higher is required for
+   the installation of the NET2000/CAN - driver Diskette V2.0. With previous
+   versions, project creation was not possible for NET2000/CAN communication.
+
+C. In order to install all files to the hard disk, (e.g. drive C:),
+   you must use the automatic installation program on this diskette.
+   To execute this program, insert the diskette into your floppy drive
+   (e.g. Drive A: ). The following command is to be entered:
+
+        C:> A:SETUP
+
+   IMPORTANT:   In order to guarantee proper functionality of the
+                NET2000/CAN driver, all required files must be installed to
+                the harddisk with the SETUP-PROGRAM.
+
+D. Installation Notes
+
+   The target path for the installation must correspond with the destination
+   path given for the PANELWARE CONFIGURATION SOFTWARE.
+
+        E.g.    Installation of PANELWARE CONFIGURATION SOFTWARE:
+
+                Destination path:       C:\PW\
+
+                Installation from NET2000/CAN - Driver Diskette
+
+                Destination path:       C:\PW\
+
+E. New NET2000/CAN - driver installation
+
+   When the NET2000/CAN driver is installed a new entry is added to the
+   existing connection list.
+   All required files are copied to the path \Target_path\kfg.
+
+F. Notes on the use of the NET2000/CAN Driver
+
+   Panel:
+
+        The panel can communicate with all B&R2000 PCC, whith supports
+        NET2000 V2.0 slave-functions on CAN-Interface.
+        It is not possible to access CAN-I/O nodes (e.g. EX470).
+
+   PLC:
+
+        On PCC it is necassary to install NET2000 V2.0. All required
+        NET2000 parameters are described in librarymanual for NET2000,
+
+
+G. Changes NET2000/CAN Driver
+
+   Version V1.0 ----> Version V2.0
+
+        Datatype convertion form BIT-BIT and BIT-BYTE for alarmhandling is
+        corrected.
+
+        NET2000 V2.0 functions are implemented.
+            e.g. Multi-Master communication on CAN-Interface is possible.
+            this meaning is, communication between panels and PCC is possible.
+            !!! But, handle this function with care, cause the more nodes are
+            connect to CAN-bus will load the bussystem and it will be slow.
+
+
+H. C220/C221 Panel Controller Interfaces
+
+   The IF3 interface of the C220/C221 panel controller is used for
+   communication with the PLC.
+
+   NOTE:        Only 1 communication interface can be used on the C220/C221
+                panel controller. It is not possible to use more than 1
+                communication protocols at the same time.
+
+
+   06.06.1997
+
+

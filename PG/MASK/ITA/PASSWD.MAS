@@ -1,0 +1,6 @@
+#TXT 00 01 12 78  Password_?_:
+#VAR 00 14 10 01 68 00 66 N N J N N 00 00 00 
+#TXT 00 24 01 78  _
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ !@#$%^&*(){}[]-+=;,.<>?:
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:

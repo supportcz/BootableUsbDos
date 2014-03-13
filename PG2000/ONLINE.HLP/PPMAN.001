@@ -1,0 +1,212 @@
+%%
+1,0:1
+%%
+.1
+    PP Manager FBKs for the Synchronous PP HS Task Class
+
+    Using these FBKs, it is possible to activate the PP HSTC (HS#2 on the PP)
+    in synchronization with the PCC CPU via an interrupt. Therefore, sections
+    of the application can be carried out on a PP. These FBKs can only be
+    used on the PCC CPU.
+
+    @020[PP_ident()  ]     Request the identifier for the given PP number
+    @030[PP_trigger()]     Start HS#2 on the PP via an interrupt
+    @040[PP_ready()  ]     Check if HS#2 is ready on the PP
+
+    @055[Error Codes ]:    PP FBKs error codes
+
+
+
+
+
+  ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ @011[PREREQUISITES] for using the PP HSTC on the PP !                           บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+                                    @002[   APPENDIX   ]                    @999[ End HELP ]
+.2
+    APPENDIX:  LIBRARY Information and Technical Data
+
+
+    @011[< General Information >]      Prerequisites etc.
+
+    @055[< Error Numbers       >]      Error Number Overview
+
+    @060[< Times, Stack        >]      Run Times and Stack Requirements
+
+    @005[< History             >]      New Functions and Version Changes
+
+
+
+
+
+
+
+
+
+
+
+                                                                    @001[  Overview  ]
+.5
+    APPENDIX HISTORY - Version Changes
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ @005[V1.00 -> V1.10]  ณ   NEW FUNCTIONS                                         บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Supports 2005 PPs (CP15x, XP152, IP151, IF152)                          บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ @005[V1.00]           ณ   NEW FUNCTIONS                                         บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Supports CP10x and IF10x / MP100                                        บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+
+
+
+                                    @002[   APPENDIX   ]                  @001[  Overview  ]
+.11
+    PREREQUISITES for Using the PP HSTC on the PP
+
+    The "ppman.br" module (V1.10) must exist as a system module on the
+    PP CPU (!) and the PCC CPU, or it must be burned to the EPROM/FLASH.
+    A PP HSTC must be configured on the PP (PCCSWCFG from V1.21 onwards).
+    The "ppman.slb" library must be imported into PG so that the PP FBKs
+    can be used.
+
+    Make sure that the PP HSTC does not lead to critical timing problems
+    (6002) on the PP. The runtimes of the HS#2 PCC task on the PP are not
+    allowed to be too long (measure with the profiler).
+
+
+
+
+
+
+
+
+
+
+                                                                    @001[  Overview  ]
+.20
+    Request the Identifier for the Given PP Number
+
+    @030[PP_ident] (enable, module_no, pp_ident, status)
+
+
+    Parameter Data Types :
+    -> enable       BIT             Activate FBK (1)
+    -> module_no    WORD            PP number (default 1, as defined in PG)
+
+    <- pp_ident     LONG            Identifier for the PP
+    <- status       WORD            Error code (0..no error)
+
+    Error Status:
+        8016  PP not available
+
+    Using this FBK, the appropriate PP with the given PP number is searched
+    for on the system bus. The pp_ident FBK returns the ident number of the
+    PP. This FBK can only be used on the PCC CPU. Furthermore, a PP HSTC
+    must be configured on the PP.
+
+
+                                                                    @001[  Overview  ]
+.30
+    Start HS#2 on the PP with an Interrupt
+
+    @040[PP_trigger] (enable, pp_ident, status)
+
+
+    Parameter Data Types :
+    -> enable       BIT             Activate FBK (1)
+    -> pp_ident     LONG            Identifier for the PP
+
+    <- status       WORD            Error code (0..no error)
+
+    Error Status:
+        6354  HS#2 not ready on the PP
+        6355  No PP HSTC installed on the PP
+
+    If pp_ident is used, an interrupt is triggered on the PP and HS#2 is
+    started on the PP. If HS#2 is not yet ready on the PP, error code
+    6354 is returned. The pp_ident function clearly specifies
+    the PP. This FBK can only be used on the PCC CPU. Furthermore, a PP HSTC
+    must be configured on the PP.
+
+                                                                    @001[  Overview  ]
+.40
+    Check if HS#2 is Ready on the PP
+
+    @020[PP_ready] (enable, pp_ident, status)
+
+
+    Parameter Data Types:
+    -> enable       BIT             Activate FBK (1)
+    -> pp_ident     LONG            Identifier for the PP
+
+    <- status       WORD            Error code (0..no error)
+
+    Error Status:
+        6354  HS#2 not yet ready on the PP
+        6355  No PP HSTC installed on the PP
+
+    The pp_ident function checks if HS#2 is finished on the PP.
+    The pp_ident function clearly specifies the PP. This FBK can only
+    be used on the PCC CPU. Furthermore, a PP HSTC must be configured
+    on the PP.
+
+
+                                                                    @001[  Overview  ]
+.55
+    PP_Library - ERROR NUMBERS
+
+    Possible ERROR NUMBERS and their Meanings:
+
+
+    6354  ...   HS#2 not yet ready on the PP
+    6355  ...   No PP HSTC installed on the PP
+    8016  ...   PP not available
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                    @001[  Overview  ]
+.60
+    Runtimes and Stack Requirements of the PP Library
+  ษออออออออออออออัออออออออออออัอออออออออออออัออออออออออออัอออออออออออออออออป
+  บ Function     ณ Runtime    ณ Supervisor  ณ User Stack ณ With CPU        บ
+  บ              ณ  [ๆsec]    ณ Stack [Byte]ณ [Byte]     ณ                 บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ PP_ident     ณ   150      ณ     50      ณ    96      ณ CP1xx, XP152    บ
+  บ PP_trigger   ณ   105      ณ     46      ณ    52      ณ CP1xx, XP152    บ
+  บ PP_ready     ณ    95      ณ     46      ณ    52      ณ CP1xx, XP152    บ
+  ศออออออออออออออฯออออออออออออฯอออออออออออออฯออออออออออออฯอออออออออออออออออผ
+
+
+
+
+
+
+
+
+
+
+
+
+                                    @002[   APPENDIX   ]                  @001[  Overview  ]
+
+.End

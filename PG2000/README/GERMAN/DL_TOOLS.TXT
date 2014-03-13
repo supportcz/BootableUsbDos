@@ -1,0 +1,221 @@
+                     D o w n l o a d   T o o l s
+
+Datum        : 19. November 1997
+
+Version      : V 2.0            
+----------------------------------------------------------------------------
+Allgemein:                           
+
+Die Dos Tools dienen zum Upload, zum Download und zum Lîschen einzelner bzw.
+mehrerer Module auf der RPS. Weiters kînnen Variablen bzw. Module der RPS
+angezeigt, die einzelnen Speichertypen gelîscht und die RPS resetiert werden.
+Dos Tools kînnen in einem Batchfile aufgerufen werden und dienen somit als
+ErgÑnzung zum B&R ProgrammiergerÑt, speziell fÅr das automatisierte Bearbeiten
+von Anwenderspeichern. Es besteht die Mîglichkeit sie mit der RPS-SW V 1.10,
+V1.91 als auch mit V2.0 zu verwenden.
+
+
+Folgende Tools sind im Paket der DOS TOOLS V2.0 enthalten:
+
+   Tool   	Version  	Bedeutung
+   DL     	V 2.0    	Download von Modulen auf die RPS
+   UL     	V 2.0    	Upload eines Moduls von der RPS auf den PC
+   DELMOD       V 2.0           Lîschen eines bzw. mehrerer Module
+   CLEAR        V 2.0           Lîschen des Userrom, Fixram, permanenten
+                                Memory und der Memcard der CP260
+   BOOT   	V 2.0    	Resetieren der RPS
+   OV           V 2.0           Anzeigen von Modulen bzw. Variablen (mit
+                                Profibus Index )
+
+Verbindung
+Bei den DOS TOOLS V2.0 ist die Angabe eines Netzwerk Konfigurationsmodules
+nur fÅr eine Profibus Verbindung nîtig, denn sonst wird nur die verwendete
+Schnittstelle COM1 oder COM2 angegeben.
+
+Beispiele:
+/CCOM1          Verbindung Åber Interface COM1
+/CCOM2          Verbindung Åber Interface COM2
+/CCOM1/PP1      Verbindung mit PP Modul 1 Åber COM1
+/CCOM1/CAN.4    Verbindung mit CAN Knoten 4 Åber COM1 
+/CST1           Verbindung mit Station ST1 Åber Profibus (zusÑtzlich
+                /Nnw_pb_32.br)
+
+RÅckgabe Wert
+Werden die Tools in einem Batch File aufgerufen, so kînnen die entsprechenden
+RÅckgabewerte mit dem Befehl "errorlevel" ausgewertet bzw. entsprechend
+darauf reagiert werden.
+
+RÅckgabewerte:  0 bei korrekter Abarbeitung
+               	1 bei fehlerhafter Abarbeitung
+
+Beispiel fÅr eine Batch Datei (test.bat):
+	boot cold /ccom1
+	@echo off
+	if errorlevel 1 goto error
+	    echo korrekte Abarbeitung 
+	    goto ende			
+	:error
+	    echo fehlerhafte Abarbeitung
+	:ende
+	@echo on
+ 
+Hilfe
+Beim Aufruf der einzelnen Tools ohne
+Parameter wird die Hilfe fÅr das entsprechende Tool ausgegeben.
+
+Abbruch
+Abbruch der Befehlsabarbeitung erfolgt mit CTRL C oder ESCAPE-Taste
+
+
+1. Download 
+
+Mit der Funktion DL kann der Anwender ein oder mehrere B&R Module auf die RPS
+Åbertragen. Mit den entsprechenden Parametern wird der Zielspeicher(USRROM,
+FIXRAM oder MEMCARD) angegeben. Wird kein Speichertyp angegeben, so ist der
+Zielspeicher automatisch das USERRAM. Um mehrere Module behandeln zu kînnen,
+mu· neben der Option /F eine Modulliste angegeben werden. Eine Modulliste ist
+ein ASCII File in welchem pro Zeile ein B&R Modul angegeben ist. Pfadangaben
+sind ebenfalls erlaubt. 
+
+Beispiel:
+c:\pg2000\system\burtrap.br
+task_1.br
+task_2.br
+task_3.br
+
+
+DOWNLOAD               Version  V2.00             (C) B&R 1997
+
+Aufruf: dl <Modulname> [/F<Modulliste>][/C<Verbindung>][/P<Passwort>]
+                       [/N<Netzwerkmodul>][/T[USRROM|FIXRAM|MEMCARD]]
+
+	/F	... 	Anstelle eines Modulnamens kann ein Dateiname
+			angegeben werden, der eine Liste von Modulen
+                        enthÑlt
+	/C	... 	Netzwerkpfad zur Ziel RPS (default COM2)
+        /P      ...     Wenn die RPS mit einem Passwort geschÅtzt ist
+			ist dieses hier anzugeben
+        /N      ...     Netzwerk Konfigurationsmodul (nur fÅr PROFIBUS)
+	/T	... 	Modul im angegebenen Speichertyp ablegen (default=
+                        USRRAM)
+
+Beispiel:	dl /Fliste /CCOM1 /TUSRROM
+
+
+2. Upload 
+Die Funktion UL realisiert das GegenstÅck zum Download. Ein oder mehrere B&R
+Module werden von der RPS zum PC transferiert. Der Aufruf von diesem Tool ist
+Ñhnlich dem des DL-Tools.
+
+UPLOAD                 Version  V2.00             (C) B&R 1997
+
+Aufruf: ul <Modulname> [/F<Modulliste>][/C<Verbindung>][/P<Passwort>]
+                       [/N<Netzwerkmodul>]
+
+	/F	... 	Anstelle eines Modulnamens kann ein Dateiname
+			angegeben werden, der eine Liste von Modulen
+                        enthÑlt
+	/C	... 	Netzwerkpfad zur Ziel RPS (default COM2)
+        /P      ...     Wenn die RPS mit einem Passwort geschÅtzt ist
+			ist dieses hier anzugeben
+        /N      ...     Netzwerk Konfigurationsmodul (nur fÅr PROFIBUS)
+
+
+Beispiel:	ul /Fliste /CCOM1 
+
+3. DELMOD 
+Mit diesem Tool kann man ein bzw. mehrere Module von der RPS entfernen. Wie
+schon bei den Befehlen DL und UL kann auch hier ein einzelnes Modul oder eine
+Liste angegeben werden.
+
+
+
+DELMOD                 Version  V2.00             (C) B&R 1997
+
+Aufruf: delmod <Modulename> [/F<Modulliste>][/C<Verbindung>][/P<Passwort>]
+                            [/N<Netzwerkmodul>]
+
+	/F	... 	Anstelle eines Modulnamens kann ein Dateiname
+			angegeben werden, der eine Liste von Modulen
+                        enthÑlt
+	/C	... 	Netzwerkpfad zur Ziel RPS (default COM2)
+        /P      ...     Wenn die RPS mit einem Passwort geschÅtzt ist
+			ist dieses hier anzugeben
+        /N      ...     Netzwerk Konfigurationsmodul (nur fÅr PROFIBUS)
+
+Beispiel:	delmod modul.br /CCOM1
+
+
+4. Clear 
+Da beim Entfernen eines Moduls aus dem FLASH oder FIXRAM der Speicher nicht
+freigegeben wird, stellen die DOS Tools auch Funktionen zum Lîschen dieser
+Speicherbereiche zur VerfÅgung. ZusÑtzlich kann mit dieser Funktion auch das,
+ab der RPSSW 1.91 zur VerfÅgung gestellte PERMANENTE Memory, als auch die
+MEMCARD der CP260, gelîscht werden.
+
+
+CLEAR                  Version  V2.00             (C) B&R 1997
+
+Aufruf:
+clear [/T USRROM|FIXRAM|MEMORY|MEMCARD]][/C<Verbindung>][/P<Passwort>]
+      [/N<Netzwerkmodul>][/X]
+
+        /T      ...     Speichertyp der zu lîschen ist
+	/C	... 	Netzwerkpfad zur Ziel RPS (default COM2)
+        /P      ...     Wenn die RPS mit einem Passwort geschÅtzt ist
+			ist dieses hier anzugeben
+        /N      ...     Netzwerk Konfigurationsmodul (nur fÅr PROFIBUS)
+        /X      ...     keinen DIAG Boot durchfÅhren
+
+Beispiel:	clear /TUSRROM /CCOM1 
+Beispiel zum Lîschen des USERROMs auf dem PP:
+		boot  diag  /CCOM1
+                clear  /X   /CCOM1/PP10  /TUSRROM
+( Damit das Routen bzw. die Verbindungsaufnahme zum MP mîglich ist, wird die
+RPS vor dem Lîschen in den Diagnose Mode gebracht.  )
+
+
+5. Boot
+Im Rahmen einer Installation ist es mitunter von Nîten die RPS zu resetieren.
+Der Befehl Boot stellt diese Funktion zur VerfÅgung. Mit ihm ist der Anwender
+in der Lage einen Kalt- oder Warm Start sowie ein Halt (RPS geht in den
+Servicemode) durchzufÅhren.
+
+
+BOOT                   Version  V2.00             (C) B&R 1997
+
+Aufruf:boot[WARM|COLD|HALT|DIAG][/C<Verbindung>][/P<Passwort>][/N<Netzwerkm.>]
+
+                WARM    ... Einen WARM-Start auf der RPS auslîsen (default)
+                COLD    ... Einen KALT-Start auf der RPS auslîsen
+                HALT    ... Einen HALT-Start auf der RPS auslîsen
+                DIAG    ... Einen DIAG-Start auf der RPS auslîsen
+        	/C	... Netzwerkpfad zur Ziel RPS (default COM2)
+                /P      ... Wenn die RPS mit einem Passwort geschÅtzt ist,
+                            ist dieses hier anzugeben
+                /N      ... Netzwerk Konfigurationsmodul (nur fÅr PROFIBUS)
+
+Beispiel:	boot WARM /CCOM1
+
+
+6. OV
+Mit diesem Tool ist es mîglich Module bzw. Variablen (mit Profibus Index) 
+welche sich  auf der Steuerung befinden anzuzeigen.
+
+
+OV                     Version  V2.00             (C) B&R 1997
+
+Aufruf: ov [/F<Variablenliste>][/C<Verbindung>][/P<Passwort>]                               
+           [/N<Netzwerkmodul>][/M][/V]
+
+	/F	... 	Dateiname mit einer Liste von Variablennamen.
+			Fehlt diese Option werden alle Variablen angezeigt
+	/C	... 	Netzwerkpfad zur Ziel RPS (default COM2)
+        /P      ...     Wenn die RPS mit einem Passwort geschÅtzt ist
+			ist dieses hier anzugeben
+        /N      ...     Netzwerk Konfigurationsmodul (nur fÅr PROFIBUS)
+	/M	... 	Module anzeigen
+	/V	... 	Variablen anzeigen (=default)
+
+Beispiel:	ov  /CCOM1
+

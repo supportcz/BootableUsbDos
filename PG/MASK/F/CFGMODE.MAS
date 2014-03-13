@@ -1,0 +1,11 @@
+#VAR 00 00 08 01 78 00 35 N N J N N 00 00 01 
+#TXT 00 00 08 78  _PG1000_
+#VAR 01 00 08 01 78 00 35 N N J N N 00 00 02 
+#TXT 01 00 08 78  _PG-PC__
+#VAR 02 00 08 01 78 00 35 N N J N N 00 00 03 
+#TXT 02 00 08 78  _CP_80__
+#VAR 03 00 08 01 78 00 35 N N J N N 00 00 04 
+#TXT 03 00 08 78  _PC_80__
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`

@@ -1,0 +1,36 @@
+*
+*   Protocol Parameter File for Net2000/CAN
+*
+#PARA "Panel Station-Number:"           UINT   1   1    16    1  nox_value  LONG   5  0   NET
+#PARA "PLC Station-Number:"             UINT   1   1    16    8  descript   STR   20  3   NODE
+#PARA "Baud Rate:"                      baud   1   0     0    0  nox_value  LONG   2  0   NET
+#PARA "Timeout (ms):"                   UINT   1 100 10000  500  nox_value  LONG   6  0   NET
+#PARA "Number of retries:"              UINT   1   0    10    3  nox_value  LONG   0  0   NET
+#PARA "Number of Nodes:"                UINT   1   2    16    8  nox_value  LONG   8  0   NET
+#PARA "CAN Base ID:"                    UINT   1   1  2026  790  nox_value  LONG   9  0   NET
+#PARA "Data Access:"                    dstyp  1   0     0    0  node_info  BIT   16  1   NET
+#PARA "PV-Name internal error number:"  STRING 0  10     1    0  nox_value  LONG  12 14   NODE
+*
+*
+*
+*  key  name         anz  Item  typ(1=Int/  len-erg    Var       Var-Descript   Equal
+*                         len   0..String)  (Typ=0)    name
+#SELECT baud         8     9        1          0
+* Item-Text      Result-Int
+  1000kBaud        1000
+  500kBaud         500
+  250kBaud         250
+  125kBaud         125
+  100kBaud         100
+  50kBaud          50
+  20kBaud          20
+  10kBaud          10
+*
+*
+*  key  name         anz  Item-len  typ(1..Int/0..String)  len-erg(falls Typ 0)
+#SELECT dstyp        2    10            1                       0
+* Item-Text      Result-Int
+   single           1
+   dynamic          0
+*
+

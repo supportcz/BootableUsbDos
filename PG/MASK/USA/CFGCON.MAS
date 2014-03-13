@@ -1,0 +1,22 @@
+#TXT 00 00 25 78  __1)_EMS-SYMB-Management:
+#VAR 00 26 04 01 78 00 42 N N J N N 00 00 01 
+#TXT 00 75 01 78  _
+#TXT 02 00 34 78  __2)_AT-Bus_Online-Interface_____:
+#VAR 02 35 04 01 78 00 42 N N J N N 00 00 02 
+#TXT 03 00 34 78  __3)_LPT1_Online-Interface_______:
+#VAR 03 35 04 01 78 00 42 N N J N N 00 00 03 
+#TXT 04 00 34 78  __4)_LPT-Base_address____________:
+#VAR 04 35 04 01 78 03 66 N N J N N 00 00 04 
+#TXT 04 40 03 78  Hex
+#TXT 05 00 34 78  __5)_LPT_IRQ_____________________:
+#VAR 05 35 01 01 78 04 78 N N J N N 00 00 05 
+#TXT 05 40 09 78  (3,4,5,7)
+#TXT 06 00 34 78  __6)_Keyboard-Driver_____________:
+#TXT 06 35 05 78  KEYB.
+#VAR 06 40 03 01 78 00 42 N N J N N 00 00 06 
+#TXT 08 12 46 78  _Parameters_are_only_active_after_restarting_!
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS 0123456789ABCDEFabcdef
+#KS 3457

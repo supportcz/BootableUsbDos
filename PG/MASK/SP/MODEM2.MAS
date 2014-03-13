@@ -1,0 +1,25 @@
+#TXT 00 01 10 78  MESSAGES_:
+#TXT 02 01 16 78  Respuesta_corr.:
+#VAR 02 18 15 01 78 00 66 N N J N N 00 00 99 
+#TXT 03 01 16 78  Respuesta_erro.:
+#VAR 03 18 15 01 78 00 66 N N J N N 00 00 00 
+#TXT 05 01 21 78  Mensaje_de_conexi¢n_:
+#TXT 06 01 12 78  __300_Baud.:
+#VAR 06 14 20 01 78 00 66 N N J N N 00 00 00 
+#TXT 07 01 12 78  _1200_Baud.:
+#VAR 07 14 20 01 78 00 66 N N J N N 00 00 00 
+#TXT 08 01 12 78  _2400_Baud.:
+#VAR 08 14 20 01 78 00 66 N N J N N 00 00 00 
+#TXT 09 01 12 78  _4800_Baud.:
+#VAR 09 14 20 01 78 00 66 N N J N N 00 00 00 
+#TXT 10 01 12 78  _9600_Baud.:
+#VAR 10 14 20 01 78 00 66 N N J N N 00 00 00 
+#TXT 11 01 12 78  19200_Baud.:
+#VAR 11 14 20 01 78 00 66 N N J N N 00 00 00 
+#TXT 13 01 30 78  Detecci¢n_auto-baudios_(S/N)_:
+#VAR 13 32 01 01 78 03 66 N N J N N 00 00 66 
+#TXT 14 34 01 78  _
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ !@#$%^&*(){}[]-+=;,.<>?:
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:
+#KS SNsn

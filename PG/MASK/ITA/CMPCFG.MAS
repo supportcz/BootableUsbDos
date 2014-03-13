@@ -1,0 +1,52 @@
+#TXT 00 00 20 78  _General_Parameter_:
+#TXT 01 04 08 78  Match__:
+#VAR 01 13 02 01 78 00 78 N N J N N 00 00 01 
+#TXT 01 21 06 78  (1-99)
+#TXT 02 04 08 78  Resync_:
+#VAR 02 13 04 01 78 00 78 N N J N N 00 00 02 
+#TXT 02 21 08 78  (1-9999)
+#TXT 03 04 11 78  Report____:
+#VAR 03 16 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 03 20 05 78  (Y/N)
+#TXT 03 29 15 78  Short_version_:
+#VAR 03 45 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 04 04 11 78  Auto_Mode_:
+#VAR 04 16 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 04 20 05 78  (Y/N)
+#TXT 06 01 16 78  Statement_list_:
+#VAR 06 18 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 06 20 05 78  (Y/N)
+#TXT 06 29 12 78  Sequential_:
+#VAR 06 42 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 07 04 19 78  Addresses_relativ_:
+#VAR 07 24 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 08 04 19 78  Labeldefinition___:
+#VAR 08 24 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 09 04 19 78  Verify_symbols____:
+#VAR 09 24 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 10 04 19 78  Verify_comments___:
+#VAR 10 24 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 11 04 19 78  Ignore_"NOP"______:
+#VAR 11 24 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 13 01 17 78  Data_tables_____:
+#VAR 13 19 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 13 21 05 78  (Y/N)
+#TXT 14 04 18 78  Verify_contents__:
+#VAR 14 23 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 14 28 08 78  Match__:
+#VAR 14 37 02 01 78 00 78 N N J N N 00 00 03 
+#TXT 14 40 06 78  (1-99)
+#TXT 15 04 18 78  Verify_comments__:
+#VAR 15 23 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 17 01 17 78  Symbols_________:
+#VAR 17 19 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 17 21 05 78  (Y/N)
+#TXT 17 28 06 78  Long_:
+#VAR 17 35 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 17 38 07 78  Short_:
+#VAR 17 46 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 17 48 01 78  _
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS YNyn

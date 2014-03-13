@@ -1,0 +1,650 @@
+%%
+1,0:1
+%%
+
+.1
+    Library mit FUBs zum Spoolen von Daten und Modulen im zyklischen Betrieb
+
+    @50[SPdndata] (enable, spooladr, ip_adr, cpu_adr, data_len, status)
+    @55[SPupdata] (enable, spooladr, ip_adr, cpu_adr, data_len, status)
+    @60[SPdnmod]  (enable, spooladr, mo_ident, status)
+    @65[SPupmod]  (enable, spooladr, adr(name), modus, cpu_adr, data_adr,
+              modullen, status)
+    @70[SPdisplay](enable, modus, status)
+    @75[SPadr]    (enable, io_type, master_no, slave_no, moduleadr, spooladr,
+              status)
+    @80[SPprio]   (enable, modus, status)
+    @85[SPtimeout](enable, timeout, status)
+    @90[SPdminit] (enable, name, io_type, master_no, slave_no, moduleadr,
+              status, ok_flag)
+
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º ACHTUNG: Die Spool-FUBs k”nnen nur dann verwendet werden, wenn das        º
+  º          Modul "spooler.br" auf der SPS gespeichert ist !                 º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                @  2[   ANHANG   ]                    @999[ HILFE beenden ]
+.2
+    ANHANG:  LIBRARY-Informationen und Technische Daten
+
+
+    @ 40[< Allgemeines      >]        Spoolvorgang und Voraussetzungen
+
+    @ 25[< Beispiel         >]        Beispiel fr einen Spool-Auftrag
+
+    @ 30[< Technische Daten >]        Laufzeiten und Stackbedarf
+
+    @ 20[< Fehlernummern    >]        Fehlernummern-šbersicht
+
+    @  5[< History          >]        Neue Funktionalit„ten und Versions„nderungen
+
+
+
+
+
+
+
+
+
+                                                                 @  1[  Uebersicht  ]
+.5
+    ANHANG HISTORY - Versions„nderungen
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º @  6[V2.10 -> V2.11]  ³   NEUE FUNKTIONALITTEN  ("spooler.br")                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - SPadr() im PG2000 wieder verwendbar (Fehler im Spooler V2.10)                 º
+  º - Spool-FUBs auch in AS-Libraries verwendbar                                    º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º @  6[V2.01 -> V2.10]  ³   NEUE FUNKTIONALITTEN  ("spooler.br")                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Nutzung im Automation Studio als Library "spooler"                      º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º @  6[V2.00 -> V2.01]  ³   NEUE FUNKTIONALITTEN  ("spooler.br")                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - SPtimeout() zur Parametrierung der FUB-Timeoutzeit                      º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+    @  6[ Fortsetzung  ]              @  2[   ANHANG   ]                     @  1[  Uebersicht  ]
+.6
+    ANHANG HISTORY - Versions„nderungen
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º @  7[V1.40 -> V2.00]  ³   NEUE FUNKTIONALITTEN  ("spooler.br")                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Untersttzung der IF260 und IP350 (2005-BasisIO)                        º
+  º - Keine CPU-Abh„ngigkeit fr weitere CPUs bei 2005-BasisIO                º
+  º - SPdminit() zum direkten Spoolen von Modulen im InitUP                   º
+  º - Fehlerkorrektur bei SPdnmod() wegen m”glichem Buserror/Adreáerror       º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º @  7[V1.30 -> V1.40]  ³   NEUE FUNKTIONALITTEN  ("spooler.br")                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Untersttzung der CP260 und der EX350                                   º
+  º - SPdnmod() Timeout abh„ngig von der Modulgr”áe (1 Minute pro 16 kB)      º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º @  7[V1.22 -> V1.30]  ³   NEUE FUNKTIONALITTEN  ("spooler.br")                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Untersttzung der IP151 / IF152                                         º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+    @  7[ Fortsetzung  ]              @  2[   ANHANG   ]                     @  1[  Uebersicht  ]
+.7
+    ANHANG HISTORY - Versions„nderungen
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º @  8[V1.21 -> V1.22]  ³   NEUE FUNKTIONALITTEN  ("spooler.br")                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Fehlerkorrektur beim Upspool von Daten bzw. den NSW-FUBs fr das DS100  º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º @  8[V1.20 -> V1.21]  ³   NEUE FUNKTIONALITTEN  ("spooler.br")                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Untersttzung der CP200                                                 º
+  º - Fehlerkorrektur beim Spoolen mit Moduladressen gr”áer gleich 10         º
+  º   fr 2010-IO und 2005-IO                                                 º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º @  8[V1.11 -> V1.20]  ³   NEUE FUNKTIONALITTEN  ("spooler.br")                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Das Spoolen fr 2005-BasisIO, 2005-Expansionen, RIO-2005 und RIO-2010   º
+  º   wird untersttzt.                                                       º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º @  8[V1.10 -> V1.11]  ³   NEUE FUNKTIONALITTEN  ("spooler.br")                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Die CPU XP152 wird untersttzt.                                         º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+    @  8[ Fortsetzung  ]              @  2[   ANHANG   ]                     @  1[  Uebersicht  ]
+.8
+    ANHANG HISTORY - Versions„nderungen
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º @  9[V1.10 -> V1.11]  ³   NEUE FUNKTIONALITTEN  (Fortsetzung)                  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Der FUB SPadr() zur Berechnung der Spooladresse ist neu verfgbar.      º
+  º - Der FUB SPprio() zur Priorisierung des Spoolers ist neu verfgbar.      º
+  º - Beim Download des Moduls "spooler.br" wird kein Fehler 9 mehr im        º
+  º   Fehlerlogbuch eingetragen.                                              º
+  º - Die Spool-FUBs werden im Hochlauf des Spoolertask im AVT eingetragen.   º
+  º   Damit ist bei Verwendung der Spool-FUBs nur mehr das Modul "spooler.br" º
+  º   erforderlich, das Modul "sp_lib.br" ist nicht mehr notwendig !          º
+  º - Der FUB SPdnmod() zum Downspool von Modulen von der SPS-CPU zum IP im   º
+  º   zyklischen Betrieb ist neu verfgbar.                                   º
+  º - Die Spool-FUBs geben default aus Performancegrnden keinen String am    º
+  º   Display aus. Mit dem FUB SPdisplay() kann die Display-Ausgabe dynamisch º
+  º   eingeschaltet werden.                                                   º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+    @  9[ Fortsetzung  ]              @  2[   ANHANG   ]                     @  1[  Uebersicht  ]
+.9
+    ANHANG HISTORY - Versions„nderungen
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º @  5[V1.05 -> V1.10]  ³   Info ber Vorg„nger-Version                           º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Das Spoolen zu 2005-IPs (NC154) ist verfgbar, wobei auch hier im       º
+  º   Hochlauf zu allen 2005-IPs eines bestimmten Typs oder zu einer fixen    º
+  º   Moduladresse gespoolt werden kann.                                      º
+  º - Beim Spoolen von Modulen im Hochlauf kann ein Modul auch zu allen IPs   º
+  º   eines bestimmten Typs gespoolt werden.                                  º
+  º - Die Spooler-Funktionalit„t wird in einem Modul "spooler.br" zusammen-   º
+  º   gefaát, in V1.05 waren die 2 Module "su_spool.br" und "m_spool.br"      º
+  º   erforderlich. Bei Verwendung der Spool-FUBs muá das Modul "sp_lib.br"   º
+  º   gebrannt sein, wobei die FUBs SP_dndata(), SPupdata() und SPupmod()     º
+  º   verfgbar sind.                                                         º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+                                @  2[   ANHANG   ]                     @  1[  Uebersicht  ]
+.20
+    FEHLER-CODES der Spool-FUBs
+
+    6666  ...  Spooler arbeitet noch (kein Fehler, denn ein Spoolauftrag
+               dauert immer mindestens 2 SPS-Task-Zyklen)
+
+    6610  ...  unbekannter Spooler-Auftrag
+    6621  ...  Schaufelprozessor kann nicht mehr initialisiert werden
+    6622  ...  Perieller Fehler beim Spoolen, IP nicht vorhanden ?
+    6623  ...  Interrupt vom Schaufelprozessor
+    6624  ...  Fehler bei automatischer Moduladressierung
+    6625  ...  Schaufelprozessor-Timeout, HW-Problem ?
+    6627  ...  falscher Typ bei Spooladresse (spooladr)
+    6628  ...  angegebenes Systemmodul 2005 nicht vorhanden
+    6629  ...  angegebener RIO-Master nicht vorhanden
+    6630  ...  Spooler nicht vorhanden
+    6631  ...  RIO-Spooler Auftrags-Timeout
+    6632  ...  zu viele Spool-IO-Module parallel
+    6635  ...  interner Fehler beim 2005-Spoolen
+    6636  ...  falscher Mode bei SPprio
+    6637  ...  Spool-Adresse ungltig
+
+    @ 21[ Fortsetzung  ]              @  2[   ANHANG   ]                     @  1[  Uebersicht  ]
+.21
+    FEHLER-CODES der Spool-FUBs (Fortsetzung)
+
+    6638  ...  Spool-Queue nicht vorhanden
+    6639  ...  Modul-Ident ungltig
+    6650  ...  keine Antwort vom Slavespooler, Exception am IP ?
+    6652  ...  Slave-Spooler Timeout beim Warten auf Daten von der SPS-CPU
+    6654  ...  unbekannter Slave-Spooler-Auftrag
+    6656  ...  ungltiger Modultyp beim Downspool
+    6658  ...  falsche Install/Start-Info (alle Tasks mssen installiert und
+               gestartet werden !)
+    6662  ...  Timeout beim Warten auf den Hochlauf des IP
+    6699  ...  Timeout beim FUB-Aufruf
+
+
+
+
+
+
+
+
+
+                                @  2[   ANHANG   ]                     @  1[  Uebersicht  ]
+.25
+    Beispiel fr einen Spool-Auftrag
+    ;* Alle Spool-FUBs funktionieren nach dem gleichen Schema, deshalb sei
+    ;* hier das Upspool des Moduls "ip_dat" als Beispiel herausgegriffen
+
+    ;* der Spoolauftrag wird hier durch setzen eines Bit-Flags begonnen,
+    ;* am Ende des Spoolauftrags wird das Flag wieder auf 0 gesetzt
+    if spool_flag <> 0 then
+
+        ;* UP-Spool des Moduls "ip_dat" mit Modus 1 (Integration auf der
+        ;* SPS-CPU, damit UPLOAD mit PG m”glich ist; keine explizite Freigabe
+        ;* des Speichers erforderlich)
+        SPupmod (1, spooladr, "ip_dat", 1, hcpuadr, datenadr, laenge, status)
+
+        ;* Prfen, ob SPOOLEN fertig oder Fehler aufgetreten **
+        if status <> 6666 then
+            ;* Spool-Auftrag fertig, wobei der Status anzeigt, ob ein
+            ;* Fehler aufgetreten (ungleich 0) oder alles OK ist (=0)
+            ;* Flag auf 0 setzen, damit Ende des Spoolauftrags erkennbar ist
+            spool_flag = 0
+        endif
+    endif
+                                @  2[   ANHANG   ]                     @  1[  Uebersicht  ]
+.30
+    Laufzeiten und maximaler Stackbedarf der Spool-FUBs
+
+    * Die folgenden Laufzeiten wurden auf der SPS gemessen, wobei die
+      Display-Ausgabe desaktiviert war. Bei aktivierter Displayausgabe
+      sind im ersten bzw. letzten Zyklus eines Spoolauftrags jeweils
+      ca. 410æs zu addieren.
+
+    * Durch die Beauftragung des Spoolertask im 1. Zyklus des FUB-Aufrufs
+      und die Kontrolle, ob der Auftrag fertig ist, bei jedem weiteren
+      FUB-Aufruf ergeben sich unterschiedliche Zeiten, die getrennt
+      ausgewiesen werden. Eine Ausnahme sind die FUBs SPdisplay(), SPadr()
+      und SPprio(), die immer in einem Zyklus fertig sind.
+
+
+
+
+
+
+
+
+
+    @ 31[ Fortsetzung  ]              @  2[   ANHANG   ]                     @  1[  Uebersicht  ]
+.31
+    Laufzeiten und maximaler Stackbedarf der Spool-FUBs (Fortsetzung)
+
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Name       ³ Spool-]     ³ Kontrolle  ³ Userstack ³ Supervisor- º
+    º            ³ Auftrag[æs] ³ fertig[æs] ³ [Byte]    ³ stack[Byte] º
+    ÇÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º SPdndata() ³    300      ³     65     ³    100    ³     38      º
+    º SPupdata() ³    300      ³     65     ³    100    ³     38      º
+    º SPdnmod()  ³    380      ³     60     ³    108    ³     46      º
+    º SPupmod()  ³    315      ³     85     ³    112    ³     38      º
+    º SPdisplay()³     38      ³     -      ³     24    ³      -      º
+    º SPprio()   ³    194      ³     -      ³     38    ³     68      º
+    º SPadr()    ³     90      ³     -      ³     40    ³      -      º
+    º SPdminit() ³ siehe Anm.1 ³     -      ³     24    ³    488      º
+    º SPtimeout()³     40      ³     -      ³     24    ³      -      º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+    Anmerkung 1: Die Laufzeit von SPdminit() ist abh„ngig vom IO-Typ und
+                 von der Gr”áe des Moduls. Da der FUB nur im InitUP
+                 aufgerufen werden kann, spielt die Laufzeit aber keine
+                 Rolle.
+                                @  2[   ANHANG   ]                     @  1[  Uebersicht  ]
+.35
+    Aufbau der Spooladresse
+
+    Die Spooladresse bestimmt das IO-Modul, auf das gespoolt wird. Sie wird
+    in einem kompakten Format abgelegt, wobei der FUB SPadr() fr das
+    Generieren der Spooladresse verwendet werden kann.
+
+    2010-IO / 2005-BasisIO + 2005-Expansionen :
+
+     Bit  15 14 13 12 11 10  9  8  7         -          0
+         ÚÄÄÄÄÄÂÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+         ³ 0³ 0³ 0³ 0³ 0³  ³  ³  ³  ³  ³  ³  ³  ³  ³  ³  ³
+         ÀÄÄÄÄÄÁÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+            ³       ³       ³               ³
+        Busnummer IO-Typ Zusatzinfo    Moduladresse
+
+        Zusatzinfo  : %000=0 ... 2010-Module      %100=4 ... 2005 Exp. 3
+                      %001=1 ... 2005-BasisIO     %101=5 ... 2005 Exp. 4
+                      %010=2 ... 2005 Exp. 1      %110=6 ... 2005 Exp. 5
+                      %011=3 ... 2005 Exp. 2      %111=7 ... 2005 Exp. 6
+        Moduladresse: Moduladresse des IO-Moduls (entsprechend der
+                      Deklaration im PG, dezimal)
+                                @ 36[ Fortsetzung ]                    @  1[  Uebersicht  ]
+.36
+    Aufbau der Spooladresse (Fortsetzung)
+
+    ACHTUNG: Bei Spooladressen fr 2010-IO, die im Modulheader eingetragen
+             sind (z.B. vom PG bei 2010-IP), muá die Moduladresse im
+             BCD-Format eingetragen werden (Moduladresse 10 : $0010)
+
+    RIO 2010 / RIO 2005
+        Bit  15 14 13 12 11 10  9  8  7  6  5  4- 3  2  1  0
+            ÚÄÄÄÄÄÂÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+            ³  ³  ³ 0³ 0³ 1³  ³  ³  ³  ³  ³  ³  ³  ³  ³  ³  ³
+            ÀÄÄÄÄÄÁÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+               ³       ³          ³     2005-Flag   ³
+           Master-IX IO-Typ  Slavenummer       Moduladresse
+
+        Master-IX   : Master-Index 0-3 (0 ... Master 1, 1 ... Master 2, usw.)
+        Slavenummer : Slave-Nummer 1-32 (Slave 32 = 0)
+        2005-Flag   : 0 ... RIO 2010,  1 ... RIO 2005
+        Moduladresse: Moduladresse des IO-Moduls (entsprechend der
+                      Deklaration im PG, dezimal)
+                      Wertebereich : RIO 2010 : 1-32 (Modul 32 = 0)
+                                     RIO 2005 : 1-13
+                                @  2[   ANHANG   ]                     @  1[  Uebersicht  ]
+.40
+    Funktionsbeschreibung der Spool-FUBs
+
+    - Mit den Spool-FUBs k”nnen Daten und Module in frei w„hlbarer Gr”áe von
+      der SPS-CPU auf IPs (Intelligente Peripherie) bzw. von IPs auf die
+      SPS-CPU gespoolt werden. Damit ist ein Datenaustausch zwischen IP und
+      SPS-CPU ohne Einschr„nkung auf den IP-DPR-Datenbereich m”glich.
+
+    - Die Spool-FUBs k”nnen nur dann verwendet werden, wenn das Modul
+      "spooler.br" auf der SPS gebrannt ist ! Dieses Modul tr„gt die FUBs
+      in der Hochlaufphase im AVT ein.
+
+    - Alle Spool-FUBs liefern einen Fehlercode (status). Die Fehlercodes
+      der einzelnen FUBs sind jeweils angegeben und beschrieben.
+
+    - Alle FUBs zum Spoolen von Daten bzw. Modulen mssen ber mehrere
+      SPS-Task-Zyklen hinweg aufgerufen werden, da die Spoolauftr„ge aus
+      Performancegrnden nicht direkt im FUB abgearbeitet werden. Der Auftrag
+      wird an den Spooler-Task weitergereicht, der ihn in der Restzeit
+      abarbeitet. Im SPS-Task muá in den Folgezyklen nach der Beauftragung
+      gecheckt werden, ob der Auftrag fertig bearbeitet wurde.
+
+    @ 41[ Fortsetzung  ]              @  2[   ANHANG   ]                     @  1[  Uebersicht  ]
+.41
+    Downspool von Modulen
+
+    Module k”nnen auf 2 Arten zum IP (Intelligente Peripherie) gespoolt
+    werden:
+      - Spoolen im Hochlauf (Warmstart, Kaltstart)
+      - Spoolen im zyklischen Betrieb mit dem FUB SPdnmod()
+
+    Beim Spoolen im Hochlauf werden alle Module, die fr das Spoolen
+    gekennzeichnet sind, automatisch von der Firmware ("spooler.br") zum
+    entsprechenden IP gespoolt (beim Warmstart und beim Kaltstart).
+    Die Kennzeichnung der Spool-Module erfolgt dabei automatisch im PG,
+    wenn in der GDM zwischen der SPS-Ebene und der Task-Ebene die CPU-Ebene
+    eingezogen und dort ein IP eingetragen wird. Fr den IP muá neben der
+    Zykluszeit der SS-Taskklasse am IP auch die Moduladresse eingetragen
+    werden. Die fr den IP eingetragenen Module werden dann wie alle anderen
+    Module auf die SPS-CPU geladen, beim folgenden Hochlauf werden sie
+    automatisch zum IP gespoolt.
+
+    Beim Spoolen im zyklischen Betrieb wird das Modul unabh„ngig von der
+    eingetragenen Spoolkennung auf den im Parameter "spooladr" angegebenen
+    IP gespoolt.
+                                @  2[   ANHANG   ]                     @  1[  Uebersicht  ]
+.50
+    Downspool von Daten
+
+    @50[SPdndata] (enable, spooladr, iradr, hcpuadr, laenge, status)
+
+    Parameter-Datentypen :
+    -> enable     :  BIT       der FUB wird nur bei enable=1 ausgefhrt (KOP)
+    ->@35[ spooladr   ]:  WORD      Adresse des IP-Moduls am I/O-Bus
+    -> iradr      :  LONG      Startadresse des Datenbereichs am IP-Modul
+                               (Destinationpointer)
+    -> hcpuadr    :  LONG      Startadresse des Datenbereichs auf der
+                               SPS-CPU (Sourcepointer)
+    -> laenge     :  WORD      L„nge des Datenbereichs in Byte
+    <-@20[ status     ]:  WORD      Fehler-Code : 6666 ... Spooler arbeitet
+                                             0    ... Spooler fertig
+                                             Rest ... Fehlermeldungen
+
+    * Mit diesem FUB k”nnen Daten beliebiger L„nge von der SPS-CPU zum IP
+      gespoolt werden.
+    * Dabei ist die Applikation fr die Bereitstellung der Zieladresse am IP
+      bzw. des notwendigen Speichers am IP verantwortlich (freie Applikations-
+      bereiche im IP-DPR, siehe entsprechende IP-Dokumentation).
+                                @ 25[ Beispiel  ]                      @  1[  Uebersicht  ]
+.55
+    Upspool von Daten
+
+    @55[SPupdata] (enable, spooladr, iradr, hcpuadr, laenge, status)
+
+    Parameter-Datentypen :
+    -> enable     :  BIT       der FUB wird nur bei enable=1 ausgefhrt (KOP)
+    ->@35[ spooladr   ]:  WORD      Adresse des IP-Moduls am I/O-Bus
+    -> iradr      :  LONG      Startadresse des Datenbereichs am IP-Modul
+                               (Sourcepointer)
+    -> hcpuadr    :  LONG      Startadresse des Datenbereichs auf der
+                               SPS-CPU (Destinationpointer)
+    -> laenge     :  WORD      L„nge des Datenbereichs in Byte
+    <-@20[ status     ]:  WORD      Fehler-Code : 6666 ... Spooler arbeitet
+                                             0    ... Spooler fertig
+                                             Rest ... Fehlermeldungen
+
+    * Mit diesem FUB k”nnen Daten beliebiger L„nge vom IP auf die SPS-CPU
+      geholt werden.
+    * Dabei ist die Applikation fr die Bereitstellung der Sourceadresse
+      vom IP (freie Applikationsbereiche im IP-DPR, siehe entsprechende
+      IP-Dokumentation) und des SPS-CPU Speichers (hcpuadr) verantwortlich.
+                                @ 25[ Beispiel  ]                      @  1[  Uebersicht  ]
+.60
+    Downspool von Modulen
+
+    @60[SPdnmod]  (enable, spooladr, modul_id, status)
+
+    Parameter-Datentypen :
+    -> enable     :  BIT       der FUB wird nur bei enable=1 ausgefhrt (KOP)
+    ->@35[ spooladr   ]:  WORD      Adresse des IP-Moduls am I/O-Bus
+    -> modul_id   :  LONG      Identifier des Moduls, das gespoolt werden soll
+    <-@20[ status     ]:  WORD      Fehler-Code : 6666 ... Spooler arbeitet
+                                             0    ... Spooler fertig
+                                             Rest ... Fehlermeldungen
+
+    * Mit diesem FUB kann ein Modul im zyklischen Betrieb zum IP gespoolt
+      werden.
+    * Der Identifier des Moduls kann mit den DA-Funktinen der B&R-Library
+      bestimmt werden (DA_create bzw. DA_ident).
+
+
+
+
+
+                                @ 25[ Beispiel  ]                      @  1[  Uebersicht  ]
+.65
+    Upspool von Modulen
+
+    @66[SPupmod]  (enable, spooladr, adr(name), modus, hcpuadr, datenadr,
+              laenge, status)
+
+    Parameter-Datentypen :
+    -> enable     :  BIT       der FUB wird nur bei enable=1 ausgefhrt (KOP)
+    ->@35[ spooladr   ]:  WORD      Adresse des IP-Moduls am I/O-Bus
+    -> name       :  BYTE-Feld Name des gespoolten Moduls (ASCII-String)
+    -> modus      :  BYTE      0 ... Modul nicht integrieren
+                               1 ... Modul integrieren -> Manipulation mit
+                                     dem PG m”glich (Upload)
+    <- hcpuadr    :  LONG      Adresse des Moduls auf der SPS-CPU
+                               (Destinationpointer)
+    <- datenadr   :  LONG      Adresse der Daten im Modul der SPS-CPU
+    <- laenge     :  LONG      L„nge des gespoolten Moduls in Byte
+    <-@20[ status     ]:  WORD      Fehler-Code : 6666 ... Spooler arbeitet
+                                             0    ... Spooler fertig
+                                             Rest ... Fehlermeldungen
+
+
+    @ 66[ Fortsetzung  ]              @ 25[ Beispiel  ]                      @  1[  Uebersicht  ]
+.66
+    Upspool von Modulen (Fortsetzung)
+
+    * Mit diesem FUB kann ein Modul im zyklischen Betrieb vom IP geholt
+      werden.
+    * Wenn das Modul nicht auf der SPS-CPU integriert wird (modus=0), dann
+      ist der Anwender fr die Speicherfreigabe verantwortlich
+      (MEM_free (laenge, hcpuadr)).
+    * Wenn das Modul auf der SPS-CPU integriert wird (modus=1), so kann das
+      Modul mit dem PG oder mit der Funktion DA_delete() entfernt und so
+      der Speicher freigegeben werden.
+    * Der Outputparameter "datenadr" wird nur bei Datenmodulen gesetzt, bei
+      allen anderen Modultypen ist er ungltig !
+    * Der Name des Moduls kann auf folgende Arten bergeben werden :
+        adr(string) ... Adresse eines BYTE-Feldes, in dem der nullterminierte
+                        String steht
+        "konstant"  ... konstanter String
+      Soll ein Modul mit Gruppe ungleich 0 gespoolt werden, so muá die Gruppe
+      in den Namen codiert werden (<xx>.modulname, wobei <xx> als zweistellige
+      HEX-Nummer der Gruppe entspricht, z.B. "01.modul" bei Gruppe 1).
+
+
+                                @ 25[ Beispiel  ]                      @  1[  Uebersicht  ]
+.70
+    Aktivieren / Desaktivieren der Display-Ausgabe
+
+    @70[SPdisplay](enable, modus, status)
+
+    Parameter-Datentypen :
+    -> enable     :  BIT       der FUB wird nur bei enable=1 ausgefhrt (KOP)
+    -> modus      :  BYTE      0 ... keine Display-Ausgabe (default)
+                               1 ... Display-Ausgabe
+    <-@20[ status     ]:  WORD      Fehler-Code : 0 ... kein Fehler
+
+    * Mit diesem FUB kann die Display-Ausgabe der Spool-FUBs aktiviert bzw.
+      desaktiviert werden.
+    * Bei aktivierter Displayausgabe schreibt jeder Spool-FUB am Beginn des
+      Auftrag seinen Namen in die 2. Zeile des Displays, am Ende des
+      Spoolauftrags wird die 2. Zeile des Displays wieder gel”scht.
+    * Dieser FUB wurde aus Konsistenzgrnden zur Version V1.05 der Spool-FUBs
+      erstellt, in der immer eine Displayausgabe erfolgte. In V1.10 ist diese
+      Displayausgabe aus Performancegrnden default desaktiviert.
+
+
+
+                                                                 @  1[  Uebersicht  ]
+.75
+    Generieren der Spooladresse fr ein IO-Modul
+
+    @76[SPadr]    (enable, io_type, master_no, slave_no, moduleadr, spooladr,
+              status)
+
+    Parameter-Datentypen :
+    -> enable     :  BIT       der FUB wird nur bei enable=1 ausgefhrt (KOP)
+    -> io_type    :  BYTE      0 ... 2010-IO        1 ... 2005-IO
+                               2 ... RIO 2010       3 ... RIO 2005
+    -> master_no  :  BYTE      log.Nummer des SPSIO-Master (derzeit fix 1)
+                               bzw. des RIO-Master (1-4)
+    -> slave_no   :  BYTE      Nummer der 2005-Rckwand (0=Basis-IO,
+                               1=1.Expansion, ... , 6=6.Expansion) bzw.
+                               RIO-Slavenummer (1-32); bei 2010-IO fix 0
+    -> module_adr :  BYTE      Moduladresse des IO-Moduls (entsprechend
+                               der Deklaration im PG, dezimal)
+    <-@35[ spooladr   ]:  WORD      Adresse des IP-Moduls am I/O-Bus
+    <-@20[ status     ]:  WORD      Fehler-Code : 0 ... kein Fehler
+
+    * Mit diesem FUB kann aus der IO-Modul-Information die Spooladresse
+      bestimmt werden, die bei den anderen FUBs bergeben werden muá.
+                                @ 76[ Fortsetzung  ]                   @  1[  Uebersicht  ]
+.76
+    Generieren der Spooladresse fr ein IO-Modul (Fortsetzung)
+
+    ACHTUNG: Bei Spooladressen fr 2010-IO, die im Modulheader eingetragen
+             sind (z.B. vom PG bei 2010-IP), muá die Moduladresse im
+             BCD-Format eingetragen werden (Moduladresse 10 : $0010).
+             Bei allen FUBs muá die Moduladresse dezimal bergeben
+             werden !
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                 @  1[  Uebersicht  ]
+.80
+    Setzen der Priorit„t des Spoolers
+
+    @80[SPprio]   (enable, modus, status)
+
+    Parameter-Datentypen :
+    -> enable     :  BIT       der FUB wird nur bei enable=1 ausgefhrt (KOP)
+    -> modus      :  BYTE      0 ... niedrige Priorit„t (default)
+                               1 ... hohe Pririt„t
+    <-@20[ status     ]:  WORD      Fehler-Code : 0 ... kein Fehler
+
+    * Mit diesem FUB kann die Priorit„t des Spoolers im zyklischen Betrieb
+      gesetzt werden.
+    * Bei niedrieger Priorit„t (default) wird der Spooler von den Kommuni-
+      kationstasks unterbrochen (PG-Kommunikation, Panel ALI-SK). Diese
+      Priorit„t entspricht dem Verhalten bis inklusive Version V1.11.
+      Bei hoher Priorit„t kann der Spooler von den Kommunikationstasks
+      nicht unterbrochen werden.
+
+
+
+
+                                                                 @  1[  Uebersicht  ]
+.85
+    Parametrieren der FUB-Timeoutzeit
+
+    @85[SPtimeout](enable, timeout, status)
+
+    Parameter-Datentypen :
+    -> enable     :  BIT       der FUB wird nur bei enable=1 ausgefhrt (KOP)
+    -> timeout    :  BYTE      0 ... Default Timeout
+                               sonst Timeoutzeit pro 16 kB in Sekunden
+    <-@20[ status     ]:  WORD      Fehler-Code : 0 ... kein Fehler
+
+    * Mit diesem FUB kann die Timeoutzeit der Spool-FUBs parametriert werden.
+      Die Zeit wird in Sekunden pro 16 kB Daten angegeben.
+    * Da beim Upspool eines Moduls (SPupmod) die Modulgr”áe nicht bekannt ist,
+      bezieht sich das Timeout in diesem Fall auf das gesamte Modul.
+    * Default ist die Timeoutzeit zum Spoolen auf 60 Sekunden eingestellt.
+    * Da das Spoolen nicht direkt im Spool-FUB erfolgt, sondern in der
+      Restzeit im Spooler-Task, ist es bei stark ausgelasteten Systemen und
+      langsamen Spoolmedien (Remote-IO) teilweise notwendig, dieses Timeout
+      zu erh”hen, da der FUB sonst den Fehler 6699 (Timeout beim FUB-Aufruf)
+      liefert
+
+                                                                 @  1[  Uebersicht  ]
+.90
+    Direktes Spoolen eines Moduls im InitUP
+
+    @91[SPdminit] (enable, name, io_type, master_no, slave_no, moduleadr,
+              status, ok_flag)
+
+    Parameter-Datentypen :
+    -> enable     :  BIT       der FUB wird nur bei enable=1 ausgefhrt (KOP)
+    -> name       :  LONG      Adresse des Modulnamens (ASCII-String)
+    -> io_type    :  BYTE      0 ... 2010-IO        1 ... 2005-IO
+                               2 ... RIO 2010       3 ... RIO 2005
+    -> master_no  :  BYTE      log.Nummer des SPSIO-Master (derzeit fix 1)
+                               bzw. des RIO-Master (1-4)
+    -> slave_no   :  BYTE      Nummer der 2005-Rckwand (0=Basis-IO,
+                               1=1.Expansion, ... , 6=6.Expansion) bzw.
+                               RIO-Slavenummer (1-32); bei 2010-IO fix 0
+    -> module_adr :  BYTE      Moduladresse des IO-Moduls (entsprechend
+                               der Deklaration im PG, dezimal)
+    <-@20[ status     ]:  WORD      Fehler-Code : 0 ... kein Fehler
+    <- ok_flag    :  BIT       0 ... Fehler, 1 ... Modul korrekt gespoolt
+
+
+                                @ 91[ Fortsetzung ]                    @  1[  Uebersicht  ]
+.91
+    Direktes Spoolen eines Moduls im InitUP (Fortsetzung)
+
+    * Mit diesem FUB kann ein Modul direkt gespoolt werden, dh. das Modul
+      wird unmittelbar beim FUB-Aufruf ohne Auftrag an den Spooler
+      (Restzeit-Task) gespoolt. Wenn der Status des FUB 0 (kein Fehler) ist,
+      konnte das Modul korrekt gespoolt werden.
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º ACHTUNG: Der FUB darf nur im InitUP verwendet werden !                    º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+
+
+
+                                                                 @  1[  Uebersicht  ]
+.End
+

@@ -1,0 +1,7 @@
+;
+;    Treiberbeschreibungsfile fuer ALI_SK
+;
+; Filename      Modulname               
+ALI_CLIE        ff.$ali_clie            
+DSCLIENT        00.dsclient       	
+DSPBCLIE        ff.DSPBClient       	

@@ -1,0 +1,312 @@
+$ Header - How to write a help file - Owen
+%%
+1,0:1
+%%
+
+
+.1
+    How to Write a Help File - Introduction
+
+    You can create your own help files and include them in PG 2000. They can
+    be accessed under the <HELP><ADDITIONS> menu option. The customized help
+    screens can be used to describe your own function block libraries, tasks
+    libraries or anything that you may find useful.
+
+    To write your customized help file, there is some important information
+    that you need to know.
+
+    @010[ Concepts ]: Shows you the major parts of the help screens and their
+                      meaning.
+
+    @200[ The File ]: What the section and entries in the actual help file
+                      should be.
+
+    @100[ Special  ]: Special characters and there use, e.g. Command Buttons.
+
+    @300[ Adding   ]: How to add the help file to the ADDITIONS list.
+
+
+                                                                   @001[  Overview  ]
+.10
+    Help Screen Concepts - General Layout
+                                                                   @011[  More ...  ]
+  A "Help Screen" looks like this:
+
+                       ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+               Title ->º             Title of the Help Screen          º
+                       ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+           Text Body ->º                                               º
+                       º     Actual help text, in points and/or        º
+                       º     paragraphs.                               º
+                       º                                               º
+    @110[ Command Buttons ]->º            @010[ Button1 ]      @010[ Button2 ]           º
+                       ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  Fixed Instructions ->º ESC to return, BACKSPACE for previous page    º
+                       ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+  You can change the title, text body and command buttons on each help screen.
+  The fixed instructions appear on each screen and cannot be altered or
+  removed. The colors are also set by PG2000 and cannot be changed at the
+  moment.
+
+                                                                   @001[  Overview  ]
+.11
+     Help Screen Concepts - Elements of the Help Screen
+
+    The TITLE       - is a single line of text that can be up to 80 characters
+                      long.
+                    - is usually used as a chapter or section heading.
+                    - cannon contain command buttons (they have no effect).
+
+
+    The TEXT BODY   - consists of 21 lines x 80 characters.
+                    - is the actual text of the help screen.
+                    - can contain COMMAND BUTTONS within it.
+
+
+    The COMMAND     - refer to other related topics.
+        BUTTONS     - are the method of moving between different help screens.
+                    - can be in any where in the text body.
+                    - buttons have a special @110[ Syntax ].
+
+
+
+
+                                                                   @001[  Overview  ]
+.100
+    Special Characters
+
+    There are some special characters that have a command meaning. These
+    characters affect the help file processor. When these characters appear in
+    the text file they perform a function based on the characters immediately
+    following them.
+    The special characters are:
+
+        %%  @@
+
+    The @@ character is used for @110[ Command Buttons ].
+
+    The %% character is used as a delimiter in the @210[ File Header ].
+                                                         
+    If you want the character to actually appear on the screen you must put
+    two directly next to each other, e.g. %%%%
+
+
+
+
+
+                                                                   @001[  Overview  ]
+.110
+    Command Buttons Syntax
+
+    A COMMAND BUTTON has the following format:
+
+                 ÚÄÄÄÄÄÄÄÂÄÄÄÄÄÄ Angle brackets enclose the button text
+            @@NNN [ Topic ] -> appears on screen ->@110 [ Topic ] (no function)
+            ³ ³ ³    ÀÄÄÄÄÄÄÄÄÄÄ Button text
+            ³ ³ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Can be spaces between the number and brackets
+            ³ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Number of the help screen connected to this
+            ³                    button (.NNN in the @220[ File Body ]).
+            ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Special character for a button (No spaces
+                                 allowed between the @@ and the number).
+
+    The number is the help screen number jumped to when this button is
+    selected. If there is no help screen corresponding to the number NNN then
+    help is exited.
+
+    There must be no spaces between the @@ and the number. Spaces are however
+    allowed between the number and the bracket.
+
+
+  @111[  Hints  ]                                                        @001[  Overview  ]
+.111
+    Command Buttons - Hints and Recommmendations
+
+    1.  The main command buttons should appear on the last line of the text
+        body.
+
+    2.  Buttons should stay in very similar positions on the bottom line.
+
+    3.  There should always be a button to return to the first or overview
+        screen. This button should ALWAYS be in the same place on the screen.
+
+    4.  The initially highlighted button is the one closest to the upper left
+        corner of the screen (Upper has preference).
+
+    5.  Only the characters inside the brackets are displayed on the screen so
+        the other characters can be subtracted from the line length.
+
+
+
+
+
+
+                                                                   @001[  Overview  ]
+.200
+    The File - Major Components
+
+    The help file is an ASCII file that can be created with any text editor.
+    You are allowed to include the entire displayable ASCII character set
+    (0 to 255).
+
+    The help file consists of 3 main parts:
+
+          1.@210[ The Header ]: The screen the help file starts on
+          2.@220[  The Body  ]: The individual help screens
+          3.@230[  The End   ]: The file terminator
+
+    The sections of the file must be in the above order.
+
+    The file should be in the ONLINE.HLP\ directory. It can be called any 
+    valid DOS file name. To easily identify help files, it is recommended
+    that they are given a ".HLP" extension.
+
+
+
+
+  @240[ Example ]                                                        @001[  Overview  ]
+.210
+    File Sections - The Header
+                                                                  @220 [  File Body  ]
+    The HEADER must be the first section in the file.
+    Example:
+                ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ Text Editor ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ
+    Comment   ->º$ Help File for New Functions 21/03/94 Karl Addams
+    Defines   ÚÄº%%%%
+    the first ´ º1,0:1
+    screen    ÀÄº%%%%
+                º
+
+    Comment lines are only allowed before the first set of two percent signs.
+
+    The percent signs are used as delimiters for the numerical subsection.
+
+    "1,0:1" defines the first screen to be shown when the help is called. In
+    this case, it would be help screen number 1. The number following the
+    colon (:) must be changed if a different help screen is to be shown at the
+    start, e.g. 1,0:20 for screen 20.
+
+
+                                                                   @001[  Overview  ]
+.220
+    File Sections - The Body
+                                                                   @221 [  More ...  ]
+    The body may consist of many help screens. The sequence of the screens in
+    the file is not important because you control the movement between the
+    screens.
+
+    Each help screen begins with a ".NNN". NNN is the index number of the help
+    screen. This is used with the@110[ Command Buttons ]for moving between
+    help screens. The number must be on the first line on its own. It is not
+    shown on the screen.
+
+    The second line is the TITLE.
+
+    The next 21 lines are the BODY of the help text.
+
+    After the 21 lines of body text, a new help screen can be started with
+    another ".number". Please ensure that the number of lines is correct. This
+    is easy as most text editors display 23 lines at a time. That means the
+    help screen can be seen entirely, from the line containing the index number
+    to the last line of the text body.
+
+                                                                   @001[  Overview  ]
+.221
+    File Sections - The Body - Hints and Recommendations
+                                                                   @230 [  File End  ]
+    1.  The help screen numbers don't have to be consecutive or in any definite
+        order.
+
+    2.  Related topics should be kept together. Starting these blocks of topics
+        on base numbers makes it easier to find your way around.
+
+        e.g.    0    -   99   Introduction
+                100  -  199   Bob's Functions
+                200  -  299   Simon's Designs
+                1000 - 2000   Other Stuff
+
+    3.  Leave blank numbers so that more help screens can be added in between
+        existing help screens if necessary.
+
+    4.  When counting the width of the line do not forget to subtract the
+        special characters used in the @110[ Command Buttons ].
+
+
+
+
+
+
+
+
+                                                                   @001[  Overview  ]
+.230
+    File Sections - The End
+                                                                    @240 [  Example  ]
+    The file must have an end marker. The end marker has a similar format to
+    the number entries for the help screen. After the last help screen, the
+    entry:
+
+                .End
+
+    must be in the first column of the next line.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                   @001[  Overview  ]
+.240
+    File Sections - Example Help File
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ Text Editor ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+º$ Example help file                                                        º
+º%%%%                                                                         º
+º1,0:1                                                                      º
+º%%%%                                                                         º
+º                                                                           º
+º.1                                                                         º
+º  This is the Title line of first help screen                              º
+º  This is the first line of the text body                                  º
+º  ..                                                                       º
+º  ..                                                                       º
+º  ..                                                                       º
+º  This is the last (21st) line of the text body @@002[ Next ]               º
+º.2                                                                         º
+ºThis is the title line of the second help screen                           º
+ºThis is the text body of the second help screen                            º
+º..                                                                         º
+ºLast (21st) line of the text body @@001[ Last ]             @@999 [ Exit ]   º
+º.End                                                                       º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+  @200[  File  ]                                                         @001[  Overview  ]
+.300
+    Adding the Help File to the ADDITIONS List
+
+    The file name and short description must be added to a special file called
+    HLP-XXX.LST in the PG2000\PG2000.EXE directory. The XXX is the country code
+    number. This is the same number as is used in the main help file and menu
+    file. If the corresponding country file cannot be found the file
+    HLP-049.LST is used (German).
+
+    This *.LST file can be edited with any text editor. Each entry in
+    the file is a line. The entries appear in the menu in the same order as in
+    the file. The entries have the following format:
+
+        filename.ext    ;Menu text
+
+    The "filename.ext" is the name of your custom help file, e.g. MYHELP.HLP,
+    and should be in the PG2000\PG2000.EXE directory. The "Menu text" is the
+    entry that appears in the list in PG2000 after selecting HELP->ADDITIONS. The
+    menu text entry can be up to 29 characters long. You can have any number
+    of extra help files.
+
+
+                                                                   @001[  Overview  ]
+.End

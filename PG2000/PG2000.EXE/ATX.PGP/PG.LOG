@@ -1,0 +1,36 @@
+
+Initializing the databank of ATX !
+Some predefined PVs are being entered into the database !
+Importing the Library system.SLB
+Upload 'burtrap' READY
+Initializing the databank of PCC !
+Task burtrap could not be restored (error 6008)
+Upload 'exermo' READY
+Task exermo could not be restored (error 6008)
+Upload 'mt_slave' READY
+Task mt_slave could not be restored (error 6008)
+Upload 'mathtrap' READY
+Task mathtrap could not be restored (error 6008)
+Upload 'bugfix' READY
+Task bugfix could not be restored (error 6008)
+Upload '$$sysconf' READY
+Task $$sysconf could not be restored (error 6017)
+Upload 'flash9xx' READY
+Task flash9xx could not be restored (error 6008)
+Upload 'e_z_s' READY
+Upload 'stl_vzdu' READY
+Upload 'tezni_st' READY
+Upload 'energie' READY
+Upload 'energeti' READY
+Upload 'vetracky' READY
+Upload 'oh_vetru' READY
+Upload 'mereni' READY
+Module kom_kana could not be loaded.
+Module komunika could not be loaded.
+GDM Synchronization complete
+Upload 'komunika' not possible (status conflict or wrong key switch positon)
+Upload 'komunika' not possible (status conflict or wrong key switch positon)
+TIME = Fri Dec 19 10:23:07 2008
+USER = default
+TIME = Fri Dec 19 10:33:19 2008
+USER = default

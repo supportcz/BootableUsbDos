@@ -1,0 +1,182 @@
+
+           ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+           º            EXERMO  V1.40              º
+           º                                       º
+           º  Exceptionhandler fr SPSSW ab V1.10  º
+           ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Datum:         3. Januar 1997
+Verfasser:     Bernhard Hochstrasser
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+º V1.30 -> V1.40 º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+ - Untersttzung der neuen CPUs "IP151", "IF152", "CP472"
+ - Untersttzung der HW-Konfigurationserkennung fr 2005-Erweiterungen
+   im Hochlauf (IO_LIB V1.60)
+ - Exceptionhandler werden beim Download nicht mehr installiert, um
+   Speicherresourcen zu sparen -> Modul muá gebrannt und ein Reset der
+   RPS ausgel”st werden
+ - Fehlerkorrektur fr IO-Exceptions, die mit Exceptiontasks behandelt
+   werden und bei denen mit IO_disable() Inputs geforced werden (XP152)
+Anmerkung: Die Version V1.40 ist in der SPSSW V1.90 fr alle
+           HW-Plattformen bereits enthalten und muá daher nicht
+           mehr nachgeladen werden !
+
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+º V1.20 -> V1.30 º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+Umstellung auf einen Systemtask zur Untersttzung mehrerer unterschiedlicher
+HW-Plattformen parallel -> "Exception-Manager"
+Untersttzung der neuen CPUs "CP200" und "C220"
+
+ACHTUNG: Eventuell muá bei Verwendung von EXERMO V1.30 die Anzahl der
+         konfigurierten Systemtasks um 1 erh”ht werden (PLCSWCFG)
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+º V1.13 -> V1.20 º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+Untersttzung der neuen CPU XP152 (IO-Exception).
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+º V1.12 -> V1.13 º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+Stackfehler (Code 67xx bzw. 6800) werden mit der Kennung EXCEPTION statt INFO
+im Fehlerlogbuch eingetragen, damit die Fehleranalyse ab dem PG V2.10 diesen
+Fehler korrekt auswerten kann.
+
+Anmerkung: šber die Fehlerinfo kann unterschieden werden, ob der Userstack
+           oder der Supervisor-Stack nicht in Ordnung ist :
+               0 ... Userstack
+               1 ... Supervisorstack
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+º V1.11 -> V1.12 º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+Die Version V1.12 des Exceptionhandlermoduls "exermo.br" fr die SPSSW V1.10
+enth„lt gegenber der Vorversion EXERMO V1.11 folgende neue Funktionalit„ten:
+
+ - Neue Exception "Nil Pointer", die bei Referenz eines NIL-Pointer mit
+   eingeschalteter Compiler-Option ab dem PG V2.10 gemeldet wird
+                 ÚÄÄÄÄÄÄÄÄ¿
+   Display 2010: ³N status³       Fehlermoduleintrag : Code 9133
+                 ³P adress³       Exceptionnummer PG : 7
+                 ÀÄÄÄÄÄÄÄÄÙ
+ - Neue Exception "Range Overflow", die bei šberschreitung einer Felddimension
+   mit eingeschalteter Compiler-Option ab dem PG V2.10 gemeldet wird
+                 ÚÄÄÄÄÄÄÄÄ¿
+   Display 2010: ³R status³       Fehlermoduleintrag : Code 9134
+                 ³O adress³       Exceptionnummer PG : 6
+                 ÀÄÄÄÄÄÄÄÄÙ
+ - Untersttzung von Exceptions, die durch nachladbare Firmwareerweiterungen
+   ausgel”st werden, z.B. Remote-IO Exceptions ab RIOTRAP V4.0
+
+ - Fehlerkorrektur : Trotz nicht vorhandenem Exceptionstask konnte es
+                     bei geladenem Modul "exermo.br" passieren, daá eine
+                     Exception nicht gemeldet, sondern ignoriert wurde.
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+º V1.10 -> V1.11 º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+Die Version V1.11 des Exceptionhandlermoduls "exermo.br" fr die SPSSW V1.10
+enth„lt gegenber der Vorversion EXERMO V1.10 folgende neue Funktionalit„ten:
+
+ - Einsatz sowohl in der SPSSW V1.10 als auch in der SPSSW V1.05
+
+ - Vereinheitlichung der Behandlung der IO-Exception (bei 2010-IO,
+   2005-Basis-IO und 2005-Erweiterung wird bei einem Fehler beim
+   Zugriff auf ein IO-Modul einheitlich eine IO-Exception gemeldet
+   (Exceptionnummer 128).
+
+   Ist kein IO-Exceptiontask vorhanden, erfolgt die Protokollierung der
+   IO-Exception einheitlich im Fehlermodul bzw. bei 2010-Systemen auch
+   am Display :
+
+             IO-EXC bei 2010-IO     IO-EXC bei 2005-IO
+
+                 ÚÄÄÄÄÄÄÄÄ¿             ÚÄÄÄÄÄÄÄÄ¿
+                 ³IO xx yy³             ³IO xx yy³
+                 ³Mzz  abc³             ³Mrzz abc³
+                 ÀÄÄÄÄÄÄÄÄÙ             ÀÄÄÄÄÄÄÄÄÙ
+
+        xx : "TI"=Timeout, "RP"=Repeat
+        yy : Schaufeltabellenpriorit„t (bei 2005 Basis-IO nicht verfgbar !)
+        zz : Moduladresse, bei der der Fehler aufgetreten ist
+        r  : Rckwand 2005 (0=Basis, 1=1.Erweiterung usw.)
+        a  : R=Read(Input),  W=Write(Output)
+        b  : N=Normal,  S=Statusbereich des Moduls
+        c  : M=Moduladr., K=Kurzkennung, I=Intern Adr. D=Daten
+
+   Anmerkung: Der Text "IO" in Zeile1/Spalte1 ersetzt den bisherigen
+              String "PE".
+
+   Eintrag im Fehlermodul :
+
+        1 WORD fr den Fehlercode :
+           9111        Perieller Fehler 2010-IO
+           9150+i      Schaufel-Fehler 2005-Erweiterung i
+
+        1 LONG = 4 Byte als INFO :
+         ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+         ³Moduladresse ³Kurzkennung  ³Interne Adr.  ³L„nge in Byte³
+         ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+   In der Kurzkennung wird das Bit 5 fr Read/Write verwendet (0=Write,
+   1=Read), das Bit 6 fr Status/Normal (0=Normal, 1=Status).
+   Die interne Adresse gibt den Offset am IO-Modul an.
+   Bei der L„nge werden nur die Bits 0-6 fr die L„nge verwendet. Da bei
+   2005-Basis-IO immer Byteweise geschaufelt wird, wird immer die L„nge 1
+   eingetragen !
+
+   Ist ein IO-Exceptiontask (Exceptionnummer 128) vorhanden, so wird er
+   aufgerufen, anschlieáend wird die IO-Behandlung fortgesetzt.
+
+ - Bercksichtigung der FUBs IO_info, IO_check und IO_list
+
+ - Fehlerinfo bei Zykluszeitverletzungen
+          4=0x04  Output Zyklusverletzung
+          8=0x08  Input  Zyklusverletzung
+         16=0x10  Zyklusverletzung der Applikation
+         32=0x20  Interner Fehler
+         64=0x40  Maximale Zyklusverletzung der Applikation
+
+ - Fehlerkorrektur : Bei der Zykluszeitverletzung fr die Taskklassen 1-4
+   wurde am Display immer der Text "TC#1", im Fehlermodul immer der
+   Fehler 9120 (Zykluszeitverletzung Taskklasse 1) eingetragen.
+
+
+Einschr„nkungen in der SPSSW V1.05 sind :
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+ - keine šberwachung der SS-Taskklassen-Zykluszeit (max. und normal)
+
+ - kein Stackcheck bei einem fatalen Fehler (T:x, F:y)
+
+ - keine Exceptiontasks, also keine M”glichkeit die auftretenden Exceptions
+   abzufangen
+
+
+Notwendige nderungen bei Verwendung von "exermo.br" V1.11 in der SPSSW V1.11:
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ - das Modul "zykexmo.br" darf nicht mehr verwendet werden, die
+   Funktionalit„t wird in "exermo.br" abgedeckt
+
+ - um die Zykluszeitberwachung auszuschalten (entspricht dem bisherigen
+   Verhalten, wenn das Modul "zykexmo" nicht geladen war), muá der FUB
+   ZYKVL_enable (0) aufgerufen werden. Wird dieser FUB nicht aufgerufen, so
+   wird in der SPSSW V1.05 mit EXERMO V1.11 die Zykluszeit default berwacht;
+   in der SPSSW V1.10 wird die Zykluszeit default nicht (!) berwacht.
+
+
+

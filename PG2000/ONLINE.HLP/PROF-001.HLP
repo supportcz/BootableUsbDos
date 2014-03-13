@@ -1,0 +1,926 @@
+$ Profiler Help File - Bernhard Hochstrasser 18/05/95
+%%
+1,0:1
+%%
+.1
+    B&R PROFILER
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ[@100[ M A I N  M E N U ]]ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°º
+  º°°°°°°°°°°°°°°°°°°ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°º
+  º°°°°°°°°°°°°°°°°°°³@200[  CONFIGURATION FILE ]³°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°º
+  º°°°°°°°°°°°°°°°°°°³  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄ¿°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°º
+  º°°°°°°°°°°°°°°°°°°³  ³@300[ GENERAL INFORMATION ]³°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°º
+  º°°°°°°°°°°°°°°°°°°ÀÄÄ´  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄ¿°°°°°°°°°°°°°°°°°°°°°°°°°°°º
+  º°°°°°°°°°°°°°°°°°°°°°³  ³@010[      HISTORY        ]³°°°°°°°°°°°°°°°°°°°°°°°°°°°º
+  º°°°°°°°°°°°°°°°°°°°°°ÀÄÄ´                     ³°°°°°°°°°°°°°°°°°°°°°°°°°°°º
+  º°°°°°°°°°°°°°°°°°°°°°°°°³                     ³°°°°°°°°°°°°°°°°°°°°°°°°°°°º
+  º°°°°°°°°°°°°°°°°°°°°°°°°ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ°°°°°°°°°°°°°°°°°°°°°°°°°°°º
+  º°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°º
+  º°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°º
+  º°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°º
+  º°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°º
+  º°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°º
+  º°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°º
+  º°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°º
+  º°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°ÕÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°³@002[  INFO about HELP  ]º
+  ÈÍ[@000[End HELP]]ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+.2
+    INFORMATION ABOUT HELP
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º <F10>       ³ Call profiler ONLINE Help                                  º
+  º <BACKSPACE> ³ Back to PREVIOUS Help page                                 º
+  º <ESC>       ³ CLOSE ONLINE HELP                                          º
+  º <LETTER>    ³ Select an item using the STARTING LETTER                   º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+    <REFERENCES to other topics/Help pages>:   @002[<A>] / @002[ B1 ] / @002[<C>] / @002[ B2 ] / @002[<E>]
+
+    * SELECT an item (displayed inversely):
+      - The desired reference is either selected with the CURSOR keys or
+        with the STARTING LETTER.
+    * DISPLAY HELP on desired topic (change Help page):
+      - Press the <ENTER> key
+      - Press the mouse key once
+
+    <TITLE LINE>  ... CURRENT CHAPTER HEADING of the displayed Help topic
+    <FOOT LINE>   ... Keys for finding your way round ONLINE Help
+
+
+                                                                        @001[Overview]
+.10
+    HISTORY - Version Changes
+                                                                      @011[ Continue ]
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.30 -> V1.40  ³ NEW FUNCTIONALITIES                                     º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - support for CP200.                                                      º
+  º - support for 16550 communication blocks.                                 º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º V1.20 -> V1.30  ³ NEW FUNCTIONALITIES                                     º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Correction of the HSTC Profiling measurement for the XP152.             º
+  º - Correction of an error in the text handling concerning the country code.º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º V1.10 -> V1.20  ³ NEW FUNCTIONALITIES                                     º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Support for XP152.                                                      º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+                                                                        @001[Overview]
+.11
+    HISTORY - Version Changes (continue)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.05 -> V1.10  ³ NEW FUNCTIONALITIES                                     º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Use in PCCSW V1.10 and PCCSW V1.05.                                     º
+  º - Uniform profiler operation with INIT-START-STOP-EVALUATION.             º
+  º - Semi-graphic display of CPU load in percentage form.                    º
+  º - System and application idle time entry.                                 º
+  º - Task and interrupt net time measurement (if objects in a cycle are      º
+  º   interrupted by higher priority objets, these interrupt times are not    º
+  º   measured)                                                               º
+  º - Four structured groups: B&R objects, PCC tasks, HS tasks and stack      º
+  º   capacity.                                                               º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+                                                                        @001[Overview]
+.100
+    MAIN MENU: FILE
+                                                                      @101[ Continue ]
+ÉÍÍÍÍÍÍÍ»ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+º File  º@101[ Profile ] @102[ Options ] @103[ Help ] ³
+ÈÍÍÍÍÍÍÍ¼ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+ÚÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ Close      ³ The current window is closed.
+³ Save       ³ The contents of the current window are saved in an ASCII file.
+³            ³ The name of the file can be entered in a dialog box. If the
+³            ³ file already exists, the current window contents are simply 
+³            ³ added to this file.
+³ Exit       ³ Exists the profiler.
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.101
+    MAIN MENU: PROFILE
+                                                                      @102[ Continue ]
+ÚÄÄÄÄÄÄÄÉÍÍÍÍÍÍÍÍÍ»ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³@100[ File ] º Profile º@102[ Options ] @103[ Help ]³
+ÀÄÄÄÄÄÄÄÈÍÍÍÍÍÍÍÍÍ¼ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+ÚÄÄÄÄÄÄÄÄÄÄ¿
+³ Init     ³ Initialize the data to be profiled on the PCC (all old profiling
+³          ³ data is cleared in this process). 
+³ Start    ³ Start measuring profiling data on the PCC.
+³ Stop     ³ Stop measuring profiling data on the PCC.
+³ Display  ³ Profiling data is read from the PCC and displayed in a window.
+³          ³ The measuring does not have to be stopped.
+³ Cyclic   ³ The measured profiling data is read cyclically from the PCC
+ÀÄÄÄÄÄÄÄÄÄÄÙ (at the set sampling rate) and displayed in a window.
+             You can define the desired sampling rate with the <Options>
+             function <@102[PCC Sampling Rate]> or in the @208[PROFILER.INI File].
+             To stop the cyclic evaluation, select the <Profile><Stop> function.
+             
+            
+             
+
+                                                                        @001[Overview]
+.102
+    MAIN MENU: OPTIONS
+                                                                      @103[ Continue ]
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÉÍÍÍÍÍÍÍÍÍ»ÄÄÄÄÄÄ¿
+³@100[ File ] @101[ Profile ] º Options º@103[ Help ]³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÈÍÍÍÍÍÍÍÍÍ¼ÄÄÄÄÄÄÙ
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³@110[ Mode            ]³ Profile mode selection.
+³@160[ Connection      ]³ Establish, break or reset the connection between the
+³                  ³ programming device and the PCC.
+³ PCC Sampling     ³ When this function is used, a dialog box is opened, in
+³     Rate         ³ which you can enter the sampling rate in seconds for the
+³                  ³ cyclic evaluation of the profiling data.
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.103
+    MAIN MENU: HELP
+                                                                      @100[ Continue ]
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÉÍÍÍÍÍÍÍ»
+³@100[ File ] @101[ Profile ] @102[ Options ] º  Help º
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÈÍÍÍÍÍÍÍ¼
+ÚÄÄÄÄÄÄÄ¿
+³ Help  ³ You can call the Help system of the profiler using this function.
+³       ³ To call the Help system directly and at any time, press the function
+³       ³ key <F10>.
+³ Info  ³ A dialog box containing information about the current profiler PC
+³       ³ environment (version number, section name, free working memory and
+³       ³ free hard drive memory) is called with this function.
+ÀÄÄÄÄÄÄÄÙ
+
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.110
+    OPTIONS: MODE
+                                                                          @102[ Back ]
+
+    You set which data is to be shown during evaluation of a display
+    on the screen, using the profiling mode.
+    The following profiling modes can be selected:
+
+    ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ³ B&R Objects     ³ @120[Runtime Measurement] for all task classes (also IRQ and
+    ³                 ³ EXC task classes) and system tasks.
+    ³ PCC Tasks       ³ @120[Runtime Measurement] for all cyclic application tasks in
+    ³                 ³ normal task classes.
+    ³ HS Tasks        ³ @120[Runtime Measurement] for all cyclic application tasks in
+    ³                 ³ high-speed task classes.
+    ³ Stack Capacity  ³ Measurement of @150[Stack Capacity] of all task classes and
+    ³                 ³ system tasks.
+    ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+    The current profiling mode is displayed in the middle of the title line.
+
+
+                                                                        @001[Overview]
+.120
+    PROFILING MODE: B&R OBJECTS, PCC TASKS and HS TASKS
+                                                                          @110[ Back ]
+    Runtime Measurement Procedure:
+
+    1. Establish connection to the PCC (function <Options><Connection>)
+    2. Select the desired profiling mode for the runtime measurement
+       (@122[B&R Objects], @130[PCC Tasks] or @140[HS Tasks])
+    3. Initialize the runtime measurement (function <Profile><Init>)
+    4. Start the runtime measurement (function <Profile><Start>)
+    5. Evaluate the measured profiling data (function <Profile><Display>
+       or <Profile><cyclic>)
+    6. Stop the runtime measurement (function <Profile><Stop>)
+    7. Save the profiling data (function <File><Save>)
+
+    To guarantee consistent data, measurement is automatically stopped for
+    the evaluation period, and then restarted (also valid for cyclic
+    evaluation).
+
+    To avoid @121[Cycle Time Violations] during measurement, cycle time monitoring
+    for standard task classes is automatically deactivated during the
+    measurement period.
+                                                                        @001[Overview]
+.121
+    PROFILING MODE: B&R OBJECTS, PCC TASKS and HS TASKS (continue)
+                                                                          @120[ Back ]
+    Cycle Time Violations During Measurement:
+    Since the system is loaded with the task classes and system tasks, as well
+    as the activities of the profiler runtime module during runtime
+    measurement (profiling overhead), standard task class cycle time
+    monitoring is automatically deactivated during the measurement period. This
+    means that if the standard task class cycle time monitoring was activated
+    with the ZYKVL_enable() function, all individual cycle time violations
+    for standard task classes are ignored during the measurement period. If
+    however a maximum cycle time violation (standard task classes) or a 
+    high-speed task class cycle time violation occurs, measurement is
+    automatically stopped. The appropriate error message is given during
+    evaluation of the interrupted measurement. However, the data measured
+    up to when the cycle time violation occurred still count.
+
+    In severe cases, runtime measurement is not possible for heavily loaded
+    systems!
+
+
+
+                                                                        @001[Overview]
+.122
+    PROFILING MODE: B&R OBJECTS
+                                                                          @120[ Back ]
+
+    Example of measurement evaluation in profiling mode "B&R Objects":
+
+    @123[Obj.]  @124[#Activate]  @124[Max. Time] @124[Mean Time]  @125[Min. Time]  @125[Max.Ticks]   @125[%%]
+    ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+    IDLE         213       8565       8405       4379     1     84%%
+    syss           1       4063       4063       4063     0      0%%
+    vara           1       3048       3048       3048     0      0%%
+    sysm         213       1443        644        528     0      6%%
+    CycTS        213        239        234        234     0      2%%
+    SCC1           6         35         35         35     0      0%%
+    @126[Profiling Overhead]                                           7%%
+
+    @126[System Idle Time]                                            91%%
+    @127[Application Idle Time]                                       91%%
+
+    Semi-graphic evaluation is also possible, as well as numeric evaluation,
+    (see above) for the profiling mode "B&R Objects" (function key <F5>).
+
+                                                                        @001[Overview]
+.123
+    PROFILING MODE: B&R OBJECTS (continue)
+                                                                          @122[ Back ]
+    Column "Obj.":
+    Description of the task classes and system tasks which run on the PCC. 
+    Descriptions of the task classes and most important system tasks are
+    to be found in the following table:
+    ÉÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Object º Description                                                    º
+    ÌÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º tc#<x> º Task class <x> (PCC tasks plus system overhead)                º
+    º HS#<x> º HS task class <x> (HS tasks plus system overhead)              º
+    º IRQ    º Interrupt task class (IRQ tasks plus system overhead)          º
+    º EXC    º Exception task class (EXC tasks plus system overhead)          º
+    º IDLE   º Idle time during runtime measurement                           º
+    º SCC<x> º Driver for communication via the serial interface              º
+    º sysm   º System manager (monitoring functions)                          º
+    º syss   º System server for task manipulation (start, stop, etc.)        º
+    º vara   º Variable access task (read/write process variables)            º
+    º cycTS  º Cyclic task scheduler for activating the task classes          º
+    ÈÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                                                        @001[Overview]
+.124
+    PROFILING MODE: B&R OBJECTS (continue)
+                                                                          @122[ Back ]
+    "#Activate" column:
+    In this column is shown how often the task class or system task was 
+    activated during measurement.
+
+    "Max. Time" column:
+    Maximum net runtime for activating the task class or system task during
+    measurement (given in æsec.). In determining the net runtime, interruption
+    time of the task class (or system task) by higher priority tasks or 
+    interrupts is not included.
+
+    "Mean Time" column:
+    Average net runtime for activating the task class or system task class
+    during measurement (given in æsec.). In determining the net runtime,
+    interruption time of the task class (or system task) by higher
+    priority tasks or interrupts is not included.
+
+
+
+
+                                                                        @001[Overview]
+.125
+    PROFILING MODE: B&R OBJECTS (continue)
+                                                                          @122[ Back ]
+    "Min. Time" column:
+    Minimum net runtime for activating a task class or system task class
+    during measurement (given in æsec.). In determining the net runtime,
+    interruption time of the task class (or system task) by higher
+    priority tasks or interrupts is not included.
+
+    "Max.Ticks" column:
+    Maximum total runtime for activating a task class or system task class
+    (given in ticks; 1 tick = 1 system cycle = 10 msec.). The total runtime
+    is determined from the net runtime plus the time taken when higher
+    priority tasks or interrupts interrupt the task class (or system task).
+
+    "%%" column:
+    In addition to the runtime data, the system capacity (percentage) for the
+    respective task class (or system task) is displayed in the outer right-hand
+    column.
+
+
+
+                                                                        @001[Overview]
+.126
+    PROFILING MODE: B&R OBJECTS (continue)
+                                                                          @122[ Back ]
+    Profiling Overhead:
+    Since the activities of the profiler, as well as the task classes and system
+    tasks use system time (processor time) during runtime measurement, the 
+    percentage system capacity for the profiler runtime module is given in the
+    line "Profiling Overhead".
+
+    System Idle Time
+    Since profiling overhead is only required during measurement, the absolute
+    idle time in the system (system idle time) is calculated from the idle time
+    during runtime measurement (IDLE) and the profiling overhead.
+    The absolute idle time in the system is displayed as a percentage of the
+    total system idle time in the "System Idle Time" line.
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.127
+    PROFILING MODE: B&R OBJECTS (continue)
+                                                                          @122[ Back ]
+    Application Idle Time:
+    The idle time for the application (application idle time) is
+    calculated from the system idle time and the total runtime of those tasks
+    which have lower priority than the cyclic user tasks:
+
+    Application Idle Time = System Idle Time + Idle Time for applications
+
+    The idle time for the application is given as a percentage of the total
+    system time in the line "Application Idle Time".
+
+
+
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.130
+    PROFILING MODE: PCC TASKS
+                                                                          @120[ Back ]
+
+    Example of measurement evaluation in profiling mode "PCC Tasks":
+
+    @131[Module Name]  @131[TC]  @131[#Activate]  @132[Max.Time]  @132[Mean Time]  @132[Min.Time]   @133[Max.Ticks]  @133[%%]
+    ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+    motor_1      TC1     119        716        713        713        0     7%%
+    measure      TC1     119        480        477        477        0     5%%
+    visual       TC3      12       2054       2048       2047        0     2%%
+
+
+
+
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.131
+    PROFILING MODE: PCC TASKS (continue)
+                                                                          @130[ Back ]
+    "Module Name" column:
+    List of all tasks in standard task classes which run on the PCC.
+
+    "TC" column:
+    Task class of the corresponding task (task class 1, 2, 3 or 4).
+
+    "#Activate" column:
+    This column displays the amount of times that the task was activated
+    during measurement.
+
+
+
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.132
+    PROFILING MODE: PCC TASKS (continue)
+                                                                          @130[ Back ]
+    "Max. Time" column:
+    Maximum net runtime for activating the task during measurement (given in
+    æsec.). In determining the net runtime, interrupt time of the task by
+    higher priority tasks or interrupts is not included. Since the runtime
+    of a task depends on the branches and loops used in the program and is
+    therefore not always constant, the mean and minimum runtime is calculated,
+    as well as the maximum runtime ("Mean Time" and "Min. Time" columns).
+
+    "Mean Time" column:
+    Average net runtime for activating the task during measurement (in æsec.).
+    In determining the net runtime, interrupt time of the task by
+    higher priority tasks or interrupts is not included. 
+
+    "Min. Time" column:
+    Minimum net runtime for activating the task during measurement (in æsec.).
+    In determining the net runtime, interrupt time of the task by
+    higher priority tasks or interrupts is not included. 
+
+ 
+                                                                        @001[Overview]
+.133
+    PROFILING MODE: PCC TASKS (continue)
+                                                                          @130[ Back ]
+    "Max. Ticks" column:
+    Maximum total runtime for activating the task (given in ticks; 1 tick = 1
+    system cycle = 10 msec.). The total runtime is determined from the net
+    runtime plus the time which higher priority tasks or interrupts need for
+    interrupting the task.
+
+    "%%" column:
+    In addition to the runtime data, the system capacity (percentage) for the
+    respective task is displayed in the outer right-hand column of the table.
+   
+
+
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.140
+    PROFILING MODE: HS TASKS
+                                                                          @120[ Back ]
+
+    Example of measurement evaluation in the "HS Tasks" profiling mode:
+
+    Module Name  TC  #Activate   Max.Time   Mean Time   Min.Time  Max.Ticks   %%
+    ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+    pos_1        HS1    569        80          79          78          0      3%%
+
+
+    You can get the meanings of individual columns in this table from the
+    evaluation for the "@130[PCC Tasks]" profiling mode.
+
+
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.150
+    PROFILING MODE: STACK CAPACITY
+                                                                          @110[ Back ]
+    Procedure for Measuring Stack Capacity:
+
+    1. Establish connection to the PCC (function <Options><Connection>).
+    2. Select the @151[Stack Capacity] profiling mode. When this has been carried
+       out, the measured profiling data is automatically displayed.
+    3. Save the profiling data (function <File><Save>).
+
+    You can calculate the stack capacity of all task classes and system tasks
+    of a controller using the profiler. By calculating the stack requirements
+    for individual task classes (stack capacity), you obtain a fair idea of
+    what to define for the configuration of stack sizes with the PCC
+    configurator or the PG2000 programming system.
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.151
+    PROFILING MODE: STACK CAPACITY (continue)
+                                                                          @150[ Back ]
+
+    Example of Measurement Evaluation in the "Stack Capacity" Mode:
+
+    @152[Task]         @153[User Stack]         @154[Supervisor Stack]
+            Configured     Free    Configured   Free
+    ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+    IDLE          0          0       1024        828
+    syss          0          0       1280        492
+    vara          0          0       2048        414
+    appl          0          0       1536        592
+    sysm          0          0       1024        522
+    tc#1        512        404        640        372
+    ..           ..         ..         ..         ..
+    prof          0          0       1024        574
+    HS#1        256        222        640        546
+    ..           ..         ..         ..         ..
+    EXC         256        256        640        612
+    IRQ         256        256        640        612
+
+                                                                        @001[Overview]
+.152
+    PROFILING MODE: STACK CAPACITY (continue)
+                                                                          @151[ Back ]
+    "Task" column:
+    Description of the installed task classes and system tasks. The following
+    table contains descriptions of task classes and the most important 
+    system tasks:
+    ÉÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Task   º Description                                                    º
+    ÌÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º tc#<x> º Task class <x>                                                 º
+    º HS#<x> º HS Task class <x>                                              º
+    º IRQ    º Interrupt task class                                           º
+    º EXC    º Exception task class                                           º
+    º IDLE   º Idle time applications                                         º
+    º appl   º Application loader (upload/download B&R modules)               º
+    º prof   º Profiling task (B&R module PROFILER.BR)                        º
+    º sysm   º System manager (monitoring functions)                          º
+    º syss   º System server for task manipulation (start, stop, etc.)        º
+    º vara   º Variable access task (read/write process variables)            º
+    ÈÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                                                        @001[Overview]
+.153
+    PROFILING MODE: STACK CAPACITY (continue)
+                                                                          @151[ Back ]
+    "User Stack Configured" column:
+    The size of the configurated user stack for the corresponding task class
+    or system task is displayed in this column (in bytes and decimal form).
+
+    "User Stack Free" column:
+    The size of the free user stack for the corresponding task class or system
+    task is displayed in this column (in bytes and decimal form).
+    The size of the user stack needed for standard, high-speed, interrupt and
+    exception task classes depends on the stack requirement of the functions
+    which are called in the tasks of this task class.
+    By determining the user stack requirement for individual task classes, you
+    obtain a good idea of what to define for the configuration of the stack
+    size with the PCC configurator (or PG2000).
+
+
+
+
+
+
+                                                                        @001[Overview]
+.154
+    PROFILING MODE: STACK CAPACITY (continue)
+                                                                          @151[ Back ]
+    "Supervisor Stack Configured" column:
+    The size of the configured user stack for the corresponding task class
+    or system task is displayed in this column (in bytes and decimal form).
+
+    "Supervisor Stack Free" column:
+    The size of the configured user stack for the corresponding task class
+    or system task is displayed in this column (in bytes and decimal form).
+    The size of the supervisor stack for standard, high-speed, interrupt and
+    exception task classes depends on the system interrupt load and from the
+    stack requirement of the functions which are called in the tasks of this
+    task class.
+    By determining the supervisor stack requirement for individual task classes,
+    you obtain a good idea of what to define for the configuration of the stack
+    size with the PCC configurator.
+
+    
+
+
+
+                                                                        @001[Overview]
+.160
+    OPTIONS: CONNECTION
+                                                                          @102[ Back ]
+
+    In the dialog box which is called by selecting the <Connection> function,
+    you can define the status of the connection between the programming device
+    and the PCC:
+
+    ÚÄÄÄÄÄ Connection ÄÄÄÄÄ¿
+    ³ @161[ 0 COM2       On    ]³ <- Entry field with pop-up selection window for
+    ³                      ³    selecting the desired connection
+    ³   [    Reset    ]    ³
+    ³   [    Open     ]    ³
+    ³   [    Close    ]    ³
+    ³   [ ConfigModule]    ³
+    ³   [    Cancel   ]    ³
+    ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+    After you have selected the desired connection in the pop-up selection
+    window, you can open, close or reset this connection using the
+    @162[Selection Fields of the Menu Block].   
+
+                                                                        @001[Overview]
+.161
+    OPTIONS: CONNECTION (continue)
+                                                                          @160[ Back ]
+
+    If the entry field of the dialog box is selected, you can open a pop-up
+    selection window using the keys: <Ctrl> + <F3>, <Space> or with the cursor
+    keys. In this pop-up selection window, there will be a list of the
+    connections of the programming device to different PCCs, and their
+    connection states as they currently are in the network configuration module:
+
+    ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ³  0 COM2       On    ³
+    ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+       ³ ³          ³
+       ³ ³          ÀÄÄÄÄÄÄÄÄÄÄÄ Connection status:
+       ³ ³                       On  .... active connection
+       ³ ³                       Off .... no connection
+       ³ ³                       Init ... connection has just been established
+       ³ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Connection name
+       ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Current number
+
+
+                                                                        @001[Overview]
+.162
+    OPTIONS: CONNECTION (continue)
+                                                                          @160[ Back ]
+
+    Reset ......... The selected connection between the programming device
+                    and the PCC is reset and re-initialized.
+    Open     ...... The selected connection between the programming device
+                    and the PCC is opened.
+    Close   ....... The current connection between the programming device
+                    and the PCC is closed.
+    ConfigModule... This function opens a file selection box in which you can
+                    switch the network configuration module and therefore
+                    the connection configuration as well.
+    Cancel ........ The dialog box is closed if a function is not called.
+
+    After the connection has been successfully established, the profiler
+    runtime module (B&R module PROFILER.BR) is automatically transferred to
+    the PCC. Only when the module has been transferred can the desired 
+    profiling mode be selected!
+
+
+
+                                                                        @001[Overview]
+.200
+    CONFIGURATION FILE "PROFILER.INI"
+                                                                      @201[ Continue ]
+
+    After the PG2000 software package has been installed, the Help
+    program profiler has to be adjusted to the existing system
+    configuration of your PC.
+    This adjustment must be carried out before the profiler is started, using
+    a text editor (e.g. MS DOS editor) in the ASCII file PROFILER.INI
+    (in directory C:\PG2000\PROFILER).
+
+    The ASCII file PROFILER.INI can consist of several sections. Every section
+    contains a different system configuration. The start of a new section
+    is characterized by a section name in square brackets. To use the
+    system configuration set in the [<Section Name>] section, you must state
+    the appropriate section name when starting the profiler.
+    When installing the PG2000 software package, sections [default], [com1],
+    [com2] and [mono] are automatically created.
+
+
+
+
+                                                                        @001[Overview]
+.201
+    CONFIGURATION FILE "PROFILER.INI" (continue)
+
+    Standard configuration file:
+
+      [@202[default]]
+      @203[RIGHTS]=9
+      @204[MENUDIGIT]=No
+      @205[PROF_DIR]=..\system
+      @206[NW_CONFIG]=..\nw_conf\nw_p2_57.br
+      @207[PROF_CONFIG]=prof-col.cfg
+      @208[SAMPLING]=3
+
+      [com1]
+      NW_CONFIG=..\nw_conf\nw_p1_57.br
+
+      [com2]
+      NW_CONFIG=..\nw_conf\nw_p2_57.br
+
+      [mono]
+      PROF_CONFIG=prof-mon.cfg
+
+                                                                        @001[Overview]
+.202
+    CONFIGURATION FILE "PROFILER.INI" (continue)
+                                                                          @201[ Back ]
+    [<Section Name>]:
+
+    Name which you have to state when you start the profiler, to use the
+    system configuration defined in the respective section. You must 
+    give a 3 to 8 character long section name for every section. Blank
+    spaces are not allowed in section names!
+
+    At least the [default] section must exist in the file PROFILER.INI. For all
+    other sections, only those entries which are different to the entries in the
+    [default] section have to be given.
+
+
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.203
+    CONFIGURATION FILE "PROFILER.INI" (continue)
+                                                                          @201[ Back ]
+    RIGHTS:
+
+    The RIGHTS=9 entry is not allowed to be changed!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.204
+    CONFIGURATION FILE "PROFILER.INI" (continue)
+                                                                          @201[ Back ]
+    MENUDIGIT:
+
+    You can set the main menu line display of the profiler with this entry. 
+    If desired, the numbers of the function keys for the pull-down menu
+    can also be displayed in the main menu line :
+
+    Yes ... The numbers of the function keys for individual pull-down menus
+            are displayed in the main menu line.
+            With this setting, you can open the pull-down menus of the
+            profiler with the key combination <Shift> + <function key>.
+            Calling the pull-down menu using the key combination <Alt> +
+            <starting letter> is not possible.
+    No .... The numbers of the function keys for individual pull-down menus
+            are not displayed in the main menu line.
+            With this setting, you can open the pull-down menus of the
+            profiler with the key combination <Shift> + <function key>.
+
+
+
+                                                                        @001[Overview]
+.205
+    CONFIGURATION FILE "PROFILER.INI" (continue)
+                                                                          @201[ Back ]
+    PROF_DIR:
+
+    Profiler runtime module directory (B&R module PROFILER.BR).
+    The profiler runtime module is automatically transferred to the PCC
+    after the profiler has been started and supplies the profiler with the
+    PCC profiling data during measurement.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.206
+    CONFIGURATION FILE "PROFILER.INI" (continue)
+                                                                          @201[ Back ]
+    NW_CONFIG:
+
+    Directory and name of the network configuration module for communication
+    with the PCC. The network configuration module contains the configuration
+    for the PROFIBUS network or the serial connection to the PCC.
+    Several network configuration modules are available in the C:\PG2000\NW_CONF
+    directory by default.
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.207
+    CONFIGURATION FILE "PROFILER.INI" (continue)
+                                                                          @201[ Back ]
+    PROF_CONFIG:
+
+    You set the color palette of the menu system on the video card used with
+    this entry:
+
+    PROF-COL.CFG ... Color display (for color monitors)
+    PROF-MON.CFG ... Black/white display (for monochrome monitors)
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.208
+    CONFIGURATION FILE "PROFILER.INI" (continue)
+                                                                          @201[ Back ]
+    SAMPLING:
+
+    You can set the sampling rate for cyclic evaluation of the profiling data
+    with this entry (in seconds).
+    However, the sampling rate for the cyclic evaluation of the profiling data
+    can be set with the <Options><@102[PCC Sampling Rate]> function.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.300
+    GENERAL INFORMATION
+
+    The profiler is a utility program for measuring, evaluating and displaying
+    important system data like task runtimes, system- and stack capacity etc.
+
+    @120[Runtime Measurement] provides you with information about the capacity of
+    your system and about the runtime behavior of individual tasks
+    (task classes). This information makes it easier to select the right task
+    classes and therefore supports system capacity optimization.
+    By @150[Determining the Stack Requirement] of individual task classes (stack
+    capacity), you get a good idea of the stack sizes required in the
+    configuration.
+
+
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+
+.End

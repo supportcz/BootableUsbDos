@@ -1,0 +1,11 @@
+#VAR 00 00 10 01 78 00 35 N N J N N 00 00 01 
+#TXT 00 00 10 78  _B&R______
+#VAR 01 00 10 01 78 00 35 N N J N N 00 00 02 
+#TXT 01 00 10 78  _MIXB&R___
+#VAR 02 00 10 01 78 00 35 N N J N N 00 00 03 
+#TXT 02 00 10 78  _MOTOROLA_
+#VAR 03 00 10 01 78 00 35 N N J N N 00 00 04 
+#TXT 03 00 10 78  _MIXMOT___
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`

@@ -1,0 +1,305 @@
+$ Header - Wie erstellt man eine HILFEDATEI /Peter Krauzer
+%%
+1,0:1
+%%
+.1
+    Wie erstellt man eine HILFEDATEI ? - Einleitung
+
+    Sie k”nnen eigene Hilfedateien erstellen und in das PG2000 einbinden. Diese
+    Hilfen k”nnen dann ber das Men <HILFE><INDEX> aufgerufen werden. Die
+    anwenderspezifischen Hilfeseiten k”nnen z.B. dazu verwendet werden, eigene
+    Funktionsbausteine, Bibliotheken, Tasks oder andere fr Sie wichtige Infor-
+    mationen zu beschreiben.
+
+    Bei der Erstellung einer Hilfedatei sind folgende Regeln und Informationen
+    zu beachten:
+
+    @010[< GRUNDLAGEN    >]  - Die wichtigsten Elemente der Hilfeseite und ihre
+                         Bedeutung.
+
+    @200[< ASCII-DATEI   >]  - Syntax und Aufbau der eigentlichen Hilfedatei.
+
+    @100[< SONDERZEICHEN >]  - Verwenden von Sonderzeichen (z.B.: Verweismarken).
+
+    @300[< INDEX         >]  - Hinzufgen der Hilfedatei zum Hilfeindex.
+
+
+                                                                 @999[ HILFE beenden ]
+.10
+    HILFEDATEI Grundlagen - Allgemeiner Bildschirmaufbau
+                                                                    @011[ Weiter ... ]
+    Eine "Hilfeseite" besteht aus folgenden Elementen:
+
+                     ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+             Titel ->º     Titelzeile der Seite                           º
+                     ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+         Hauptteil ->º                                                    º
+                     º     Aktueller Hilfetext fr den Anwender           º
+                     º                                                    º
+                     º                                                    º
+    @110[ Verweismarken ]->º     @010[ Verweis 1 ]              @010[ Verweis 2 ]           º
+                     ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+     Fixe Fuázeile ->º Mit ESC zurck, mit Backspace zur vorherigen Seite º
+                     ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+    Titel, Hauptteil und Verweismarken k”nnen auf jeder Seite beliebig plaziert
+    werden. Die Fuázeile kann nicht gel”scht oder ver„ndert werden; sie ist fest
+    vorgegeben. Ebenso sind die Farben durch das PG2000 festgelegt und k”nnen
+    nicht eingestellt werden.
+
+                                                                     @001[ šbersicht ]
+.11
+    HILFEDATEI Grundlagen - Elemente der Hilfeseite
+
+    Die TITELZEILE     - ist eine einfache Textzeile mit maximal 80 Zeichen
+                       - wird normalerweise als Kapitel- oder Abschnitts-
+                         berschrift verwendet.
+                       - darf KEINE Verweismarken enthalten.
+
+
+    Der HAUPTTEIL      - ist 21 Zeilen zu je 80 Zeichen groá.
+                       - enth„lt den eigentliche Hilfetext.
+                       - darf VERWEISMARKEN enthalten.
+
+
+    Die VERWEISMARKEN  - signalisieren, daá auf einer anderen Seite weitere
+                         Informationen zu diesem Thema zu finden sind.
+                       - werden verwendet, um zu anderen Hilfeseiten zu
+                         wechseln.
+                       - drfen beliebig im Hauptteil plaziert werden.
+                       - mssen durch eine spezielle @110[Syntax] in den Text
+                         eingefgt werden.
+
+                                                                     @001[ šbersicht ]
+.100
+    HILFEDATEI - Sonderzeichen
+
+    In einer Hilfedatei gibt es Zeichen, die vom Hilfeprozessor des PG inter-
+    pretiert werden. Diese Zeichen definieren zusammen mit den unmittelbar
+    darauf folgenden Zeichen eine bestimmte Funktion.
+
+    Folgende Zeichen werden vom PG gesondert behandelt.
+
+        %%  @@
+
+    Das @@ Zeichen wird fr @110[Verweismarken] verwendet.
+
+    Das %% Zeichen wird als Trennzeichen im @210[Kopf] der Datei verwendet.
+
+    Falls diese Zeichen auf dem Bildschirm erscheinen sollen, muá das ben”tigte
+    Zeichen zweimal nacheinander eingegeben werden (z.B. %%%%).
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.110
+    HILFEDATEI - Syntax fr Verweismarken
+
+    Eine Verweismarke besitzt folgendes Format:
+
+                 ÚÄÄÄÄÄÄÄÂÄÄÄÄÄÄ Text der Verweismarke in eckigen Klammern
+            @@NNN [ Titel ] -> auf dem Bildschirm ->@110[ Titel ] (hier keine Funktion)
+            ³ ³ ³    ÀÄÄÄÄÄÄÄÄÄÄ Text der Verweismarke
+            ³ ³ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Zul„ssige Leerzeichen
+            ³ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Nummer der Hilfeseite, auf die diese Marke
+            ³                    verweist (.NNN -> Syntax in der @220[Hilfedatei]).
+            ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Sonderzeichen fr Verweismarke (zwischen @@ und
+                                 Nummer sind keine Leerzeichen erlaubt).
+
+    NNN ist die Nummer Hilfeseite, welche angezeigt wird, wenn die Verweismarke
+    ausgew„hlt wird (durch Mausklick oder Bet„tigen der ENTER-Taste). Existiert
+    die angegebene Nummer nicht, wird die Online-Hilfe verlassen.
+
+    Leerzeichen zwischen dem Zeichen '@@' und der Nummer sind nicht erlaubt,
+    jedoch zwischen Nummer und der Klammer '['.
+
+
+    @111[ Tips ]                                                           @001[ šbersicht ]
+.111
+    HILFEDATEI Verweismarken - Tips und Richtlinien
+
+    1.  Die wichtigsten Verweismarken sollten immer in der letzten Zeile der
+        Hilfeseite plaziert werden (siehe unten).
+
+    2.  Verweismarken, die sich auf mehreren Seiten befinden, sollten immer auf
+        der gleichen optischen Position erscheinen.
+
+    3.  Auf jeder Hilfeseite sollte eine Verweismarke existieren, die auf die
+        erste Hilfeseite bzw. auf die šbersichtsseite wechselt. Diese Verweis-
+        marke sollte sich immer an derselben Stelle befinden.
+
+    4.  Wird auf eine Hilfeseite gewechselt, oder die Hilfe aufgerufen, wird
+        zuerst jene Verweismarke ausgew„hlt (inverse dargestellt), die der
+        oberen linken Bildschirmecke am n„chsten liegt.
+
+    5.  Nur die Zeichen innerhalb der eckigen Klammern erscheinen auf dem Bild-
+        schirm. Alle anderen Zeichen werden ignoriert und k”nnen bei der Berech-
+        nung der effektiven Zeilenl„nge unbercksichtigt bleiben.
+
+
+                                                                     @001[ šbersicht ]
+.200
+    ASCII-Datei - Hauptabschnitte
+
+    Die Hilfedatei ist eine ASCII-Datei, die mit einem Editor Ihrer Wahl
+    erstellt wird. Sie darf alle darstellbaren ASCII-Zeichen (0 bis 255)
+    enthalten mit Ausnahme von Tabulatoren. Achten Sie bitte darauf, daá
+    der wendete Editor Tabulatoren, falls Sie diese zur Eingabe nutzen, in
+    Leerzeichen umwandelt.
+
+    Die ASCII-Datei wird in 3 Abschnitte gegliedert:
+
+        1.@210[ Kopf       ]: Definition der Seite, die beim Aufruf der Hilfe
+                        zuerst angezeigt wird.
+        2.@220[ Hauptteil  ]: Anwenderspezifische Hilfeseiten
+        3.@230[ END-Marke  ]: ENDE-Markierung der Hilfedatei
+
+    Die drei Abschnitte mssen in der genannten Reihenfolge eingegeben werden.
+
+    Die Datei sollte sich im Verzeichnis ONLINE.HLP befinden. Sie k”nnen
+    jeden gltigen DOS-Namen verwenden. Um Hilfedateien leichter zu erkennen,
+    sollten Sie die einheitliche Endung ".HLP" verwenden.
+
+    @240[ Beispiel ]                                                       @001[ šbersicht ]
+.210
+    ASCII-Datei - Der Kopfteil
+                                                                     @220[ Hauptteil ]
+    Der Kopfteil muá der erste Abschnitt der Hilfedatei sein.
+    Beispiel:
+                  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ Text Editor ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ
+    Kommentar ÄÄÄ>º$ Hilfedatei fr neue Funktionen 23/03/94 Albert Mustermann
+    Definition  ÚÄº%%%%
+    des ersten Ä´ º1,0:1
+    Bildschirms ÀÄº%%%%
+                  º
+
+    Kommentarzeilen sind nur vor den ersten beiden Prozentzeichen zul„ssig.
+
+    Die beiden Prozentzeichen dienen als Trennzeichen fr die Definition der
+    ersten Hilfeseite.
+
+    "1,0:1" bestimmt die Seite, die beim Aufruf der Hilfe zuerst angezeigt wird.
+    Im obigen Beispiel ist dies die Seite mit der Nummer 1. Soll eine andere
+    Seite angezeigt werden, muá die Nummer nach dem Doppelpunkt entsprechend
+    ge„ndert werden. "1,0:20" bewirkt, daá die Seite 20 angezeigt wird.
+
+                                                                     @001[ šbersicht ]
+.220
+    ASCII-Datei - Der Hauptteil
+                                                                     @221[ Weiter... ]
+    Der Hauptteil der Hilfedatei enth„lt alle Hilfeseiten. Die Reihenfolge der
+    einzelnen Seiten ist bedeutungslos, da das Umschalten auf andere Hilfeseiten
+    ber die von Ihnen definierten Verweismarken erfolgt.
+
+    Jede Seite beginnt mit der Zeichenfolge ".NNN". NNN ist die Nummer der
+    Seite, auf die mit der @110[Verweismarke] gewechselt wird. Die Nummer muá sich in
+    der ersten Spalte (am linken Rand der Zeile) der Datei befinden, um korrekt
+    erkannt zu werden.
+
+    In der zweiten Zeile befindet sich der Titel der Hilfeseite.
+
+    Die folgenden 21 Zeilen sind der Hilfetext der Seite.
+
+    Nach dem Hauptteil kann eine neue Hilfeseite beginnen, die wieder mit einer
+    Nummer eingeleitet wird. Geben Sie nie mehr Zeilen ein, als erlaubt ist.
+    Diese Zeilen wrden nicht angezeigt werden. Texteditoren zeigen normaler-
+    weise 23 Zeilen an. Ist dies der Fall, wrde im Editor eine gesamte Hilfe-
+    seite von der Seitennummer bis zur letzten Zeile dargestellt werden.
+
+                                                                     @001[ šbersicht ]
+.221
+    ASCII-Datei - Der Hauptteil - Tips und Empfehlungen
+                                                                     @230[ END-Marke ]
+    1.  Die Numerierung der Seiten muá nicht fortlaufend sein bzw. eine be-
+        stimmte Reihenfolge einhalten. Die Nummern mssen eindeutig vergeben
+        werden, d.h.: Seitennummern drfen nur einmal vorkommen.
+
+    2.  Verwandte Themen sollten zusammengehalten werden. Es ist bersicht-
+        licher, fr jedes Kapitel einen gr”áeren Bereich zu reservieren.
+
+        z.B.    0    -   99   Einleitung
+                100  -  199   Regler-Funktionen
+                200  -  299   Positionier-Funktionen
+                1000 - 2000   Erl„uterungen
+
+    3.  Um bei einer sp„teren Erweiterung diese Ordnung beibehalten zu k”nnen,
+        sollten Sie gengend freie Seiten vorsehen.
+
+    4.  Bei der Berechnung der Zeilenl„nge sollten Sie nicht vergessen, daá die
+        Sonderzeichen der @110[Verweismarken] nicht angezeigt werden.
+
+
+                                                                     @001[ šbersicht ]
+.230
+    ASCII-Datei - END-Marke
+                                                                      @240[ Beispiel ]
+    Die Hilfedatei muá eine END-Marke enthalten. Diese Marke besitzt ein
+    „hnliches Format wie die Seitennumerierung.
+
+    Die END-Marke:
+
+                   .End
+
+    Sie muá sich in der Zeile nach der letzten Hilfeseite befinden, und zwar in
+    der ersten Spalte (am linken Rand).
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.240
+    ASCII-Datei - Beispiel
+ ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ Text Editor ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+ º$ Beispiel einer Hilfedatei                                                 º
+ º%%%%                                                                          º
+ º1,0:1                                                                       º
+ º%%%%                                                                          º
+ º                                                                            º
+ º.1                                                                          º
+ º  Kapitelberschrift der ersten Hilfeseite                                  º
+ º  Erste Zeile der Hilfeseite                                                º
+ º  ..                                                                        º
+ º  ..                                                                        º
+ º  ..                                                                        º
+ º  Letzte Zeile der Hilfeseite @@002[ Weiter ]                                º
+ º.2                                                                          º
+ º  Kapitelberschrift der zweiten Seite                                      º
+ º  Hauptteil der zweiten Seite (1. Zeile)                                    º
+ º..                                                                          º
+ º  Hauptteil der zweiten Seite (Zeile 21) @@001[ Zurck ]     @@999[ Beenden ] º
+ º.End                                                                        º
+ ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+    @200[ ASCII-Datei ]                                                    @001[ šbersicht ]
+.300
+    Hinzufgen der Hilfedatei zum Hilfeindex
+
+    Der Dateiname und eine kurze Beschreibung mssen in einer speziellen Datei
+    eingetragen werden. Diese Datei befindet sich im Verzeichnis PG2000.EXE.
+    Der Name der Datei ist HLP-???.LST. Die drei Fragezeichen repr„sentieren
+    den L„ndercode der PG-Dialogsprache (049 fr Deutsch, 001 fr Inter-
+    national).
+
+    Diese *.LST Datei kann mit jedem beliebigen Texteditor bearbeitet werden.
+    Um die selbstgeschriebene Hilfedatei einzubinden, muá der Dateiname und die
+    Kurzbeschreibung der Hilfedatei in folgendem Format eingefgt werden:
+
+        ..\ONLINE.HLP\filename.ext    ;Men text
+
+    "filename.ext" ist der Name der Hilfedatei (z.B. wichtig.hlp), die sich im
+    Verzeichnis ONLINE.HLP befindet. Hilfedateien sollten sich grunds„tzlich in
+    diesem Verzeichnis befinden. Nach einem Neustart des PG2000 erscheint, nach
+    dem Aufruf des Mens <HILFE><INDEX> in einer Auswahlliste der neu hinzuge-
+    fgte Eintrag. Es gibt keine Begrenzung fr die Anzahl der zus„tzlichen
+    Hilfedateien.
+
+                                                                     @001[ šbersicht ]
+
+.End

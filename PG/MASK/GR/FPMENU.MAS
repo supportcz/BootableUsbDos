@@ -1,0 +1,19 @@
+#VAR 00 00 38 01 78 00 35 N N J N N 00 00 00 
+#TXT 00 00 38 78  __FlashProm_Information_______________
+#VAR 01 00 38 01 78 00 35 N N J N N 00 00 01 
+#TXT 01 00 38 78  __SPS-Programm_programmieren__________
+#VAR 02 00 38 01 78 00 35 N N J N N 00 00 02 
+#TXT 02 00 38 78  __B&R_Systemdaten_programmieren_______
+#VAR 03 00 38 01 78 00 35 N N J N N 00 00 03 
+#TXT 03 00 38 78  __FlashProm_formatieren_______________
+#VAR 04 00 38 01 78 00 35 N N J N N 00 00 04 
+#TXT 04 00 38 78  __Kommunikationsdienste_installieren__
+#VAR 05 00 38 01 78 00 35 N N J N N 00 00 05 
+#TXT 05 00 38 78  __šbersicht_Speicherbelegung__________
+#VAR 06 00 38 01 78 00 35 N N J N N 00 00 06 
+#TXT 06 00 38 78  __Physikalisches_Backup_______________
+#VAR 07 00 38 01 78 00 35 N N J N N 00 00 07 
+#TXT 07 00 38 78  __Physikalisches_Backup_programmieren_
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ !@#$%^&*(){}[]-+=;,.<>?:
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890

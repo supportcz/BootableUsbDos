@@ -1,0 +1,994 @@
+%%
+1,0:1      Hilfe zu PG-Fehlernummern
+%%
+
+.1
+Description of the PG 2000 ERROR NUMBERS
+ OVERIEW
+
+ 003xx @30  [ Databank - Name Management   ] 11xxx @1100[ Clipboard                    ]
+ 004xx @40  [ General Errors               ] 12xxx @1200[ Function Block Editor        ]
+ 01xxx @100 [ Output Interface             ] 15xxx @1500[ Ladder Diagram Parser        ]
+ 02xxx @200 [ Input Interpreter            ] 20xxx @2000[ Handling Codes               ]
+ 03xxx @300 [ Documentation Tools          ]
+ 04xxx @400 [ Application Layer Interface  ]
+ 05xxx @500 [ Graphical Design Method      ]
+ 06xxx @600 [ Task Builder                 ]
+ 065xx @650 [ Debuggers and Monitor        ]
+ 07xxx @700 [ Memory and Files             ]
+ 080xx @800 [ Graphic Editor Kernel        ]
+ 081xx @810 [ Ladder Diagram Editor        ]
+ 082xx @820 [ STL Editor                   ]
+ 09xxx @900 [ Code Generator               ]
+ 098xx @980 [ Line Parser                  ]
+ 099xx @990 [ Block Parser                 ]
+
+
+
+.30
+Description of the PG 2000 ERROR NUMBERS
+  D A T A  B A N K - N A M E   M A N A G E M E N T
+
+  301   ERR_NEW_ONE         ..... New entry - only for information
+  302   ERR_WRONG_USE       ..... Incorrect usage
+  303   ERR_NOT_THIS        ..... Wrong record
+  304   ERR_BAD_CHECK       ..... Bad attribute comparison
+  305   ERR_NO_MORE_LABEL   ..... No more label entries
+  306   ERR_WRONG_LIST      ..... Wrong name list
+  307   ERR_WRONG_INDEX     ..... Wrong index for name list
+
+  DATABANK - After a search
+  ------------------------------------------------------------------------
+  320   ERR_PV_NOT_FOUND    ..... PV not found
+  321   ERR_DATTYP_NOT_FOUND..... Data type not found
+  322   ERR_IOMO_NOT_FOUND  ..... IO Module not found
+
+
+
+
+
+  @31  [ Name Management ]                                            @1[ Overview ]
+.31
+Description of the PG 2000 ERROR NUMBERS
+  D A T A  B A N K - N A M E   M A N A G E M E N T
+
+  Error with various comparisons
+  ------------------------------------------------------------------------
+  330   ERR_TASKKL_UNKNOWN  ..... Unknown task class
+  331   ERR_IOTYP_UNKNOWN   ..... Unknown IO Type
+  332   ERR_NO_TEILADRESSE  ..... No partial address found
+  333   ERR_UNKNOWN_TYP     ..... Unknown type
+  334   ERR_WRONG_FIELD_LEN ..... Wrong field length
+  335   ERR_EXCEEDS_DEPTH   ..... Nesting too deep
+  336   ERR_DIFFRENT_TYPES  ..... Different types
+  337   ERR_BIT_BYTE_TYPES  ..... Bit & Byte mixed
+  338   ERR_INOUT_ANZ       ..... Number of inputs/outputs exceeded
+
+
+
+
+
+
+
+  @32  [ Name Management ]                                            @1[ Overview ]
+.32
+Description of the PG 2000 ERROR NUMBERS
+  D A T A  B A N K - N A M E   M A N A G E M E N T
+
+  DATA BANK - During Init and Relations file manipulation
+  ----------------------------------------------------------------------
+  350   ERR_INIT_DB         ..... Error with INTISAM
+  351   ERR_NO_DBKPFAD      ..... No data bank path
+  352   ERR_RELFILE_CREATE  ..... DB-File was not created
+  353   ERR_RELFILE_CLOSE   ..... DB-File was not closed
+  354   ERR_RELFILE_OPEN    ..... DB-File was not opened
+  355   ERR_RELFILE_REBUILD ..... Error rebuilding file
+  356   ERR_WRONG_USER      ..... Prohibited access
+  357   ERR_WRONG_AKTION    ..... Invalid DB Action
+  358   ERR_NO_READFIRST    ..... No READ_FIRST done
+  359   ERR_2ND_READFIRST   ..... Second READ_FIRST done
+  360   ERR_NO_END_AKTION   ..... No end action executed
+  361   ERR_EXCEEDS_PROC_ANZ..... Max. Processor number exceeded
+  362   ERR_NOT_EXISTING_SPS..... Non-existant PLC
+  363   ERR_NOT_EXISTING_PRO..... Non-existant Processor
+
+
+  @33  [ Name Management ]                                            @1[ Overview ]
+.33
+Description of the PG 2000 ERROR NUMBERS
+  D A T A  B A N K - N A M E   M A N A G E M E N T
+
+  DATA BANK - Various Errors
+  ------------------------------------------------------------------------
+  370   ERR_DBMODE_UNKNOWN  ..... Unknown mode
+  371   ERR_DBK_WRITE       ..... Write error
+  372   ERR_DBK_READ        ..... Read error
+  373   ERR_DBK_UPDATE      ..... Update error
+  374   ERR_DBK_DELETE      ..... Delete error
+  375   ERR_WRONG_DBMODE    ..... Wrong or prohibited mode
+  376   ERR_FALSCHE_ANGABE  ..... Incorrect specification
+  377   ERR_READ_ONLY       ..... Entry cannot be changed
+
+  DATENBANK - Errors that occur while checking the version
+  ------------------------------------------------------------------------
+  390   ERR_OPEN_VER_FILE   ..... Error opening file
+  391   ERR_GET_VERSION     ..... Version number could not be read
+  392   ERR_PUT_VERSION     ..... Version number could not be written
+  393   ERR_WRONG_VERSION   ..... Wrong version
+
+  @40  [ General Errors ]                                             @1[ Overview ]
+.40
+Description of the PG 2000 ERROR NUMBERS
+  G E N E R A L   E R R O R S
+
+  400   ERR_NO_MORE_MEMORY  ..... Allocation error (not enough memory)
+  401   ERR_NO_SPACE        ..... Not enough free memory
+  402   ERR_NO_NAME         ..... No name entered
+  403   ERR_NO_NUMBER       ..... None or wrong number
+  404   ERR_OPEN_FILE       ..... File cannot be opened
+  405   ERR_OPEN_LOG_FILE   ..... Log file cannot be opened
+  406   ERR_NO_RIGHTS       ..... No user rights for the action
+  407   ERR_NO_CHANGE_ALLOWE..... No changes allowed
+  408   ERR_WRONG_POSITION  ..... Position incorrect or not found
+  409   ERR_NO_RECORD       ..... No record available
+  410   ERR_DIFFRENT_ANZ    ..... Different amount
+
+
+
+
+
+
+
+  @100 [ Output Interface ]                                           @1[ Overview ]
+.100
+Description of the PG 2000 ERROR NUMBERS
+  O U T P U T   I N T E R F A C E
+
+ Ranges 1 and 0:Category - Erors that lead to an abort
+ ------------------------------------------------------------------------- 
+ 1001   AIE_INTINITGETNET   ..... Interface initialization failure
+ 1010   AIE_WININITGETNET   ..... Window initialization failure
+ 1011   AIE_EICHENLANDFEHLER..... CSCAPE - Error
+ 1012   AIE_INITGEHTNET     ..... Hardware initialization failure
+ 1013   ERR_IN_USER_PRI     ..... Error in user file user.pri
+ 1014   ERR_IN_USER_DIR     ..... Error in the directory given in user.pri
+ 1020   AIE_MENUOPENFEHLER  ..... CSCAPE Menu opening is not possible
+ 1021   AIE_CFGFILE_FEHLT   ..... Missing configuration file
+ 1022   AIE_HELPCFG_FEHLER  ..... Defective Help configuration
+ 1023   AIE_HMENUCFG_FEHLER ..... Defective main menu configuration
+ 1024   AIE_BACKCFG_FEHLER  ..... Defective background window configuration
+ 1025   AIE_STDWINCFG_FEHLER..... Defective standard window configuration
+ 1026   AIE_SONWINCFG_FEHLER..... Defective other window configuration
+ 1027   AIE_WINFARBCFG_FEHLE..... Defection window color configuration
+ 1028   AIE_ERRCFG_FEHLER   ..... Defective configuration Error
+
+  @101 [ Output Interface ]                                           @1[ Overview ]
+.101
+Description of the PG 2000 ERROR NUMBERS
+  O U T P U T   I N T E R F A C E
+ 1029   AIE_TABEDCFG_FEHLER ..... Defective Tabedi configuration
+ 1030   AIE_TABRECORD_FEHLER..... Defective record construction
+ 1031   AIE_TABFKTGIBTSNET  ..... Unknown table function
+ 1032   VDE_DBKLESEFEHLER   ..... Data bank read error
+
+ Resize/Move
+ -------------------------------------------------------------------------
+ 1040   AIE_FENSTERZKLEIN   ..... 
+ 1041   AIE_FENSTERZGROS    ..... 
+
+ File Selector Box and Special Window Configuration
+ -------------------------------------------------------------------------
+ 1042   AIE_FSEL_ERR        ..... Not enough memory to create file selection window
+ 1043   AIE_SONWIN_ERR      ..... Not enough memory to create a window
+
+ Setting the Page Break Frames
+ -------------------------------------------------------------------------
+ 1045   AIE_RASTER_ERR      ..... Not enough memory for setting the page frame
+ 1050   WO_SIND_HM_TEXTE    ..... 
+  @102 [ Output Interface ]                                           @1[ Overview ]
+.102
+Description of the PG 2000 ERROR NUMBERS
+  O U T P U T   I N T E R F A C E
+
+ Error messages for Attached Windows
+ -------------------------------------------------------------------------
+ 1060   FV_TOO_MANY_ATWIN   ..... 
+ 1061   FV_NO_ATWIN         ..... 
+ 1062   FV_NO_PARENT        ..... 
+
+ Error Messages for Macro Processing
+ -------------------------------------------------------------------------
+ 1110   II_MAC_NOTFOUND     ..... 
+ 1111   II_MAC_FATAL        ..... 
+ 1112   II_MAC_FILEKAPUTT   ..... 
+ 1113   II_MAC_MEM          ..... 
+ 1114   II_MAC_FOPEN        ..... 
+
+
+
+
+
+  @103 [ Output Interface ]                                           @1[ Overview ]
+.103
+Description of the PG 2000 ERROR NUMBERS
+  O U T P U T   I N T E R F A C E
+
+ Ranges 3 and 2: Category - Messages that must be confirmed
+ -------------------------------------------------------------------------
+21001   AIW_HELPFILEFEHLT   ..... Help text file not found
+21002   AIW_MIESERFILE      ..... Given file is not help text
+21003   AIW_SPEICHERMANGEL  ..... Not enough memory for help text display
+21004   AIW_NOHELPKONF      ..... Help configuration missing
+21010   AIE_MAUSTREIBERFEHLT..... Mouse driver not loaded
+21011   AIW_GENUGWINDOWS    ..... Max. number of windows exceeded
+21012   AIW_ZUVIELE_TABRECS ..... Too many table records
+21013   AIE_ALIGETNET       ..... ALI can not be started
+21100   VDW_DBKSCHREIBFEHLER..... Data bank write error
+21101   VDW_DBKLESEFEHLER   ..... Read error during data bank interface
+21102   VDW_NVWLESEFEHLER   ..... Read error during editor list interface
+21103   VDW_KONFIGFEHLER    ..... Variable declaration configuration defective
+21104   VDW_MAXKOMPERREICHT ..... Maximum number of structure components reached
+21110   VDW_ZUVIELESCHACHTEL..... Too many structure levels
+21200   VDW_SPEICHERMANGEL  ..... Not enough memory for declaration
+
+  @104 [ Output Interface ]                                           @1[ Overview ]
+.104
+Description of the PG 2000 ERROR NUMBERS
+  O U T P U T   I N T E R F A C E
+
+21211   TEE_STACKISLEER     ..... Error in Tabedi - Stack
+22100   TEW_SPEICHERMANGEL  ..... Not enough memory for tabled
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  @200 [ Input Interface ]                                            @1[ Overview ]
+.200
+Description of the PG 2000 ERROR NUMBERS
+  I N P U T  - I N T E R P R E T E R
+
+ Ranges 1 and 0: Category - Errors that cause an abort
+ -------------------------------------------------------------------------
+ 2010   IIE_FMSPEICHERMANGEL..... Not enough memory for footline menu
+ 2011   IIE_FMENUCFG_FEHLER ..... Footline menu configuration is erroneous
+ 2012   IIE_FMCFGINHALT_FEHL..... Configuration of the Footline menu is wrong
+ 2013   IIE_ZUVIELE_MENUES  ..... Too many menu options
+ 2014   IIE_TABCFG_FEHLER   ..... Table editor configuration is wrong
+
+
+
+
+
+
+
+
+
+
+
+  @300 [ Doc Tools ]                                                  @1[ Overview ]
+.300
+Description of the PG 2000 ERROR NUMBERS
+  D O C U M E N T A T I O N   T O O L S
+
+ 3001   DOE_SRCFILENETDO    ..... Source file incorrectly opened
+ 3002   DOE_CFGFILENETDO    ..... Configuration incorrectly opened
+ 3003   DOE_SPEICHERMANGEL  ..... Memory is full.
+ 3004   DOE_CFGFEHLER       ..... Document cannot be created
+ 3005   DOE_KEINTEMPFILE    ..... Temp file opening failure
+ 3006   DOE_VARUNDEFINED    ..... Undefined variable.
+ 3007   DOE_CFGINHFEHLT     ..... Configuration entry not found
+ 3010   DOE_ZEILENZAHLZUKLEI..... Line number too small
+ 3100   DOE_PRINTNETDO      ..... Printer driver PRINT not loaded. Direct
+                                  printout is not possible
+ 3101   DOE_PRINTGEHTNET    ..... Printout is not possible
+ 3102   DOE_UNKNOWNAKT      ..... Call error - Call application support!!
+ 3103   DOE_FILENETDO       ..... File or directory not found, please check name
+ 3104   DOE_PRINTERNETDO    ..... Printer (Drive letter) not found
+ 3105   DOE_QUEUEVOLL       ..... Too much data in the queue. Please wait and
+                                  then try again.
+ 3106   DOE_PRINTACTIVE     ..... Printer queue is not empty.
+
+  @400 [ Application Layer Interface ]                                @1[ Overview ]
+.400
+Description of the PG 2000 ERROR NUMBERS
+  A P L I C A T I O N  L A Y E R  I N T E R F A C E
+
+ 4200   KI_STARTUP          ..... 
+ 4201   KI_TIMEOUT          ..... No answer from ALI during the waiting time
+ 4202   ALI_WRONG_MI_CODE   ..... An instruction was answered with an unexpected
+                                  MI-Code
+ 4203   KI_WRONG_TYPE       .....
+ 4204   KI_OBJECT_NOTEXIST  ..... Object does not exist on the PLC
+ 4205   KI_BAD_OBJECT       ..... Object directory is unreadable
+ 4206   KI_NO_MEM           ..... malloc failed
+ 4243   ALI_WIN_FULL        .....
+ 4999   ALI_ERROR           ..... Error message is already in the message window
+
+
+
+
+
+
+
+
+  @500 [ Graphic Design Method ]                                      @1[ Overview ]
+.500
+Description of the PG 2000 ERROR NUMBERS
+  G R A P H I C   D E S I G N  M E T H O D
+
+ 5000   GD_MEM_ERR          ..... Not enough memory
+ 5001   GD_TAB_ERR          ..... Wrong list ID while extending the list
+ 5002   GD_TABIND_ERR       ..... Wrong object table ID
+ 5005   GD_DB_ERR           ..... Invalid data branch position
+ 5006   GD_NOPV_ERR         ..... No PVs in data branch
+ 5007   GD_TREE_ERR         ..... Loop in the data tree
+ 5010   GD_INIT_ERR         ..... Error initializing a GDM window
+ 5020   GD_FNO_OPEN_ERR     ..... Error while opening an NM file for a task
+ 5021   GD_NNO_OPEN_ERR     ..... Error while initializing an NM file for a task
+
+
+
+
+
+
+
+
+
+  @600 [ Task Builder ]                                               @1[ Overview ]
+.600
+Description of the PG 2000 ERROR NUMBERS
+  T A S K   B U I L D E R
+
+ 6000   ERR_NOMEM           ..... 
+ 6001   TB_WRONG_MODE       ..... 
+ 6002   TB_NO_RBINFO        ..... U No RB Info in B&R Module
+ 6003   TB_PV_NOTFOUND      ..... I PV Definition in RB Info missing.
+ 6004   TB_NO_TXT           ..... I No text buffer available
+ 6005   TB_NO_FUB           ..... I No FBK Info in RB Block
+ 6010   TB_LABEL_DOPPELT    ..... U Label-Index allocated twice
+ 6011   TB_LABEL_UNDEF      ..... I Referenced label not defined
+ 6012   TB_LABEL_RANGE      ..... UI Overflow of the Label Offsets
+ 6020   TB_REGRES           ..... I Address register for task builder is locked
+ 6021   TB_REGILL           ..... I Illegal register code for the task builder
+ 6030   TB_WRONG_CHAR       ..... U Invalid charater in the PV Name
+ 6040   TB_DOUBLE_DEF       ..... U Several PVs defined for an analog output
+                                  (transp.)
+ 6041   TB_PV_OVERLAP       ..... U Several PV overlap on a HW module. Can occur
+                                    when changes are made.
+                                  A Reinit helps in this case.
+
+  @601 [ Task Builder ]                                               @1[ Overview ]
+.601
+Description of the PG 2000 ERROR NUMBERS
+  T A S K   B U I L D E R
+
+ 6050   OFLI_VOLL           ..... U Offset List full, too many different
+                                  I/O types (>50)
+ 6060   TB_BITERR           ..... V Doesn't occur from version V1.06 on
+ 6061   TB_WRONG_CODE       ..... I Incorrect Code for the task builder
+ 6063   TB_LONGERR          ..... U Absolute long addressing is not allowed
+                                  for the PLC
+
+ Incorrect Addressing Type found by Compiler
+ -------------------------------------------------------------------------
+ 6065   TB_2EA              ..... I I Two <ea> with command class 17
+ 6066   TB_WRONG_SPSIOTYP   ..... B U I/O type for HS task not allowed
+ 6067   TB_WRONG_OPS        ..... I I Operand type not allowed
+
+
+
+
+
+
+  @602 [ Task Builder ]                                               @1[ Overview ]
+.602
+Description of the PG 2000 ERROR NUMBERS
+  T A S K   B U I L D E R
+
+ Not enough memory for the PVs
+ -------------------------------------------------------------------------
+ 6101   TBE_ANA_SPSIO_SIZE  ..... Reconfiguration or reinit. of the
+ 6102   TBE_DIG_SPSIO_SIZE  ..... DB with Generate and Purge necessary
+ 6103   TBE_SPSIOTYP_NOT_IMP..... V This I/O type is not supported yet
+ 6104   TBE_SPSIO_TK_COMBINE..... U I/O type not allowed for this task class
+
+ FBK Create Error Messages
+ -------------------------------------------------------------------------
+ 6150   TB_NODFILE          ..... Descr. file not found or too many files open
+ 6151   TB_DFILE_ERROR      ..... Wrong line order in the descriptor file or     e
+                                  incorrect varilable entry
+ 6152   TB_DFILE_INPUT      ..... :I - Line in the worng position
+ 6153   TB_DFILE_OUTPUT     ..... :O - Line in the worng position
+ 6154   TB_DFILE_STATIC     ..... :S - Line in the worng position
+ 6155   TB_DFILE_TEXT       ..... :T - Line in the worng position
+ 6156   TB_DFILE_SYNTAX     ..... Syntax error in descriptor file : invalid char
+
+  @603 [ Task Builder ]                                               @1[ Overview ]
+.603
+Description of the PG 2000 ERROR NUMBERS
+  T A S K   B U I L D E R
+
+ 6157   TB_DFILE_NAME       ..... FBK name no the first instruction line or
+                                  comment line without ';'
+ 6158   TB_DFILE_CHAR       ..... FBK name too long
+ 6159   TB_DFILE_DTYP       ..... unsupported data type on variable line
+                                  in descriptor file
+ 6160   TB_DFILE_MODTYP     ..... :U or :F at wrong position
+ 6161   TB_DFILE_MODKEN     ..... :K<A|I|L>; Code on wrong position
+ 6162   TB_DFILE_UP_STAT    ..... :U and :S not allowed
+ 6163   TB_DTYP_UNKNOWN     ..... U Unknown data type
+ 6164   TB_WRONG_STRING     ..... U Error with string entry
+ 6165   TB_WRONG_NUM        ..... U Error with number entry
+
+
+
+
+
+
+
+  @604 [ Task Builder ]                                               @1[ Overview ]
+.604
+Description of the PG 2000 ERROR NUMBERS
+  T A S K   B U I L D E R
+
+ Remote-I/O Specific Error Messages
+ -------------------------------------------------------------------------
+ 6200   TB_RIO_OVERFLOW     ..... U Not enough room for the necessary block
+                                  in RIO - DPR
+ 6201   TB_RIO_OFFSET       ..... I Offset and Block don't match
+ 6202   TB_RIO_BLOVFL       ..... UI Block overflow, Reinit and generate
+                                  could help.
+ 6203   TB_RIO_WRONG_BLOCK  ..... I Wrong RIO-Block Number
+
+
+
+
+
+
+
+
+
+
+  @650 [ PV Monitor and Debugger ]                                    @1[ Overview ]
+.650
+Description of the PG 2000 ERROR NUMBERS
+  P V - M O N I T O R  &  D E B U G G E R
+
+ 6500   PS_WRONG_HANDLE     ..... I Invalid Handle
+ 6501   PS_NOT_STOPPED      ..... U Initialization of a running PLC
+ 6502   PS_PV_NOT_AKTIV     ..... I Reading an inactive PV is not possible
+ 6503   PS_TOO_MANY_PV      ..... U Too many PVs for the Profibus Frame
+ 6504   PS_TOO_MANY_VL      ..... U Too many lists open
+ 6505   PS_WRONG_INDEX      ..... I Wrong PV-Index for the PS functions
+ 6506   PS_PV_ADR_UNKNOWN   ..... U PV not processed by the task builder yet
+                                    or reset with Reinitit !!
+ 6507   PS_NO_LIST          ..... U No PVs entered into the list yet
+ 6508   PS_PV_LIST_KORRUPT  ..... I Number of PVs doesn't match the list
+ 6509   PS_SPS_LISTERR      ..... BI Defective List Definition on the PLC
+ 6510   PS_BLOCK_TOO_BIG    ..... I Block too big for single access
+ 6520   PS_PV_LOKAL         ..... U Local PVs only possible for a task
+ 6521   PS_FUB_ERROR        ..... U The same applies to FBK Memory
+                                  V Inline-FBKs not supported until V1.08
+ 6522   PS_PV_DATYP         ..... U Deletion and insertion of a whole           untersttzt.
+                                    structure is not supported
+ 6523   PS_PV_ARRAY         ..... U Array index exceeded
+  @700 [ Memory and Files ]                                           @1[ Overview ]
+.700
+Description of the PG 2000 ERROR NUMBERS
+  M E M O R Y  &  F I L E S
+
+ 7000   VMW_NOTIMP          ..... Subfunction not yet implemented
+ 7001   VMW_FULL            ..... Too many locked areas
+ 7002   VMW_TOOBIG          ..... VM-Block size exceeds maximum size
+ 7003   VMW_NOHANDLE        ..... Too many open VM-Blocks VW-Files
+ 7004   VMW_NOTFREE         ..... Attached VM-Block not freed
+ 7005   VMW_BADHANDLE       ..... Invalid handle or closed handle
+ 7006   VMW_BADFILEID       ..... Invalid File ID
+ 7007   VMW_BADBLOCKID      ..... Invalid Block ID
+ 7008   VMW_BADMOVE         ..... Failure moving to/from extended memory
+ 7009   VMW_NONSENS         ..... Nonsense Argument to function
+ 7010   VMW_NOIND           ..... No indirect memory available
+ 7011   VMW_NOMEM           ..... Not enough core memory (malloc failed)
+ 7012   VMW_NOUMB           ..... Not enough upper memory block
+ 7013   VMW_NOHMA           ..... Not enough high memory area
+ 7014   VMW_NOEMS           ..... Not enough LIM-EMS memory
+ 7015   VMW_NOXMS           ..... Not enough LIM-XMS memory
+ 7016   VMW_NOEXT           ..... Not enough extended memory
+
+  @701 [ Memory and Files ]                                           @1[ Overview ]
+.701
+Description of the PG 2000 ERROR NUMBERS
+  M E M O R Y  &  F I L E S
+
+ 7017   VMW_NOSWAP          ..... Not enough Swapfile
+ 7018   VMW_BADNAME         ..... Invalid Filename
+ 7019   VMW_FILE_CORRUPT    ..... File is not a valid Data-File
+ 7020   VMW_BIG_OFFS        ..... Error: VM-offset to big
+ 7021   VMW_BIG_N           ..... Error: VM-length to big
+ 7022   VMW_PROTECT         ..... Error: Object is write-protected
+ 7023   VMW_BADMAP          ..... Failure mapping in expanded memory
+ 7030   VMW_CLASS           ..... storage class limit exceeded
+ 7040   VMW_NOTLOCKED       ..... Warning: area was not locked
+ 7050   VMW_BAD_DIR         ..... Fatal: Error in Block-Directory
+ 7060   TV_FILENOTFOUND     ..... Error: unable to open message file
+ 7061   TV_FILETOBIG        ..... Error: message file too big
+ 7062   TV_NOTVMEM          ..... Error: no memory for messages
+ 7063   TV_NOTALLOC         ..... Error: no memory for tables
+ 7068   TV_DOUBLEDEF        ..... Warning: multiple used text number
+ 7069   TV_WEIREDINPUT      ..... Warning: can't interpret message line
+ 7097   VMW_OUT_OF_MEMORY   ..... Fatal: not enough core for init (DOS fn 0x48)
+
+  @702 [ Memory and Files ]                                           @1[ Overview ]
+.702
+Description of the PG 2000 ERROR NUMBERS
+  M E M O R Y  &  F I L E S
+
+ 7098   VMW_NO_DISK         ..... Fatal: out of disk space
+ 7099   VMW_SWAP_FAIL       ..... Fatal: swap file not opened
+ 7100   VMW_CREATED         ..... Warning: File did not exist and was created
+ 7101   VMW_EXIST           ..... Warning: File exists
+ 7102   VMW_BLOCK           ..... Warning: Block already exists
+ 7107   VMW_NET_LOCKED      ..... Error: File locked by another user
+ 7199   VMW_DOS_ERROR       ..... Error: DOS returns error: check errno
+ 7200   VMW_BAD_FOPEN       ..... Error: Failed sopen(handle,...) 
+ 7300   VMW_BAD_FCLOS       ..... Error: Failed close(handle) 
+ 7400   VMW_BAD_SEEK        ..... Error: Failed seek(handle,...) 
+ 7500   VMW_BAD_READ        ..... Error: Failed read(handle,...) 
+ 7600   VMW_BAD_WRITE       ..... Error: Failed write(handle,...) 
+ 7700   VMW_BAD_CHSIZE      ..... Error: Failed changesize(handle,...) 
+ 7800   VMW_BAD_ACCESS      ..... Error: Failed access() 
+ 7900   VMW_BAD_LOCK        ..... Error; Failed lock(handle,...) 
+
+
+
+  @800 [ Graphic Editor Kernel ]                                      @1[ Overview ]
+.800
+Description of the PG 2000 ERROR NUMBERS
+  G R A P H I C  E D I T O R  K E R N E L
+
+ 8000   GE_MEM_ERR          ..... Not enough memory
+ 8001   KONF_DAT_ERR        ..... Defective Configuration
+ 8002   GE_TAB_ERR          ..... Wrong object table ID
+ 8003   GE_OBJ_ERR          ..... Invalid Object ID
+ 8004   MOD_IND_ERR         ..... Incorrect object structure index
+ 8005   NO_POLY_ERR         ..... No valid polygon line
+ 8006   NO_OBJ_ERR          ..... No object at the given position
+ 8007   NO_SEL_ERR          ..... No object selected
+ 8008   NO_GRP_ERR          ..... No vaild group
+ 8009   KOP_IND_ERR         ..... No valid LAD symbol index
+ 8010   GDM_IND_ERR         ..... No valid GDM symbol index
+ 8011   CUR_MOV_ERR         ..... Invalid direction of cursor movement
+ 8012   RTC_UMR_ERR         ..... Negative Raster coordination
+ 8013   CTR_UMR_ERR         ..... Negative Character coordination
+ 8014   CSC_EDT_ERR         ..... edt text buffer is full
+ 8015   NO_LIN_ERR          ..... Not a valid line
+ 8016   CHR_IND_ERR         ..... Invalid line character
+
+  @801 [ Graphic Editor Kernel ]                                      @1[ Overview ]
+.801
+Description of the PG 2000 ERROR NUMBERS
+  G R A P H I C  E D I T O R  K E R N E L
+
+ 8017   GE_EDI_ERR          ..... Invalid editor type
+ 8018   GE_NOEMPTY_ERR      ..... Line to be deleted is not empty
+ 8019   GE_NOPOINT_ERR      ..... No pointer to an object table
+ 8020   GE_TXT_ERR          ..... GE-Kernal-Text too long
+ 8030   GCT_IND_ERR         ..... No valid GRAFCET Symbol index
+ 8040   GE_BLOCK_ERR        ..... Block can not be inserted :
+                                  There is no room for it
+ 8041   GE_MARK_ERR         ..... Marking mode turned on or block buffer is
+                                  empty
+ 8050   GE_EXIST_ERR        ..... Versions don't match
+
+
+
+
+
+
+
+
+  @810 [ LAD - Editor ]                                               @1[ Overview ]
+.810
+Description of the PG 2000 ERROR NUMBERS
+  L A D D E R  D I A G R A M  E D I T O R
+
+ 8101   KEE_MEMAUS          ..... Not enough Memory
+ 8102   KEE_LINIEFALSCH     ..... Line put in the wrong position*/
+ 8103   KEE_AUSGFALSCH      ..... Output in the first column
+ 8104   KEE_TYPFALSCH       ..... Line types do not match
+ 8105   KEE_ANAFALSCH       ..... No Analog inputs in column 1
+ 8106   KEE_FEHLERDA        ..... Error found during saving
+ 8107   KEE_KEINEVERZW      ..... No branches in analog lines
+ 8108   KEE_FELDBESETZT     ..... Field already contains a symbol
+ 8109   KEE_KEINPLATZ       ..... FBK does not have enough room here
+ 8110   KEE_AUSGKONST       ..... Constant to output -> WRONG
+ 8111   KEE_KEINDIGIWERT    ..... This in not a digital constant
+ 8112   KEE_FALSCHKONST     ..... Constant contains invalid characters
+ 8113   KEE_KONSTZUGROSS    ..... Constant is too large
+ 8114   KEE_NAMEFALSCH      ..... Invalid Name
+ 8115   KEE_FUBNICHTDA      ..... Wrong FBK Index
+ 8116   KEE_KEININDEX       ..... No Position index found
+ 8117   KEE_LEER            ..... Empty LAD
+
+  @811 [ LAD - Editor ]                                               @1[ Overview ]
+.811
+Description of the PG 2000 ERROR NUMBERS
+  L A D D E R  D I A G R A M  E D I T O R
+
+ 8118   KEE_NOFUB           ..... No FBK found
+ 8119   KEE_NOUP            ..... SP is not allowed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  @820 [ STL - Editor ]                                               @1[ Overview ]
+.820
+Description of the PG 2000 ERROR NUMBERS
+  S T A T E M E N T  L I S T
+
+ 8240   IL_MEM_ERR          ..... 
+ 8241   IL_LONG_ERR         ..... 
+ 8250   IL_BAD_SOURCE       ..... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  @900 [ Code Generator ]                                             @1[ Overview ]
+.900
+Description of the PG 2000 ERROR NUMBERS
+  C O D E  G E N E R A T O R
+
+ Internal errors have an "I" in the comment, a "U" is a user error" and
+ "IU" is internal, but measures can be taken to remove most of them.
+
+ 9000   ERR_CG_UNKNOWN      ..... I
+ 9001   ERR_CGAO_SWITCH     ..... I
+ 9002   ERR_CG_ZPTREAD      ..... I Error reading a token
+ 9006   ERR_CG_ESTCK_NOT_EMP..... I
+ 9007   ERR_CG_NO_EMIT_OP   ..... I
+ 9008   ERR_CG_LSTCK_NOT_EMP..... I
+ 9009   ERR_CG_LSTACK       ..... I
+ 9010   ERR_CG_NO_ARRAY     ..... U Simple PV used as array
+ 9011   ERR_CG_ACTION_OVERFL..... U ACTION range exceeded
+                                  Maximum number! (512 ?)
+ 9012   ERR_CG_ACTION_DUPLIK..... U Area of the ACTIONS overlap
+ 9013   ERR_CG_NO_INPARAMETE..... U First parameter of the function must be
+                                  an input parameter (Accumulator)
+
+
+  @901 [ Code Generator ]                                             @1[ Overview ]
+.901
+Description of the PG 2000 ERROR NUMBERS
+  C O D E  G E N E R A T O R
+
+ 9020   ERR_CG_PARAM_OVERFLO..... U Too many parameters for FBK
+ 9021   ERR_CG_FUB_PARAM    ..... U
+ 9022   ERR_CG_NO_L_VALUE   ..... U An attempt to assign a value to an
+                                    expression. Careful with FBK outputs
+ 9023   ERR_CG_NO_FREE_OFFSR..... IU No free D-Register for
+                                  Offset calculation: array nesting is
+                                  too deep
+ 9024   ERR_CG_NO_FREE_REG  ..... I
+ 9025   ERR_CG_MEMFAIL      ..... I Not enough memory
+ 9026   ERR_CG_ESTACK_OVERFL..... IU ev. too deep nested expression
+ 9027   ERR_CG_ESTACK_UNDERF..... I
+ 9028   ERR_CG_WRONG_DYN_MOD..... I
+ 9029   ERR_CG_ACCESS_NODYNA..... U No dynamic variable on the left of
+                                    the Access-Operator
+ 9030   ERR_CG_WRONG_FUB_MOD..... I
+
+
+
+  @902 [ Code Generator ]                                             @1[ Overview ]
+.902
+Description of the PG 2000 ERROR NUMBERS
+  C O D E  G E N E R A T O R
+
+ 9031   ERR_CG_INLINEFUB    ..... IU Error during interpretation of the
+                                  in line FBK code (Interpreter status
+                                  as message).
+ 9032   ERR_CG_CASE_KONST   ..... U Case selection = Constant
+ 9033   ERR_FKT_STACK_OVERFL..... I
+ 9040   ERR_CG_NO_EFF_ADR   ..... I Address operator has no <ea>
+
+ Data Type Error
+ -------------------------------------------------------------------------
+ 9101   BR_ZP_MEMFAIL       ..... I Not enough memory
+ 9102   ERR_CG_SOURCE_TOO_BI..... U Data type on the left side of an
+                                  assignment is "smaller" than the
+                                  data type of the right side (can
+                                  also occur with assignment of FBK
+                                  parameters)
+ 9111   ERR_CG_INVALID_DTCL ..... U Data types do not match
+
+
+  @903 [ Code Generator ]                                             @1[ Overview ]
+.903
+Description of the PG 2000 ERROR NUMBERS
+  C O D E  G E N E R A T O R
+
+ 9121   ERR_CG_DTCL_OP_CONFL..... U Operation is not allowed on this
+                                  data type
+ 9131   ERR_CG_INVALID_INDEX..... Array index is not a base data type
+
+ Block State Machine
+ -------------------------------------------------------------------------
+ 9201   ERR_CG_ZEILENTYP    ..... U Line type not implemented yet
+ 9202   ERR_BSTACK          ..... U Exitif without Loop Block
+ 9203   ERR_BSTACK_OVERFLOW ..... IU Block stack is too small
+ 9203   ERR_LABEL_OVERFLOW  ..... I Too many labels
+
+ Error of the ZPT Interface
+ -------------------------------------------------------------------------
+ 9401   ERR_ZPT_MALLOC      ..... I Not enough memory
+ 9402   ERR_ZPT_FILEOPEN    ..... U Line or token block cannot be opened
+
+
+
+  @904 [ Code Generator ]                                             @1[ Overview ]
+.904
+Description of the PG 2000 ERROR NUMBERS
+  C O D E  G E N E R A T O R
+
+ AG - Error Messages
+ -------------------------------------------------------------------------
+ 9501   ERR_AG_NOMEM        ..... I Not enough memory
+ 9502   ERR_AG_2EA          ..... I Operation with 2 Effective addresses
+ 9503   ERR_AG_ADR_NOT_LONG ..... I 
+ 9510   ERR_AG_TYP_OP_CONFLI..... I 
+ 9511   ERR_AG_FATAL        ..... I 
+ 9504   ERR_AG_MULDIV       ..... I 
+ 9596   ERR_AG_CLOSE        ..... I 
+ 9597   ERR_AG_EXG_REG      ..... I 
+ 9598   ERR_AG_DEBUG        ..... I 
+ 9599   ERR_AG_T1           ..... I 
+
+ IL - Error Numbers
+ -------------------------------------------------------------------------
+ 9601   ERR_IL_NO_AKKU      ..... U Accumulator not defined for LOAD OPERATION
+ 9602   ERR_IL_OPEN_BLOCKS  ..... U STL Block is not complete
+
+  @980 [ Line Parser ]                                                @1[ Overview ]
+.980
+Description of the PG 2000 ERROR NUMBERS
+  L I N E  P A R S E R
+
+ 9803   ZP_ERR_ACTION_RANGE ..... U Action range is invalid
+ 9805   ZP_ERR_ALLOC_KNOTENF..... I Not enough memory
+ 9806   ZP_ERR_ALLOC_KONSTFE..... I Not enough memory
+ 9807   ZP_ERR_ZEILE_ZU_GROS..... U
+ 9808   ZP_ERR_NOT_AUF_FLOAT..... U Negation of a Float constant
+ 9809   ZP_ERR_STRING_UPDATE..... I
+ 9810   ZP_ERR_UNERLAUBTE_OP..... U Logical Op. on a Float or String
+ 9811   ZP_ERR_NO_INTEGRAL_K..... I ??
+ 9814   ZP_ERR_AUSG_STACK   ..... IU Line too complex
+ 9900   ZP_ERR_CONSTRANGE   ..... U Warning: Negative Constant
+                                  the |absolute| > (2^31)
+ 9901   ZP_ERR_DIVIDE_BY_ZER..... U  Created by constant connection
+
+
+
+
+
+
+  @990 [ Block Parser ]                                               @1[ Overview ]
+.990
+Description of the PG 2000 ERROR NUMBERS
+  B L O C K  P A R S E R
+
+ 9901   BP_ERR_LABEL_OVERFLO..... I Too many labels
+ 9902   BP_ERR_LABEL_DUPLIKA..... U Duplicate label
+ 9903   BP_ERR_CONTROL_STACK..... U ELSE without IF
+ 9904   BP_ERR_CONTROL_ENDIF..... U ENDIF without IF
+ 9905   BP_ERR_CONTROL_EXITI..... U EXITIF without LOOP-Block
+ 9906   BP_ERR_CONTROL_ENDLO..... U ENDLOOP without LOOP
+ 9907   BP_ERR_CONTROL_ENDCA..... U ENDCASE without CASE
+ 9908   BP_ERR_CONTROL_ACTIO..... U ACTION without CASE
+ 9910   BP_ERR_UNERLAUBTE_ZE..... I Line type not implemented
+ 9911   BP_ERR_UNKNOWN      ..... I Fatal Error
+ 9912   BP_ERR_OPEN_BLOCKS  ..... U Block construct not complete
+ 9913   BP_ERR_MEMFAIL      ..... I Not enough memory
+ 9914   BP_ERR_CONTROL_UNDEF..... U Label does not exist
+ 9915   BP_ERR_CONTROL_STACK..... I
+ 9916   BP_ERR_LABELKONFLIKT..... U State label confused with
+                                  ordinary label
+ 9917   BP_ERR_SELECT       ..... U Error in select block
+
+  @991 [ Block Parser ]                                               @1[ Overview ]
+.991
+Description of the PG 2000 ERROR NUMBERS
+  B L O C K  P A R S E R
+
+ 9918   BP_ERR_NO_BLOCK     ..... U Instruction not in Action block
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  @1000[ Source Level Debugger ]                                      @1[ Overview ]
+.1000
+Description of the PG 2000 ERROR NUMBERS
+  S O U R C E  L E V E L  D E B U G G E R
+
+10003   DE_ERR_LOAD         ..... Load Error
+10006   DE_ERR_NOTASK       ..... Task not available
+10009   DE_ERR_INSTALL      ..... Task cannot be installed
+10013   DE_ERR_INIT         ..... Error in INIT-Phase
+10033   DE_ERR_WRONGTYP     ..... Wrong source type
+10034   DE_ERR_NOFILE       ..... Source File cannot be opened
+10035   DE_ERR_NOLINEINFO   ..... No line information in file
+10036   DE_ERR_LOCKED       ..... Not enough block memory, close other windows
+10037   DE_ERR_INFO         ..... Error in debug info
+10038   DE_ERR_NOSOURCE     ..... Source-Block un-readable
+10039   DE_ERR_NODOMAIN     ..... Debug-Domain not available
+10040   DE_ERR_NODEBUG      ..... Debugger file not available
+10041   DE_ERR_NOMEM        ..... Not enough memory
+10042   DE_ERR_LOADER       ..... Another load error
+10043   DE_ERR_NOBURFILE    ..... Bur-File cannot be opened
+10046   DE_ERR_NOOBJECT     ..... br-File not available or too old
+
+
+  @1100[ Clipboard ]                                                  @1[ Overview ]
+.1100
+Description of the PG 2000 ERROR NUMBERS
+  C L I P B O A R D
+
+11000   CB_FULL             ..... U Clipboard full, delete helps
+11001   CB_NOT_FOUND        ..... IU No clipboard entry found
+11010   CB_TOO_BIG          ..... I Block size exceeded
+11011   CB_BAD_HANDLE       ..... I Bad Clipboard Handle
+11012   CB_BAD_ENTRY        ..... I Bad Entry
+11013   CB_BLOCK_FULL       ..... I Too Many Sub-entries (> 16)
+11014   CB_BAD_TYP          ..... I Bad sub entry
+
+
+
+
+
+
+
+
+
+
+
+  @1200[ FBK Editor ]                                                 @1[ Overview ]
+.1200
+Description of the PG 2000 ERROR NUMBERS
+  F B K - E D I T O R
+
+12001   FE_NOTINIT          ..... FBK Editor couldn't be initialized
+12002   FE_CURIN            ..... Cursor in FBK
+12003   FE_NOMOVE           ..... Error moving contact
+12004   FE_NONAME           ..... I/O Variable has no name
+12005   FE_NOEXIT           ..... But do not exit
+12006   FE_NOTSAVED         ..... Error while saving
+12007   FE_NOEA             ..... No elements in the input/output list
+12008   FE_CANCEL           ..... Entry is ended with <ESC> or <CANCEL>
+12009   FE_NAMEINFUB        ..... Selected name is already in FBK
+12010   FE_WRONGNAME        ..... Invalid variable name
+
+
+
+
+
+
+
+
+  @1500[ LAD Parser ]                                                 @1[ Overview ]
+.1500
+Description of the PG 2000 ERROR NUMBERS
+  L A D - P A R S E R
+
+15001   KPE_FILEFEHL        ..... Error opening file
+15002   KPE_VMFEHL          ..... This LAD doesn't exist
+15003   KPE_VWSTACK         ..... VW Stack ist voll
+15004   KPE_VERZWAMANF      ..... Verzw. wurde am Anfang gefunden
+15005   KPE_INHFEHL         ..... Error in KP_getInhalt->defective matrix
+15006   KPE_VWRWSTACK       ..... VWRW Stack is fulll
+15008   KPE_KEINREG         ..... All registers used
+15009   KPE_RICHTUNG        ..... LAD-Path: Direction change
+15010   KPE_SUBSTACK        ..... Branch substack is full
+15011   KPE_KURZSCHLUSS     ..... LAD has a short circuit
+15012   KPE_AUSGANGNIE      ..... Output will never be reached
+15013   KPE_VERZWNIE        ..... Branch will never be reached
+15014   KPE_GESTRUEPP       ..... LAD contains stupid line structures
+15007   KPE_STACKREST       ..... Branch stack was not fully processed
+15015   KPE_KEINAST         ..... Branch has no VW-Ast -> senseless
+15016   KPE_TYPFALSCH       ..... Contact with non-matching types
+15017   KPE_KOPFEHLER       ..... Editor has already found an error
+
+  @1501[ LAD Parser ]                                                 @1[ Overview ]
+.1501
+Description of the PG 2000 ERROR NUMBERS
+  L A D - P A R S E R
+
+15018   KPE_FUBNIE          ..... FBK has no input/output parameters
+15019   KPE_EDIFEHL         ..... Error that the editor must find
+15020   KPE_KOPALT          ..... LAD in old format will be edited
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ @2000[ Handling Codes ]                                              @1[ Overview ]
+.2000
+Description of the PG 2000 ERROR NUMBERS
+  Handling Coes for Error Handler Calls
+
+   10   AIE_FATALERROR_ABBRU..... 
+	5   AIE_ABBRUCH         ..... 
+	0   MIT_QUIT            ..... 
+	0   NO_ERR              ..... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               @1 [ Overview ]
+.End

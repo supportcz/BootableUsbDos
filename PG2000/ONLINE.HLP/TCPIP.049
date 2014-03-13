@@ -1,0 +1,741 @@
+%%
+1,0:1
+%%
+.1
+    Funktionen der TCPIP-Library
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º ACHTUNG: Die Funktionen dieser Library k”nnen nur verwendet werden, wenn  º
+  º          das B&R-Modul TCPIPMGR.BR im nullspannungssicheren Speicher      º
+  º          (Anwender-ROM) der Steuerung vorhanden ist!                      º
+  º          Nach dem šbertragen dieses B&R-Moduls in den nullspannungs-      º
+  º          sicheren Speicher muá ein Kaltstart durchgefhrt werden.         º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+    Nach dem Importieren der TCPIP-Library stehen Ihnen folgende Funktionen
+    zur Verfgung:
+
+    @020[UDPopen ] Virtuelle Verbindung mit Datagrammen ”ffnen
+    @030[UDPsend ] Datagramm an eine Gegenstelle senden
+    @040[UDPrecv ] Eingetroffenes Datagramm lesen
+    @050[UDPclose] Datagramm-Verbindung schlieáen
+    @060[ETHinfo ] Infos zur Ethernet-Karte/-Verbindung
+
+
+
+                                     @002[ Fortsetzung ]               @999[ HILFE beenden ]
+.2
+    Funktionen der TCPIP-Library (Fortsetzung)
+
+    Die grundlegende Kommunikation zwischen Teilnehmern am TCP/IP-Netzwerk er-
+    folgt ber sogenannte IP-Adressen (Internetadressen). Die IP-Adresse des
+    TCP/IP-Managers kann ber eine getrennte Konfiguration eingestellt werden.
+    Intern verwenden die Funktionsbl”cke die Standard-BSD-4.3-Schnittstelle.
+
+    Der Funktionsblock UDP_open() besteht aus den BSD-Diensten "socket" und
+    "bind". Das Senden wird auf den Dienst "sendto" abgebildet, das Empfangen
+    auf den Dienst "recvfrom".
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.20
+    UDPopen - Virtuelle Verbindung mit Datagrammen ”ffnen
+
+    @021[UDPopen] (enable,port,pvpolladr,status,cident)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  port      : WORD          Zuordnen eines TCP/IP-Ports.
+    ->  pvpolladr : LONG          Dieser Parameter gibt die Adresse einer PV
+                                  (Prozeávariable) an, die auf 1 gesetzt wird,
+                                  wenn eine Aktivit„t auf dem zugeordneten
+                                  "Socket" stattfindet. Wird keine Prozeá-
+                                  variable fr Input-Poll-Zwecke verwendet,
+                                  wird dieser Eingang auf 0 gesetzt.
+    <-  @025[status    ]: WORD          Fehlernummer (0 = kein Fehler).
+                                  Der Funktionsblock muá solange freigegeben
+                                  werden (siehe Parameter enable), bis an
+                                  diesem Ausgang der Wert 0 ausgegeben wird.
+
+
+
+                                     @021[ Fortsetzung ]                   @001[ šbersicht ]
+.21
+    UDPopen - Virtuelle Verbindung mit Datagrammen ”ffnen (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    <-  cident    : LONG          Connection Identifier (entspricht der Socket-
+                                  Nummer). Mit Hilfe dieses Parameters k”nnen
+                                  die anderen Funktionen der TCPIP-Library die
+                                  ge”ffnete Verbindung identifizieren.
+
+    Mit Hilfe des Funktionsblocks UDPopen() kann ein TCP/IP-Port zu einem
+    anderen TCP/IP-Teilnehmer ge”ffnet werden. Der Funktionsblock muá solange
+    freigegeben werden (siehe Eingang "enable"), bis am Ausgang "status" der
+    Wert 0 ausgegeben wird.
+
+    Anmerkungen:
+    Die Portnummern unter 1024 sind durch TCPIP fr Systemdienste reserviert.
+    Es k”nnen mehrere UDPopen-Aufrufe mit unterschiedlichen Portnummern durch-
+    gefhrt werden. Die Anzahl der parallel offenen Ports wird ber die Konfi-
+    guration eingestellt.
+
+
+
+                                                                     @001[ šbersicht ]
+.25
+    UDPopen - Virtuelle Verbindung mit Datagrammen ”ffnen (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion UDPopen():
+    $0000    UDPopen() erfolgreich durchgefhrt
+    $5017    Interner PNA-Tabellen-Overflow
+    $5030    Die spezifizierte Adresse wird bereits verwendet
+    $5031    Die spezifizierte Adresse wird bereits verwendet
+    $1B5A    TCPIP-Konfigurationsmodul nicht vorhanden
+    $FFFF    Funktionsblock arbeitet noch, bitte weiter aufrufen
+
+    Eine Liste aller m”glichen Fehlermeldungen der TCPIP-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+                                       @020[ UDPopen ]                     @001[ šbersicht ]
+.30
+    UDPsend - Datagramm an eine Gegenstelle senden
+
+    @031[UDPsend] (enable,cident,ipaddr,buffer,buflng,port,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  cident    : LONG          Connection Identifier (von @020[UDPopen]).
+    ->  ipaddr    : LONG          IP-Adresse des Empf„ngers. Die IP-Adresse ist
+                                  die bliche Art der Adressierung in TCP/IP-
+                                  Netzwerken.
+    ->  buffer    : LONG          Adresse des Sendepuffers.
+    ->  buflng    : WORD          L„nge des Sendepuffers.
+    ->  port      : WORD          TCP/IP-Port des Empf„ngers.
+                                  Wenn das gewnschte Zielport nicht dem (beim
+                                  UDPopen-Aufruf) angegeben Port entspricht,
+                                  kann hier das gewnschte Zielport definiert
+                                  werden.
+
+
+
+                                     @031[ Fortsetzung ]                   @001[ šbersicht ]
+.31
+    UDPsend - Datagramm an eine Gegenstelle senden (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    <-  @035[status    ]: WORD          Fehlernummer (0 = kein Fehler).
+                                  Der Funktionsblock muá solange freigegeben
+                                  werden (siehe Parameter enable), bis an
+                                  diesem Ausgang der Wert 0 ausgegeben wird.
+
+    Mit Hilfe des Funktionsblocks UDPsend() kann ein benutzerdefinierter Daten-
+    block ber eine (mit @020[UDPopen]) aufgebaute Verbindung verschickt werden. Die
+    Definition des zu sendenden Datenblocks erfolgt ber die Parameter "buffer"
+    und "buflng". Der Anwender ist fr die Interpretation der Daten selbst ver-
+    antwortlich.
+    šber den Eingangsparameter "port" kann das gewnschte Zielport angegebenen
+    werden. Wenn das Zielport dem beim UDPopen-Aufruf angegebenen Port ent-
+    spricht, kann dieser Eingang auf 0 gesetzt werden. 
+
+
+
+
+
+                                     @032[ Fortsetzung ]                   @001[ šbersicht ]
+.32
+    UDPsend - Datagramm an eine Gegenstelle senden (Fortsetzung)
+
+    Anmerkungen:
+    Auf der RPS gibt es noch keine dynamische M”glichkeit, die Teilnehmer am
+    TCP/IP-Netzwerk zu benennen, deshalb wird auf die Basisreferenz (n„mlich
+    die IP-Adresse) zurckgegriffen.
+    Die Portnummern unter 1024 sind durch TCPIP fr Systemdienste reserviert.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.35
+    UDPsend - Datagramm an eine Gegenstelle senden (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion UDPsend():
+    $0000    UDPsend() erfolgreich durchgefhrt
+    $5009    Ungltiger Connection Identifier (Parameter "cident") bergeben
+    $5026    Destination Adresse ungltig
+    $5027    Daten k”nnen nicht in einer Einheit transportiert werden
+    $5031    Die angegebene Adresse ist nicht verfgbar
+    $5033    Das Zielnetzwerk kann nicht erreicht werden
+    $5037    Kein interner PNA-Puffer verfgbar  
+    $FFFF    Der Funktionsblock muá weiter aufgerufen werden
+
+    Eine Liste aller m”glichen Fehlermeldungen der TCPIP-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+
+
+
+
+                                       @030[ UDPsend ]                     @001[ šbersicht ]
+.40
+    UDPrecv - Eingetroffenes Datagramm lesen
+
+    @041[UDPrecv] (enable,cident,buffer,buflng,status,ipaddr,rxbuflng,port)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  cident    : LONG          Connection Identifier (von @020[UDPopen]).
+    ->  buffer    : LONG          Adresse des Empfangspuffers.
+    ->  buflng    : WORD          L„nge des Empfangspuffers.
+    <-  @045[status    ]: WORD          Fehlernummer (0 = kein Fehler).
+                                  Der Funktionsblock muá solange freigegeben
+                                  werden (siehe Parameter enable), bis an
+                                  diesem Ausgang der Wert 0 ausgegeben wird.
+    <-  ipaddr    : LONG          IP-Adresse des Senders. IP-Adresse ist die
+                                  bliche Art der Adressierung in TCP/IP-
+                                  Netzwerken.
+    <-  rxbuflng  : WORD          Tats„chliche L„nge der empfangenen Daten.
+    <-  port      : WORD          TCP/IP-Port des Senders.
+
+
+                                     @041[ Fortsetzung ]                   @001[ šbersicht ]
+.41
+    UDPrecv - Eingetroffenes Datagramm lesen (Fortsetzung)
+
+    Mit Hilfe des Funktionsblocks UDPrecv() kann ein Datenblock ber eine (mit
+    @020[UDPopen]) aufgebaute Verbindung empfangen werden. Auáerdem kann mit diesem
+    Funktionsblock berprft werden, ob berhaupt ein Datenblock auf dieser
+    Verbindung eingetroffen ist. Der fr die empfangenen Daten notwendige
+    Speicher muá vom Anwender zur Verfgung gestellt werden.
+
+    Der fr die Daten ben”tigte Speicher kann z.B. in Form eines entsprechend
+    groáen Feldes (Arrays) zur Verfgung gestellt werden. Es besteht auch die
+    M”glichkeit, den ben”tigten Speicher ber die Funktionen MEM_alloc() bzw.
+    TMP_alloc() (siehe BURTRAP-Library) anzufordern.
+
+    Anmerkungen:
+    Auf der RPS gibt es noch keine dynamische M”glichkeit, die Teilnehmer am
+    TCP/IP-Netzwerk zu benennen, deshalb wird auf die Basisreferenz (n„mlich
+    die IP-Adresse) zurckgegriffen.
+    Die Portnummern unter 1024 sind durch TCPIP fr Systemdienste reserviert.
+
+
+
+                                                                     @001[ šbersicht ]
+.45
+    UDPrecv - Eingetroffenes Datagramm lesen (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion UDPrecv():
+    $0000    UDPrecv() erfolgreich durchgefhrt
+    $5009    Ungltiger Connection Identifier (Parameter "cident") bergeben
+    $5023    Kein Input vorhanden
+    $FFFF    Der Funktionsblock muá weiter aufgerufen werden
+
+    Eine Liste aller m”glichen Fehlermeldungen der TCPIP-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+
+                                       @040[ UDPrecv ]                     @001[ šbersicht ]
+.50
+    UDPclose - Datagramm-Verbindung schlieáen
+
+    @050[UDPclose] (enable,cident,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    ->  cident    : LONG          Connection Identifier (von @020[UDPopen]). 
+    <-  @055[status    ]: WORD          Fehlernummer (0 = kein Fehler).
+                                  Der Funktionsblock muá solange freigegeben
+                                  werden (siehe Parameter enable), bis an
+                                  diesem Ausgang der Wert 0 ausgegeben wird.
+
+    Jede Verbindung ben”tigt bestimmte Ressourcen (z.B. Speicher). Wird eine
+    Verbindung nicht mehr verwendet, ist es sinnvoll, die entsprechende Ver-
+    bindung (siehe Eingangsparameter "cident") mit Hilfe des Funktionsblocks 
+    UDPclose() zu schlieáen und somit die verbindungsspezifischen Ressourcen
+    wieder freizugeben.
+
+
+
+                                                                     @001[ šbersicht ]
+.55
+    UDPclose - Datagramm-Verbindung schlieáen (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion UDPclose():
+    $0000    UDPclose() erfolgreich durchgefhrt
+    $5009    Ungltiger Connection Identifier (Parameter "cident") bergeben
+    $FFFF    Der Funktionsblock muá weiter aufgerufen werden
+
+    Eine Liste aller m”glichen Fehlermeldungen der TCPIP-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+
+
+
+
+                                      @050[ UDPclose ]                     @001[ šbersicht ]
+.60
+    ETHinfo - Infos zur Ethernet-Karte/-Verbindung
+
+    @061[ETHinfo] (enable,statadr,ethadr)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist.
+    <-  statadr   : LONG          Adresse eines Speicherbereichs in dem die
+                                  Statistikdaten abgelegt sind.
+    <-  ethadr    : LONG          Adresse eines Speicherbereichs in dem die
+                                  Ethernet-Adresse abgelegt ist.
+
+    Dieser Funktionsblock liefert die Adressen zweier Speicherbereiche, in
+    denen die Statistikdaten und die Ethernet-Adresse abgelegt sind. šber
+    die Statistikdaten kann der Anwender auf Treiber-Ebene die tats„chliche
+    Qualit„t der šbertragung kontrollieren.
+
+
+
+
+
+                                     @061[ Fortsetzung ]                   @001[ šbersicht ]
+.61
+    ETHinfo - Infos zur Ethernet-Karte/-Verbindung (Fortsetzung)
+
+    Der Aufbau der Statistik ist abh„ngig vom verwendeten Hardware-Modul.
+    Die Statistik fr das Modul IF101 hat den unten angegebenen Aufbau
+    (Definition in C):
+
+    typedef struct
+    {
+        /* operational statistics */
+        unsigned long     l_int;            /* total number of interrupts */
+        unsigned long     l_rint;           /* rcv interrupts             */
+        unsigned long     l_tint;           /* xmt interrupts             */
+
+        /* lance functioning errors */
+        unsigned short    l_babl;           /* xmt timeout error          */
+        unsigned short    l_cerr;           /* collision error            */
+        unsigned short    l_miss;           /* miss packet error          */
+        unsigned short    l_memr;           /* memory error               */
+
+
+
+                                     @062[ Fortsetzung ]                   @001[ šbersicht ]
+.62
+    ETHinfo - Infos zur Ethernet-Karte/-Verbindung (Fortsetzung)
+
+        /* receiver statistics */
+        unsigned short    r_fram;           /* frame error                */
+        unsigned short    r_oflo;           /* overflow error             */
+        unsigned short    r_crc;            /* crc error                  */
+        unsigned short    r_buff;           /* buffer error               */
+
+        /* transmitter statistics */
+        unsigned short    t_buff;           /* buffer error               */
+        unsigned short    t_uflo;           /* silo underflow             */
+        unsigned short    t_lcol;           /* late collision             */
+        unsigned short    t_lcar;           /* lost carrier               */
+        unsigned short    t_rtry;           /* set per 16 retries         */
+
+        /* ni statistics */
+        unsigned short    ni_anno;
+        unsigned short    ni_init;
+        unsigned short    ni_send;
+        unsigned short    ni_getp;
+
+                                     @063[ Fortsetzung ]                   @001[ šbersicht ]
+.63
+    ETHinfo - Infos zur Ethernet-Karte/-Verbindung (Fortsetzung)
+
+        unsigned short    ni_retp;
+        unsigned short    ni_bcst;
+        unsigned short    ni_poll;
+    } LANCE_STAT;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @060[ ETHinfo ]                     @001[ šbersicht ]
+.200
+    ANHANG : LIBRARY-Informationen
+
+
+    @201[< Allgemeines     >]      Voraussetzungen etc.
+
+    @210[< Softwareaufbau  >]      Software fr die TCPIP-Protokollabwicklung
+
+    @220[< Konfiguration   >]      TCPIP-Konfigurationsmodul
+
+    @250[< Syntax          >]      Syntax fr die Erkl„rung der Funktionen
+
+    @300[< Fehlernummern   >]      Zusammenfassung aller Fehlernummern
+
+    
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.201
+    TCPIP-Library : Allgemeines
+
+    Ziel dieses Softwarepakets ist die effiziente Anbindung der Steuerungs-
+    systeme B&R 2005 und B&R 2010 an gegebene Ethernet-Netzwerke mit dem
+    Transportprotokoll TCP/IP. In der vorliegenden Version werden 
+    Dienste zum Austausch von Datenpaketen ber die Datagram Sockets reali-
+    siert. Es ist somit m”glich, in einer Applikationssprache (PL2000, AWL
+    oder KOP) einfache Client-/Server-Anwendungen zu programmieren. Die Ein-
+    schr„nkung auf Datagram Sockets stellt insofern keine Beschr„nkung dar,
+    da im Normalfall kleinere Datenpakete in einem logischen Punkt-zu-Punkt-
+    Verkehr ausgetauscht werden.
+    Der entsprechende Treiber ist auf den Schnittstellenmodulen IF101 und
+    IF681 lauff„hig. Diese Schnittstellenmodule besitzen eine Ethernet-
+    Anbindung. Durch einen LANCE-kompatiblen Baustein wird ein effizienter
+    Datenaustausch ber DMA durchgefhrt. Der Ethernet-Baustein empf„ngt nur
+    Broadcastmeldungen und Datenframes, die direkt fr ihn bestimmt sind.
+    Dadurch verursacht eine hohe Netzlast nur dann eine entsprechende Last
+    auf der Ethernet-Karte, wenn diese auch direkt betroffen ist.
+
+
+
+                                     @202[ Fortsetzung ]                   @001[ šbersicht ]
+.202
+    TCPIP-Library : Allgemeines (Fortsetzung)
+
+    Prinzipiell untersttzt die TCP/IP-Kopplung TCP, UDP und ICMP. Derzeit
+    sind in der TCPIP-Library allerdings nur Funktionsbl”cke fr UDP reali-
+    siert. Mit dem šbertragungsprotokoll UDP ("Datagram Sockets") ist ein
+    nicht gesicherter, effizienter Datenaustausch zwischen zwei IP-Knoten
+    m”glich. Die Funktionalit„t entspricht z.B. einem Frame-Treiber.
+
+    Anmerkungen:
+    - Bevor Sie die Funktionen der TCPIP-Library in Ihrem Projekt verwenden
+      k”nnen, mssen Sie diese Library in die entsprechende Projekt-Datenbank
+      importieren.
+
+    - Voraussetzung fr die Verwendung der TCPIP-Library auf einer IF101 ist
+      die Version V2.00 des Betriebssystems RPSSW. Wird die IF681 verwendet,
+      muá mindestens die Version V2.01 des Betriebssystems RPSSW benutzt
+      werden.
+
+    - Alle Funktionen der TCPIP-Library liefern im Fehlerfall als Ergebnis eine
+      @300[Fehlernummer].
+
+                                     @203[ Fortsetzung ]                   @001[ šbersicht ]
+.203
+    TCPIP-Library : Allgemeines (Fortsetzung)
+
+    Abh„ngig von der verwendeten Version der TCPIP-Library mssen zus„tzliche
+    B&R-Module im nullspannungssicheren Speicher der Steuerung (Anwender-ROM)
+    vorhanden sein:
+ 
+    TCPIP-Library V1.0:
+    Fr die Verwendung dieser Version der TCPIP-Library ist es erforderlich,
+    daá zus„tzlich folgende B&R-Module im Anwender-ROM vorhanden sind:
+    TCPIPMGR.BR ... Dieses B&R-Modul enth„lt die FUBs, die Anbindung an die
+                    BSD-Sockets, den LANCE-Treiber und die Einbettung in die
+                    Systemsoftware. Ab dieser Version der TCPIP-Library ist
+                    die TCPIP-Protokollsoftware (lizenzpflichtig!) ebenfalls
+                    in das B&R-Modul TCPIPMGR.BR eingebunden. 
+                    
+    TCPIPCFG.BR ... TCPIP-Anwenderkonfiguration. Es sind auch Datenmodule mit
+                    dem Namen "TCPIPCxx" zul„ssig, wobei xx beliebige, in
+                    Datenmodulnamen zul„ssige Zeichen sein k”nnen. Es darf
+                    allerdings immer nur ein TCPIPCxx-Modul geladen sein.
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.210
+    TCPIP-Library : Softwareaufbau
+
+    Der TCPIP-Manager entspricht einer eigenen Task, die eine Anbindung der
+    Funktionsbl”cke an die BSD-Sockets erm”glicht (Name des TCPIP-Managers
+    im Profiler: tcpi). Jeder Funktionsblock-Aufruf fhrt zu einem Auftrag
+    an den TCPIP-Manager. Dies bedeutet, daá bei jeder ersten Aktivierung
+    eines Funktionsblocks am Funktionsblockausgang "status" der Wert $FFFF
+    (busy) ausgegeben wird. Um eine vernnftige Abarbeitung zu gew„hrleisten,
+    muá gengend Restzeit vorhanden sein. 
+    Die Bedienung der "Sockets" erfolgt ber den PNA-D„mon (Name des PNA-
+    D„mons im Profiler: PNAD). Der PNAD wickelt das TCPIP-Protokoll ab und
+    l„uft mit einer Mindestzykluszeit von 100 ms. Er beauftragt den Treiber
+    mit dem Senden von Ethernet-Paketen bzw. erh„lt im Interrupt vom Treiber
+    die Verst„ndigung, daá neue TCPIP- bzw. ARPA-Pakete eingetroffen sind.
+    Die ICMP-Dienste (z.B. "PING") werden intern ohne Benutzeraktivit„t
+    abgewickelt. Die @220[TCPIP-Konfiguration] wird im Hochlauf aus dem TCPIP-
+    Konfigurationsmodul TCPIPCxx.BR ausgelesen. Die beiden nichtzyklischen
+    Tasks (TCPIP-Manager und PNA-D„mon) sind so konfiguriert, daá sie mit
+    einer niedrigeren Priorit„t als die zyklischen Taskklassen laufen.
+
+
+                                     @211[ Fortsetzung ]                   @001[ šbersicht ]
+.211
+    TCPIP-Library : Softwareaufbau (Fortsetzung)
+
+    Der Hardware-Treiber verwendet derzeit 8 Input und 8 Output-Puffer. Eine
+    Multicastbedienung wird nicht untersttzt. Der Treiber liefert Statistik-
+    daten (Informationen ber den Datentransfer), die vom Anwender mit Hilfe
+    eines Funktionsblocks ausgelesen werden k”nnen. Der Treiber ist durch den
+    Anwender nicht umkonfigurierbar.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.220
+    TCPIP-Library : Konfiguration
+
+    Bei der Konfiguration sind folgende Punkte zu beachten:
+    - Der fr die TCPIP-Kommunikation notwendige Datenbereich wird aus dem
+      Speicherbereich des Betriebssystemstacks zur Verfgung gestellt. Aus
+      diesem Grund sollte der Betriebssystemstack eine Mindestgr”áe von $20000
+      haben. Ausnahme: Bei der Version V1.0 der TCPIP-Library darf der Be-
+      triebssystemstack bei Verwendung der IF260 nur auf den Wert $16000 ge-
+      setzt werden (diese Limitierung gilt nur bis zur n„chsten Version der
+      TCPIP-Library). Die Gr”áe des Betriebssystemstacks kann im PG2000 (in
+      der Systemkonfiguration) festgelegt werden. Dazu rufen Sie die Funktion
+      <Objekt><Parameter> aus der Task-Ebene der GDM auf. Der Cursor muá sich
+      dabei auf dem "sysconf"-Symbol befinden. Anschlieáend k”nnen Sie durch
+      Anwahl der Funktion <Betriebssystem> (siehe Popup-Men des Feldes
+      <Konfiguriere>) eine Dialogbox zum Festlegen allgemeiner Systemparameter
+      ”ffnen. In dieser Dialogbox k”nnen Sie die Gr”áe des Betriebssystemstacks
+      (siehe Eingabefeld <Daten/Stack>) ver„ndern.
+
+
+
+
+                                     @221[ Fortsetzung ]                   @001[ šbersicht ]
+.221
+    TCPIP-Library : Konfiguration (Fortsetzung)
+
+    Bei der Konfiguration sind folgende Punkte zu beachten (Fortsetzung):
+    - Die Kommunikation zwischen den Funktionsbl”cken und TCPIPMGR ben”tigt
+      eine Queue. Im Normalfall ist jedoch die Anzahl der standardm„áig
+      konfigurierten Queues ausreichend.
+    - Die Konfiguration wird erst nach einem Kaltstart bernommen.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     @222[ Fortsetzung ]                   @001[ šbersicht ]
+.222
+    TCPIP-Library : Konfiguration (Fortsetzung)
+
+    Das TCPIP-Konfigurationsmodul (Standard-Datenmodul) hat folgenden Aufbau:
+
+    $0000,           ; version indication - fixed to zero
+    $c0224781        ; IP-Addr: 192.34.71.xx
+    $0000,           ; reserved - fixed to zero
+    $0005,           ; number of available sockets (pNA+)
+    $0018,           ; number of available descriptors (pNA+)
+    $0040,           ; number of memory buffers (pNA+)
+    $0010,           ; number of pages (pNA+)
+    $ffff0000,       ; SubNet Maske
+    00000000,        ; reserved 1
+    00000000,        ; reserved 2
+    00000000,        ; reserved 3
+    00000000,        ; reserved 4
+    00000000,        ; reserved 5
+    00000000,        ; reserved 6
+    00000000,        ; reserved 7
+
+
+                                     @223[ Fortsetzung ]                   @001[ šbersicht ]
+.223
+    TCPIP-Library : Konfiguration (Fortsetzung)
+
+    Erkl„rungen zum TCPIP-Konfigurationsmodul:
+    - Die IP-Adresse wird in einem Longwort beschrieben.
+    - Die Anzahl der Sockets entspricht der maximal m”glichen Anzahl paralleler
+      UDPopen-Aufrufe.
+    - Die Anzahl der verfgbaren Descriptoren, Speicherbuffer (zu 128 Byte)
+      und Pages beschreibt interne Elemente von pNA+.
+    - Die SubNetMaske ist fr die Netzwerk-Einschr„nkung notwendig.
+
+    Durch die Parametrierung von einigen Parametern kann sich der Speicherbedarf
+    wesentlich ver„ndern.
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.250
+    TCPIP-Library : Syntaxbeschreibung
+
+    Datentypen:
+    Fr viele Funktionen sind bestimmte Gruppen von Datentypen zul„ssig. Um
+    bei der Funktionsbeschreibung nicht alle zul„ssigen Datentypen anfhren
+    zu mssen, werden folgende Gruppenbezeichnungen eingefhrt:
+    ÉÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍ»
+    º Gruppe º  BIT  ³ INT8  ³ BYTE  ³ INT16 ³ WORD  ³ INT32 ³ LONG  ³ FLOAT º
+    ÌÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍ¹
+    º BASIS  º       ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º NICHT  º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    º FLOAT  º       ³       ³       ³       ³       ³       ³       ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º ALLE   º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º FELD   º  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  º
+    ÈÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍ¼
+      x  Datentyp ist zul„ssig
+     [x] Datentyp ist zul„ssig als Feldvariable oder Zeichenkette (String)
+
+                                     @251[ Fortsetzung ]                   @001[ šbersicht ]
+.251
+    TCPIP-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Pfeile:
+    Fr die Darstellung von Eingangs- und Ausgangsparametern werden Pfeile
+    verwendet. Dabei gilt folgende Vereinbarung:
+    ÉÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º  Pfeil  º  Bedeutung                                                   º
+    ÌÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º   ->    º  Eingangsparameter                                           º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <->   º  Ein-/Ausgangsparameter. Funktionell ist es ein Ausgangs-    º
+    º         º  parameter. šblicherweise wird er aber vor dem Aufruf der    º
+    º         º  Funktion mit einer bestimmten Information geladen (z.B.     º
+    º         º  einer Adresse). Meist wird die Adresse einer Variable mit   º
+    º         º  adr() [PL2000] oder einem Adreákontakt [KOP] angeschlossen. º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <-    º  Ausgangsparameter                                           º
+    ÈÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @252[ Fortsetzung ]                   @001[ šbersicht ]
+.252
+    TCPIP-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Funktionsbl”cke:
+    Funktionsbl”cke sind in dieser Online-Hilfe nicht grafisch dargestellt.
+    Sie finden aber alle fr Funktionsbl”cke relevanten Informationen, wie
+    Eingangsparameter (->), Ein-/Ausgangsparameter (<->) und Ausgangsparameter
+    (<-) in der Online-Hilfe.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.300
+    TCPIP-Library : Fehlernummern der Funktionsbl”cke
+
+    Die folgende Liste ist eine Zusammenfassung aller m”glichen Fehlermeldungen
+    der TCPIP-Library:
+
+    $0000    Funktionsblock erfolgreich durchgefhrt
+    $5017    Interner PNA-Tabellen-Overflow
+    $5023    Kein Input vorhanden
+    $5026    Destination Adresse ungltig
+    $5027    Daten k”nnen nicht in einer Einheit transportiert werden
+    $5030    Die spezifizierte Adresse wird bereits verwendet
+    $5031    Die angegebene Adresse ist nicht verfgbar
+    $5033    Das Zielnetzwerk kann nicht erreicht werden
+    $5037    Kein interner PNA-Puffer verfgbar  
+    $7002    TCPIP-Konfigurationsmodul nicht vorhanden
+    $FFFF    Funktionsblock arbeitet noch, bitte weiter aufrufen
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+
+.End

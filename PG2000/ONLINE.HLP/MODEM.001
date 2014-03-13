@@ -1,0 +1,305 @@
+%%
+1,0:1
+%%
+.1
+    Modem Library Functions
+
+    At the moment, the modem library only contains the baud rate() function for
+    setting parameters for a serial interface, but this will be extended in the
+    future.
+
+    @020[Baud Rate] parameter settings for a serial interface
+
+  ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ ATTENTION: As the modem library only contains local function blocks (no   บ
+  บ            AVT function blocks!), no library runtime module needs to be   บ
+  บ            transferred to the controller!                                 บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+                                       @200[APPENDIX]                         @999[End HELP]
+.20
+    baud rate - Setting Parameters for a Serial Interface
+
+    @021[Baud Rate] (enable,comnr,baudrate,parity,status)
+
+    Parameter Data Types:
+    ->  enable    : BIT           The function block is only executed if
+                                  enable = 1 
+    ->  @025[comnr     ]: BYTE          Interface reference number 
+    ->  baud rate : WORD          Baud rate in units of 100 baud
+                                  (24 to 1157):
+                                  24 ..... 2400 baud
+                                  1157 ... 115700 baud
+    ->  parity    : BYTE          Parity:
+                                  0 ...... even parity 
+                                  1 ...... No parity
+                                  2 ...... Odd parity
+    <-  @027[status    ]: WORD          Error number (0 = no error)
+
+    The function baud rate() is used to set parameters for a serial interface.
+
+
+                                       @021[Continue]                         @001[Overview]
+.21
+    Baud rate - Setting Parameters for a Serial Interface (continue)
+
+    Before you can set parameters for a serial interface using the function
+    baud rate(), this interface must be configured and therefore initialized
+    in a network configuration module!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.25
+    baud rate - Setting Parameters for a Serial Interface (continue)
+
+    -> Parameter <comnr     >: BYTE
+
+    Reference number of the serial interface.
+
+    Interface Reference Numbers, System B&R 2010:
+    ษอออออออออออออัออออออออออออออออออออออออออออออัอออออออัอออออออออออออออออป
+    บ Module      ณ Interface                    ณ comnr ณ Type            บ
+    ฬอออออออออออออุออออออออออออออออออออออออออออออุอออออออุอออออออออออออออออน
+    บ CP100       ณ IF1 (top interface)          ณ 1     ณ RS232           บ
+    บ             ณ IF3 (middle interface)       ณ 3     ณ RS485/RS422     บ
+    บ             ณ IF2 (bottom interface)       ณ 2     ณ RS232           บ
+    ศอออออออออออออฯออออออออออออออออออออออออออออออฯอออออออฯอออออออออออออออออผ
+
+
+
+
+
+
+
+                                       @026[Continue]                         @001[Overview]
+.26
+    baud rate - Setting Parameters for a Serial Interface (continue)
+
+    Interface Reference Numbers, System B&R 2005:
+    ษอออออออออออออัออออออออออออออออออออออออออออออัอออออออัอออออออออออออออออป
+    บ Module      ณ Interface                    ณ comnr ณ Type            บ
+    ฬอออออออออออออุออออออออออออออออออออออออออออออุอออออออุอออออออออออออออออน
+    บ CP152/CP153 ณ IF2 (top interface)          ณ 2     ณ RS485/RS422/TTY บ
+    บ             ณ IF1 (bottom interface)       ณ 1     ณ RS232           บ
+    ฬอออออออออออออุออออออออออออออออออออออออออออออุอออออออุอออออออออออออออออน
+    บ XP152       ณ IF1 (bottom interface)       ณ 1     ณ RS232           บ
+    ศอออออออออออออฯออออออออออออออออออออออออออออออฯอออออออฯอออออออออออออออออผ
+
+    The RS232 interface for the CPU XP152 will be supported from BUGFIX 11
+    of operating system version 1.10 onwards (B&R module BUGFIX.BR with version
+    number 1.21). This means that this interface can only be used if the module
+    BUGFIX.BR with version number 1.21 (or above) exists in application ROM!
+
+
+
+
+
+                                       @020[Baud Rate]                        @001[Overview]
+.27
+    baud rate - Setting Parameters for a Serial Interface (continue)
+
+    <- Parameter <status    >: WORD
+
+    Error numbers for the function baud rate():
+    4200    Invalid interface given
+    4201    Invalid value for parity
+    4202    Invalid value for baud rate
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @020[Baud Rate]                        @001[Overview]
+.200
+    APPENDIX : LIBRARY Information
+
+
+    @201[< General Information >]      Requirements etc.
+
+    @250[< Syntax              >]      Syntax for function descriptions
+
+    @300[< Error Numbers       >]      Summary of error numbers
+
+    @400[< History             >]      New functionalities and version changes
+
+
+
+
+
+
+
+
+
+
+
+                                                                        @001[Overview]
+.201
+    Modem Library : General Information
+
+    The modem library contains functions for communication with other devices
+    via a modem.
+
+    Notes:
+    - Before you can use the functions in your project, you must import the
+      modem library into the appropriate project data bank.
+
+    - As the modem library only contains local function blocks, (no AVT 
+      function blocks!), no library runtime module needs to be transferred to
+      the controller.
+
+    - At the moment, the number of functions in the modem library is limited
+      to the parameter setting for serial interfaces.
+      Before the parameters can be set, the serial interfaces must be 
+      configured and therefore initialized in a network configuration module.
+
+    - All functions of the modem library return an @300[Error Number] if an error
+      occurs.
+
+                                       @200[APPENDIX]                         @001[Overview]
+.250
+    Modem Library : Syntax Description
+
+    Data Types:
+    Certain groups of data types are allowed for many functions. So that
+    not all the allowed data types have to be stated in the function
+    description, the following group names will be used:
+    ษออออออออหอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออป
+    บGroup   บ  BIT  ณ INT8  ณ BYTE  ณ INT16 ณ WORD  ณ INT32 ณ LONG  ณ FLOAT บ
+    ฬออออออออฮอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออน
+    บINTEGRALบ       ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บNOT     บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    บFLOAT   บ       ณ       ณ       ณ       ณ       ณ       ณ       ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บALL     บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บARRAY   บ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  บ
+    ศออออออออสอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออผ
+      x  Data type is allowed
+     [x] Data type is allowed as an array variable or character string
+
+                                       @251[Continue]                         @001[Overview]
+.251
+    Modem Library :  Syntax Description (continue)
+
+    Arrows:
+    Arrows are used to display input and output parameters. The following
+    arrangement is used for this purpose:
+    ษอออออออออหออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ  Arrow  บ  Description                                                 บ
+    ฬอออออออออฮออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ   ->    บ  Input parameter                                             บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <->   บ  Input/output parameter. It is functionally an output        บ
+    บ         บ  parameter. However, it normally carries certain information บ
+    บ         บ  before the function is called (e.g. address). The address   บ
+    บ         บ  of a variable is normally terminated with adr() [PL2000]    บ
+    บ         บ  or an address contsct (LAD).                                บ 
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <-    บ  Output parameter                                            บ
+    ศอออออออออสออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                       @252[Continue]                         @001[Overview]
+.252
+    Modem Library :  Syntax Description (continue)
+
+    Function blocks:
+    Function blocks are not graphically represented in this Online Help.
+    However, you can find all relevant information about function blocks 
+    (i.e. input parameters (->), input/output parameters (<->) and output
+    parameters (<-)) in the Online Help.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[APPENDIX]                         @001[Overview]
+.300
+    Modem Library : Error Numbers
+
+    The following list is a summary of all possible modem library error
+    messages:
+
+    4200    Invalid interface given
+    4201    Invalid value for parity
+    4202    Invalid value for baud rate
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[APPENDIX]                         @001[Overview]
+.400
+    Modem Library : History - Version Changes
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.00 -> V1.40  ณ CURRENT VERSION: NEW FUNCTIONALITIES                    บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - The baudrate() function now also supports the RS232 interface of the    บ
+  บ   XP152                                                                   บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V1.00 -> V1.01  ณ OLDER VERSION: VERSION CHANGES                          บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - This change only concerns the new Online Help.                          บ
+  บ - The number of functions of the modem library remains unchanged.         บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+                                       @200[APPENDIX]                         @001[Overview]
+
+.End
+

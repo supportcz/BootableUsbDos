@@ -1,0 +1,18 @@
+; ****************************************************************
+; *  Textfile zur Einteilung der RPS-Fehlermeldungen in Kapitel  *
+; *  und Paragraphen. (FÅr Helpfile plc_err.txt)                 *
+; ****************************************************************
+;FehlerNr. ,Kap:Par
+;von - bis
+
+1000 - 1999 , 2:1  ; Allgemeine Fehler
+2000 - 2999 , 3:1  ; Fehler der HW-Trap Library
+3000 - 3999 , 4:1  ; Fehler der SW-SysTrap Library
+4000 - 4999 , 5:1  ; Fehler der ALI-Trap Library
+5000 - 5999 , 6:1  ; Fehler der Taskklassen
+6000 - 6999 , 7:1  ; Systemfehler
+7000 - 7499 , 8:1  ; Bootfehler
+7500 - 7999 , 9:1  ; Fehler der Bedientableau-Trap Library
+8000 - 8999 , 10:1 ; Installationsfehler
+9000 - 9999 , 11:1 ; Diverses
+10500-10999 , 12:1 ; NC Fehler

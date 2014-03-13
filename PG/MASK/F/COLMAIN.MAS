@@ -1,0 +1,39 @@
+#VAR 00 00 25 01 78 00 35 N N J N N 00 00 02 
+#TXT 00 00 25 78  _Background-General______
+#VAR 01 00 25 01 78 00 35 N N J N N 01 00 00 
+#TXT 01 00 25 78  _Active_Editing_Line_____
+#VAR 02 00 25 01 78 00 35 N N J N N 02 00 11 
+#TXT 02 00 25 78  _Inactive_Editing_Line___
+#VAR 03 00 25 01 78 00 35 N N J N N 03 00 06 
+#TXT 03 00 25 78  _Tabulator_Line__________
+#VAR 04 00 25 01 78 00 35 N N J N N 04 00 09 
+#TXT 04 00 25 78  _Warnings________________
+#VAR 05 00 25 01 78 00 35 N N J N N 05 00 10 
+#TXT 05 00 25 78  _Error_Messages__________
+#VAR 06 00 25 01 78 00 35 N N J N N 06 00 01 
+#TXT 06 00 25 78  _FIND/CHAN-Input_Fields__
+#VAR 07 00 25 01 78 00 35 N N J N N 07 00 08 
+#TXT 07 00 25 78  _Status_Lines____________
+#VAR 08 00 25 01 78 00 35 N N J N N 08 00 03 
+#TXT 08 00 25 78  _Help_Lines-General______
+#VAR 09 00 25 01 78 00 35 N N J N N 09 00 04 
+#TXT 09 00 25 78  _Help_Lines-Specific_____
+#VAR 10 00 25 01 78 00 35 N N J N N 10 00 05 
+#TXT 10 00 25 78  _Help_Line-Cursor________
+#VAR 11 00 25 01 78 00 35 N N J N N 11 00 12 
+#TXT 11 00 25 78  _LAD-Invers______________
+#VAR 12 00 25 01 78 00 35 N N J N N 12 00 13 
+#TXT 12 00 25 78  _LAD-Input_Fields________
+#VAR 13 00 25 01 78 00 35 N N J N N 13 00 16 
+#TXT 13 00 25 78  _Marked__________________
+#VAR 14 00 25 01 78 00 35 N N J N N 14 00 17 
+#TXT 14 00 25 78  _F-Keys-Basic_Colors_____
+#VAR 15 00 25 01 78 00 35 N N J N N 15 00 18 
+#TXT 15 00 25 78  _F-Keys-Inverse__________
+#VAR 16 00 25 01 78 00 35 N N J N N 16 00 19 
+#TXT 16 00 25 78  _F-Keys-Number___________
+#VAR 17 00 25 01 78 00 35 N N J N N 17 00 20 
+#TXT 17 00 25 78  _F-Keys-Spaces___________
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`

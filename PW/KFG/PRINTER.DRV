@@ -1,0 +1,6 @@
+;
+;    "Treiberbeschreibungsfile" fuer Printertask
+;
+; Filename      Modulname               
+btframe        ff.btframe
+PRINTER        ff.$printer

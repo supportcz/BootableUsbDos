@@ -1,0 +1,39 @@
+
+    *******************************************************************
+    B&R Libraries V1.10 for the C-Toolbox                   5. May 1994
+    *******************************************************************
+
+    In the CBX directory, you will find the header files for the libraries
+    (Prototyping, Defines, ...) as well as the Microtec-Libraries. These
+    libraries can also be used with the C-Toolbox (FBKs or idle time tasks).
+
+    BURTRAP : Functions of the module "burtrap.br"
+
+        For the C-Toolbox, 2 MCC libraries includig their respective header
+        file burtrap.h are supplied. One library for the PLCSW V1.05 and one
+        for the PLCSW V1.10. On the extent of the function has changed. It
+        was constructed for V1.10 and also a few functions were removed in
+        the meantime due to replacement functions (PIO_*, TI_*).
+        The interface to the functions available in V1.05 has not changed, so
+
+        Note: When calling the function ERR_warning(), the interface has not
+              changed, but the function behind it has be extended. In V1.10,
+              the label USER-WARNING will also be added into the error log
+              book.
+              If the function in the MCC library version V1.05 of BURTRAP.LIB
+              is called in PLCSW V1.10 (BURTRAP.BR), this information is
+              missing or it is accedentally entered in the log book, because
+              it is not defined. This is indicated only with the display in
+              PG2000 (wrong error type)
+
+        For this, the files for V1.10 are in the CBX directory (burtrap.lib,
+        burtrap.h). The files for V1.05 are also included in the subdirectory
+        LIBRARY.105\CBX.
+
+    MATHTRAP : Functions of the module "mathtrap.br"
+
+        This library was constructed for V1.10 and is now avaulabel in the
+        C-Toolbox. This is why there is only one version of the MCC library
+        and header file.
+        The library can alos be used with the PLC SW V1.05 since there are no
+        version dependent parts.

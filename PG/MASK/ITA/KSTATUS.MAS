@@ -1,0 +1,15 @@
+#TXT 00 00 01 78  _
+#TXT 00 02 28 78  _S-EEPROM_Defective_________
+#TXT 01 02 28 78  _Alarm_Active_______________
+#TXT 02 02 28 78  _Safety_Callback____________
+#TXT 03 02 28 78  _Callback___________________
+#TXT 04 02 28 78  _Password_Protection_Active_
+#TXT 05 02 28 78  _S-EEPROM_Programming_Error_
+#TXT 06 02 28 78  _Programming_S-EEPROM_______
+#TXT 07 02 28 78  _Callback_Protection_Active_
+#TXT 09 02 15 78  PROM-Version_:_
+#VAR 09 18 11 01 78 00 42 N N J N N 00 00 00 
+#TXT 09 31 01 78  _
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~

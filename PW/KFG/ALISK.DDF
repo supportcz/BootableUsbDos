@@ -1,0 +1,32 @@
+*               
+*       Datatype Description File for B&R2000 - Systems
+*
+12,                             * Anzahl der Variablentypen in der SPS
+BIT,1,1,1,                      * Klartextname, dattyps_sps, pvlen, swap
+INT8,2,1,1,
+INT16,3,2,1,
+INT32,4,4,1,
+BYTE,5,1,1,
+WORD,6,2,1,
+LONG,7,4,1,
+FLOAT,8,4,1,
+STRING,9,1,1,
+BCD2,14,2,1,
+BCD4,15,4,1,
+BCD8,16,8,1,
+11,                              * Anzahl der Feldparametertypen
+* 		dattyp_bti, Anz- und Liste der zul. Variablentypen
+4,7,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,
+5,7,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,
+1,7,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,
+6,7,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,
+3,7,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,
+7,7,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,
+8,1,FLOAT,
+9,1,STRING,
+14,6,INT8,INT16,INT32,BYTE,WORD,LONG,
+15,6,INT8,INT16,INT32,BYTE,WORD,LONG,
+16,6,INT8,INT16,INT32,BYTE,WORD,LONG,
+1,                              * Anzahl der ABG-Eintr„ge
+X,0,1,999,9,BIT,INT8,INT16,INT32,BYTE,WORD,LONG,FLOAT,STRING,0,0,   * 999 -> keine Pruefung
+

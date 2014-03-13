@@ -1,0 +1,3159 @@
+%%
+1,0:1
+%%
+.1
+    I/O Library Functions
+
+  ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ ATTENTION: Since the I/O library contains AVT functions, the library      บ
+  บ            functions can only be used if the library runtime module       บ
+  บ            (B&R module IO_LIB.BR) has been burnt to the application       บ
+  บ            ROM on the CPU.                                                บ
+  บ            Once the library runtime module has been downloaded to the     บ
+  บ            non-volatile memory, a cold restart (previously known as       บ
+  บ            "TOTALINIT") must be carried out.                              บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+
+
+                                      @002[ CONTINUE ]                      @999[ End HELP ]
+.2
+    I/O Library Functions
+
+    @010[IO_physdef] Defines physical data-transfer instructions
+    @030[IO_mphydef] Defines multiple physical data-transfer instructions
+    @040[IO_ptest  ] Tests a physical data-transfer instruction definition
+    @050[IO_define ] Defines a logical data-transfer instruction definition
+    @060[IO_data   ] Carries out an I/O data-transfer instruction
+    @070[IO_combine] Combines I/O data-transfer instructions
+    @080[IO_info   ] Identifies defective I/O modules 
+    @090[IX_info   ] Identifies defective screw-in modules (2003)
+    @100[IO_disable] Deactivates an I/O module
+    @110[IX_disable] Deactivates an I/O module with subslots for screw-in modules
+    @120[IO_enable ] Activates an I/O module
+    @130[IX_enable ] Activates an I/O module with subslots for screw-in modules
+    @140[IO_check  ] Checks availability of I/O modules
+    @150[IX_check  ] Checks availability of subslots on I/O modules (2003)
+    @160[IO_alloc  ] Allocates an I/O data memory area
+    
+    
+
+
+                                      @003[ CONTINUE ]                      @999[ End HELP ]
+.3
+    I/O Library Functions (continued)
+
+    @170[IO_free   ] Frees up (clears) an I/O data memory area
+    @180[IO_list   ] Creates a list of all installed I/O modules
+    @190[IO_slist  ] Creates a list of all installed sub-modules (screw-in modules)
+    @200[SYS_list  ] Creates a list of all installed system modules
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @500[ APPENDIX ]                      @001[ OVERVIEW ]
+.10
+    IO_physdef - Physical Data-transfer Instruction Definition
+
+    @011[IO_physdef] (enable,io_bus,module_adr,mode,offset,byte_len,data_adr,
+                status,ioident)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if
+                                  enable = 1
+    ->  @015[io_bus    ]: WORD          Bus number (High Byte) and rack number
+                                  (Low Byte)
+    ->  module_adr: WORD          I/O module address (decimal entry)
+    ->  @016[mode      ]: BYTE          Access mode:
+                                  Bit 5 = 0   WRITE the output image
+                                  Bit 5 = 1   READ the output image
+                                  Bit 6 = 0   Access the standard I/O area
+                                  Bit 6 = 1   Access the status area of the I/O
+                                              module
+                                  All other bits (bit 0 - 4 and bit 7)
+                                  must always be 0!
+
+
+                                      @011[ Continue ]                      @001[ Overview ]
+.11
+    IO_physdef - Physical Data-transfer Instruction Definition (continued)
+
+    Parameter Data Types (continued) :
+                                  
+    ->  @017[offset    ]: BYTE         Internal offset on the module (corresponds
+                                 to the channel number for the module types,
+                                 "Transp. In" or "Transp. Out")
+    ->  @018[byte_len  ]: BYTE         Length of the data to be transferred in bytes.
+    ->  @019[data_adr  ]: LONG         Address of an analog internal memory area 
+                                 (local, tc_global or PCC_global), of length 
+                                 given by byte_len.
+                                 Only analog internal variables can be
+                                 transferred. Individual digital bit values
+                                 cannot be transferred. Digital data can only
+                                 be transferred by packing the data in groups
+                                 of 8 bits.
+    <-  @020[status    ]: WORD         Error number (0 = no error)
+    <-  @021[ioident   ]: LONG         Identifier for I/O data-transfer instruction
+                                 (needed for the IO_data() function)
+
+
+                                      @012[ Continue ]                      @001[ Overview ]
+.12
+    IO_physdef - Physical Data-transfer Instruction Definition (continued)
+
+    The IO_physdef() function builds a data-transfer instruction for the I/O
+    processor or I/O emulation (system B&R 2005), using the I/O parameters
+    entered. This data-transfer instruction is placed in the static FBK area
+    and therefore the function can only be called on the CPU and not on the
+    multiprocessor.
+
+    Note!
+    - The IO_physdef() function should only be used in the initialization
+      sub-program (INIT SPs) of cyclic tasks, so that system performance
+      does not become impaired.
+    - Only the last definition is valid if the IO_physdef() function is called
+      in a "loop". All previous definitions will be lost!
+    - The IO_physdef() function cannot be used to define data-transfer
+      instructions on a remote I/O bus.
+    - The IO_physdef() function cannot be used on a multiprocessor!
+
+
+
+
+                                      @010[ IO_physdef ]                    @001[ Overview ]
+.15
+    IO_physdef - Physical Data-transfer Instruction Definition (continued)
+
+    -> Parameter <io_bus     >: WORD
+
+    The value for the parameter "io_bus" (bus number and rack number)
+    is determined as follows:
+
+    B&R 2005 Rack:                           "io_bus" = $0001
+    B&R 2005 Expansion Rack n:               "io_bus" = $0001 + n
+    B&R 2005 with 2010 Bus Expansion:              "io_bus" = $0000
+    B&R 2010 (with or without 2010 bus expansion): "io_bus" = $0000
+    B&R 2010 with 2005 Expansion Rack n:     "io_bus" = $0001 + n
+
+
+
+
+
+
+
+
+
+                                      @010[ IO_physdef ]                    @001[ Overview ]
+.16
+    IO_physdef - Physical Data-transfer Instruction Definition (continued)
+
+    -> Parameter <mode       >: BYTE
+
+    The "mode" parameter defines the type of access:
+    ฺฤฤฤยฤฤฤยฤฤฤยฤฤฤยฤฤฤยฤฤฤยฤฤฤยฤฤฤฟ
+    ณ 7 ณ 6 ณ 5 ณ 4 ณ 3 ณ 2 ณ 1 ณ 0 ณ
+    ภฤฤฤมฤฤฤมฤฤฤมฤฤฤมฤฤฤมฤฤฤมฤฤฤมฤฤฤู
+         ฤยฤ ฤยฤ
+          ณ   ภฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤ Bit 5 = 0 ... WRITE the output image
+          ณ                              Bit 5 = 1 ... READ the output image
+          ภฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤ Bit 6 = 0 ... Access the standard I/O
+                                                       area
+                                         Bit 6 = 1 ... Access the status area
+                                                       of the I/O module
+
+    This means that either data can be read/written, or the status can be
+    read/written using a data-transfer instruction defined with the
+    IO_physdef() function.
+
+
+                                      @010[ IO_physdef ]                    @001[ Overview ]
+.17
+    IO_physdef - Physical Data-transfer Instruction Definition (continued)
+
+    -> Parameter <offset     >: BYTE
+
+    The value for the internal offset ("offset" parameter) corresponds to the
+    channel number for the module types "Transp. In" and "Transp. Out" in the 
+    PG2000 programming system variable declaration.
+    Digital I/O data is always transferred in groups of 8 bits. The first group
+    (channels 1 to 8) begins at offset $00, the second group (channels 9 to 16)
+    at offset $01, and the third group (channels 17 to 24) at offset $02 etc. 
+    Single bits (including flags) cannot be transferred with the IO_physdef()
+    function.
+    On analog cards, each channel requires 2 bytes (offset for channel 1 = $00).
+    This means that the offset for channel k is calculated as follows:
+
+    Offset channel k = (k - 1) * $02        (for k = 1 to n)
+
+    Intelligent I/O processors and other special modules (counter modules etc.)
+    are also addressed using direct offsets via PG2000 (see also "B&R System
+    2000 Advanced Programming Manual").
+
+                                      @010[ IO_physdef ]                    @001[ Overview ]
+.18
+    IO_physdef - Physical Data-transfer Instruction Definition (continued)
+
+    -> Parameter <byte_len   >: BYTE
+
+    The length entry "byte_len" enables consecutive I/O data from an I/O module
+    to be read or written. This means that all channels of a 16 channel analog
+    card can be read simultaneously by entering the values "offset" = $00
+    and "byte_len" = 32.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @010[ IO_physdef ]                    @001[ Overview ]
+.19
+    IO_physdef - Physical Data-transfer Instruction Definition (continued)
+
+    -> Parameter <data_adr   >: LONG
+
+    The address of an analog internal variable or array (depending on the length
+    of the data to be transferred) must be entered for the parameter "data_adr". 
+    Using digital flags or allocated memory (see MEM_alloc() function or
+    TMP_alloc() in the B&R TRAP library) for storing I/O data is not allowed
+    (a value other than 0 is given on the "status" output in this case)!
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @010[ IO_physdef ]                    @001[ Overview ]
+.20
+    IO_physdef - Physical Data-transfer Instruction Definition (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error Numbers:
+    5558     IO_physdef() cannot be called on a multiprocessor.
+    11700    "io_bus" does not exist or is invalid.
+    11701    Parameter "byte_len" is incorrect.
+    11702    "data_adr" can only be the address of an analog internal variable.
+    11703    Incorrect "mode".
+    11704    Internal error.
+    11705    Parameter "io_bus" is incorrect.
+    11706    Not supported by this hardware.
+
+    All other error numbers are described in the appendix @600[Error Messages].
+
+
+
+
+
+
+                                      @010[ IO_physdef ]                    @001[ Overview ]
+.21
+    IO_physdef - Physical Data-transfer Instruction Definition (continued)
+
+    <- Parameter <ioident    >: LONG
+
+    The IO_physdef() function returns an identifier for the data-transfer
+    instruction (output parameter "ioident"). This identifier is necessary
+    for carrying out the defined I/O data-transfer instruction with the
+    IO_data() function. However, the identifier is only valid if the
+    "status" output is 0.
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @010[ IO_physdef ]                    @001[ Overview ]
+.30
+    IO_mphydef - Multiple Physical Data-transfer Instruction Definition
+
+    @031[IO_mphydef] (enable,adr(iop_adr),adr(sc_adr),io_index,status,ioident)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only carried out if
+                                  "enable" = 1.
+    ->  @035[iop_adr   ]: iop Structure Structure into which the I/O parameters are
+                                  entered.
+    ->  sc_adr    : BYTE (ARRAY)  Data area for data-transfer information.
+                                  The length of this BYTE array is calculated
+                                  as follows:
+                                  Length = (number of entries) * 6 + 3
+    ->  io_index  : WORD          Index of the data-transfer instruction to be
+                                  defined.
+    <-  @037[status    ]: WORD          Error number (0 = no error).
+    <-  @038[ioident   ]: LONG          Identifier for I/O data-transfer instruction
+                                  (needed for the IO_data() function).
+
+
+
+                                      @031[ Continue ]                      @001[ Overview ]
+.31
+    IO_mphydef - Multiple Physical Data-transfer Instruction Definition (cont.)
+
+    The IO_mphydef() function builds a data-transfer instruction for the I/O
+    processor or I/O emulation (System B&R 2005) using the I/O parameter
+    entered (see structure iop). The instruction is placed in the assigned
+    memory area "sc_adr", and must be defined as an internal variable (local,
+    tc_global or pcc_global). The area cannot be reserved using the MEM_alloc()
+    function or TMP_alloc().
+
+    Explicit manipulation in the application is not allowed either.
+    From version 2.00 of the I/O library, the I/O data area required can be
+    allocated using the IO_alloc() function.    
+
+    More than one data-transfer instruction can be placed in the data area
+    "sc_adr". The parameter "io_index" represents the index number for an
+    instruction contained in the data-transfer information area "sc_adr". The
+    "sc_adr" area is the "memory" for I/O handling, which is used when calling
+    IO_data(). The IO_mphydef() function can therefore be called in a "loop",
+    whereby the I/O parameters for the entry "io_index" are transferred using
+    the structure iop. Index 0 represents the first entry.
+
+                                      @032[ Continue ]                      @001[ Overview ]
+.32
+    IO_mphydef - Multiple Physical Data-transfer Instruction Definition (cont.)
+
+    If the array "sc_adr" is defined as a PCC global internal variable, and the
+    address of a PCC global internal is entered for "data_adr" in the iop
+    structure, the IO_mphydef() function may also be called on a multiprocessor
+    (MP). The IO_data() function must then be called cyclically in order to
+    transfer data. PCC I/Os can therefore also be accessed on a multiprocessor,
+    however, the load on the system bus will naturally be increased if this is
+    done.
+
+    Note!
+    - The IO_mphydef() function should only be used in INIT SPs of cyclic tasks,
+      or in task classes with appropriately large cycle times, so that
+      impairment of system performance can be avoided.
+    - Defining of data-transfer instructions on a remote I/O bus is not
+      supported by the IO_mphydef() function.
+    - Only PCC global internal variables can be used on an MP!
+    - The run time for the IO_mphydef() function also depends on whether
+      instructions which are not being used need to be initialized before the
+      current instruction defined(see also @650[execution times]).
+
+                                      @030[ IO_mphydef ]                    @001[ Overview ]
+.35
+    IO_mphydef - Multiple Physical Data-transfer Instruction Definition (cont.)
+
+    -> Parameter <iop_adr    >: iop Structure
+
+    All parameters for defining an instruction are given in the structure iop.
+    If the value 0 is entered for adr(iop_adr), the instruction with the index
+    "io_index" will be deactivated again and consequently will not be carried
+    out the next time IO_data() is called. Elements of the structure iop:
+
+    io_type    : BYTE    I/O type:
+                         0 ... 2010 I/O
+                         1 ... 2005 I/O
+                         5 ... 2003 I/O
+    master_no  : BYTE    Logical number of the I/O master (always 1)
+    slave_no   : BYTE    B&R 2010: Always 0
+                         B&R 2005: Rack number
+                         0 ... Main rack 
+                         1 ... Expansion rack 1
+                         etc.
+                         B&R 2003: Always 0
+
+                                      @036[ Continue ]                      @001[ Overview ]
+.36
+    IO_mphydef - Multiple Physical Data-transfer Instruction Definition (cont.)
+
+    module_adr : BYTE    Module address of the I/O module (in decimal form)
+    intern_off : BYTE    Internal offset on the module (corresponds to the
+                         channel number for the module types, "Transp. In"
+                         or "Transp. Out")
+    mode       : BYTE    Access mode:
+                         Bit 5 = 0 ... Write the output image
+                         Bit 5 = 1 ... Read the input image
+                         Bit 6 = 0 ... Access the standard I/O area
+                         Bit 6 = 1 ... Access the status area of the I/O module
+    data_len   : BYTE    Length of the data area to be transferred in bytes
+                         (for BIT: number of 8 bit groups)
+    reserve    : BYTE    Reserved (for WORD alignment)
+    data_adr   : LONG    Address of an analog internal area (local, tc_global  
+                         or pcc_global) of length given by data_len. 
+                         Only analog internal variables can be transferred.
+                         Individual digital flags cannot be transferred since
+                         data packets must be made up from groups of 8 bits.
+
+
+                                      @030[ IO_mphydef ]                    @001[ Overview ]
+.37
+    IO_mphydef - Multiple Physical Data-transfer Instruction Definition (cont.)
+
+    <- Parameter <status    >: WORD
+
+    Error Numbers:
+    5501     Incorrect parameter
+    5556     Incorrect address "data_adr" given
+    5557     Incorrect offset "intern_off" or incorrect length "data_len"
+    5564     No access to 2010 I/Os or 2005 expansion modules
+    5565     No 2005 based I/Os available
+    5576     Error for 2003 direct I/O
+    5578     2003: Direct I/O overflow
+    9136     I/O error 2003
+
+    All other error numbers are described in the appendix @600[Error Numbers].
+
+
+
+
+
+
+                                      @030[ IO_mphydef ]                    @001[ Overview ]
+.38
+    IO_mphydef - Multiple Physical Data-transfer Instruction Definition (cont.)
+
+    <- Parameter <ioident    >: LONG
+
+    The IO_mphydef() function returns an identifier for the I/O data-transfer
+    instruction (output parameter "ioident"). This identifier is needed for
+    carrying out the defined I/O data-transfer instruction with the IO_data()
+    function. However, the identifier is only valid if the "status" output
+    is 0.
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @030[ IO_mphydef ]                    @001[ Overview ]
+.40
+    IO_ptest - Test Physical Data-transfer Instruction Definition 
+
+    @041[IO_ptest] (enable,adr(iop_adr),status,ok)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if
+                                  "enable" = 1
+    ->  @045[iop_adr   ]: iop Structure Structure in which the I/O parameters are
+                                  entered
+    <-  @047[status    ]: WORD          Error number (0 = no error)
+    <-  ok        : BIT           Flag which shows if the data-transfer 
+                                  instruction can be carried out correctly:
+                                  1 ... Data-transfer instruction o.k.
+                                  0 ... Data-transfer instruction not o.k.
+
+    The IO_ptest() function builds a data-transfer instruction for the I/O
+    processor or I/O emulation (System B&R 2005) using the given I/O parameters
+    (see structure iop). The data-transfer instruction is placed in the static
+    FBK area. The function can only be called on the CPU and not on
+    multiprocessors.
+
+                                      @041[ Continue ]                      @001[ Overview ]
+.41
+    IO_ptest - Test Physical Data-transfer Instruction Definition (continued)
+
+    The data-transfer instruction is executed once to determine whether the
+    instruction can be carried out correctly, or if an I/O error will occur (I/O
+    module not inserted, or incorrect I/O module type inserted).
+    If an error occurs, the "status" output will be set to the corresponding
+    error number, and the "ok" output to 0.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @042[ Continue ]                      @001[ Overview ]
+.42
+    IO_ptest - Test Physical Data-transfer Instruction Definition (continued)
+
+    Note!
+    - The IO_ptest() function should only be used in the INIT SPs of cyclic
+      tasks, or in task classes with appropriately large cycle times, so that
+      impairment to system performance can be avoided.
+    - Calling the IO_ptest() function in high-speed task classes is not allowed
+      (exception: initialization sub-programs for high-speed task classes).
+    - Do not use the IO_ptest() function on a multiprocessor!
+    - The IO_ptest() function can only be used on the main rack in a B&R 2005
+      system. It cannot be used with modules on an expansion backplane since
+      all of them would have to be reset if an error occurred (e.g. I/O module
+      does not exist). However, from version V1.60 onwards of the I/O library,
+      the I/O configuration of the 2005 expansion racks can be established
+      during booting using the IO_list() function.
+
+
+
+
+
+
+                                      @040[ IO_ptest ]                      @001[ Overview ]
+.45
+    IO_ptest - Test Physical Data-transfer Instruction Definition (continued)
+
+    -> Parameter <iop_adr    >: iop Structure
+
+    Elements of the Structure iop:
+    io_type    : BYTE    I/O type:
+                         0 ... 2010 I/O
+                         1 ... 2005 I/O
+                         5 ... 2003 I/O
+    master_no  : BYTE    Logical number of the I/O master (always 1)
+    slave_no   : BYTE    B&R 2010: Always 0
+                         B&R 2005: rack number
+                         0 ... Main rack
+                         1 ... Expansion rack 1
+                         etc.
+                         B&R 2003: Always 0
+    module_adr : BYTE    I/O module address (in decimal form)
+    intern_off : BYTE    Internal offset on the module (corresponds to the
+                         channel no. for the module types, "Transp. In" or
+                         "Transp. Out").
+
+                                      @046[ Continue ]                      @001[ Overview ]
+.46
+    IO_ptest - Test Physical Data-transfer Instruction Definition (continued)
+
+    mode       : BYTE    Access Mode:
+                         Bit 5 = 0 ... Write output image
+                         Bit 5 = 1 ... Read input image
+                         Bit 6 = 0 ... Access standard I/O area
+                         Bit 6 = 1 ... Access status area of the I/O module
+    data_len   : BYTE    Length of the data area to be transferred in bytes
+                         (for BIT: number of 8 bit groups)
+    reserve    : BYTE    Reserved (for WORD alignment)
+    data_adr   : LONG    Address of an analog internal area (local, tc_global  
+                         or pcc_global) of length given by data_len. Only
+                         analog internal variables can be transferred.
+                         Individual digital flags cannot be transferred since
+                         data packets must be made up from groups of 8 bits.
+
+
+
+
+
+
+                                      @040[ IO_ptest ]                      @001[ Overview ]
+.47
+    IO_ptest - Test Physical Data-transfer Instruction Definition (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error Numbers:
+    5501     Incorrect parameter.
+    5551     IO_ptest() called simultaneously in more than one task class.
+    5553     IO_ptest() is not allowed to be called in HS task classes.
+    5555     I/O module not inserted or incorrect.
+    5556     Incorrect address "data_adr" given.
+    5557     Incorrect offset "intern_off" or incorrect length "data_len"
+    5558     Calling IO_ptest() on a multiprocessor is not allowed.
+    5563     IO_ptest() is currently not possible on systems with an EX350.
+    5576     Error for 2003 direct I/O.
+    9136     I/O error 2003.
+
+    All other error numbers are described in the appendix @600[Error Messages].
+
+
+
+
+                                      @040[ IO_ptest ]                      @001[ Overview ]
+.50
+    IO_define - Logical Data-transfer Instruction Definition
+
+    @051[IO_define] (enable,adr(pvname),data_adr,status,ioident,byte_len)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if
+                                  "enable" = 1
+    ->  @055[pvname    ]: BYTE (ARRAY)  Name of the process variable (PV name)
+                                  as string.
+                                  The string can be entered in two 
+                                  different ways:
+                                  adr(pvname)  Address of BYTE array variable
+                                               which contains the string 
+                                  "pvname"     Constant string (must be entered
+                                               in quotation marks!)
+    ->  @056[data_adr  ]: LONG          Address of the analog internal area to which
+                                  data should be transferred. If the I/O data
+                                  is to be sent to the original process
+                                  variable, the value 0 must be entered for
+                                  data_adr!
+
+                                      @051[ Continue ]                      @001[ Overview ]
+.51
+    IO_define - Logical Data-transfer Instruction Definition (continued)
+
+    Parameter Data Types (continue) :
+    <-  @057[status    ]: WORD          Error number (0 = no error)    
+    <-  @058[ioident   ]: LONG          Identifier for I/O data-transfer instruction
+                                  (needed for the IO_data() function)    
+    <-  @059[byte_len  ]: BYTE          Length of the data area to be transferred
+                                  in bytes (note: 8 bit digital = 1 byte)
+
+    The IO_define() function looks for the specified process variable in all 
+    tasks of all task classes. A new data-transfer instruction is created using
+    the information about the physical assignment of the process variable
+    obtained by calling this function. This new instruction is placed in the
+    static FBK area. i.e. the IO_define() function builds a new parallel data
+    transfer instruction from an existing cyclic data-transfer instruction.
+    In contrast to the original instruction, which is executed by the operating
+    system in a task class cycle, the new data-transfer instruction will only
+    be executed when the IO_data() function is called.
+
+
+
+                                      @052[ Continue ]                      @001[ Overview ]
+.52
+    IO_define - Logical Data-transfer Instruction Definition (continued)
+
+    Note!
+    - The IO_define() function should only be used during INIT SPs of cyclic
+      tasks in order to prevent a reduction in system performance.
+    - Only the last definition is valid if the IO_define() function is called
+      in a "loop". All previous definitions will be lost!
+    - Defining data-transfer instructions for a remote I/O bus is not possible
+      using the IO_define() function.
+    - Do not use the IO_define() function on a multiprocessor!
+
+
+
+
+
+
+
+
+
+
+
+                                      @050[ IO_define ]                     @001[ Overview ]
+.55
+    IO_define - Logical Data-transfer Instruction Definition (continued)
+
+    -> Parameter <pvname     >: BYTE (ARRAY)
+
+    If the process variable is used in more than one task class, the 
+    number of the task class and the group number (intended for future use)
+    must be entered together with the PV name for the parameter "pvname".
+    Example: "200.sol_on"
+
+    2 ............ Task class number:
+                   1 ... TC#1, HS#1, HS#2, HS#3, HS#4 (as all HS task classes
+                         use the same data area as TC#1)
+                   2 ... TC#2
+                   3 ... TC#3
+                   4 ... TC#4
+    00 ........... Group number (currently always 00)
+    sol_on ....... Process variable name (PV name)
+
+    This additional information need only be entered if the PV name is not
+    unique in the entire system.
+
+                                      @050[ IO_define ]                     @001[ Overview ]
+.56
+    IO_define - Logical Data-transfer Instruction Definition (continued)
+
+    -> Parameter <data_adr   >: LONG
+
+    When the IO_data() function is called, the I/O data is transferred to the
+    original process variable ("data_adr" = 0) or some other specified data
+    memory area ("data_adr" = address of an analog internal memory area)
+    according to the "data_adr" parameter entry.
+    Explicit data-transfer destinations must be analog internal variables or
+    bit arrays, and not individual digital flags. Digital bit data must be sent
+    packed in groups of 8 bits, whereby unused bits are masked out
+    (i.e. set to 0).
+
+
+
+
+
+
+
+
+
+                                      @050[ IO_define ]                     @001[ Overview ]
+.57
+    IO_define - Logical Data-transfer Instruction Definition (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error Numbers:
+    5558     Calling IO_define() on a multiprocessor is not allowed. 
+    11704    Internal error.
+    11710    "pvname" not found.
+    11711    Internal error.
+    11712    This PV cannot be transferred.
+    11713    No associated data-transfer instruction found.
+    11714    Only analog PVs are valid for explicit address entries.
+    11715    PV name of length zero entered.
+
+    All other error numbers are described in the appendix @600[Error Messages].
+
+
+
+
+
+
+                                      @050[ IO_define ]                     @001[ Overview ]
+.58
+    IO_define - Logical Data-transfer Instruction Definition (continued)
+
+    <- Parameter <ioident    >: LONG
+
+    The IO_define() function returns an identifier for the I/O data-transfer
+    instruction (output parameter "ioident"). This identifier is needed in
+    order to execute the defined I/O data-transfer instruction with the
+    IO_data() function. However, the identifier is only valid if the "status"
+    output is 0.
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @050[ IO_define ]                     @001[ Overview ]
+.59
+    IO_define - Logical Data-transfer Instruction Definition (continued)
+
+    <- Parameter <byte_len   >: BYTE
+
+    The current length of the data-transferred is given by "byte_len". This
+    value is returned in order to allow some control over the data memory
+    requirements.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @050[ IO_define ]                     @001[ Overview ]
+.60
+    IO_data - Execute I/O Data-transfer Instruction
+
+    @061[IO_data] (enable,ioident,status)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if
+                                  enable = 1
+    ->  ioident   : LONG          Identifier for I/O data-transfer instruction
+                                  from function IO_physdef(), IO_mphydef(),
+                                  IO_define() or IO_combine()
+    <-  @065[status    ]: WORD          Error number (0 = no error)
+
+    This function executes the data-transfer instruction defined with
+    IO_physdef(), IO_mphydef(), IO_define() or IO_combine(). The data
+    transferred becomes available once this function has been called.
+    Exception: If error 5559 is returned at the output "status", I/O access
+    was unable to take place, but the data-transfer instruction has nonetheless
+    been started. The function must therefore be called again in the next
+    cycles until "status" no longer equals 5559. Only then will the data be
+    available (2003 I/O).
+
+                                      @061[ Continue ]                      @001[ Overview ]
+.61
+    IO_data - Execute I/O Data-transfer Instruction (continued)
+
+    The data areas to be transferred are given in the data-transfer instruction
+    definition (physical or logical). These may be either explicitly defined
+    data areas (analog internal variables) or data areas assigned by PG2000
+    (implicit data areas, analog or digital).
+
+    If digital process variables are explicitly transferred, they may only be
+    sent in packed form to analog variables. For this reason all variables in
+    the same 8 bit group are updated when the IO_data() function is called.
+
+    Deinstalling of the tasks where the respective data-transfer instructions
+    are defined is not allowed, so long as the IO_data() function is still
+    using the identifier ("ioident"). If this situation occurs, the instruction
+    definitions will no longer be available!
+
+
+
+
+
+
+                                      @062[ Continue ]                      @001[ Overview ]
+.62
+    IO_data - Execute I/O Data-transfer Instruction (continued)
+
+    Note!
+    - An exception can be triggered if the incorrect identifier is passed for
+      the data-transfer definition (parameter "ioident"). If an error occurs in
+      the data-transfer instruction, the identifier entered for the instruction
+      (parameter "ioident") will be set to an invalid value instead!
+    - Explicit data transfer of digital output data to a specified data area,
+      always takes place using 8-bit groups. Inconsistancies in unused group
+      channels is therefore possible.
+      If a data area is not specified for IO_define(), no inconsistency
+      can occur on the output module, since the function will transfer data to
+      the original output image.
+    - If a non-existent I/O module is accessed, (e.g. cyclic access of an
+      I/O module which is not inserted), an I/O exception (exception no. 128)
+      will be triggered.
+    - Remote I/O data cannot be accessed with the IO_data() function!
+
+
+
+
+                                      @060[ IO_data ]                       @001[ Overview ]
+.65
+    IO_data - Execute I/O Data-transfer Instruction (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error Numbers:
+    5559     Function IO_data() not yet finished (must be called again in the
+             next cycle)
+    9136     2003 I/O error
+    11716    Timeout while executing data-transfer instruction (fatal error)
+    11717    Invalid I/O identifier
+
+    All other error numbers are described in the appendix @600[Error Messages].
+
+
+
+
+
+
+
+
+
+                                      @060[ IO_data ]                       @001[ Overview ]
+.70
+    IO_combine - Combine I/O Data-transfer Instruction
+
+    @071[IO_combine] (enable,ioident1,ioident2,status,ioident)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if
+                                  enable = 1
+    ->  ioident1  : LONG          Identifier for a data-transfer instruction
+    ->  ioident2  : LONG          Identifier for a data-transfer instruction
+    <-  @075[status    ]: WORD          Error number (0 = no error)
+    <-  ioident   : LONG          Identifier for the combined I/O data-transfer
+                                  instruction (required by the IO_data()
+                                  function)
+
+    The user can create a combined data-transfer instruction from two single
+    data-transfer instructions using the IO_combine() function. The single
+    data-transfer instructions do not lose their previous functionality, and
+    therefore can continue to be called individually in the IO_data() function.
+
+
+
+                                      @071[ Continue ]                      @001[ Overview ]
+.71
+    IO_combine - Combine I/O Data-transfer Instruction (continued)
+
+    Combining single data-transfer instructions amounts to creating a new
+    data-transfer instruction. The number of single data-transfer instructions
+    which can be combined with the IO_combine() function is limited to a
+    maximum of 8.
+    Combining single data-transfer instructions can reduce the amount of system
+    time and resources required for processing data-transfer instructions.
+
+    Note!
+    - The output parameter "ioident" cannot be the same as "ioident1"
+      or "ioident2"!
+    - In order to avoid a reduction in system performance, the IO_combine()
+      function should only be used in initialization sub-programs (INIT SPs)
+      of cyclic tasks.
+    - If the IO_combine() function is called in a "loop", only the last
+      combination called is valid. All previous combinations will be lost!
+    - Do not attempt to use the IO_combine() function on a multiprocessor!
+
+
+
+                                      @070[ IO_combine ]                    @001[ Overview ]
+.75
+    IO_combine - Combine I/O Data-transfer Instruction (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error Numbers:
+    5558     Calling IO_combine() on a multiprocessor (MP) is not allowed. 
+    11720    An identifier ("ioident1" or "ioident2") is invalid.
+    11721    Number of maximum single data-transfer instructions was exceeded.
+    11722    Internal error.
+
+    All other error numbers are described in the appendix @600[Error Messages].
+
+
+
+
+
+
+
+
+
+
+                                      @070[ IO_combine ]                    @001[ Overview ]
+.80
+    IO_info - Defective I/O Module Identification Error
+
+    @081[IO_info] (enable,status,io_type,master_no,slave_no,module_adr,
+             intern_off,mode)
+
+    Parameter Data types :
+    ->  enable    : BIT           The function block is only executed if
+                                  enable = 1
+    <-  @085[status    ]: WORD          Error number (0 = no error)
+    <-  io_type   : BYTE          I/O type: 0 ... 2010 I/O
+                                            1 ... 2005 I/O
+                                            5 ... 2003 I/O
+    <-  master_no : BYTE          Logical number of the I/O master
+                                  (presently always 1)
+    <-  slave_no  : BYTE          B&R 2010: always 0
+                                  B&R 2005: rack number
+                                  0 ... Main rack
+                                  1 ... Expansion rack 1
+                                  2 ... Expansion rack 2
+                                  etc.
+
+                                      @081[ Continue ]                      @001[ Overview ]
+.81
+    IO_info - Defective I/O Module Identification (continued)
+
+    Parameter Data Types (continue) :
+
+    <-  module_adr: BYTE          I/O module address
+                                  (in decimal form)
+    <-  intern_off: BYTE          Internal offset on the module (corresponds to
+                                  the channel number for the module types
+                                  "Transp. In" or "Transp. Out")
+    <-  mode      : BYTE          Access mode:
+                                  Bit 5 = 0 ... Error writing the output image
+                                  Bit 5 = 1 ... Error reading the input image
+                                  Bit 6 = 0 ... Error accessing the standard
+                                                I/O area
+                                  Bit 6 = 1 ... Error accessing the I/O module 
+                                                status area
+
+
+
+
+
+                                      @082[ Continue ]                      @001[ Overview ]
+.82
+    IO_info - Defective I/O Module Identification (continued)
+
+    If an I/O exception occurs, the I/O module which caused the error can be
+    determined using the IO_info() function. The I/O information obtained by
+    calling this function can be used to determine the action required in
+    response to the I/O exception (e.g. deactivation of the I/O module using
+    the IO_disable() function). The IO_check() function can be used to check
+    if the I/O module is available again.
+
+    The IO_info() function must only be called in the exception task defined
+    for the I/O exception (exception no. 128), since the I/O information is only
+    available from this task. If the function is called in another task, error
+    number 5550 will be output at the output "status".
+
+
+
+
+
+
+
+
+                                      @083[ IO_info ]                       @001[ Overview ]
+.83
+    IO_info - Defective I/O Module Identification (continued)
+
+    Note!
+    - Since exception tasks were not supported in version 1.05 of the PCCSW 
+      operating system, the IO_info() function can only be used with version
+      1.10 onwards of the PCCSW.
+    - This function can only be used if the exception handler EXERMO.BR
+      (at least version 1.11) is available on the CPU (in application ROM)!
+    - The IO_info() function can only be used in the exception task for an I/O
+      exception (exception no. 128)!
+    
+
+
+
+
+
+
+
+
+
+
+                                      @080[ IO_info ]                       @001[ Overview ]
+.85
+    IO_info - Defective I/O Module Identification (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error Numbers:
+    5550     IO_info(): No information available (incorrect context)
+
+    All other error numbers are described in the appendix @600[Error Messages].
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @080[ IO_info ]                       @001[ Overview ]
+.90
+    IX_info - Defective Screw-in Module Identification
+
+    @091[IX_info] (enable,status,io_type,master_no,slave_no,module_adr,slot,
+             intern_off,mode)
+
+    Parameter Data Type :
+    ->  enable    : BIT           The function block is only executed when
+                                  enable = 1
+    <-  @095[status    ]: WORD          Error number (0 = no error)
+    <-  io_type   : BYTE          I/O Type: 0 ... 2010 I/O
+                                            1 ... 2005 I/O
+                                            5 ... 2003 I/O
+    <-  master_no : BYTE          Logical number of the I/O master
+                                  (always 1)
+    <-  slave_no  : BYTE          B&R 2010: always 0
+                                  B&R 2005: rack number
+                                  0 ... Main rack
+                                  1 ... Expansion rack 1
+                                  2 ... Expansion rack 2
+                                  etc.
+
+                                      @091[ Continue ]                      @001[ Overview ]
+.91
+    IX_info - Defective Screw-in Module Identification (continued)
+
+    Parameter Data Types (continued) :
+    <-  module_adr: BYTE          Module address of the I/O module
+                                  (in decimal form)
+    <-  slot      : BYTE          Slot (subslot) of the sub-module
+                                  (also known as a screw-in module)
+    <-  intern_off: BYTE          Internal offset on the module (corresponds to
+                                  the channel number for the module types,
+                                  "Transp. In" or "Transp. Out" in the variable
+                                  declaration)
+    <-  mode      : BYTE          Access mode:
+                                  Bit 5 = 0 ... Error while writing to the
+                                                output image.
+                                  Bit 5 = 1 ... Error while reading the input 
+                                                image.
+                                  Bit 6 = 0 ... Error while accessing the
+                                                standard I/O area.
+                                  Bit 6 = 1 ... Error while accessing the
+                                                status area of the I/O module
+
+                                      @092[ Continue ]                      @001[ Overview ]
+.92
+    IX_info - Defective Screw-in Module Identification (continued)
+
+    The function IX_info() is used to determine the screw-in module which
+    caused an  I/O exception to occur. The I/O information obtained by calling
+    this function can be used to determine the action required in response to
+    the I/O exception (e.g. Deactivating of screw-in modules using the function 
+    IX_disable()). IX_check() can be used to check if the I/O module is
+    available again.
+
+    The function IX_info() must only be called in the exception task defined
+    for the I/O exception (exception no. 128), since the I/O information is
+    only available from this task. If the function is called in another task,
+    error number 5550 will be output at the output "status".
+
+
+
+
+
+
+
+
+                                      @093[ Continue ]                      @001[ Overview ]
+.93
+    IX_info - Defective Screw-in Module Identification (continued)
+
+    Note!
+    - Since exception tasks were not supported in version 1.05 of the PCCSW 
+      operating system, the IO_info() function can only be used with version
+      1.10 onwards of the PCCSW.
+    - This function can only be used if the exception handler EXERMO.BR
+      (at least version 1.11) is available on the CPU (in application ROM)!
+    - The IO_info() function can only be used in the exception task for an I/O
+      exception (exception no. 128)!
+
+
+
+
+
+
+
+
+
+
+
+                                      @090[ IX_info ]                       @001[ Overview ]
+.95
+    IX_info - Defective Screw-in Module Identification (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error Numbers:
+    5550     IX_info(): No information available (wrong context)
+
+    All other error numbers are described in the appendix @600[Error Messages].
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @090[ IX_info ]                       @001[Overview]
+.100
+    IO_disable - Disabling an I/O Module
+
+    @101[IO_disable] (enable,io_type,master_no,slave_no,module_adr,force_flag,
+                dig_value,ana_value,status)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if
+                                  enable = 1
+    ->  io_type   : BYTE          I/O type: 0 ... 2010 I/O
+                                            1 ... 2005 I/O
+                                            5 ... 2003 I/O
+    ->  master_no : BYTE          Logical number of the I/O master
+                                  (always 1)
+    ->  slave_no  : BYTE          B&R 2010: always 0
+                                  B&R 2005: rack number
+                                  0 ... Main rack
+                                  1 ... Expansion rack 1
+                                  2 ... Expansion rack 2
+                                  etc.
+
+
+                                      @101[ Continue ]                      @001[ Overview ]
+.101
+    IO_disable - Disabling an I/O Module (continued)
+
+    Parameter Data Types (continue) :
+    ->  module_adr: BYTE          I/O module address
+                                  (in decimal form)
+    ->  force_flag: BIT           Flag used to determine if application input
+                                  values in the standard I/O area should be
+                                  forced:
+                                  0 ... Inputs (digital/analog) not forced
+                                  1 ... Inputs (digital/analog) forced
+    ->  dig_value : BIT           Force value for digital inputs on the
+                                  I/O module
+    ->  ana_value : WORD          Force value for analog inputs on the
+                                  I/O module
+    <-  @105[status    ]: WORD          Error number (0 = no error)
+
+    All cyclic I/O access to the specified I/O module is deactivated (disabled)
+    with this function. Further I/O exceptions can therefore no longer occur
+    for defective or missing module. When used together with the IO_enable
+    function, this function enables I/O access to be dynamically configured.
+
+                                      @102[ Continue ]                      @001[ Overview ]
+.102
+    IO_disable - Disabling an I/O Module (continued)
+
+    The application can write a fixed input value to all channels on the
+    deactivated I/O module using the force flag ("force_flag") and the force
+    values for digital and analog inputs ("dig_value" and "ana_value").
+    In this way, the input has a (configurable) defined value even if an error
+    occurs, e.g. if the I/O module is removed. For digital inputs, all 
+    channels involved in data-transfer on the I/O module are always set to the
+    defined digital force value. 
+    If analog arrays are used on the I/O module, the IO_disable() function sets
+    all input array elements to the analog force value. Arrays can only be
+    recognized by their byte length: If an analog data-transfer instruction is
+    longer than one Word, all Words are set to the analog force value. Analog
+    entries with uneven lengths or uneven addresses will output a corresponding
+    error number (5552) at the status output.
+
+    The IO_check() function can be used to see if the I/O module can be
+    accessed again. The I/O module is then reactivated using the IO_enable()
+    function.
+
+
+                                      @103[ Continue ]                      @001[ Overview ]
+.103
+    IO_disable - Disabling an I/O Module (continued)
+
+    Note!
+    - When using I/O library functions for accessing I/O modules directly, or
+      other functions which require I/O access (e.g. spool functions), the
+      application must include some form of locking mechanism. This will
+      ensure that access to an I/O module which has been removed is no longer
+      possible.
+
+    - Input values from the status area are not forced when this function
+      is called!
+
+    - Only cyclic I/O access to defective modules (not working, non-existant
+      etc.) by tasks which are already loaded onto the system is deactivated
+      using this function. Tasks which will access non-existant I/O modules
+      can only be downloaded when the PCC is in SERVICE mode, even if an I/O
+      exception task including the IO_disable function is available on the PCC.
+
+
+
+
+                                      @100[ IO_disable ]                    @001[ Overview ]
+.105
+    IO_disable - Deactivating an I/O Module (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error Numbers:
+    5501     Incorrect parameter.
+    5552     Analog data of uneven length or with uneven address cannot be
+             forced.
+    5558     IO_disable() is not allowed to be called on a multiprocessor.
+    5562     IO_enable() is currently not possible when using optimized
+             I/O-emulation.
+
+    All other error numbers are described in the appendix @600[Error Messages].
+
+
+
+
+
+
+
+
+                                      @100[ IO_disable ]                    @001[ Overview ]
+.110
+    IX_disable - Disabling an I/O Module with Sub-slots
+
+    @111[IX_disable] (enable,io_type,master_no,slave_no,module_adr,slot,force_flag,
+                dig_value,ana_value,status)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if
+                                  enable = 1
+    ->  io_type   : BYTE          I/O type: 0 ... 2010 I/O
+                                            1 ... 2005 I/O
+                                            5 ... 2003 I/O
+    ->  master_no : BYTE          Logical number of the I/O master
+                                  (currently always 1)
+    ->  slave_no  : BYTE          B&R 2010: always 0
+                                  B&R 2005: rack number
+                                  0 ... Main rack
+                                  1 ... Expansion rack 1
+                                  2 ... Expansion rack 2
+                                  etc.
+
+
+                                      @111[ Continue ]                      @001[ Overview ]
+.111
+    IX_disable - Disabling an I/O Module with Sub-slots (continued)
+
+    Parameter Data Types (continued) :
+    ->  module_adr: BYTE          Module address of the I/O module
+                                  (in decimal form).
+    ->  slot      : BYTE          Sub-slot on the module:
+                                  0 ..... Entire module including all installed
+                                          sub-modules (screw-in modules).
+                                  1-4 ... Sub-modules (screw-in modules)in the
+                                          specified slots (1-4).
+    ->  force_flag: BIT           Flag used to determine whether input values
+                                  in the standard I/O area for the application
+                                  should be forced or not:
+                                  0 ... Don't force inputs (digital/analog)
+                                  1 ... Force inputs (digital/analog)
+    ->  dig_value : BIT           Force value for digital inputs on the I/O
+                                  module.
+    ->  ana_value : WORD          Force value for analog inputs on the I/O
+                                  module.
+    <-  @115[status    ]: WORD          Error number (0 = no error)
+
+                                      @112[ Continue ]                      @001[ Overview ]
+.112
+    IX_disable - Disabling an I/O Module with Sub-slots (continued)
+
+    This function disables (stops) all cyclic I/O access to the specified
+    screw-in module. This means that no further I/O exceptions can occur for
+    the module. When used together with the IX_enable function, this function
+    enables I/O access to be dynamically configured.
+    Using the force_flag and the force values for digital and analog inputs,
+    ("dig_value" and "ana_value") an application can assign a fixed input value
+    for all channels of the disabled I/O module. In this way the input may
+    still have a defined value which can be used in an error situation,
+    e.g. if the I/O module is removed.
+    In the case of digital inputs, all data transmission channels of the I/O
+    module become set to the specified digital force value.
+    If analog arrays are used on the I/O module, IX_disable() sets all input
+    array elements to the analog force value. Arrays can only be recognized
+    from their byte length: if an analog data-transfer instruction is longer
+    than one word, all words will be set to the analog force value. Analog
+    entries with uneven lengths or uneven addresses will output a corresponding
+    error number (5552) at the status output.
+
+
+                                      @113[ Continue ]                      @001[ Overview ]
+.113
+    IX_disable - Disabling an I/O Module with Sub-slots (continued)
+
+    The IX_check() function can be used to check whether a screw-in module is
+    accessable once again. The IX_enable() function can be used to enable
+    access to the screw-in module again.
+
+    Note!
+    - When using I/O library functions for accessing I/O modules directly, or
+      other functions which require I/O access (e.g. spool functions), the
+      application must include some form of locking mechanism. This will
+      ensure that access to an I/O module which has been removed is no longer
+      possible.
+    - Input values in the status area are not forced when this function is
+      called.
+    - Only cyclic I/O access to defective modules (not working, non-existant
+      etc.) by tasks which are already loaded onto the system is deactivated
+      using this function. Tasks which will access non-existant I/O modules
+      can only be downloaded when the PCC is in SERVICE mode, even if an I/O
+      exception task including the IO_disable function is available on the PCC.
+
+
+                                      @110[ IX_disable ]                    @001[ Overview ]
+.115
+    IX_disable - Disabling an I/O Module with Sub-slots (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error Numbers:
+    5501     Wrong parameter
+    5552     Analog data with uneven lengths or addresses cannot be forced
+    5558     Calling IX_disable() on a multiprocessor is not allowed
+    5562     IX_enable() for optimized I/O emulation is currently not possible
+
+    All other error numbers are described in the appendix @600[Error Messages].
+
+
+
+
+
+
+
+
+
+
+                                     @110[ IX_disable ]                     @001[ Overview ]
+.120
+    IO_enable - Activating an I/O Module
+
+    @121[IO_enable] (enable,io_type,master_no,slave_no,module_adr,status)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed if
+                                  enable = 1
+    ->  io_type   : BYTE          I/O Type: 0 ... 2010 I/O
+                                            1 ... 2005 I/O
+                                            5 ... 2003 I/O
+    ->  master_no : BYTE          Logical number for the I/O master
+                                  (presently always 1)
+    ->  slave_no  : BYTE          B&R 2010: always 0
+                                  B&R 2005: rack number
+                                  0 ... Main rack
+                                  1 ... Expansion rack 1
+                                  2 ... Expansion rack 2
+                                  etc.
+
+
+
+                                      @121[ Continue ]                      @001[ Overview ]
+.121
+    IO_enable - Activate an I/O Module (continued)
+
+    Parameter Data Types (continue) :
+    ->  module_adr: BYTE          Module address of the I/O module
+                                  (in decimal form)
+    <-  @125[status    ]: WORD          Error number (0 = no error)
+
+    This function enables all cyclic access to the I/O module specified. When
+    used together with the IO_disable function, this function enables I/O
+    access to be dynamically configured.
+
+    Note!
+    All cyclic access is activated using the IO_enable() function (including
+    access to I/O modules deactivated with DBTOOL.EXE or with the module
+    PCCIO.BR).
+
+
+
+
+
+
+                                      @120[ IO_enable ]                     @001[ Overview ]
+.125
+    IO_enable - Activating an I/O Module (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error Numbers:
+    5501     Incorrect parameter
+
+    All other error numbers are described in the appendix @600[Error Messages].
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @120[ IO_enable ]                     @001[ Overview ]
+.130
+    IX_enable - Activating an I/O Module with Sub-slots
+
+    @131[IX_enable] (enable,io_type,master_no,slave_no,module_adr,slot,status)
+
+    Parameter Data Types:
+    ->  enable    : BIT           The function block is only executed
+                                  if enable = 1
+     ->  io_type   : BYTE          I/O Type: 0 ... 2010 I/O
+                                             1 ... 2005 I/O
+                                             5 ... 2003 I/O
+    ->  master_no : BYTE          Logical number for the I/O master
+                                  (presently always 1)
+    ->  slave_no  : BYTE          B&R 2010: always 0
+                                  B&R 2005: rack number
+                                  0 ... Main rack
+                                  1 ... Expansion rack 1
+                                  2 ... Expansion rack 2
+                                  etc.
+    ->  module_adr: BYTE          Module address of the I/O module
+                                  (in decimal form)
+
+                                      @131[ Continue ]                      @001[ Overview ]
+.131
+    IX_enable - Activating an I/O Module with Sub-slots (continued)
+
+    Parameter Data Types (continued) :
+
+    ->  slot      : BYTE          Sub-slot on the module:
+                                  0 ..... Entire module including all installed
+                                          sub-modules (screw-in modules).
+                                  1-4 ... Sub-modules (screw-in modules) in the
+                                          specified slots (1-4).
+    <-  @135[status    ]: WORD          Error number (0 = no error)
+
+    This function enables all cyclic access to the I/O module specified. When
+    used together with the IX_disable function, this function enables I/O
+    access to be dynamically configured.
+
+    Note!
+    The function IX_enable() enables all cyclic access (including access to I/O
+    modules which were disabled with DBTOOL.EXE or using the module SPSIO.BR).
+
+
+
+                                      @130[ IX_enable ]                     @001[ Overview ]
+.135
+    IX_enable - Activating an I/O Module with Sub-slots (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error Numbers:
+    5501     Wrong parameter
+    5562     IX_enable() currently not possible for optimized I/O emulation
+
+    All other error numbers are described in the appendix @600[Error Messages].
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @130[ IX_enable ]                     @001[ Overview ]
+.140
+    IO_check - Checking an I/O Module
+
+    @141[IO_check] (enable,io_type,master_no,slave_no,module_adr,search_typ,status,
+              found_flag,module_typ)
+
+    Parameter Data Types  :
+    ->  enable    : BIT           The function block is only executed if
+                                  enable = 1
+    ->  io_type   : BYTE          I/O Type: 0 ... 2010 I/O
+                                            1 ... 2005 I/O
+                                            5 ... 2003 I/O
+    ->  master_no : BYTE          Logical number of the I/O master
+                                  (presently always 1)
+    ->  slave_no  : BYTE          B&R 2010: always 0
+                                  B&R 2005: rack number
+                                  0 ... Main rack
+                                  1 ... Expansion rack 1
+                                  2 ... Expansion rack 2
+                                  etc.
+
+
+                                      @141[ Continue ]                      @001[ Overview ]
+.141
+    IO_check - Checking an I/O Module (continued)
+
+    Parameter Data Types (continue):
+    ->  module_adr: BYTE          Module address of the I/O module to be
+                                  checked (in decimal form)
+    ->  search_typ: BYTE          Type (@146[Type Code]) which the I/O module at the
+                                  specified module address must have. If an I/O
+                                  module is inserted at this module address
+                                  which is not of the defined type, an error
+                                  will occur. If the I/O module type need not
+                                  be checked (type irrelevant), the value 0 can
+                                  be entered for search_typ.
+    <-  @145[status    ]: WORD          Error number (0 = no error)
+    <-  found_flag: BIT           Flag which displays if the I/O module
+                                  is available:
+                                  0 ... I/O module of type entered not available
+                                  1 ... I/O module of type entered available
+    <-  @146[module_typ]: BYTE          Type code of the I/O module checked.
+
+
+
+                                      @142[ Continue ]                      @001[ Overview ]
+.142
+    IO_check - Checking an I/O Module (continued)
+
+    This function checks if the specified I/O module is available. If the status
+    of the function (output "status") is not equal to 0, the I/O module
+    specified is not available.
+
+    Every module for the B&R 2010 and B&R 2005 systems has a @146[Type Code] which
+    uniquely identifies the module type. The "search_typ" parameter defines
+    which I/O module type (type code) should be at the specified module
+    address. If the actual I/O module type at the module address defined by
+    "module_adr" does not correspond with that specified in "search_typ", error 
+    number 5554 will be generated.
+    The actual type code of the I/O module found is given by the "module_typ"
+    output.
+
+
+
+
+
+
+
+                                      @143[ Continue ]                      @001[ Overview ]
+.143
+    IO_check - Checking an I/O Module (continued)
+
+    Note!
+    - This function can only be used if the exception handler EXERMO.BR 
+      (at least version 1.11) is available on the CPU (application ROM)!
+    - Do not use the IO_check() function in high speed task classes
+      (exception: initialization sub-programs for high speed task classes).
+    - In the B&R 2005 system, the IO_check() function can only be used on the
+      main rack in a B&R 2005 system. It cannot be used with modules on an
+      expansion rack since all of them would have to be reset if an error
+      occurred (e.g. I/O module does not exist). However, from version V1.60
+      onwards of the I/O library, the I/O configuration of the 2005 expansion
+      racks can be established during booting using the IO_list() function.
+
+
+
+
+
+
+
+
+                                      @140[ IO_check ]                      @001[ Overview ]
+.145
+    IO_check - Checking an I/O Module (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error Numbers:
+    5501     Incorrect parameter
+    5551     IO_check() called simultaneously in more than one task class
+    5553     Calling IO_check() in HS task classes is not allowed
+    5554     I/O module inserted, but module type not correct
+    5555     I/O module not inserted
+    5558     Calling IO_check() on a multiprocessor is not allowed
+    5576     Error during 2003 direct I/O
+    9136     I/O error 2003
+
+    All other error numbers are described in the appendix @600[Error Messages].
+
+
+
+
+
+
+                                      @140[ IO_check ]                      @001[ Overview ]
+.146
+    IO_check - Check an I/O Module (continued)
+
+    <- Parameter <module_typ >: BYTE
+
+    The actual type code of the I/O module found is given by the "module_typ"
+    output. The type codes of the most important I/O modules for "search_typ"
+    and "module_typ") are given below:
+    ษออออออออออออออออออออออหออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ    System B&R 2003   บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O Moduleณ Type Codeบ I/O Moduleณ Type Codeบ I/O Moduleณ Type Codeบ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   DI400   ณ   $01    บ   DI450   ณ   $08    บ   AF101   ณ   $C0    บ
+    บ   DI425   ณ   $03    บ   DI475   ณ   $01    บ   DI435   ณ   $E1    บ
+    บ   DI426   ณ   $22    บ   DI476   ณ   $07    บ   DO720   ณ   $82    บ
+    บ   DI825   ณ   $1F    บ   DI477   ณ   $05    บ   DM435   ณ   $E3    บ
+    บ   DO426   ณ   $FF    บ   DI690   ณ   $60    บ   DO435   ณ   $EB    บ
+    บ   DO428   ณ   $1D    บ   DO479   ณ   $40    บ   AI351   ณ $02, $03 บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+
+                                      @147[ Continue ]                      @001[ Overview ]
+.147
+    IO_check - Checking an I/O Module (continued)
+
+    ษออออออออออออออออออออออหออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ    System B&R 2003   บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O Moduleณ Type Codeบ I/O Moduleณ Type Codeบ I/O Moduleณ Type Codeบ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   DO430   ณ   $20    บ   DO480   ณ   $41    บ   AI354   ณ   $04    บ
+    บ   DO600   ณ   $06    บ   DO650   ณ   $03    บ   AI774   ณ   $06    บ
+    บ   DO700   ณ   $07    บ   DO690   ณ   $61    บ   AO352   ณ   $0E    บ
+    บ   AI300   ณ   $08    บ   DO750   ณ   $04    บ   AT351   ณ   $08    บ
+    บ   AI700   ณ   $09    บ   DM455   ณ   $20    บ   AT662   ณ   $0A    บ
+    บ   AT300   ณ   $0A    บ   DM476   ณ   $62    บ   AT664   ณ   $0C    บ
+    บ   AT400   ณ   $0B    บ   AI350   ณ   $82    บ   DI135   ณ   $12    บ
+    บ   AT600   ณ   $0C    บ   AI375   ณ   $80    บ   DO135   ณ   $14    บ
+    บ   AO300   ณ   $11    บ   AI775   ณ   $81    บ   NC161   ณ   $10    บ
+    บ   AO725   ณ   $0F    บ   AT350   ณ   $93    บ           ณ          บ
+    บ   AO900   ณ   $10    บ   AT450   ณ   $92    บ           ณ          บ
+    บ   NC102   ณ   $23    บ   AT650   ณ   $90    บ           ณ          บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+                                      @148[ Continue ]                      @001[ Overview ]
+.148
+    IO_check - Checking an I/O Module (continued)
+
+    ษออออออออออออออออออออออออหออออออออออออออออออออออออป
+    บ     System B&R 2010    บ     System B&R 2005    บ
+    วฤฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O Module ณ Type Code บ I/O Module ณ Type Code บ
+    ฬออออออออออออุอออออออออออฮออออออออออออุอออออออออออน
+    บ    NC302   ณ    $16    บ    AT651   ณ    $91    บ
+    บ    NC303   ณ    $17    บ    AT652   ณ    $94    บ
+    บ    DS100   ณ    $1A    บ    AT660   ณ    $95    บ
+    บ    DS101   ณ    $1B    บ    AO350   ณ    $A0    บ
+    บ    UM900   ณ    $21    บ    AO775   ณ    $A1    บ
+    บ            ณ           บ    AM050   ณ    $88    บ
+    บ            ณ           บ    AM051   ณ    $89    บ
+    บ            ณ           บ    NC150   ณ    $98    บ
+    ศออออออออออออฯอออออออออออสออออออออออออฯอออออออออออผ
+
+
+
+
+
+                                      @140[ IO_check ]                      @001[ Overview ]
+.150
+    IX_check - Checking an I/O Module with Subslots
+
+    @151[IX_check] (enable,io_type,master_no,slave_no,module_adr,slot,search_typ,
+              status,found_flag,module_typ)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed
+                                  if enable = 1
+    ->  io_type   : BYTE          I/O Type: 0 ... 2010 I/O
+                                            1 ... 2005 I/O
+                                            5 ... 2003 I/O
+    ->  master_no : BYTE          Logical number of the I/O master
+                                  (currently always 1)
+    ->  slave_no  : BYTE          B&R 2010: always 0
+                                  B&R 2005: rack number
+                                  0 ... Main rack
+                                  1 ... Expansion rack 1
+                                  2 ... Expansion rack 2
+                                  etc.
+
+
+                                      @151[ Continue ]                      @001[ Overview ]
+.151
+    IX_check - Checking an I/O Module with Sub-slots (continued)
+
+    Parameter Data Types (continued) :
+    ->  module_adr: BYTE          Module address of the I/O module to be
+                                  checked (in decimal form)
+    ->  slot      : BYTE          Sub-slot on the module:
+                                  0 ..... Analog interface module available?
+                                  1-4 ... Sub-module (screw-in module) in the
+                                          specified slot (1-4) available?
+    ->  search_typ: BYTE          Type (@156[Type Code]) which the I/O module at the
+                                  specified module address must have. If an I/O
+                                  module is inserted at this module address
+                                  which is not of the defined type, an error
+                                  will occur. If the I/O module type need not
+                                  be checked (type irrelevant), the value 0 can
+                                  be entered for search_typ.
+
+    <-  @155[status    ]: WORD          Error number (0 = no error)
+
+
+
+                                      @152[ Continue ]                      @001[ Overview ]
+.152
+    IX_check - Checking an I/O Module with Sub-slots (continued)
+
+    Parameter Data Type (continued) :
+    <-  found_flag: BIT         Flag which shows whether an I/O module is
+                                available:
+                                0 ... I/O module of specified type not available
+                                1 ... I/O module of specified type available
+    <-  @156[module_typ]: BYTE        Type code of the I/O module checked.
+
+    This function can be used to check whether the specified I/O module is
+    available. If the status of the function (output "status") is not equal to
+    0, the specified I/O module is not available.
+    Every module for the B&R 2010 and B&R 2005 systems has a @156[Type Code] which
+    uniquely identifies the module type. The "search_typ" parameter defines
+    which I/O module type (type code) should be at the specified module
+    address. If the actual I/O module type at the module address defined by
+    "module_adr" does not correspond with that specified in "search_typ", error 
+    number 5554 will be generated.
+    The actual type code of the I/O module found is given by the "module_typ"
+    output.
+
+                                      @153[ Continue ]                      @001[ Overview ]
+.153
+    IX_check - Checking an I/O Module with Sub-slots (continued)
+
+    Note!
+    - This function can only be used if the exception handler EXERMO.BR
+      (version 1.11 or later) is available on the CPU (User-ROM)!
+    - The IX_check() function can only be used on B&R 2003 System CPUs running
+      V2.00 of the PCCSW or higher.
+    - Using the function IX_check() in high speed task classes is not allowed
+      (exception: Initialization of sub-programs in high speed task
+      classes).
+    - The function IX_check() can only be used on the main rack in a B&R
+      2005 system. It cannot be used for extension racks, since all
+      modules on the expansion rack must be reset if an error occurs
+      (I/O module not available). From version V1.60 of the I/O-Library,
+      however, the IO_list() function can be used during booting to determine
+      the I/O configuration of the 2005 expansion rack.
+
+
+
+
+
+                                      @150[ IX_check ]                      @001[ Overview ]
+.155
+    IX_check - Checking an I/O Module with Sub-slots (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error Numbers:
+    5501     Wrong parameter
+    5551     IX_check() called in several tasks at the same time
+    5553     Calling IX_check() in a high speed task class is not allowed
+    5554     I/O module installed but module type is incorrect
+    5555     I/O module not inserted
+    5558     Calling IX_check() on a multiprocessor is not allowed
+    5563     IX_check() currently not possible on systems including an EX350
+    5576     Error during 2003 direct I/O
+    9136     2003 I/O error 
+
+    All other error numbers are described in the appendix @600[Error Messages].
+
+
+
+
+
+                                      @150[ IX_check ]                     @001[ Overview ]
+.156
+    IX_check - Checking an I/O Module with Sub-slots (continue)
+
+    <- Parameter <module_typ >: BYTE
+
+    The actual type code of the I/O module to be checked will be output at the
+    output "module_type".
+    Type codes of the most important I/O modules (for "search_type" and 
+    "module_type"):
+
+   ษออออออออออออออออออออออออหออออออออออออออออออออออออหออออออออออออออออออออออออป
+   บ     System B&R 2010    บ     System B&R 2005    บ     System B&R 2003    บ
+   วฤฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤฤถ
+   บ I/O Module ณ Type Code บ I/O Module ณ Type Code บ I/O Module ณ Type Code บ
+   ฬออออออออออออุอออออออออออฮออออออออออออุอออออออออออฮออออออออออออุอออออออออออน
+   บ    DI400   ณ    $01    บ    DI450   ณ    $08    บ    AF101   ณ    $C0    บ
+   บ    DI425   ณ    $03    บ    DI475   ณ    $01    บ    DI435   ณ    $E1    บ
+   บ    DI426   ณ    $22    บ    DI476   ณ    $07    บ    DO720   ณ    $82    บ
+   บ    DI825   ณ    $1F    บ    DI477   ณ    $05    บ    DM435   ณ    $E3    บ
+   บ    DO426   ณ    $FF    บ    DI690   ณ    $60    บ    DO435   ณ    $EB    บ
+   ศออออออออออออฯอออออออออออสออออออออออออฯอออออออออออสออออออออออออฯอออออออออออผ
+
+                                      @157[ Continue ]                      @001[ Overview ]
+.157
+    IX_check - Checking an I/O Module with Sub-slots (continued)
+
+   ษออออออออออออออออออออออออหออออออออออออออออออออออออหออออออออออออออออออออออออป
+   บ     System B&R 2010    บ     System B&R 2005    บ     System B&R 2003    บ
+   วฤฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤฤถ
+   บ I/O Module ณ Type Code บ I/O Module ณ Type Code บ I/O Module ณ Type Code บ
+   ฬออออออออออออุอออออออออออฮออออออออออออุอออออออออออฮออออออออออออุอออออออออออน
+   บ    DO428   ณ    $1D    บ    DO479   ณ    $40    บ    AI351   ณ  $02, $03 บ
+   บ    DO430   ณ    $20    บ    DO480   ณ    $41    บ    AI354   ณ    $04    บ
+   บ    DO600   ณ    $06    บ    DO650   ณ    $03    บ    AI774   ณ    $06    บ
+   บ    DO700   ณ    $07    บ    DO690   ณ    $61    บ    AO352   ณ    $0E    บ
+   บ    AI300   ณ    $08    บ    DO750   ณ    $04    บ    AT351   ณ    $08    บ
+   บ    AI700   ณ    $09    บ    DM455   ณ    $20    บ    AT662   ณ    $0A    บ
+   บ    AT300   ณ    $0A    บ    DM476   ณ    $62    บ    AT664   ณ    $0C    บ
+   บ    AT400   ณ    $0B    บ    AI350   ณ    $82    บ    DI135   ณ    $12    บ
+   บ    AT600   ณ    $0C    บ    AI375   ณ    $80    บ    DO135   ณ    $14    บ
+   บ    AO300   ณ    $11    บ    AI775   ณ    $81    บ    NC161   ณ    $10    บ
+   บ    AO725   ณ    $0F    บ    AT350   ณ    $93    บ            ณ           บ
+   บ    AO900   ณ    $10    บ    AT450   ณ    $92    บ            ณ           บ
+   ศออออออออออออฯอออออออออออสออออออออออออฯอออออออออออสออออออออออออฯอออออออออออผ
+
+                                      @158[ Continue ]                      @001[ Overview ]
+.158
+    IX_check - Checking an I/O Module with Sub-slots (continued)
+
+    ษออออออออออออออออออออออออออหออออออออออออออออออออออออออป
+    บ      System B&R 2010     บ      System B&R 2005     บ
+    วฤฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O Module ณ  Type Code  บ  I/O Module ณ  Type Code บ
+    ฬออออออออออออุอออออออออออออฮอออออออออออออุออออออออออออน
+    บ     NC102  ณ     $23     บ     AT650   ณ     $90    บ
+    บ     NC302  ณ     $16     บ     AT651   ณ     $91    บ
+    บ     NC303  ณ     $17     บ     AT652   ณ     $94    บ
+    บ     DS100  ณ     $1A     บ     AT660   ณ     $95    บ
+    บ     DS101  ณ     $1B     บ     AO350   ณ     $A0    บ
+    บ     UM900  ณ     $21     บ     AO775   ณ     $A1    บ
+    บ            ณ             บ     AM050   ณ     $88    บ
+    บ            ณ             บ     AM051   ณ     $89    บ
+    บ            ณ             บ     NC150   ณ     $98    บ
+    ศออออออออออออฯอออออออออออออสอออออออออออออฯออออออออออออผ
+
+
+
+
+                                      @150[ IX_check ]                      @001[ Overview ]
+.160
+    IO_alloc - Allocating I/O Memory Areas
+
+    @161[IO_alloc] (enable,bytesize,status,data_ptr)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed
+                                  if "enable" = 1
+    ->  bytesize  : WORD          Size of the I/O data area in bytes
+    <-  @165[status    ]: WORD          Error number (0 = no error)
+    <-  data_ptr  : LONG          Address of the allocated I/O data area
+
+    I/O memory needed for executing the IO_mphydef() and IO_data() functions
+    can be allocated using the function IO_alloc() (especially in systems
+    containing an EX350). The memory allocated can be checked with the
+    function  @170[IO_free()].
+
+
+
+
+
+
+                                      @161[ Continue ]                      @001[ Overview ]
+.161
+    IO_alloc - Allocating an I/O Memory Area (continued)
+
+    Example: Allocating an I/O memory area
+
+      if sc_adr = 0 then
+          ;* Allocation of the memory for SC data and IO data
+          IO_alloc(1,sc_len + io_len,status,sc_adr)
+      endif
+
+      if status = 0 then
+          ...
+          ;* I/O data lies behind the SC area 
+          iop.data_adr = sc_adr + sc_len
+          io_val access sc_adr + sc_len
+
+          IO_mphydef(1,adr(iop),sc_adr,0,status,ioident)
+          ...
+          ;* Calculate output value and output on I/O module
+          io_val = calc(x,y,z)
+          IO_data(1,ioident,status)
+      endif
+                                      @160[ IO_alloc ]                     @001[ Overview ]
+.165
+    IO_alloc - Allocating an I/O Data Area (continued)
+
+    <- Parameter <status    >: WORD
+
+  Error Numbers:
+    3611     Insufficient memory available in the analog I/O area.
+
+    All other error numbers are described in the appendix @600[Error Messages].
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @160[ IO_alloc ]                      @001[ Overview ]
+.170
+    IO_free - Freeing up an I/O Data Area
+
+    @170[IO_free] (enable,bytesize,data_ptr,status)
+
+    Parameter Data Types :
+    ->  enable    : BIT           The function block is only executed
+                                  if "enable" = 1
+    ->  bytesize  : WORD          Size of the I/O memory area in bytes
+    ->  data_ptr  : LONG          Address of the allocated I/O data area
+    <-  @175[status    ]: WORD          Error number (0 = no error)
+
+    This function deallocates a memory area which was previously allocated by
+    IO_alloc().
+
+
+
+
+
+
+
+
+                                                                     @001[ Overview ]
+.175
+    IO_free - Freeing up an I/O memory area (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error Numbers:
+    3711     Invalid parameter while executing IO_free in the analog I/O area.
+
+    All other error numbers are described in the appendix @600[Error Messages].
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @170[ IO_free ]                       @001[ Overview ]
+.180
+    IO_list - List all installed I/O modules
+
+    @181[IO_list] (enable,io_type,master_no,slave_no,prev_mod,adr(name_adr),
+             status,module_adr,module_typ,io_bus)
+
+    Parameter Data Types  :
+    ->  enable    : BIT           The function block is only executed if
+                                  enable = 1
+    ->  io_type   : BYTE          I/O Type: 0 ... 2010 I/O
+                                            1 ... 2005 I/O
+                                            2 ... RIO 2010
+                                            3 ... RIO 2005
+                                            4 ... RIO 2003
+                                            5 ... 2003 I/O
+    ->  master_no : BYTE          Logical number of the I/O master (currently
+                                  always 1) or RIO master.
+
+
+
+
+
+                                      @181[ Continue ]                      @001[ Overview ]
+.181
+    IO_list - List all installed I/O modules (continued)
+
+    Parameter Data Types  (continue):
+    ->  slave_no  : BYTE          Number of the RIO slave or of the 2005 base
+                                  plate (0=main rack, 1=expansion rack 1,
+                                  2=expansion rack 2, etc.).
+                                  The value 0 must always be entered for the 
+                                  slave_no. with 2010 and 2003 I/Os.
+    ->  prev_mod  : BYTE          Module address (in decimal form) of the
+                                  I/O module, where the search is to begin
+                                  (entering 0 starts the search at the first 
+                                  I/O module on the bus)
+    <-> @185[name_adr  ]: 6 BYTE (ARRAY)Name of the I/O module
+                                  (as null terminated string)
+    <-  @186[status    ]: WORD          Error number (0 = no error)
+    <-  module_adr: BYTE          Module address of the first I/O module to
+                                  be found (in decimal form)
+    <-  @187[module_typ]: BYTE          Type code of the I/O module found
+    <-  io_bus    : WORD          I/O bus parameter (parameter io_bus) for the
+                                  IO_physdef() function.
+
+                                      @182[ Continue ]                      @001[ Overview ]
+.182
+    IO_list - List all installed I/O modules (continued)
+
+    An I/O bus (2010 I/O, 2005 main I/O, 2005 expansion, 2003 I/O, remote I/O
+    2010, remote I/O 2005, remote I/O 2003) can be searched for I/O modules
+    using the IO_list() function. This function then returns the name, module
+    address and type (@187[Type Code]) of the I/O module found.
+    The IO_list() function searches for the first available module on the I/O
+    bus after the module address given by "prev_mod" (only via the hardware
+    configuration table established in boot up, however, and not by direct
+    physical access).
+    To search through the entire I/O bus, the "prev_mod" parameter must be set
+    to 0 for the first call. The "module_adr" output parameter must be used as
+    new "prev_mod" for all further calls. However, you can also start the
+    search from any module address "i" with "prev_mod" = i - 1. If no more I/O
+    modules are found, the corresponding error number is returned on the
+    "status" output. The IO_physdef() function can be called using the "io_bus"
+    output parameter, without having to worry about the special coding of this
+    parameter.
+
+
+
+                                      @183[ Continue ]                      @001[ Overview ]
+.183
+    IO_list - List all installed I/O modules (continued)
+
+    Note!
+    - This function can only be used if the exception handler EXERMO.BR
+      (version 1.11 or later) is available on the CPU (application ROM)!
+    - The IO_list() function should only be used in initialization sub-programs
+      (INIT SPs) of cyclic tasks, otherwise system performance may be impaired.
+      The IO_list() function must be called in a "loop" in the INIT SP (see
+      @730[Example 4]) in order to ensure that all I/O modules are included.
+    - Do not use the IO_list() function in high speed task classes (exception:
+      INIT SPs of high speed task classes).
+    - In order for the IO_list() function to work correctly, the respective
+      data module (IO_2010.BR for 2010 IO, IO_2005.BR for 2005 IO and
+      IO_2003.BR for 2003 I/O) must be available in application ROM of the CPU.
+
+
+
+
+
+
+
+                                       @180[ IO_list ]                      @001[ Overview ]
+.185
+    IO_list - List all Installed I/O Modules (continued)
+
+    <-> Parameter <name_adr  >:  6 BYTE (ARRAY)
+
+    The name of the I/O module found is stored in the variable "name_adr" as a
+    string (5 characters + null byte).
+    Since the module name is not entered in the hardware configuration table,
+    the correct module names can only be determined via the data modules
+    IO_2010.BR, IO_2005.BR and IO_2003.BR which were supplied. This means that
+    if the appropriate data module (IO_2010.BR for 2010 IO, IO_2005.BR for 2005
+    I/O and IO_2003.BR for 2003 I/O) is not available in application ROM of the
+    CPU, the string "?????" will be entered as the module name.
+
+
+
+
+
+
+
+
+
+                                       @180[ IO_list ]                      @001[ Overview ]
+.186
+    IO_list - List of all installed I/O modules (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error Numbers:
+    5501     Incorrect parameter
+    5551     IO_list() called simultaneously in more than one task class
+    5553     Calling IO_list() in HS task classes is not allowed
+    5555     I/O module not inserted
+    5558     Calling IO_list() on a multiprocessor is not allowed
+    5576     Error during 2003 direct I/O access
+    9136     2003 I/O error
+
+    All other error numbers are described in the appendix @600[Error Messages].
+
+
+
+
+
+
+
+                                       @180[ IO_list ]                      @001[ Overview ]
+.187
+    IO_list - List of all installed I/O modules (continued)
+
+    <- Parameter <module_typ >: BYTE
+
+    The IO_list() function returns the type code (parameter "module_typ") of
+    the I/O module found, as well as the module name (name of the module). 
+    Every module in the B&R 2010 B&R 2005 and B&R 2003 systems is uniquely
+    identified by its type code. Type codes for the most important I/O modules:
+
+    ษออออออออออออออออออออออหออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ  System B&R 2003     บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O Moduleณ Type Codeบ I/O Moduleณ Type Codeบ I/O Moduleณ Type Codeบ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   DI400   ณ   $01    บ   DI450   ณ   $08    บ  AF101    ณ  $C0     บ
+    บ   DI425   ณ   $03    บ   DI475   ณ   $01    บ  DI435    ณ  $E1     บ
+    บ   DI426   ณ   $22    บ   DI476   ณ   $07    บ  DO720    ณ  $82     บ
+    บ   DI825   ณ   $1F    บ   DI477   ณ   $05    บ  DM435    ณ  $E3     บ
+    บ   DO426   ณ   $FF    บ   DI690   ณ   $60    บ  DO435    ณ  $EB     บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+                                      @188[ Continue ]                      @001[ Overview ]
+.188
+    IO_list - List of all installed I/O modules (continued)
+
+    ษออออออออออออออออออออออหออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ    System B&R 2003   บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O Moduleณ Type Codeบ I/O Moduleณ Type Codeบ I/O Moduleณ Type Codeบ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   DO428   ณ   $1D    บ   DO479   ณ   $40    บ   AI351   ณ $02, $03 บ
+    บ   DO430   ณ   $20    บ   DO480   ณ   $41    บ   AI354   ณ   $04    บ
+    บ   DO600   ณ   $06    บ   DO650   ณ   $03    บ   AI774   ณ   $06    บ
+    บ   DO700   ณ   $07    บ   DO690   ณ   $61    บ   AO352   ณ   $0E    บ
+    บ   AI300   ณ   $08    บ   DO750   ณ   $04    บ   AT351   ณ   $08    บ
+    บ   AI700   ณ   $09    บ   DM455   ณ   $20    บ   AT662   ณ   $0A    บ
+    บ   AT300   ณ   $0A    บ   DM476   ณ   $62    บ   AT664   ณ   $0C    บ 
+    บ   AT400   ณ   $0B    บ   AI350   ณ   $82    บ   DI135   ณ   $12    บ 
+    บ   AT600   ณ   $0C    บ   AI375   ณ   $80    บ   DO135   ณ   $14    บ 
+    บ   AO300   ณ   $11    บ   AI775   ณ   $81    บ   NC161   ณ   $10    บ 
+    บ   AO725   ณ   $0F    บ   AT350   ณ   $93    บ           ณ          บ
+    บ   AO900   ณ   $10    บ   AT450   ณ   $92    บ           ณ          บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+                                      @189[ Continue ]                      @001[ Overview ]
+.189
+    IO_list - List of all installed I/O modules (continued)
+
+    ษออออออออออออออออออออออหออออออออออออออออออออออป
+    บ    System B&R 2010   บ    System B&R 2005   บ
+    วฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤถ
+    บ I/O Moduleณ Type Codeบ I/O Moduleณ Type Codeบ
+    ฬอออออออออออุออออออออออฮอออออออออออุออออออออออน
+    บ   NC102   ณ   $23    บ   AT650   ณ   $90    บ
+    บ   NC302   ณ   $16    บ   AT651   ณ   $91    บ
+    บ   NC303   ณ   $17    บ   AT652   ณ   $94    บ
+    บ   DS100   ณ   $1A    บ   AT660   ณ   $95    บ
+    บ   DS101   ณ   $1B    บ   AO350   ณ   $A0    บ
+    บ   UM900   ณ   $21    บ   AO775   ณ   $A1    บ
+    บ           ณ          บ   AM050   ณ   $88    บ
+    บ           ณ          บ   AM051   ณ   $89    บ
+    บ           ณ          บ   NC150   ณ   $98    บ
+    ศอออออออออออฯออออออออออสอออออออออออฯออออออออออผ
+
+
+
+
+                                       @180[ IO_list ]                      @001[ Overview ]
+.190
+    IO_slist - List all installed sub-modules
+
+    @191[IO_slist] (enable,io_type,master_no,slave_no,module_adr,prev_slot,
+              adr(name_adr),status,slot_no,slot_typ)
+
+    Parameter Data Types  :
+    ->  enable    : BIT           The function block is only executed if
+                                  enable = 1
+    ->  io_type   : BYTE          I/O Type: 4 ... RIO 2003
+                                            5 ... 2003 I/O
+    ->  master_no : BYTE          Logical number of the I/O master (currently
+                                  always 1) or of the RIO master
+    ->  slave_no  : BYTE          Number of the RIO slaves (for RIO 2003). The
+                                  value 0 must always be entered for the slave 
+                                  number when using 2003 I/Os.
+    ->  module_adr: BYTE          Module address of the analog interface module
+                                  (in decimal form).
+                                  This analog interface module is searched to 
+                                  see if sub-modules are present (also called
+                                  screw-in modules).
+
+                                      @191[ Continue ]                      @001[ Overview ]
+.191
+    IO_slist - List all installed sub-modules (continued)
+
+    Parameter Data Types  (continued):
+    ->  prev_slot : BYTE           Slot (in decimal form) of the sub-module
+                                   (also called screw-in modules) where the
+                                   search is to start (entering 0 starts the
+                                   search at the first screw-in module)
+    <-> @195[name_adr  ]: 6 BYTE (ARRAY) Name of the screw-in module
+                                   (as null terminated string)
+    <-  @196[status    ]: WORD           Error number (0 = no error)
+    <-  slot_no   : BYTE           Slot of the first screw-in module found
+                                   (in decimal form)
+    <-  @197[slot_typ  ]: BYTE           Type code of the screw-in module found
+
+    The sub-modules (also called screw-in modules) available on an analog
+    interface module (System B&R 2003) can be analyzed using the IO_slist()
+    function (2003 I/O, RIO 2003).
+
+
+
+
+                                      @192[ Continue ]                      @001[ Overview ]
+.192
+    IO_slist - List all installed sub-modules (continued)
+
+    The IO_slist() function searches for the first available sub-module after
+    the slot specified by "prev_slot". It does this by searching the hardware
+    configuration table created during booting, rather than by direct physical
+    access.
+    To analyze all screw-in modules available on an analog interface module,
+    the "prev_slot" parameter must be set to 0 on the first call. For all
+    further calls of the function, "prev_slot" must be set to the value of the
+    output parameter "slot_no".
+    The search can also be started from any slot "i" using "prev_slot" = i - 1.
+    If no other screw-in modules are found, a corresponding error number is
+    given at the "status" output.
+
+
+
+
+
+
+
+
+                                      @193[ Continue ]                      @001[ Overview ]
+.193
+    IO_slist - List all installed sub-modules (continued)
+
+    Note!
+    - In order to avoid any reduction in system performance, the IO_slist()
+      function should only be used in the initialization sub-program (INIT-SP)
+      of cyclic tasks.
+    - To get the correct sub-module name with the IO_slist() function, the data
+      module IO_2003.BR must be available in the application ROM of the CPU.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @190[ IO_slist ]                      @001[ Overview ]
+.195
+    IO_slist - List all installed sub-modules (continued)
+
+    <-> Parameter <name_adr  >:  6 BYTE (ARRAY)
+
+    The name of the screw-in module found is stored in the variable "name_adr"
+    as a string (5 characters + null byte).
+    Since the module name is not entered in the hardware configuration table,
+    the correct module names can only be determined via the data module
+    IO_2003.BR, which was supplied. This means that if the data module
+    IO_2003.BR is not available in application ROM of the CPU, the string
+    "?????" will be entered as the module name.
+
+
+
+
+
+
+
+
+
+
+                                      @190[ IO_slist ]                      @001[ Overview ]
+.196
+    IO_slist - List all installed sub-modules (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error Numbers:
+    5501     Incorrect parameter
+    5555     Screw-in module (sub-module) not inserted
+    5576     Error during 2003 direct I/O
+    9136     I/O error 2003
+
+    All other error numbers are described in the appendix @600[Error Messages].
+
+
+
+
+
+
+
+
+
+
+                                      @190[ IO_slist ]                      @001[ Overview ]
+.197
+    IO_slist - List all installed sub-modules (continued)
+
+    <- Parameter <slot_typ  >: BYTE
+
+    This parameter contains the type code of the screw-in module found.
+    
+    ษอออออออออออออออออัอออออออออออออป
+    บ Screw-In Module ณ Type Code   บ
+    ฬอออออออออออออออออุอออออออออออออน
+    บ      AI351      ณ $02 $03     บ
+    บ      AI354      ณ    $04      บ
+    บ      AI774      ณ    $06      บ
+    บ      AO352      ณ    $0E      บ
+    บ      AT351      ณ    $08      บ
+    บ      AT352      ณ    $1A      บ
+    บ      AT662      ณ    $0A      บ
+    บ      AT664      ณ    $0C      บ
+    บ      DI135      ณ    $12      บ
+    บ      DO135      ณ    $14      บ
+    บ      NC161      ณ    $10      บ
+    ศอออออออออออออออออฯอออออออออออออผ
+                                      @190[ IO_slist ]                      @001[ Overview ]
+.200
+    SYS_list - List all installed system modules
+
+    @201[SYS_list] (enable,prev_mod,adr(name_adr),status,module_adr,module_typ)
+
+    Parameter Data Types  :
+    ->  enable    : BIT            The function block is only executed if
+                                   enable = 1
+    ->  prev_mod  : BYTE           Module address of the system module (in 
+                                   decimal form) where the search starts.
+                                   0 ..... Start search at first system module
+                                   255 ... Collect information on current CPU
+    <-> @205[name_adr  ]: 6 BYTE (ARRAY) Name of the system module
+    <-  @206[status    ]: WORD           Error number (0 = no error)
+                                   (as null terminated string)
+    <-  module_adr: BYTE           Module address of the first system module
+                                   found (in decimal form)
+    <-  @207[module_typ]: BYTE           Type code of the system module found
+
+
+
+
+                                      @201[ Continue ]                      @001[ Overview ]
+.201
+    SYS_list - List of all installed system modules (continued)
+
+    All system modules on the bus can be analyzed using the SYS_list()
+    function. The system module with the next highest module address in
+    relation to the specified module address (parameter "prev_mod") is 
+    always searched for.
+
+    To search the entire bus, the parameter "prev_mod" must be set to 0 for
+    the first call. For all further calls of the function, the output parameter
+    "module_adr" must be used as new "prev_mod". However, you can also start
+    the search from any module address "i" with "prev_mod" = i - 1. When no
+    more I/O modules are found, the corresponding error number is returned at
+    the "status" output. 
+
+    The type and name of the current CPU can be determined with 
+    "prev_mod" = 255, the module address is then always 0. However, the name
+    of the current CPU is only supported from BUGFIX 11 of operating system
+    system version 1.10 (B&R module BUGFIX.BR with version number 1.21).
+    For older BUGFIX versions, "?????" is returned instead of the string name.
+
+
+                                      @202[ Continue ]                      @001[ Overview ]
+.202
+    SYS_list - List of all installed system modules (continued)
+
+    Note!
+    - In order to avoid any reduction in system performance, the SYS_list()
+      function should only be used in the initialization sub-program (INIT SP)
+      of cyclic tasks. To ensure that all system modules are still included,
+      the SYS_list() function must be called in a "loop" in the INIT SP. See
+      the IO_list function example.
+      (@730[Example 4]).
+    - If the value 255 is entered for the "prev_mod" parameter, the correct
+      name of the current CPU will only be written to the variable "name_adr"
+      if BUGFIX 11 of operating system, version 1.10 or later is installed
+      (B&R module BUGFIX:BR with version number 1.21). For older BUGFIX
+      versions, "?????" is returned instead of the string name.
+
+
+
+
+
+
+
+                                      @200[ SYS_list ]                      @001[ Overview ]
+.205
+    SYS_list - List of all installed system modules (continued)
+
+    <-> Parameter <name_adr  >:  6 BYTE (ARRAY)
+
+    The name of the system module found is placed in the variable "name_adr" 
+    as a string (5 characters + null byte).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ SYS_list ]                      @001[ Overview ]
+.206
+    SYS_list - List of all installed system modules (continued)
+
+    <- Parameter <status    >: WORD
+
+    Error Numbers:
+    5555     No more system modules found
+
+    All other error messages are described in the appendix @600[Error Messages].
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @200[ SYS_list ]                      @001[ Overview ]
+.207
+    SYS_list - List of all installed system modules (continued)
+
+    <- Parameter <module_typ >: BYTE
+
+    The SYS_list() function returns the type code (parameter "module_typ") of
+    the system module found, as well as the module name (name of the system
+    modules). Type codes for the most important I/O modules:
+
+    ษออออออออออออออออออออออออออออออป
+    บ        System B&R 2010       บ
+    วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ System Module ณ   Type Code  บ
+    ฬอออออออออออออออุออออออออออออออน
+    บ CP100/CP104   ณ     $20      บ
+    บ CP200         ณ     $50      บ
+    บ MP100         ณ     $2D      บ
+    บ IF100/IF101   ณ     $2E      บ
+    บ EX100         ณ     $01      บ
+    บ NW100         ณ     $10      บ
+    ศอออออออออออออออฯออออออออออออออผ
+
+                                      @208[ Continue ]                      @001[ Overview ]
+.208
+    SYS_list - List of all installed system modules (continued)
+
+    ษออออออออออออออออออออออออออออออป
+    บ        System B&R 2005       บ
+    วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ System Module ณ   Type Code  บ
+    ฬอออออออออออออออุออออออออออออออน
+    บ CP152/CP153   ณ     $21      บ
+    บ CP260         ณ     $27      บ
+    บ XP152         ณ     $11      บ
+    บ IF050         ณ     $60      บ
+    บ IF152         ณ     $22      บ
+    บ IP151         ณ     $23      บ
+    บ EX150         ณ     $01      บ
+    บ NW150         ณ     $10      บ
+    บ NC154         ณ     $61      บ
+    บ EM150         ณ     $62      บ
+    ศอออออออออออออออฯออออออออออออออผ
+
+
+
+                                      @209[ Continue ]                      @001[ Overview ]
+.209
+    SYS_list - List of all installed system modules (continued)
+
+    ษออออออออออออออออออออออออออออออป
+    บ        System B&R 2003       บ
+    วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ System Module ณ   Type Code  บ
+    ฬอออออออออออออออุออออออออออออออน
+    บ CP470         ณ     $25      บ
+    บ CP472         ณ     $24      บ
+    บ CP770         ณ     $31      บ
+    บ CP772         ณ     $30      บ
+    ศอออออออออออออออฯออออออออออออออผ
+
+
+
+
+
+
+
+
+
+                                      @200[ SYS_list ]                      @001[ Overview ]
+.500
+    APPENDIX : LIBRARY Information
+
+
+    @501[< General Information   >]      Requirements etc.
+
+    @600[< Error Numbers         >]      Summary of all error numbers
+
+    @650[< Execution Times       >]      Execution times and stack requirements
+
+    @700[< Examples              >]      Examples of the uses of function blocks
+
+    @800[< History               >]      New functions and version changes
+
+
+
+
+
+
+
+
+
+                                                                      @001[ Overview ]
+.501
+    I/O Library : General Information
+
+    The I/O library enables the user to:
+
+    ... directly access I/O points on the I/O bus (direct I/O access), in
+        addition to cyclic I/O access.
+
+    ... dynamically activate or deactivate cyclic access to an I/O module.
+
+    ... check the availability of an I/O module. If no module is available,
+        access to that module can be deactivated.
+
+    ... create a list with name, module address and type of all inserted
+        I/O modules on the I/O bus.
+
+    ... determine and deactivate a defective I/O module if an I/O exception
+        occurs.
+
+
+
+
+                                      @502[ Continue ]                      @001[ Overview ]
+.502
+    I/O Library : General Information (continued)
+
+    After importing the I/O library, the following function groups are
+    available:
+
+    - @503[Direct I/O Access        ]
+    - @505[Dynamic I/O Configuration]
+
+    Note:
+    - Before you can use the I/O library functions in your project, you must
+      import the library into the appropriate project data bank.
+
+    - As the I/O library contains AVT functions, these library functions can
+      only be used if the library runtime module (B&R module IO_LIB.BR) is
+      available on the CPU (application ROM)!
+
+    - The I/O library functions return an @600[Error Number] if an error occurs.
+
+
+
+
+                                      @503[ Continue ]                      @001[ Overview ]
+.503
+    I/O Library : General Information (continued)
+
+    General information on direct I/O access:
+    I/O points can be accessed directly as well as cyclically.
+    Direct I/O access consists of defining the data-transfer instruction and
+    requesting data. Direct I/O access can be defined as well as executed using
+    the I/O library:
+
+    IO_physdef ... Physical data-transfer instruction definition
+    IO_mphydef ... Multiple physical data-transfer instruction definition
+    IO_ptest ..... Test physical data-transfer instruction definition
+    IO_define .... Logical data-transfer instruction definition
+    IO_data ...... Execute I/O data-transfer instruction
+    IO_combine ... Combine I/O data-transfer instructions
+
+    A data-transfer instruction can be defined and executed in separate tasks.
+    If this is done, don't forget that de-installing the definition task (task
+    containing the data-transfer instruction definition) will lead to eratic
+    system behavior, since the data areas necessary for the data-transfer
+    instruction were defined in the definition task!
+
+                                      @504[ Continue ]                      @001[ Overview ]
+.504
+    I/O Library : General Information (continued)
+
+    Note!
+    - The functions IO_physdef(), IO_ptest(), IO_define(), IO_combine()
+      presently cannot be used on a multiprocessor (also called "MP") (see
+      appropriate sections)!
+    - Functions used for direct I/O access cannot be used for accessing remote
+      I/O data!
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @505[ Continue ]                      @001[ Overview ]
+.505
+    I/O Library : General Information (continued)
+
+    General information on dynamic I/O configuration:
+    The current I/O configuration can be determined using the functions of
+    this group, and access to I/O modules can be dynamically activated or
+    deactivated:
+
+    IO_info ...... Identifies defective I/O modules
+    IX_info ...... Identifies defective screw-in modules (2003)
+    IO_disable ... Deactivates an I/O module
+    IX_disable ... Deactivates sub-slots on an an I/O module
+    IO_enable .... Activates an I/O module
+    IX_enable .... Activates an sub-slots on an I/O module
+    IO_check ..... Checks an I/O module
+    IX_check ..... Checks availability of sub-slots on an I/O module
+    IO_list ...... Creates a list of all installed I/O modules
+    IO_slist ..... Creates list of all installed sub-modules
+    SYS_list ..... Creates list of all installed system modules
+
+
+
+                                      @500[ APPENDIX ]                      @001[ Overview ]
+.600
+    I/O Library : Error Numbers
+
+    The following list is a summary of all possible I/O library error messages:
+
+    5501     Incorrect parameter.
+    5550     IO_info(): no information available (incorrect context).
+    5551     IO_ptest()/IO_check()/IO_list() called simultaneously in more
+             than one task class.
+    5552     Analog data with uneven length or uneven address could not
+             be forced.
+    5553     Calling IO_ptest()/IO_check()/IO_list() in HS task classes is not
+             allowed.
+    5554     I/O module inserted, but module type incorrect.
+    5555     I/O module / screw-in module / system module not inserted
+             or incorrect.
+    5556     IO_ptest()/IO_mphydef(): incorrect address "data_adr" given.
+    5557     IO_ptest()/IO_mphydef(): incorrect offset "intern_off" or
+             incorrect length "data_len".
+    5558     Calling the function on a multiprocessor is not allowed.
+
+
+                                      @601[ Continue ]                      @001[ Overview ]
+.601
+    I/O Library : Error Numbers (continued)
+
+   5559     Function IO_data() in work (call in next cycle necessary)
+   5562     Function currently cannot be used with optimized I/O-emulation.
+   5563     Function currently cannot be used on a system including an EX350
+   5564     No access to 2010 I/O or 2005 expansion rack
+   5565     No 2005 main rack available
+   5576     Error for 2003 direct I/O
+   5578     2003: Direct I/O overflow
+   5579     2003: Previous I/O instruction still active
+   9136     2003 I/O error 
+   11700    IO_physdef(): "io_bus" doesn't exist or is invalid
+   11701    IO_physdef(): parameter "byte_len" is incorrect
+   11702    IO_physdef(): only analog internal memory areas are allowed for
+            "data_adr"
+   11703    IO_physdef(): incorrect "mode"
+   11704    Direct I/O:    internal error
+   11705    IO_physdef(): parameter "io_bus" is incorrect
+   11706    IO_physdef(): not supported by this hardware
+   11710    IO_define():  "pvname" not found
+  
+                                      @602[ Continue ]                      @001[ Overview ]
+.602
+    I/O Library : Error Numbers (continued)
+
+   11711    IO_define():  internal error
+   11712    IO_define():  This PV cannot be transferred
+   11713    IO_define():  no accompanying data-transfer instruction found
+   11714    IO_define():  Only analog PVs are allowed for explicit
+                          address entries
+   11715    Direct I/O:   invalid name / identifier
+   11716    IO_data():    timeout during data-transfer instruction (fatal error)
+   11717    IO_data():    invalid I/O identifier
+   11720    IO_combine(): an identifier ("ioident1" or "ioident2") is
+                          invalid
+   11721    IO_combine(): number of maximum single data-transfer instructions
+                          allowed was exceeded
+   11722    IO_combine(): internal error
+
+
+
+
+
+
+                                      @500[ APPENDIX ]                      @001[ Overview ]
+.650
+    I/O Library : Execution Times
+
+    The following table gives the execution times for the I/O function library
+    as well as the stack requirements:
+
+  ษออออออออออออัออออออออออออัออออออออออออัอออออออออออออัออออออออออออออออออออออป
+  บ  Function  ณ  Execution ณ User stack ณ Supervisor  ณ   Condition          บ
+  บ            ณ  Time [ๆs] ณ  [Byte]    ณ stack [Byte]ณ                      บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ IO_physdef ณ        470 ณ    108     ณ      46     ณ 2010 I/O             บ
+  บ            ณ     >  410 ณ    128     ณ      46     ณ 2005 I/O             บ
+  บ IO_mphydef ณ        460 ณ    172     ณ      46     ณ 2010 I/O no INIT     บ
+  บ            ณ480 + 9 * n ณ    172     ณ      46     ณ 2010 I/O with n INIT บ
+  บ            ณ        480 ณ    212     ณ      46     ณ 2005 I/O no INIT     บ
+  บ            ณ505 + 9 * n ณ    212     ณ      46     ณ 2005 I/O with n INIT บ
+  บ            ณ        290 ณ    144     ณ      46     ณ Deactivation         บ
+  ศออออออออออออฯออออออออออออฯออออออออออออฯอออออออออออออฯออออออออออออออออออออออผ
+
+
+
+
+    @651[ Continue ]                        @500[ APPENDIX ]                      @001[ Overview ]
+.651
+    I/O Library : Execution Times (continued)
+
+   ษออออออออออออัออออออออออออัออออออออออออัอออออออออออออัออออออออออออออออออออป
+   บ Function   ณ  Execution ณ User Stack ณ  Supervisor ณ    Condition       บ
+   บ            ณ  Time [ๆs] ณ   [Byte]   ณ Stack [Byte]ณ                    บ
+   วฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+   บ IO_ptest   ณ      520   ณ      172   ณ      46     ณ 2010 I/O OK        บ
+   บ            ณ      840   ณ      172   ณ     212     ณ 2010 I/O not OK    บ
+   บ            ณ      450   ณ      212   ณ      46     ณ 2005 I/O OK        บ
+   บ            ณ      800   ณ      212   ณ     282     ณ 2005 I/O not OK    บ
+   บ IO_define  ณ   > 1600   ณ      228   ณ      58     ณ project dependant  บ
+   บ IO_data    ณ   >   50   ณ       24   ณ       -     ณ 2010 I/O           บ
+   บ            ณ   >  100   ณ       24   ณ      26     ณ 2005 I/O           บ
+   บ            ณ   >   90   ณ       72   ณ     144     ณ 2003 I/O           บ
+   บ IO_combine ณ   >  300   ณ       80   ณ       -     ณ                    บ
+   บ IO_info    ณ       45   ณ       24   ณ       -     ณ                    บ
+   บ IO_disable ณ   >  700   ณ      176   ณ      36     ณ Project dependant  บ
+   บ IO_enable  ณ   >  700   ณ      176   ณ      36     ณ Project dependant  บ
+   ศออออออออออออฯออออออออออออฯออออออออออออฯอออออออออออออฯออออออออออออออออออออผ
+
+
+                                      @652[ Continue ]                      @001[ Overview ]
+.652
+    I/O Library : Execution Times (continued)
+
+   ษออออออออออออัออออออออออออัออออออออออออัอออออออออออออัออออออออออออออออออออป
+   บ Function   ณ  Execution ณ User Stack ณ Supervisor  ณ   Condition        บ
+   บ            ณ  Time [ๆs] ณ   [Byte]   ณ stack [Byte]ณ                    บ
+   วฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤลฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+   บ IO_check   ณ 340 -  650 ณ     120    ณ     212     ณ 2010 I/O           บ
+   บ            ณ 520 -  690 ณ     160    ณ     282     ณ 2005 I/O           บ
+   บ IO_alloc   ณ 200 -  ??? ณ      56    ณ     296     ณ CP260, 16-??? byte บ
+   บ IO_free    ณ 190 -  ??? ณ      52    ณ     296     ณ CP260, 16-??? byte บ
+   บ IO_list    ณ 410 -65000 ณ     180    ณ     212     ณ 2010 I/O           บ
+   บ            ณ 580 - 9000 ณ     220    ณ     282     ณ 2005 I/O           บ
+   บ SYS_list   ณ 180 - 1400 ณ     104    ณ     118     ณ                    บ
+   ศออออออออออออฯออออออออออออฯออออออออออออฯอออออออออออออฯออออออออออออออออออออผ
+
+
+
+
+
+
+
+                                      @500[ APPENDIX ]                      @001[ Overview ]
+.700
+    I/O Library : Example 1
+
+    Example for IO_combine():
+    Physical data-transfer instruction on System B&R 2005 to transfer the 2nd
+    and 4th channels of an analog input module (module address 4). The
+    definition of the data-transfer instruction is executed in the INIT-SP of
+    the task:
+
+      ; INIT SP of the task
+      ; Define data-transfer instruction for the 2nd and 4th analog channels
+      ; (Offset: channel_2 = 1*2 = 2 or channel_4 = 3*2 = 6)
+      IO_physdef(1,$0001,4,$20,2,2,adr(anain2),status,ioident1)
+      if status = 0 then
+          IO_physdef(1,$001,4,$20,6,2,adr(anain4),status,ioident2)
+          if status = 0 then
+              IO_combine(1,ioident1,ioident2,status,io_ai_4_24)
+          endif
+      endif
+      error = status
+
+
+                                      @701[ Continue ]                      @001[ Overview ]
+.701
+    I/O Library : Example 1 (continued)
+
+      ; Cyclic section of the task
+      ; Data transfer channels 2 and 4
+      IO_data(1,io_ai_4_24,error)
+      if error = 0 then
+          ; Current sum of both analog channels
+          ai_sum = anain2 + anain4
+      endif
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @710[ Example 2 ]                     @001[ Overview ]
+.710
+    I/O Library : Example 2
+
+    Example for IO_physdef() and IO_data():
+    Physical I/O access on B&R 2010 system . All 16 channels of an analog
+    input module (module address 12) should be read as an array
+    ("mode" = %%00100000 = $20, "offset" = 0, "byte_len" = 32). The I/O access
+    should be defined in an INIT-SP:
+
+      IO_physdef(1,0,12,$20,0,32,adr(anarray),status,ai_11)
+
+    The respective data-transfer instruction looks like this:
+
+      IO_data(1,ai_11,status)
+
+    After calling the IO_data() function, the first 32 bytes of the process
+    variable are assigned as "anarray". Note: If less than 32 bytes are
+    reserved for the process variable "anarray", other variables will be
+    overwritten!
+
+
+
+                                      @720[ Example 3 ]                     @001[ Overview ]
+.720
+    I/O Library : Example 3
+
+    Example for  IO_define() and IO_data():
+    Logical I/O access. Logical data-transfer instruction definitions can also
+    be used to transfer digital process variables (unlike physical 
+    data-transfer instruction definitions), whereby the I/O data is located in
+    the digital data memory area.
+
+      IO_define(1,"sol_on",0,status,ioid_vein,byte_len)
+
+    The process variable "sol_on" defined in PG2000 is updated by the I/O
+    data-transfer instruction "ioid_vein". The current instruction length
+    is returned in the variable "byte_len" to serve as a check.
+
+      IO_data(1,ioid_vein,status)
+
+    B&R recommend that you use the logical data-transfer instruction definition
+    in order to ensure trouble-free routing.
+
+
+
+                                      @730[ Example 4 ]                     @001[ Overview ]
+.730
+    I/O Library : Example 4
+
+    Example for IO_list():
+
+      ; Search the I/O bus (B&R 2010) in the INIT SP of the exception task
+      module_adr = 0        ; Search entire I/O bus from the beginning
+      module_cnt = 0        ; Initialize the module counter
+      loop
+         ; Call IO_list() in a loop: enable=1, 2010 I/O (io_type=0,
+         ; master_no=1, slave_no=0), I/O module name irrelevant: adr(name_adr)=0
+         IO_list(1,0,1,0,module_adr,0,status,module_adr,
+                 modul_typ[module_cnt],io_bus)
+         ; Store received module address in an array
+         if status = 0 then
+             moduladr[module_cnt] = modul_adr
+         endif
+         ; If no more modules are available, or the table is full: loop ends
+         exitif (status <> 0) or (module_cnt >= max_dim)
+         ; No error, increment module counter
+         module_cnt = module_cnt + 1
+      endloop
+                                      @740[ Example 5 ]                     @001[ Overview ]
+.740
+    I/O Library : Example 5
+
+    Example for IO_disable():
+    Deactivates an I/O module when an I/O exception occurs.
+
+      ; Evaluate I/O exception in an exception task (exception no. 128)
+      IO_info(1,sts_info,io_typ,master,slave,moduladr,int_off, mode)
+
+      ; Deactivate the I/O module which triggered the error
+      ; Input PVs in the standard I/O area are not forced
+      IO_disable(1,io_typ,master,slave,moduladr,0,0,0,sts_dis)
+
+      ; End of the exception task => the PCC SW continues cyclic operation,
+      ; Cyclic access to the deactivated I/O module is no longer attempted
+
+
+
+
+
+
+
+                                      @750[ Example 6 ]                     @001[ Overview ]
+.750
+    I/O Library : Example 6
+
+    Example for IO_check():
+    Deactivates I/O modules which aren't available during booting of the PCC.
+
+      ; In the INIT SP of an exception task (e.g. exception no. 128), the
+      ; 2010 I/O modules nos. 2-8 (module address 2 to 8) are checked to see
+      ; if they are available (type of I/O module is not checked). The I/O
+      ; modules which are not available become deactivated.
+      ; => Dynamic I/O configuration of the system during booting
+      loop mod_nr = 2 to 8 do
+          ; Check the I/O module no. "mod_nr" without type check. Check flag
+          ; (indicates if the I/O module is available) in array "ioflag".
+          IO_check(1,0,1,0,mod_nr,0,sts_chk,ioflag[mod_nr],found_typ)
+          ; If the module is not available, it is deactivated.
+          ; The inputs are not forced, and module access is locked in the
+          ; application e.g. via "io_flag".
+          if sts_chk <> 0 then
+              IO_disable(1,0,1,0,mod_nr,0,0,0,sts_ena)
+          endif
+      endloop
+                                      @500[ APPENDIX ]                      @001[ Overview ]
+.800
+    I/O-Library : History - Version Changes
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.60 -> V2.00  ณ CURRENT VERSION: New functionality/Error corrections    บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Now supports the modules IF260, IP350, LS251.                           บ
+  บ - New functions for 2003 slots: IX_info(), IX_enable(), IX_disable()      บ
+  บ   and IX_check().                                                         บ
+  บ - New functions for EX350 operation: IO_alloc() and IO_free().            บ
+  บ - New data module "IO_2005.BR" with the name of the 2005 IF modules       บ
+  บ   (CP260, IF260).                                                         บ
+  บ - Error correction to EX350 operation (HW configuration recognition).     บ
+  บ - Error correction in FBK IO_slist() w.r.t RIO-2003.                      บ
+  บ - Error correction in FBK IO_mphydef() for CP260 (Data was not            บ
+  บ   transferred).                                                           บ
+  บ - Error correction to FBK IO_check() because of DI426.                    บ
+  บ - V1.05 of the PCCSW is no longer supported.                              บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                      @801[ Continue ]                      @001[ Overview ]
+.801
+    I/O Library : History - Version Changes
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.50 -> V1.60  ณ PREVIOUS VERSIONS: New Functions/error corrections      บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Switch to an I/O manager task to determine the hardware configuration   บ
+  บ   (incl. 2005 expansion and remote I/O) during booting.                   บ
+  บ - Supports CP472 (2003 I/O). A list of the available I/O modules          บ
+  บ   (2003 I/O) can be created using the IO_slist() function.                บ
+  บ - New data module "IO_2003.BR" with the names of all 2003 I/O modules.    บ
+  บ - The FBK IO_list() can also be used for RIO 2010 and RIO 2005 from this  บ
+  บ   version onwards.                                                        บ
+  บ - Error correction in FBK IO_mphydef() for 2005 I/O status access to      บ
+  บ   even module addresses.                                                  บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+                                      @802[ Continue ]                      @001[ Overview ]
+.802
+    I/O Library : History - Version Changes (continue)
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.40 -> V1.50  ณ PREVIOUS VERSIONS: New Functions                        บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Supports CP200.                                                         บ
+  บ - Function SYS_list() for analyzing the available system modules.         บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V1.32 -> V1.40  ณ PREVIOUS VERSIONS: New functions                        บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Supports XP152.                                                         บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V1.31 -> V1.32  ณ PREVIOUS VERSIONS: New functions                        บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - New data module "IO_2010.BR" with the names of all 2010 I/O modules for บ
+  บ   use in the function block RIO_list() from RIO version V4.20 onwards.    บ
+  บ - Correction of an error in IO_mphydef() : for 2005 I/O, after the        บ
+  บ   deactivation of the entry (iop = NULL), error 11716 could occur with    บ
+  บ   IO_data().                                                              บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+                                      @803[ Continue ]                      @001[ Overview ]
+.803
+    I/O Library : History - Version Changes (continue)
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.30 -> V1.31  ณ PREVIOUS VERSIONS: New Functions                        บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Correction of an error for IO_mphydef() or IO_ptest() : with 2005 I/O,  บ
+  บ   only 7 byte status or 15 byte standard could be handled, for 8 byte     บ
+  บ   status or 16 byte standard, error 5557 was reported.                    บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V1.20 -> V1.30  ณ PREVIOUS VERSIONS: New Functions                        บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - New FBK IO_ptest() for testing a physical data-transfer instruction.    บ
+  บ   This FBK can only be called on the PCC CPU.                             บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V1.12 -> V1.20  ณ PREVIOUS VERSIONS: New Functions                        บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - New FBK IO_mphydef() for multiple physical data-transfer instruction.   บ
+  บ   This FBK can be called both on the PCC CPU and on the MP2010.           บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+                                      @804[ Continue ]                      @001[ Overview ]
+.804
+    I/O Library : History - Version Changes (continue)
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.11 -> V1.12  ณ PREVIOUS VERSIONS: Error Correction                     บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - If prev_mod=255 is given for IO_list(), a fatal error can no longer     บ
+  บ   occur. Instead, status 5555 is returned.                                บ
+  บ - No more system modules are found for 2005 main I/O for IO_list().       บ
+  บ   Also, IO_check() returns the status 5555 for system modules.            บ
+  บ - IO_check() returns status 5501 for the module addresses > 99 (2010) or  บ
+  บ   > 13 (2005).                                                            บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+
+
+                                      @805[ Continue ]                      @001[ Overview ]
+.805
+    I/O Library : History - Version Changes (continue)
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.11           ณ                                                         บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Inclusion of the direct I/O FBKs in the module "IO_LIB.BR"; so that the บ
+  บ   "DIRECTIO.BR" module could be made redundant.                           บ
+  บ - New FBKs for I/O exception information, dynamically activating and      บ
+  บ   deactivating I/O modules, checking I/O modules and making lists of      บ
+  บ   existing I/O modules.                                                   บ
+  บ   NOTE: From version V1.11 onwards, the modules "EXERMO.BR" and           บ
+  บ         "IO_LIB.BR" are required for the FBKs IO_info(), IO_check()       บ
+  บ         and IO_list().                                                    บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+
+
+
+
+                                      @500[ APPENDIX ]                      @001[ Overview ]
+
+
+
+
+.End

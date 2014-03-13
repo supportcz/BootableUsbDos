@@ -1,0 +1,37 @@
+
+Initializing the databank of posledni !
+Some predefined PVs are being entered into the database !
+Importing the Library system.SLB
+Upload 'burtrap' READY
+Initializing the databank of PCC !
+Task burtrap could not be restored (error 6008)
+Upload 'exermo' READY
+Task exermo could not be restored (error 6008)
+Upload 'mt_slave' READY
+Task mt_slave could not be restored (error 6008)
+Upload 'mathtrap' READY
+Task mathtrap could not be restored (error 6008)
+Upload 'bugfix' READY
+Task bugfix could not be restored (error 6008)
+Upload '$$sysconf' READY
+Task $$sysconf could not be restored (error 6017)
+Upload 'flash9xx' READY
+Task flash9xx could not be restored (error 6008)
+Upload 'e_z_s' READY
+Upload 'stl_vzdu' READY
+Upload 'tezni_st' READY
+Upload 'energie' READY
+Task energie could not be restored (error 6000)
+Upload 'energeti' READY
+Task energeti could not be restored (error 6000)
+Upload 'vetracky' READY
+Task vetracky could not be restored (error 6000)
+Upload 'oh_vetru' READYmsg: not enough memorymsg: not enough memorymsg: not enough memorymsg: not enough memorymsg: not enough memory
+GDM Synchronization complete
+Not enough memory for a new window !
+TIME = Fri Dec 19 11:23:27 2008
+USER = default
+Upload 'komunika' not possible (status conflict or wrong key switch positon)
+TIME = Wed Jan 14 10:34:58 2009
+USER = default
+No valid PG2000 project found !

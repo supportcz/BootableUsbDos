@@ -1,0 +1,23 @@
+#TXT 00 00 17 78  Ausgabeger„t____:
+#VAR 00 18 04 01 78 00 42 N N J N N 00 00 88 
+#TXT 01 00 17 78  Filename________:
+#VAR 01 18 12 01 78 00 66 N N J N N 66 00 66 
+#TXT 02 00 17 78  Filegr”áe_______:
+#VAR 02 18 08 01 78 00 42 N N N N N 03 00 03 
+#TXT 03 00 17 78  Seitenanfang____:
+#VAR 03 18 01 01 78 03 66 N N J J N 04 00 04 
+#TXT 04 00 17 78  PC-Zeichensatz__:
+#VAR 04 18 01 01 78 03 66 N N J J N 05 00 05 
+#TXT 05 00 17 78  Zeilen/Seite____:
+#VAR 05 18 03 01 78 00 78 N N J N J 07 00 07 
+#TXT 05 24 08 78  (10-255)
+#TXT 06 00 17 78  Zeichen/Zeile___:
+#VAR 06 18 03 01 78 00 78 N N J N J 08 00 08 
+#TXT 06 24 08 78  (80-132)
+#TXT 07 00 17 78  Linker_Rand_____:
+#VAR 07 18 01 01 78 00 78 N N J N N 09 00 09 
+#TXT 07 24 05 78  (0-9)
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS JNjn

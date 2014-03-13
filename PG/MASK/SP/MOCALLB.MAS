@@ -1,0 +1,41 @@
+#TXT 00 00 36 78  _1)_Autollamada_de_seguridad_N§_1_:_
+#VAR 00 36 30 01 78 01 66 N N J N N 00 00 01 
+#TXT 00 66 05 78  _____
+#TXT 01 00 36 78  _2)_Autollamada_de_seguridad_N§_2_:_
+#VAR 01 36 30 01 78 01 66 N N J N N 00 00 02 
+#TXT 03 00 37 78  _3)_Numero_de_rellamadas___________:_
+#VAR 03 38 02 01 78 00 78 N N J N N 00 00 03 
+#TXT 03 43 06 78  (1-15)
+#TXT 04 00 37 78  _4)_Numero_de_intentos_de_registro_:_
+#VAR 04 38 02 01 78 00 78 N N J N N 00 00 04 
+#TXT 04 43 05 78  (0-7)
+#TXT 05 00 34 78  _5)_Proceder_al_registro_de_fallo:
+#TXT 05 35 22 78  _Autollamada_segur._:_
+#VAR 05 58 01 01 78 03 66 N N J J N 00 00 88 
+#TXT 05 60 05 78  (S/N)
+#TXT 06 35 22 78  _Desconexi¢n________:_
+#VAR 06 58 01 01 78 03 66 N N J J N 00 00 99 
+#TXT 06 60 05 78  (S/N)
+#TXT 08 00 49 78  _6)_Tiempo_para_"EN-LINEA"_despues_de_RESET____:_
+#VAR 08 49 02 01 78 00 78 N N J N N 00 00 05 
+#TXT 08 52 07 78  (seg*5)
+#TXT 09 00 49 78  _7)_Demora_despues_de_autollamada_fallida______:_
+#VAR 09 49 02 01 78 00 78 N N J N N 00 00 06 
+#TXT 09 52 08 78  (seg*10)
+#TXT 10 00 49 78  _8)_Demora_despues_de_desconexi¢n______________:_
+#VAR 10 49 02 01 78 00 78 N N J N N 00 00 07 
+#TXT 10 52 05 78  (seg)
+#TXT 11 00 49 78  _9)_Demora_para_cortar_"DSR"_sl_desconectar____:_
+#VAR 11 49 02 01 78 00 78 N N J N N 00 00 08 
+#TXT 11 52 08 78  (seg*10)
+#TXT 13 00 40 78  10)_Espera_para_conexi¢n______________:_
+#VAR 13 40 02 01 78 00 78 N N J N N 00 00 09 
+#TXT 13 43 08 78  (seg*10)
+#TXT 14 00 40 78  11)_Espera_para_desconexi¢n___________:_
+#VAR 14 40 02 01 78 00 78 N N J N N 00 00 10 
+#TXT 14 43 08 78  (seg*10)
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~
+#KS SNsn
+#KS 0123456789TPW:=><;/SR@!&*#~

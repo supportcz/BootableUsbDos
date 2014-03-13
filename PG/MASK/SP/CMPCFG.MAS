@@ -1,0 +1,52 @@
+#TXT 00 00 23 78  _Par metros_Generales_:
+#TXT 01 04 11 78  Compara___:
+#VAR 01 16 02 01 78 00 78 N N J N N 00 00 01 
+#TXT 01 24 06 78  (1-99)
+#TXT 02 04 11 78  Sincroniza:
+#VAR 02 16 04 01 78 00 78 N N J N N 00 00 02 
+#TXT 02 24 08 78  (1-9999)
+#TXT 03 04 11 78  Informe___:
+#VAR 03 16 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 03 20 05 78  (S/N)
+#TXT 03 29 19 78  Versi¢n_abreviade_:
+#VAR 03 49 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 04 04 17 78  Modo_Autom tico_:
+#VAR 04 22 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 04 26 05 78  (S/N)
+#TXT 06 01 24 78  Liste_de_Instrucciones_:
+#VAR 06 26 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 06 28 05 78  (S/N)
+#TXT 06 37 11 78  Secuencia_:
+#VAR 06 49 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 07 04 27 78  Direccionamiento_relativo_:
+#VAR 07 32 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 08 04 27 78  Definici¢n_de_etiquetas___:
+#VAR 08 32 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 09 04 27 78  Comprob._mnem¢nicos_______:
+#VAR 09 32 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 10 04 27 78  Comprob._comentarios______:
+#VAR 10 32 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 11 04 27 78  Ignorar_"NOP"_____________:
+#VAR 11 32 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 13 01 17 78  Tabla_de_datos__:
+#VAR 13 19 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 13 21 05 78  (S/N)
+#TXT 14 04 18 78  Comprob._image___:
+#VAR 14 23 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 14 28 09 78  Compara_:
+#VAR 14 38 02 01 78 00 78 N N J N N 00 00 03 
+#TXT 14 41 06 78  (1-99)
+#TXT 15 04 18 78  Comprob._comenta.:
+#VAR 15 23 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 17 01 17 78  Nem¢nicos_______:
+#VAR 17 19 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 17 21 05 78  (S/N)
+#TXT 17 28 07 78  Largo_:
+#VAR 17 36 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 17 39 07 78  Corto_:
+#VAR 17 47 01 01 78 03 66 N N J N N 00 00 00 
+#TXT 17 50 01 78  _
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\!@#$%^&*(){}[]-+=;,.<>?:~|"/'`
+#KS SNsn

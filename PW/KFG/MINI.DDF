@@ -1,0 +1,24 @@
+*           
+*   Datatype Description File for MININET
+*
+7,                          * VNT: Anzahl der Variablentypen in der SPS
+BIT,1,1,0,                  * Klartextname, dattyps_sps, pvlen, swap
+BYTE,5,1,0,                 
+INT,3,2,0,
+WORD,6,2,0,
+LONG,7,4,0,
+FLOAT,8,4,0,
+STRING,9,1,0,               * hier pvlen als Multiplikator mit Stringlaenge
+7,                          * FVT: Anzahl der Feldparametertypen
+5,1,BYTE,                   * dattyp_bti, Anz- und Liste der zul. Variablentypen
+1,1,BIT,
+6,1,WORD,
+3,1,INT,
+7,1,LONG,
+8,1,FLOAT,
+9,1,STRING,
+4,                          * Anzahl der ABG-Eintr„ge
+C,0,799,1,7,BIT,BYTE,INT,WORD,LONG,FLOAT,STRING,0,0,
+C,1500,7167,1,7,BIT,BYTE,INT,WORD,LONG,FLOAT,STRING,0,0,
+R,0,799,1,7,BIT,BYTE,INT,WORD,LONG,FLOAT,STRING,0,0,
+R,1500,7167,1,7,BIT,BYTE,INT,WORD,LONG,FLOAT,STRING,0,0,

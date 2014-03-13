@@ -1,0 +1,91 @@
+                         INFORMATION
+                 NET000/CAN Treiber V2.0 fÅr
+             PANELWARE KONFIGURATIONS SOFTWARE
+
+
+A. Auf dieser Diskette sind folgende Programme enthalten
+
+        Automatische Installation aller benîtigten Dateien auf die
+        Harddisk
+
+        Kommunikationstreiber fÅr NET2000/CAN
+
+B. Benîtigte Version der PANELWARE KONFIGURATIONS SOFTWARE
+
+   FÅr die Installation der NET2000/CAN Treiber Diskette V 2.0 ist eine
+   PANELWARE KONFIGURATIONS SOFTWARE ab Rev.: 02.00 notwendig. Mit frÅheren
+   Versionen ist keine Projekterstellung fÅr eine NET2000/CAN - Kommunikation
+   mîglich.
+
+C. Um alle Dateien auf die Harddisk zu installieren, (z.B. Laufwerk C: )
+   mÅssen Sie das automatische Installationsprogramm von dieser Diskette
+   verwenden. Um dieses Programm auszufÅhren, mu· diese Diskette in das
+   Diskettenlaufwerk (z.B. Laufwerk A: ) eingelegt werden. Folgende Be-
+   fehlszeile ist am PC einzugeben:
+
+        C:> A:SETUP
+
+   WICHTIG:  Um die FunktionalitÑt des NET2000/CAN Treibers zu garantieren,
+             mÅssen alle benîtigten Dateien mit dem SETUP-PROGRAMM auf die
+             Harddisk installiert werden.
+
+D. Hinweise bei der Installation
+
+   Bei der Installation mu· der Zielpfad mit der bei der Installation der
+   PANELWARE KONFIGURATIONS SOFTWARE angegebene Zielpfad Åbereinstimmen.
+
+        z.B.    Installation der PANELWARE KONFIGURATIONS SOFTWARE:
+
+                Zielpfad:       C:\PW\
+
+                Installation der NET2000/CAN - Treiber Diskette
+
+                Zielpfad:       C:\PW\
+
+E. Neuinstallation von NET2000/CAN - Treiber
+
+   Bei der Installation des NET2000/CAN - Treibers wird ein neuer Eintrag
+   in die bestehende Verbindungsliste eingefÅgt.
+   Alle benîtigten Dateien werden in das Verzeichnis \Zielpfad\kfg kopiert.
+
+F. Hinweise bei der Verwendung des NET2000/CAN - Treibers
+
+   Tableau:
+
+        Das Tableau kann mit allen B&R2000 Steuerungen, welche NET2000
+        Slave-Funktionen auf dem CAN-Interface anbieten, kommunizieren.
+        Es kînnen keine CAN I/O's (z.B. EX470) adressiert werden.
+
+   SPS:
+
+        Auf der SPS mu· der NET2000 Treiber V2.0 installiert sein.
+        Alle notwendigen NET2000 Initialisierungsparameter mÅssen
+        dem Librarymanual entnommen werden.
+
+
+G. énderungen des CAN-NET2000 - Treibers
+
+   Version V1.0 ---> Version V2.0
+
+        Die Datentype-Konvertierung BIT-BIT und BIT-BYTE fÅr das Alarmsystem
+        wurde korregiert.
+
+        NET2000 V2.0 Funktionen wurden implementiert.
+            d.h. Multi-Masterfunktionen am CAN-Bus sind mîglich (mehrere
+            Tableaus kînnen an einem CAN-Bus miteinander kommunizieren).
+            !!! Diese Funktion ist jedoch mit Bedacht zu verwenden, da die
+            CAN-Buslast durch die NET2000-Layer sehr stark belastet wird.
+
+H. Schnittstellen auf C220/C221 Tableaucontroller
+
+   Auf dem C220/C221 Tableaucontroller wird die IF3-Schnittstelle fÅr die
+   Kommunikation zur SPS verwendet.
+
+   HINWEIS:     Auf dem C220 Tableaucontroller kann nur 1 Kommunikations-
+                protokoll verwendet werden. Es ist nicht mîglich, mehrere
+                Kommunikationsprotokolle gleichzeitig zu verwenden.
+
+
+
+     12.06.1997
+

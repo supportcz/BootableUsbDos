@@ -1,0 +1,624 @@
+
+           ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+           º        Bug Fixing SPSSW V1.10         º
+           º                                       º
+           º    Nr. 18 (BFX_V128) = SPSSW V1.28    º
+           ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Datum    :     15. Oktober 1997
+Verfasser:     Bernhard Hochstrasser
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+
+Folgende Fehler sind in der SPSSW V1.10 bekannt bzw. k”nnen durch
+Laden und Brennen eines BUGFIX-Modules behoben werden :
+
+F1   Korrektur eines Fehlers in der IO-Behandlung
+
+     Dieser Fehler konnte zu einer IO-Zykluszeitverletzung bzw. zu
+     nicht korrekt geholten Input-Werten fhren.
+     (BFX_V111)
+
+F2   Korrektur des Fehler 1 bei einer SS-Taskklassen IO-
+     Zykluszeitverletzung
+
+     Bei Auftreten einer SS-Taskklassen IO-Zykluszeitverletzung,
+     (eine m”gliche Folge von F1) wird jetzt bei geladenem Modul
+     exermo.br eine SS-Taskklassen Zykluszeitverletzung gemeldet
+     (Fehlercode 9112 bis 9115 fr SSTK 1-4), allerdings nur, wenn
+     die Zykluszeitberwachung mit dem FUB ZYKVL_enable() aktiviert
+     ist. Diese Exception kann ber einen benutzerdefinierten
+     Exceptiontask (Exceptionnummer 161) behandelt werden.
+     Ist die Zykluszeitberwachung nicht aktiviert, so kann es
+     natrlich zu einer maximalen Zykluszeitverletzung der SS-
+     Taskklasse kommen (Fehlercode 9116 bis 9119 fr SSTK 1-4), die
+     ebenfalls durch einen benutzerdefinierten Exceptiontask
+     behandelt werden kann (Exceptionnummer 160).
+     (BFX_V111)
+
+F3   Fehler bei der Behandlung von fixierten Firmware-Erweiterungen
+
+     Wurden Firmware-Erweiterungen im FIXRAM fixiert, so wurden
+     einige dieser Module beim INIT (Powerfail) nicht korrekt
+     behandelt (z.B. "out0init.br"). Wurden diese Module aber in
+     das EPROM gebrannt, so trat kein Fehler auf !
+     Anmerkung : Firmware-Erweiterungen sollten immer in das EPROM
+     gebrannt werden, da dieser Speichertyp in jedem Fall sicherer
+     als ein RAM ist !
+     (BFX_V111)
+
+F4   Inkonsistenz bei der Erkennung einer maximalen SS-Taskklassen
+     Zykluszeitverletzung beseitigt
+
+     In SS-Taskklassen wurde in manchen F„llen keine Verletzung der
+     maximalen Zykluszeit erkannt.
+     (BFX_V111)
+
+F5   Fehler bei Installationsfehler im Hochlauf
+
+     Trat im Hochlauf (TOTALINIT, INIT) ein Fehler beim
+     Installieren eines Moduls auf (z.B. Remote-IO Slave nicht
+     vorhanden), so wurde der Fehler im Fehlerlogbuch eingetragen,
+     das verursachende Modul "<xyz>.br" aber auch aus dem EPROM /
+     FIXRAM gel”scht. Damit war bei nochmaligem Hochlauf der Fehler
+     zwar verschwunden.
+     Jetzt werden Module bei einem Fehler im Hochlauf nicht mehr
+     aus dem EPROM / FIXRAM gel”scht, es wird nur der Fehler im
+     Fehlerlogbuch eingetragen.
+     (BFX_V111)
+
+F6   Nicht gelesene Input-Werte im INIT-UP der Taskklasse 4 in der
+     Default-Konfiguration bei Download
+
+     Wenn die Zykluszeit der Taskklasse 4 auf 10 Millisekunden
+     konfiguriert ist (default "so schnell wie m”glich"), so wurde
+     beim Download eines SPS-Task vor dem Aufruf des INIT-UP des
+     SPS-Task der Input nicht von den IO-Modulen eingelesen. In
+     allen anderen Taskklassen trat das Problem nicht auf, auch bei
+     INIT bzw. TOTAL-INIT wird der Input immer vor dem INIT-UP
+     gelesen.
+     (BFX_V111)
+
+F7   Illegal Instruction (9102) bei NW150 mit BFX_V111.BR
+
+     Durch einen Fehler im Bugfix 1 (bfx_v111.br) kommt es bei
+     Verwendung einer NW150 (Profibus-Karte 2005) zu einer Illegal
+     Instruction (Fehler 9102).
+     (BFX_V112)
+
+F8   Buserror bei Systemen mit wenig Speicher
+
+     Ein Fehler bei der Speichervergabe konnte bei wenig freiem
+     Speicher (User-Memory-Bereiche bzw. Merkerbereich) dazu
+     fhren, daá ein Buserror am Ende des Bereichs auftritt.
+     (BFX_V113)
+
+F9   Fataler Fehler 3051 bei Verbindungsabbruch
+
+     Beim Verbindungsabbruch konnte es bei kommunikationsseitig
+     stark ausgelasteten Systemen zum fatalen Fehler 3051 kommen.
+     Dieser Fehler tritt jetzt nicht mehr auf.
+     (BFX_V113)
+
+F10  Fehler in der Verriegelung bei der Speicherallocation
+
+     Wenn 2 Tasks gleichzeitig Speicher allocierren wollten, wobei
+     der zuerst der niederpriore Task die entpspechende Funktion
+     (MEM_alloc) aufgerufen und dabei vom h”herprioren Task
+     unterbrochen wurde, der auch Speicher allocierte, so konnte es
+     passieren, daá beide Task den gleichen Speicher zugeteilt
+     bekamen.
+     (BFX_V113)
+
+F11  Fehler beim SPS-Task-Install mit SPS-globalen Merkern am MP
+
+     Beim Install von SPS-Tasks (Download, Totalinit) wurde die vom
+     SPS-Task verwendete Gr”áe der SPS-globalen Merker mit dem im
+     Konfigurationsmodul (PLCSWCFG) eingetragenen Gr”áen der MP-
+     globalen Merker verglichen, die Gr”áe der verwendeten MP-
+     globalen Merker wurde nicht verglichen.
+     Ab dem Bugfix V113 wird auch die Gr”áe der verwendeten SPS-
+     globalen Merker des SPS-Task nicht mehr berprft. Damit
+     k”nnen unabh„ngig von der Konfiguration der MP-globalen Merker
+     am MP SPS-Task, die beliebig viele SPS-globale Merker
+     verwenden, auf den MP geladen werden. Dabei muá natrlich die
+     SPS-CPU entsprechend konfiguriert sein ! Der Anwender muá
+     selbst kontrollieren, ob gengend SPS-globale und MP-globale
+     Merker fr die Verwendung am MP konfiguriert sind.
+     (BFX_V113)
+
+F12  Totalinit bei Exception, wenn das Bugfix-Modul nicht am Beginn
+     des EPROM lag
+
+     Wenn das Bugfix-Modul nicht am Beginn des EPROM lag (als 1.
+     Modul gebrannt wurde), konnte es bei Auftreten einer Exception
+     (IO-Exception, ...) zu einem Hochlauf der SPS mit Totalinit
+     statt Errormode kommen.
+     (BFX_V113)
+
+F13  Adreá-Error nach Entfernen des SPSSW-Konf.Moduls im EPROM
+
+     Wenn ein benutzerdefiniertes SPSSW-Konfigurationsmodul
+     "$$sysconf" in das EPROM gebrannt und dann wieder entfernt
+     wurde, ohne ein TOTALINIT durchzufhren, so kam es bei der PG-
+     Kommunikation zu einem Adreá-Error.
+     (BFX_V113)
+
+F14  Buserror auf der SPSCPU bei Hochlauf mit MP
+
+     Durch eine falsche Initialisierung konnte es im Hochlauf der
+     SPSCPU mit MP zu einem Buserror auf der SPSCPU kommen. Dieses
+     Problem trat wegen eines anderen Zeitverhaltens vor allem mit
+     den Bugfixes V1.11 und V1.12 auf.
+     (BFX_V113)
+
+F15  SERVICE-Mode bei INIT mit MP unmittelbar nach RESET/ERROR
+
+     Nach einem RESET- oder ERROR-Hochlauf der SPSCPU muáte 7
+     Sekunden gewartet werden, bevor ein INIT-Hochlauf des MP
+     korrekt funktionierte.
+     (BFX_V113)
+
+F16  Input-Check bei Verwendung von RIO und SPSIO inkonsistent
+
+     Wurde Remote-IO und SPSIO in einer Taskklasse gemeinsam
+     verwendet, so wurde je nach Reihenfolge der Verwendung in den
+     Tasks einer der beiden Input-Typen nicht immer geprft.
+     (BFX_V114)
+
+F17  nderung der Anzahl der Fehlerlogbucheintr„ge zu sp„t
+
+     Wenn die Anzahl der Eintr„ge in das Fehlerlogbuch
+     umkonfiguriert wurde (PLCSWCFG), wurde das Fehlermodul nicht
+     an die neue Eintragsanzahl angepaát. Jetzt wird das
+     Fehlerlogbuch sofort beim n„chsten Totalinit (!) adaptiert,
+     wobei beim Vergr”áern der Eintragsanzahl Leereintr„ge
+     eingefgt, beim Verkleinern der Anzahl die „ltesten Eintr„ge
+     gel”scht werden.
+     (BFX_V114)
+
+F18  Buserror auf der SPSCPU bei INIT-Hochlauf mit MP nach ERROR
+
+     Durch eine falsche Initialisierung konnte es nach dem Hochlauf
+     mit ERROR-Mode beim folgenden INIT-Hochlauf der SPSCPU mit MP,
+     ausgel”st ber die Tasten bzw. ber das PG, zu einem Buserror
+     auf der SPSCPU kommen.
+     (BFX_V114)
+
+F19  Watchdog bei konfigurierter Taskklassenrestzeit
+
+     Wenn in einer Taskklasse eine Taskklassenrestzeit konfiguriert
+     ist, wobei das Ende der Taskklassenrestzeit genau mit dem
+     Beginn eines neuen Systemzyklus (10 Millisekunden)
+     zusammenf„llt, dann konnte es passieren, daá der Watchdog
+     zuschl„gt, das System mit Reset/Watchdog bootet und in den
+     Servicemode geht.
+     (BFX_V114)
+
+F20  Buserror am MP nach dem Brennen von Modulen beim Zugriff auf
+     SPS-globale Merker
+
+     Durch eine falsche HW-Parametrierung konnte es am MP nach dem
+     Brennen von Modulen in das EPROM/FLASH zu einem Buserror beim
+     Zugriff auf SPS-globale Merker kommen.
+     (BFX_V115)
+
+F21  M”gliche Probleme bei Ausgabe von zu langen Strings am DISPLAY
+
+     Wenn Strings am Display 2010 ausgegeben wurden, die ber die
+     8.Spalte einer Zeile hinausgingen, konnten es zu Problemen in
+     der POWERFAIL-Behandlung kommen (Buserror, Adreáerror)
+     (BFX_V115)
+
+F22  Notausrelais bei POWERFAIL nicht abgefallen
+     (BFX_V115)
+
+F23  Unimplemented Instruction (9106) bei fatalem Fehler 2010
+
+     Bei Verwendung des Bugfix 4 oder Bugfix 5 der SPSSW V1.10
+     konnte es bei einem fatalen Fehler auf 2010-Systemen nach der
+     Protokollierung des Fehlers im Fehlermodul zum Fehler 9106
+     (Unimplemented Instruction) kommen.
+     (BFX_V116)
+
+F24  Buserror bei fatalem Fehler mit MP100
+
+     Wenn auf einem System 2010 mit MP ein fataler Fehler auf der
+     SPS-CPU auftrat, konnte es bei Verwendung des Bugfix 4 oder
+     Bugfix 5 der SPSSW V1.10 auf der SPS-CPU nach der
+     Protokollierung des Fehlers zu einem Buserror kommen (Adresse
+     0xBF<xxxx>).
+     (BFX_V116)
+
+F25  Fehlende Speicherfreigabe beim PV-Zugriff ber das PG
+
+     Beim PV-Zugriff ber das PG (PV-Statustest, Deubgger) wurde
+     ein dafr ben”tigter Speicher nicht freigegeben, bei Aufruf
+     dieser Funktionen verkleinerte sich die Gr”áe des freien
+     Anwender-RAM.
+     (BFX_V117)
+
+F26  INIT-Werte von groáen Arrays nicht korrekt
+
+     Der INIT-Wert fr Arrays, die mehr als 255 Byte groá sind,
+     wurde nicht an alle Array-Elemente zugewiesen.
+     (BFX_V117)
+
+F27  frhere Korrektur der POWERFAIL-Behandlung
+
+     Die Korrektur der POWERFAIL-Behandlung (siehe F22) in der
+     Hochlaufphase erfolgt jetzt frher als bisher.
+     (BFX_V118)
+
+F28  INIT-Werte von Taskklassenglobalen Variablen in EXC- und IRQ-
+     Tasks nicht gesetzt
+
+     Der INIT-Wert von Taskklassenglobalen Variablen (Output bzw.
+     Taskklassenglobaler Merker) wurde in EXC- und IRQ-Tasks nicht
+     gesetzt.
+     (BFX_V118)
+
+F29  Inputwerte im Init-UP normaler Taskklassen bei INIT nicht
+     immer aktuell
+
+     Bei einem INIT-Hochlauf (nach Powerfail oder ber PG bzw.
+     Tasten) sind im Init-UP des SPS-Task die Werte von Input-
+     Variablen bei 2010-IO/2005-IO nicht immer aktuell. Der Fehler
+     tritt nur bei den Taskklassen 1-4 auf.
+     (BFX_V118)
+
+F30  Adreáerror im Bugfix-Modul, wenn Stackbereich zu klein
+
+     Wenn der Bereich fr Stack und globale Daten (siehe
+     Speicherverwaltung PLCSWCFG) zu klein konfiguriert ist, wird
+     im Bugfix der Fehler 9900 mit Info 15=0x0F im Fehlermodul
+     eingetragen, in Folge kommt es aber zu einem Adreáerror im
+     Bugfix-Modul.
+     (BFX_V118)
+
+F31  Buserror bei konfigurierter Taskklassenrestzeit und NET2000
+
+     Bei einer konfigurierten Taskklassenrestzeit fr Restzeittasks
+     (Kommunikation) konnte es im Betrieb mit NET2000 zu einem
+     Buserror kommen, wobei kein Taskname im Fehlerlogbuch
+     eingetragen wurde.
+     (BFX_V119)
+
+F32  Buserror im Modul "ALITRAP" nach SPS-Init ber das PG
+
+     Bei einem Init der SPS ber das PG (SPS-Sonderfunktionen-Reset
+     SPS-Init) konnte es zu einem Buserror im Modul "ALITRAP"
+     kommen, wenn parallel eine 2. serielle Verbindung mit ALI-SK
+     (z.B. zu einem Panel) aktiv war.
+     (BFX_V119)
+
+F33  Fehler 6060+n nach Entfernen eines Moduls aus dem FIXRAM am
+     Flash-AWS
+
+     Wenn auf einem Flash-AWS (ME91x, ME96x) ein Modul aus dem
+     FIXRAM entfernt wird, kommt es nach einer Zeitspanne von max.
+     1 Minute zum Fehler 6060+n im Task "sysm". Dabei ist n der
+     Index des Moduls ("B&R Modul Nr. n zerst”rt"). Bei einem
+     EPROM-AWS (ME90x, ME95x) passiert kein Fehler.
+     (BFX_V119)
+
+F34  RIO-SSTK-Zykluszeitverletzung beim Brennen von Modulen
+
+     Wenn bei laufender RIO-SS-Taskklasse ein Modul gebrannt wurde,
+     konnte es zu einer maximalen Zykluszeitverletzung in der RIO-
+     SS-Taskklasse kommen, auáer die SPS war, wie im PG abgefragt,
+     gestoppt. Der Bugfix ist die Voraussetzung, daá ab RIO-Version
+     V4.20 (!) diese Zykluszeitverletzung beim Brennen von Modulen
+     nicht mehr gemeldet wird.
+     (BFX_V119)
+
+F35  Nicht alle Module gespeichert bei "Objekt speichern"
+
+     Wenn mit dem PG ein Objekt (SPS, CPU, Projektliste)
+     "gespeichert" wird und parallel eine zweite serielle
+     Verbindung z.B. zu einem PANEL aktiv ist (ALI-SK), kann es
+     passieren, daá nicht alle Module im EPROM/FLASH/FIXRAM
+     gespeichert sind, sondern einige Module nur in das RAM geladen
+     werden.
+     ACHTUNG:  Das Speichern von Modulen funktioniert nicht, wenn
+               parallel ber mehrere Verbindungen auf eine CPU
+               geladen / gespeichert wird.
+     (BFX_V119)
+
+F36  SSTK-Input im 1. Zyklus nicht aktuell, wenn kein INIT-UP
+
+     Wenn kein Task einer SS-Taskklasse ein Init-UP hat, so ist der
+     Input beim Hochlauf mit INIT / TOTAL_INIT im 1. Zyklus der SS-
+     Taskklasse nicht aktuell. Beim Download tritt dieses Problem
+     nicht auf.
+     (BFX_V119)
+
+F37  Bugfix-Fehler beim Brennen/Fixieren nach INIT
+
+     Durch einen Fehler im Bugfix V1.19 konnte es beim Brennen /
+     Fixieren eines Moduls nach einem INIT-Hochlauf zum fatalen
+     Fehler 9210 (Watchdog) kommen. Die SPS ging damit in den
+     Service-Mode.
+     (BFX_V120)
+
+F38  Exception-Tasks k”nnen nicht auf den MP geladen werden
+
+     Beim Download von Exception-Tasks auf den MP wurde ein Fehler
+     bei der Speicherallocation gemeldet, der Task konnte nicht
+     installiert werden.
+     (BFX_V121)
+
+F39  Adreáerror beim ™ffnen des PV-Monitor mit dem PG
+
+     Wenn im PG der PV-Monitor ge”ffnet wurde, konnte es zu einem
+     Adreáerror auf der SPS kommen. Im Fehlerlogbuch war in diesem
+     Fall folgende Info eingetragen :
+          Code:  9101  Info: $xxxxxxxx  Task: varz  Time ....
+          Modul: FF.$$varzug   Code-Offset: $1C48
+     (BFX_V121)
+
+F40  Fehler 7010 bei Powerfail im Hochlauf
+
+     Wenn w„hrend des Hochlaufs der SPS (z.B. beim Spoolen von
+     Modulen im Hochlauf) ein POWERFAIL ausgel”st wurde, konnte es
+     beim folgenden INIT-Hochlauf zum Fehler 7010 kommen ("Im Init:
+     CS der Basisverwaltungstabelle ist falsch").
+     (BFX_V121)
+
+F41  Spoolen im Hochlauf ber Remote-IO dauert l„nger, wenn SPS-
+     Tasks mit Remote-IO vorhanden sind
+
+     Wenn SPS-Tasks mit Remote-IO-Zugriff auf der SPS vorhanden
+     sind, dauerte das Spoolen im Hochlauf ber Remote-IO abh„ngig
+     von der Anzahl der referenzierten Remote-IO-Punkte l„nger als
+     beim Hochlauf ohne SPS-Tasks.
+     (BFX_V121)
+
+F42  konfiguriertes Powerfail-Timeout nicht korrekt
+
+     Das mit dem Tool PLCSWCFG konfigurierbare Powerfail-Timeout im
+     Fall eines fatalen Fehlers wurde nicht korrekt eingehalten.
+     (BFX_V121)
+
+F43  MP100 nach lokalem fatalem Fehler nicht mehr ansprechbar
+
+     Wenn am MP100 lokal ein fataler Fehler (z.B. Checksumme
+     defekt) passierte, so war der MP nicht mehr ansprechbar, es
+     funktionierte keine PG-Kommunikation mehr.
+     (BFX_V121)
+
+F44  Flash-Systeme: INIT-Hochlauf nach POWERFAIL im Bootstraploader
+     bringt Fehler 7004
+
+     Wenn es auf Flashsystemen (z.B. ME91x) am Beginn des Hochlauf
+     im Bootstraploader zu einem Powerfail kommt, kann es
+     passieren, daá es beim n„chsten INIT-Hochlauf zum Fehler 7004
+     ("Checksumme ber die Anker zerst”rt") kommt und die SPS mit
+     TOTALINIT bootet.
+     (BFX_V121)
+
+F45  Falscher Fehlercode beim Flashprogrammieren mit Schreibschutz
+
+     Wenn es auf Flashsystemen (z.B. ME91x) beim Programmieren
+     eines Moduls zu einem Fehler kam, z.B. weil der Schreibschutz
+     am AWS aktiv war, wurde ein falscher Fehlercode geliefert, der
+     im PG mit "SM: Fehler beim Aufruf RTC-HWTrap" protokolliert
+     wurde.
+     Beim Speichern kommt aber auch jetzt noch die Meldung "SYSTEM:
+     Zuwenig Stackbereich (PLCSWCFG), Status 3", wenn z.B. der
+     Schreibschutz aktiv ist.
+     (BFX_V122)
+
+F46  Buserror bei mehr als 120 Tasks in einer Taskklasse
+
+     Wenn eine Taskklasse / SS-Taskklasse mehr als 120 SPS-Tasks
+     umfaáte, konnte es bei der PG-Kommunikation (PV-Monitor / SPS-
+     Taskklassen) zu einem Buserror kommen.
+     (BFX_V122)
+
+F47  Bugfix-Probleme bei fatalen Fehlern auf EPROM-AWSen
+
+     Wenn auf neuen EPROM-AWSen
+          3ME950.90-1 ab Rev.10.11, 3ME953.90-1 ab Rev.10.11
+          3ME900.90-1 ab Rev.20.11, 3ME903.90-1 ab Rev.20.11
+          3ME904.90-1 ab Rev.20.11
+     ein fataler Fehler auftrat, konnte es bei Verwendung der
+     vorigen Bugfixversionen passieren, daá das System nicht im
+     Fehlermode hochlief, sondern durch Watchdog/Reset, und der
+     Fehler 9210 im Fehlermodul eingetragen war. Auch die
+     Powerfail-Timeoutzeit zeigte hier keine Wirkung.
+     (BFX_V123)
+
+F48  Unterscheidung CP150 / CP153
+
+     Wegen der Bugfixes V1.21 / V1.22 unterschied der FUB
+     SYS_info() aus der IO-Library nicht zwischen CP150 und CP153,
+     es wurde immer CP150 geliefert.
+     (BFX_V123)
+
+F49  Illegal Instruction bei mehrfachem RTC-Zugriff
+
+     Beim gleichzeitigen Aufruf von RTC_gettime() aus der BURTRAP-
+     Library in mehreren Taskklassen konnte es auf den Systemen mit
+     CP15x, XP152 und C220 zu einer Illegal-Instruction (Fehler
+     9102) oder einer Unimplemented Instruction (Fehler 9106)
+     kommen.
+     (BFX_V124)
+
+F50  SS-Taskklasse auch im Service-Mode gestartet
+
+     Die SS-Taskklassen wurden auch dann gestartet, wenn die SPS im
+     Service-Mode war. Damit war auch im Service-Mode ein Teil der
+     Applikation aktiv.
+     (BFX_V124)
+
+F51  XP152: Mit IO_disable geforcte digitale Inputs „ndern ihren
+     Wert
+
+     Wenn in einem IO-Exceptiontask digitale Inputs mit IO_disable
+     deaktiviert und geforct werden, kann es passieren, daá sich
+     der Wert von digitalen Inputs zyklisch „ndert (0-1-0-1-...)
+     ACHTUNG: Fr die Korrektur des Fehler mssen die Module
+     "exermo.br" ab Version V1.40 und "io_lib.br" ab Version V1.60
+     eingesetzt werden !
+     (BFX_V124)
+
+F52  CP10x mit MP100 / IF10x : Buserror im Hochlauf
+
+     Beim Hochlauf in einem System mit CP10x und MP100 / IF10x mit
+     vielen Modulen im Flash / EPROM der CPU kann es zu einem
+     Buserror beim Handshake von CPU und MP100 / IF10x kommen.
+     (BFX_V126)
+
+F53  Fehler 3036 bei mehr als 127 SPS-Tasks mit RPS-Globalen
+
+     Es konnten nur maximal 127 SPS-Tasks, in denen RPS-Globale
+     digital oder RPS-Globale analog verwendet wurden, auf die SPS
+     geladen werden. Dann wurde der Fehler 3036 (Fehler AVT-
+     Linkcount) gemeldet.
+     (BFX_V126)
+
+F54  Zyklisches Booten nach Verwendung der Version V1.91
+
+     Durch eine unterschiedliche Speicheraufteilung zwischen V1.10
+     und V1.91 konnte es passieren, daá nach der Verwendung der
+     V1.91 das System beim Einsatz der V1.10 zyklisch zu booten
+     begann. Der Fehler war nur durch einen SystemSW-Update zu
+     beheben.
+     (BFX_V127)
+
+F55  Fehler 9199 bei serieller Kommunikation
+
+     Durch einen Fehler in der Interruptbehandlung konnte es bei
+     serieller Kommunkation zum Fehler 9199 kommen.
+     (BFX_V128)
+
+
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+º Alle diese Fehler werden durch den vorliegenden Bugfix 18 (BFX_V128)   º
+º vollst„ndig behoben.                                                   º
+º                                                                        º
+º Die Behebung der Fehler durch Nachladen und Brennen des BUGFIX-Moduls  º
+º "bugfix.br" wird von uns dringend empfohlen (B&R2010 inkl. MP100,      º
+º B&R2005 inkl. XP152, C220).                                            º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+Erweiterungen der SPSSW V1.10 durch das vorliegende Bugfix-Modul :
+
+E1   Untersttzung der RIO-SS-Taskklasse
+
+     Nur wenn das Bugfixmodul gebrannt ist, kann ein
+     Konfigurationsmodul mit einer RemoteIO-SS-Taskklasse
+     konfiguriert werden (ab PLCSWCFG V1.20).
+     (BFX_V114)
+
+E2   Parametrierbare Mindestwartezeit fr TOTALINIT und INIT
+
+     Um im Hochlauf bei INIT bzw. TOTAL_INIT eine Mindestzeit
+     garantieren zu k”nnen, bevor IO- bzw. Systemmodule
+     angesprochen werden, gibt es die M”glichkeit der Konfiguration
+     dieser Wartezeit ab PLCSWCFG V1.20.
+     (BFX_V114)
+
+E3   INIT-Werte fr PVs
+
+     Untersttzung der INIT-Werte fr Variablen, die ab PG V2.10 in
+     der Variablendeklaration angegeben werden k”nnen.
+     (BFX_V115)
+
+E4   Profibus-Input-Check in der Restzeit
+
+     In der Systemrestzeit werden die Profibuskommunikationskan„le
+     kontrolliert und einlangende Pakete sofort behandelt. Dadurch
+     erh”ht sich der Durchsatz bei Profibuskommunikation.
+     (BFX_V115)
+
+E5   Untersttzung der MP-SSTK
+
+     Nur wenn das Bugfixmodul am MP 2010 gebrannt ist, kann ein
+     Konfigurationsmodul mit einer MP-SS-Taskklasse konfiguriert
+     werden (ab PLCSWCFG V1.20).
+     (BFX_V115)
+
+E6   Erweiterung der analogen Merker und des IO-Verwaltungsbereichs
+
+     Der Bereich fr das analoge IO wird bei Bedarf auch fr den
+     analogen Merker-Pool (lokale, taskklassenglobale und SPS-
+     globale Variablen) bzw. fr den IO-Verwaltungsbereich
+     (Schaufeltabellen fr 2010-IO und 2005-IO) zur Verfgung
+     gestellt. Damit werden die insgesamt 12800 Byte fr das
+     analoge IO dynamisch je nach Bedarf verwendet, z.B. bei 2005-
+     Systemen:
+
+          analoges IO         :    12800 Bytes, z.B 800 Bytes verw.
+          analoger Merker-Pool:    25920 Bytes + max.12000 Bytes zus„tzlich
+          IO-VW-Bereich       :    12800 Bytes + max.12000 Bytes zus„tzlich
+     (BFX_V117)
+
+E7   Untersttzung der erweiterten Speicheranalyse im PG V2.2x
+
+     Fr das PG V2.2x wird die erweitertete Speicheranalyse (Merker
+     und IO) untersttzt.
+     (BFX_V117)
+
+E8   Untersttzung der CPU XP152
+
+     Die neue CPU "XP152" fr das 2005-System wird untersttzt
+     (BFX_V118)
+
+E9   Input in SS-Taskklassen bereits im Init-UP vorhanden
+
+     Bisher stand bei SPS-Tasks in SS-Taskklassen durch das
+     gemeinsame IO-Abbild im INIT-UP noch kein aktueller Input-Wert
+     zur Verfgung (siehe Dokumentation zur SPSSW V1.10). Ab jetzt
+     ist der Input auch in SS-Taskklassen bereits im Init-UP
+     vorhanden.
+     (BFX_V119)
+
+E10  Untersttzung der CPU C220
+
+     Die neue CPU "C220" wird untersttzt.
+     (BFX_V122)
+
+E11  Untersttzung der CP15x fr NC154-Kommunikation
+
+     Die fr die NC154-Kommunikation umgebaute CPU "CP15x" wird
+     untersttzt.
+     (BFX_V122)
+
+E12  Untersttzung des 2005-AWS ME965
+
+     Um den neuen 2005-AWS ME965 vollst„ndig nutzen zu k”nnen (1 MB
+     RAM, 2 MB Flash), muáte die Speicherverwaltung adaptiert
+     werden.
+     (BFX_V125)
+
+
+Im vorliegenden BUGFIX Nr.18 sind auch alle Korrekturen der
+bisherigen Bugfix-Versionen enthalten.
+Sollte eine der alten Bugfix-Versionen in Form des Moduls
+BFX_V11<x>, x={1,2,3} gebrannt sein, muá das Modul "BFX_V11<x>"
+entfernt (mit dem PG : "SPS"-"Module"-"Entfernen") und ein
+TOTALINIT auf der SPS durchgefhrt werden (z.B. mit dem PG : "SPS"-
+"Sonderfunktionen"-"Reset SPS" mit Modus "TOTALINIT").
+
+Anmerkung:
+     Das Bugfix-Modul hat ab Bugfix 4 fix den Namen "bugfix", die
+     Versionsnummer kann im PG ber den Verbindungspartner im
+     Meldungsfenster bzw. unter "SPS"-"Sonderfunktionen"-"SPS-Info"
+     bzw. bei 2010-Systemen am Display der SPS-CPU abgelesen
+     werden. Auf DOS-Ebene ist die Versionsnummer in die Zeit des
+     Dateidatum codiert (z.B 1:28). Dieser fixe Name hat den
+     Vorteil, daá ein neues Bugfixmodul ohne vorheriges Entfernen
+     des alten Bugfixmoduls auf die SPS geladen und gebrannt kann.
+
+Fr das Laden und Brennen des BUGFIX-Moduls auf die SPS kann das PG
+verwendet werden ("SPS"-"Module"-"Download"-"Brennen").
+Anschlieáend muá (!) ein TOTALINIT auf der SPS durchgefhrt werden
+(z.B. mit dem PG : "SPS"-"Sonderfunktionen"-"Reset SPS" mit Modus
+"TOTALINIT").
+
+
+

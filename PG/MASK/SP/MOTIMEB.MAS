@@ -1,0 +1,21 @@
+#TXT 00 00 57 78  _1)_Numero_de_intentos_para_transmisi¢n_de_cabecera_____:
+#VAR 00 58 01 01 78 00 78 N N J N N 00 00 01 
+#TXT 00 60 13 78  (1-9)________
+#TXT 02 00 57 78  _2)_Tiempo_de_demora_de_segunda_llamada_al_MASTER_RS485:_
+#TXT 03 04 20 78  _3)_Buffer-0______:_
+#VAR 03 25 02 01 78 00 78 N N J N N 00 00 02 
+#TXT 03 29 09 78  (10*mseg)
+#TXT 04 04 20 78  _4)_Buffer-1______:_
+#VAR 04 25 02 01 78 00 78 N N J N N 00 00 03 
+#TXT 04 29 09 78  (10*mseg)
+#TXT 05 04 20 78  _5)_Buffer-2______:_
+#VAR 05 25 02 01 78 00 78 N N J N N 00 00 04 
+#TXT 05 29 09 78  (10*mseg)
+#TXT 06 04 20 78  _6)_Sistema_______:_
+#VAR 06 25 02 01 78 00 78 N N J N N 00 00 05 
+#TXT 06 29 09 78  (10*mseg)
+#TXT 08 00 14 78  _7)_Baudios_:_
+#VAR 08 14 05 01 78 00 42 N N J N N 00 00 06 
+#KS 1234567890
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~
+#KS abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*(){}[]-+=;,.<>?:~
