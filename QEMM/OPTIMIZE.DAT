@@ -1,0 +1,13 @@
+AutoExcludes=3
+AutoexecToRead=C
+BootDrive=C
+ConfigSysToRead=C
+Express
+FromInstall
+Hardware=1
+MaxTime=3
+NextAutoexec=3
+NextLabel=AG
+SkipWelcome
+SqueezeT=0000000000000000
+StartSeg=0EDF

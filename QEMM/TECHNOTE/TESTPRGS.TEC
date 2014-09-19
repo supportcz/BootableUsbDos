@@ -1,0 +1,265 @@
+
+             Quarterdeck Advanced EMS Utilities
+
+ Quarterdeck Technical Note #293             Filename: TESTPRGS.TEC
+ by Quarterdeck Documentation              CompuServe: TSTPRG.TEC
+ Last Revised: 04/05/95                      Category: QEMM
+
+ Subject: A discussion of the advanced EMS utilities that ship with
+          QEMM.
+
+
+ EMS Utility Programs
+ --------------------
+
+ This technical note describes three advanced EMS utility programs
+ that can give you more control over EMS memory. This document is
+ provided for programmers and advanced users who want to control
+ EMS memory allocation.
+
+ QEMM includes three advanced utility programs: EMS.SYS, which give
+ you behind-the-scenes access to QEMM's management of EMS memory;
+ and EMS2EXT, which lets you allocate extended memory on the fly
+ through the pre-XMS INT 15 interface. You may never need these
+ programs, but they can prove useful in cases where you need more
+ control of memory allocation than your programs give you.
+
+
+ The EMS Programs
+ ----------------
+
+ The EMS.COM and EMS.SYS programs provide several informative and
+ powerful functions to help you make the best use of your EMS
+ memory in cases in which you have special or unusual requirements.
+ Although anyone may benefit from seeing the EMS status report and
+ the details of expanded memory allocation, other uses of EMS which
+ will be described in these sections are for technically
+ sophisticated users.
+
+ Most of the functions of EMS.SYS and EMS.COM involve the
+ manipulation of expanded memory handles. An EMS handle is the
+ information that the expanded memory manager uses to identify a
+ block of memory that it allocates. A handle is represented by a
+ number and may optionally have a name.
+
+ An expanded memory handle is the token of interaction between an
+ EMS-using program and an expanded memory manager. EMS.SYS and
+ EMS.COM give you command-line control of some of the EMS functions
+ that are usually available only at the programming level. Since
+ these EMS utilities are capable of granting you access to handles
+ which may belong to other programs, you should exercise caution
+ when using these utilities.
+
+ With the EMS programs, you can allocate and name a block of memory
+ with the CREATE option, and optionally specify that this block of
+ memory consists of the fastest or slowest memory on your system.
+ You can use the FREE option to free the expanded memory associated
+ with a handle. You can read data from a file into expanded memory
+ or write the data from expanded memory to a file with the LOAD or
+ SAVE options. You can rename an EMS handle and change the amount
+ of memory associated with it.
+
+ The most common reason for using the EMS programs is to prevent a
+ specific application from using all of the memory in your system.
+ By issuing an EMS CREATE command before running an application,
+ you effectively "hide" the specified amount of memory from that
+ application. Many programs (e.g., Microsoft Windows, AutoCAD,
+ Quattro, Lotus 1-2-3 version 3) allocate a great deal of available
+ memory to themselves at startup timeþsometimes as much as you have
+ on your system. By creating an EMS handle in the following
+ fashion:
+
+   EMS CREATE handle_name 2048K
+
+ you reserve 2 megabytes of memory, identified by the name
+ HANDLE_NAME, that other programs will see as already assigned, and
+ therefore will not touch. Once your program has started, you could
+ go to the DOS prompt and issue the command:
+
+   EMS FREE handle_name
+
+ to release the 2 megabytes of memory, which would leave 2
+ megabytes available after your application is running. Because
+ QEMM gives out both expanded and extended memory from the same
+ memory pool, you can use this method to withhold memory from
+ programs that allocate their memory through EMS, XMS, VCPI, or
+ DPMI. This method is particularly useful for preventing Microsoft
+ Windows 3.1 standard mode from allocating all memory, so that you
+ can run programs that get their memory through EMS, VCPI, or DPMI
+ inside Windows.
+
+ If parts of the expanded memory in your system run at different
+ speeds, you can use EMS to allocate memory of one speed before you
+ load a device driver or TSR so that it can only use the faster or
+ slower memory that remains; then you can free the memory for use
+ by your other applications. Manifest can show you if your memory
+ runs at different speeds.
+
+ If you are a programmer using expanded memory, you can use the
+ LOAD and SAVE functions when you need to save and restore the
+ contents of expanded memory during development and debugging. You
+ use EMS.SYS in the CONFIG.SYS file to manipulate expanded memory
+ during the system boot sequence. You use EMS.COM in the
+ AUTOEXEC.BAT file or directly from the DOS prompt, as needed.
+
+ To get a summary report of your expanded memory:
+
+ At the DOS prompt, type EMS and press Enter.
+
+ EMS will report the total amount of expanded memory, the amount
+ currently available and the address of the page frame.
+
+ EMS Parameters
+
+ Both EMS.SYS and EMS.COM respond to the same parameters. The
+ parameters are described below. Some parameters have an
+ abbreviation you can use instead of the full name; abbreviations
+ are listed in parentheses below. Brackets ([ ]) in a statement
+ indicate that the enclosed item is optional.
+
+ CREATE name amount (CR)
+ allocates expanded memory. CREATE requires two arguments: a name
+ for the block of memory you are allocating and the amount of
+ memory. The name may be one to eight characters long. The name
+ need not be enclosed in quotation marks unless it contains blanks.
+ You can express the amount of memory to allocate several ways: Use
+ a number by itself to express the amount of memory in EMS pages
+ (16K per page). Use a number directly followed by the letter K
+ (e.g., 2048K) to express the amount in kilobytes. If you specify
+ the number of kilobytes, the memory manager will round the number
+ up if necessary to a multiple of 16. You can use the letter M
+ instead of K to express a value in megabytes. You can use the
+ argument ALL to allocate all available memory. You can use the
+ argument ALL-nnnnnn, ALL-nnnnnnK or ALL-nnnM to allocate all
+ available memory minus a specified number of EMS pages, kilobytes
+ or megabytes.
+
+ Follow the EMS CREATE command with the EMS DIR command to confirm
+ the allocation and to determine the handle number assigned to the
+ name.
+
+ CREATEFAST name amount (CFAST)
+ and
+ CREATESLOW name amount (CSLOW)
+ are alternate forms of the CREATE option (see above) that instruct
+ the memory manager to allocate the memory from either faster or
+ slower memory. Use Manifest's Expanded Memory Timings to determine
+ if any speed difference does in fact exist.
+
+ DIR
+ displays a breakdown of the current expanded memory allocated. For
+ each allocated handle, DIR gives the number of expanded memory
+ pages associated with it, the number of kilobytes of memory those
+ pages represent, and the name assigned to that handle, if any.
+
+ FREE name or number
+ frees memory and deallocates a handle. FREE requires that you
+ specify a handle to deallocate, either by its name or number.
+ Beware of doing this to someone else's handle.
+
+ HELP
+ displays help on the EMS programs and their options.
+
+ LOAD name or number filename
+ allows you to restore the contents of expanded memory pages that
+ have been stored in a file. This option requires that you specify
+ the handle name (or number) and the name of the file containing
+ the data you want to restore. The number of pages required will be
+ automatically allocated based on the file's size.
+
+ RENAME name or number new_name (REN)
+ lets you assign a new name to a handle. The first parameter to
+ RENAME is the original handle. You may refer to this handle by its
+ number or its name. The second argument is the new handle name.
+ RENAME can be useful to name an unnamed handle to help you keep
+ track of it.
+
+ RESIZE name or number amount (RES)
+ lets you increase or decrease the amount of memory assigned to a
+ handle. Its two arguments are the same as those of CREATE (see
+ above).
+
+ SAVE name or number filename
+ allows you to save the contents of the expanded memory pages
+ associated with an EMS handle to a file. This option requires that
+ you specify the handle name (or number) and the filename.
+
+ ?
+
+ lists the EMS programs' parameters.
+
+
+ EMS2EXT.SYS
+ -----------
+
+ EMS2EXT.SYS converts expanded memory to extended memory, for
+ programs that rely upon the old INT 15 method of accessing
+ extended memory. This method is no longer widely used, and has
+ been replaced by XMS (the Extended Memory Specification). Older
+ versions of DOS shipped with utilities which relied upon the old
+ INT 15 interface, most notably VDISK.SYS. These drivers have since
+ been replaced by programs that use XMS instead, and as a result
+ EMS2EXT is rarely useful.
+
+ EMS2EXT is not needed for programs that access memory through XMS,
+ VCPI, or DPMI. It is intended only to provide on-the-fly control
+ over extended memory allocated through the older INT 15 interface.
+ Programs which support XMS, VCPI or DPMI can allocate and
+ deallocate memory directly from QEMM's memory pool and have no
+ need for EMS2EXT.
+
+ Even if you have an old extended memory utility, you cannot use
+ EMS2EXT if your program expects to access extended memory directly
+ at physical addresses above 1024K. Quarterdeck's QEXT.SYS driver,
+ supplied with DESQview, cannot use memory supplied by EMS2EXT.
+ Likewise, Microsoft's HIMEM.SYS cannot use memory supplied by
+ EMS2EXT.
+
+ If you do have an old extended memory program that uses the INT 15
+ interface, EMS2EXT lets you allocate memory for that program out
+ of QEMM's memory pool. The advantage of allocating this memory
+ with EMS2EXT instead of with QEMM parameters is that the memory
+ allocation can later be increased or decreased with the EMS.COM
+ program without rebooting your system.
+
+ EMS2EXT is a device driver and therefore needs to be loaded with a
+ DEVICE= statement in your CONFIG.SYS file. The statement to load
+ EMS2EXT should look like this:
+
+   DEVICE=C:\QEMM\EMS2EXT.SYS MEMORY=nnn speed
+
+ The nnn parameter in MEMORY=nnn is the number of kilobytes of
+ expanded memory to allocate initially (e.g., MEMORY=512). EMS2EXT
+ will allocate an EMS handle named EMS2EXT for a block of memory
+ nnnK in size. You can also load EMS2EXT without specifying any
+ MEMORY parameter. EMS2EXT will be resident, but it will not
+ allocate any memory. It will, however, reserve for itself a handle
+ with the name EMS2EXT.
+
+ The optional SPEED parameter tells EMS2EXT to allocate faster or
+ slower memory if there are different speeds of memory on your
+ system. You may specify FAST, SLOW or no SPEED option at all. You
+ can, as needed, grow, or shrink the amount of extended memory for
+ the EMS2EXT handle using EMS.COM. You can use this capability to
+ give a program INT 15 extended memory only while it is running.
+ For instance, if you loaded EMS2EXT with no MEMORY parameter, you
+ could make a batch file which included the line:
+
+   EMS RESIZE EMS2EXT 128K
+
+ before running an application that needs 128K of extended memory
+ through the old INT 15 interface. When the program terminates,
+ another EMS statement could free the memory:
+
+   EMS RESIZE EMS2EXT 0
+
+ The memory is then returned to QEMM's memory pool for the use of
+ other programs.
+
+ ******************************************************************
+ *      Trademarks are property of their respective owners.       *
+ *   This and other technical notes may be available in updated   *
+ *     forms through Quarterdeck's standard support channels.     *
+ *          Copyright (C) 1996 Quarterdeck Corporation            *
+ ******************** E N D   O F   F I L E ***********************
+

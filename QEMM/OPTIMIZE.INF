@@ -1,0 +1,31 @@
+
+# OPTIMIZE  [9.0 ]
+# Running on 09/19/;4 at 16:01:05
+# The Hardware Detection Phase is running at 0F61:0000 ( 61K)
+# Using a Flat configuration
+# Quarterdeck's Memory Manager line:
+# DEVICE=C:\QEMM\QEMM386.SYS RAM
+
+# Device line being used for the Hardware Detection Phase:
+# DEVICE=C:\QEMM\QEMM386.SYS BIX:Y NOEMS SH:N ON EF:C:\QEMM\ST_INFO.OFL
+
+# C:\QEMM\OPTIMIZE  [9.0 ]
+# Running on 09/19/;4 at 16:03:18
+# The Exclusion Detection Phase is running at 0675:0000 ( 25K)
+# Using a Flat configuration
+# Quarterdeck's Memory Manager line:
+# DEVICE=C:\QEMM\QEMM386.SYS RAM
+
+# Device line being used for the Exclusion Detection Phase:
+# DEVICE=C:\QEMM\QEMM386.SYS BIX:Y FR=NONE EF:C:\QEMM\ST_INFO.OFL GS:C:\QEMM\LOADHI.OPT LB:AA
+
+# C:\QEMM\OPTIMIZE  [9.0 ]
+# Running on 09/19/;4 at 16:04:51
+# The Exclusion Detection Phase is running at 0675:0000 ( 25K)
+# QEMM Cold Boot Map: 00`o0000ooooo300
+# Using a Flat configuration
+# Quarterdeck's Memory Manager line:
+# DEVICE=C:\QEMM\QEMM386.SYS RAM
+
+# Device line being used for the Exclusion Detection Phase:
+# DEVICE=C:\QEMM\QEMM386.SYS BIX:Y X=A000-FFFF ON FR=NONE EF:C:\QEMM\ST_INFO.OFL GS:C:\QEMM\LOADHI.OPT LB:AA

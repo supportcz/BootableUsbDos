@@ -1,0 +1,304 @@
+
+            Using SCSI and Bus-Mastering Devices
+
+ Quarterdeck Technical Note #121         Filename: BUS-MAST.TEC
+ by Quarterdeck Technical Support      CompuServe: BUSMAS.TEC
+ Last revised: 3/28/95                   Category: HW
+
+ Subject: This note provides troubleshooting tips for users of
+          bus-mastering (typically SCSI) hard drives, and explains
+          bus-mastering technology in general for those who are
+          interested.
+
+ Note: All references to 386 computers or to the 80386 processor,
+ unless otherwise stated, refer to 386 and higher processors.
+
+ This note is divided into two parts -- a troubleshooting section
+ for those who believe that they are having problems with QEMM and
+ a SCSI hard drive, and an informational section on bus-mastering
+ issues.
+
+ Refer to the troubleshooting section of the QEMM manual, or in the
+ technical note QEMM GENERAL TROUBLESHOOTING (TROUBLE.TEC) for
+ instructions on how to boot your machine without QEMM.
+
+ 1) If your machine locks immediately after posting the banner for
+    QEMM386, check to see if the DB=2 parameter is on the
+    QEMM386.SYS line in CONFIG.SYS. If this parameter is not
+    present, add it. If your machine now works, you're done, and
+    you may read the information section below. If your machine
+    still fails, continue with Step 2.
+
+ 2) Add the parameter VDS:N to the QEMM line, and reboot. If this
+    solves your problem, proceed to Step 3.
+
+ 3) Remove VDS:N parmeter (if one is present) from the QEMM line,
+    and immediately before the QEMM386.SYS place the line
+
+    DEVICE=C:\QEMM\FIXINT13.SYS /STACKSIZE=384
+
+    FIXINT13.SYS is in the QEMM directory.  It is also
+    available on the Quarterdeck BBS at (310) 309-3227. If this
+    solves your problem, you're done. If this does not solve your
+    problem (but the VDS parameter did), replace it. In either
+    case, you may now choose to read the information section below.
+
+ Q. What is a bus-mastering device?
+
+ A. Bus-mastering devices are peripherals, typically hard drives,
+    that do their own direct memory addressing (DMA) without going
+    through the machine's Central Processing Unit (CPU) or its DMA
+    controller. The most common bus-mastering devices are SCSI hard
+    disk controllers, but other types of devices can be
+    bus-mastering as well. Bus-mastering ESDI disk controllers and
+    video cards do exist, and an increasing number of bus-mastering
+    network cards are available as well. While bus-mastering
+    devices are high-performance devices and quite often found on
+    386 and higher systems, they are, unfortunately, by design
+    incompatible with one of the most common operating modes of the
+    80386 processor--the Virtual 86 mode.
+
+    Specifically, the problem is that the device puts data into
+    absolute memory addresses and assumes that the contents of
+    those memory addresses will always remain constant. However, on
+    a 386 processor in Virtual 86 mode, this is often an incorrect
+    assumption. When a 386 memory manager such as QEMM, or a 386
+    operating environment such as DESQview 386 or Microsoft Windows
+    Enhanced Mode is used, it typically associates physical memory
+    with linear or "logical" addresses. QEMM does this, for
+    instance, to make High RAM appear at addresses between 640K and
+    1MB. When a bus-mastering device tries to access data in
+    memory, it presumes that physical and logical addresses are the
+    same. In Virtual 86 mode, a given memory address can, at any
+    moment, contain code or data from various regions of physical
+    memory.
+
+    If you are using a bus-mastering device on a 386 that is in
+    Virtual 86 mode and memory paging is occurring (when QEMM is
+    providing High RAM; when QEMM is providing expanded memory;
+    when DESQview 386 or Microsoft Windows is switching from one
+    virtual machine to another), your machine will probably hang
+    when you use the bus-mastering device, unless certain
+    precautions are taken.
+
+    Quarterdeck first became aware of the problem from customers
+    who had bus-mastering SCSI hard disk controllers. Users
+    reported that they could boot their machines and start up
+    DESQview. As long as they ran only one application, their
+    system ran fine. As soon as they opened a second application,
+    the system would hang. The problem was also seen by users who
+    were not using DESQview, but who were using the LOADHI feature
+    of QEMM. In both cases, the hang would occur because the disk
+    controller assumed that memory really existed at the address
+    that it was accessing. In theory, this could have caused data
+    corruption, but in reality it never did. The memory corruption
+    was typically so extensive that the systems simply hung as soon
+    as a change in the memory map occurred. Other 386 memory
+    managers exhibited the same symptoms, as did Windows version
+    3.x when run in Enhanced Mode. QEMM solved the problem in its
+    own code, but this solution was not adopted by Windows when it
+    entered Enhanced Mode (see the reference to SMARTDRV in item 4
+    below).
+
+ Q. What is the best approach to running bus-mastering devices?
+
+ A. There are several possible solutions:
+
+ 1) THE BEST SOLUTION: Contact the maker of your bus-mastering
+    device and see whether the manufacturer supports the VDS
+    (Virtual DMA Services) specification. VDS is now an
+    industry-wide specification supported by IBM, Microsoft and
+    Quarterdeck, as well as many other hardware and software
+    suppliers. VDS, either provided in the device's ROM or as a
+    device driver, allows a bus-mastering device to find the real
+    physical address of its data when the processor is in Virtual
+    86 mode. QEMM versions 5.00 and later support the VDS
+    specification. A VDS driver provides the best solution to this
+    problem in terms of reliability, speed and memory efficiency. A
+    VDS driver may be loaded into High RAM if it appears in the
+    CONFIG.SYS file after the QEMM386.SYS line, but you may need to
+    manually add a DB=2 parameter to the QEMM386.SYS device line to
+    accomplish this if you are not using QEMM 7.5 or later; see
+    section 6 below.
+
+ 2) Make sure you're using QEMM version 7.5 or later. QEMM now
+    automatically creates a buffer when it detects an addressing
+    problem with a bus-mastering hard drive controller, and this
+    buffer's support continues into Microsoft Windows.
+
+ 3) Similarly, the drivers of many bus-mastering hard disks have
+    proprietary (that is, non-VDS) buffering options. The best
+    course in this case is to check the documentation for your disk
+    controller to see if the driver has a parameter to set up
+    buffering for disk operations. Some drivers will also document
+    parameters that are specific to 386 operations. For example,
+    the early Adaptec drivers SCSIHA.SYS and AHA1540.SYS included
+    both 386 and disk buffering options invoked by the parameters
+    "/v386" and "/b:64." "/v386" stands for virtual 386; "/b:64"
+    allocates a 64k buffer, for DMA.
+
+    Unlike the drivers in (1) above, these drivers do not provide
+    VDS services. If you are using a driver such as this, make sure
+    that it is not loaded high. The purpose of such a driver is to
+    provide buffering into physical addresses that are the same as
+    logical addresses; if the program is loaded high, its buffer
+    will be in logical addresses that are not the same as their
+    physical addresses. Please read the section below titled
+    "Making Sure Your Device Driver Loads Low".
+
+ 4) Check the documentation for your bus-mastering device and see
+    if it can be configured to use the BIOS or any one of the
+    standard DMA channels. QEMM can correct the problem if the BIOS
+    or standard DMA channels are used.
+
+ 5) As mentioned above, bus-mastering hard drives can also cause
+    problems for Microsoft Windows 3. Microsoft's solution is in
+    its SmartDrive disk cache. SMARTDRV (and other disk caches)
+    contain code that can buffer direct memory access. Before QEMM
+    7.03, QEMM's VDS services were almost completely disabled when
+    you entered Enhanced mode, so SMARTDRV's buffering was needed
+    to ensure that no bus-mastering conflicts occured inside of
+    Microsoft Windows. If you are using QEMM 7.5 or later, QEMM's
+    VDS services and disk buffering will function properly while
+    Microsoft Windows Enhanced mode is running, so loading SMARTDRV
+    is not necessary.
+
+    a) The versions of Smartdrv that ship with Microsoft Windows
+       3.1, DOS 5, and DOS 6 have two functions: to provide disk
+       caching through a module loaded in AUTOEXEC.BAT, and to
+       provide buffering for SCSI hard drives through a module
+       loaded in CONFIG.SYS. If you are using Windows 3.1 AND a
+       bus-mastering hard drive and you are NOT using any of the
+       options numbered 1 through 4 above, make sure that the
+       following line appears in CONFIG.SYS:
+
+       DEVICE=C:\WINDOWS\SMARTDRV.EXE /DOUBLE_BUFFER
+
+       (If your path to SmartDrive differs, change C:\WINDOWS to
+       the correct path.) Please read the section below titled
+       "Making Sure Your Device Driver Loads Low".
+
+    b) Windows 3.0 and DOS 5 shipped with SmartDrive version 3 or
+       lower. If you are using one of these versions of SmartDrive,
+       make sure that the following line appears in your CONFIG.SYS
+       file:
+
+       DEVICE=C:\WINDOWS\SMARTDRV.SYS
+
+       (If your path to SmartDrive differs, change C:\WINDOWS to
+       the correct path.)
+
+       Please read the section below titled "Making Sure Your
+       Device Driver Loads Low".
+
+ 6) QEMM has a DB=xx (DISKBUF=xx) parameter that can prevent
+    QEMM-SCSI problems at the expense of a little conventional
+    memory. "xx" is the number of K used for buffering. Any value
+    for xx is sufficient to correct the problem. DISKBUF=2 is fine
+    for most cases. Configuring QEMM with a DISKBUF greater than 2
+    might improve disk performance, but setting DISKBUF to more
+    than 10 is probably a waste of memory.
+
+ Q. How does QEMM's detection of bus-mastering hard drives work?
+
+ A. QEMM will detect a bus-mastering hard drive and create a disk
+    buffer automatically as long as QEMM itself is loaded from that
+    bus-mastering hard drive. If you load a driver that provides
+    VDS (Virtual DMA Services) support BEFORE you load QEMM, QEMM
+    will not create the disk buffer. In cases where QEMM
+    automatically creates this buffer, it does not add a DISKBUF
+    parameter to the QEMM386.SYS line. QEMM's automatic detection
+    of bus-mastering hard disks is active only when the RAM
+    parameter is specified on the QEMM386.SYS line in the
+    CONFIG.SYS file. You can disable QEMM's automatic disk
+    buffering by using the QEMM386.SYS parameters DISKBUF=0, but
+    there is usually no reason to disable this feature. If you have
+    a bus-mastering hard disk that you do not load QEMM from, QEMM
+    will not detect bus-mastering conflicts with it, and you must
+    either use the disk controller's VDS support or specify the
+    DISKBUF=nn (DB=nn).
+
+    Use of the DB= parameter will not help if the bus-mastering
+    device is something other than a hard disk. If your
+    bus-mastering device is not a hard disk then the solutions
+    above, especially #1, are your only options.
+
+    If your bus-mastering hard disk controller uses a VDS device
+    driver that is loaded after QEMM386.SYS, QEMM will still create
+    a 2K disk buffer, because the VDS support will not be active
+    when QEMM loads. This disk buffer will be necessary in most
+    circumstances, because the Optimize program would otherwise
+    fail when it tried to load the VDS driver into High RAM.
+    However, you may wish in this circumstance to reduce the size
+    of the disk buffer as much as possible by placing the DISKBUF=1
+    parameter on the QEMM386.SYS device driver line. The smaller
+    disk buffer is preferable here, because the disk buffer will
+    never again be used after the VDS driver loads, and a bigger
+    disk buffer uses valuable conventional memory.
+
+    If you are both disabling automatic disk buffering (with the
+    DISKBUF=0 parameter) and creating a disk buffer for the page
+    frame (with the DISKBUFFRAME=xx parameter), you must place the
+    DISKBUF=0 parameter before the DISKBUFFRAME=xx parameter on the
+    QEMM386.SYS line in the CONFIG.SYS file. If you reverse this
+    ordering, automatic disk buffering will still be disabled, but
+    the disk buffer for the page frame will not be created.
+
+ Q. I don't have a VDS driver, and I think that my proprietary
+    device driver or my disk cache should be loaded low. How do I
+    prevent it from loading high?
+
+ A. For double-buffering to work properly, the device driver for
+    your bus-mastering hardware must be loaded in conventional
+    memory, where physical and logical addresses are almost always
+    the same. You must therefore make sure that it loads low if you
+    are depending on it to provide DMA buffering. We will use
+    SMARTDRV as an example of such a program. Change the
+    instructions below to fit your device driver.
+
+    Ensure that there is no LOADHI command preceding SMARTDRV on
+    the line which loads it.
+
+    OPTIMIZE will very likely try to load SmartDrive high, unless
+    you instruct it not to do so. This is most easily done as
+    follows:
+
+    1) Using a text editor, create a text file called OPTIMIZE.NOT
+       in the \QEMM directory. Systems with DOS 5 and later can
+       type "EDIT OPTIMIZE.NOT" from the \QEMM directory to create
+       the file. If such a file exists already, simply open it for
+       editing.
+
+    2) Put a new line in OPTIMIZE.NOT that says:
+
+       SMARTDRV
+
+       Do not specify a pathname nor an extension to the file name.
+       Save the file and exit the editor.
+
+    3) From now on, OPTIMIZE will not affect the SMARTDRV line in
+       either CONFIG.SYS or AUTOEXEC.BAT. As long as SMARTDRV is
+       not being loaded high already, it will not load high during
+       future OPTIMIZE sessions.
+
+ Q. I know I have a bus-mastering device on my computer, but I
+    haven't seen any problem. Why not?
+
+ A. It's possible that your bus-mastering device uses a standard
+    DMA channel for DMA operations. QEMM automatically supports
+    bus-mastering when standard DMA channels are used.
+
+    Your bus-mastering device may have been shipped with a VDS
+    driver in its ROM. Some bus-mastering hard disk controllers
+    ship with drivers that make VDS calls, and these drivers do not
+    require the DB parameter or any other buffering. We expect that
+    most bus-mastering devices will eventually include VDS drivers
+    and, therefore, will not exhibit any problems when run in
+    Virtual 86 mode.
+
+ ******************************************************************
+ *      Trademarks are property of their respective owners.       *
+ *   This and other technical notes may be available in updated   *
+ *     forms through Quarterdeck's standard support channels.     *
+ *          Copyright (C) 1996 Quarterdeck Corporation            *
+ ******************** E N D   O F   F I L E ***********************

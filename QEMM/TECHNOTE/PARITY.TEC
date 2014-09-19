@@ -1,0 +1,137 @@
+
+                         Parity Errors
+
+ Quarterdeck Technical Note #128             Filename: PARITY.TEC
+ by Bryan Scott                            CompuServe: PARITY.TEC
+ Last revised:  7/02/93                      Category: HW
+
+ Subject: What hardware parity errors are, and some suggestions on
+          finding and correcting the problem.
+
+ Q. What is a parity error?
+
+ A. The memory controller chip on your PC reports a parity error
+    when it reads a byte of data and the 9 bits it used to encode
+    the byte do not add up to 1 (odd parity).  Parity errors are
+    always hardware-related.  Software applications cannot cause
+    parity errors, although an application may cause one to be
+    detected.
+
+    In the digital world, all information is represented by the
+    binary numbers 0 and 1.  The binary digit, or bit, is the
+    fundamental building block of digital information in a
+    computer, and it stores information in two states:  off or on
+    (0 or 1, respectively).  One bit can make a big difference.
+    Here's why:
+
+    The binary number for the letter U is:
+
+    01010101
+
+    If you change just the fourth bit over from the left, from one
+    state to the other, the binary number becomes the letter E.
+
+    01000101
+
+    Now while there are 8 bits in a byte, your memory controller
+    handles information 9 bits at a time.  This extra bit is called
+    a "parity bit", and is the computer's way to verify the
+    integrity of your data. Whenever you write data to memory, the
+    memory controller adds up the number of 1's in each byte of
+    information, and then sets the ninth bit to make the sum of all
+    nine bytes odd. IBM, the original designers of the PC, could
+    have chosen to make the sum of the nine bytes even (even
+    parity), but they chose to store data in memory with odd parity
+    and every other PC manufacturer followed suit.
+
+    In the example above, the letter U has the binary value of
+    01010101, which has 4 1s in it, and the letter E is 01000101,
+    which has 3 1s in it.  When your PC reads each byte of data, it
+    sums the 9 bits to make sure the number of 1s in the byte is
+    still odd.  If the state of a single bit gets changed from 1 to
+    0, or 0 to 1, the parity of the nine bits becomes even and the
+    memory controller asserts the NMI (Non-Maskable Interrupt).
+    This signal is put directly on a pin of the CPU, then the code
+    pointed at by Interrupt 2 posts a Parity Error message, which
+    warns you that there is a problem with your RAM.
+
+ Q. Why am I getting parity errors on my system since I installed
+    QEMM?
+
+ A. As stated above, parity errors are indicative of a hardware
+    problem.  The error may appear since you've installed QEMM
+    because QEMM gives you and your applications access to memory
+    that may never have been used before, and which could be
+    marginally bad.
+
+ Q. How do I determine which piece of hardware is causing the
+    problem?
+
+ A. First, check is the RAM in your system.  An easy test is to
+    disable everything that uses EMS and XMS memory so you can
+    create a RAMDRIVE the size of all your system memory.  (Refer
+    to your DOS manual for information on creating a RAMDRIVE.)
+
+    Then:
+
+    a) Run CHKDSK on the RAMDRIVE, or
+    b) Copy files to the RAMDRIVE until it is full.
+
+    Either way, if you have bad memory on your system, eventually
+    you will get a parity error or a General Drive Failure on the
+    RAMDRIVE.
+
+    The first thing you can do to try to remedy this problem is to
+    make sure that the RAM chips are seated properly in their
+    sockets.  If they are DRAMs or SIPPs, make sure the pins aren't
+    broken off or bent.  If they are SIMMs or the memory is on a
+    card, you may just need to clean the contacts.  If the chips
+    physically check out ok, the chip speeds could be mismatched
+    with memory that is too slow for the CPU/memory bus, or a
+    controller chip could be bad.  At this point the only sure way
+    to test this is to swap out the chips for ones that you know
+    are good.
+
+    Parity errors may also be caused by the presence of an
+    autoswitching video card or one that is using 16-bit ROM
+    access. Your motherboard could be assigning parity to the
+    address space where your EMS page frame is located.  Also there
+    may be some special features of the computer in the CMOS Setup
+    that could be causing problems.  Try disabling the computer's
+    shadowing of BIOS or video ROM or turning off memory caching or
+    other features to see if one of them is involved.  This may
+    allow you to pinpoint the cause of the problem. In all these
+    cases you should refer to the documentation that came with your
+    hardware product to disable a particular feature.
+
+ Q. I ran a hardware diagnostic program on my machine, and it
+    didn't report bad memory.  Why not?
+
+ A. While there are several diagnostic programs on the market that
+    will test your memory for errors, they may not duplicate
+    conditions that would cause marginal memory to fail.  Most are
+    not even designed to be run with a memory manager.  When parity
+    errors are encountered, it is time to have the hardware
+    components of the machine examined.
+
+ Q. Is there any software I can use to get around this problem?
+
+ A. No.  Note that all of the parity operations are performed
+    directly by your computer's hardware, regardless of which
+    operating system (DOS, OS/2, UNIX) you use and regardless of
+    which utility programs or application software you run.  One
+    exception is Macintosh computers, which use 8 bit SIMM chips
+    that do not have parity. When errors occur, the system just
+    malfunctions from the invalid data.  Also remember that parity
+    checking will only detect if one bit in a byte gets changed. If
+    two bits in the same byte get changed it will accurately
+    reflect that the sum is still odd and errors will not be
+    detected.
+
+ ******************************************************************
+ *      Trademarks are property of their respective owners.       *
+ *   This and other technical notes may be available in updated   *
+ *     forms through Quarterdeck's standard support channels.     *
+ *          Copyright (C) 1996 Quarterdeck Corporation            *
+ ******************** E N D   O F   F I L E ***********************
+

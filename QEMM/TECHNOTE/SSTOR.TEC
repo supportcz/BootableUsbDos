@@ -1,0 +1,466 @@
+
+                         QEMM and SuperStor
+
+ Quarterdeck Technical Note #249             Filename: SSTOR.TEC
+ by Robert Gaustad                         CompuServe: SSTOR.ZIP
+ Last revised:  4/18/95                      Category: SW3
+
+ Subject: Notes on using AddStor's SuperStor disk compression
+          utility package with Quarterdeck products.
+
+ This troubleshooting guide is designed to help the individual who
+ has QEMM and SuperStor 2.04 or SuperStor Pro installed on his or
+ her machine and has run, or wants to run, OPTIMIZE.  If you have
+ not yet run OPTIMIZE, please read the General Information section
+ below, then proceed to either Section 1 or Section 2 depending on
+ if you installed QEMM BEFORE or AFTER installing SuperStor.
+
+ GENERAL INFORMATION
+
+ 1. To avoid confusion we will refer to COMPRESSED and UNCOMPRESSED
+    drives whenever possible.  The COMPRESSED drive, which is
+    actually a very large hidden file with a drive ID, will always
+    be the one that SuperStor creates to hold most of your programs
+    and data.
+
+ 2. Since you cannot boot from the COMPRESSED drive, SuperStor sets
+    aside a small portion of the UNCOMPRESSED drive to boot from.
+    Depending upon which version of SuperStor you have, this
+    partition may or may not be easily accessed.
+
+ 3. Your UNCOMPRESSED drive is always drive C: before bootup. When
+    the SuperStor driver (SSTORDRV.SYS) executes during bootup it
+    then allows access to the large COMPRESSED partition and gives
+    it the next available drive ID, usually D:  This partition is
+    really a very large hidden file called SSPARTSS.ADD (if you
+    have access to both the COMPRESSED and UNCOMPRESSED drives, the
+    file will be called SSPARTSS.SWP).
+
+ 4. After the SuperStor driver executes, another driver
+    (DEVSWAP.COM) usually follows it.  When this driver executes,
+    it swaps drive names so that the COMPRESSED partition becomes
+    C: and the UNCOMPRESSED partition becomes D:. Basically, it is
+    just reversing the drive names so that your applications will
+    still think that they are on drive C:
+
+ 5. If you have allowed SuperStor to compress the entire hard
+    drive, you will not be able to access the UNCOMPRESSED
+    partition after boot, unless you run a utility called
+    ADD2SWP.EXE, found on your SuperStor program diskette.  From
+    the diskette, just type :
+
+    ADD2SWP C:<Enter>
+
+    This will then give you access to both your COMPRESSED and
+    UNCOMPRESSED drives.
+
+ 6. If you have configured SuperStor to reserve space on the
+    UNCOMPRESSED drive to be accessed by a different drive ID you
+    will already be able to access the UNCOMPRESSED partition
+    easily. You are given the option to reserve this space when you
+    are running the SSTOR program to create your COMPRESSED
+    drive(s). In version 2.04 the default is NO.  If you press
+    ENTER when encountering this option SSTOR will set-up SuperStor
+    to compress your whole hard drive.
+
+ 7. If you have not yet installed SuperStor 2.04, Quarterdeck
+    recommends that you select YES to override the default.
+    Beginning with SuperStor Pro version 1.0, the default is YES.
+    You only have to press ENTER at this prompt.  When the program
+    then asks you for a size to make the UNCOMPRESSED drive enter
+    2048 to add two megabytes to that drive size.
+
+ 8. To determine which drive is COMPRESSED or UNCOMPRESSED start
+    the SSTOR.EXE program in the C:\ADDSTOR directory.  Under the
+    heading "System Device List" will be information pertaining to
+    all drives on your computer.
+
+ 9. If before you installed SuperStor your hard disk drive had more
+    than one partition, i.e., a C: and D: partition, SSTORDRV.SYS
+    will select the next available drive name for its container
+    file. If you had a C: and D: partition and you COMPRESSED the
+    C: drive only then your drives will be set up as follows when
+    SuperStor is installed:
+
+    C: becomes E: D: is still D: unless you compress that as well.
+    If you do compress D:, it becomes F:
+
+    The troubleshooting guide below is based on a one-partition
+    drive. If your drive has multiple partitions then you must
+    determine what drive C: swaps to and use the appropriate drive
+    name.
+
+ 10. If you are using a disk caching program with SuperStor, be
+     very careful to determine whether it is compatible with
+     SuperStor or not.  For instance Microsoft Windows' 3.1
+     SMARTDRV.EXE will lock up your system upon bootup, if you load
+     the SSTORDRV.SYS driver into High Ram with LOADHI.SYS.  At the
+     time of this writing,  Norton NCACHE version 6,  will not work
+     under any circumstances with SuperStor installed on your
+     machine.
+
+                      **************************
+
+ BE ABSOLUTELY CERTAIN THAT YOU READ THE README.TXT FILE IN YOUR
+ ADDSTOR DIRECTORY.
+
+                      **************************
+
+ 11. You should always have a bootable floppy diskette available
+     which will execute SuperStor and give you access to your
+     COMPRESSED drive.  To create this format a floppy diskette
+     with the /S parameter so that it becomes a boot disk.
+
+     When this disk has been formatted copy the following files
+     from the C: drive to the floppy diskette:  SSTORDRV.SYS,
+     DEVSWAP.COM, CONFIG.SYS, AUTOEXEC.BAT. Once those files have
+     been copied over check the contents of them.  The CONFIG.SYS
+     file should contain at least the following lines:  FILES=40
+     DEVICE=\SSTORDRV.SYS /NOHIGH (SuperStor Pro requires /NOUMB
+     instead) DEVICE=\DEVSWAP.COM
+
+ 12. If you want QEMM's LOADHI.SYS driver to load SuperStor version
+     2.04 into High RAM you must place the "/NOHIGH" parameter at
+     the end of the SuperStor device line.  If you are using
+     SuperStor Pro you must use the "/NOUMB" parameter instead of
+     "/NOHIGH."  SuperStor does not automatically place either of
+     the parameters on the line.  The line should read as follows:
+
+     DEVICE=\SSTORDRV.SYS /NOHIGH   (SuperStor 2.04)
+
+                            or
+
+     DEVICE=\SSTORDRV.SYS /NOUMB    (SuperStor Pro)
+
+     The AUTOEXEC.BAT file should contain at least the following
+     lines:
+
+     PATH=C:\;C:\DOS;C:\QEMM;C:\ADDSTOR
+     PROMPT=$P$G
+
+ These files on the boot floppy will allow you to access your
+ SuperStor COMPRESSED drive and navigate the hard drive.
+
+ Section Two:  SuperStor Installed First
+ =======================================
+
+ If SuperStor is already installed on your hard drive and you now
+ install QEMM and run OPTIMIZE then you must follow the section
+ below.
+
+ 1. If you install QEMM and run OPTIMIZE on a system with SuperStor
+    already installed, SuperStor will fail to execute during the
+    first reboot of the OPTIMIZE program.  This is because OPTIMIZE
+    places device statements on the SSTORDRV.SYS line, but the
+    files necessary to complete the boot cannot be found on the
+    UNCOMPRESSED boot drive.
+
+ 2. Since SuperStor fails to load, you will only have access to
+    your UNCOMPRESSED drive after bootup. It is an easy process to
+    correct this situation.  All you have to do is create a new,
+    temporary, CONFIG.SYS file on the UNCOMPRESSED drive, now drive
+    C:, and then reboot.  To do this first rename the old
+    CONFIG.SYS file by typing:
+
+    RENAME CONFIG.SYS CONFIG.XXX<ENTER>
+
+    Now, create a new CONFIG.SYS file by typing the following:
+
+    COPY CON CONFIG.SYS<ENTER>
+
+    The cursor will now be below the "C" in COPY.  Now, type:
+
+    DEVICE=\SSTORDRV.SYS<ENTER>
+    DEVICE=\DEVSWAP.COM<ENTER>
+
+    NOTE:  IF YOU HAVE ANY OTHER DRIVERS, SUCH AS A DISK
+    PARTITIONER, THAT ARE ESSENTIAL TO BOOT YOUR MACHINE INCLUDE
+    THOSE IN THE TEMPORARY CONFIG.SYS FILE.  IF YOU DO NEED TO BOOT
+    WITH A DISK PARTITIONER MAKE SURE IT LOADS BEFORE SSTORDRV.SYS.
+    DON'T WORRY ABOUT ANY OTHER DRIVERS YOU MAY HAVE HAD IN THE
+    ORIGINAL CONFIG.SYS FILE:  ONCE YOU HAVE HAVE REBOOTED THE
+    MACHINE YOUR ORIGINAL CONFIG.SYS FILE WILL BE INTACT.
+
+    Now, press the F6 key and <ENTER>.  You will see the following
+    message:
+
+    1 file(s) copied.
+
+ 3. Reboot the machine.
+
+ 4. Because of SuperStor program designs the untouched CONFIG.SYS
+    file on the COMPRESSED drive will automatically overwrite the
+    temporary CONFIG.SYS file on the UNCOMPRESSED drive.  The
+    contents of both CONFIG.SYS files will then be the same as
+    before you installed QEMM and ran OPTIMIZE.
+
+    *********************
+    FULL DISK COMPRESSION
+    *********************
+
+    IF YOU INSTALLED SUPERSTOR TO COMPRESS YOUR WHOLE HARD DRIVE,
+    PROCEED TO STEP 2 IN "OPTIMIZING WITH QEMM AND SUPERSTOR."
+
+    ************************
+    PARTIAL DISK COMPRESSION
+    ************************
+
+    IF YOU INSTALLED SUPERSTOR TO COMPRESS ONLY A PORTION OF YOUR
+    HARD DISK DRIVE, PROCEED TO STEP 2 IN "OPTIMIZING WITH QEMM AND
+    SUPERSTOR."
+
+    ONCE YOU HAVE COMPLETED STEP 2, PROCEED TO EITHER STEP 4 OR 6,
+    DEPENDING UPON WHETHER OR NOT YOU HAVE LEFT ADEQUATE ROOM ON
+    YOUR UNCOMPRESSED PARTITION TO HOLD ALL QEMM AND DOS FILES.
+
+
+ Section Three:  QEMM Installed First
+
+ If QEMM is currently installed on your hard disk drive and you now
+ install SuperStor, you then need to follow the instructions in the
+ section below.
+
+ IMPORTANT NOTE: As of SuperStor Pro 1.0, Addstor recommends that
+ if you have a memory resident program, such as a memory manager,
+ installed and running, you must disable the memory resident
+ program BEFORE installing SuperStor.  At Quarterdeck, we have
+ installed SuperStor Pro successfully with QEMM running.  If you
+ choose to follow their advice, disable QEMM, and your memory
+ resident programs, by placing a REM statement at the beginning of
+ the line that loads such a program.
+
+ 1. After you install SuperStor you then have to run SSTOR.EXE to
+    do the actual compression of your hard drive.  The default of
+    SuperStor 2.04 is to compress all of the hard drive space.  As
+    of SuperStor Pro 1.0, the default is to leave a portion (the
+    size is specified by the user) of the hard drive uncompressed.
+    No matter which version you are using, you should make sure you
+    leave at least a 2 MB portion uncompressed.
+
+ 2. If you accept the default of SuperStor 2.04 to compress the
+    whole hard disk drive or if you override the default of
+    SuperStor Pro, SuperStor leaves a tiny boot partition with only
+    COMMAND.COM and other system files, as well as the SuperStor
+    drivers resident.  If QEMM is installed when you install
+    SuperStor, the QEMM386.SYS device driver will be placed into
+    the root directory of the boot drive.
+
+    Also, the QEMM line in the CONFIG.SYS will be changed from:
+
+    DEVICE=C:\QEMM\QEMM386.SYS RAM
+
+    to
+
+    DEVICE=C:\QEMM386.SYS RAM
+
+ 3. Upon installation, SuperStor does not create a QEMM directory
+    on the UNCOMPRESSED drive, nor does it copy over the pertinent
+    QEMM files from the COMPRESSED drive.
+
+ 4. If you have accepted the default of compressing the whole
+    drive, the drive letter D: is not readily accessible.  How to
+    access the UNCOMPRESSED drive will be explained in detail later
+    in this troubleshooting guide.  If you have only compressed a
+    portion of the hard disk drive you already have access to the
+    UNCOMPRESSED portion of the drive.
+
+ 5. The net result of the above is that after installing SuperStor,
+    compressing the hard disk, and rebooting the machine, QEMM will
+    execute, but any lines in the CONFIG.SYS that precede
+    SSTORDRV.SYS and that have LOADHI.SYS statements will fail.
+    After following the instructions below in "Optimizing with QEMM
+    and SuperStor" those files will then be in the correct
+    directory for OPTIMIZE to perform.
+ 
+    *********************
+    FULL DISK COMPRESSION
+    *********************
+
+    If you installed SuperStor to compress your whole hard disk
+    drive, proceed to Step 1 in "Optimizing with QEMM and
+    SuperStor."
+
+    ************************
+    PARTIAL DISK COMPRESSION
+    ************************
+
+    If you have installed SuperStor to compress only a portion of
+    your hard disk drive, proceed to Step 1 in "Optimizing with
+    QEMM and SuperStor."  Once you have completed Step 2, proceed
+    to either Step 4 or Step 6, depending on whether you have left
+    adequatre room on your uncompressed partition to hold all QEMM
+    and DOS files.
+
+
+ Section Four: Optimizing with QEMM and SuperStor
+
+ BEFORE FOLLOWING THE STEPS BELOW MAKE CERTAIN THAT YOU HAVE READ
+ ALL THE INFORMATION ABOVE PERTAINING TO THE ORDER AND METHOD USED
+ TO INSTALL QEMM AND SUPERSTOR ON YOUR COMPUTER.  ALSO MAKE SURE
+ ANY IMPORTANT FILES HAVE BEEN BACKED UP.  THIS INCLUDES BOTH THE
+ CONFIG.SYS AND AUTOEXEC.BAT FILES AND ANY OTHER FILES YOU FEEL ARE
+ IRREPLACEABLE.
+
+ * IF YOU HAVE CONFIGURED SUPERSTOR TO COMPRESS YOUR WHOLE HARD
+ DISK DRIVE, PLEASE FOLLOW THE STEPS BELOW FROM 1 TO 16.  IF YOU
+ INSTALLED QEMM AFTER INSTALLING SUPERSTOR YOU MAY SKIP STEP 1.
+
+ * IF YOU HAVE CONFIGURED SUPERSTOR TO COMPRESS ONLY A PORTION OF
+ YOUR HARD DISK DRIVE BUT DID NOT LEAVE ENOUGH ROOM ON THE
+ UNCOMPRESSED PORTION TO COPY ALL QEMM AND DOS FILES TO THAT
+ PORTION, PLEASE FOLLOW THE STEPS BELOW FROM 4 TO 16.
+
+
+ 1. On the C: COMPRESSED drive, edit the QEMM device line in the
+    CONFIG.SYS file to read:
+
+    DEVICE=C:\QEMM\QEMM386.SYS RAM
+
+    Save the CONFIG.SYS file.
+
+ 2. Place the SuperStor program diskette into drive A:.  Log onto
+    drive A: and type:
+
+    ADD2SWP C:  <ENTER>
+
+    The program will then report:
+
+    ADD2SWP has completed, your PC needs to be rebooted.
+    Press the [ENTER] key to reboot the PC
+
+ 3. Remove the diskette and press ENTER.  After the computer
+    completes its reboot you will then have access to both your
+    COMPRESSED and UNCOMPRESSED drives.
+
+ 4. Start SSUTIL.EXE by typing:
+
+    SSUTIL<ENTER>
+
+    at the C: prompt, and run SHRINK DISK from within that program.
+    Select an amount to shrink the COMPRESSED disk by.  Quarterdeck
+    recommends a minimum of 1024 Kb with 2048 Kb preferred.
+
+ 5. EXIT and REBOOT.
+
+ THE NEXT STEPS CAN BE FOLLOWED IF YOU HAVE CONFIGURED SUPERSTOR TO
+ COMPRESS ONLY A PORTION OF YOUR HARD DISK DRIVE AND LEFT ENOUGH
+ ROOM FOR ALL QEMM AND DOS FILES OR IF YOU HAVE JUST FOLLOWED STEPS
+ 1-4.
+
+ 6. Log onto drive D: the UNCOMPRESSED drive.  Create a QEMM
+    directory by typing the following:
+
+    CD\         <ENTER>
+    MD QEMM     <ENTER>
+
+ 7. Copy all QEMM files from the COMPRESSED drive into the QEMM
+    directory on the UNCOMPRESSED drive.
+
+ 8. While still on the UNCOMPRESSED drive D: create directories
+    pertaining to all other drivers loading from the CONFIG.SYS
+    file.  For example, if you have a couple of lines in your
+    CONFIG.SYS file that read:
+
+    DEVICE=C:\MOUSE\MOUSE.SYS
+    DEVICE=C:\DOS\ANSI.SYS
+
+    then create a MOUSE directory and a DOS directory on the
+    UNCOMPRESSED drive.  Then, copy the MOUSE.SYS and ANSI.SYS
+    drivers from the CONPRESSED drive to their respective
+    directories on the UNCOMPRESSED drive.
+
+    Do the same for all other drivers loading from the CONFIG.SYS file.
+
+ 9. Log back on to drive C:, the COMPRESSED drive.  Edit the
+    CONFIG.SYS file in the following ways:
+
+    A.  Move the two SuperStor device lines to the bottom of the
+        CONFIG.SYS file.
+
+    B.  If you haven't already done so, place a blank space and the
+        "/NOHIGH" parameter (for SuperStor 2.04 only) or the
+        "/NOUMB" parameter (for SuperStor Pro only) at the end of
+        the SSTORDRV.SYS device line.
+
+     C. Place a REM and a blank space in front of the line that reads:
+
+        DEVICE=\DEVSWAP.COM
+
+        so it now reads:
+
+        REM DEVICE=\DEVSWAP.COM.
+
+        Save the CONFIG.SYS file but do NOT reboot yet.
+
+ IMPORTANT NOTE:  YOU MUST PLACE THE "/NOHIGH" PARAMETER (for
+ SuperStor 2.04) OR THE "/NOUMB" PARAMETER (for SuperStor Pro) AT
+ THE END OF THE \SSTORDRV.SYS DEVICE LINE TO ALLOW OPTIMIZE TO
+ SUCCESSFULLY LOAD THE DRIVER INTO HIGH RAM. THE SIZE OF THE
+ DRIVER, SSTORDRV.SYS, CAN VARY WHEN IT IS LOADED INTO HIGH RAM.
+ THE LARGEST SIZE WE HAVE SEEN AT QUARTERDECK IS 71K.
+
+ 10. Still on the COMPRESSED C: drive, edit the AUTOEXEC.BAT file
+     and reverse all drive designations from C: to D: or D: to C:.
+     For example if a line reads:
+
+     C:\MOUSE\MOUSE
+
+     change it to read:
+
+     D:\MOUSE\MOUSE
+
+     Make sure you also reverse the drive designations in your path
+     statement, i.e.,
+
+     PATH=C:\;C:\DOS;C:\QEMM;C:\ADDSTOR
+
+     becomes:
+
+     PATH=D:\;D:\DOS;D:\QEMM;D:\ADDSTOR
+
+     If you are using the CALL command to CALL batch files from the
+     AUTOEXEC.BAT file, make sure that the drive designations in
+     the CALLed batch file are also reversed.  For instance, if you
+     have a line in your AUTOEXEC.BAT file that reads:
+
+     @CALL C:\NETWORK\LOADNET.BAT
+
+     and logs you onto a network make sure you reverse the drive
+     designations in both the above line and in the batch file
+     LOADNET.BAT.
+
+ 11. Save the AUTOEXEC.BAT file and copy to the D:\ drive.
+
+ 12. Reboot the computer.
+
+ 13. Run OPTIMIZE.
+
+ 14. After OPTIMIZE is complete edit the CONFIG.SYS file on the
+     UNCOMPRESSED drive and remove the REM and blank space in front
+     of the DEVSWAP.COM device line.  It's very important that you
+     edit the CONFIG.SYS file on the UNCOMPRESSED drive which will
+     be C:.  After editing save the file and copy it to the
+     COMPRESSED D: drive by typing:
+
+     COPY C:\CONFIG.SYS D:\   <ENTER>
+
+ 15. Edit the AUTOEXEC.BAT file on the UNCOMPRESSED C: drive and
+     once again reverse the drive designations.  Be very careful
+     that you find ALL drive designations.  Some lines may have
+     more than one drive designation in the same command so watch
+     out for that.
+
+     After editing the AUTOEXEC.BAT file on the UNCOMPRESSED C:
+     drive save and copy it to the COMPRESSED drive D:.
+
+ 16. The OPTIMIZE process is now complete.  Reboot the computer
+     which will once again swap your drive names and your work is
+     done.
+
+ ******************************************************************
+ *      Trademarks are property of their respective owners.       *
+ *   This and other technical notes may be available in updated   *
+ *     forms through Quarterdeck's standard support channels.     *
+ *          Copyright (C) 1996 Quarterdeck Corporation            *
+ ******************** E N D   O F   F I L E ***********************
+

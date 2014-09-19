@@ -1,0 +1,520 @@
+
+                  QEMM General Troubleshooting
+
+ Quarterdeck Technical Note #241              Filename: TROUBLE.TEC
+ by Michael Bolton                          CompuServe: TROUBL.TEC
+ Last revised:  2/11/96                       Category: QEMM
+
+ Subject: A step-by-step guide for troubleshooting conflicts
+          related to QEMM, providing reliable troubleshooting
+          techniques and references to more specific technical
+          notes.
+
+ This is a very general guide to troubleshooting QEMM Version 8.0
+ with any version of DOS, and with any version of Microsoft
+ Windows or Windows for WorkGroups up to 3.11.
+
+ This troubleshooting guide may appear to be long; however, you
+ will find that reading this note and following its methods is
+ fast and easy.  In the main, this note provides either quick
+ fixes or references for additional information.  It does not
+ provide the detail available in the QEMM manual, which you should
+ also consult.  The troubleshooting section in Appendix A of the
+ manual has many quick fixes for common problems.  If you haven't
+ looked at this section of the manual, you may save considerable
+ time by doing so now.  Similarly, the README and PRODUCTS.TEC
+ files that accompany QEMM contain the resolution to common
+ problems, and answer to frequently-asked questions.
+
+ As you proceed through this guide, please record carefully the
+ results of each step. This is important; Quarterdeck Technical
+ Support may need this information, and if you can provide a record
+ of it, we can address your problem much more efficiently.  In any
+ case, you will find that good record-keeping saves you time and
+ trouble in further troubleshooting.
+
+ If your problem is related to...       ...you may also wish to
+                                            consult the Technote
+
+ Product-specific conflicts                  PRODUCTS.TEC
+ Exception #6, #12, #13                      EXCEPT13.TEC
+                                             EX13FLOW.TEC
+ StealthROM                                  STLTECH.TEC
+                                             STEALTH.TEC
+ Microsoft Windows                           WINFLOW.TEC
+ Stacker                                     STACKER.TEC
+ SuperStor                                   SSTOR.TEC
+ MS-DOS 5                                    DOS5.TEC
+ MS-DOS 6                                    MSDOS6.TEC
+ DR-DOS or Novell DOS                        NW&DRDOS.TEC
+ High RAM Conflicts                          EXCLUDE.TEC
+ "Cannot find ROM Handler for INT ??"        XSTI.TEC
+ Bus-mastering devices or SCSI hard drives   BUS-MAST.TEC
+ Getting more memory                         MAXMEM.TEC
+ Parity Errors                               PARITY.TEC
+ Resource Manager							 RSRCMGR.TEC
+
+ Processor Exceptions occur due to a wide variety of causes, almost
+ all of which are treated here.  If you wish to learn more about
+ what the Exception reports mean, refer to the technote "EXCEPTION
+ REPORTS EXPLAINED" (EXCEPT13.TEC).
+
+ Consult the note CONTACT.TEC or the Passport Support Brochure that
+ accompanies your copy of QEMM for more information on contacting
+ Quarterdeck.
+
+ For the purposes of this troubleshooting guide, the DOS portion
+ of QEMM is comprised of the QEMM386.SYS driver (which provides
+ EMS, XMS, VCPI memory management, High RAM, and miscellaneous
+ other services) and three other significant features, installed
+ as separate DOS device drivers. These are:
+
+ Feature                        Driver
+
+ DOS-Up                         DOSDATA.SYS, DOS-UP.SYS
+ QDPMI Host                     QDPMI.SYS
+ Stealth D*Space                ST-DSPC.SYS
+
+ Again for this purposes of this guide, the Windows 3.1 components
+ of QEMM are comprised of three significant features, as follows:
+
+ Feature						Driver
+
+ FreeMeg						FREEMEG.DLL
+ Resource Manager				RSRCMGR.DLL
+ MagnaRAM						MAGNA31.VXD
+
+ Of these drivers, FreeMeg and Resource Manager are installed
+ on the drivers= line in the [boot] section of your SYSTEM.INI
+ file.	MagnaRAM is installed as a device= line in the [386Enh]
+ section of your SYSTEM.INI file.
+
+ QSETUP and Manifest should be very helpful in the unlikely event
+ that you need to troubleshoot the QEMM package.  Manifest
+ provides detailed reporting on various aspects of your system's
+ configuration, and, on its Hints / Overview and Hint / Detail
+ screens, suggestions for improving your system's use of memory.
+ To run Manifest, change to the QEMM directory and type MFT,
+ followed by the Enter key, or click on the Manifest icon in the
+ Quarterdeck QEMM program group in Windows.
+
+ You may use QSETUP to review or change QEMM parameters, to enable
+ or disable the other drivers that come with the QEMM package,
+ and/or to edit CONFIG.SYS and AUTOEXEC.BAT.  We will use QSETUP
+ in many of the steps below.  To run QSETUP, simply change to the
+ QEMM directory, and type QSETUP at the DOS command prompt.
+ QSETUP can also be run as a Windows program; select QEMM Setup
+ from the Quarterdeck QEMM program group.
+
+ OPTIMIZE's /RESTORE parameter will allow you to restore past
+ configurations quickly and easily.  See the QEMM manual for more
+ details on OPTIMIZE /RESTORE.
+
+ If your system will not boot normally after installing QEMM, begin
+ with Section A below.  If your system does boot normally, but you
+ experience problems later on (including problems with Microsoft
+ Windows), begin with Section B below.
+
+ Section A  -- Recovering Easily from a System Failure
+
+ If your machine fails to boot properly to the DOS prompt after
+ QEMM has been installed, you may recover easily.
+
+ 1) Reboot your machine.  Use the power switch if necessary.
+
+ 2) Wait until you hear a beep; then hold down the Alt key until
+    the boot sequence stops.  If your system does not beep on
+    bootup, hold down the Alt key after you hear the floppy drive
+    being accessed.   When the boot sequence stops, you will see a
+    message from DOSDATA or from QEMM.  If the message is from
+    QEMM, proceed directly to item (4) below.  If the message is
+    from DOSDATA, proceed to item (3).
+
+ 3) If the message is from DOSDATA, prepare to hold down the Alt
+    key again. Tap the Escape key to unload DOSDATA, and
+    immediately hold down the Alt key again.
+
+ 4) You will see the following message "QEMM: Press Esc to disable
+    QEMM or any other key to continue with QEMM."  Press the Escape
+    key.  Your system should then proceed with the boot sequence.
+    QEMM will not be loaded, and no programs will be loaded into
+    High RAM.  You will likely see messages noting that there is
+    not enough room to load your programs high; these messages are
+    expected and no harm should result to your system as a
+    consequence.
+
+    If your system became unstable during the course of the
+    OPTIMIZE process, you will want to ensure that your
+    configuration files have been restored to their pre-OPTIMIZE
+    state.  Change to the QEMM directory, and type
+
+    UNOPT
+
+    Proceed to Section B.
+
+
+ Section B -- QEMM/OPTIMIZE Stealth Testing
+
+ QEMM and OPTIMIZE's Stealth Testing process is the best way to
+ ensure both maximum memory and maximum compatibility with your
+ system. To take advantage of this feature, make sure that you're
+ starting from a stable, bootable QEMM configuration.  Typically
+ the line
+
+ DEVICE=C:\QEMM\QEMM386.SYS ON
+
+ will allow you to boot your system safely.  From this, you may
+ run OPTIMIZE's Stealth Testing procedure in the following way:
+
+ 1) At the DOS prompt, type
+
+    OPTIMIZE /REMOVEALL
+
+    This will remove LOADHI commands and parameters from all of
+    the lines in CONFIG.SYS, AUTOEXEC.BAT, and any batch files
+    called from AUTOEXEC.BAT.
+
+ 2) Edit CONFIG.SYS and remove all parameters except ON from the
+    QEMM386.SYS line in CONFIG.SYS.
+
+ 3) At the DOS prompt, type
+
+    OPTIMIZE /ST
+
+ The OPTIMIZE process will reboot your machine three or more
+ times.  When the OPTIMIZE process is complete, attempt to
+ reproduce the problem.  If the problem has gone away, you are
+ finished with this technical note, and you may optionally proceed
+ to Section G below.  If the problem persists, more detailed
+ troubleshooting is called for; proceed to Section C.
+
+
+ Section C -- Determining if QEMM is the Problem
+
+ The first thing to determine is whether your difficulty is
+ associated with the QEMM package at all.  There are two lines in
+ your CONFIG.SYS that read:
+
+ DEVICE=C:\QEMM\DOSDATA.SYS
+ DEVICE=C:\QEMM\QEMM386.SYS [parameters]
+
+ Using QSETUP, Manifest, or a text editor, disable QEMM entirely by
+ placing the word "REM" before the word "DEVICE" on each line.
+ Add the line
+
+ DEVICE=C:\DOS\HIMEM.SYS
+
+ immediately after the QEMM386.SYS line.  Reboot your system.  It is
+ likely that you will see messages from QEMM's DOS-Up and LOADHI
+ programs, informing you that DOS-Up could not not be installed,
+ and that no high memory is availale.  This is normal, and will
+ cause no further problem; your TSRs and device drivers will load
+ normally and in conventional memory.
+
+ When your system is booted, try to reproduce the problem.  If the
+ problem persists in exactly the same way as it always has, you
+ can be reasonably sure that QEMM's DOS component and its
+ associated drivers are not the cause (since QEMM and its drivers
+ are completely inactive at this point).  Make a note of this, and
+ contact the vendor of the faulting application for assistance.
+
+ If this does relieve the problem, note that the problem does not
+ persist when QEMM's DOS components are inactive, and proceed to
+ section D.
+
+ Section D -- Conflicts with QEMM's Windows Components
+
+ If you are having a problem with Microsoft Windows, or one of the
+ programs that runs in the Windows environment, continue with this
+ step.  If your problem is not related to Windows, proceed
+ immediately to Section E below.
+
+ 1) In order to determine whether the problem you are experiencing is
+    related to one of QEMM's Windows components, see if the problem
+    persists when Resource Manager, FreeMeg, and MagnaRAM are
+    disabled.  If you are unable to start Windows successfully,
+    proceed to Step 3 below.  If you are able to start Windows
+    successfully, continue with Step 2.
+
+ 2) Run the QSETUP program by clicking on QEMM Setup in the
+    Quarterdeck QEMM program group.  Choose the "Windows" tab, and
+    make sure that the checkboxes for FreeMeg, Resource Manager,
+    and MagnaRAM are UNCHECKED.  Click on Save at the bottom of
+    the Windows, and then on Restart to restart Windows with
+    QEMM's Windows features disabled.  Proceed to Step 4 below in
+    this section.
+
+ 3) If you are unable to start Windows, and you suspect that the
+    problem may be related to QEMM's Windows features, edit the
+    Windows SYSTEM.INI.  In the [boot] section, find the drivers=
+    line; this will typically appear in a format as follows:
+
+    drivers=C:\QEMM\FREEMEG.DLL C:\QEMM\RSRCMGR.DLL MMSYSTEM.DLL
+
+    Make a copy of this line immediately below it.  Disable the
+    first instance by adding a semicolon to the beginning of the
+    line:
+
+    ;drivers=C:\QEMM\FREEMEG.DLL C:\QEMM\RSRCMGR.DLL MMSYSTEM.DLL
+    drivers=C:\QEMM\FREEMEG.DLL C:\QEMM\RSRCMGR.DLL MMSYSTEM.DLL
+
+    Remove the QEMM programs from the second instance of the line:
+
+    drivers=MMSYSTEM.DLL
+
+    Now move the the [386Enh] section of the SYSTEM.INI file, and
+    look for a line in the following format:
+
+    device=C:\QEMM\MAGNA31.VXD
+
+    Disable this line by placing a semicolon at the beginning of
+    the line:
+
+    ;device=C:\QEMM\MAGNA31.VXD
+
+    Save the SYSTEM.INI file, and start Windows by typing WIN at
+    the DOS prompt.  Continue with Step 4 below.
+
+ 4) If your problem persists (or if Windows still fails to start),
+    the problem that you are experiencing is not related to QEMM,
+    since all of its features -- both DOS and Windows -- are
+    currently disabled.  Contact Microsoft or the vendor of your
+    computer for further assistance.
+
+    If Windows starts now where it did not before, or if your
+    problem is no longer reproducible, it is likely that one of
+    QEMM's three Windows features is in conflict with your system
+    or something on it. Determine which QEMM component is a party
+    to the conflict by re-enabling each feature one by one, then
+    restarting Windows and testing for the problem after enabling
+    each feature.  If the problem re-appears after you have
+    enabled a particular feature, you know that the feature in
+    question is in conflict with something on your system.  Leave
+    this feature disabled.
+
+    You many now re-enable all of the other features of QEMM that
+    you disabled by reversing the steps you took in this section
+    and in Section B above.  If you have determined that Resource
+    Manager is a party to the conflict, obtain the technical note
+    RSRCMGR.TEC for further troubleshooting information.
+    Otherwise, proceed to Section G below.
+
+ Section E -- Conflicts with DOS-Up, QDPMI, and Stealth D*Space
+
+ 1) Remove the REMs in front of the DOSDATA and QEMM386.SYS lines.
+    Disable the DOS-Up, QDPMI, and Stealth DoubleSpace features if
+    any of them is active.  Do this by running QSETUP, going to
+    the main menu, and selecting each feature in turn.  Answer
+    "No" when you are asked if you would like to enable each one.
+    Note that you should choose "No", and not "Partial" in
+    response to the DOS-Up option.  Note also that if you are not
+    using DOS 6's DoubleSpace, the option to enable or disable
+    Stealth D*Space will not appear.  Return to QSETUP's main
+    menu, and select S for Save Configuration and Quit.  If you
+    are offered the opportunity to run OPTIMIZE, do NOT do so at
+    this time. Reboot your machine without running OPTIMIZE.
+
+ 2) If your problem is now solved, one of the QEMM features you
+    have just disabled is likely in conflict with some other aspect
+    of your system. Re-enable each feature, one at a time, and
+    write down which feature you are enabling.  It is likely that
+    your system will fail before you re-enable the last feature.
+    Write down the one that appeared to cause the failure; it is
+    likely that this feature is the cause of the conflict.  To be
+    sure of this, re-eanble all features except the one that seems
+    to be causing the conflict.  Write down the results of this
+    testing, and then proceed to section G below.
+
+ 3) If your problem persists, but was solved by disabling QEMM in
+    Section B above, the problem is likely related to the
+    QEMM386.SYS driver. Write this down, and proceed to Section F
+    below.
+
+
+ Section F -- Troubleshooting with the QEMM386.SYS Driver
+
+ Again, in your CONFIG.SYS file, there is a line that reads:
+
+ DEVICE=C:\QEMM\QEMM386.SYS [parameters]
+
+ Steps 1-5 in this section involve editing the [parameters] on this
+ line, and nothing else.  You may use a text editor such as DOS'
+ EDIT, or the CONFIG.SYS editor in Manifest or QSETUP to make these
+ changes.  Every time you change the parameters on this line, you
+ must reboot your computer for them to take effect.  Write down the
+ results of each step.
+
+ 1)  If there is a Stealth parameter ("ST:M" or "ST:F"), remove it
+     and reboot. If this solves your problem, refer to the QEMM
+     parameter STEALTHROM for an explanation of the parameter, and
+     then refer to the technote "STEALTH TROUBLESHOOTING" (under
+     the filename STEALTH.TEC) and follow its instructions.  If
+     removing the Stealth parameter fails, note the failure and
+     proceed to Step 2.
+
+ 2)  Add the parameter "DB=2" to this line and reboot.  If this
+     solves your problem, refer to the QEMM parameter DISKBUF, and
+     to the technote "BUS-MASTERING DEVICES AND QEMM" (under the
+     filename BUS-MAST.TEC) for an explanation.  If adding the DB=2
+     parameter fails, note the failure and proceed to Step 3.
+
+ 3)  Add the parameter "X=A000-FFFF" to this line and reboot.  If
+     this solves your problem, it is likely tha there is a conflict
+     between QEMM's placement of High RAM and some piece of
+     hardware on your system.  To resolve the problem, refer to the
+     QEMM Analysis Procedure (page xxx), or refer to the technote
+     QEMM ANALYSIS PROCEDURE FOR SOLVING MEMORY CONFLICTS
+     ("EXCLUDE.TEC" and follow the instructions for the Analysis
+     procedure.  If this EXCLUDE parameter fails, note the failure
+     and proceed to Step 4.
+
+ 4)  Remove all the parameters on the QEMM386.SYS line and add:
+
+     APM:N BE:N BOOTKEY:Y CF:N DB=2 DM=128 FILL:N IOTRAP=64 LD MR:N
+     P:VME:N RH:N SH:N TM:N TR:N VDS:N WC:N XBDA:N ON
+
+     then reboot.  (Note that all of these parameters should be on
+     the same line, the QEMM386.SYS line.)  If this does not solve
+     your problem, go to Step 5.
+
+     If this does solve your problem, it is probable that one (and
+     only one) of the parameters above is required.  All of these
+     parameters, even taken together, do not seriously handicap the
+     usefulness of QEMM.  All together, they cause QEMM to use only
+     2K more conventional memory, 116K more extended memory, and
+     will not cause QEMM to be any slower, except on a Pentium. You
+     can find the one(s) you need by eliminating some and retaining
+     others, noting the changes that you make each time. An
+     efficient way of doing this is to remove half the list,
+     writing down the parameters that you have removed.  If the
+     problem returns, one of the parameters that you have removed
+     is the likely solution.  If the problem does not return, one
+     of the parameters still on the line.  Continue to remove and
+     restore parameters in this manner until you find the one that
+     is required to solve your problem.  When you are finished, you
+     may consult the parameters section of the QEMM manual for an
+     explanation.
+
+ 5)  If your system is still not working properly, add the
+     parameter "NOEMS" and reboot.  If this does not solve your
+     problem, proceed directly to Step 7.  If this solves your
+     problem, some program that uses expanded memory is probably
+     misbehaving, since this parameter causes QEMM to cease
+     providing expanded memory.  Write this information down, and
+     go to Step 6.
+
+ 6)  In order to verify that the problem is with a program that is
+     abusing expanded memory in general, try to reproduce the
+     problem with DOS' memory managers.  Add REM to the beginning
+     of the QEMM386.SYS line in CONFIG.SYS, and add the following
+     three lines immediately beneath the QEMM line:
+
+     DEVICE=C:\DOS\HIMEM.SYS
+     DEVICE=C:\DOS\EMM386.EXE RAM ON 1024
+     DOS=UMB
+
+     Reboot your system, and try to reproduce the problem.  If the
+     problem recurs, the problem is unrelated to QEMM, but instead
+     is caused by some program that is mishandling expanded memory
+     in some way.  Note this important information, and contact the
+     vendor of the faulting application.
+
+ 7)  Rename your AUTOEXEC.BAT to TEST.BAT, and copy your CONFIG.SYS
+     file to another called C.SYS.  Edit your new CONFIG.SYS with
+     just the QEMM386.SYS line and "FILES=40", then reboot and
+     attempt to reproduce the problem.  If this solves the problem,
+     run TEST.BAT. If the problem recurs, there was a conflict with
+     something in your old AUTOEXEC.BAT.  If the problem does not
+     recur after you run TEST.BAT, there was likely a conflict with
+     something in your old CONFIG.SYS.  Restore all of the file
+     that WASN'T a party to the conflict, and then restore, one
+     line at a time, the lines in the file that WAS a party to the
+     conflict, rebooting and testing after adding each line.  You
+     should be able to determine quickly which line was causing the
+     problem.
+
+     It is possible that in this section, various elements of your
+     system may not work properly, since there may be drivers in
+     both CONFIG.SYS and AUTOEXEC.BAT that are essential for the
+     operation of a given device.  In this case, restore the lines
+     necessary for the device in both CONFIG.SYS and AUTOEXEC.BAT.
+
+     In any case, if you have not found a solution to the problem,
+     check Step 8, and then proceed to Section G.
+
+ 8)  It is possible that you have more than one problem, and that
+     consequently you may need more than one of these solutions.
+     When you have solved one problem, and are still having others,
+     keep that solution and start over.
+
+ Section G -- If You Have Not Yet Resolved the Problem
+
+ Quarterdeck Technical Support is willing and ready to assist you
+ with any compatibility problems that you might experience.
+ However, you can help us to help you better by making sure that
+ you have clear notes on all of the steps you have taken above.
+ Even if these steps did not solve the problem for you, a record of
+ your troubleshooting will put you in a much better position to get
+ help, and will save you time.
+
+ If you are calling from the United States and you have a touchtone
+ phone, we suggest you try 1-800-ROBOTECH, Quarterdeck's toll-free,
+ automated technical support hotline. 1-800-ROBOTECH can assist
+ with the most common technical questions and offer a variety of
+ solutions. Navigation through 1-800-ROBOTECH is accomplished by
+ pressing numbers on your phone's keypad to jump directly to the
+ topic that you are interested in hearing about.  The system will
+ instruct you every step of the way. Call 1-800-ROBOTECH
+ (1-800-762-6832),  toll free, 24 hours a day, 7 days a week,
+ including Holidays.
+
+ If you contact us by mail, fax or on one of our BBS systems,
+ please include the following information:
+
+ Your Quarterdeck customer VIP number which you receive when you
+ register your copy of QEMM with Quarterdeck.
+
+ The version number and serial number of QEMM. To find these out,
+ type QEMM /REG at the DOS prompt.
+
+ If you are contacting us by mail or fax include a printout from
+ Quarterdeck's Manifest. If you are using the DOS version of
+ Manifest, press F2 to print, and select "All Manifest" from the
+ "What to Print" portion of Manifest's print menu. If you are using
+ the Windows version, select Print from the File menu, then select
+ All Manifest. If you have other important hardware in the system,
+ or if Manifest's list is incomplete, please include any additional
+ information you think may help us diagnose your problem.
+
+ If you cannot run Manifest, print out your CONFIG.SYS and
+ AUTOEXEC.BAT files, and write down what hardware (include the make
+ and model)  and software (include the version) you are using.
+
+ Give a precise description of the problem that is occurring, and
+ the exact text of any error messages. Describe in detail the
+ results of your troubleshooting efforts.
+
+ Please tell us how to respond to you via mail, fax or one of the
+ other methods we support. See your Quarterdeck Passport booklet
+ for information on contacting Quarterdeck Technical Support.
+
+ If you are contacting a technical support representative by
+ telephone:
+
+ - Be at your computer.
+
+ - Please gather the information listed above.
+
+ - When you contact our technical support representative, you need
+   only give your customer VIP number or product serial number and
+   a brief description of your hardware, software and the problem
+   you are encountering. If the support technician requires
+   additional information, he or she will ask for specific details.
+
+ ******************************************************************
+ *      Trademarks are property of their respective owners.       *
+ *   This and other technical notes may be available in updated   *
+ *     forms through Quarterdeck's standard support channels.     *
+ *          Copyright (C) 1996 Quarterdeck Corporation            *
+ ******************** E N D   O F   F I L E ***********************
+

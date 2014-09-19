@@ -1,0 +1,316 @@
+
+                   MS-DOS 6 and Quarterdeck Products
+
+
+ Quarterdeck Technical Note #166              Filename: MSDOS6.TEC
+ by Bill Burge                              CompuServe: MSDOS6.ZIP
+ Last revised:  11/1/93                       Category: SW3
+
+ Subject: A discussion of MS-DOS version 6.0 and Quarterdeck products.
+
+ Q. Is MS-DOS 6 compatible with QEMM?
+
+ A. Absolutely!  The Microsoft DOS 6 README.TXT file states that
+    "Quarterdeck's QEMM memory manager is compatible with MS-DOS
+    6." In addition, there are no known incompatibilities between
+    MS DOS 6.0 and Quarterdeck's DESQview or DESQview/X
+    multitaskers.
+
+ Q. As a QEMM user, what information do I need to install DOS 6?
+
+ A. As a QEMM user, the most important information that you can
+    take with you in the installation and configuration of
+    Microsoft DOS 6 is the knowledge that you are already running
+    the most effective memory management system available for the
+    IBM-compatible computer. If you are already using QEMM, follow
+    these steps:
+
+    1) Run the SETUP program from the DOS 6 installation diskette
+       and follow the instructions on the screen.
+
+    2) Install any of the new DOS 6 utilities that you desire. DOS
+       6 provides you the opportunity to add virus protection and
+       other utilities to your system.  Remember: the default
+       installation of DOS 6 installs only the MS Windows versions
+       of these utilities; you have to tell it to install the DOS
+       versions as well.  This is done on the Utilities screen of
+       the SETUP process.
+
+    3) Run QEMM's OPTIMIZE to load those drivers into Upper Memory.
+
+       If you should desire to experiment with Microsoft DOS 6's
+       MemMaker (the program that attempts to provide more memory),
+       we can recommend a couple of safeguards.  MemMaker will
+       remove ALL the QEMM commands from your CONFIG.SYS and
+       AUTOEXEC.BAT files (with the exception of DOSDATA.SYS and
+       DOS-UP.SYS, which you would have to remove manually).  We
+       are confident that you will want to return to Quarterdeck's
+       QEMM, so we urge you to save a copy of your CONFIG.SYS and
+       AUTOEXEC.BAT files.  Before you begin to experiment, copy
+       these files from the root directory to some other directory
+       or to a floppy diskette. This will allow you to restore them
+       easily.
+
+       Our customers have reported problems related to running
+       MemMaker on multi-path CONFIG.SYS files.  Unlike QEMM's
+       OPTIMIZE and QSETUP programs, MemMaker does not offer a
+       multi-CONFIG menu.
+
+       Next, be aware that even if you save the configuration
+       created by MemMaker, you can usually reverse its changes by
+       running MEMMAKER /UNDO. If the final screen of the MemMaker
+       process is NOT a numerical breakdown of how MemMaker got you
+       more memory (and every test that we have run says it will
+       not be), select the default exit by pressing the <ENTER>
+       key.  Do NOT press F3 to save the current MemMaker
+       configuration.
+
+       Note that MemMaker does NOT handle CALLed batch files.  A
+       CALLed batch file is executed with the DOS keyword "CALL"
+       which tells DOS to execute the commands in the "CALLed"
+       batch file and then resume executing the remaining commands
+       in the current batch file (the AUTOEXEC.BAT in this case).
+       The significance of this is that Quarterdeck's Optimize
+       process DOES handle CALLed batch files, loading any TSR's in
+       those batch files into Upper Memory instead of just ignoring
+       them. This means that when MemMaker deletes the QEMM
+       commands from the AUTOEXEC.BAT and CONFIG.SYS, it leaves
+       them in the Optimized, CALLed batch files.  These would have
+       to be removed by editing the CALLed batch files and deleting
+       the LOADHI information.  If NO changes have been made since
+       the last time that you Optimized your system, you could also
+       run UNOPT.BAT. UNOPT is a batch file, created by Optimize,
+       that returns your system to the condition it was in before
+       the most recent Optimize.  If you have Optimized more than
+       once, use the OPTIMIZE /RESTORE parameter instead; this
+       allows you to restore any of your last nine configurations,
+       or the pre-QEMM configuration.
+
+       With the greater selection of features in QEMM and Optimize,
+       MemMaker does not stand a chance of creating more upper
+       memory. QEMM's Stealth ROM feature adds 96K of Upper Memory,
+       64K more than MemMaker's best attempt to find unused space
+       in your System BIOS.  Optimize has the ability, through
+       Quarterdeck's Squeeze technology, to shoehorn TSR's and
+       device drivers into areas that are large enough for them to
+       reside, but too small for them to initialize.  (It is common
+       for drivers and resident programs to require larger areas
+       during initialization than they need once they have loaded.)
+       Optimize has a "What-If" feature that lets you see the
+       effect that rearranging the loading order of your programs
+       and drivers will have on your memory usage WITHOUT making
+       any changes to your configuration.  None of this is possible
+       with MemMaker.
+
+ Q. Are any of my Quarterdeck products affected by DoubleSpace (or
+    DriveSpace)?
+
+ A. The most talked-about feature of Microsoft DOS 6 is its disk
+    compression -- DriveSpace in DOS 6.22; DoubleSpace in earlier
+    releases of DOS 6.  Both DoubleSpace and DriveSpace were
+    designed to be compatible with QEMM.  Disk compression
+    utilities, including Stacker, XtraDrive, and now DoubleSpace,
+    have gone to great lengths to be compatible with Stealth ROM as
+    well as Optimize.
+
+    (In the following paragraphs, DBLSPACE is used to refer to
+    DBLSPACE or DRVSPACE.)  DBLSPACE.BIN is a driver that allows
+    your system to recognize your DoubleSpace drive.  It is loaded
+    by IO.SYS during boot time, BEFORE DOS has even thought about
+    loading QEMM. DBLSPACE.BIN uses about 43K of your memory, and
+    when the CONFIG.SYS has completed, the memory used by the
+    resident portion of DBLSPACE.BIN appears to be added to the
+    memory used by the LAST driver loaded in the CONFIG.SYS.  In
+    other words, the last driver loaded appears to be 43K larger
+    than it actually is.  When you install DoubleSpace, the
+    following line is added to your CONFIG.SYS file:
+
+    DEVICE=C:\DOS\DBLSPACE.SYS /MOVE
+
+    DBLSPACE.SYS has only one purpose, and that is to make
+    DBLSPACE.BIN appear as a "real" driver, separate in memory.
+    DoubleSpace REQUIRES that DBLSPACE.SYS be loaded in order for
+    any memory manager to load DBLSPACE.BIN into upper memory.
+
+    QEMM includes a feature called "Stealth D*Space," which
+    moves the DoubleSpace driver out of conventional or upper
+    memory and maps it into the expanded memory Page Frame whenever
+    it is needed.  By using Stealth DoubleSpace you save
+    approximately 41K of memory.  If DoubleSpace is installed on
+    your system when you install QEMM, the following line will be
+    added to your CONFIG.SYS file:
+
+    DEVICE=C:\QEMM\ST-DSPC.SYS
+
+    If you install DoubleSpace AFTER installing QEMM, you should
+    run QEMM's QSETUP program (by typing QSETUP at the DOS prompt).
+    QSETUP will remove the DBLSPACE.SYS line in your CONFIG.SYS and
+    replace it with the ST-DSPC.SYS line shown above.
+
+    The Stealth D*Space feature, like the Stealth ROM feature,
+    requires the presence of an EMS page frame.  If you have used
+    QEMM386.SYS's FRAME=NONE; FRAMELENGTH=0, 1, 2 or 3; or EMS:N
+    parameter to eliminate the page frame, the ST-DSPC.SYS program
+    will act exactly like the DOS 6 driver DBLSPACE.SYS with its
+    /MOVE parameter: in other words, it will move DBLSPACE.BIN from
+    the top of conventional memory to low conventional memory.  If
+    you choose to leave ST-DSPC  .SYS in your CONFIG.SYS file
+    without a page frame, you can use O  ptimize to load the
+    DoubleSpace driver into High RAM, just as you could with
+    DBLSPACE.SYS /MOVE.
+
+ Q. How can I restore my QEMM configuration after MemMaker has
+    removed QEMM from my CONFIG.SYS and AUTOEXEC.BAT files? REMOVED
+    QEMM FROM MY CONFIG.SYS AND AUTOEXEC.BAT FILES?
+
+ A. The steps that you must follow in order to return to QEMM after
+    running MemMaker depend on whether you have:
+
+    1. Not yet completed MemMaker; OR
+    2. Have completed MemMaker.
+
+    For the Number 1's who have not yet completed MemMaker:
+
+    When MemMaker completes and DOES NOT provide a better
+    configuration than the one you already had, it will tell you
+    "Your computer's memory was optimally configured before you ran
+    MemMaker".  At this juncture you can press <ENTER> to restore
+    your original configuration or F3 to save the MemMaker
+    configuration.  Your choice at this time will be <ENTER>.  Your
+    existing QEMM configuration will be restored.
+
+    For the Number 2's who have completed MemMaker:
+
+    Since you have completed the MemMaker process, it has probably
+    become evident to you that nothing provides more upper memory
+    for loading your TSR's and device drivers than QEMM.  Just type
+    QSETUP from the DOS prompt.  QEMM's QSETUP program will remove
+    HIMEM.SYS and EMM386.EXE from your CONFIG.SYS file and replace
+    them with a QEMM386.SYS device line. From the QSETUP menu you
+    can also enable other options (such as QDPMI and DOS-UP.)  Once
+    QSETUP has enabled the options you choose, run QEMM's Optimize
+    program to load your device drivers and TSR's into upper
+    memory. That is all there is to it.
+
+ Q. MemMaker does not support multi-path CONFIG.SYS files.  Does
+    QEMM support this DOS 6 feature?
+
+ A. Yes -- much better than DOS 6's memory management programs.
+
+    DOS 6 provides the ability to build menus of configurations in
+    the CONFIG.SYS and AUTOEXEC.BAT. This is accomplished by
+    building "blocks" in the CONFIG.SYS, and having the name of the
+    block selection that you make on boot passed to the
+    AUTOEXEC.BAT as an environment variable -%config%. The use of
+    the environment variable, for IF's and GOTO's, will then
+    process a particular portion of the AUTOEXEC.BAT file that is
+    appropriate to that portion of the CONFIG.SYS.
+
+    Multiple configurations (as implemented via the CONFIG.SYS
+    blocks) have to be MemMakered one configuration at a time.  The
+    DOS 6 documentation discusses the process of converting your
+    CONFIG.SYS and AUTOEXEC.BAT into multiple copies and then
+    MemMakering them one at a time.  Microsoft warns users to avoid
+    [common] blocks and "first entries" in the AUTOEXEC.BAT.
+
+    If you are using QEMM however, you will find the process of
+    Optimizing a multi-config system much easier than with
+    MemMaker.  QEMM's Optimize program handles multiple
+    configurations with ease.  When you run Optimize, it will
+    detect any multiple configurations you have set up and will
+    post a message prompting you to choose the CONFIG.SYS
+    configuration you want to Optimize.  (If Optimize is launched
+    automatically by the Install program or by QEMM Setup, these
+    programs will also detect multiple configurations and pass the
+    information along to the Optimize program.)  Optimize will then
+    execute normally, booting the system with the configuration
+    that you have chosen.
+
+    When you are not using multiple configurations, Optimize places
+    the /R:n (REGION:n) parameter on lines that load TSRs and
+    device drivers to specify which High RAM region the driver or
+    TSR will load into.  When you are using multiple
+    configurations, instead of placing /R:n parameters on the
+    QEMM386.SYS and LOADHI lines, Optimize will place /RF
+    (/RESPONSEFILE) parameters.  The /R:n parameters would not work
+    in a multiple configuration situation, because a program might
+    be part of two or more CONFIG.SYS configurations, each
+    requiring a different region number.
+
+    The /RF parameter gets around this problem by directing
+    QEMM386.SYS and the LOADHI programs to look in a resource file
+    called LOADHI.RF that Optimize has created in the \QEMM
+    directory. (Optimize places a LOADHIDATA environment variable
+    in the CONFIG.SYS file that tells QEMM386.SYS and the LOADHI
+    programs the name and location of this resource file.)
+    LOADHI.RF will contain several "config blocks," each
+    corresponding to a CONFIG.SYS configuration and containing the
+    appropriate /R:n statements for that configuration. QEMM386.SYS
+    and the LOADHI programs check the current CONFIG environment
+    variable (created at boot time by DOS 6 to indicate which
+    CONFIG.SYS configuration is being used), and then choose the
+    appropriate config block to get information about what High RAM
+    region they should use to load high.
+
+    Here is an example of a resource file:
+
+    [Vanilla]
+    QEMM386.SYS /R:1
+    C:\DOS\SETVER.EXE /R:1
+    C:\DOS\COMMAND.COM /R:1
+
+    [Development]
+    QEMM386.SYS /R:1
+    C:\DOS\SETVER.EXE /R:1
+    C:\QEMM\QDPMI.SYS /R:1
+    C:\DOS\COMMAND.COM /R:1
+
+    [Full]
+    QEMM386.SYS /R:2
+    C:\DOS\SETVER.EXE /R:3
+    C:\QEMM\QDPMI.SYS /R:3
+    C:\DOS\COMMAND.COM /R:2
+    C:\PCKWIK\SUPERPCK.EXE /R:2
+    C:\NET\IPX.COM /R:1
+    C:\NET\EMSNETX.COM /R:2
+
+    [All Others]
+    QEMM386.SYS /R:1
+    C:\DOS\SETVER.EXE /R:1
+    C:\QEMM\QDPMI.SYS /R:1
+    C:\DOS\COMMAND.COM /R:1
+    C:\PCKWIK\SUPERPCK.EXE /R:2
+
+    In this example, the blocks named Vanilla, Development, and
+    Full will be used only when you choose their names off the menu
+    that DOS 6 offers when you boot with multiple configurations.
+    The All Others section will be used only if none of the blocks
+    before it were chosen.  If you place a line before the first
+    block, it will be used no matter what configuration name you
+    choose.
+
+    This file format is also supported by QEMM's parameter files
+    (see Chapter 7 of the QEMM manual for information) and by the
+    DOS-Up resource file DOS-UP.DAT, which the driver DOS-UP.SYS
+    uses to determine where different parts of DOS go in High RAM.
+    Normally, you do not need to edit these files yourself.
+    Optimize creates and maintain the files.
+
+
+ Q. What else is Quarterdeck doing for DOS?
+
+ A. Quarterdeck's commitment to adding functionality to DOS and
+    DOS-based programs has kept our products at the forefront of
+    memory management and multitasking technology.  With each new
+    version of DOS comes an opportunity for Quarterdeck to design
+    new features and offer the DOS user an even greater
+    implementation of the world's most widely used operating
+    system. Quarterdeck intends to continue this pattern.
+
+ ******************************************************************
+ *      Trademarks are property of their respective owners.       *
+ *   This and other technical notes may be available in updated   *
+ *     forms through Quarterdeck's standard support channels.     *
+ *          Copyright (C) 1996 Quarterdeck Corporation            *
+ ******************** E N D   O F   F I L E ***********************
+

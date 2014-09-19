@@ -1,0 +1,389 @@
+
+             An Overview of QEMM's StealthROM Technology
+
+ Quarterdeck Technical Note #168              Filename: STLTECH.TEC
+ by Michael Bolton                          CompuServe: STTECH.ZIP
+ Last revised: 12/14/94                       Category: QEMM
+
+ Subject: An overview of QEMM's Stealth ROM technology -- how it
+           works, why it works so well, and what can cause
+           complications for it.
+
+ Q: What is StealthROM?
+ Q: How does StealthROM work?
+ Q: What is the difference between ST:M and ST:F?
+ Q: Which StealthROM strategy is preferable?
+ Q: Does StealthROM slow down my system?
+ Q: How can StealthROM fail?
+ Q: If I'm having problems with StealthROM, what should I do?
+
+ Note: for the purposes of this note, "386" refers to any processor
+ in the 80386 family -- the Intel 80386 SX and DX; the i486 SX and
+ DX in all their flavors; the Pentium processor, and all processors
+ compatible with these chips.
+
+ Traditionally, 386 memory managers such as QEMM have been able to
+ create extra memory for DOS by associating physical extended
+ memory (memory above the 1MB line, which is outside of DOS'
+ address space) with unused addresses between 640K and 1MB.  This
+ extra memory is called High RAM. Quarterdeck's StealthROM
+ technology (which is included with QEMM versions 6.00 and higher)
+ is QEMM's method of creating more High RAM than previously thought
+ possible, by mapping memory to addresses that are used by system,
+ video, disk, and other ROMs.
+
+ Q. How does StealthROM work?
+
+ To understand how StealthROM works, it is useful to understand the
+ concept of MAPPING.  When a program needs more memory than what is
+ normally available to it under DOS, it can request that some
+ expanded memory be allocated from either an EMS board, or from the
+ EMS memory created by a 386 expanded memory manager. MAPPING is
+ the process by which memory management hardware and software can
+ make memory appear in appropriate places at appropriate times; it
+ is the process of associating memory with an address other than
+ its actual one.  A convenient place to make memory appear is a 64K
+ window of addresses above the 640K line; this window is called the
+ EMS page frame.  The expanded memory specification (EMS) uses
+ mapping to make portions of expanded memory appear inside the EMS
+ page frame when that memory is requested by a program.
+
+ Expanded memory has no addresses of its own, but can be made to
+ appear at a valid address -- "mapped in".  Expanded memory pages
+ can be filled with code or data by a program; when that code or
+ data is not needed, the pages can  may be "mapped out" -- relieved
+ of their addresses and put back into the expanded memory pool,
+ with the code and data still intact. When the application needs
+ these pages, they are "mapped in" to the EMS page frame again.  It
+ is therefore possible for a program that uses expanded memory to
+ have access to much more memory than DOS itself can see of its own
+ accord.  You may know this technology as "bank switching," which
+ is one of the techniques used to extend and add power to
+ everything from mainframe computers to high-end UNIX systems... to
+ DOS machines!
+
+ Mapping is also useful for creating High RAM; in addition the the
+ page frame, memory can be associated with other unused addresses
+ between 640K and 1MB.  The 386 hardware and QEMM cooperate to make
+ memory appear where there is otherwise none.
+
+ StealthROM uses mapping for a new purpose.  The 386 chip can be
+ made to map memory in or out of DOS' address space at any time.
+ StealthROM uses 386 mapping to map system, disk, or video ROMs in
+ and out of DOS' address space when appropriate, using one of two
+ strategies -- Mapping mode or Frame mode.  These two features are
+ activated by parameters on the QEMM line -- ST:M, for Stealth
+ Mapping, or ST:F, for Stealth Frame.
+
+ Q. What is the difference between ST:M and ST:F?
+
+ "BIOS" stands for "Basic Input Output Services", programs that are
+ built right into the hardware of your system in a form called
+ "Read-Only Memory".  Your system communicates with various parts
+ of itself and with its peripherals via the ROM-BIOS, often
+ referred to as "ROMs".  The ROMs on your system are accessed via
+ interrupts -- which are conceptually similar to BASIC subroutines.
+ When your system boots up, it sets up something called an
+ interrupt vector table.  This is a list of addresses where
+ specific ROM subroutines can be found. When a program on your
+ system needs a certain ROM function (for example, writing colored
+ text to the screen), it sets up some data in appropriate places,
+ and then calls the interrupt with a processor INT instruction. The
+ processor then looks at the interrupt vector table to find out the
+ address where the ROM function can be found.  The processor
+ transfers control to that address, the ROM subroutine gets run,
+ and then control is returned to the calling program.
+
+ When you use StealthROM, as your system boots QEMM takes control
+ of interrupts that are in use by the ROMs on your system and
+ points those interrupts into QEMM itself.  This way, QEMM can
+ monitor exactly when a ROM interrupt occurs, and can manage the
+ interrupt appropriately.
+
+ When you use ST:M ("Mapping Method"), QEMM maps system, video, and
+ disk ROMs and any other "Stealthable" ROMs out of the first
+ megabyte. (For information on what is "Stealthable," see "How can
+ StealthROM fail?" below.)  When the ROM is needed by the system,
+ QEMM maps the appropriate ROM code into the expanded memory page
+ frame.  The ROM code now has a valid address at which it can
+ execute, and it does so normally.  When the ROM routine is
+ finished, QEMM then remaps the ROM elsewhere out of the address
+ space.
+
+ When you use ST:F ("Frame Method"), QEMM leaves the system, video,
+ and disk ROMs where they are normally found.  QEMM then places the
+ EMS page frame at the same address as -- or "on top of" -- a ROM.
+ Expanded memory can then be mapped into the EMS page frame.  When
+ the ROM that has been hidden by the page frame is needed, QEMM
+ maps the page frame away, and maps ROM back into the addresses
+ that were occupied by the page frame.  The ROM code then executes
+ normally. When the ROM routine is finished, QEMM can then restore
+ the contents of the page frame, and the ROM is effectively hidden
+ again.
+
+ Q. Which StealthROM strategy is preferable?
+
+ Since ST:M is capable of mapping almost all ROMs out of DOS'
+ address space, and thus provides much more High RAM, it is the
+ better of the two options.  ST:F should only be needed on a very
+ small number of systems; its object is to ensure compatibility
+ with machines that have ROMs that jump to each other without using
+ an interrupt to do so, or with ROMs that need to execute at their
+ original addresses.
+
+ Q. I have to have a special version of QEMM so that StealthROM
+ will work on my system, right?  My system has to be one that
+ StealthROM knows about, right?  I have to disable some of QEMM's
+ memory management features to take advantage of StealthROM, right?
+
+ No to all three questions!  StealthROM is designed to work on ANY
+ system, regardless of brand, model, or ROM BIOS revision.  You do
+ not need a special version of QEMM or StealthROM that has been
+ customized for your machine, because StealthROM's strategy merely
+ relocates your ROMs instead of replacing them.  StealthROM does
+ not modify, compress or replace your ROM BIOS, and it does not
+ depend on being aware of the brand or revision of your ROMs.
+ Additionally, StealthROM will typically create more High RAM on
+ your system than any other memory management technique.  You do
+ not have to disable any of QEMM's features -- EMS, XMS, DPMI, or
+ VCPI memory management.  Other memory managers force you to
+ sacrifice features or compatibility as they try to match QEMM's
+ prowess in squeezing every last byte of High RAM from your system.
+
+ Q. Does StealthROM slow my system down?
+
+ StealthROM does add some tiny amount of overhead to ROM BIOS
+ interrupts.  Since most application programs spend very little
+ time calling ROM code, the slowdowns are usually imperceptible or
+ insignificant to the user. Ironically, since benchmark programs
+ often call ROM interrupts repeatedly  (some do almost nothing but
+ this), the greatest slowdown will be seen in some benchmark
+ results; these results rarely have much to do with the actual
+ speed of useful programs, however. Since your application programs
+ typically have much more conventional memory to deal with when
+ StealthROM is invoked, you are more likely to observe faster --
+ not slower -- performance. Furthermore, QEMM optimizes some ROM
+ video functions with its own faster techniques when StealthROM is
+ active, and QEMM's ROM parameter (see the QEMM documentation) can
+ provide additional performance increases. Using StealthROM with
+ the ROM parameter is typically significantly faster than not using
+ QEMM at all.
+
+ Q.   How can StealthROM fail?
+
+ StealthROM is a robust and proven technology.  However, it is
+ possible for programs or system ROM implementations to interfere
+ with StealthROM's strategies. Note that the problems described
+ here are infrequent and/or system-specific, and that most users
+ will experience no difficulty at all with StealthROM.
+
+ In the above description of how StealthROM works, each strategy
+ depends on a processor interrupt being referenced.  This is the
+ normal way of accessing ROM code; processor registers are loaded
+ with data and with information which denotes exactly which ROM
+ service is being requested, and then a processor INT instruction
+ is called.  BASIC programmers will recognize that this is similar
+ to the process of initializing a few variables with data, and then
+ calling a subroutine with a GOSUB instruction; most good texts
+ favor this method of programming.  However, it is possible (though
+ relatively uncommon) for a piece of code to JUMP to a specific ROM
+ address, without branching via an interrupt.  This is analogous to
+ a BASIC GOTO, rather than a GOSUB; dependencies on GOTOs are
+ generally frowned upon by expert programmers, since a GOTO
+ presumes that the address to which the code is jumping will remain
+ constant and unchanging. This is less of a problem if one person
+ writes all the code, since it is easier for one person to keep
+ track of the proper destination addresses; when more than one
+ person is involved, it's more difficult to determine why and where
+ the code should branch.
+
+ A few addresses in the interrupt vector table are used to point to
+ tables of BIOS data, rather than to executable code.  StealthROM
+ is designed to account for these sorts of addreses as well; as
+ with program code, QEMM points the processor to appropriate data
+ if an address in the interrupt vector table points to system
+ configuration information, rather than to BIOS program routines.
+
+ If an application or utility jumps directly to a ROM address when
+ StealthROM is invoked, QEMM will not be able to intercept an
+ interrupt, and thus may not have a chance to make sure that the
+ appropriate portion of the ROM code is mapped into the page frame.
+ If QEMM's Optimize program detects this behavior, it can make the
+ application work properly with StealthROM by applying the
+ STEALTHTHUNK parameter, sacrificing a small amount of High RAM
+ (usually 4K) in order to intercept the direct jump, map the
+ appropriate ROM into the page frame, and divert the direct jump to
+ the proper address.  If the behavior does not occur during the
+ Optimize process, it will probably be necessary to EXCLUDE a
+ portion of the ROM on the QEMM386.SYS line in the CONFIG.SYS. More
+ information on STEALTTHUNK parameter can be found in the QEMM
+ Reference Manual (or in the README file in some releases).
+
+ In the case of system setup programs and installation routines for
+ video cards (many of which access ROM addresses directly), it is
+ far better to disable QEMM temporarily than to use EXCLUDEs or
+ sacrifice the large amounts of extra High RAM that ST:M can
+ provide.  Setup programs should need to be run infrequently, and
+ typically require a reboot before the modified settings take
+ effect. High RAM is generally much more useful. It is worth
+ weighing the benefits of instant access to your setup program
+ against the extra High RAM that StealthROM can provide; the
+ decision should not be a difficult one.
+
+ The easiest way to deal with this is to disable QEMM, run your
+ Setup program, and reboot with QEMM active again.  To disable QEMM
+ temporarily, hold down the <Alt> key immediately after you hear a
+ beep on bootup.  QEMM will post a message telling you to press
+ <Escape> to unload QEMM, or any other key to continue with QEMM.
+ Press <Escape>, and run your Setup program.  (If you are using the
+ DOS-UP feature from QEMM version 7.0 or later, you will first see
+ a message asking if you want to unload DOSDATA.  Press <Escape> to
+ unload DOSDATA, then hold down the <Alt> key again until you see
+ the message telling you to press <Escape> to unload QEMM.  After
+ unloading QEMM, run your Setup program, then reboot the machine
+ normally (without holding down <Alt>); your revised Setup will be
+ in effect, and so will QEMM.
+
+ * Some ROMs are written in such a way that they jump internally to
+   addresses that are "hard-wired" into the ROM code.  For
+   instance, a ROM that lives at address C000 may jump within
+   itself using a full address like C000:AD91, where a jump to
+   offset AD91 would have had the same effect.  Jumps to explicit
+   addresses can confound StealthROM, as the ROM does not always
+   execute at its original address. The best way of getting around
+   this problem is often to use ST:M, and to place the EMS page
+   frame to be placed on top of the ROM in question; this means
+   that the ROM will execute at its original location without any
+   sacrifice of High RAM. If you cannot put the page frame over the
+   offending ROM, the ST:F option is another method of guaranteeing
+   that all ROMs will execute at their original addresses.
+
+ * Sometimes one ROM will jump directly into another ROM's code
+   instead of accessing the other ROM through interrupts.  In such
+   circumstances, ST:F may be helpful, since the ROMs will all
+   execute at their original addresses, making both inter-ROM and
+   intra-ROM jumps safe.
+
+ * Some programs find the address of a given piece of ROM at
+   startup, and then jump directly to that address later on, at a
+   time when the ROM may not be mapped into memory.  Programs like
+   these will often require that a portion of the ROM be EXCLUDEd
+   on the QEMM386.SYS line in CONFIG.SYS.  Quarterdeck Technical
+   Note #205, Troubleshooting Stealth ROM (STEALTH.TEC) can assist
+   in finding the appropriate EXCLUDE quickly.
+
+ * Some ROMs do not have any interrupts pointing to them at
+   startup. If this is the case, QEMM will not be able to detect
+   where a given interrupt should point, and thus may not invoke
+   StealthROM for that ROM.  Again, Quarterdeck Technical Note
+   #205, Troubleshooting Stealth ROM (STEALTH.TEC) may help to
+   determine which addresses within this ROM must be EXCLUDEd (for
+   compatiblity) or can be INCLUDEd (for more High RAM).
+
+ * Some device drivers refuse to load unless they see an interrupt
+   pointing to its normal location. Quarterdeck Technical Note
+   #233, "QEMM and the XSTI parameter", XSTI.TEC, explains another
+   way to resolve this problem which usually results in more
+   conventional memory saved than if the driver is loaded before
+   QEMM.  The DEVICE= lines that refer to these programs may also
+   be loaded before the QEMM386.SYS line in CONFIG.SYS (though
+   after DOSDATA.SYS) if necessary.
+
+ * Some programs make invalid assumptions about the EMS page frame.
+   In some cases, programs assume that the state of the EMS page
+   frame will remain unchanged even after they decide to release
+   their claim to a page of expanded memory; this is akin to
+   assuming that you can get your property back after leaving it at
+   the end of the driveway on garbage pick-up day.  This fails with
+   Stealth ROM because, by default, the page frame is immediately
+   un-mapped after a handle has been abandoned -- as if, in the
+   above example, the city picks up the garbage pretty much
+   immediately -- as soon as you get back into your house.  The
+   UFP:N parameter suppresses this feature and can make such
+   careless programs work with StealthROM, perhaps at the expense
+   of some speed.
+
+ * Some applications assume that the contents of the page frame
+   will be the same at hardware interrupt time as they are when the
+   main body of the application is executing -- like assuming that
+   your coat will never get moved from the place in which you saw
+   the cloakroom attendant put it.  This is an invalid assumption,
+   and can cause problems not only with StealthROM, but with
+   EMS-using TSRs as well. This ignores the guidelines in the
+   Expanded Memory Specification, which governs the proper use of
+   expanded there.
+
+ * Other programs outright violate the Expanded Memory
+   Specification by placing their interrupt stacks -- effectively
+   the program's means of keeping track of its current state -- in
+   the page frame.  This is not simply a problem for StealthROM or
+   for QEMM; this can cause a conflict with any using expanded
+   memory and ANY expanded memory manager.
+
+ Fortunately, the programs that exhibit these problems are rare. If
+ you experience difficulty that is found to be Stealth-related, you
+ might wish to encourage the developer of the faulting program to
+ make the program more compatible with StealthROM.  Quarterdeck is
+ very happy to assist the developer of any commercial hardware or
+ software who wishes added compatibility with our products.
+
+ Q. What does the ROM parameter have to do with StealthROM?
+
+ ROM code is normally read 8 or 16 bits at a time, and 32-bit RAM
+ is therefore much faster.  (You can see this in action by looking
+ at Manifest First Meg / Timings, first without the ROM parameter
+ on the QEMM386.SYS line in CONFIG.SYS, and then with ROM added to
+ the end of that line.)  Some video ROM speed-up drivers work by
+ copying the contents of video ROM to conventional RAM.  These
+ programs (such as TVGABIO.SYS, RAMBIOS.SYS, FASTBIOS.SYS, and
+ SPEED_UP.SYS, typically shipped on the utilities diskette provided
+ with your video card) will often conflict with StealthROM.  If
+ loaded after QEMM, such programs may refuse to load because they
+ detect that a program loaded before them (QEMM) is intercepting
+ the video interrupt, INT 10.  Conversely, if loaded before QEMM,
+ these programs may divert interrupts into RAM, so that QEMM cannot
+ locate the ROM handler for those interrupts.  In these cases, the
+ video speed-up program will function properly, but Stealth ROM
+ will be disabled. XSTI.TEC explains how to resolve this problem if
+ you really want to load the video enhancement program.  However,
+ QEMM's ROM parameter generally provides the same feature these
+ drivers do, with three important advantages.  First, QEMM copies
+ the video ROM into 32-bit RAM and then write-protects the RAM so
+ that some errant program does not overwrite the ROM code.  Second,
+ QEMM's ROM parameter costs neither conventional memory nor High
+ RAM to provide this feature -- the video drivers mentioned above
+ will typically take 32K of one or the other.  Finally, the ROM
+ parameter is fully compatible with StealthROM.
+
+ Q. If I'm having problems with StealthROM, what should I do?
+
+ StealthROM problems can be resolved by consulting Quarterdeck
+ Technical Note #205, "Troubleshooting StealthROM" (STEALTH.TEC).
+ If you are using QEMM version 7.0 or later, this technote was
+ installed in your \QEMM\TECHNOTE directory.  This and other
+ Quarterdeck Technical Notes are also available on the Quarterdeck
+ BBS at (310) 309-3227, CompuServe (!GO QUARTERDECK), or large
+ local BBS systems, and also via our Q/FAX fax retrieval service;
+ from the handset of your fax machine, call (310) 309-3214.
+
+ Summary
+
+ StealthROM is a robust and proven technology.  It is an
+ easy-to-use, safe, and efficient way of creating more High RAM on
+ your system, providing more memory for your TSRs, your device
+ drivers, DESQview 386, MS Windows, and your application programs.
+ It is likely to speed up your system rather than slowing it down.
+ It is designed to be effective on any 386 or higher processor,
+ regardless of the ROM's manufacturer or version.  Many programs
+ that cause conflicts with StealthROM can cause problems with other
+ programs and memory managers. Stealth conflicts are rare, and
+ troubleshooting is straightforward. StealthROM is the easiest way
+ to provide the optimal amount of High RAM on your system.
+
+ ******************************************************************
+ *      Trademarks are property of their respective owners.       *
+ *   This and other technical notes may be available in updated   *
+ *     forms through Quarterdeck's standard support channels.     *
+ *          Copyright (C) 1996 Quarterdeck Corporation            *
+ ******************** E N D   O F   F I L E ***********************
+

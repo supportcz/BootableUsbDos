@@ -1,0 +1,80 @@
+:Base qemmwin.hlp
+:Title Quarterdeck QEMM 97
+1 About QEMM
+2 What is QEMM?=What_is_QEMM_>main
+2 Glossary=Glossary>glossary
+1 QEMM Control Panel
+2 About the QEMM Control Panel=QEMM_Control_Panel>main
+2 Graphic buttons at the right of the Control PanelS=Graphic_buttons
+2 Shrinking or expanding the Control Panel=Shrinking_or_expanding_the_Control_Panel>procedur
+2 Displaying the QEMM Control Panel "on top" of other windows=Displaying_the_QEMM_Control_Panel__on_top__of_other_windows>procedur
+2 Displaying usage statistics for a disk drive=Displaying_usage_statistics_for_a_disk_drive>procedur
+2 Configuring QEMM=Configuring_QEMM>procedur
+2 Alerts
+3 What is an alert?=What_is_an_alert_
+3 Configuring Alerts=Configuring_Alerts>main
+2 QEMM Details Graphs
+3 About QEMM Details graphs=About_QEMM_Details_graphs@qemmwin.hlp
+3 Compression graph=Compression_graph@qemmwin.hlp
+3 Memory details graph=Memory_details_graph@qemmwin.hlp
+3 QEMM Details graph=QEMM_Details_graph@qemmwin.hlp
+3 Special Memory graph=Special_Memory_graph@qemmwin.hlp
+3 Swap File graph=Swap_File_graph@qemmwin.hlp
+1 Tips and shortcuts
+2 Using QEMM: Tips and shortcuts=QEMM_tips_and_shortcuts>main
+2 Memory and system optimization tips
+3 QEMM Tips
+4 Use QEMM’s Optimize program=Memory_tips__Use_QEMM_s_Optimize_program>more
+4 Use MagnaRAM=Memory_tips__Use_MagnaRAM>more
+4 Use TurboLoad=Memory_tips__Use_TurboLoad>more
+4 Use QEMM’s SETUP Program=Memory_tip__Use_QEMM_s_SETUP_Program>more
+4 Use QEMM’s Stealth ROM Feature=Memory_tip__Use_QEMM_s_StealthROM_Feature>more
+4 Use QEMM’s DOS-Up Feature=Use_QEMM_s_DOS_Up_Feature>more
+4 Use DOS=HIGH=Memory_tip__Use_DOS_HIGH>more
+4 Use Vidram=Memory_tip__Use_Vidram>more
+4 Use Resource Manager=Memory_tip__Use_Resource_Manager>more
+4 Use Stealth D*Space with DOS 6’s DoubleSpace or DriveSpace=Memory_Tip__Use_QEMM_s_Stealth_D_Space_feature_with_DOS_6_s_DoubleSpace_or_DriveSpace>more
+4 Use QEMM’s Stacker feature=Memory_tip__Use_QEMM_s_Stacker_Feature>more
+4 Consider removing QDPMI=Memory_tip__Consider_removing_QDPMI>more
+4 Tune MagnaRAM’s Buffer Size=Memory_tip__Tune_MagnaRAM_s_Buffer_Size>more
+4 Use QEMM’s Analysis procedure =Memory_tip__Use_QEMM_s_Analysis_procedure_>more
+3 System tuning tips
+4 Use EMS or XMS=Memory_tips__Use_EMS_or_XMS>more
+4 Streamline your CONFIG.SYS and AUTOEXEC.BATS=Memory_tip__Streamline_your_CONFIG.SYS_and_AUTOEXEC.BAT>more
+4 Make sure that you have plenty of hard drive space available=Memory_tip__Make_sure_that_you_have_plenty_of_hard_drive_space_available>more
+4 Reduce the number of fonts=Memory_tip__Reduce_the_number_of_fonts>more
+4 Run as few network clients and services as possible=Memory_tip__Run_as_few_network_clients_and_services_as_possible>more
+4 Reduce the amount of address space used by your PCCard (PCMCIA) adapter=Memory_tip__Reduce_the_amount_of_address_space_used_by_your_PCCard__PCMCIA__adapter>more
+3 Disk optimization tips
+4 Defragment your hard drive and your swapfile=Memory_tip__Defragment_your_hard_drive_and_your_swapfile>more
+4 Use a permanent swap file. (Windows 3.1 only)=Memory_tip__Use_a_permanent_swap_file.__Windows_3.1_only_>more
+4 Make sure that your swap file is on an uncompressed drive=Memory_tip__Make_sure_that_your_swap_file_is_on_an_uncompressed_drive>more
+4 Make sure that your swap file is on your fastest drive=Memory_tip__Make_sure_that_your_swap_file_is_on_your_fastest_drive>more
+4 Make sure that your swap file is on your least-used drive=Memory_tip__Make_sure_that_your_swap_file_is_on_your_least_used_drive>more
+4 Use 32-bit disk access=Memory_tip__Use_32_bit_disk_access>main
+4 Use 32-bit file access=Memory_tip__Use_32_bit_file_access>more
+4 Use a disk cache (Windows 3.1 only)=Memory_tip__Use_a_disk_cache__Windows_3.1_only_>more
+4 Do not use a disk cache if you use Windows 95, or Windows 3.1 with 32-bit file access enabled.=Memory_tip__Do_not_use_a_disk_cache_if_you_use_Windows_95__or_Windows_3.1_with_32_bit_file_access_enabled.>more
+4 Tune VCACHE to 20% or less of installed RAMS=Memory_tip__Tune_VCACHE_to_20__or_less_of_installed_RAM>more
+3 Hareware-related tips
+4 Add more RAM for Windows=Memory_tip__Add_more_RAM_for_Windows>more
+4 Consider changing your video resolution=Memory_tip__Consider_changing_your_video_resolution>more
+4 Consider upgrading your video card=Memory_tip__Consider_upgrading_your_video_card>more
+4 Consider a CD ROM upgrade=Memory_tip__Consider_a_CD_ROM_upgrade>more
+4 Consider a hard drive upgrade=Memory_tip__Consider_a_hard_drive_upgrade>more
+4 Consider a faster processor=Tips__Consider_a_faster_processor>more
+3 Windows 95 tips
+4 Turn Off the CD-ROM Autorun=Tips__Turn_Off_the_CD_ROM_Autorun>more
+4 Reduce the size of your CD-ROM cache=Tips__Reduce_the_size_of_your_CD_ROM_cache>more
+4 Use protected-mode drivers=Tips__Use_protected_mode_drivers>more
+4 Make sure that your Windows 95 system is not using MS-DOS compatibility mode=Tips__Make_sure_that_your_Windows_95_system_is_not_using_MS_DOS_compatibility_mode>more
+4 Turn off Windows 95’s window animation feature=Tips__Turn_off_Windows_95_s_window_animation_feature>more
+4 Get rid of DoubleSpace or DriveSpace in memory=Memory_tip__Get_rid_of_DoubleSpace_or_DriveSpace_in_memory__Windows_95_only_>more
+4 Set LOADTOP in MS-DOS.SYS=Memory_tip__Set_LOADTOP_1_in_MS_DOS.SYS__Windows_95_only_>more
+4 Disable the Microsoft Office "File Find" feature=Tips__Disable_the_Microsoft_Office__File_Find__feature>more
+1 Updating QEMM
+2 Updating QEMM: Overview=Updating_QEMM__Overview
+2 Using Update-It to update QEMM=How_to_update_QEMM
+2 Configuring Update-It=Configuring_Update_It
+1 Optimizing your system
+2 About Optimize=About_Optimize

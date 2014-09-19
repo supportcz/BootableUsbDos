@@ -1,0 +1,459 @@
+
+                 Troubleshooting Stealth ROM
+
+ Quarterdeck Technical Note #205             Filename: STEALTH.TEC
+ by Quarterdeck Testing & Compatibility    CompuServe: STEALT.ZIP
+ Last revised: 4/02/95                       Category: QEMM
+
+ Subject: Troubleshooting and resolving rare problems with Stealth
+          ROM, and extensive information on how Stealth ROM works.
+
+ Stealth ROM may seem mysterious and cryptic, but it really is not.
+ This note tells you how to diagnose and solve problems related to
+ the Stealth ROM feature of QEMM. Although this note may appear
+ lengthy, it is detailed and informative. For those who are more
+ interested in fast solutions, the path to resolving a problem is
+ quite straightfoward and quick.
+
+ Q. What do I need to know first?
+
+ Before beginning the steps outlined in this technote, please
+ review the information in Quarterdeck Technical Note #248,
+ "Product Compatibility Information" (PRODUCTS.TEC), which contains
+ information on various hardware and software products that may
+ require specific treatment with Stealth ROM. This bulletin can be
+ found in your QEMM\TECHNOTE directory.
+
+ If you are reading this technote because QEMM displayed the
+ message "Disabling Stealth ROM becauase QEMM cannot find the ROM
+ handler for INT xx", you should instead refer to Quarterdeck
+ Technical Note #233, "QEMM and the XSTI Parameter" (XSTI.TEC).
+ This note can also be found in your QEMM\TECHNOTE directory.
+
+ You may also wish to consult Quarterdeck Technical Note #168,
+ "QEMM's Stealth ROM Technology" (STLTECH.TEC") for background
+ information on Stealth ROM and how it works.
+
+ Q. How do I resolve a conflict with Stealth ROM?
+
+ In almost all cases, the OPTIMIZE program that comes with QEMM
+ will detect and resolve automatically any aspect of your system's
+ hardware or basic configuration that is incompatible with Stealth.
+ OPTIMIZE cannot, however, anticipate the behaviour of programs
+ that are not run as part of your CONFIG.SYS, AUTOEXEC.BAT, or
+ other batch files that are CALLed as part of your system's startup
+ process.  The following troubleshooting procedure is divided into
+ simple steps, contained in several sections, to address
+ compatibility issues with programs that are not run as part of the
+ startup process, or that manage to evade OPTIMIZE's automatic
+ handling of Stealth ROM.
+
+                         SECTION ONE
+
+ 1) The first step is to ascertain whether Stealth ROM is involved
+    with the problem. Remove the Stealth ROM parameter (ST:M or
+    ST:F) from the QEMM device line in your CONFIG.SYS file and
+    rerun Optimize. When Optimize completes, try to duplicate the
+    problem. If the problem still happens, then Stealth ROM is not
+    causing the problem, and you should refer to the
+    troubleshooting section of your QEMM manual for further
+    information. However, if removing ST:M or ST:F solves the
+    problem, proceed to Step 2.
+
+ 2) Now that we have proven that Stealth ROM is involved in the
+    problem, add the Stealth ROM parameters ST:M and XST=F000 to
+    the QEMM device line in the CONFIG.SYS file. Your QEMM line
+    would look something like this:
+
+    DEVICE=C:\QEMM\QEMM386.SYS RAM ST:M XST=F000
+
+    Reboot the computer. If this step solves the problem, go on to
+    Step 3 immediately below; if it does not, go to SECTION TWO.
+
+ 3) If XST=F000 solves your problem replace this parameter with
+    X=F000-FFFF, reboot your computer, and try again to create the
+    problem. The QEMM line in your CONFIG.SYS file would look
+    something like this:
+
+    DEVICE=C:\QEMM\QEMM386.SYS RAM ST:M X=F000-FFFF
+
+    If the problem persists, go to Step 4 below. If you cannot
+    recreate the problem with the above line, add the parameter
+    FSTC to the end of the line as follows:
+
+    DEVICE=C:\QEMM\QEMM386.SYS RAM ST:M X=F000-FFFF FSTC
+
+    and reboot. If this step solves the problem, continue on. If
+    it does not (and FSTC may not work in all circumstances) then
+    remove the FSTC parameter and reboot with the previous QEMM
+    line. In either case, run Manifest (by typing MFT from the DOS
+    prompt) and look at the QEMM/Analysis screen. The last line
+    should look something like this:
+
+    Fn00 IIII IIII IIII IIOO
+
+    Since the entire F000-FFFF range is EXCLUDEd, Analysis here is
+    suggesting that the last two 4K pages of the F region are Okay
+    (that is, the EXCLUDE is appropriate for the region FE00-FFFF)
+    and that the other pages are INCLUDEable (that is, the EXCLUDE
+    is not needed for these pages). This is so because some program
+    or piece of hardware is trying to read the contents of the last
+    two pages of ROM directly, rather than accessing them through
+    interrupts. QEMM must be prevented from mapping High RAM over
+    this ROM to allow the ROM to be be accessed directly. This is
+    done by using the EXCLUDE parameter. In our example the target
+    region is FE00-FFFF; thus appropriate EXCLUDE is X=FE00-FFFF
+    and the QEMM line would look like this:
+
+    DEVICE=C:\QEMM\QEMM386.SYS RAM ST:M X=FE00-FFFF
+
+    This EXCLUDE allows Stealth ROM to do its job and costs only 8K
+    of High RAM. If you are at this point, your problem is solved
+    and you do not need to continue with this technical note.
+
+ 4) If XST=F000 solves your problem while X=F000-FFFF does not, try
+    changing ST:M to ST:F, and remove XST=F000. You may end up with
+    more High RAM with ST:F than with ST:M and XST=F000. However,
+    if ST:F fails, remove ST:F and place ST:M and XST=F000 back on
+    the QEMM386.SYS line.
+
+
+                         SECTION TWO
+
+ This section is ONLY for systems that have video ROMs--that is,
+ systems with an EGA or VGA video card. CGA color and
+ Hercules-compatible monochrome systems do not have video ROM; If
+ you have one of these systems, proceed to Section Three.
+
+ Manifest, on its First Meg Overview screen will identify the ROMs
+ on your system when Stealth ROM is inactive. On most systems, the
+ Video ROM is located at C000-C7FF and uses 32K of upper memory
+ address space. Some machines (particularly Micro Channel machines
+ such as the IBM PS/2 family) have a video ROM elsewhere, generally
+ at E000. If this is true of your system, you should use E000 (or
+ wherever your video ROM begins) instead of C000 in the QEMM386.SYS
+ lines that follow.
+
+ 5) If XST=F000 does not solve your problem, try XST=C000. The
+    QEMM line of the CONFIG.SYS would look like this:
+
+    DEVICE=C:\QEMM\QEMM386.SYS RAM ST:M XST=C000
+
+    If XST=C000 does not work, go on to Section Three. If XST=C000
+    does work, proceed to Step 6 immediately below.
+
+ 6) If XST=C000 solves the problem, try placing the page frame at
+    C000 by removing XST=C000 and adding FR=C000 to the QEMM386.SYS
+    line. Do this only if the entire C000 range is available--that
+    is, no device is using address space between C000 and CFFF for
+    Adapter ROM or RAM. The QEMM line of the CONFIG.SYS would look
+    like this:
+
+    DEVICE=C:\QEMM\QEMM386.SYS RAM ST:M FR=C000
+
+    If this works, you may find this an acceptable solution. All
+    the address space in which High RAM can be created is being
+    used in this configuration, and you will want to stop
+    troubleshooting here. If this step does not work (or if you
+    cannot put the page frame at C000) go on to Step 7 below.
+
+ 7) If XST=C000 solves the problem but you do not want to put the
+    page frame at C000 (or cannot for some reason) then try the
+    parameter F10:N (or FASTINT10:N). By default QEMM uses its own
+    code for some video functions, rather than the video ROM's own
+    code. The F10:N parameter tells QEMM not to perform this
+    function. The QEMM line of the CONFIG.SYS would look like this:
+
+    DEVICE=C:\QEMM\QEMM386.SYS RAM ST:M F10:N
+
+    If this step works, all ROMs are being Stealthed at the expense
+    of some speed. You may find this satisfactory, at which point
+    you may stop here. If you do not find the modest decrease in
+    speed acceptable, or if this step does not work, proceed to
+    Step 8 immediately below.
+
+ 8) If XST=C000 solves the problem but FR=C000 or FASTINT10:N does
+    not (or you either cannot put the Page Frame at C000 or do not
+    want to use FASTINT10:N) then replace XST=C000 with
+    X=C000-C7FF. The QEMM line of the config.sys would look like
+    this:
+
+    DEVICE=C:\QEMM\QEMM386.SYS RAM ST:M X=C000-C7FF
+
+    If replacing the XST=C000 parameter with X=C000-C7FF does not
+    work then you should replace the X=C000-C7FF with XST=C000,
+    which will avoid all Stealth conflicts with your system's video
+    ROMs; you may stop troubleshooting here.
+
+    If replacing the XST=C000 parameter with X=C000-C7FF works, add
+    the parameter FSTC to the QEMM line:
+
+    DEVICE=C:\QEMM\QEMM386.SYS RAM ST:M X=C000-C7FF FSTC
+
+    Reboot your computer. If this step works, continue on; if this
+    step does not work (and FSTC may not work in all circumstances)
+    then remove the FSTC parameter and reboot with the previous
+    QEMM line.
+
+    In either case, run Manifest (by typing MFT at the DOS prompt)
+    and look at the QEMM/Analysis screen. The Cn00 line should look
+    something like this:
+
+    Cn00 OIII IIII OOOO OOOO
+
+    This indicates that the first 4K region of the C000 range (in
+    the video ROM) is being accessed directly. This portion of the
+    address space must be EXCLUDED from QEMM's use when Stealth ROM
+    is enabled. The appropriate QEMM line in the CONFIG.SYS would
+    be:
+
+    DEVICE=C:\QEMM\QEMM386.SYS RAM ST:M X=C000-C0FF
+
+                     SECTION THREE
+
+ 9) On some machines there are other ROMs that can be Stealthed.
+    Typically these are disk ROMs; sometimes they are associated
+    with network cards or with other peripherals. To determine if
+    your system has one of these other ROMs, boot your system
+    without ST:M or ST:F and check the First Meg / Overview screen
+    in Manifest. If you see more than two ROMs listed, than your
+    system has another ROM. Troubleshooting Stealth ROM with these
+    ROMs involves a similar procedure to those above; that is, add
+    XST=??00 (using the beginning address of that particular ROM).
+    If this solves the problem, replace the XST=??00 with the
+    appropriate EXCLUDE (X=??00-!!FF, replacing ??00 and !!FF with
+    the beginning and ending addresses of the ROM) to determine
+    whether the problem is related to Stealth or to the fact that
+    some portion of the ROM's address space needs to be directly
+    accessible.
+
+    If some portion of the address space must be EXCLUDED for
+    Stealth ROM to work you should check Analysis with the FSTC and
+    X=??00-!!FF parameters on the QEMM line in a manner similar to
+    that detailed in Step 3.
+
+    The trick of placing the page frame at the beginning of the ROM
+    may also work here as well. If XST=??00 solves your problem,
+    try replacing it with FR=??00. This is possible if there is a
+    64K portion of the address space that is either ROM or RAM
+    beginning at ??00, and if ?? is a multiple of 16K.
+
+ 10) Use XST=F000, XST=C000, and XST=??00 simultaneously for all
+     ROMs being Stealthed. Then replace the XSTs one by one with
+     the appropriate regular Exclude (X=F000-FFFF, X=C000-C7FF,
+     X=??00- !!FF...) and look at the QEMM/ Analysis screen of
+     Manifest to see what portions of the address space need to be
+     directly available.
+
+ 11) If ST:M with XST on all Stealthed ROMs fails, add the
+     following parameters to the QEMM line we used in Step 10:
+
+     FB:N UFP:N VHI:N F10:N
+
+     If this works, remove the XSTs one at a time to determine
+     which one(s) you actually need. If an XST alone does not solve
+     the problem, turn back to SECTION ONE for help in determining
+     the appropriate XST or EXCLUDE while keeping the above
+     parameters. The parameters are explained later in this
+     technote as well as in your QEMM manual.
+
+ 12) If ST:M does not work, try ST:F instead. If ST:F does not
+     work, try ST:F XST=C000 (and XST=??00) for Stealthed ROMs
+     other than the one(s) the page frame overlays.
+
+ 13) If none of these steps solves the problem, Quarterdeck's
+     Testing and Compatibility Department wants to know what
+     program or device is failing (and at what point). Please
+     contact our Technical Support staff so that our technicians
+     can get all the necessary information about your problem.
+
+ The following section contains questions and answers on various
+ aspects of Stealth and its parameters. Again, you may wish to
+ consult Quarterdeck Technical Note #168, "QEMM's Stealth ROM
+ Technology" (STLTECH.TEC") for background information on
+ Stealth ROM and how it works.
+
+ Q. I have a ROM that is not being turned in High RAM by
+    Stealth ROM. Why?
+
+ A. QEMM's Stealth ROM feature relocates ROMs which are accessed
+    through the use of interrupts. A ROM that is not Stealthed may
+    still have regions that are never used during the system's
+    normal operation. Some disk ROMs, video ROMs, and devices that
+    only use their ROMs during bootup (before the CONFIG.SYS is
+    loaded) fit into this category. You may be able to get more
+    High RAM by INCLUDING these unused regions on the QEMM386.SYS
+    device driver line in CONFIG.SYS. To find out what addresses
+    you can include, run the Analysis procedure, then use the
+    INCLUDE parameter to include these addresses. Refer to your
+    QEMM manual for further information on Analysis.
+
+ Q. What is FASTINT10:N?
+
+ A. When Stealthing a video ROM, QEMM replaces some of the video
+    ROM's routines with code written by Quarterdeck. This
+    replacement code is suitable for almost all video cards. The
+    FASTINT10:N parameter (which may be abbreviated F10:N) tells
+    QEMM not to use its code but the code of the video ROM instead.
+    This in no way limits the amount of High RAM Stealth ROM
+    creates and may be an acceptable solution for those users who
+    need it. It should only be necessary on unusual video cards. If
+    placing the page frame at the beginning of the video card's ROM
+    works or if a small regular exclude also solves the problem you
+    may choose to use F10:N instead.
+
+ Q. What is FSTC?
+
+ A. In addition to program code, ROMs contain various tables of
+    information. A ROM may itself access these tables directly.
+    When the ROM is being Stealthed normally, Stealth ROM will
+    prevent direct access to the ROM by copying various tables into
+    QEMM's own data area, which uses some extra memory -- usually
+    in High RAM. When a ROM is being Stealthed but the address in
+    which the ROM resides is EXCLUDEd (as with X=C000-C7FF), QEMM
+    cleverly figures out that it does not need to make copies of
+    these tables in its own data area. QEMM therefore saves memory
+    by not making copies of the tables. However, if the copy is not
+    made, portions of the ROM where these tables are stored will be
+    accessed directly. This will cause Analysis to report that a
+    portion of the address space is OK when EXCLUDED even though it
+    would not be accessed directly were it not EXCLUDED.
+
+    FSTC (which stands for ForceStealthTableCopy) makes the
+    Analysis procedure accurate by forcing QEMM to make copies of
+    these tables so that inappropriate EXCLUDEs are not
+    recommended.
+
+    Some system and video ROMs may not function properly with the
+    FSTC parameter. If this is the case on your system you will
+    have to perform the Analysis procedure without the FSTC
+    parameter. However, you should be aware in this case that some
+    of the EXCLUDE statements that Analysis prompts you to use may
+    not be necessary. You can try reducing these EXCLUDES on a
+    trial-and-error basis if you wish.
+
+    FSTC should only be used when you are testing a portion of a
+    ROM's address space for direct access by excluding the whole
+    ROM. It is not an appropriate parameter for a final
+    configuration.
+
+ Q. What is FB:N?
+
+    FB:N, short for FRAMEBUF:N, disables QEMM's feature of breaking
+    up disk reads into the page frame and disk writes from the page
+    frame. FB:Y is the default with Stealth ROM; FB:N is the
+    default without Stealth ROM.
+
+ Q. What is UFP:N?
+
+ A. When Stealth ROM is active, and when no program is using
+    expanded memory, QEMM unmaps the memory left in the page frame.
+    This allows the ROM underneath the page frame to be visible, in
+    case some program reads that ROM directly. However some
+    programs use expanded memory and then free an EMS handle (which
+    is tantamount to ceasing to use that expanded memory) and yet
+    expect the page frame to contain the memory that they last
+    mapped there. The UFP:N (abbreviation for UNMAPFREEPAGES)
+    parameter tells QEMM not to unmap the EMS page, which will make
+    such programs work with Stealth ROM. Of course such programs
+    violate the EMS specification by abandoning the EMS handle (and
+    apparently common sense) but expecting the page frame to
+    contain the memory just released. UFP:N is the default without
+    Stealth ROM.
+
+ Q. What are advanced disk features? What is VHI:N?
+
+ A. The BIOS has a set of function calls intended for use by
+    multitasking programs. These are INT 15h, functions 90h and
+    91h. The system ROM or disk ROM may issue the INT 15h, Fn 90h
+    call while it is waiting for the disk controller to read or
+    write a sector, allowing other programs to execute during this
+    wait. When the sector is ready, the disk interrupt handler
+    issues an INT 15h, Fn 91h, signalling the multitasking program
+    that the disk information is ready to be processed by the
+    system or disk ROM.
+
+    The "advanced features" of some disk caches hook this call to
+    allow your system to go ahead and execute your current program
+    while the system or disk ROM is waiting for its requested
+    sector. Although such caches properly preserve the stack and
+    register state for the BIOS and the application when doing this
+    pseudo-multitasking, they do not preserve the mapping of the
+    page frame. Therefore, if a BIOS call causes the page frame to
+    be used (as is the case with Stealth ROM active), conflicts and
+    system failures could result. Since most disk caches do not
+    preserve the page frame properly, QEMM automatically suppresses
+    INT 15h, Fn 90h calls from the BIOS, effectively disabling
+    advanced disk features. Caches that save and restore the page
+    frame when using advanced disk features can use a programming
+    interface to QEMM to re-enable advanced disk features.
+
+    You may defeat QEMM's defeating of this feature with the
+    VIRTUALHDIRQ:N (VHI:N) parameter on the QEMM device line in
+    your CONFIG.SYS file. If your cache uses INT 15h Fn 90h as one
+    of its advanced features, and does not save and restore the
+    page frame you will crash or corrupt data on the cached
+    drive(s).
+
+ Q. Can I load a driver that uses ROM before QEMM?
+
+ A. You can load a device driver that uses a ROM before QEMM and
+    still Stealth that ROM by loading the driver HOOKROM.SYS (found
+    in your QEMM directory) before you load this driver. directory.
+    Here is an example of a CONFIG.SYS file that loads HOOKROM,
+    then a driver that uses a ROM, then QEMM with Stealth ROM
+    enabled:
+
+    DEVICE=C:\QEMM\HOOKROM.SYS
+    DEVICE=C:\DISK\ROMDRIVER.SYS
+    DEVICE=C:\QEMM\QEMM386.SYS RAM ST:M
+
+    For a more detailed explanation of HOOKROM, refer to XSTI.TEC
+    in your QEMM\TECHNOTE directory.
+
+ Q. Why does my computer's BIOS Setup program fail when I use ST:M?
+
+ A. Many machines have a built-in System Setup program in the BIOS
+    ROM that can be popped up via a keystroke. Stealth ROM may make
+    this feature inaccessible to you after your system has booted.
+    Because the Setup program accesses the ROM directly, you must
+    EXCLUDE the portion of address space where it is stored in
+    order for it to work after QEMM has been loaded and Stealth ROM
+    enabled. On most machines this Setup program is found in F000-
+    F7FF.
+
+    You may decide that you would rather have access to the Setup
+    program ONLY on bootup and use this portion of the address
+    space for High RAM. Since you must reboot your computer after
+    making changes in your CMOS Setup anyway, most users consider
+    this a fair trade.
+
+ Q. How does Stealth ROM work? What can cause it to fail?
+
+ A. Refer to consult Quarterdeck Technical Note #168, "QEMM's
+    Stealth ROM Technology" (STLTECH.TEC") for background
+    information on Stealth ROM and how it works and what can
+    interfere with it.
+
+ SUMMARY:
+
+ The Stealth ROM technology has been exhaustively tested. Due to
+ the wide variety of software and hardware in the PC world,
+ however, Stealth ROM cannot be guaranteed to work with every
+ configuration. The actual Stealthing of interrupts is very
+ successful. Most failures are due to programs (or other ROMs)
+ trying to access a portion of the ROM directly rather than by
+ means of interrupt, and most of these failures can be resolved via
+ the techniques in this note.
+
+ If you experience a problem that you are unable to resolve using
+ the steps outlined in this technical bulletin, Quarterdeck would
+ very much like to hear about it.
+
+ ******************************************************************
+ *      Trademarks are property of their respective owners.       *
+ *   This and other technical notes may be available in updated   *
+ *     forms through Quarterdeck's standard support channels.     *
+ *          Copyright (C) 1996 Quarterdeck Corporation            *
+ ******************** E N D   O F   F I L E ***********************
+

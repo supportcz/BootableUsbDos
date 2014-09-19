@@ -1,0 +1,115 @@
+
+                Using QEMM Optimize and the Windows 95 Startup Menu
+
+ Quarterdeck Technical Note #312             Filename: W95BOOT.TEC
+ by Jeff Sutyla                              CompuServe: W95BOOT.TEC
+ Last revised: 11/01/95                      Category: QEMM
+
+ Subject:  Using Windows 95's Startup Menu to Optimize a previous
+           version of DOS.
+
+ If you installed Windows 95 over an older version of DOS, you may
+ have a multiple configuration Startup Menu that displays when you
+ boot your system. The Startup Menu lets you pick the
+ configuration you want to use during bootup.  For example, you
+ might have installed Windows 95 into a new directory rather than
+ installing over Windows 3.1.  At times, you may want to boot into
+ Windows 3.1 instead of Windows 95.
+
+ If you use a Windows 95 Startup menu, you must make sure that
+ QEMM's Optimize boots into the same menu option each time
+ Optimize reboots your system.  In this technote we tell you how
+ to set up a Windows 95 Startup Menu, select a default menu
+ option, and how to run Optimize using this default menu choice.
+
+ 1. Boot your computer and watch for the message "Starting Windows
+    95".  When you see this message, press the F8 key quickly.  If
+    one of the choices is "Previous Version of DOS", note the
+    number of that choice and write it down. Choose "Normal" and
+    boot to Windows 95.
+
+ 2. When Windows 95 has booted up, choose "Shutdown" from the
+    Start Menu, and then choose "Restart to DOS".
+
+ 3. Make sure you are in the Windows 95 version of DOS by typing:
+
+    VER <enter>
+
+    If you see "Windows 95" on your screen, continue with Step 4.
+    If you do not see the "Windows 95" message, you likely have a
+    problem with your Windows 95 installation.  Please consult
+    your Windows 95 documentation for assistance with this
+    problem, and do not continue with this technote.
+
+ 4. In order to enable the Windows 95 Boot Menu feature, you must
+    make modifications to Windows 95's MSDOS.SYS configuration
+    file.  Type the following:
+
+    CD \ <enter>
+    ATTRIB -S -H -R MSDOS.SYS <enter>
+    COPY MSDOS.SYS MSDOS.QDK
+    EDIT MSDOS.SYS <enter>
+
+ 5. Add the following to the [Options] section of MSDOS.SYS:
+
+    BootMulti=1          ;Win95 Multi-Boot Configuration enabled
+    BootMenu=1           ;Win95 Multi-Boot Menu displayed by
+                         ;default
+    BootMenuDelay=5      ;Seconds to delay menu selection
+    BootMenuDefault=x    ;Boots to item number x after the
+                         ;boot menu delay
+
+ Note: If you did not make a note of the menu number for "Previous
+       Version of DOS", do not add the BootMenuDefault= line.
+       Instead, press the keys <ALT-F> <X> <Y> to save the file,
+       then reboot the computer.  When the Startup Menu displays,
+       make note of the menu number for "Previous Version of DOS",
+       then boot to the "Command Prompt Only" selection. Edit
+       MSDOS.SYS again, and add the BootMenuDefault= line.  Press
+       the keys <ALT-F> <X> <Y> to save the file.
+
+ 6. Type:
+
+    ATTRIB +S +H +R MSDOS.SYS <enter>
+
+ 7. Re-boot your system. (If you end up in Windows 95, select
+    "Shut Down" from the Start menu, then select "Restart in MS
+    DOS mode".)  Then type:
+
+    C:\QEMM\OPTIMIZE <enter>
+
+    to OPTIMIZE your previous version of DOS.
+
+ 8. If you want to boot to WINDOWS 95 by default, follow these
+    steps.  (If you do not, you are finished with this technote.)
+
+    Re-boot and choose NORMAL (choice 1) on the Startup Menu.
+
+    When WINDOWS 95 appears, choose "Shut Down" from the Startup
+    Menu, then choose "Restart to DOS".
+
+    Type the following:
+
+    CD\ <enter>
+    ATTRIB -S -H -R MSDOS.SYS <enter>
+    EDIT MSDOS.SYS <enter>
+
+    Place a semi-colon (;) before BootMenuDefault in the MSDOS.SYS
+    file.
+
+    Press the keys <ALT-F> <X> <Y> one after the other to return
+    to a DOS prompt, then type:
+
+    ATTRIB +S +H +R MSDOS.SYS <enter>
+
+    Now, when you boot your system the Startup Menu will be
+    displayed for 5 seconds and then WINDOWS 95 will automatically
+    start.
+
+ ******************************************************************
+ *      Trademarks are property of their respective owners.       *
+ *   This and other technical notes may be available in updated   *
+ *     forms through Quarterdeck's standard support channels.     *
+ *          Copyright (C) 1996 Quarterdeck Corporation            *
+ ******************** E N D   O F   F I L E ***********************
+

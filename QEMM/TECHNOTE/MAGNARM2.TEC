@@ -1,0 +1,226 @@
+
+      MagnaRAM 2.0 General Information and Troubleshooting
+     
+     
+ Quarterdeck Technical Note #315              Filename: MAGNARM2.TEC
+ by  Panha Chham and Jeff Sutyla              CompuServe: MAGNARM2.TEC
+ Last revised:  11/2/95                       Category:SW3
+
+ Subject: This technical note provides general information and
+          troubleshooting tips for MagnaRAM 2.0.  For information
+          on MagnaRAM 1.0, refer to the Quarterdeck Technical Note
+          #300, "MAGNARAM.TEC 1.0 General Information".
+
+     
+
+ General MagnaRAM 2.0 information:
+     
+ Quarterdeck's MagnaRAM is an easily configurable utility designed
+ to increase your available memory, performance and multitasking
+ capabilities within Windows 3.1x, Windows for WorkGroups, and
+ Windows 95.  MagnaRAM provides you with more available memory and
+ performance by using powerful memory multiplying technology.
+ MagnaRAM's memory multiplying techniques provide:
+
+  * significant amounts of additional Windows memory for your
+    programs by compressing data, both in RAM memory and on your
+    hard disk.
+
+  * performance benefits to your system by minimizing the use of
+    slower virtual memory.  The more you use your high-speed
+    system RAM, the less you must access the much slower virtual
+    memory.
+
+ System Requirements:
+     
+    * An IBM or IBM-compatible PC or PS/2 with 386 or higher
+      processor
+    * 4 MB of RAM.  Performance improves with the amount of
+      installed memory
+    * Windows 95, or Windows 3.1x / Windows for WorkGroups
+      running in 386 Enhanced mode
+    * MS or IBM-DOS 3.1 or later, or Novell DOS
+    * Windows Virtual Memory feature must be enabled (recommended
+      Permanent swap file).
+     
+     
+ General Troubleshooting Issues:
+
+  1.  Q. Is MagnaRAM compatible with disk compression programs?
+
+      A. MagnaRAM is compatible with disk compression programs
+         such as Stac Electronics' Stacker and Microsoft's
+         DoubleSpace and DriveSpace. MagnaRAM does not interact
+         directly with your hard disk, or with disk compression
+         programs -- it lets Windows swap all data to the disk.
+
+
+  2.  Q. Where is the Uninstall icon that is documented in the
+         manual?
+
+      A. Some revisions of the MagnaRAM User Guid make an
+         erroneous reference to an uninstall icon in the MagnaRAM
+         folder for Windows 95.  On Windows 95 systems, use the
+         Add/Remove Programs feature located in the Control Panel.
+         On Windows 3.1x / Windows for WorkGroups systems, use the
+         MagnaRAM uninstall icon located in the MagnaRAM group.
+
+
+  3.  Q. I have deleted MagnaRAM, but I can't reinstall it.  My
+         machine says that MagnaRAM is already installed.  What
+         can I do?
+
+      A. On Windows 95 systems, remove any lines referring to
+         MagnaRAM in your System Registry.  For example:
+
+         1.  Click on "Start" and choose the "Run" option.
+         2.  Type in REGEDIT <enter> to load the Registry Editor
+             program.
+         3.  Click on the Search menu, then click on the Find
+             option.
+         4.  Type MAGNA <enter>.  If you find anything that
+             refers to MagnaRAM, press <DEL> to remove that
+             section.
+         5.  Click on Find Next and continue searching until
+             no more are references found.
+
+         On Windows 3.1x / Windows for WorkGroups systems, remove
+         any lines referring to MagnaRAM located in the SYSTEM.INI
+         and WIN.INI files.  For example:
+
+         1.  Click on File/Run from the menu of Program Manager.
+         2.  Type in SYSEDIT <enter> to bring up the System
+             Editor program.
+         3.  Click on Window and select SYSTEM.INI.
+         4.  Locate the line in the [386Enh] section that ends
+             with MAGNARAM.VXD and remove it.
+         5.  Click on Window and select WIN.INI.
+         6.  Locate the line in the [windows] section that ends
+             with LOGO31.EXE and remove it.
+     
+  4.  Q. I loaded MagnaRAM and now Windows 3.1x / Windows for
+         WorkGroups stops responding when I am using it.
+
+      A. Below is a list of some things to check about your
+         Windows configuration:
+
+         - Make sure that you are using a PERMANENT Windows swap
+           file.  This can be verified by clicking on the 386Enh
+           icon in Control Panel, which is by default in the Main
+           program group.  Make sure that you are using the swap
+           file on an UNCOMPRESSED drive.  If you are using disk
+           compression software such as Stacker or DriveSpace,
+           use the configuration utilities included with those
+           applications to increase the size of your uncompressed
+           drive.  Then you can create a permanent swap file on
+           that drive, and still have room for any other programs
+           that are needed on the compressed drive.  Please
+           contact the manufacturer of the compression software
+           you are using or consult the manuals if you are unsure
+           of how to change the size of your uncompressed drive.
+     
+         - While you are checking the swap file settings in the
+           386Enh section of Control Panel, verify that 32-bit
+           file access is not enabled OR lower the cache size to
+           1024K or less.
+
+         - Using MagnaRAM's setup utility, lower the size of the
+           compression buffer that MagnaRAM uses, and increase the
+           threshold setting to 30-40%.
+     
+         - Edit the SYSTEM.INI file located in the Windows
+           directory and change the order of the drivers in the
+           DRIVERS= line. Try moving MAGNARAM.DLL to the beginning
+           of that line.  If that does not resolve the conflict,
+           try placing MAGNARAM.DLL at the end of the DRIVERS=
+           line.
+
+  5.  Q.  I installed MagnaRAM on my system and Windows appears to
+          be running more slowly.
+
+      A.  MagnaRAM automatically configures itself to your system,
+          but sometimes it will require fine tuning in order to
+          work at its peak performance.
+
+          For Windows 3.1x or Windows for WorkGroups users, try
+          going into MagnaRAM's settings section (the screwdriver
+          icon) and change the PageOverCommit setting from 8 to 3.
+          This affects the amount of linear (Windows) memory that
+          is available to your system.  Reducing this number will
+          lower the total amount of linear memory you have
+          available; however, system performance may increase.
+
+          Also, for both Windows 95 and Windows 3.1x / Windows For
+          Workgroups users, try decreasing the MagnaRAM
+          Compression Buffer size at an increment of 20-30 percent
+          until you get an improvement in performance.
+
+  6.  Q.  MagnaRAM does not appear to be doing much. Is it loading?
+
+      A.  Check to see if MagnaRAM is loading.  On Windows 95
+          systems, use the Registry Editor (REGEDIT) to search for
+          any lines containing "MAGNA". For Windows 3.1x / Windows
+          for WorkGroups, edit the SYSTEM.INI and search for the
+          DRIVERS= line that refers to MagnaRAM.  If this entry is
+          not present, MagnaRAM is not properly installed.
+
+          If there are Registry entries containing "MAGNA", check
+          the MagnaRAM statistics window and make sure that
+          Compression Buffer Size is set to 10% of the machine's
+          physical RAM. MagnaRAM's compression techniques may not
+          take effect immediately, and may not be readily noticed
+          at Windows startup.
+     
+  7.  Q.  MagnaRAM is loaded and working fine, but I no longer get
+          any sounds in Windows 3.1x / Windows for WorkGroups.
+
+      A.  After checking that your sound card is setup correctly,
+          edit the SYSTEM.INI file located in the Windows
+          directory. Check the DRIVERS= line that references
+          MagnaRAM.  It is possible that when MAGNARAM.DLL was
+          added to that line during installation, the driver for
+          the sound card was "bumped off" of the line, especially
+          if the DRIVERS= line is unusually long. Reinstalling the
+          driver(s) for the sound card may solve this problem. You
+          should consult you sound card manual for the necessary
+          files needed on this line.
+     
+  8.  Q.  Why does MagnaRAM fail to load, and why can't I restart
+          it?
+
+      A.  You may find that MagnaRAM is is failing to reload some
+          of its files properly. Uninstall MagnaRAM with its
+          built-in UnInstall utility, and make sure that the lines
+          added to the SYSTEM.INI shown on page 30 of the manual
+          are removed.  If not, manually remove them.  Then
+          re-install the program.
+     
+  9.  Q.  I am trying to install MagnaRAM, but it will not accept my
+          serial number nor proceed to the next screen when I
+          click on the NEXT button.
+
+      A.  If the NEXT button won't highlight to allow you to go to
+          the next screen, please verify that the Company Name
+          field is filled out.
+     
+ 10.  Q.  MagnaRAM doesn't give me enough memory to run an
+          application.
+
+      A.  Sometimes a program requires a certain amount of
+          physical memory to run.  For example, some computer
+          assisted drawing (CAD) programs require 12 megabytes of
+          physical memory in addition to any virtual memory they
+          use.  The system may simply need more physical RAM for
+          such programs.  If MagnaRAM does not provide you with
+          enough LINEAR memory to run a program, try increasing
+          the size of the permanent Windows swap file. You also
+          try to decrease the Compression Buffer Size at an
+          increment of 20-30 percent.
+     
+     
+   ************************************************************************ 
+   *This technical note may be copied and distributed freely as long as it* 
+   *is distributed in its entirety and it is not distributed for profit.  * 
+   *         Copyright (C) 1996 by Quarterdeck Corporation                *
+   ************************ E N D   O F   F I L E *************************
+
