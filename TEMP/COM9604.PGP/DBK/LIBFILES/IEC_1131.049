@@ -1,0 +1,764 @@
+%%
+1,0:1
+%%
+.1
+    Funktionen der IEC 1131-Library
+
+    In dieser Library werden alle Funktionen angeboten, die im Rahmen der Norm
+    IEC 1131 definiert sind.
+    Nach dem Importieren der IEC 1131-Library stehen Ihnen folgende Funktions-
+    gruppen zur Verfgung:
+
+    @020[< Flankenerkennung    >]     positive und negative Flanken
+    @030[< Bistabile Glieder   >]     bedingtes Setzen/Rcksetzen
+    @040[< Z„hlerfunktionen    >]     Auf-, Ab- und Auf/-Abw„rtsz„hler
+    @050[< Schiebe-Operationen >]     bitweises Verschieben von Daten
+    @060[< Zeitglieder         >]     Ein- und Ausschaltverz”gerungen
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º ACHTUNG: Da die IEC 1131-Library nur Inline-Funktionen und lokale         º
+  º          Funktionsbl”cke (keine AVT-Funktionsbl”cke!) enth„lt, muá kein   º
+  º          Library-Runtime-Modul in die Steuerung bertragen werden.        º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                       @200[ ANHANG ]                  @999[ HILFE beenden ]
+.20
+    IEC 1131-Library - Flankenerkennung
+
+    Flankenerkennung:
+    Bei einer nderung des Eingangssignals setzen diese Funktionen den Ausgang
+    fr einen Taskzyklus auf logisch 1.
+
+    @021[R_TRIG] Positive Flanke (nderung von 0 nach 1)
+    @022[F_TRIG] Negative Flanke (nderung von 1 nach 0)
+
+    Flankenerkennungs-Funktionen mssen in jedem Taskzyklus aufgerufen werden,
+    d.h. in bedingten Ausdrcken wie z.B. "if" Anweisungen ist die Verwendung
+    von Flankenerkennungs-Funktionen zu vermeiden (siehe @023[Beispiel])!
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.21
+    IEC 1131-Library - Flankenerkennung (Fortsetzung)
+
+    Q = @021[R_TRIG](CLK)
+
+    Parameter-Datentypen :
+    ->  CLK       : BIT           Eingangssignal, das auf nderungen berwacht
+                                  wird
+    <-  Q         : BIT           Wird fr einen Taskzyklus log. 1, wenn sich
+                                  das Eingangssignal von 0 auf 1 „ndert
+
+    Wenn sich der Eingang "CLK" von 0 nach 1 „ndert (positive Flanke), wird der
+    Ausgang "Q" fr einen Taskzyklus auf logisch 1 gesetzt. Diese Funktion muá
+    in jedem Taskzyklus aufgerufen werden (siehe @023[Beispiel])!
+
+
+
+
+
+
+
+
+                                  @020[ Flankenfunktionen ]                @001[ šbersicht ]
+.22
+    IEC 1131-Library - Flankenerkennung (Fortsetzung)
+
+    Q = @022[F_TRIG](CLK)
+
+    Parameter-Datentypen :
+    ->  CLK       : BIT           Eingangssignal, das auf nderungen berwacht
+                                  wird
+    <-  Q         : BIT           Wird fr einen Taskzyklus log. 1, wenn sich
+                                  das Eingangssignal von 0 auf 1 „ndert
+
+    Wenn sich der Eingang "CLK" von 1 nach 0 „ndert (negative Flanke), wird der
+    Ausgang "Q" fr einen Taskzyklus auf logisch 1 gesetzt. Diese Funktion muá
+    in jedem Taskzyklus aufgerufen werden (siehe @023[Beispiel])!
+
+
+
+
+
+
+
+
+                                  @020[ Flankenfunktionen ]                @001[ šbersicht ]
+.23
+    IEC 1131-Library - Flankenerkennung (Beispiel)
+
+    Beispiel:
+
+      if R_TRIG(Schalter_1) = 1 then     ; Schalter_1 0->1 ?
+          LED = not LED                  ; wenn ja, LED invertieren
+          Var = F_TRIG(Schalter_2)       ; Achtung!
+      endif
+
+    Achtung!
+    Die Funktion F_TRIG() im vorangehenden Beispiel kann unerwartete Ergebnisse
+    liefern, da sie in einer "if" Anweisung steht und nur aufgerufen wird, wenn
+    die Bedingung erfllt ist. Diese Art der Verwendung ist grunds„tzlich zu
+    vermeiden, da Flankenerkennungs-Funktionen in jedem Taskzyklus aufgerufen
+    werden mssen.
+
+
+
+
+
+
+                                  @020[ Flankenfunktionen ]                @001[ šbersicht ]
+.30
+    IEC 1131-Library - Bistabile Glieder
+
+    Bistabile Glieder:
+    Diese Funktionen dienen zum bedingten Setzen/Rcksetzen von Flags.
+
+    @031[RS] Bistabile Kippstufe, resetdominant
+    @032[SR] Bistabile Kippstufe, setdominant
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.31
+    IEC 1131-Library - Bistabile Glieder (Fortsetzung)
+
+    @031[RS](S,R1,Q1)
+
+    Parameter-Datentypen :
+    ->  S         : BIT           Set-Eingang
+    ->  R1        : BIT           Reset-Eingang (dominant)
+    <-  Q1        : BIT           Ausgang
+
+    Der Ausgang "Q1" wird gesetzt, wenn der Eingang "S" logisch 1 ist und kann
+    nur mit dem Reset-Eingang "R1" zurckgesetzt werden. Sind beide Eing„nge
+    ("S" und "R1") gesetzt, hat der Reset-Eingang Vorrang und der Ausgang wird
+    zurckgesetzt.
+
+
+
+
+
+
+
+
+                                  @030[ Bistabile Glieder ]                @001[ šbersicht ]
+.32
+    IEC 1131-Library - Bistabile Glieder (Fortsetzung)
+
+    @032[SR](S1,R,Q1)
+
+    Parameter-Datentypen :
+    ->  S1        : BIT           Set-Eingang (dominant)
+    ->  R         : BIT           Reset-Eingang
+    <-  Q1        : BIT           Ausgang
+
+    Der Ausgang "Q1" wird gesetzt, wenn der Eingang "S1" logisch 1 ist und kann
+    nur mit dem Reset-Eingang "R" zurckgesetzt werden. Sind beide Eing„nge
+    ("S1" und "R") gesetzt, hat der Set-Eingang Vorrang und der Ausgang wird
+    gesetzt.
+
+
+
+
+
+
+
+
+                                  @030[ Bistabile Glieder ]                @001[ šbersicht ]
+.40
+    IEC 1131-Library - Z„hlerfunktionen
+
+    Z„hlerfunktionen:
+    Die IEC 1131-Library enth„lt drei Z„hlerfunktionen:
+
+    @041[CTU ] Aufw„rtsz„hler
+    @042[CTD ] Abw„rtsz„hler
+    @043[CTUD] Auf-/Abw„rtsz„hler
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.41
+    IEC 1131-Library - Z„hlerfunktionen (Fortsetzung)
+
+    @041[CTU](CU,R,PV,Q,CV)
+
+    Parameter-Datentypen :
+    ->  CU        : BIT           Z„hleingang
+    ->  R         : BIT           Reset-Eingang
+    ->  PV        : INT16         Vergleichswert
+    <-  Q         : BIT           Wird 1, wenn "CV" gr”áer oder gleich "PV" ist
+    <-  CV        : INT16         Momentaner Z„hlerstand
+
+    Aufw„rtsz„hler. Wenn Eingang "CU" logisch 1 ist, wird der Z„hlerstand
+    ("CV") um 1 erh”ht. Ausgang "Q" wird 1, wenn "CV" gr”áer oder gleich "PV"
+    ist. Mit 1 am Reset-Eingang "R" wird der Z„hler zurckgesetzt ("CV" = 0).
+
+
+
+
+
+
+
+                                  @040[ Z„hlerfunktionen ]                 @001[ šbersicht ]
+.42
+    IEC 1131-Library - Z„hlerfunktionen (Fortsetzung)
+
+    @042[CTD](CD,LD,PV,Q,CV)
+
+    Parameter-Datentypen :
+    ->  CD        : BIT           Z„hleingang
+    ->  LD        : BIT           Z„hler mit Vorwahlwert laden
+    ->  PV        : INT16         Vorwahlwert
+    <-  Q         : BIT           Wird 1, wenn "CV" kleiner oder gleich 0 ist
+    <-  CV        : INT16         Momentaner Z„hlerstand
+
+    Abw„rtsz„hler. Wenn Eingang "CD" logisch 1 ist, wird der Z„hlerstand ("CV")
+    um 1 verringert. Ausgang "Q" wird 1, wenn der Z„hler den Wert 0 erreicht
+    ("CV" kleiner oder gleich 0). Mit 1 am Eingang "LD" wird der Z„hler mit dem
+    Vorwahlwert geladen ("CV" = "PV").
+
+
+
+
+
+
+                                  @040[ Z„hlerfunktionen ]                 @001[ šbersicht ]
+.43
+    IEC 1131-Library - Z„hlerfunktionen (Fortsetzung)
+
+    @044[CTUD](CU,CD,R,LD,PV,QU,QD,CV)
+
+    Parameter-Datentypen :
+    ->  CU        : BIT           Z„hleingang "aufw„rts"
+    ->  CD        : BIT           Z„hleingang "abw„rts"
+    ->  R         : BIT           Z„hler auf 0 setzen (Reset-Eingang)
+    ->  LD        : BIT           Z„hler mit Vorwahlwert laden
+    ->  PV        : INT16         Vorwahlwert
+    <-  QU        : BIT           Wird 1, wenn "CV" gr”áer oder gleich "PV" ist
+    <-  QD        : BIT           Wird 1, wenn "CV" kleiner oder gleich 0 ist
+    <-  CV        : INT16         Momentaner Z„hlerstand
+
+    Auf-/Abw„rtsz„hler. Der Z„hler wird ...
+
+    ... inkrementiert (um 1 erh”ht), wenn "CU" logisch 1 ist,
+    ... dekrementiert (um 1 verringert), wenn "CD" logisch 1 ist,
+    ... auf 0 gesetzt, wenn der Eingang "R" logisch 1 ist,
+    ... mit dem Vorwahlwert "PV" geladen, wenn "LD" logisch 1 ist.
+
+                                     @044[ Fortsetzung ]                   @001[ šbersicht ]
+.44
+    IEC 1131-Library - Z„hlerfunktionen (Fortsetzung)
+
+    Der Ausgang "QU" wird logisch 1, wenn der Z„hler den Vorwahlwert erreicht
+    ("CV" gr”áer oder gleich "PV"). Der Ausgang "QD" wird logisch 1, wenn der
+    Z„hler 0 wird ("CV" kleiner oder gleich 0). Wenn beide Z„hleing„nge ("CU"
+    und "CD") logisch 1 sind, wird der Z„hler inkrementiert (IEC 1131-Norm).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  @040[ Z„hlerfunktionen ]                 @001[ šbersicht ]
+.50
+    IEC 1131-Library - Schiebe-Operationen
+
+    Schiebe-Operationen:
+    Mit Schiebe-Operationen k”nnen Variablen bitweise manipuliert werden:
+
+    @051[SHL] Schiebe Eingangsvariable um N Bits nach links
+    @052[SHR] Schiebe Eingangsvariable um N Bits nach rechts
+    @053[ROL] Rotiere Eingangsvariable um N Bits nach links
+    @054[ROR] Rotiere Eingangsvariable um N Bits nach rechts
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.51
+    IEC 1131-Library - Schiebe-Operationen (Fortsetzung)
+
+    erg = @051[SHL](IN,N)
+
+    Parameter-Datentypen :
+    ->  IN        : @250[BASIS]         Variable, die bitweise manipuliert wird
+    ->  N         : BYTE          Anzahl der Bits
+    <-  erg       : @250[BASIS]         Variable nach der Schiebe-Operation
+
+    Der Inhalt der Variable "IN" wird um "N" Bits nach links geschoben. Die
+    freiwerdenden Bits werden mit 0 gefllt. Der Datentyp der Variable "erg"
+    ist identisch mit dem der Eingangsvariable "IN".
+
+
+
+
+
+
+
+
+
+                                 @050[ Schiebe-Operationen ]               @001[ šbersicht ]
+.52
+    IEC 1131-Library - Schiebe-Operationen (Fortsetzung)
+
+    erg = @052[SHR](IN,N)
+
+    Parameter-Datentypen :
+    ->  IN        : @250[BASIS]         Variable, die bitweise manipuliert wird
+    ->  N         : BYTE          Anzahl der Bits
+    <-  erg       : @250[BASIS]         Variable nach der Schiebe-Operation
+
+    Der Inhalt der Variable "IN" wird um "N" Bits nach rechts geschoben. Die
+    freiwerdenden Bits werden mit 0 gefllt. Der Datentyp der Variable "erg"
+    ist identisch mit dem der Eingangsvariable "IN".
+
+
+
+
+
+
+
+
+
+                                 @050[ Schiebe-Operationen ]               @001[ šbersicht ]
+.53
+    IEC 1131-Library - Schiebe-Operationen (Fortsetzung)
+
+    erg = @053[ROL](IN,N)
+
+    Parameter-Datentypen :
+    ->  IN        : @250[BASIS]         Variable, die bitweise manipuliert wird
+    ->  N         : BYTE          Anzahl der Bits
+    <-  erg       : @250[BASIS]         Variable nach der Operation
+
+    Der Inhalt der Variable "IN" wird um "N" Bits nach links rotiert. Die frei-
+    werdenden Stellen werden mit den Bits gefllt, die auf der "anderen Seite"
+    hinausgeschoben werden. Der Datentyp der Variable "erg" ist identisch mit
+    dem der Eingangsvariable "IN".
+
+
+
+
+
+
+
+
+                                 @050[ Schiebe-Operationen ]               @001[ šbersicht ]
+.54
+    IEC 1131-Library - Schiebe-Operationen (Fortsetzung)
+
+    erg = @054[ROR](IN,N)
+
+    Parameter-Datentypen :
+    ->  IN        : @250[BASIS]         Variable, die bitweise manipuliert wird
+    ->  N         : BYTE          Anzahl der Bits
+    <-  erg       : @250[BASIS]         Variable nach der Operation
+
+    Der Inhalt der Variable "IN" wird um "N" Bits nach rechts rotiert. Die
+    freiwerdenden Stellen werden mit den Bits gefllt, die auf der "anderen
+    Seite" hinausgeschoben werden. Der Datentyp der Variable "erg" ist iden-
+    tisch mit dem der Eingangsvariable "IN".
+
+
+
+
+
+
+
+
+                                 @050[ Schiebe-Operationen ]               @001[ šbersicht ]
+.60
+    IEC 1131-Library - Zeitglieder
+
+    Zeitglieder:
+    Mit diesen Funktionen k”nnen Verz”gerungszeiten (Timer) realisiert werden.
+
+    @061[TON] Einschaltverz”gerung
+    @063[TOF] Ausschaltverz”gerung
+    @065[TP ] Puls
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.61
+    IEC 1131-Library - Zeitglieder (Fortsetzung)
+
+    @062[TON](IN,PT,Q,ET)
+
+    Parameter-Datentypen :
+    ->  IN        : BIT           Eingangssignal (siehe Diagramm)
+    ->  PT        : LONG          Verz”gerungszeit in Systemticks 
+                                  (1 Systemtick = 10 ms)
+    <-  Q         : BIT           Ausgangssignal (siehe Diagramm)
+    <-  ET        : LONG          Momentaner Wert des Timers
+
+    Mit der Funktion TON() kann das Signal "IN" um die Zeit "PT" verz”gert ein-
+    geschaltet werden. Die Zeiteinheit, in der die Verz”gerungszeit angegeben
+    wird, ist ein Systemtick (1 Systemtick = 10 ms). Ist die Zeit abgelaufen,
+    wird der Ausgang "Q" gesetzt. Der aktuelle Timerstand wird am Ausgang "ET"
+    ausgegeben.
+
+
+
+
+
+                                     @062[ Fortsetzung ]                   @001[ šbersicht ]
+.62
+    IEC 1131-Library - Zeitglieder (Fortsetzung)
+
+    Zeitdiagramm
+    fr TON():       +--------+        +---+   +--------+
+                 IN  |        |        |   |   |        |
+                   --+        +--------+   +---+        +-------
+                     t0       t1       t2  t3  t4       t5
+
+                          +---+                     +---+
+                 Q        |   |                     |   |
+                   -------+   +---------------------+   +-------
+                      t0+PT   t1                t4+PT   t5
+
+                  PT      +---+            +        +---+
+                   :     /    |           /|       /    |
+                ET :    /     |          / |      /     |
+                   :   /      |         /  |     /      |
+                   :  /       |        /   |    /       |
+                   0-+        +-------+    +---+        +--------
+                     t0       t1     t2    t3  t4      t5
+
+                                     @060[ Zeitglieder ]                   @001[ šbersicht ]
+.63
+    IEC 1131-Library - Zeitglieder (Fortsetzung)
+
+    @064[TOF](IN,PT,Q,ET)
+
+    Parameter-Datentypen :
+    ->  IN        : BIT           Eingangssignal (siehe Diagramm)
+    ->  PT        : LONG          Verz”gerungszeit in Systemticks 
+                                  (1 Systemtick = 10 ms)
+    <-  Q         : BIT           Ausgangssignal (siehe Diagramm)
+    <-  ET        : LONG          Momentaner Wert des Timers
+
+    Mit der Funktion TOF() kann das Signal "IN" um die Zeit "PT" verz”gert aus-
+    geschaltet werden. Die Zeiteinheit, in der die Verz”gerungszeit angegeben
+    wird, ist ein Systemtick (1 Systemtick = 10 ms). Ist die Zeit abgelaufen,
+    wird der Ausgang "Q" zurckgesetzt. Der aktuelle Timerstand wird am Ausgang
+    "ET" ausgegeben.
+
+
+
+
+
+                                     @064[ Fortsetzung ]                   @001[ šbersicht ]
+.64
+    IEC 1131-Library - Zeitglieder (Fortsetzung)
+
+    Zeitdiagramm
+    fr TOF():       +--------+        +---+   +--------+
+                 IN  |        |        |   |   |        |
+                   --+        +--------+   +---+        +---------
+                     t0       t1       t2  t3  t4       t5
+
+                     +-------------+   +---------------------+
+                 Q   |             |   |                     |
+                   --+             +---+                     +----
+                     t0          t1+PT t2                  t5+PT
+
+                  PT               +---+                 +--------
+                   :              /    |       +        /
+                ET :             /     |      /|       /
+                   :            /      |     / |      /
+                   :           /       |    /  |     /
+                   0----------+        +---+   +----+
+                     t0       t1     t2    t3  t4   t5
+
+                                     @060[ Zeitglieder ]                   @001[ šbersicht ]
+.65
+    IEC 1131-Library - Zeitglieder (Fortsetzung)
+
+    @066[TP](IN,PT,Q,ET)
+
+    Parameter-Datentypen :
+    ->  IN        : BIT           Eingangssignal (siehe Diagramm)
+    ->  PT        : LONG          Verz”gerungszeit in Systemticks 
+                                  (1 Systemtick = 10 ms)
+    <-  Q         : BIT           Ausgangssignal (siehe Diagramm)
+    <-  ET        : LONG          Momentaner Wert des Timers
+
+    Die Funktion erzeugt einen Puls mit einstellbarer Dauer (Eingang "PT").
+    Wenn Eingang "IN" logisch 1 wird, wird auch Ausgang "Q" gesetzt. Der Aus-
+    gang bleibt unabh„ngig vom Eingang gesetzt, bis die Zeit ("PT") abgelaufen
+    ist.
+
+
+
+
+
+
+                                     @066[ Fortsetzung ]                   @001[ šbersicht ]
+.66
+    IEC 1131-Library - Zeitglieder (Fortsetzung)
+
+    Zeitdiagramm
+    fr TP():        +--------+     ++ ++   +-------+
+                 IN  |        |     || ||   |       |
+                   --+        +-----++-++---+       +-----------
+                     t0       t1    t2 t3   t4      t5
+
+                     +----+         +----+  +----+
+                 Q   |    |         |    |  |    |
+                   --+    +---------+    +--+    +--------------
+                     t0   t0+PT    t2 t2+PT t4  t4+PT
+
+                  PT      +---+          +       +--+
+                   :     /    |         /|      /   |
+                ET :    /     |        / |     /    |
+                   :   /      |       /  |    /     |
+                   :  /       |      /   |   /      |
+                   0-+        +-----+    +--+       +-----------
+                     t0       t1    t2      t4      t5
+
+                                     @060[ Zeitglieder ]                   @001[ šbersicht ]
+.200
+    ANHANG : LIBRARY-Informationen
+
+
+    @201[< Allgemeines       >]      Voraussetzungen etc.
+
+    @250[< Syntax            >]      Syntax fr die Erkl„rung der Funktionen
+
+    @350[< Ausfhrungszeiten >]      Ausfhrungszeiten und Stackbedarf
+
+    @400[< History           >]      Neue Funktionalit„ten und Versions„nderungen
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.201
+    IEC 1131-Library : Allgemeines
+
+    In dieser Library werden alle Funktionen angeboten, die im Rahmen der Norm
+    IEC 1131 definiert sind.
+
+    Anmerkungen:
+    - Bevor Sie die Funktionen der IEC 1131-Library in Ihrem Projekt verwenden
+      k”nnen, mssen Sie die Library in die entsprechende Projekt-Datenbank
+      importieren.
+
+    - Da die IEC 1131-Library nur Inline-Funktionen und lokale Funktionsbl”cke
+      (keine AVT-Funktionsbl”cke!) enth„lt, muá kein Library-Runtime-Modul in
+      die Steuerung bertragen werden.
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.250
+    IEC 1131-Library : Syntaxbeschreibung
+
+    Datentypen:
+    Fr viele Funktionen sind bestimmte Gruppen von Datentypen zul„ssig. Um
+    bei der Funktionsbeschreibung nicht alle zul„ssigen Datentypen anfhren
+    zu mssen, werden folgende Gruppenbezeichnungen eingefhrt:
+    ÉÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍ»
+    º Gruppe º  BIT  ³ INT8  ³ BYTE  ³ INT16 ³ WORD  ³ INT32 ³ LONG  ³ FLOAT º
+    ÌÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍ¹
+    º BASIS  º       ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º NICHT  º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    º FLOAT  º       ³       ³       ³       ³       ³       ³       ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º ALLE   º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º FELD   º  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  º
+    ÈÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍ¼
+      x  Datentyp ist zul„ssig
+     [x] Datentyp ist zul„ssig als Feldvariable oder Zeichenkette (String)
+
+                                     @251[ Fortsetzung ]                   @001[ šbersicht ]
+.251
+    IEC 1131-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Pfeile:
+    Fr die Darstellung von Eingangs- und Ausgangsparametern werden Pfeile
+    verwendet. Dabei gilt folgende Vereinbarung:
+    ÉÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º  Pfeil  º  Bedeutung                                                   º
+    ÌÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º   ->    º  Eingangsparameter                                           º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <->   º  Ein-/Ausgangsparameter. Funktionell ist es ein Ausgangs-    º
+    º         º  parameter. šblicherweise wird er aber vor dem Aufruf der    º
+    º         º  Funktion mit einer bestimmten Information geladen (z.B.     º
+    º         º  einer Adresse). Meist wird die Adresse einer Variable mit   º
+    º         º  adr() [PL2000] oder einem Adreákontakt [KOP] angeschlossen. º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <-    º  Ausgangsparameter                                           º
+    ÈÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @252[ Fortsetzung ]                   @001[ šbersicht ]
+.252
+    IEC 1131-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Funktionsbl”cke:
+    Funktionsbl”cke sind in dieser Online-Hilfe nicht grafisch dargestellt.
+    Sie finden aber alle fr Funktionsbl”cke relevanten Informationen, wie
+    Eingangsparameter (->), Ein-/Ausgangsparameter (<->) und Ausgangsparameter
+    (<-) in der Online-Hilfe.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.350
+    IEC 1131-Library : Ausfhrungszeiten
+
+    Die folgende Tabelle zeigt die Ausfhrungszeiten der IEC 1131-Library-
+    Funktionen sowie deren Stackbedarf:
+
+  ÉÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º Funktion º  Ausfhrungs- ³ Userstack ³  Supervisor-  ³ Anmerkung          º
+  º          º  zeiten [æs]  ³  [Bytes]  ³ stack [Bytes] ³                    º
+  ÌÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º R_TRIG   º       9,8     ³      -    ³       -       ³                    º
+  º F_TRIG   º      10,9     ³      -    ³       -       ³                    º
+  ÌÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º RS, SR   º      18,4     ³      8    ³       -       ³                    º
+  ÌÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º CTU      º  24,1 - 27,2  ³      8    ³       -       ³                    º
+  º CTD      º  21,7 - 24,7  ³      4    ³       -       ³                    º
+  º CTUD     º  35,0 - 38,3  ³      8    ³       -       ³                    º
+  ÈÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @351[ Fortsetzung ]                   @001[ šbersicht ]
+.351
+    IEC 1131-Library : Ausfhrungszeiten (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º Funktion º  Ausfhrungs- ³ Userstack ³  Supervisor-  ³ Anmerkung          º
+  º          º  zeiten [æs]  ³  [Bytes]  ³ stack [Bytes] ³                    º
+  ÌÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º SHL, SHR º       6,3     ³      -    ³       -       ³ MIN: IN=BYTE, N=1  º
+  º          º      10,9     ³      -    ³       -       ³ MAX: IN=LONG, N=31 º
+  º ROL, ROR º       6,3     ³      -    ³       -       ³ MIN: IN=BYTE, N=1  º
+  º          º      10,9     ³      -    ³       -       ³ MAX: IN=LONG, N=31 º
+  ÌÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º TON      º  34,0 - 40,2  ³     24    ³       -       ³                    º
+  º TOF      º  34,0 - 40,2  ³     24    ³       -       ³                    º
+  º TP       º  34,3 - 38,9  ³     24    ³       -       ³                    º
+  ÈÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.400
+    IEC 1131-Library : History - Versions„nderungen
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.01           ³ AKTUELLE VERSION der IEC 1131-Library                   º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Die Versionen der IEC 1131-Library werden mit der PG2000-Version aus-     º
+  º geliefert.                                                                º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+
+.End

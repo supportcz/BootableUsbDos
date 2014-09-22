@@ -1,0 +1,856 @@
+%%
+1,0:1
+%%
+.1
+    Funktionen der MININET-Master-Library
+
+    Die Funktionen der MININET-Library sind entsprechend ihrer Funktionalit„t
+    in eine MININET-Master- und MININET-Slave-Library aufgeteilt.
+    Eine MININET-Master-Kommunikation erfordert einen Funktionsblock zur
+    Initialisierung und einen Funktionsblock fr den zyklischen Betrieb:
+
+    @020[MTM_init] MININET-Master-Initialisierung
+    @030[MTM_plca] MININET-Master (Betrieb mit Pufferspeicher)
+    @040[MTM_plcb] MININET-Master (Betrieb mit Datenmodul)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º ACHTUNG: Da die MININET-Master-Library nur lokale Funktionsbl”cke (keine  º
+  º          AVT-Funktionsbl”cke!) enth„lt, muá kein Library-Runtime-Modul in º
+  º          die Steuerung bertragen werden.                                 º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+                                       @200[ ANHANG ]                  @999[ HILFE beenden ]
+.20
+    MTM_init - MININET-Master-Initialisierung
+
+    @021[MTM_init] (device,mode,baud,idle,adr(vars),adr(tout),adr(retry),
+              ident,status)
+
+    Parameter-Datentypen :
+    ->  @025[device    ]: LONG          Schnittstellennummer
+    ->  @026[mode      ]: WORD          Schnittstellentyp
+    ->  @027[baud      ]: WORD          Baudrate
+    ->  @028[idle      ]: WORD          Maximale Pausenzeit zwischen den Zeichen
+    ->  @029[vars      ]: BYTE (FELD)   Je nachdem, welche Funktion fr den Betrieb
+                                  der MININET-Master-Station verwendet wird,
+                                  mssen am Eingang "vars" verschiedene Werte
+                                  angegeben werden:
+                                  MTM_plca() ... Wert 0
+                                  MTM_plcb() ... Name des Datenmoduls (String)
+    ->  tout      : 7 LONG (FELD) Timeout-Variablen
+    ->  retry     : 7 BYTE (FELD) Retry-Variablen
+
+
+
+                                     @021[ Fortsetzung ]                   @001[ šbersicht ]
+.21
+    MTM_init - MININET-Master-Initialisierung (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    <-  ident     : LONG          Ident-Nummer. Diese Ident-Nummer wird fr
+                                  die Funktionen MTM_plca() und MTM_plcb()
+                                  ben”tigt.
+    <-  @300[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Die Funktion MTM_init() initialisiert eine MININET-Master-Station.
+    Dabei werden u.a. die Nummer der verwendeten Schnittstelle auf der CPU, der
+    Schnittstellentyp (RS485, RS232, usw.), die Baudrate sowie wichtige Treiber-
+    Optionen (Timeout, Retry) eingestellt.
+
+    Die Funktion MTM_init() wird nur einmal im Initialisierungs-Unterprogramm
+    (INIT-UP) der entsprechenden Task aufgerufen!
+
+
+
+
+
+
+                                     @022[ Fortsetzung ]                   @001[ šbersicht ]
+.22
+    MTM_init - MININET-Master-Initialisierung (Fortsetzung)
+
+    Diese Funktion ”ffnet den Pfad zum Schnittstellentreiber und initialisiert
+    die Treiber-Parameter. Wenn fr den zyklischen Betrieb der MININET-Master-
+    Station die Funktion MTM_plcb() verwendet wird, generiert die Funktion
+    MTM_init() zus„tzlich eine Liste mit Indizes (Indexliste) aller Prozeá-
+    variablen (PVs), die im @210[Datenmodul] spezifiziert sind. Es ist daher erfor-
+    derlich, daá alle im Datenmodul spezifizierten Prozeávariablen tats„chlich
+    auf der RPS existieren!
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.25
+    MTM_init - MININET-Master-Initialisierung (Fortsetzung)
+
+    -> Parameter <device    >: LONG
+
+    Schnittstellennummer:
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Modul        ³ Schnittstelle                ³ device ³ Typ             º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º CPU B&R 2010 ³ IF1 (obere Schnittstelle)    ³ 0      ³ RS232           º
+    º              ³ IF3 (mittlere Schnittstelle) ³ 2      ³ RS485/RS422     º
+    º              ³ IF2 (untere Schnittstelle)   ³ 1      ³ RS232           º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º CPU B&R 2005 ³ IF2 (obere Schnittstelle)    ³ 1      ³ RS485/RS422/TTY º
+    º              ³ IF1 (untere Schnittstelle)   ³ 0      ³ RS232           º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+                                      @020[ MTM_init ]                     @001[ šbersicht ]
+.26
+    MTM_init - MININET-Master-Initialisierung (Fortsetzung)
+
+    -> Parameter <mode      >: WORD
+
+    Schnittstellentyp:
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Modul        ³ Schnittstelle ³ device ³ mode                            º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º CPU B&R 2010 ³ IF1           ³ 0      ³ 0 (RS232)                       º
+    º              ³ IF3           ³ 2      ³ 0 (RS422) / 2 (RS485)           º
+    º              ³ IF2           ³ 1      ³ 0 (RS232)                       º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º CPU B&R 2005 ³ IF2           ³ 1      ³ 0 (RS422) / 2 (RS485) / 8 (TTY) º
+    º              ³ IF1           ³ 0      ³ 0 (RS232)                       º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+                                      @020[ MTM_init ]                     @001[ šbersicht ]
+.27
+    MTM_init - MININET-Master-Initialisierung (Fortsetzung)
+
+    -> Parameter <baud      >: WORD
+
+    Mit dem Parameter "baud" wird die Baudrate festgelegt. Die Baudrate wird in
+    Einheiten zu 100 Baud (z.B. 192 = 19200 Baud) angegeben:
+        24 ..... 2400 Baud
+        48 ..... 4800 Baud
+        96 ..... 9600 Baud
+       192 .... 19200 Baud
+       384 .... 38400 Baud
+       576 .... 57600 Baud
+      1152 ... 115200 Baud
+
+
+
+
+
+
+
+
+                                      @020[ MTM_init ]                     @001[ šbersicht ]
+.28
+    MTM_init - MININET-Master-Initialisierung (Fortsetzung)
+
+    -> Parameter <idle      >: WORD
+
+    Maximale Pausenzeit zwischen den Zeichen:
+
+    "idle" = (max. Pausenzeit) / (šbertragungszeit pro Zeichen)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @020[ MTM_init ]                     @001[ šbersicht ]
+.29
+    MTM_init - MININET-Master-Initialisierung (Fortsetzung)
+
+    -> Parameter <vars      >: BYTE (FELD)
+
+    Je nachdem, welche Funktion fr den Betrieb der MININET-Master-Station
+    verwendet wird, mssen am Eingang "vars" verschiedene Werte angegeben
+    werden:
+    MTM_plca(): Wenn dieser Funktionsblock verwendet wird, muá der Eingang
+                "vars" 0 sein.
+    MTM_plcb(): Wenn fr den zyklischen Betrieb der MININET-Master-Station der
+                Funktionsblock MTM_plcb() verwendet wird, muá fr den Eingangs-
+                parameter "vars" der Name eines @210[Datenmoduls] (Datenmodulname) in
+                Form einer Zeichenkette angegeben werden.
+                Zeichenketten (Strings) k”nnen auf drei verschiedene Arten als
+                Eingangsparameter verwendet werden:
+                adr(String) ... Adresse der BYTE-Feldvariable, die den String
+                                enth„lt
+                String      ... String-Konstante (siehe PG2000)
+                "Konstante" ... konstanter String (muá in Anfhrungszeichen an-
+                                gegeben werden!)
+
+                                      @020[ MTM_init ]                     @001[ šbersicht ]
+.30
+    MTM_plca - Betrieb mit Pufferspeicher
+
+    @031[MTM_plca] (enable,ident,node,adr(tx_ptr),tx_len,(rx_ptr),rx_max,
+              exec,rx_len,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BYTE          Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  ident     : LONG          Ident-Nummer (von @020[MTM_init])
+    ->  @035[node      ]: BYTE          Stationsnummer der Slave-Station
+    ->  tx_ptr    : LONG          Adresse des Sendepuffers (TX)
+    ->  tx_len    : BYTE          L„nge der zu sendenden Daten
+    ->  rx_ptr    : LONG          Adresse des Empfangspuffers (RX)
+    ->  rx_max    : BYTE          Maximale L„nge des Empfangspuffers
+    <-  exec      : BYTE          Befehl wurde ausgefhrt
+    <-  rx_len    : BYTE          L„nge der empfangenen Daten
+    <-  @300[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+
+
+
+                                     @031[ Fortsetzung ]                   @001[ šbersicht ]
+.31
+    MTM_plca - Betrieb mit Pufferspeicher (Fortsetzung)
+
+    Der Funktionsblock MTM_plca() leitet den Inhalt des angeschlossenen Sende-
+    puffers an den Schnittstellentreiber weiter, wartet auf die Antwort und
+    kopiert empfangene Daten in den Empfangspuffer (Ausnahme "ACK"; Ausgangs-
+    parameter: "exec" = 1, "rx_len" = 0). Das Anwenderprogramm muá fr die
+    Erstellung und Auswertung des Sende- und Empfangspuffers sorgen.
+
+    Die Betriebs-Funktion MTM_plca() muá in jedem Taskzyklus aufgerufen werden!
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @032[ Beispiel ]                     @001[ šbersicht ]
+.32
+    MTM_plca - Betrieb mit Pufferspeicher (Beispiel)
+
+    Wir haben einen B&R 2005 Master und verwenden die RS422-Schnittstelle
+    (19200 Baud). Fr die anderen Eingangsparameter setzen wir einfach
+    Standardwerte ein:
+
+      ; INIT-UP der Task
+      device = 1           ; obere Schnittstelle (B&R 2005)
+      mode = 0             ; RS422 (B&R 2005)
+      baud = 192           ; 19200 Baud
+      idle = 5             ; typischer Wert
+      vars = 0             ; kein Datenmodul
+      loop i = 0 to 6 do
+          tout[i] = 1000   ; Timeout-Parameter
+          retry[i] = 1     ; Retry-Parameter
+      endloop
+      MTM_init(device,mode,baud,idle,vars,adr(tout),adr(retry),ident,status)
+      if status = 0 then
+          enable = 1       ; wenn kein Fehler => MTM_plca() freigeben
+      endif
+
+                               @033[ Fortsetzung - Beispiel ]              @001[ šbersicht ]
+.33
+    MTM_plca - Betrieb mit Pufferspeicher (Beispiel - Fortsetzung)
+
+      ; Zyklischer Teil der Task
+      MTM_plca(enable,ident,node,adr(tx_ptr),tx_len,adr(rx_ptr),256,exec,
+               rx_len,stat)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @030[ MTM_plca ]                     @001[ šbersicht ]
+.35
+    MTM_plca - Betrieb mit Pufferspeicher (Fortsetzung)
+
+    -> Parameter <node      >: BYTE
+
+    Stationsnummer der Slave-Station.
+    Da fr den Master die Stationsnummer $10 reserviert ist, beginnen die
+    Slave-Stationsnummern bei $11 (die Slave-Stationsnummer muá > $10 sein).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @030[ MTM_plca ]                     @001[ šbersicht ]
+.40
+    MTM_plcb - Betrieb mit Datenmodul
+
+    @041[MTM_plcb] (enable,ident,exec,rec,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BYTE          Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  ident     : LONG          Ident-Nummer (von @020[MTM_init])
+    <-  exec      : BYTE          Befehl wurde ausgefhrt
+    <-  rec       : WORD          Eintragsnummer
+    <-  @300[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Die Funktion MTM_plcb() berprft die (von der Initialisierungs-Funktion
+    MTM_init() generierte) Indexliste des @210[Datenmoduls] auf zu behandelnde Ein-
+    tr„ge. Ein Eintrag wird behandelt, wenn entweder das zugeh”rige Enable-Flag
+    gesetzt oder kein Enable-Flag definiert ist.
+
+
+
+
+
+                                     @041[ Fortsetzung ]                   @001[ šbersicht ]
+.41
+    MTM_plcb - Betrieb mit Datenmodul (Fortsetzung)
+
+    Wenn ein Eintrag behandelt werden muá, erzeugt der Funktionsblock den
+    Sendepuffer, bergibt die zu sendenden Daten an den Schnittstellentreiber,
+    wartet auf eine Antwort (OK oder Fehler) und setzt das Enable-Flag zurck.
+
+    Die Betriebs-Funktion MTM_plcb() muá in jedem Taskzyklus aufgerufen werden!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @042[ Beispiel ]                     @001[ šbersicht ]
+.42
+    MTM_plcb - Betrieb mit Datenmodul (Beispiel)
+
+    Wir haben einen B&R 2010 Master und verwenden die RS485-Schnittstelle
+    (9600 Baud). Fr die anderen Eingangsparameter setzen wir einfach Standard-
+    werte ein. Die Variablen sind im Datenmodul "master" definiert.
+
+      ; INIT-UP der Task
+      device = 2           ; mittlere Schnittstelle (B&R 2010)
+      mode = 2             ; RS485 (B&R 2005)
+      baud = 96            ; 9600 Baud
+      idle = 5             ; typischer Wert
+      loop i = 0 to 6 do
+          tout[i] = 1000   ; Timeout-Parameter
+          retry[i] = 1     ; Retry-Parameter
+      endloop
+      MTM_init(device,mode,baud,idle,"master",adr(tout),adr(retry),ident,stat)
+      if stat = 0 then
+          enable = 1       ; wenn kein Fehler => MTM_plcb() freigeben
+      endif
+
+
+                               @043[ Fortsetzung - Beispiel ]              @001[ šbersicht ]
+.43
+    MTM_plcb - Betrieb mit Datenmodul (Beispiel - Fortsetzung)
+
+      ; Zyklischer Teil der Task
+      MTM_plcb(enable,ident,exec,rec,stat)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @040[ MTM_plcb ]                     @001[ šbersicht ]
+.200
+    ANHANG : LIBRARY-Informationen
+
+
+    @201[< Allgemeines   >]      Voraussetzungen etc.
+
+    @210[< Datenmodul    >]      Datenmodul-Syntax
+
+    @250[< Syntax        >]      Syntax fr die Erkl„rung der Funktionen
+
+    @300[< Fehlernummern >]      Zusammenfassung aller Fehlernummern
+
+    @400[< History       >]      Neue Funktionalit„ten und Versions„nderungen
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.201
+    MININET-Master-Library : Allgemeines
+
+    Die MININET-Master-Library enth„lt Funktionen fr die Initialisierung und
+    den zyklischen Betrieb einer MININET-Master-Station.
+    Detaillierte Informationen zum Thema "MININET-Netzwerk" finden Sie im Hand-
+    buch "B&R System 2000 Programmieren fr Fortgeschrittene".
+
+    Anmerkungen:
+    - Bevor Sie die Funktionen der MININET-Master-Library in Ihrem Projekt
+      verwenden k”nnen, mssen Sie die Library in die entsprechende Projekt-
+      Datenbank importieren.
+
+    - Da die MININET-Master-Library nur lokale Funktionsbl”cke (keine AVT-
+      Funktionsbl”cke!) enth„lt, muá kein Library-Runtime-Modul in die
+      Steuerung bertragen werden.
+
+    - Das Senden und Empfangen der MININET-Protokolldaten erfolgt durch den
+      Schnittstellentreiber MT_MAST.BR (Schnittstellentreiber fr die MININET-
+      Master-Station).
+
+
+                                     @202[ Fortsetzung ]                   @001[ šbersicht ]
+.202
+    MININET-Master-Library : Allgemeines (Fortsetzung)
+
+    - Die Funktionen der MININET-Master-Library k”nnen nur verwendet werden,
+      wenn der Schnittstellentreiber fr die MININET-Master-Station (B&R-Modul
+      MT_MAST.BR) und das Runtime-Modul der B&R-TRAP-Library (B&R-Modul
+      BURTRAP.BR) im Anwender-ROM der Zentraleinheit vorhanden sind.
+
+    - Wenn fr den zyklischen Betrieb der MININET-Master-Station die Funktion
+      MTM_plcb() verwendet wird, generiert die Initialisierungs-Funktion
+      MTM_init() eine Liste mit Indizes (Indexliste) aller Prozeávariablen
+      (PVs), die im Datenmodul spezifiziert sind. Es ist daher erforderlich,
+      daá alle im Datenmodul spezifizierten Prozeávariablen tats„chlich auf der
+      RPS existieren!
+
+    - Die Funktionen der MININET-Master-Library liefern im Fehlerfall als
+      Ergebnis eine @300[Fehlernummer].
+
+
+
+
+
+                                     @203[ Fortsetzung ]                   @001[ šbersicht ]
+.203
+    MININET-Master-Library : Allgemeines (Fortsetzung)
+
+    Bei Verwendung der Version 1.05 des Betriebssystems RPSSW sind zus„tzlich
+    folgende Schritte erforderlich:
+
+    - Der Userstack fr die normalen Taskklassen muá mit dem RPS-Konfigurator
+      auf 812 Byte vergr”áert werden.
+
+    - Das BUGFIX-Modul BFIX105C.BR (oder ein neueres BUGFIX-Modul) muá ins
+      Anwender-ROM der RPS bertragen werden.
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.210
+    MININET-Master-Library : Datenmodul
+
+    Bei Verwendung des Funktionsblocks MTM_plcb() werden die gewnschten
+    Datentransfers in einem Datenmodul definiert, dessen Adresse an den
+    Eingang "vars" des Funktionsblocks MTM_init() angeschlossen wird.
+    Man unterscheidet folgende Arten von Datenmodul-Eintr„gen:
+
+    - Zyklisch. Ein zyklischer Eintrag wird immer abgearbeitet, wenn er an
+      der Reihe ist.
+
+    - Ereignisgesteuert. Der Eintrag hat ein Enable-Flag. Er wird nur abge-
+      arbeitet, wenn dieses Flag gesetzt ist.
+
+
+
+
+
+
+
+
+
+                                     @211[ Fortsetzung ]                   @001[ šbersicht ]
+.211
+    MININET-Master-Library : Datenmodul (Fortsetzung)
+
+    Die Eintr„ge des Datenmoduls mssen folgender Syntax entsprechen:
+
+            ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @212[Enable-Flag]
+            ³         ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @213[Befehl     ]
+            ³         ³   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @213[Slave-Nr.  ]
+            ³         ³   ³          ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @214[PV-Name    ]
+            ³         ³   ³          ³          ÚÄÄÄÄÄÄÄÄÄÄÄÄÄ @217[PV-Offset  ]
+            ³         ³   ³          ³          ³     ÚÄÄÄÄÄÄÄ @217[PV-L„nge   ]
+     ÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄ ÄÁÄ ÄÁÄ  ÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄ ÄÄÁÄÄ ÄÄÁÄ
+    "               ",00,$11,"kessel_1       ",0001,0002
+    "alarm          ",01,$11,"halle_25       ",0025,0002
+    "               ",00,$11,"sonde          ",0126,0001
+    "enable         ",01,$11,"arr[0].elem_1  ",0002,0004
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.212
+    MININET-Master-Library : Datenmodul (Fortsetzung)
+
+    <Enable-Flag>:
+
+    - Variable, die den Eintrag aktiviert (1 = aktiviert).
+
+    - Ist keine Variable angegeben, wird der Eintrag zyklisch behandelt.
+
+    - Achtung: Enable-Variablen mssen vom Typ BIT oder BYTE sein. Auch
+      Elemente einer Feldvariable (BIT, BYTE) oder Strukturvariable (BYTE)
+      sind zul„ssig.
+
+    - Die L„nge des Variablen-Namens muá zwischen 15 und 81 Zeichen liegen.
+
+    - Die genaue L„nge des Variablen-Namens wird durch den Eintrag in der
+      ersten Zeile festgelegt. Alle weiteren Eintr„ge mssen dieselbe L„nge
+      haben. Wo erforderlich Leerzeichen verwenden.
+
+
+
+
+                                       @211[ Zurck ]                      @001[ šbersicht ]
+.213
+    MININET-Master-Library : Datenmodul (Fortsetzung)
+
+    <Befehl>:
+
+    - Gibt an, ob Daten an die Slave-Station geschrieben oder von ihr gelesen
+      werden sollen (00 ... schreiben, 01 ... lesen).
+
+    - Achtung: Dieser Eintrag muá ein BYTE sein.
+
+
+    <Slave-Nr.>:
+
+    - Nummer der Slave-Station, mit der Daten ausgetauscht werden sollen.
+      Der Master hat Stationsnummer $10 (dezimal 16), die erste Slave-
+      Stationsnummer ist $11 (dezimal 17).
+
+    - Achtung: Dieser Eintrag muá ein BYTE sein.
+
+
+
+
+                                       @211[ Zurck ]                      @001[ šbersicht ]
+.214
+    MININET-Master-Library : Datenmodul (Fortsetzung)
+
+    <PV-Name>:
+
+    - Hier muá der PV-Name angegeben werden, auf den sich dieser Eintrag
+      bezieht. Bei einem Schreibbefehl werden die Daten von dieser PV gelesen
+      und an die Slave-Station gesendet. Bei Lesebefehlen werden die von der
+      Slave-Station empfangenen Daten in dieser PV gespeichert.
+
+    - Auch Elemente von Feld- und Strukturvariablen k”nnen angegeben werden.
+      Der anzugebende PV-Name setzt sich wie folgt zusammen:
+
+         ARTIKEL  [xxxxx]  .TEIL_4
+        ÀÄÄÄÂÄÄÄÙÀÄÄÄÂÄÄÄÙÀÄÄÄÂÄÄÄÙ
+            ³        ³        ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Name des Strukturelements
+            ³        ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Index des Feldelements
+            ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ PV-Name
+
+      Der PV-Name muá angegeben werden, die anderen Angaben (Index, Struktur)
+      sind optionell. Der Index kann zwischen 0 und 32767 liegen.
+
+                                     @215[ Fortsetzung ]                   @001[ šbersicht ]
+.215
+    MININET-Master-Library : Datenmodul (Fortsetzung)
+
+      Beispiele:
+      Sensor_4              ... Einzelvariable
+      Sensor[4]             ... Element einer Feldvariable
+      Schalter.Sensor_4     ... Element einer Strukturvariable
+      Schalter[0].Sensor_4  ... Element einer Struktur-Feldvariable
+
+    - Zus„tzlich zum PV-Namen kann der Task-Name (bei lokalen PVs) angegeben
+      werden:
+
+         MK_STORE:  ARTIKEL  [xxxxx]  .TEIL_4
+        ÀÄÄÄÄÂÄÄÄÄÙÀÄÄÄÂÄÄÄÙÀÄÄÄÂÄÄÄÙÀÄÄÄÂÄÄÄÙ
+             ³         ³        ³        ÀÄÄÄÄÄÄÄÄÄ Name des Strukturelements
+             ³         ³        ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Index des Feldelements
+             ³         ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ PV-Name
+             ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Task-Name (falls lokale PV)
+
+      Nur der PV-Name muá angegeben werden. Der Task-Name ist ebenso wie die
+      anderen Angaben optionell.
+
+                                     @216[ Fortsetzung ]                   @001[ šbersicht ]
+.216
+    MININET-Master-Library : Datenmodul (Fortsetzung)
+
+    - Die L„nge des PV-Namens muá zwischen 15 und 81 Zeichen liegen.
+
+    - Die genaue L„nge des PV-Namens wird durch den Eintrag in der ersten Zeile
+      festgelegt. Alle weiteren Eintr„ge mssen dieselbe L„nge haben. Wo erfor-
+      derlich Leerzeichen verwenden.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @211[ Zurck ]                      @001[ šbersicht ]
+.217
+    MININET-Master-Library : Datenmodul (Fortsetzung)
+
+    <PV-Offset>:
+
+    - Nummer des entsprechenden Eintrags im Slave-Datenmodul (Offset im Daten-
+      modul der Slave-Station, auf den sich der Befehl bezieht).
+
+    - Achtung: Dieser Eintrag muá ein WORD sein.
+
+
+    <PV-L„nge>:
+
+    - Anzahl der Bytes, die gesendet/empfangen werden.
+
+    - Achtung: Dieser Eintrag muá ein WORD sein.
+
+
+
+
+
+
+                                       @211[ Zurck ]                      @001[ šbersicht ]
+.250
+    MININET-Master-Library : Syntaxbeschreibung
+
+    Datentypen:
+    Fr viele Funktionen sind bestimmte Gruppen von Datentypen zul„ssig. Um
+    bei der Funktionsbeschreibung nicht alle zul„ssigen Datentypen anfhren
+    zu mssen, werden folgende Gruppenbezeichnungen eingefhrt:
+    ÉÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍ»
+    º Gruppe º  BIT  ³ INT8  ³ BYTE  ³ INT16 ³ WORD  ³ INT32 ³ LONG  ³ FLOAT º
+    ÌÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍ¹
+    º BASIS  º       ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º NICHT  º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    º FLOAT  º       ³       ³       ³       ³       ³       ³       ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º ALLE   º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º FELD   º  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  º
+    ÈÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍ¼
+      x  Datentyp ist zul„ssig
+     [x] Datentyp ist zul„ssig als Feldvariable oder Zeichenkette (String)
+
+                                     @251[ Fortsetzung ]                   @001[ šbersicht ]
+.251
+    MININET-Master-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Pfeile:
+    Fr die Darstellung von Eingangs- und Ausgangsparametern werden Pfeile
+    verwendet. Dabei gilt folgende Vereinbarung:
+    ÉÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º  Pfeil  º  Bedeutung                                                   º
+    ÌÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º   ->    º  Eingangsparameter                                           º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <->   º  Ein-/Ausgangsparameter. Funktionell ist es ein Ausgangs-    º
+    º         º  parameter. šblicherweise wird er aber vor dem Aufruf der    º
+    º         º  Funktion mit einer bestimmten Information geladen (z.B.     º
+    º         º  einer Adresse). Meist wird die Adresse einer Variable mit   º
+    º         º  adr() [PL2000] oder einem Adreákontakt [KOP] angeschlossen. º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <-    º  Ausgangsparameter                                           º
+    ÈÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @252[ Fortsetzung ]                   @001[ šbersicht ]
+.252
+    MININET-Master-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Funktionsbl”cke:
+    Funktionsbl”cke sind in dieser Online-Hilfe nicht grafisch dargestellt.
+    Sie finden aber alle fr Funktionsbl”cke relevanten Informationen, wie
+    Eingangsparameter (->), Ein-/Ausgangsparameter (<->) und Ausgangsparameter
+    (<-) in der Online-Hilfe.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.300
+    MININET-Master-Library : Fehlernummern
+
+    Die folgende Liste ist eine Zusammenfassung aller m”glichen Fehlermeldungen
+    der MININET-Master-Library:
+
+    20000   Variablentabelle hat keinen Eintrag
+    20001   Kein Speicher im Speicherbereich fr Betriebssystemdaten, globale
+            Daten und Stacks von Restzeit-Tasks frei (Betr.System Daten/Stack)
+    20002   BURTRAP.BR nicht auf RPS geladen
+    20003   Erster Eintrag im Datenmodul ist ungltig
+    20004   Datenmodul nicht vorhanden
+    20005   šberschreitung der maximal zul„ssigen Datenl„nge
+            (Lesebefehl: max. 249 Byte, Schreibbefehl: max. 246 Byte)
+    20010   šbergebener Indexbereich fehlerhaft
+    20011   Unbekannter Befehl empfangen
+    20012   Treiberfehler (nicht geladen,...)
+    20013   PV auf RPS nicht vorhanden
+    20014   Fehler bei DE_WRITE
+    20015   L„nge der Daten > rx_max
+    20016   Fehler beim Freigeben des RX-Puffers
+
+                                     @301[ Fortsetzung ]                   @001[ šbersicht ]
+.301
+    MININET-Master-Library : Fehlernummern (Fortsetzung)
+
+    20017   Timeout ist aufgetreten
+    20018   Meldung unbekannter Befehl,...
+    20019   Fehler bei holen eines TX-Puffers
+    20020   Eintrag im Datenmodul fehlerhaft
+
+    Anmerkung:
+    Tritt bei der Initialisierung der Fehler 20013 oder 20020 auf, so liefert
+    der Ausgang "ident" des Funktionsblocks MTM_init() die Nummer des fehler-
+    haften Eintrags im Datenmodul.
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.400
+    MININET-Master-Library : History - Versions„nderungen
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.21 -> V1.23  ³ AKTUELLE VERSION: Neue Funktionalit„ten                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Ab dieser Version wird die L„nge der zu bertragenden Daten auf Gltig- º
+  º   keit berprft. Bei einem Lesebefehl (READ) darf eine Datenl„nge von    º
+  º   249 Byte, bei einem Schreibbefehl (WRITE) eine Datenl„nge von 246 Byte  º
+  º   nicht berschritten werden.                                             º
+  º - Eine šberschreitung der zul„ssigen Datenl„nge fhrt zum Fehler 20005.   º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º V1.20 -> V1.21  ³ LTERE VERSIONEN: Fehlerbehebung                        º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Fehlerbehebung: Bei der Offsetberechnung der Slave-Daten wurde immer    º
+  º   nur das niederwertigste Offset-Byte ausgewertet (Offsets > 255 waren    º
+  º   nicht m”glich).                                                         º
+  º - Fehlerbehebung: Im MININET-Master-Treiber "MT_MAST.BR" wurde der        º
+  º   Vorgang beim Index-Reset korrigiert.                                    º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+                                     @401[ Fortsetzung ]                   @001[ šbersicht ]
+.401
+    MININET-Master-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.10 -> V1.20  ³ LTERE VERSIONEN: Neue Funktionalit„ten                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Funktionserweiterung: Lesen und Beschreiben von STRUKTUR- oder FELD-    º
+  º   ELEMENTEN und von LOKALEN Variablen.                                    º
+  º   Diese Erweiterung erforderte eine "variable" Angabe des PV-Namens im    º
+  º   entsprechenden Datenmodul (sowohl fr das Enable-Flag als auch fr die  º
+  º   eigentliche PV).                                                        º
+  º - Die L„nge der PV-Namen in den Datenmodulen wird mittels des ersten      º
+  º   Datenmodul-Eintrags festgelegt und kann zwischen MINDESTENS 15 ZEICHEN  º
+  º   und MAXIMAL 81 ZEICHEN betragen.                                        º
+  º - Die ber den ersten Datenmodul-Eintrag definierte EXAKTE Namensl„nge    º
+  º   muá jedoch bei allen weiteren Eintr„gen EXAKT eingehalten werden.       º
+  º - Die FUB-Version ist in der FUB-Maske bei der Beschreibung "Kommentar"   º
+  º   ersichtlich. (Aufruf ber <Hilfe><Funktionen>)                          º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+
+.End

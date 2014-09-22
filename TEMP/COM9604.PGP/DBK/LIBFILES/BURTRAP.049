@@ -1,0 +1,4169 @@
+$ Online Hilfe fuer die System 2000 Profibus Fubs -> Zeile 1236
+%%
+1,0:001
+%%
+.1
+    Funktionen der B&R-Library
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º ACHTUNG: Die Funktionen dieser Library k”nnen nur verwendet werden,       º
+  º          wenn das Library-Runtime-Modul (B&R-Modul BURTRAP.BR) im         º
+  º          nullspannungssicheren Speicher (Anwender-ROM) der Steuerung      º
+  º          vorhanden ist!                                                   º
+  º          Nach dem šbertragen des Library-Runtime-Moduls in den null-      º
+  º          spannungssicheren Speicher muá ein KALTSTART (frher "TOTALINIT" º
+  º          genannt) durchgefhrt werden.                                    º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+
+
+                                     @002[ Fortsetzung ]               @999[ HILFE beenden ]
+.2
+    Funktionen der B&R-Library (Fortsetzung)
+
+    Nach dem Importieren der B&R-Library stehen Ihnen folgende Funktionsgruppen
+    zur Verfgung:
+
+    @020[< AVT-Behandlung           >] Zugriff auf dynamische Libraries
+    @040[< Datenmodul-Behandlung    >] Datenmodule erzeugen/verwenden
+    @060[< Display-Funktionen       >] Status-Display der CPU verwenden
+    @069[< Fehlerbehandlung         >] Eintr„ge in das Fehlerlogbuch
+    @080[< Tastenbehandlung         >] Tasten der CPU einlesen
+    @090[< Speicherverwaltung       >] Speicher allokieren/deallokieren
+    @110[< RPS-Task-Behandlung      >] Zyklische Tasks starten/stoppen
+    @130[< Semaphor-Behandlung      >] Signale zwischen Tasks austauschen
+    @150[< System-Funktionen        >] Systeminformation, Reset
+    @190[< Zeit-Funktionen          >] Zeitmessung/Zugriff auf Echtzeituhr
+    @210[< Restzeit-Task-Behandlung >] Restzeit-Tasks starten/stoppen
+    @230[< Variablendienste         >] Zugriff auf Variablen
+
+
+
+
+                                       @700[ ANHANG ]                      @001[ šbersicht ]
+.10
+    Zeichenketten (Strings) als Parameter
+
+    Parameter Name (siehe z.B.: AVT-Behandlung, Variablendienste und
+    Datenmodul-Behandlung):
+
+    - Zeichenketten (Strings) sind immer nullterminiert (wie in C).
+
+    - Zeichenketten k”nnen auf drei verschiedene Arten als Eingangsparameter
+      verwendet werden:
+      adr(String) ... Adresse der BYTE-Feldvariable, die den String enth„lt
+      String ........ String-Konstante (siehe Programmiersystem PG2000)
+      "Konstante" ... konstanter String (muá in Anfhrungszeichen angegeben
+                      werden!)
+
+    - Wenn eine Funktion als Ergebnis eine Zeichenkette liefert, muá als
+      Ein-/Ausgangsparameter die Adresse einer BYTE-Feldvariable angegeben
+      werden, in der der String gespeichert wird.
+
+
+
+
+                                                                     @001[ šbersicht ]
+.11
+    Gruppennummer von Objekten
+
+    Parameter Gruppennummer (siehe z.B.: AVT-Behandlung, Datenmodul-Behandlung
+    und Variablendienste):
+
+    - Gruppen werden derzeit im Programmiersystem PG2000 noch nicht unter-
+      sttzt. Es muá daher immer 0 als Gruppennummer angegeben werden.
+
+    - In der Zukunft wird, wenn vom Anwender keine andere Gruppennummer an-
+      gegeben wird, die Gruppennummer 0 der Standardwert sein.
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.20
+    B&R-Library - AVT-Behandlung
+
+    Die Adreáverteiler-Tabelle (AVT) ist eine zentrale Systemtabelle, in die
+    der Anwender Informationen eintragen kann. Die AVT enth„lt blicherweise
+    eine Liste aller AVT-Library-Module und AVT-Datenmodule, die auf der RPS
+    gespeichert sind. Die AVT-Library-Module und AVT-Datenmodule werden bei
+    der šbertragung der Anwenderprogramme in die RPS automatisch in die AVT-
+    Liste eingetragen.
+    Mit den AVT-Funktionen k”nnen Sie Eintr„ge in der AVT vornehmen bzw. be-
+    stehende Eintr„ge identifizieren und lesen:
+
+    @025[AVT_create ]   AVT-Eintrag erzeugen
+    @026[AVT_cancel ]   AVT-Eintrag l”schen
+    @027[AVT_ident  ]   Ident-Nummer eines AVT-Eintrags anfordern
+    @028[AVT_attach ]   Information eines AVT-Eintrags holen
+    @029[AVT_release]   AVT-Eintrag freigeben
+    @030[AVT_info   ]   Informationen zu einem AVT-Eintrag anfordern
+
+
+
+
+                                     @021[ Fortsetzung ]                   @001[ šbersicht ]
+.21
+    B&R-Library - AVT-Behandlung (Fortsetzung)
+
+    Mit der Funktion AVT_create() wird ein LONG-Speicherbereich (4 Byte) mit
+    den angegebenen Daten definiert und in der AVT unter dem angegebenen Namen
+    abgespeichert. Andere Tasks k”nnen dann unter Verwendung dieses Namens den
+    LONG-Eintrag in der AVT lesen. Dadurch k”nnen Adreá-Informationen als AVT-
+    Eintr„ge gespeichert werden.
+
+    Wenn die Funktionen AVT_release() und AVT_attach() aus verschiedenen
+    Taskklassen gleichzeitig auf einen AVT-Eintrag zugreifen, kann es zu
+    Link Count-Fehlern kommen. Abhilfe: Verriegelung ber die Semaphor-
+    Funktionen (siehe @130[Semaphor-Behandlung]).
+
+
+
+
+
+
+
+
+
+    @031[ Beispiel ]                     @020[ AVT-Behandlung ]                  @001[ šbersicht ]
+.22
+    B&R-Library - AVT-Behandlung (Fehlernummern)
+
+    Folgende Fehler k”nnen bei den AVT-Funktionen auftreten:
+
+    3306 ... ERR_BUR_EXISTS       Eintrag existiert bereits (AVT_create)
+    3307 ... ERR_BUR_LCOUNT       AVT-Eintrag kann nicht gel”scht werden,
+                                  da der Link Count <> 0 ist
+    3313 ... ERR_BUR_ILLVER       ungltige B&R-Library-Version
+    3315 ... ERR_BUR_LCOUNT       Link Count hat den max. Wert (127) erreicht
+    3316 ... ERR_BUR_AVT_FREE     Link Count = 0 (AVT_release)
+    3324 ... ERR_BUR_ILLOBJ       Objekt nicht vorhanden
+    3332 ... ERR_BUR_NOENTRY      kein freier Eintrag mehr
+    3336 ... ERR_BUR_ILLIDENT     ungltige Ident-Nummer
+
+
+
+
+
+
+
+
+                                   @020[ AVT-Behandlung ]                  @001[ šbersicht ]
+.25
+    AVT_create - AVT-Eintrag erzeugen
+
+    status = @025[AVT_create](adr(name),grupid,av_info,adr(av_ident))
+
+    Parameter-Datentypen :
+    ->  @010[name      ]: BYTE (FELD)   Name des AVT-Eintrags (String)
+    ->  @011[grupid    ]: BYTE          Gruppennummer (Standard = 0)
+    ->  av_info   : LONG          AVT-Info (z.B.: Adresse der Daten)
+    <-> av_ident  : LONG          AVT-Ident-Nummer
+    <-  @022[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Erzeugt in der AVT einen Eintrag mit dem angegebenen Namen und liefert als
+    Ergebnis eine Ident-Nummer, die fr andere AVT-Funktionen ben”tigt wird.
+    Die maximale Anzahl von AVT-Eintr„gen kann mit dem RPS-Konfigurator (bzw.
+    mit Programmiersystem PG2000) ge„ndert werden.
+
+
+
+
+
+
+                                   @020[ AVT-Behandlung ]                  @001[ šbersicht ]
+.26
+    AVT_cancel - AVT-Eintrag l”schen
+
+    status = @026[AVT_cancel](av_ident)
+
+    Parameter-Datentypen :
+    ->  av_ident  : LONG          AVT-Ident-Nummer von @025[AVT_create] oder
+                                  @027[AVT_ident]
+    <-  @022[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    L”scht den Eintrag mit der angegebenen AVT-Ident-Nummer aus der AVT.
+
+
+
+
+
+
+
+
+
+
+
+                                   @020[ AVT-Behandlung ]                  @001[ šbersicht ]
+.27
+    AVT_ident - Ident-Nummer eines AVT-Eintrags anfordern
+
+    status = @027[AVT_ident](adr(name),grupid,adr(av_ident))
+
+    Parameter-Datentypen :
+    ->  @010[name      ]: BYTE (FELD)   Name des AVT-Eintrags (String)
+    ->  @011[grupid    ]: BYTE          Gruppennummer (Standard = 0)
+    <-> av_ident  : LONG          AVT-Ident-Nummer
+    <-  @022[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Liefert die AVT-Ident-Nummer eines existierenden AVT-Eintrags. Die AVT-
+    Ident-Nummer wird fr andere AVT-Funktionen ben”tigt.
+
+
+
+
+
+
+
+
+
+                                   @020[ AVT-Behandlung ]                  @001[ šbersicht ]
+.28
+    AVT_attach - Information eines AVT-Eintrags holen
+
+    status = @028[AVT_attach](av_ident,adr(av_info))
+
+    Parameter-Datentypen :
+    ->  av_ident  : LONG          AVT-Ident-Nummer von @025[AVT_create] oder
+                                  @027[AVT_ident]
+    <-> av_info   : LONG          AVT-Info (z.B.: Adresse der Daten)
+    <-  @022[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Holt die Information eines AVT-Eintrags. Jeder Aufruf dieser Funktion er-
+    h”ht den Link Count des AVT-Eintrags (siehe Parameter "av_lnkct" der
+    Funktion @030[AVT_info]) um 1 (dadurch ist bekannt, wie oft der AVT-Eintrag
+    verwendet wird).
+
+    Achtung:
+    Wenn die Funktionen AVT_release() und AVT_attach() aus verschiedenen
+    Taskklassen gleichzeitig auf einen AVT-Eintrag zugreifen, kann es zu
+    Link Count-Fehlern kommen. Abhilfe: Verriegelung ber die Semaphor-
+    Funktionen (siehe @130[Semaphor-Behandlung]).
+
+                                   @020[ AVT-Behandlung ]                  @001[ šbersicht ]
+.29
+    AVT_release - AVT-Eintrag freigeben
+
+    status = @029[AVT_release](av_ident)
+
+    Parameter-Datentypen :
+    ->  av_ident  : LONG          AVT-Ident-Nummer von @025[AVT_create] oder
+                                  @027[AVT_ident]
+    <-  @022[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Diese Funktion gibt den AVT-Eintrag mit der angegebenen AVT-Ident-Nummer
+    frei. Wenn Sie zum Beispiel einen AVT-Eintrag l”schen wollen (siehe dazu
+    Funktion @026[AVT_cancel]), mssen Sie diesen AVT-Eintrag zun„chst freigeben,
+    d.h. der Link Count (siehe Parameter "av_lnkct" der Funktion @030[AVT_info])
+    muá 0 sein. Dazu rufen Sie in allen Anwenderprogrammen, die diesen Eintrag
+    verwenden, die Funktion AVT_release() auf.
+
+    Achtung:
+    Wenn die Funktionen AVT_release() und AVT_attach() aus verschiedenen Task-
+    klassen gleichzeitig auf einen AVT-Eintrag zugreifen, k”nnen Link Count-
+    Fehlern auftreten. Abhilfe: Verriegelung ber die Semaphor-Funktionen
+    (siehe @130[Semaphor-Behandlung]).
+                                   @020[ AVT-Behandlung ]                  @001[ šbersicht ]
+.30
+    AVT_info - Informationen zu einem AVT-Eintrag anfordern
+
+    status = @030[AVT_info](av_ident,adr(av_lnkct))
+
+    Parameter-Datentypen :
+    ->  av_ident  : LONG          AVT-Ident-Nummer von @025[AVT_create] oder
+                                  @027[AVT_ident]
+    <-> av_lnkct  : BYTE          Link Count (Anzahl der Zugriffe auf diesen
+                                  AVT-Eintrag)
+    <-  @022[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Stellt fest, wieviele Links (Zugriffe) auf den AVT-Eintrag mit der ange-
+    gebenen AVT-Ident-Nummer existieren, d.h. wie oft dieser AVT-Eintrag ver-
+    wendet wird.
+
+
+
+
+
+
+
+                                   @020[ AVT-Behandlung ]                  @001[ šbersicht ]
+.31
+    AVT-Behandlung - Beispiel
+
+    Das folgende Programm macht einen Link (Zugriff) auf einen existierenden
+    AVT-Eintrag mit dem Namen "Temprate", fhrt einige nderungen durch und
+    gibt ihn wieder frei. Die Task l”scht dann den AVT-Eintrag und wartet eine
+    halbe Sekunde, bevor ein neuer Eintrag erzeugt wird. Der PL2000-Code k”nnte
+    so aussehen:
+
+      ; Warten, bis die Anwender-Task bereit ist, d.h.: ein AVT-Eintrag mit dem
+      ; Namen "Temprate" angelegt wurde.
+      if prot_state = 1 then
+          err_avtid = AVT_ident("Temprate",0,adr(avt_ident))
+          if err_avtid = 0 then
+              err_avtat = AVT_attach(avt_ident,adr(data_adr))
+              if err_avtat = 0 then
+                  prot_state = 2        ; DATENMODUL bekannt
+                  prod_info access(data_adr)
+                  prod_nr = prod_info.prod_nr
+              endif
+          endif
+      endif
+                                     @032[ Fortsetzung ]                   @001[ šbersicht ]
+.32
+    AVT-Behandlung - Beispiel (Fortsetzung)
+
+      ; Aenderungen im Eintrag
+      ; FUB report() fuehrt die Aenderungen im Eintrag durch
+      if prot_state = 2 then
+          report(data_adr,prot_end)
+          if prot_end = 1 then
+              prot_state = 3
+          endif
+      endif
+      ; AVT-Eintraege freigeben, wenn Aenderungen komplett
+      ; Freigeben der AVT-Eintraege erlaubt Neudefinition
+      if prot_state = 3 then
+          err_avtrel = AVT_release(avt_ident)
+          prot_state = 4             ; Warten bis AVT-Eintrag geloescht
+      endif
+      ; Warten bis AVT-Eintrag geloescht ist.
+      ; Die Anwender-Task muss sicherstellen, dass 0,5 Sekunden lang
+      ; kein AVT-Eintrag gemacht wird (Synchronisierung).
+
+
+                                     @033[ Fortsetzung ]                   @001[ šbersicht ]
+.33
+    AVT-Behandlung - Beispiel (Fortsetzung)
+
+      if prot_state = 4 then
+          err_avtid = AVT_ident("Temprate",0,adr(avt_ident))
+          if err_avtid <> 0 then
+              prot_state = 1
+          endif
+      endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   @020[ AVT-Behandlung ]                  @001[ šbersicht ]
+.40
+    B&R-Library - Datenmodul-Behandlung
+
+    Diese Funktionen dienen zur dynamischen Erstellung und Manipulation von
+    Datenmodulen auf der RPS (z.B. fr dynamische Rezepte). Die Integrit„t
+    solcher Datenmodule wird mit Prfsummen berwacht. Sie k”nnen auch gegen
+    einen KALTSTART (frher "TOTALINIT" genannt) geschtzt werden.
+
+    @045[DA_create]     Datenmodul erzeugen
+    @046[DA_ident ]     Ident-Nummer eines Datenmoduls anfordern
+    @047[DA_write ]     Daten in ein Datenmodul schreiben
+    @048[DA_read  ]     Daten aus einem Datenmodul lesen
+    @049[DA_burn  ]     Datenmodul ins Anwender-ROM kopieren
+    @050[DA_fix   ]     Datenmodul ins FIX-RAM kopieren
+    @051[DA_info  ]     Informationen zu einem Datenmodul anfordern
+    @052[DA_delete]     Datenmodul l”schen
+    @053[DA_store ]     Datenmodul speichern
+    @055[DA_copy  ]     Datenmodul kopieren
+
+
+
+
+                                                                     @001[ šbersicht ]
+.41
+    B&R-Library - Datenmodul-Behandlung (Fehlernummern)
+
+    Folgende Fehler k”nnen bei den Datenmodul-Funktionen auftreten:
+
+    2063 ... ERR_BUR_WR_CHAR      ungltiges ASCII-Zeichen
+    3104 ... ERR_BUR_ILLPTR       z.B. Daten-Adresse NULL
+    3301 ... ERR_BUR_WROFFSET     ungltiger Offset bei DA_write()
+    3302 ... ERR_BUR_ILLSTATE     falscher Modulzustand (z.B. Download)
+    3305 ... ERR_BUR_DUPOBJ       Objekt existiert bereits
+    3308 ... ERR_BUR_BURNING      Fehler bei DA_burn()/DA_fix() aufgetreten
+    3313 ... ERR_BUR_ILLVER       ungltige B&R-Library-Version
+    3314 ... ERR_BUR_ILLLEN       ungltige L„ngenangabe
+    3324 ... ERR_BUR_ILLOBJ       gewnschtes Objekt nicht vorhanden
+    3328 ... ERR_BUR_ILLOBJTYP    falscher Objekttyp (Modultyp)
+    3332 ... ERR_BUR_NOENTRY      kein Eintrag in Modultabelle frei
+    3336 ... ERR_BUR_ILLIDENT     ungltige Ident-Nummer
+
+
+
+
+
+                                @040[ Datenmodul-Behandlung ]              @001[ šbersicht ]
+.45
+    DA_create - Datenmodul erzeugen
+
+    status = @045[DA_create](adr(name),grp,spooladr,daten_len,adr(daten),
+                       adr(mo_datpt),adr(mo_ident))
+
+    Parameter-Datentypen :
+    ->  @010[name      ]: BYTE (FELD)   Name des Datenmoduls (String)
+    ->  @011[grp       ]: BYTE          Gruppennummer (Standard = 0)
+    ->  spooladr  : WORD          Spool-Adresse (Standard = 0)
+    ->  daten_len : LONG          L„nge der Daten (in Byte)
+    ->  daten     : BYTE (FELD)   Daten, die in das Datenmodul geschrieben
+                                  werden
+    <-> mo_datpt  : LONG          Adresse der Daten im Datenmodul
+    <-> mo_ident  : LONG          Ident-Nummer des Datenmoduls
+    <-  @041[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Erzeugt ein Datenmodul mit den entsprechenden Parametern im RAM. Wird beim
+    DA_create() als Datenadresse der LONG-Wert 0 bergeben, so werden alle
+    Bytes des Datenmoduls mit 0 beschrieben. Als Spool-Adresse (spooladr) wird
+    standardm„áig 0 verwendet. Genauere Informationen entnehmen Sie bitte der
+    Online-Hilfe des Spoolers.
+                                @040[ Datenmodul-Behandlung ]              @001[ šbersicht ]
+.46
+    DA_ident - Ident-Nummer eines Datenmoduls anfordern
+
+    status = @046[DA_ident](adr(name),grp,adr(mo_ident))
+
+    Parameter-Datentypen :
+    ->  @010[name      ]: BYTE (FELD)   Name des Datenmoduls (String)
+    ->  @011[grp       ]: BYTE          Gruppennummer (Standard = 0)
+    <-> mo_ident  : LONG          Ident-Nummer des Datenmoduls
+    <-  @041[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Liefert die Ident-Nummer eines existierenden Datenmoduls. Diese Ident-
+    Nummer wird in anderen Datenmodul-Funktionen zur Identifizierung ver-
+    wendet.
+
+
+
+
+
+
+
+
+                                @040[ Datenmodul-Behandlung ]              @001[ šbersicht ]
+.47
+    DA_write - Daten in ein Datenmodul schreiben
+
+    status = @047[DA_write](mo_ident,adr(daten),daten_len,mo_dat_off)
+
+    Parameter-Datentypen :
+    ->  mo_ident  : LONG          Ident-Nummer von @045[DA_create] oder @046[DA_ident]
+    ->  daten     : BYTE (FELD)   Datenbereich
+    ->  daten_len : LONG          L„nge der Daten (in Byte)
+    ->  mo_dat_off: LONG          Offset im Datenbereich des Moduls
+    <-  @041[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Schreibt Daten in ein Datenmodul im RAM oder FIX-RAM. Dadurch wird auch die
+    Prfsumme (Checksum) des Moduls aktualisiert.
+
+
+
+
+
+
+
+
+                                @040[ Datenmodul-Behandlung ]              @001[ šbersicht ]
+.48
+    DA_read - Daten aus einem Datenmodul lesen
+
+    status = @048[DA_read](mo_ident,adr(daten),daten_len,mo_dat_off)
+
+    Parameter-Datentypen :
+    ->  mo_ident  : LONG          Ident-Nummer von @045[DA_create] oder @046[DA_ident]
+    ->  daten     : BYTE (FELD)   Datenbereich
+    ->  daten_len : LONG          L„nge der Daten (in Byte)
+    ->  mo_dat_off: LONG          Offset im Datenbereich des Moduls
+    <-  @041[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Liest Daten aus einem Modul im RAM oder FIX-RAM.
+
+
+
+
+
+
+
+
+
+                                @040[ Datenmodul-Behandlung ]              @001[ šbersicht ]
+.49
+    DA_burn - Datenmodul ins Anwender-ROM kopieren
+
+    status = @049[DA_burn](mo_ident)
+
+    Parameter-Datentypen :
+    ->  mo_ident  : LONG          Ident-Nummer von @045[DA_create] oder @046[DA_ident]
+    <-  @041[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    šbertr„gt ein Datenmodul ins Anwender-ROM.
+
+    Achtung: W„hrend des Programmierens wird die RPS (alle Tasks der RPS) auto-
+             matisch gestoppt.
+
+
+
+
+
+
+
+
+
+                                @040[ Datenmodul-Behandlung ]              @001[ šbersicht ]
+.50
+    DA_fix - Datenmodul ins FIX-RAM kopieren
+
+    status = @050[DA_fix](mo_ident)
+
+    Parameter-Datentypen :
+    ->  mo_ident  : LONG          Ident-Nummer von @045[DA_create] oder @046[DA_ident]
+    <-  @041[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    šbertr„gt ein Datenmodul ins FIX-RAM. Das FIX-RAM muá mit dem RPS-
+    Konfigurator (bzw. mit Programmiersystem PG2000) konfiguriert werden.
+
+
+
+
+
+
+
+
+
+
+
+                                @040[ Datenmodul-Behandlung ]              @001[ šbersicht ]
+.51
+    DA_info - Informationen zu einem Datenmodul anfordern
+
+    status = @051[DA_info](mo_ident,adr(mo_datpt),adr(dat_lng),adr(mem_typ))
+
+    Parameter-Datentypen :
+    ->  mo_ident  : LONG          Ident-Nummer von @045[DA_create] oder @046[DA_ident]
+    <-> mo_datpt  : LONG          Adresse der Daten im Datenmodul
+    <-> dat_lng   : LONG          L„nge der Daten (in Byte)
+    <-> mem_typ   : BYTE          Speichertyp:
+                                  1 ... RAM
+                                  2 ... Anwender-ROM
+                                  4 ... MEMCARD (PCMCIA-Speicherkarte)
+                                  5 ... FIX-RAM
+    <-  @041[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Liefert Informationen ber das Datenmodul (Startadresse der Daten, Anzahl
+    der Bytes im Datenmodul, Typ des Speichers, usw.). D.h. mit der Funktion
+    DA_info() kann man u.a. den Zeiger auf die Daten (z.B. fr ein ACCESS mit
+    einer dynamischen Variable) bestimmen.
+
+
+                                @040[ Datenmodul-Behandlung ]              @001[ šbersicht ]
+.52
+    DA_delete - Datenmodul l”schen
+
+    status = @052[DA_delete](mo_ident)
+
+    Parameter-Datentypen :
+    ->  mo_ident  : LONG          Ident-Nummer von @045[DA_create] oder @046[DA_ident]
+    <-  @041[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    L”scht ein Datenmodul aus dem Speicher (RAM, Anwender-ROM, MEMCARD oder
+    FIX-RAM).
+
+
+
+
+
+
+
+
+
+
+
+                                @040[ Datenmodul-Behandlung ]              @001[ šbersicht ]
+.53
+    DA_store - Datenmodul speichern
+
+    status = @053[DA_store](mo_ident,mem_typ,adr(dat_pt),adr(dat_lng))
+
+    Parameter-Datentypen :
+    ->  mo_ident  : LONG          Ident-Nummer von @045[DA_create] oder @046[DA_ident]
+    ->  mem_typ   : BYTE          Speichertyp:
+                                  1 ... RAM
+                                  2 ... Anwender-ROM
+                                  4 ... MEMCARD (PCMCIA-Speicherkarte)
+                                  5 ... FIX-RAM
+    <-  dat_pt    : LONG          Adresse der Daten im neuen Datenmodul
+    <-  dat_lng   : LONG          L„nge der Daten im neuen Datenmodul (in Byte)
+    <-  @041[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Die Funktion DA_store() speichert das Datenmodul im angegebenen Speicher
+    (RAM, Anwender-ROM, MEMCARD oder FIX-RAM).
+
+
+
+
+                                     @054[ Fortsetzung ]                   @001[ šbersicht ]
+.54
+    DA_store - Datenmodul speichern (Fortsetzung)
+
+    Achtung:
+    Die Funktion DA_store() kann nur verwendet werden, wenn die Gr”áe des
+    Supervisorstacks der verwendeten Taskklasse gr”áer als 1100 Byte ist.
+    Zum Parametrieren des Supervisorstacks rufen Sie die Funktion <Objekt>
+    <Parameter> aus der Task-Ebene der GDM auf. Der Cursor muá sich dabei
+    auf dem "sysconf"-Symbol befinden. Anschlieáend kann durch Anwahl des
+    gewnschten Taskklassen-Typs (siehe Popup-Men des Feldes <Konfiguriere>)
+    eine Dialogbox zum Festlegen der Taskklassen-Parameter ge”ffnet werden.
+    In dieser Dialogbox kann die Gr”áe des Supervisorstacks ber das Eingabe-
+    feld <Stackgr”áe><Interrupt> definiert werden.
+
+
+
+
+
+
+
+
+
+                                @040[ Datenmodul-Behandlung ]              @001[ šbersicht ]
+.55
+    DA_copy - Datenmodul kopieren
+
+    status = @055[DA_copy](mo_ident,adr(new_name),mem_typ,adr(dat_id),adr(dat_pt),
+                     adr(dat_lng))
+
+    Parameter-Datentypen :
+    ->  mo_ident  : LONG          Ident-Nummer von @045[DA_create] oder @046[DA_ident]
+    ->  @010[new_name  ]: BYTE (FELD)   Name des neuen Datenmoduls (String)
+    ->  mem_typ   : BYTE          Speichertyp:
+                                  1 ... RAM
+                                  2 ... Anwender-ROM
+                                  4 ... MEMCARD (PCMCIA-Speicherkarte)
+                                  5 ... FIX-RAM
+    <-  dat_id    : LONG          Ident-Nummer des kopierten Datenmoduls
+    <-  dat_pt    : LONG          Adresse der Daten im neuen Datenmodul
+    <-  dat_lng   : LONG          L„nge der Daten im neuen Datenmodul (in Byte)
+    <-  @041[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+
+
+
+                                     @056[ Fortsetzung ]                   @001[ šbersicht ]
+.56
+    DA_copy - Datenmodul kopieren (Fortsetzung)
+
+    Mit der Funktion DA_copy() wird ein Datenmodul unter dem Namen "new_name"
+    in den angegebenen Speicher (RAM, Anwender-ROM, MEMCARD oder FIX-RAM)
+    kopiert. Wird kein Name angegeben, so wird das Modul unter dem gleichen
+    Namen neu angelegt. šber die Ident-Nummer "dat_id" kann das Anwender-
+    programm sofort auf das neu angelegte Modul zugreifen.
+
+    Achtung:
+    Die Funktion DA_copy() kann nur verwendet werden, wenn die Gr”áe des
+    Supervisorstacks der verwendeten Taskklasse gr”áer als 1100 Byte ist.
+    Zum Parametrieren des Supervisorstacks rufen Sie die Funktion <Objekt>
+    <Parameter> aus der Task-Ebene der GDM auf. Der Cursor muá sich dabei
+    auf dem "sysconf"-Symbol befinden. Anschlieáend kann durch Anwahl des
+    gewnschten Taskklassen-Typs (siehe Popup-Men des Feldes <Konfiguriere>)
+    eine Dialogbox zum Festlegen der Taskklassen-Parameter ge”ffnet werden.
+    In dieser Dialogbox kann die Gr”áe des Supervisorstacks ber das Eingabe-
+    feld <Stackgr”áe><Interrupt> definiert werden.
+
+
+
+                                @040[ Datenmodul-Behandlung ]              @001[ šbersicht ]
+.60
+    B&R-Library - Display-Funktionen
+
+    Mit diesen Funktionen k”nnen Sie Zeichen bzw. Zeichenketten am Status-
+    Display der Zentraleinheit (nur System B&R 2010!) ausgeben.
+
+    @065[DIS_clr]       Status-Display l”schen
+    @066[DIS_chr]       ein Zeichen am Status-Display ausgeben
+    @067[DIS_str]       eine Zeichenkette am Status-Display ausgeben
+
+    Das Status-Display der Zentraleinheiten B&R 2010 hat zwei Zeilen (0 und 1)
+    zu je 8 Zeichen (0 bis 7). Bei den Zentraleinheiten der Systeme B&R 2005
+    und B&R 2003 sind keine Status-Display vorhanden, hier haben die Display-
+    Funktionen keine Auswirkung.
+ 
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.61
+    B&R-Library - Display-Funktionen (Fehlernummern)
+
+    Folgende Fehler k”nnen bei den Display-Funktionen auftreten:
+
+    2061 ... ERR_BUR_WRROW        ungltige Zeilenangabe
+    2062 ... ERR_BUR_WRCOL        ungltige Spaltenangabe
+    2063 ... ERR_BUR_WR_CHAR      ungltiges ASCII-Zeichen
+    3313 ... ERR_BUR_ILLVER       ungltige B&R-Library-Version
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 @060[ Display-Funktionen ]                @001[ šbersicht ]
+.65
+    DIS_clr - Status-Display l”schen
+
+    status = @065[DIS_clr]()
+
+    Parameter-Datentypen :
+    <-  @061[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    L”scht das Status-Display der Zentraleinheit (nur System B&R 2010!).
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 @060[ Display-Funktionen ]                @001[ šbersicht ]
+.66
+    DIS_chr - Zeichen am Status-Display ausgeben
+
+    status = @066[DIS_chr](zeile,spalte,character)
+
+    Parameter-Datentypen :
+    ->  zeile     : LONG          Nummer der Zeile (0 oder 1), in der das
+                                  ASCII-Zeichen ausgegeben werden soll.
+    ->  spalte    : LONG          Nummer der Spalte (0 bis 7), in der das
+                                  ASCII-Zeichen ausgegeben werden soll.
+    ->  character : BYTE          ASCII-Zeichen, das am Status-Display aus-
+                                  gegeben werden soll. Das Zeichen kann sowohl
+                                  direkt (in Anfhrungszeichen) oder als String-
+                                  Konstante bzw. Variable angegeben werden. Der
+                                  Wert der Variable wird dabei als ASCII-Code
+                                  des auszugebenden Zeichens interpretiert.
+    <-  @061[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Am Status-Display der Zentraleinheit (nur B&R 2010!) wird das ASCII-Zeichen
+    "character" ausgegeben. Die Parameter "zeile" und "spalte" bestimmen die
+    Position des Zeichens am Display.
+
+                                 @060[ Display-Funktionen ]                @001[ šbersicht ]
+.67
+    DIS_str - Zeichenkette am Status-Display ausgeben
+
+    status = @067[DIS_str](zeile,spalte,adr(string))
+
+    Parameter-Datentypen :
+    ->  zeile     : LONG          Nummer der Zeile (0 oder 1), in der der
+                                  String ausgegeben werden soll.
+    ->  spalte    : LONG          Nummer der Spalte (0 bis 7), ab der der
+                                  String ausgegeben werden soll.
+    ->  string    : BYTE (FELD)   String (mit Nullzeichen abgeschlossen), der
+                                  am Status-Display ausgegeben werden soll. Der
+                                  String kann sowohl in Form eines konstanten
+                                  Strings (in Anfhrungszeichen) oder als
+                                  String-Konstante bzw. als Adreázeiger auf
+                                  ein BYTE-Feld angegeben werden.
+    <-  @061[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Am Status-Display der Zentraleinheit (nur System B&R 2010!) wird die
+    Zeichenkette "string" ausgegeben. Die Parameter "zeile" und "spalte"
+    bestimmen die Startposition der Zeichenkette am Display.
+
+                                     @068[ Fortsetzung ]                   @001[ šbersicht ]
+.68
+    DIS_str - Zeichenkette am Status-Display ausgeben (Fortsetzung)
+
+    Hat die Zeichenkette im Status-Display (ab der angegebenen Startposition)
+    nicht Platz, werden die berz„hligen Zeichen ignoriert. Ein Nullzeichen
+    innerhalb des Strings bricht die Ausgabe ab, d.h. es k”nnen auch Strings
+    mit weniger als 8 Zeichen ausgegeben werden.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 @060[ Display-Funktionen ]                @001[ šbersicht ]
+.69
+    B&R-Library - Fehlerbehandlung
+
+    Diese Funktionen dienen zur Behandlung kritischer Zust„nde w„hrend der
+    Laufzeit der Tasks.
+
+    @071[ERR_warning]   Fehlermeldung ins Fehlerlogbuch eintragen
+    @072[ERRxwarning]   Fehlermeldung (mit Zusatzstring) ins Fehlerlogbuch eintragen
+    @073[ERR_fatal  ]   Fehlermeldung ins Fehlerlogbuch eintragen und Nothalt
+                  des Systems ausl”sen
+    @074[ERR_read   ]   Logbucheintrag auslesen
+    @077[ERRxread   ]   Logbucheintrag (mit Zusatzstring) auslesen
+
+    Die Funktionen ERRxwarning() und ERRxread() sind erst ab der Version V2.00
+    des Betriebssystems RPSSW verfgbar! 
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.70
+    B&R-Library - Fehlerbehandlung (Fehlernummern)
+
+    Folgende Fehler k”nnen bei diesen Funktionen auftreten:
+
+    3313 ... ERR_BUR_ILLVER       ungltige B&R-Library-Version
+    3332 ... ERR_BUR_NOENTRY      Eintrag nicht gefunden
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  @069[ Fehlerbehandlung ]                 @001[ šbersicht ]
+.71
+    ERR_warning - Fehlermeldung ins Fehlerlogbuch eintragen
+
+    status = @071[ERR_warning](errornr,errorinfo)
+
+    Parameter-Datentypen :
+    ->  errornr   : WORD          Fehlernummer (> 14999!), die in das Fehler-
+                                  logbuch eingetragen wird
+    ->  errorinfo : LONG          Optionelle Zusatzinformation (Detailfehler)
+    <-  @070[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Diese Funktion macht einen Eintrag (Logbucheintrag) im Fehlerlogbuch.
+    Die Applikation l„uft aber weiter. Da die Fehlernummern im Bereich 0000 bis
+    14999 bereits fr die RPSSW-Fehler reserviert sind, muá die Fehlernummer
+    fr den Logbucheintrag gr”áer als 14999 sein.
+
+
+
+
+
+
+
+                                  @069[ Fehlerbehandlung ]                 @001[ šbersicht ]
+.72
+    ERRxwarning - Fehlermeldung (mit Zusatzstring) ins Fehlerlogbuch eintragen
+
+    status = @072[ERRxwarning](errornr,errorinfo,adr(string))
+
+    Parameter-Datentypen :
+    ->  errornr   : WORD          Fehlernummer (> 14999!), die in das Fehler-
+                                  logbuch eingetragen wird
+    ->  errorinfo : LONG          Optionelle Zusatzinformation (Detailfehler)
+    ->  @010[string    ]: BYTE (FELD)   Nullterminierter String (max. 32 Zeichen)
+    <-  @070[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Diese Funktion macht einen Eintrag (Logbucheintrag) im Fehlerlogbuch. Die
+    Applikation l„uft aber weiter. Ab der Version V2.00 des Betriebssystems
+    RPSSW kann dem Logbucheintrag ein maximal 32 Zeichen langer String (siehe
+    Parameter "string") hinzugefgt werden.
+    Da die Fehlernummern im Bereich 0000 bis 14999 bereits fr die RPSSW-Fehler
+    reserviert sind, muá die Fehlernummer fr den Logbucheintrag gr”áer als
+    14999 sein.
+    Die Funktion ERRxwarning() ist erst ab Version V2.00 des Betriebssystems
+    RPSSW verfgbar! 
+
+                                  @069[ Fehlerbehandlung ]                 @001[ šbersicht ]
+.73
+    ERR_fatal - Fehlermeldung ins Fehlerlogbuch eintragen und Nothalt ausl”sen
+
+    status = @073[ERR_fatal](errornr,errorinfo)
+
+    Parameter-Datentypen :
+    ->  errornr   : WORD          Fehlernummer (> 14999!), die in das Fehler-
+                                  logbuch eingetragen wird
+    ->  errorinfo : LONG          Optionelle Zusatzinformation (Detailfehler)
+    <-  @070[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Diese Funktion macht einen Eintrag (Logbucheintrag) im Fehlerlogbuch.
+    Anschlieáend wird ein Nothalt des Systems ausgel”st, d.h. die Steuerung
+    l„uft im ERROR-Modus hoch und geht in den SERVICE-Modus (detaillierte
+    Informationen zum ERROR- und SERVICE-Modus finden Sie im "B&R System 2000
+    System-SOFTWARE Referenzhandbuch").
+    Da die Fehlernummern im Bereich 0000 bis 14999 bereits fr die RPSSW-Fehler
+    reserviert sind, muá die Fehlernummer fr den Logbucheintrag gr”áer als
+    14999 sein.
+
+
+
+                                  @069[ Fehlerbehandlung ]                 @001[ šbersicht ]
+.74
+    ERR_read - Logbucheintrag auslesen
+
+    status = @074[ERR_read](entry_nr,adr(err))
+
+    Parameter-Datentypen :
+    ->  entry_nr  : LONG          Nummer des Logbucheintrags, der ausgelesen
+                                  werden soll
+    <-> @075[err       ]: Info-Struktur Struktur, in der die Informationen des
+                                  Logbucheintrags geschrieben werden
+    <-  @070[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Liest einen Eintrag des Fehlerlogbuchs und schreibt die Informationen
+    dieses Eintrags in eine Struktur (Info). Um den jngsten Logbucheintrag
+    auszulesen, mssen Sie fr den Eingangsparameter "entry_nr" den Wert 0
+    angeben.
+
+
+
+
+
+
+                                  @069[ Fehlerbehandlung ]                 @001[ šbersicht ]
+.75
+    ERR_read - Logbucheintrag auslesen (Fortsetzung)
+
+    <-> Parameter <err       >: Info-Struktur
+
+    Elemente der Struktur "Info":
+    Err_Nr     : WORD           Fehlernummer
+    Err_Info   : LONG           Zusatzinformation (Detailfehler)
+    Err_TK     : 5 BYTE (FELD)  Bezeichnung der Taskklasse oder Systemtask,
+                                die den Fehler verursacht hat. Im folgenden
+                                sind die Bezeichnungen fr die wichtigsten
+                                Taskklassen und Systemtasks aufgeschlsselt:
+                                appl   Applikationslader
+                                syss   Systemserver fr Task-Manipulation
+                                varz   Variablenzugriffstask
+                                sysm   Systemmanager
+                                IDLE   Restzeit-Anwendungen
+                                tk#x   Taskklasse x (x = 1 bis 4)
+                                HS#x   superschnelle Taskklasse x (x = 1 bis 4)
+                                EXC    Exception-Taskklasse
+                                IRQ    Interrupt-Taskklasse
+
+                                     @076[ Fortsetzung ]                   @001[ šbersicht ]
+.76
+    ERR_read - Logbucheintrag auslesen (Fortsetzung)
+
+    Elemente der Struktur "Info" (Fortsetzung):
+    Err_Typ    : BYTE           Fehlertyp:
+                                1      Fataler (schwerwiegender) Fehler
+                                2      Warnung
+                                3      Information
+    Jahr       : WORD           Jahr (Fehler-Zeitpunkt)
+    Monat      : BYTE           Monat (Fehler-Zeitpunkt)
+    Tag        : BYTE           Tag (Fehler-Zeitpunkt)
+    Reserve    : BYTE           Reserve
+    Stunde     : BYTE           Stunde (Fehler-Zeitpunkt)
+    Minute     : BYTE           Minute (Fehler-Zeitpunkt)
+    Sekunde    : BYTE           Sekunde (Fehler-Zeitpunkt)
+    Milli      : WORD           Millisekunde (Fehler-Zeitpunkt)
+    Mikro      : WORD           Mikrosekunde (Fehler-Zeitpunkt)
+
+
+
+
+
+                                      @074[ ERR_read ]                     @001[ šbersicht ]
+.77
+    ERRxread - Logbucheintrag (mit Zusatzstring) auslesen
+
+    status = @077[ERRxread](entry_nr,adr(err_x))
+
+    Parameter-Datentypen :
+    ->  entry_nr  : LONG          Nummer des Logbucheintrags, der ausgelesen
+                                  werden soll
+    <-> @078[err_x     ]: Info-Struktur Struktur, in der die Informationen des
+                                  Logbucheintrags geschrieben werden
+    <-  @070[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Liest einen Eintrag des Fehlerlogbuchs (mit Zusatzstring) und schreibt die
+    Informationen dieses Eintrags in eine Struktur (Info). Um den jngsten
+    Logbucheintrag auszulesen, mssen Sie fr den Eingangsparameter "entry_nr"
+    den Wert 0 angeben.
+    Die Funktion ERRxread() ist erst ab Version V2.00 des Betriebssystems RPSSW
+    verfgbar! 
+
+
+
+
+                                  @069[ Fehlerbehandlung ]                 @001[ šbersicht ]
+.78
+    ERRxread - Logbucheintrag (mit Zusatzstring) auslesen (Fortsetzung)
+
+    <-> Parameter <err_x     >: Info-Struktur
+
+    Elemente der Struktur "Info":
+    Err_Nr     : WORD           Fehlernummer
+    Err_Info   : LONG           Zusatzinformation (Detailfehler)
+    Err_TK     : 5 BYTE (FELD)  Bezeichnung der Taskklasse oder Systemtask,
+                                die den Fehler verursacht hat. Im folgenden
+                                sind die Bezeichnungen fr die wichtigsten
+                                Taskklassen und Systemtasks aufgeschlsselt:
+                                appl   Applikationslader
+                                syss   Systemserver fr Task-Manipulation
+                                varz   Variablenzugriffstask
+                                sysm   Systemmanager
+                                IDLE   Restzeit-Anwendungen
+                                tk#x   Taskklasse x (x = 1 bis 4)
+                                HS#x   superschnelle Taskklasse x (x = 1 bis 4)
+                                EXC    Exception-Taskklasse
+                                IRQ    Interrupt-Taskklasse
+
+                                     @079[ Fortsetzung ]                   @001[ šbersicht ]
+.79
+    ERRxread - Logbucheintrag (mit Zusatzstring) auslesen (Fortsetzung)
+
+    Elemente der Struktur "Info" (Fortsetzung):
+    Err_Typ    : BYTE           Fehlertyp:
+                                1      Fataler (schwerwiegender) Fehler
+                                2      Warnung
+                                3      Information
+    Jahr       : WORD           Jahr (Fehler-Zeitpunkt)
+    Monat      : BYTE           Monat (Fehler-Zeitpunkt)
+    Tag        : BYTE           Tag (Fehler-Zeitpunkt)
+    Reserve    : BYTE           Reserve
+    Stunde     : BYTE           Stunde (Fehler-Zeitpunkt)
+    Minute     : BYTE           Minute (Fehler-Zeitpunkt)
+    Sekunde    : BYTE           Sekunde (Fehler-Zeitpunkt)
+    Milli      : WORD           Millisekunde (Fehler-Zeitpunkt)
+    Mikro      : WORD           Mikrosekunde (Fehler-Zeitpunkt)
+    String     : 34 BYTE (FELD) Maximal 32 Zeichen + Nullterminierung in
+                                Byte 33
+
+
+
+                                      @077[ ERRxread ]                     @001[ šbersicht ]
+.80
+    B&R-Library - Tastenbehandlung
+
+    Mit diesen Funktionen werden die Bedientasten der CPU (System B&R 2010
+    und System B&R 2005) ausgewertet.
+
+    @085[KEY_enadis]    Betriebsart festlegen
+    @086[KEY_read  ]    Zustand der Tasten feststellen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.81
+    B&R-Library - Tastenbehandlung (Fehlernummern)
+
+    Folgende Fehler k”nnen bei diesen Funktionen auftreten:
+
+    3313 ... ERR_BUR_ILLVER       ungltige B&R-Library-Version
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  @080[ Tastenbehandlung ]                 @001[ šbersicht ]
+.85
+    KEY_enadis - Betriebsart festlegen
+
+    status = @085[KEY_enadis](enable)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Betriebsart:
+                                  0 ... Tastenbehandlung durch das Betriebs-
+                                        system
+                                  1 ... Tastenbehandlung durch ein Anwender-
+                                        programm
+    <-  @081[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit dieser Funktion kann die Tastenbehandlung durch das Betriebssystem
+    (Betriebsart 0) ausgeschaltet werden, um die Tasten in einem Anwender-
+    programm auszuwerten (Betriebsart 1).
+
+
+
+
+
+
+                                  @080[ Tastenbehandlung ]                 @001[ šbersicht ]
+.86
+    KEY_read - Zustand der Tasten feststellen
+
+    status = @086[KEY_read](tasten)
+
+    Parameter-Datentypen :
+    <-> @087[tasten    ]: 4 BYTE (FELD) Feldvariable zum Abspeichern der Tasten-
+                                  Zust„nde.
+                                  Fr jedes Element der Feldvariable gilt:
+                                  0 ... Taste nicht gedrckt
+                                  1 ... Taste gedrckt
+    <-  @081[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Die Funktion KEY_read() liest den Zustand der Tasten auf der CPU (Voraus-
+    setzung: Betriebsart 1, siehe Funktion @085[KEY_enadis]).
+
+
+
+
+
+
+
+                                  @080[ Tastenbehandlung ]                 @001[ šbersicht ]
+.87
+    KEY_read - Zustand der Tasten feststellen (Fortsetzung)
+
+    <-> Parameter <tasten    >: 4 BYTE (FELD)
+
+    Jedes Element (Byte) der Feldvariable "tasten" enth„lt den Zustand einer
+    Taste. Elemente der Feldvariable "tasten":
+
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Index des Elements º CPU B&R 2010 º CPU B&R 2005                        º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º          0         º UP-Taste     º TOTALINIT-Taster (Kaltstart-Taster) º
+    º          1         º ENTER-Taste  º reserviert                          º
+    º          2         º reserviert   º reserviert                          º
+    º          3         º reserviert   º reserviert                          º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+    Die Feldvariable "tasten" muá 4 Byte lang sein, obwohl die Zentral-
+    einheiten der Systeme B&R 2005 und B&R 2010 derzeit nur ber eine bzw.
+    zwei (verwendete) Tasten verfgen.
+
+
+                                      @086[ KEY_read ]                     @001[ šbersicht ]
+.90
+    B&R-Library - Speicherverwaltung
+
+    Mit diesen Funktionen k”nnen Sie Speicher fr dynamische Variablen
+    allokieren bzw. deallokieren:
+
+    @095[MEM_alloc]     Speicher im permanenten Speicherbereich allokieren
+    @096[MEM_free ]     Speicher im permanenten Speicherbereich deallokieren
+    @097[TMP_alloc]     Speicher im tempor„ren Speicherbereich allokieren
+    @099[TMP_free ]     Speicher im tempor„ren Speicherbereich deallokieren
+
+
+
+
+
+
+
+
+
+
+
+
+    @100[ Beispiel ]                                                       @001[ šbersicht ]
+.91
+    B&R-Library - Speicherverwaltung (Fehlernummern)
+
+    Folgende Fehler k”nnen bei diesen Funktionen auftreten:
+
+    3030 ... ERR_BUR_NOMEM        kein Speicher verfgbar (RPSSW V1.05)
+    3104 ... ERR_BUR_ILLPTR       ungltiger Pointer bei MEM_free (RPSSW V1.05)
+    3313 ... ERR_BUR_ILLVER       ungltige B&R-Library-Version
+    3324 ... ERR_BUR_ILLOBJ       Objekt nicht vorhanden
+    3600 ... ERR_BUR_MEM_ALLOC    kein Speicher verfgbar (RPSSW V1.10)
+    3601 ... ERR_BUR_TMP_ALLOC    kein Speicher verfgbar
+    3700 ... ERR_BUR_MEM_FREE     ungltiger Pointer bei MEM_free (RPSSW V1.10)
+    3701 ... ERR_BUR_TMP_FREE     ungltiger Pointer bei TMP_free
+
+
+
+
+
+
+
+
+
+                                 @090[ Speicherverwaltung ]                @001[ šbersicht ]
+.95
+    MEM_alloc - Speicher im permanenten Speicherbereich allokieren
+
+    status = @095[MEM_alloc](memlng,adr(memptr))
+
+    Parameter-Datentypen :
+    ->  memlng    : LONG          Gr”áe des angeforderten Speicherbereichs
+                                  in Byte
+    <-> memptr    : LONG          Adresse des angeforderten Speicherbereichs
+    <-  @091[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Diese Funktion allokiert Speicher im permanenten Speicherbereich (System-
+    RAM oder Anwender-RAM). Der so allokierte (permanente) Speicher geht nur
+    bei einem KALTSTART (alte Bezeichnung: TOTALINIT) verloren.
+
+
+
+
+
+
+
+
+                                 @090[ Speicherverwaltung ]                @001[ šbersicht ]
+.96
+    MEM_free - Speicher im permanenten Speicherbereich deallokieren
+
+    status = @096[MEM_free](memlng,memptr)
+
+    Parameter-Datentypen :
+    ->  memlng    : LONG          Gr”áe des freizugebenden Speicherbereichs
+                                  in Byte
+    ->  memptr    : LONG          Adresse des freizugebenden Speicherbereichs
+    <-  @091[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Diese Funktion deallokiert einen Speicherbereich, der mit MEM_alloc()
+    allokiert wurde.
+
+
+
+
+
+
+
+
+
+                                 @090[ Speicherverwaltung ]                @001[ šbersicht ]
+.97
+    TMP_alloc - Speicher im tempor„ren Speicherbereich allokieren
+
+    status = @097[TMP_alloc](memlng,adr(memptr))
+
+    Parameter-Datentypen :
+    ->  memlng    : LONG          Gr”áe des angeforderten Speicherbereichs
+                                  in Byte
+    <-> memptr    : LONG          Adresse des angeforderten Speicherbereichs
+    <-  @091[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Die Funktion TMP_alloc() allokiert Speicher im tempor„ren Speicherbereich
+    (nur System-RAM). Der so allokierte (tempor„re) Speicher geht bei jedem
+    Hochlauf-Vorgang verloren. Der Vorteil der Allokierung von tempor„ren
+    Speicher liegt in der (im Vergleich zur Allokierung von permanenten
+    Speicher mit der Funktion MEM_alloc()) kurzen Ausfhrungszeit der Funktion
+    TMP_alloc(). Der tempor„re Speicherbereich muá mit dem RPS-Konfigurator
+    (bzw. mit Programmiersystem PG2000) konfiguriert werden.
+
+    Achtung: Der tempor„re Speicherbereich ist jener Teil des System-RAMs, der
+             fr die serielle Kommunikation verwendet wird.
+
+                                     @098[ Fortsetzung ]                   @001[ šbersicht ]
+.98
+    TMP_alloc - Speicher im tempor„ren Speicherbereich allokieren (Fortsetzung)
+
+             Die Kommunikation ber serielle Schnittstellen ist nur m”glich,
+             wenn gengend freier tempor„rer Speicher zur Verfgung steht!
+             Bei drei konfigurierten Schnittstellen ben”tigt das Betriebssystem
+             fr die serielle Kommunikation z.B. ungef„hr 10 KByte tempor„ren
+             Speicher. Die Gr”áe des freien tempor„ren Speicherbereichs k”nnen
+             Sie mit dem Programmiersystem PG2000 ermitteln.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 @090[ Speicherverwaltung ]                @001[ šbersicht ]
+.99
+    TMP_free - Speicher im tempor„ren Speicherbereich deallokieren
+
+    status = @099[TMP_free](memlng,memptr)
+
+    Parameter-Datentypen :
+    ->  memlng    : LONG          Gr”áe des freizugebenden Speicherbereichs
+                                  in Byte
+    ->  memptr    : LONG          Adresse des freizugebenden Speicherbereichs
+    <-  @091[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Diese Funktion deallokiert einen Speicherbereich, der mit TMP_alloc()
+    allokiert wurde.
+
+
+
+
+
+
+
+
+
+                                 @090[ Speicherverwaltung ]                @001[ šbersicht ]
+.100
+    Speicherverwaltung - Beispiel
+
+      ; Allokierung von Speicher
+      if MEM_alloc(256,adr(Adresse)) <> 0 then
+          ; Fehlerbehandlung (z.B. Sp_OK = 0)
+      else
+          ; Dynamischer Zugriff einer Variable auf den allokierten Speicher.
+          ; Der Datentyp der Variable legt die Struktur des angeforderten
+          ; Speichers fest.
+          Sp_Struk access Adresse
+          Sp_OK = 1
+      endif
+      :
+      ; Verwendung des allokierten Speichers
+      if Sp_OK = 1 then
+          if Sp_Struk.Update = 1 then         ; Update angefordert ?
+              Sp_Struk.Wert[0] = Wert1        ; Update durchfhren !
+              Sp_Struk.Wert[1] = Wert2        ; usw.
+              :
+          endif
+      endif
+                                 @090[ Speicherverwaltung ]                @001[ šbersicht ]
+.110
+    B&R-Library - RPS-Task-Behandlung
+
+    Mit diesen Funktionen kann das Laufzeitverhalten der zyklischen Tasks
+    manipuliert werden. Zyklische Tasks, die mit dem Programmiersystem PG2000
+    in die RPS bertragen wurden, k”nnen identifiziert, gestartet und gestoppt
+    werden.
+
+    @115[ST_ident      ]    Ident-Nummer einer Task anfordern
+    @116[ST_resume     ]    eine gestoppte Task starten (permanent)
+    @117[ST_tmp_resume ]    eine gestoppte Task starten (tempor„r)
+    @118[ST_suspend    ]    eine laufende Task stoppen (permanent)
+    @119[ST_tmp_suspend]    eine laufende Task stoppen (tempor„r)
+    @121[ST_allsuspend ]    alle laufenden Tasks stoppen (tempor„r)
+    @122[ST_info       ]    Task-Information anfordern
+    @124[ST_name       ]    Task-Name anfordern
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.111
+    B&R-Library - RPS-Task-Behandlung (Fehlernummern)
+
+    Folgende Fehler k”nnen bei diesen Funktionen auftreten:
+
+    3302 ... ERR_BUR_ILLSTATE     falscher Taskzustand
+                                  (z.B. bei Stop auf gestoppter Task)
+    3313 ... ERR_BUR_ILLVER       ungltige B&R-Library-Version
+    3324 ... ERR_BUR_ILLOBJ       gewnschtes Objekt nicht vorhanden
+    3336 ... ERR_BUR_ILLIDENT     ungltige Ident-Nummer
+
+
+
+
+
+
+
+
+
+
+
+
+                                 @110[ RPS-Task-Behandlung ]               @001[ šbersicht ]
+.115
+    ST_ident - Ident-Nummer einer Task anfordern
+
+    status = @115[ST_ident](adr(st_name),st_grp,adr(st_ident))
+
+    Parameter-Datentypen :
+    ->  @010[st_name   ]: BYTE (FELD)   Name der Task (String)
+    ->  @011[st_grp    ]: BYTE          Gruppennummer der Task (Standard = 0)
+    <-> st_ident  : LONG          Ident-Nummer der Task
+    <-  @111[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Liefert die Ident-Nummer einer Task. Diese Ident-Nummer wird in den anderen
+    RPS-Task-Behandlungs-Funktionen zur Identifizierung verwendet. Um die
+    Leistungsf„higkeit des Systems nicht zu beeintr„chtigen, sollte diese
+    Funktion nur aus einem Initialisierungs-Unterprogramm (INIT-UP) aufgerufen
+    werden.
+
+
+
+
+
+
+                                 @110[ RPS-Task-Behandlung ]               @001[ šbersicht ]
+.116
+    ST_resume - gestoppte Task permanent starten
+
+    status = @116[ST_resume](st_ident)
+
+    Parameter-Datentypen :
+    ->  st_ident  : LONG          Ident-Nummer der Task von @115[ST_ident]
+    <-  @111[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion ST_resume() wird eine gestoppte (zyklische) Task permanent
+    aktiviert (gestartet). Die permanent gestartete Task bleibt bis zum n„chsten
+    KALTSTART (alte Bezeichnung: TOTALINIT) aktiviert, d.h. die Task l„uft auch
+    nach einem WARMSTART (alte Bezeichnung: INIT) oder Halt (alte Bezeichnung:
+    RESET) weiter.
+    Permanente und tempor„re Aktivierung/Suspendierung drfen nicht kombiniert
+    werden! Wenn eine Task tempor„r gestoppt wurde, muá sie auch tempor„r ge-
+    startet werden!
+
+
+
+
+
+                                 @110[ RPS-Task-Behandlung ]               @001[ šbersicht ]
+.117
+    ST_tmp_resume - gestoppte Task tempor„r starten
+
+    status = @117[ST_tmp_resume](st_ident)
+
+    Parameter-Datentypen :
+    ->  st_ident  : LONG          Ident-Nummer der Task von @115[ST_ident]
+    <-  @111[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion ST_tmp_resume() wird eine gestoppte (zyklische) Task
+    tempor„r aktiviert (gestartet). Die tempor„r gestartete Task bleibt nur
+    bis zum n„chsten WARMSTART (alte Bezeichnung: INIT) oder Halt (alte
+    Bezeichnung: RESET) aktiviert.
+    Die Funktion ST_tmp_resume() hat eine wesentlich krzere Ausfhrungszeit
+    als die Funktion ST_resume(), dadurch ist die tempor„re Aktivierung
+    deutlich schneller als die permanente.
+    Permanente und tempor„re Aktivierung/Suspendierung drfen nicht kombiniert
+    werden! Wenn eine Task tempor„r gestoppt wurde, muá sie auch tempor„r ge-
+    startet werden!
+
+
+
+                                 @110[ RPS-Task-Behandlung ]               @001[ šbersicht ]
+.118
+    ST_suspend - laufende Task permanent stoppen
+
+    status = @118[ST_suspend](st_ident)
+
+    Parameter-Datentypen :
+    ->  st_ident  : LONG          Ident-Nummer der Task von @115[ST_ident]
+                                  (0 = Task suspendiert sich selbst)
+    <-  @111[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion ST_suspend() wird eine zyklische Task permanent suspen-
+    diert (gestoppt). Der laufende Taskzyklus wird noch korrekt beendet.
+    Beim Suspendieren einer Task wird diese aus dem zyklischen Laufzeitsystem
+    herausgenommen und nicht mehr ausgefhrt. Die Task wird nicht gel”scht.
+    Sie wird nur angehalten und kann jederzeit wieder gestartet (aktiviert)
+    werden.
+    Eine permanent gestoppte Task bleibt bis zum n„chsten KALTSTART (alte
+    Bezeichnung: TOTALINIT) suspendiert.
+    Permanente und tempor„re Aktivierung/Suspendierung drfen nicht kombiniert
+    werden! Wenn eine Task tempor„r gestoppt wurde, muá sie auch tempor„r ge-
+    startet werden!
+
+                                 @110[ RPS-Task-Behandlung ]               @001[ šbersicht ]
+.119
+    ST_tmp_suspend - laufende Task tempor„r stoppen
+
+    status = @119[ST_tmp_suspend](st_ident)
+
+    Parameter-Datentypen :
+    ->  st_ident  : LONG          Ident-Nummer der Task von @115[ST_ident]
+                                  (0 = Task suspendiert sich selbst)
+    <-  @111[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion ST_tmp_suspend() wird eine zyklische Task tempor„r suspen-
+    diert (gestoppt). Der laufende Taskzyklus wird noch korrekt beendet.
+    Beim Suspendieren einer Task wird diese aus dem zyklischen Laufzeitsystem
+    herausgenommen und nicht mehr ausgefhrt. Die Task wird nicht gel”scht.
+    Sie wird nur angehalten und kann jederzeit wieder gestartet (aktiviert)
+    werden.
+    Eine tempor„r gestoppte Task bleibt nur bis zum n„chsten WARMSTART (alte
+    Bezeichnung: INIT) oder Halt (alte Bezeichnung: RESET) suspendiert. Die
+    Funktion ST_tmp_suspend() hat eine wesentlich krzere Ausfhrungszeit als
+    die Funktion ST_suspend(), d.h. die tempor„re Suspendierung ist deutlich
+    schneller als die permanente.
+
+                                     @120[ Fortsetzung ]                   @001[ šbersicht ]
+.120
+    ST_tmp_suspend - laufende Task tempor„r stoppen (Fortsetzung)
+
+    In INIT-UPs kann zum Stoppen einer zyklischen Task nur die Funktion
+    ST_tmp_suspend() verwendet werden, die Funktion ST_suspend() liefert bei
+    Verwendung in einem INIT-UP die Fehlernummer 3302.
+    Permanente und tempor„re Aktivierung/Suspendierung drfen nicht kombiniert
+    werden! Wenn eine Task tempor„r gestoppt wurde, muá sie auch tempor„r ge-
+    startet werden!
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 @110[ RPS-Task-Behandlung ]               @001[ šbersicht ]
+.121
+    ST_allsuspend - alle laufenden Tasks tempor„r stoppen
+
+    status = @121[ST_allsuspend]()
+
+    Parameter-Datentypen :
+    <-  @111[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion ST_allsuspend() werden alle zyklischen Tasks tempor„r
+    suspendiert (gestoppt). Die mit der Funktion ST_allsuspend() tempor„r ge-
+    stoppten Tasks bleiben nur bis zum n„chsten WARMSTART (alte Bezeichnung:
+    INIT) oder Halt (alte Bezeichnung: RESET) suspendiert.
+  
+
+
+
+
+
+
+      
+
+
+                                 @110[ RPS-Task-Behandlung ]               @001[ šbersicht ]
+.122
+    ST_info - Task-Information anfordern
+
+    status = @122[ST_info](st_ident,adr(state),adr(tknr))
+
+    Parameter-Datentypen :
+    ->  st_ident  : LONG          Ident-Nummer der Task von @115[ST_ident]
+                                  (0 = Task suspendiert sich selbst)
+    <-> state     : BYTE          Status der Task:
+                                  1            Task installiert
+                                  2            Task l„uft (gestartet)
+                                  3            Task gestoppt
+                                  $90          Task tempor„r gestoppt
+                                  0, $82-$88   tempor„rer Status beim
+                                               Installieren    
+    <-> tknr      : INT8          Taskklassen-Information:
+                                  1 bis 4      normale Taskklasse 1 bis 4
+                                  -1 bis -4    superschnelle Taskklasse 1 bis 4
+                                  -8           Exception-Taskklasse
+                                  -9           Interrupt-Taskklasse
+    <-  @111[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+                                     @123[ Fortsetzung ]                   @001[ šbersicht ]
+.123
+    ST_info - Task-Information anfordern (Fortsetzung)
+
+    Die Funktion ST_info() liefert Informationen ber die mit der Task-Ident-
+    Nummer referenzierte Task.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 @110[ RPS-Task-Behandlung ]               @001[ šbersicht ]
+.124
+    ST_name - Task-Name anfordern
+
+    status = @124[ST_name](st_ident,adr(st_name),adr(st_grp))
+
+    Parameter-Datentypen :
+    ->  st_ident  : LONG          Ident-Nummer der Task von @115[ST_ident]
+                                  (0 = die eigene Task)
+    <-> @010[st_name   ]: BYTE (FELD)   Name der Task (String)
+    <-> @011[st_grp    ]: BYTE          Gruppennummer der Task (Standard = 0)
+    <-  @111[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Die Funktion ST_name() liefert den Namen und die Gruppennummer der mit der
+    Task-Ident-Nummer referenzierten Task.
+
+
+
+
+
+
+
+
+                                 @110[ RPS-Task-Behandlung ]               @001[ šbersicht ]
+.130
+    B&R-Library - Semaphor-Behandlung
+
+    Semaphore sind "Variablen", mit denen z.B. der Zugriff auf von mehreren
+    Tasks gemeinsam bentzte Datenbereiche verriegelt werden kann.
+
+    @135[SM_create ]    Semaphor erzeugen
+    @136[SM_ident  ]    Ident-Nummer eines Semaphors anfordern
+    @137[SM_delete ]    Semaphor l”schen
+    @138[SM_attach ]    Semaphor anfordern
+    @139[SM_release]    Semaphor freigeben
+
+    Wenn ein Semaphor von Tasks verschiedener Taskklassen verwendet wird und
+    die schnellere Task das Semaphor sehr oft anfordert, kann es bei bestimmten
+    Taskwechselfrequenzen vorkommen, daá die schnellere Task das Semaphor
+    dauernd blockiert. Um dieses Problem zu vermeiden, sollten Semaphore nicht
+    l„nger als einen Taskzyklus blockiert werden, d.h. die Zeit zwischen
+    SM_attach() und SM_release() sollte m”glichst kurz sein.
+
+
+
+
+                                                                     @001[ šbersicht ]
+.131
+    B&R-Library - Semaphor-Behandlung (Fehlernummern)
+
+    Folgende Fehler k”nnen bei diesen Funktionen auftreten:
+
+    3304 ... ERR_BUR_TIMEOUT      Timeout bei SM_attach() aufgetreten
+    3306 ... ERR_BUR_EXISTS       Semaphor existiert bereits
+    3313 ... ERR_BUR_ILLVER       ungltige B&R-Library-Version
+    3320 ... ERR_BUR_OBJDEL       Semaphor w„hrend WAIT gel”scht
+    3324 ... ERR_BUR_ILLOBJ       gewnschtes Objekt nicht vorhanden
+    3328 ... ERR_BUR_ILLOBJTYP    falscher Objekttyp
+    3332 ... ERR_BUR_NOENTRY      keine weiteren Semaphore m”glich
+    3336 ... ERR_BUR_ILLIDENT     ungltige Ident-Nummer
+    3560 ... ERR_BUR_NOSMBUF      kein Puffer mehr verfgbar
+    3564 ... ERR_BUR_NOSM         Semaphor nicht verfgbar
+    3568 ... ERR_BUR_SMDEL        Semaphor bereits gel”scht
+
+
+
+
+
+
+                                 @130[ Semaphor-Behandlung ]               @001[ šbersicht ]
+.135
+    SM_create - Semaphor erzeugen
+
+    status = @135[SM_create](adr(sm_name),sm_count,adr(sm_ident))
+
+    Parameter-Datentypen :
+    ->  @010[sm_name   ]: BYTE (FELD)   Name des Semaphors (String)
+                                  4 signifikante Zeichen
+    ->  sm_count  : LONG          Anzahl der gleichzeitig m”glichen Zugriffe
+                                  ber das Semaphor (Standard = 1)
+    <-> sm_ident  : LONG          Ident-Nummer des Semaphors
+    <-  @131[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Erzeugt ein Semaphor mit den angegebenen Parametern und liefert als Er-
+    gebnis die Ident-Nummer des Semaphors, welche fr die anderen Semaphor-
+    Behandlungs-Funktionen ben”tigt wird. Der Eingangsparameter "sm_count"
+    legt fest, wieviele parallele Zugriffe ber das Semaphor m”glich sind.
+    Der exklusive Zugriff auf Daten wird durch "sm_count" =1 erreicht.
+    Die Anzahl der Semaphore kann mit dem RPS-Konfigurator (bzw. mit PG2000)
+    ge„ndert werden.
+
+
+                                 @130[ Semaphor-Behandlung ]               @001[ šbersicht ]
+.136
+    SM_ident - Ident-Nummer eines Semaphors anfordern
+
+    status = @136[SM_ident](adr(sm_name),adr(sm_ident))
+
+    Parameter-Datentypen :
+    ->  @010[sm_name   ]: BYTE (FELD)   Name des Semaphors (String)
+                                  4 signifikante Zeichen
+    <-> sm_ident  : LONG          Ident-Nummer des Semaphors
+    <-  @131[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Liefert die Ident-Nummer eines existierenden Semaphors. Diese Ident-Nummer
+    wird in den anderen Semaphor-Behandlungs-Funktionen zur Identifizierung
+    verwendet.
+
+
+
+
+
+
+
+
+                                 @130[ Semaphor-Behandlung ]               @001[ šbersicht ]
+.137
+    SM_delete - Semaphor l”schen
+
+    status = @137[SM_delete](sm_ident)
+
+    Parameter-Datentypen :
+    ->  sm_ident  : LONG          Ident-Nummer des Semaphors von @135[SM_create]
+                                  oder @136[SM_ident]
+    <-  @131[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    L”scht das Semaphor mit der angegebenen Ident-Nummer.
+
+
+
+
+
+
+
+
+
+
+
+                                 @130[ Semaphor-Behandlung ]               @001[ šbersicht ]
+.138
+    SM_attach - Semaphor anfordern
+
+    status = @138[SM_attach](sm_ident,timeout,flags)
+
+    Parameter-Datentypen :
+    ->  sm_ident  : LONG          Ident-Nummer des Semaphors von @135[SM_create]
+                                  oder @136[SM_ident]
+    ->  timeout   : LONG          Timeout-Zeit in 10-ms-Einheiten
+                                  (0 = unbegrenzte Timeout-Zeit)
+    ->  flags     : LONG          0 ... Timeout-Zeit abwarten
+                                  1 ... Timeout-Zeit nicht abwarten (in zy-
+                                        klischen Tasks muá immer flags = 1
+                                        eingestellt werden, da sonst eine
+                                        Zykluszeitverletzung auftritt)
+    <-  @131[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Die Verwendung eines Semaphors wird angefordert. Die Anzahl der gleich-
+    zeitig m”glichen Zugriffe ber das Semaphor wird mit SM_create() fest-
+    gelegt. Ist diese Anzahl erreicht, k”nnen keine weiteren Zugriffe gemacht
+    werden, bis eine Task das Semaphor freigibt (siehe Funktion SM_release()).
+
+                                 @130[ Semaphor-Behandlung ]               @001[ šbersicht ]
+.139
+    SM_release - Semaphor freigeben
+
+    status = @139[SM_release](sm_ident)
+
+    Parameter-Datentypen :
+    ->  sm_ident  : LONG          Ident-Nummer des Semaphors von @135[SM_create]
+                                  oder @136[SM_ident]
+    <-  @131[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Die Funktion SM_release() gibt das Semaphor mit der angegebenen Ident-
+    Nummer frei. Die Anzahl der gleichzeitig m”glichen Zugriffe ber das
+    Semaphor wird mit SM_create() festgelegt. Ist diese Anzahl erreicht,
+    k”nnen keine weiteren Zugriffe gemacht werden, bis eine Task das Semaphor
+    freigibt.
+
+
+
+
+
+
+
+                                 @130[ Semaphor-Behandlung ]               @001[ šbersicht ]
+.150
+    B&R-Library - System-Funktionen
+
+    Mit den System-Funktionen k”nnen Sie einen Boot-Vorgang ausl”sen, System-
+    informationen anfordern, usw.
+
+    @155[SYSreset   ]   Boot-Vorgang auf der RPS ausl”sen
+    @156[SYS_info   ]   Systeminformation anfordern
+    @158[SYSxinfo   ]   erweiterte Systeminformation anfordern
+    @161[SYS_battery]   Status von Batterie und Akku anfordern
+    @162[FORCE_info ]   Force-Funktion aktiv/inaktiv?
+    @164[MO_list    ]   alle B&R-Module auf der RPS durchsuchen
+    @167[PMEM_put   ]   Daten im "fixierten Speicher" speichern
+    @169[PMEM_get   ]   Daten aus dem "fixierten Speicher" holen
+    @171[Bit2Byte   ]   BIT-Feld in BYTE-Feld umwandeln
+    @176[Byte2Bit   ]   BYTE-Feld in BIT-Feld umwandeln
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.151
+    B&R-Library - System-Funktionen (Fehlernummern)
+
+    Folgende Fehler k”nnen bei den System-Funktionen auftreten:
+
+    3300 ... ERR_BUR_ILLTKNR      falsche Taskklassen-Nummer
+    3313 ... ERR_BUR_ILLVER       ungltige B&R-Library-Version
+    3332 ... ERR_BUR_NOENTRY      Eintrag nicht gefunden
+   21002 ... ERR_PMEM_OFFSET      unzul„ssiger Offset
+   21003 ... ERR_PMEM_CPUTYP      CPU-Typ hat keinen "fixierten Speicher"
+
+
+
+
+
+
+
+
+
+
+
+
+                                  @150[ System-Funktionen ]                @001[ šbersicht ]
+.155
+    SYSreset - Boot-Vorgang auf der RPS ausl”sen
+
+    status = @155[SYSreset](enable,mode)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Die Funktion wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  mode      : BYTE          Boot-Modus:
+                                  1 ... WARMSTART (alte Bezeichnung: INIT)
+                                  2 ... KALTSTART (alte Bezeichnung: TOTALINIT)
+    <-  @151[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    L”st auf der RPS einen Boot-Vorgang im angegebenen Modus (Warm- oder Kalt-
+    start) aus.
+
+
+
+
+
+
+
+                                  @150[ System-Funktionen ]                @001[ šbersicht ]
+.156
+    SYS_info - Systeminformation anfordern
+
+    status = @156[SYS_info](adr(init_cnt),adr(init_des),adr(tickcnt),adr(version),
+                      adr(ov_vers))
+
+    Parameter-Datentypen :
+    <-> init_cnt  : LONG          Anzahl der bisher durchgefhrten WARMSTARTs
+                                  (alte Bezeichnung fr WARMSTART: INIT)
+    <-> init_des  : LONG          Modus des letzten Hochlaufs:
+                                  1 .... WARMSTART
+                                         (alte Bezeichnung: INIT)
+                                  2 .... KALTSTART
+                                         (alte Bezeichnung: TOTALINIT)
+                                  4 .... RPS Halt/Watchdog
+                                         (alte Bezeichnung fr RPS Halt: RESET)
+                                  8 .... RECONFIG
+                                  32 ... DIAGNOSE
+                                  64 ... ERROR
+    <-> tickcnt   : LONG          Tick-Z„hler
+
+
+                                     @157[ Fortsetzung ]                   @001[ šbersicht ]
+.157
+    SYS_info - Systeminformation anfordern (Fortsetzung)
+
+    <-> version   : 4 BYTE (FELD) Versionsnummer des Betriebssystems
+                                  (als nicht mit 0 abgeschlossener String)
+    <-> ov_vers   : LONG          Objektverzeichnis-Versionsnummer
+    <-  @151[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Diese Funktion liefert Informationen ber das System (Hochlaufgrund,
+    Versionsnummer der RPSSW, usw.).
+    Der Tick-Z„hler (Parameter "tickcnt") wird alle 10 ms inkrementiert
+    (um 1 erh”ht). Er hat keinen absoluten Zeitbezug, kann also nur fr
+    relative Zeitmessungen verwendet werden.
+    Die Objektverzeichnis-Versionsnummer ("ov_vers") wird bei jedem Download
+    oder L”schen eines Objekts (B&R-Moduls) inkrementiert.
+
+
+
+
+
+
+
+                                  @150[ System-Funktionen ]                @001[ šbersicht ]
+.158
+    SYSxinfo - erweiterte Systeminformation anfordern
+
+    status = @158[SYSxinfo](adr(sx))
+
+    Parameter-Datentypen :
+    <-> @159[sx        ]: sx-Struktur   Struktur, in der die erweiterte System-
+                                  information abgelegt wird
+    <-  @151[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Liest die erweiterte Systeminformation und schreibt diese Information in
+    eine Struktur (sx).
+
+
+
+
+
+
+
+
+
+
+                                  @150[ System-Funktionen ]                @001[ šbersicht ]
+.159
+    SYSxinfo - erweiterte Systeminformation anfordern (Fortsetzung)
+
+    <-> Parameter <sx        >: sx-Struktur
+
+    Elemente der Struktur "sx":
+    aws_name   : 6 BYTE (FELD)  Bezeichnung des verwendeten Anwenderspeichers
+                                (z.B. "ME950")
+    aws_typ    : 2 BYTE (FELD)  Art des Anwenderspeichers (AWS):
+                                "E"   AWS mit EPROM-Speicher
+                                "F"   AWS mit Flash-PROM-Speicher
+    cpu_info   : LONG           Prozessortyp:
+                                0     Zentraleinheit des Systems B&R 2010
+                                1     Zentraleinheit des Systems B&R 2005
+                                13    Multiprozessor des Systems B&R 2010
+    ma_globl   : WORD           Gr”áe des RPS-globalen Analogdatenbereichs
+                                in Byte.
+    md_globl   : WORD           Gr”áe des RPS-globalen Digitaldatenbereichs
+                                in Bit.
+
+
+
+                                     @160[ Fortsetzung ]                   @001[ šbersicht ]
+.160
+    SYSxinfo - erweiterte Systeminformation anfordern (Fortsetzung)
+
+    Elemente der Struktur "sx" (Fortsetzung):
+    os_len     : LONG           Gr”áe des freien Speicherbereichs (in Byte!)
+                                fr Betriebssystemdaten sowie globale Daten
+                                und Stacks von nichtzyklischen Anwender-Tasks
+    user_len   : LONG           Freier Speicher im Anwender-RAM (in Byte!)
+    tmp_len    : LONG           Freier tempor„rer Speicherbereich im System-RAM
+                                (in Byte!)
+    eprom      : LONG           Freier Speicher im Anwender-ROM (in Byte!)
+    fix_ram    : LONG           Freier Speicher im FIX-RAM (in Byte!)
+
+
+
+
+
+
+
+
+
+
+                                      @158[ SYSxinfo ]                     @001[ šbersicht ]
+.161
+    SYS_battery - Status von Batterie und Akku anfordern
+
+    status = @161[SYS_battery]()
+
+    Parameter-Datentypen :
+    <-  battery   : BYTE         Zustand (Status) von Batterie und Akku.
+                                 Bit 0: Zustand von Akku/Batterie in der CPU:
+                                 BIT 0=0 ... Akku/Batterie (CPU) = OK
+                                 BIT 0=1 ... Akku/Batterie (CPU) = LEER
+                                 Bit 1: Zustand der Batterie im AWS:
+                                 BIT 1=0 ... Batterie (AWS) = OK
+                                 BIT 1=1 ... Batterie (AWS) = LEER
+                                 Bit 2 und 3: Akku bzw. Batterie vorhanden?
+                                 BIT 2=1 ... CPU: Akku/Batterie nicht vorhanden
+                                 BIT 3=1 ... AWS: Batterie nicht vorhanden
+                                 Bit 4 und 5: Akku bzw. Batterie testbar?
+                                 BIT 4=1 ... CPU: Akku/Batterie nicht testbar
+                                 BIT 5=1 ... AWS: Batterie nicht testbar
+
+    Liefert den Zustand des Akkus bzw. der Batterie in der CPU und den Zustand
+    der Batterie im AWS.
+                                  @150[ System-Funktionen ]                @001[ šbersicht ]
+.162
+    FORCE_info - Force-Funktion aktiv/inaktiv?
+
+    status = @162[FORCE_info](tk_nr,adr(force))
+
+    Parameter-Datentypen :
+    ->  tk_nr     : INT8          Taskklasse, die berprft werden soll:
+                                  1 bis 4 ..... normale Taskklasse 1 bis 4
+                                  -1 bis -4 ... superschnelle Taskklasse 1 bis 4
+                                  -9 .......... Interrupt-Taskklasse
+    <-> force     : BYTE          force = 1 ... Die Force-Funktion ist aktiv,
+                                                d.h. in mindestens einer Task
+                                                der angegebenen Taskklasse ist
+                                                eine Variable geforct
+                                  force = 0 ... Die Force-Funktion ist inaktiv,
+                                                d.h. keine der Variablen, die
+                                                in den Tasks der angegebenen
+                                                Taskklasse vorkommen, ist ge-
+                                                forct.
+    <-  @151[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+
+                                     @163[ Fortsetzung ]                   @001[ šbersicht ]
+.163
+    FORCE_info - Force-Funktion aktiv/inaktiv? (Fortsetzung)
+
+    Mit dieser Funktion k”nnen Sie feststellen, ob in den Tasks der angegebenen
+    Taskklasse ("tk_nr") eine Variable geforct ist oder nicht.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  @150[ System-Funktionen ]                @001[ šbersicht ]
+.164
+    MO_list - alle B&R-Module auf der RPS durchsuchen
+
+    status = @164[MO_list](prev_index,adr(index),adr(mo_struct))
+
+    Parameter-Datentypen :
+    ->  prev_index: WORD          Index des B&R-Moduls, bei dem die Suche
+                                  fortgesetzt wird. Bei Angabe von $FFFF wird
+                                  die Suche beim ersten B&R-Modul fortgesetzt.
+    <-> index     : WORD          Index des gefundenen B&R-Moduls
+    <-> @165[mo_struct ]: list-Struktur Struktur, in der die Modul-Info des ge-
+                                  fundenen B&R-Moduls abgelegt wird
+    <-  @151[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion MO_list() k”nnen alle B&R-Module, die sich auf der RPS
+    befinden, durchsucht werden. Um alle B&R-Module zu durchsuchen, muá der
+    Parameter "prev_index" beim ersten Aufruf auf $FFFF gesetzt werden. Bei
+    jedem weiteren Aufruf muá der Parameter "index" als neuer "prev_index"
+    verwendet werden.
+    Die Modul-Info des gefundenen B&R-Moduls wird in die Struktur "list" ge-
+    schrieben.
+
+                                  @150[ System-Funktionen ]                @001[ šbersicht ]
+.165
+    MO_list - alle B&R-Module auf der RPS durchsuchen (Fortsetzung)
+
+    <-> Parameter <mo_struct >: list-Struktur
+
+    Elemente der Struktur "list":
+    mo_name    : 14 BYTE (FELD) Name des B&R-Moduls
+    mo_grp     : BYTE           Gruppennummer des B&R-Moduls
+    mo_typ     : BYTE           Typ des B&R-Moduls:
+                                $11   Task einer normalen Taskklasse
+                                $12   Systemtask
+                                $13   Restzeit-Task
+                                $14   Task einer superschnellen Taskklasse
+                                $15   Interrupttask
+                                $16   Exceptiontask
+                                $21   AVT-Library
+                                $31   optimiertes I/O-Modul
+                                $41   Datenmodul
+                                $81   RPS-Konfigurationsmodul
+                                $82   Netzwerkkonfigurationsmodul
+
+
+                                     @166[ Fortsetzung ]                   @001[ šbersicht ]
+.166
+    MO_list - alle B&R-Module auf der RPS durchsuchen (Fortsetzung)
+
+    Elemente der Struktur "list":
+    mo_state   : BYTE           Zustand des B&R-Moduls:
+                                0     exist
+                                1     ready
+                                >$80  tempor„rer Zustand (z.B. Download)
+    reserve    : BYTE           Reserve
+    mo_adr     : LONG           physikalische Adresse des B&R-Moduls
+    mo_mem     : LONG           Speicher des B&R-Moduls:
+                                1     RAM
+                                2     EPROM
+                                3     Flash-PROM
+                                5     FIX-RAM
+
+
+
+
+
+
+
+                                       @164[ MO_list ]                     @001[ šbersicht ]
+.167
+    PMEM_put - Daten im "fixierten Speicher" speichern
+
+    @167[PMEM_put](enable,dataptr,datalng,offset,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  dataptr   : LONG          Adresse der Daten
+    ->  datalng   : BYTE          L„nge der Daten in Byte
+    ->  offset    : BYTE          Offset im fixierten Speicher
+    <-  @151[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Zus„tzlich zum Anwender-ROM und FIX-RAM (auf dem Anwenderspeicher) gibt es
+    einen weiteren kaltstartsicheren Speicherbereich (alte Bezeichnung fr
+    KALTSTART: TOTALINIT) auf der CPU, der vom Anwender zur Datenspeicherung
+    verwendet werden kann. Dieser 256 Byte groáe Speicherbereich wird als
+    fixierter Speicher bezeichnet. Auf den fixierten Speicher kann nur ber
+    die Funktionen PMEM_get() und PMEM_put() zugegriffen werden. Dynamische
+    Variablen sind in diesem Speicherbereich nicht m”glich.
+
+
+                                     @168[ Fortsetzung ]                   @001[ šbersicht ]
+.168
+    PMEM_put - Daten im "fixierten Speicher" speichern (Fortsetzung)
+
+    Die Funktion PMEM_put() kopiert (unter Bercksichtigung des angegebenen
+    Offsets "offset") die mit den Parametern "dataptr" (Adresse der Daten) und
+    "datalng" (L„nge der Daten) festgelegten Daten (blicherweise eine Struktur
+    oder eine Feldvariable) vom "normalen" Speicher in den fixierten Speicher.
+
+    Achtung!
+    Auf Prozessoren, die ber keinen fixierten Speicherbereich verfgen
+    (z.B. XP152, IP151 und C220), kann die Funktion PMEM_put() nicht ver-
+    wendet werden. Wenn die Funktion trotzdem eingesetzt wird, liefert sie
+    als Ergebnis die Fehlernummer 21003.
+
+
+
+
+
+
+
+
+
+                                  @150[ System-Funktionen ]                @001[ šbersicht ]
+.169
+    PMEM_get - Daten aus dem "fixierten Speicher" holen
+
+    @169[PMEM_get](enable,dataptr,datalng,offset,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  dataptr   : LONG          Adresse der Daten
+    ->  datalng   : BYTE          L„nge der Daten in Byte
+    ->  offset    : BYTE          Offset im fixierten Speicher
+    <-  @151[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Zus„tzlich zum Anwender-ROM und FIX-RAM (auf dem Anwenderspeicher) gibt es
+    einen weiteren kaltstartsicheren Speicherbereich (alte Bezeichnung fr
+    KALTSTART: TOTALINIT) auf der CPU, der vom Anwender zur Datenspeicherung
+    verwendet werden kann. Dieser 256 Byte groáe Speicherbereich wird als
+    fixierter Speicher bezeichnet. Auf den fixierten Speicher kann nur ber
+    die Funktionen PMEM_get() und PMEM_put() zugegriffen werden. Dynamische
+    Variablen sind in diesem Speicherbereich nicht m”glich.
+
+
+                                     @170[ Fortsetzung ]                   @001[ šbersicht ]
+.170
+    PMEM_get - Daten aus dem "fixierten Speicher" holen (Fortsetzung)
+
+    Die Funktion PMEM_get() liest Daten (unter Bercksichtigung des angegebenen
+    Offsets "offset") aus dem fixierten Speicher und kopiert sie in den mit den
+    Parametern "dataptr" (Adresse der Daten) und "datalng" (L„nge der Daten)
+    festgelegten Bereich im "normalen" Speicher.
+
+    Achtung!
+    Auf Prozessoren, die ber keinen fixierten Speicherbereich verfgen
+    (z.B. XP152, IP151 und C220), kann die Funktion PMEM_get() nicht ver-
+    wendet werden. Wenn die Funktion trotzdem eingesetzt wird, liefert sie
+    als Ergebnis die Fehlernummer 21003.
+
+
+
+
+
+
+
+
+
+                                  @150[ System-Funktionen ]                @001[ šbersicht ]
+.171
+    Bit2Byte - BIT-Feld in BYTE-Feld umwandeln
+
+    @171[Bit2Byte](bitadr,length,byteadr)
+
+    Parameter-Datentypen :
+    ->  bitadr    : LONG          Adresse des BIT-Feldes
+    ->  length    : WORD          L„nge des BYTE-Feldes (1 bis 128)
+    <-  byteadr   : LONG          Adresse des BYTE-Feldes (access bzw. memcpy()
+                                  notwendig).
+                                  Im Fehlerfall (z.B. length > 128) liefert die
+                                  Funktion die Adresse 0.
+
+    Die Funktion Bit2Byte() wandelt ein BIT-Feld mit der Adresse "bitadr" und
+    der L„nge "length" in ein BYTE-Feld um, in dem jedes Datenbit einem Element
+    des BIT-Feldes entspricht. D.h. das erste Element des BIT-Feldes (Element
+    mit Index 0) wird auf das Datenbit 0 im ersten Element (Index 0) des BYTE-
+    Feldes kopiert. Das zweite Element des BIT-Feldes (Element mit Index 1)
+    wird auf das Datenbit 1 im ersten Element (Index 0) des BYTE-Feldes
+    kopiert, usw. Das BIT-Feld wird somit gepackt. Das zurckgelieferte BYTE-
+    Feld (Adresse "byteadr") wird im FUB-internen Speicher abgelegt.
+
+                                     @172[ Fortsetzung ]                   @001[ šbersicht ]
+.172
+    Bit2Byte - BIT-Feld in BYTE-Feld umwandeln (Fortsetzung)
+
+    Die Funktion Bit2Byte() muá einmal pro Zyklus aufgerufen werden, allerdings
+    nur dann, wenn das BYTE-Feld tats„chlich verwendet wird.
+
+    Achtung!
+    Bei der Funktion Bit2Byte() wird die WORD-Ausrichtung nicht angewendet,
+    d.h. wenn das zurckgelieferte BYTE-Feld mehr als ein Element hat (zwei
+    oder mehr Byte), muá der Anwender das BYTE-Feld mit der Funktion memcpy()
+    auf eine gerade Adresse umkopieren!
+
+    Die Hauptanwendung der Funktionen Bit2Byte() und Byte2Bit() liegt in
+    einer vereinfachten Behandlung von I/O-Karten, falls deren Werte digital
+    (ungepackt) bzw. analog (gepackt) verwendet werden. Es kann somit zu keinen
+    Inkonsistenzen durch doppeltes Schaufeln kommen.
+
+
+
+
+
+
+                                     @173[ Beispiel 1 ]                    @001[ šbersicht ]
+.173
+    Bit2Byte - BIT-Feld in BYTE-Feld umwandeln (Beispiel 1)
+
+    Beispiel 1:
+    Die 16 Eing„nge (bitfeld[0] bis bitfeld[15]) eines digitalen Eingangs-
+    moduls sollen in ein BYTE-Feld (bytefeld[0], bytefeld[1]) umgewandelt
+    werden:
+         ÚÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄ¿
+         ³1³0³1³0³1³1³1³1³0³0³1³1³0³0³0³1³ bitfeld
+         ÀÂÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÂÙ
+          ³                             ³
+     bitfeld[15]                   bitfeld[0]
+                         
+                     Bit2Byte()
+                         
+       ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+       ³ 1 0 1 0 1 1 1 1 ³ 0 0 1 1 0 0 0 1 ³ bytefeld
+       ÀÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÙ
+                ³                 ³
+           bytefeld[1]       bytefeld[0]
+
+
+                              @174[ Fortsetzung - Beispiel 1 ]             @001[ šbersicht ]
+.174
+    Bit2Byte - BIT-Feld in BYTE-Feld umwandeln (Beispiel 1 - Fortsetzung)
+
+      ; BIT-Feld in BYTE-Feld umwandeln
+      Bit2Byte(adr(bitfeld[0]),16,byteadr)
+      ; Umkopieren mit memcpy(), da bei der Adresse "byteadr" die WORD-
+      ; Ausrichtung nicht angewendet wurde
+      memcpy(adr(bytefeld[0]),byteadr,sizeof(bytefeld))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     @175[ Beispiel 2 ]                    @001[ šbersicht ]
+.175
+    Bit2Byte - BIT-Feld in BYTE-Feld umwandeln (Beispiel 2)
+
+    Beispiel 2:
+      ; Wir bedienen eine digitale Eingangskarte (16 Kan„le) und prfen 2 Bits.
+      ; Die 16 Kan„le werden gepackt und auf einen analogen Ausgang verknpft.
+      ; Die digitalen Eing„nge werden als Bits weiterverwendet.
+      ;      "digin16" ....... Bitfeld - digitale Eingangskarte (16 Kan„le)
+      ;      "anaout" ........ INT16 - analoger Ausgang
+      if (digin16[0] = 1) and (digin16[15] = 1) then
+          digin16[8] = 0
+      endif
+      Bit2Byte(adr(digin16[0],16,byteadr)
+      ; Umkopieren mit memcpy(), da bei der Adresse "byteadr" die WORD-
+      ; Ausrichtung nicht angewendet wurde.
+      memcpy(adr(anaout),byteadr,sizeof(anaout))
+
+
+
+
+
+
+                                  @150[ System-Funktionen ]                @001[ šbersicht ]
+.176
+    Byte2Bit - BYTE-Feld in BIT-Feld umwandeln
+
+    @176[Byte2Bit](byteadr,length,bitadr)
+
+    Parameter-Datentypen :
+    ->  byteadr   : LONG          Adresse des BYTE-Feldes
+    ->  length    : WORD          L„nge des BYTE-Feldes (1 bis 16)
+    <-  bitadr    : LONG          Adresse des BIT-Feldes (access notwendig).
+                                  Im Fehlerfall (z.B. length > 16) liefert
+                                  die Funktion die Adresse 0.
+
+    Die Funktion Byte2Bit() wandelt ein BYTE-Feld mit der Adresse "byteadr" und
+    der L„nge "length" in ein BIT-Feld um. Das BYTE-Feld wird somit entpackt.
+    Das zurckgelieferte BIT-Feld (Adresse "bitadr") wird im FUB-internen
+    Speicher abgelegt.
+    Die Funktion Byte2Bit() muá einmal pro Zyklus aufgerufen werden, allerdings
+    nur dann, wenn das BIT-Feld tats„chlich verwendet wird.
+
+
+
+
+                                     @177[ Fortsetzung ]                   @001[ šbersicht ]
+.177
+    Byte2Bit - BYTE-Feld in BIT-Feld umwandeln (Fortsetzung)
+
+    Die Hauptanwendung der Funktionen Bit2Byte() und Byte2Bit() liegt in
+    einer vereinfachten Behandlung von I/O-Karten, falls deren Werte digital
+    (ungepackt) bzw. analog (gepackt) verwendet werden. Es kann somit zu keinen
+    Inkonsistenzen durch doppeltes Schaufeln kommen.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     @178[ Beispiel 1 ]                    @001[ šbersicht ]
+.178
+    Byte2Bit - BYTE-Feld in BIT-Feld umwandeln (Beispiel 1)
+
+    Beispiel 1:
+    Ein BYTE-Feld mit zwei Elementen (bytefeld[0], bytefeld[1]) soll auf ein
+    BIT-Feld (bitfeld[0] bis bitfeld[15]) umkopiert werden:
+
+      ; BYTE-Feld in BIT-Feld umwandeln
+      Byte2Bit(adr(bytefeld[0]),2,bitadr)
+      bitfeld access bitadr
+
+
+
+
+
+
+
+
+
+
+
+
+                                     @179[ Beispiel 2 ]                    @001[ šbersicht ]
+.179
+    Byte2Bit - BYTE-Feld in BIT-Feld umwandeln (Beispiel 2)
+
+    Beispiel 2:
+      ; Wir bedienen eine digitale Eingangskarte (16 Kan„le), die Fehlerzust„nde
+      ; beschreibt. Wenn alle Bits 0 sind, erfolgt keine Fehlerbehandlung.
+      ;      "digin16p" ...... digitale Werte gepackt als WORD gelesen
+      ;      "digin16" ....... Bitfeld Referenz (dynamische PV)
+      if digin16p <> 0 then
+          Byte2Bit(adr(digin16p),2,bitfeldadr)
+          digin16 access bitfeldadr
+          if digin16[7] = 1 then
+              ERR_warning(15000,7)
+          else if digin16[10] = 1 then
+              ERR_warning(15000,10)
+          endif
+      endif
+
+
+
+
+
+                                  @150[ System-Funktionen ]                @001[ šbersicht ]
+.190
+    B&R-Library - Zeit-Funktionen
+
+    Mit diesen Funktionen k”nnen Sie die auf die Uhren der Zentraleinheit bzw.
+    des Multiprozessors zugreifen. Die Zentraleinheit verfgt ber eine Echt-
+    zeituhr (Real Time Clock), eine Software-Uhr sowie ber einen Hardware-
+    Timer fr Zeitmessungen mit h”herer Aufl”sung. Beim Multiprozessor ist zwar
+    eine Software-Uhr, aber keine Echtzeituhr vorhanden.
+
+    @195[RTC_gettime]   Echtzeituhr lesen
+    @197[RTC_settime]   Echtzeituhr stellen
+    @199[SW_gettime ]   Software-Uhr lesen
+    @201[SW_settime ]   Software-Uhr stellen
+    @203[TIM_musec  ]   Anzahl der Mikrosekunden im aktuellen Tick
+    @204[TIM_ticks  ]   Anzahl der Ticks in der aktuellen Sekunde
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.191
+    B&R-Library - Zeit-Funktionen (Fehlernummern)
+
+    Folgende Fehler k”nnen bei den Zeit-Funktionen auftreten:
+
+    2073 ... ERR_BUR_NORTC        RTC nicht initialisiert
+    3313 ... ERR_BUR_ILLVER       ungltige B&R-Library-Version
+    3584 ... ERR_BUR_NOTIME       keine Zeit verfgbar
+    3588 ... ERR_BUR_ILLDATE      ungltiges Datum
+    3592 ... ERR_BUR_ILLTIME      ungltige Zeit
+    3596 ... ERR_BUR_ILLTICKS     ungltige Tickanzahl
+
+
+
+
+
+
+
+
+
+
+
+                                   @190[ Zeit-Funktionen ]                 @001[ šbersicht ]
+.195
+    RTC_gettime - Echtzeituhr lesen
+
+    status = @195[RTC_gettime](adr(rtctime))
+
+    Parameter-Datentypen :
+    <-> @196[rtctime   ]: time-Struktur Struktur, in der Uhrzeit und Datum abgelegt
+                                  werden
+    <-  @191[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Liest Uhrzeit und Datum aus der Echtzeituhr und schreibt diese Information
+    in eine Struktur (time).
+
+
+
+
+
+
+
+
+
+
+                                   @190[ Zeit-Funktionen ]                 @001[ šbersicht ]
+.196
+    RTC_gettime - Echtzeituhr lesen (Fortsetzung)
+
+    <-> Parameter <rtctime   >: time-Struktur
+
+    Elemente der Struktur "time":
+    jahr       : WORD           Jahr
+    monat      : BYTE           Monat (1 bis 12)
+    tag        : BYTE           Tag (1 bis 31)
+    wochentag  : BYTE           Wochentag (1 bis 7)
+    stunde     : BYTE           Stunde (0 bis 23)
+    minute     : BYTE           Minute (0 bis 59)
+    sekunde    : BYTE           Sekunde (0 bis 59)
+    millisek   : WORD           Millisekunde (0 bis 999)
+    mikrosek   : WORD           Mikrosekunde (0 bis 999)
+
+    Bei Systemen, in denen die Echtzeituhr nur auf ganze Sekunden genau geht
+    (z.B. Systeme B&R 2003 und B&R 2005), enthalten die Struktur-Elemente fr
+    Mikrosekunden und Millisekunden immer den Wert 0.
+
+
+
+                                     @195[ RTC_gettime ]                   @001[ šbersicht ]
+.197
+    RTC_settime - Echtzeituhr stellen
+
+    status = @197[RTC_settime](adr(rtctime))
+
+    Parameter-Datentypen :
+    ->  @198[rtctime   ]: time-Struktur Struktur, in der Uhrzeit und Datum abgelegt
+                                  werden
+    <-  @191[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit dieser Funktion k”nnen Sie die Echtzeituhr auf den gewnschten Wert
+    (Struktur time) setzen.
+
+
+
+
+
+
+
+
+
+
+                                   @190[ Zeit-Funktionen ]                 @001[ šbersicht ]
+.198
+    RTC_settime - Echtzeituhr stellen (Fortsetzung)
+
+    ->  Parameter <rtctime   >: time-Struktur
+
+    Elemente der Struktur "time":
+    jahr       : WORD           Jahr
+    monat      : BYTE           Monat (1 bis 12)
+    tag        : BYTE           Tag (1 bis 31)
+    wochentag  : BYTE           Wochentag (1 bis 7)
+    stunde     : BYTE           Stunde (0 bis 23)
+    minute     : BYTE           Minute (0 bis 59)
+    sekunde    : BYTE           Sekunde (0 bis 59)
+    millisek   : WORD           Millisekunde (0 bis 999)
+    mikrosek   : WORD           Mikrosekunde (0 bis 999)
+
+    Bei Systemen, in denen die Echtzeituhr nur auf ganze Sekunden genau geht
+    (z.B. Systeme B&R 2003 und B&R 2005), enthalten die Struktur-Elemente fr
+    Mikrosekunden und Millisekunden immer den Wert 0.
+
+
+
+                                     @197[ RTC_settime ]                   @001[ šbersicht ]
+.199
+    SW_gettime - Software-Uhr lesen
+
+    status = @199[SW_gettime](adr(sw_time))
+
+    Parameter-Datentypen :
+    <-> @200[sw_time   ]: time-Struktur Struktur, in der Uhrzeit und Datum abgelegt
+                                  werden
+    <-  @191[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Liest Uhrzeit und Datum aus der Software-Uhr und schreibt diese Information
+    in eine Struktur (time).
+
+    Achtung:
+    Die Genauigkeit der Software-Uhr h„ngt von der Unsch„rfe des SW-Timers, der
+    von der CPU-Taktrate abgeleitet wird, ab.
+
+
+
+
+
+
+                                   @190[ Zeit-Funktionen ]                 @001[ šbersicht ]
+.200
+    SW_gettime - Software-Uhr lesen (Fortsetzung)
+
+    <-> Parameter <sw_time   >: time-Struktur
+
+    Elemente der Struktur "time":
+    jahr       : WORD           Jahr
+    monat      : BYTE           Monat (1 bis 12)
+    tag        : BYTE           Tag (1 bis 31)
+    reserve    : BYTE           Reserve
+    stunde     : BYTE           Stunde (0 bis 23)
+    minute     : BYTE           Minute (0 bis 59)
+    sekunde    : BYTE           Sekunde (0 bis 59)
+    millisek   : WORD           Millisekunde (0 bis 999)
+    mikrosek   : WORD           Mikrosekunde (immer 0!)
+
+
+
+
+
+
+
+                                     @199[ SW_gettime ]                    @001[ šbersicht ]
+.201
+    SW_settime - Software-Uhr stellen
+
+    status = @201[SW_settime](adr(sw_time))
+
+    Parameter-Datentypen :
+    ->  @202[sw_time   ]: time-Struktur Struktur, in der Uhrzeit und Datum abgelegt
+                                  werden
+    <-  @191[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit dieser Funktion k”nnen Sie die Software-Uhr auf den gewnschten Wert
+    (Struktur time) setzen.
+
+    Achtung:
+    Die Genauigkeit der Software-Uhr h„ngt von der Unsch„rfe des SW-Timers, der
+    von der CPU-Taktrate abgeleitet wird, ab.
+
+
+
+
+
+
+                                   @190[ Zeit-Funktionen ]                 @001[ šbersicht ]
+.202
+    SW_settime - Software-Uhr stellen (Fortsetzung)
+
+    ->  Parameter <sw_time   >: time-Struktur
+
+    Elemente der Struktur "time":
+    jahr       : WORD           Jahr
+    monat      : BYTE           Monat (1 bis 12)
+    tag        : BYTE           Tag (1 bis 31)
+    reserve    : BYTE           Reserve
+    stunde     : BYTE           Stunde (0 bis 23)
+    minute     : BYTE           Minute (0 bis 59)
+    sekunde    : BYTE           Sekunde (0 bis 59)
+    millisek   : WORD           Millisekunde (0 bis 999)
+    mikrosek   : WORD           Mikrosekunde (immer 0!)
+
+
+
+
+
+
+
+                                     @201[ SW_gettime ]                    @001[ šbersicht ]
+.203
+    TIM_musec - Anzahl der Mikrosekunden im aktuellen Tick
+
+    microsec = @203[TIM_musec]()
+
+    Parameter-Datentypen :
+    <-  microsec  : WORD          Mikrosekunden im aktuellen Tick
+
+    Diese Funktion liefert die (ungef„hre) Anzahl der Mikrosekunden im aktu-
+    ellen Tick (1 Tick = 10 ms). Der Mikrosekunden-Z„hler wird am Beginn jedes
+    Ticks (alle 10 ms) auf 0 gesetzt.
+    Eine Einheit bei der Funktion TIM_musec() entspricht nicht genau einer
+    Mikrosekunde, sondern 960 Nanosekunden!
+
+
+
+
+
+
+
+
+
+                                   @190[ Zeit-Funktionen ]                 @001[ šbersicht ]
+.204
+    TIM_ticks - Anzahl der Ticks in der aktuellen Sekunde
+
+    ticks = @204[TIM_ticks]()
+
+    Parameter-Datentypen :
+    <-  ticks     : LONG          Ticks in der aktuellen Sekunde
+
+    Diese Funktion liefert die Anzahl der Ticks (1 Tick = 10 ms) in der aktu-
+    ellen Sekunde. Der Tick-Z„hler wird jede Sekunde auf 0 gesetzt, kann also
+    nur fr Kurzzeitmessung (Zeit < 1 Sekunde) verwendet werden. Fr Zeit-
+    messungen, bei denen die gemessene Zeit > 1 Sekunde ist, steht der Tick-
+    Z„hler der Funktion SYS_info() zur Verfgung.
+
+
+
+
+
+
+
+
+
+                                   @190[ Zeit-Funktionen ]                 @001[ šbersicht ]
+.210
+    B&R-Library - Restzeit-Task-Behandlung
+
+    Nichtzyklische Tasks (auch Restzeit-Tasks genannt) ntzen die sogenannte
+    Restzeit des Systems aus. Das bedeutet: Restzeit-Tasks werden nur dann aus-
+    gefhrt, wenn sowohl das Betriebssystem als auch die zyklischen Tasks keine
+    CPU-Zeit (Systemzeit) ben”tigen.
+
+    @215[UT_ident  ]    Ident-Nummer einer Restzeit-Task anfordern
+    @216[UT_suspend]    eine laufende Restzeit-Task stoppen
+    @217[UT_resume ]    eine gestoppte Restzeit-Task starten
+    @218[UT_sleep  ]    eine Restzeit-Task fr eine bestimmte Zeit stoppen
+    @219[UT_exit   ]    eine Restzeit-Task beenden
+    @220[UT_sendmsg]    Meldung an eine andere Task senden
+    @222[UT_recmsg ]    Meldung von einer anderen Task empfangen
+    @224[UT_freemsg]    Speicher, der von einer Meldung verwendet wurde, freigeben
+
+    Restzeit-Tasks k”nnen nur mit der C-Toolbox erzeugt werden!
+    Mit den Restzeit-Task-Funktionen k”nnen Restzeit-Tasks identifiziert, ge-
+    startet und gestoppt werden. Durch das Senden/Empfangen von Meldungen
+    k”nnen Daten auch zwischen Restzeit-Tasks und zyklischen Tasks ausgetauscht
+    werden.
+                                                                     @001[ šbersicht ]
+.211
+    B&R-Library - Restzeit-Task-Behandlung (Fehlernummern)
+
+    Folgende Fehler k”nnen bei den Restzeit-Task-Funktionen auftreten:
+
+    3303 ... ERR_BUR_NOMSG        keine Message fr UT_recmsg()
+    3309 ... ERR_BUR_INVALIDMBX   es existiert keine gltige Mailbox
+    3313 ... ERR_BUR_ILLVER       ungltige B&R-Library-Version
+    3324 ... ERR_BUR_ILLOBJ       gewnschtes Objekt nicht vorhanden
+    3336 ... ERR_BUR_ILLIDENT     ungltige Ident-Nummer
+
+
+
+
+
+
+
+
+
+
+
+
+                              @210[ Restzeit-Task-Behandlung ]             @001[ šbersicht ]
+.215
+    UT_ident - Ident-Nummer einer Restzeit-Task anfordern
+
+    status = @215[UT_ident](adr(ut_name),ut_grp,ut_proc,adr(ut_sps),adr(ut_ident))
+
+    Parameter-Datentypen :
+    ->  @010[ut_name   ]: BYTE (FELD)   Name der Restzeit-Task (String)
+    ->  @011[ut_grp    ]: BYTE          Gruppennummer (Standard = 0)
+    ->  ut_proc   : BYTE          Prozessor-Nummer
+                                  (Standard: 0 = aktueller Prozessor)
+    ->  ut_sps    : BYTE (FELD)   RPS-Name
+                                  (Standard: adr(ut_sps) = 0 (LONG) = akt. RPS)
+    <-> ut_ident  : LONG          Ident-Nummer der Restzeit-Task
+    <-  @211[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Liefert die Ident-Nummer einer Restzeit-Task. Diese Ident-Nummer wird in
+    den anderen Restzeit-Task-Funktionen zur Identifizierung verwendet.
+
+
+
+
+
+                              @210[ Restzeit-Task-Behandlung ]             @001[ šbersicht ]
+.216
+    UT_suspend - laufende Restzeit-Task stoppen
+
+    status = @216[UT_suspend](ut_ident)
+
+    Parameter-Datentypen :
+    ->  ut_ident  : LONG          Ident-Nummer von @215[UT_ident]
+                                  (0 = Task suspendiert sich selbst)
+    <-  @211[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion UT_suspend() wird die Restzeit-Task mit der angegebenen
+    Ident-Nummer sofort gestoppt.
+
+
+
+
+
+
+
+
+
+
+                              @210[ Restzeit-Task-Behandlung ]             @001[ šbersicht ]
+.217
+    UT_resume - gestoppte Restzeit-Task starten
+
+    status = @217[UT_resume](ut_ident)
+
+    Parameter-Datentypen :
+    ->  ut_ident  : LONG          Ident-Nummer von @215[UT_ident]
+                                  (0 = Task suspendiert sich selbst)
+    <-  @211[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Die Funktion UT_resume() startet eine gestoppten Restzeit-Task.
+
+
+
+
+
+
+
+
+
+
+
+                              @210[ Restzeit-Task-Behandlung ]             @001[ šbersicht ]
+.218
+    UT_sleep - Restzeit-Task fr eine bestimmte Zeit stoppen
+
+    status = @218[UT_sleep](tickcount)
+
+    Parameter-Datentypen :
+    ->  tickcount : LONG          Anzahl der Ticks (1 Tick = 10 ms), fr die
+                                  die Ausfhrung der Restzeit-Task unterbrochen
+                                  wird
+    <-  @211[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Die Restzeit-Task unterbricht sich selbst fr eine einstellbare Zeit
+    (Anzahl der Ticks). Dadurch wird die CPU fr andere Restzeit-Tasks
+    freigegeben.
+
+
+
+
+
+
+
+
+                              @210[ Restzeit-Task-Behandlung ]             @001[ šbersicht ]
+.219
+    UT_exit - Restzeit-Task beenden
+
+    status = @219[UT_exit](exitinfo)
+
+    Parameter-Datentypen :
+    ->  exitinfo  : LONG          Exit-Information (Standard = 0)
+    <-  @211[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit dieser Funktion beendet sich eine Restzeit-Task selbst. Die Exit-
+    Information ("exitinfo") wird ab Version 1.10 des Betriebssystems RPSSW
+    nicht mehr ins Fehlerlogbuch eingetragen. Dies kann aber mit der Funktion
+    ERR_warning() vom Anwender selbst gemacht werden.
+
+
+
+
+
+
+
+
+
+                              @210[ Restzeit-Task-Behandlung ]             @001[ šbersicht ]
+.220
+    UT_sendmsg - Meldung an eine andere Task senden
+
+    status = @220[UT_sendmsg](ut_ident,msgadr,msglng,flags)
+
+    Parameter-Datentypen :
+    ->  ut_ident  : LONG          Ident-Nummer der Task, an die die Meldung
+                                  gesendet werden soll (von @215[UT_ident])
+    ->  msgadr    : LONG          Adresse der zu sendenden Meldung
+    ->  msglng    : LONG          L„nge der zu sendenden Meldung (in Byte)
+    ->  flags     : LONG          Bit 1 = 1 ... Nicht auf UT_recmsg() warten
+                                                (bei zyklischen Tasks muá
+                                                dieses Bit immer gesetzt sein,
+                                                da sonst eine Zykluszeit-
+                                                verletzung auftritt)
+    <-  @211[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Sendet eine Meldung an eine andere Task (auch zyklische Tasks). Die Meldung
+    muá von der anderen Task mit der Funktion UT_recmsg() empfangen werden.
+
+
+
+                                     @221[ Fortsetzung ]                   @001[ šbersicht ]
+.221
+    UT_sendmsg - Meldung an eine andere Task senden (Fortsetzung)
+
+    Die Funktionen UT_sendmsg() und UT_recmsg() k”nnen nur verwendet werden,
+    wenn die Restzeit-Task ber eine Queue zum Meldungsaustausch verfgt.
+    Standardm„áig ben”tigt jede Restzeit-Task eine Queue als Mailbox. Die
+    Anzahl der Queues kann mit dem RPS-Konfigurator (bzw. mit PG2000) festge-
+    legt werden.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                              @210[ Restzeit-Task-Behandlung ]             @001[ šbersicht ]
+.222
+    UT_recmsg - Meldung von einer anderen Task empfangen
+
+    status = @222[UT_recmsg](adr(ut_ident),adr(msgadr),adr(msglng),flags)
+
+    Parameter-Datentypen :
+    <-> ut_ident  : LONG          Ident-Nummer der Task, die die Meldung ge-
+                                  sendet hat
+    <-> msgadr    : LONG          Adresse, an der die empfangene Meldung ab-
+                                  gespeichert werden soll
+    <-> msglng    : LONG          L„nge der empfangenen Meldung (in Byte)
+    ->  flags     : LONG          Bit 0 = 1 ... Nicht auf UT_sendmsg() warten
+                                                (bei zyklischen Tasks muá
+                                                dieses Bit immer gesetzt sein,
+                                                da sonst eine Zykluszeit-
+                                                verletzung auftritt)
+    <-  @211[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Empf„ngt eine mit der Funktion UT_sendmsg() gesendete Meldung. šber die
+    erhaltene Ident-Nummer kann der Sender der Meldung ermittelt werden (um
+    z.B. eine Antwort zu senden).
+
+                                     @223[ Fortsetzung ]                   @001[ šbersicht ]
+.223
+    UT_recmsg - Meldung von einer anderen Task empfangen (Fortsetzung)
+
+    Die Funktionen UT_sendmsg() und UT_recmsg() k”nnen nur verwendet werden,
+    wenn die Restzeit-Task ber eine Queue zum Meldungsaustausch verfgt.
+    Standardm„áig ben”tigt jede Restzeit-Task eine Queue als Mailbox. Die
+    Anzahl der Queues kann mit dem RPS-Konfigurator (bzw. mit PG2000) festge-
+    legt werden.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                              @210[ Restzeit-Task-Behandlung ]             @001[ šbersicht ]
+.224
+    UT_freemsg - Speicher, der von einer Meldung verwendet wurde, freigeben
+
+    status = @224[UT_freemsg](msglng,msgadr)
+
+    Parameter-Datentypen :
+    ->  msglng    : LONG          L„nge des freizugebenden Speichers (in Byte)
+    ->  msgadr    : LONG          Adresse des freizugebenden Speichers
+    <-  @211[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Diese Funktion deallokiert den Speicher, der von einer empfangenen Meldung
+    belegt wurde.
+
+
+
+
+
+
+
+
+
+        
+                              @210[ Restzeit-Task-Behandlung ]             @001[ šbersicht ]
+.230
+    B&R-Library - Variablendienste
+
+    Die Variablendienste werden zur Manipulation von Prozeávariablen (PVs) in
+    der RPS verwendet.
+
+    @235[PV_ident  ]    Ident-Nummer einer PV anfordern
+    @239[PV_getadr ]    Adresse einer PV anfordern
+    @243[PV_xgetadr]    Adresse einer komplexen PV anfordern
+    @246[PV_setval ]    PV mit einem bestimmten Wert beschreiben
+    @247[PV_getval ]    Wert einer PV anfordern
+    @248[PV_xsetval]    komplexe PV mit einem Wert beschreiben
+    @249[PV_xgetval]    Wert einer komplexen PV anfordern
+    @250[PV_info   ]    Informationen zu einer komplexen PV anfordern (ber Ident)
+    @253[PV_list   ]    alle PVs durchsuchen
+    @255[PV_ninfo  ]    Informationen zu einer komplexen PV anfordern (ber Name)
+    @260[PV_item   ]    Name eines Strukturelements anfordern
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.231
+    B&R-Library - Variablendienste (Fehlernummern)
+
+    Folgende Fehler k”nnen bei den Variablendienste auftreten:
+    3300 ... ERR_BUR_ILLTKNR      falsche Taskklassen-Nummer
+    3310 ... ERR_BUR_ILLBPTR      Zugriff auf inaktiven Bereich
+    3311 ... ERR_BUR_ILLTYP       ungltige Bereichskennung
+    3312 ... ERR_BUR_ILLEXT       ungltiges Extensionbit
+    3313 ... ERR_BUR_ILLVER       ungltige B&R-Library-Version
+    3314 ... ERR_BUR_ILLLEN       ungltige L„ngenangabe
+    3324 ... ERR_BUR_ILLOBJ       gewnschtes Objekt nicht vorhanden
+    3332 ... ERR_BUR_NOENTRY      PV nicht gefunden
+    3336 ... ERR_BUR_IILIDENT     ungltige Ident-Nummer
+    9133 ... ERR_EXC_NIL_POINTER  Nil-Pointer Verwendung bei dynamischen PVs
+   14700 ... ERR_PV_PVNAME        ungltiger PV-Name
+   14702 ... ERR_PV_WRONG_ARRAY   ungltiger Feldindex
+   14703 ... ERR_PV_WRONG_ELEM    ungltiges Strukturelement
+   14704 ... ERR_PV_WRONG_KOMP    ungltige Komponente
+   14710 ... ERR_PV_NOTFOUND      PV nicht gefunden
+   14713 ... ERR_PV_NODETAIL      keine PV-Beschreibung vorhanden
+   14714 ... ERR_PV_AIXTOOBIG     Feldindex zu groá
+
+                                  @230[ Variablendienste ]                 @001[ šbersicht ]
+.235
+    PV_ident - Ident-Nummer einer PV anfordern
+
+    status = @235[PV_ident](adr(pv_name),pv_tknr,pv_grpnr,adr(pv_ident))
+
+    Parameter-Datentypen :
+    ->  @237[pv_name   ]: BYTE (FELD)   Name der Prozeávariable (String)
+    ->  pv_tknr   : BYTE          Taskklasse der Prozeávariable:
+                                  1 ..... TC#1, HS#1, HS#2, HS#3, HS#4
+                                          (da alle superschnellen Taskklassen
+                                          denselben Datenbereich wie die TC#1
+                                          verwenden)
+                                  2 ..... TC#2
+                                  3 ..... TC#3
+                                  4 ..... TC#4
+                                  $FE ... Taskklasse irrelevant
+                                  $FF ... Taskklasse und Gruppe irrelevant
+    ->  @011[pv_grpnr  ]: BYTE          Gruppennummer (Standard = 0)
+    <-> pv_ident  : LONG          Ident-Nummer der Prozeávariable
+    <-  @231[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+
+                                     @236[ Fortsetzung ]                   @001[ šbersicht ]
+.236
+    PV_ident - Ident-Nummer einer PV anfordern (Fortsetzung)
+
+    Liefert die Ident-Nummer einer Prozeávariable (PV). Diese Ident-Nummer wird
+    in den anderen Variablendiensten zur Identifizierung verwendet.
+    Wenn zwei oder mehr PVs mit dem gleichen Namen und unterschiedlichen
+    Gltigkeitsbereichen (lokal, tk_global, rps_global, etc.) existieren, muá
+    zur eindeutigen Identifizierung die Taskklasse der gewnschten Variable
+    (Eingangsparameter "pv_tknr") angegeben werden. Existieren zwei PVs mit
+    gleichem Namen und unterschiedlichen Gltigkeitsbereichen und wird fr die
+    Taskklasse der Wert $FE ($FE = Taskklasse irrelevant) angegeben, liefert
+    die Funktion PV_ident() immer die Ident-Nummer der Variable mit dem
+    gr”áeren Gltigkeitsbereich.
+
+
+
+
+
+
+
+
+
+                                  @230[ Variablendienste ]                 @001[ šbersicht ]
+.237
+    PV_ident - Ident-Nummer einer PV anfordern (Fortsetzung)
+
+    ->  Parameter <pv_name   >: BYTE (FELD)
+
+    Name der Prozeávariable als Zeichenkette. Folgende Punkte sind zu beachten:
+
+    - Zeichenketten (Strings) sind immer nullterminiert (wie in C).
+
+    - Zeichenketten k”nnen auf drei verschiedene Arten als Eingangsparameter
+      verwendet werden:
+      adr(String) ... Adresse der BYTE-Feldvariable, die den String enth„lt
+      "Konstante" ... konstanter String (muá in Anfhrungszeichen angegeben
+                      werden!)
+
+    - Der String muá in folgender Form bergeben werden:
+      [<Task-Name>":"]<PV-Name>["["<Nummer>"]"]["."<Elementname>]
+      <Task-Name>     Name der zyklischen Task (optionelle Angabe!)
+      <PV-Name>       Name der Prozeávariable
+      <Nummer>        Index des Feldelements (optionelle Angabe!)
+      <Elementname>   Name des Strukturelements (optionelle Angabe!)
+
+                                     @238[ Fortsetzung ]                   @001[ šbersicht ]
+.238
+    PV_ident - Ident-Nummer einer PV anfordern (Fortsetzung)
+
+    - Auf den Inhalt von dynamischen Variablen kann durch Angabe des Zeichnens
+      "*" vor dem PV-Namen zugegriffen werden (z.B. "*pv_name").
+
+    - Beispiele fr PV-Namen:
+      test:data       Variable "data" der Task "test"
+      F_Tank[3]       4. Element der Feldvariable "F_Tank"
+      Punkt.x         Element "x" der Strukturvariable "Punkt"
+      *dyn_var        Inhalt der dynamischen Variable "dyn_var"
+
+
+
+
+
+
+
+
+
+
+
+                                      @235[ PV_ident ]                     @001[ šbersicht ]
+.239
+    PV_getadr - Adresse einer PV anfordern
+
+    status = @239[PV_getadr](adr(pv_name),pv_tknr,pv_grpnr,adr(pv_adr))
+
+    Parameter-Datentypen :
+    ->  @241[pv_name   ]: BYTE (FELD)   Name der Prozeávariable (String)
+    ->  pv_tknr   : BYTE          Taskklasse der Prozeávariable:
+                                  1 ..... TC#1, HS#1, HS#2, HS#3, HS#4
+                                          (da alle superschnellen Taskklassen
+                                          denselben Datenbereich wie die TC#1
+                                          verwenden)
+                                  2 ..... TC#2
+                                  3 ..... TC#3
+                                  4 ..... TC#4
+                                  $FE ... Taskklasse irrelevant
+                                  $FF ... Taskklasse und Gruppe irrelevant
+    ->  @011[pv_grpnr  ]: BYTE          Gruppennummer (Standard = 0)
+    <-> pv_adr    : LONG          Adresse der PV fr den dynamischen Zugriff
+    <-  @231[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+
+                                     @240[ Fortsetzung ]                   @001[ šbersicht ]
+.240
+    PV_getadr - Adresse einer PV anfordern (Fortsetzung)
+
+    Diese Funktion liefert die Adresse einer Prozeávariable. Die Adresse kann
+    fr einen dynamischen Zugriff verwendet werden.
+    Um die Leistungsf„higkeit des Systems nicht zu beeintr„chtigen, sollte
+    diese Funktion nur in Initialisierungs-Unterprogrammen verwendet werden!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  @230[ Variablendienste ]                 @001[ šbersicht ]
+.241
+    PV_getadr - Adresse einer PV anfordern (Fortsetzung)
+
+    ->  Parameter <pv_name   >: BYTE (FELD)
+
+    Name der Prozeávariable als Zeichenkette. Folgende Punkte sind zu beachten:
+
+    - Zeichenketten (Strings) sind immer nullterminiert (wie in C).
+
+    - Zeichenketten k”nnen auf drei verschiedene Arten als Eingangsparameter
+      verwendet werden:
+      adr(String) ... Adresse der BYTE-Feldvariable, die den String enth„lt
+      "Konstante" ... konstanter String (muá in Anfhrungszeichen angegeben
+                      werden!)
+
+    - Der String muá in folgender Form bergeben werden:
+      [<Task-Name>":"]<PV-Name>["["<Nummer>"]"]["."<Elementname>]
+      <Task-Name>     Name der zyklischen Task (optionelle Angabe!)
+      <PV-Name>       Name der Prozeávariable
+      <Nummer>        Index des Feldelements (optionelle Angabe!)
+      <Elementname>   Name des Strukturelements (optionelle Angabe!)
+
+                                     @242[ Fortsetzung ]                   @001[ šbersicht ]
+.242
+    PV_getadr - Adresse einer PV anfordern (Fortsetzung)
+
+    - Auf den Inhalt von dynamischen Variablen kann durch Angabe des Zeichnens
+      "*" vor dem PV-Namen zugegriffen werden (z.B. "*pv_name").
+
+    - Beispiele fr PV-Namen:
+      test:data       Variable "data" der Task "test"
+      F_Tank[3]       4. Element der Feldvariable "F_Tank"
+      Punkt.x         Element "x" der Strukturvariable "Punkt"
+      *dyn_var        Inhalt der dynamischen Variable "dyn_var"
+
+
+
+
+
+
+
+
+
+
+
+                                      @239[ PV_getadr ]                    @001[ šbersicht ]
+.243
+    PV_xgetadr - Adresse einer komplexen PV anfordern
+
+    status = @243[PV_xgetadr](adr(pv_name),adr(pv_adr),adr(pv_len))
+
+    Parameter-Datentypen :
+    ->  @244[pv_name   ]: BYTE (FELD)   Name der Prozeávariable (String)
+    <-> pv_adr    : LONG          Adresse der PV fr den dynamischen Zugriff
+    <-> pv_len    : LONG          L„nge der Prozeávariable in Byte
+    <-  @231[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Diese Funktion liefert die Adresse und L„nge einer Variable, wobei auch
+    Struktur- oder Feldvariablen sowie Struktur- oder Feldelemente angegeben
+    werden k”nnen. Die Adresse kann fr einen dynamischen Zugriff verwendet
+    werden.
+    Wenn Sie die Adresse und L„nge eines bestimmten Struktur- oder Feldelements
+    ben”tigen, k”nnen Sie den Namen bzw. Index des gewnschten Elements direkt
+    ber den Eingangsparameter "pv_name" angeben.
+    Um die Leistungsf„higkeit des Systems nicht zu beeintr„chtigen, sollte
+    diese Funktion nur in Initialisierungs-Unterprogrammen verwendet werden!
+
+
+                                  @230[ Variablendienste ]                 @001[ šbersicht ]
+.244
+    PV_xgetadr - Adresse einer komplexen PV anfordern (Fortsetzung)
+
+    ->  Parameter <pv_name   >: BYTE (FELD)
+
+    Name der Prozeávariable als Zeichenkette. Folgende Punkte sind zu beachten:
+
+    - Zeichenketten (Strings) sind immer nullterminiert (wie in C).
+
+    - Zeichenketten k”nnen auf drei verschiedene Arten als Eingangsparameter
+      verwendet werden:
+      adr(String) ... Adresse der BYTE-Feldvariable, die den String enth„lt
+      "Konstante" ... konstanter String (muá in Anfhrungszeichen angegeben
+                      werden!)
+
+    - Der String muá in folgender Form bergeben werden:
+      [<Task-Name>":"]<PV-Name>["["<Nummer>"]"]["."<Elementname>]
+      <Task-Name>     Name der zyklischen Task (optionelle Angabe!)
+      <PV-Name>       Name der Prozeávariable
+      <Nummer>        Index des Feldelements (optionelle Angabe!)
+      <Elementname>   Name des Strukturelements (optionelle Angabe!)
+
+                                     @245[ Fortsetzung ]                   @001[ šbersicht ]
+.245
+    PV_xgetadr - Adresse einer komplexen PV anfordern (Fortsetzung)
+
+    - Auf den Inhalt von dynamischen Variablen kann durch Angabe des Zeichnens
+      "*" vor dem PV-Namen zugegriffen werden (z.B. "*pv_name").
+
+    - Beispiele fr PV-Namen:
+      test:data       Variable "data" der Task "test"
+      F_Tank[3]       4. Element der Feldvariable "F_Tank"
+      Punkt.x         Element "x" der Strukturvariable "Punkt"
+      *dyn_var        Inhalt der dynamischen Variable "dyn_var"
+
+
+
+
+
+
+
+
+
+
+
+                                     @243[ PV_xgetadr ]                    @001[ šbersicht ]
+.246
+    PV_setval - PV mit einem bestimmten Wert beschreiben
+
+    status = @246[PV_setval](pv_ident,value)
+
+    Parameter-Datentypen :
+    ->  pv_ident  : LONG          Ident-Nummer der Prozeávariable von @235[PV_ident]
+    ->  value     : LONG          Wert, der der PV zugewiesen wird
+    <-  @231[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Weist einer Prozeávariable einen bestimmten Wert zu. Mit dieser Funktion
+    k”nnen nur Variablen mit einfachen Datentypen (BIT, INT8, INT16, INT32,
+    BYTE, WORD, LONG oder FLOAT) beschrieben werden. Bei BIT-, BYTE- und INT8-
+    Variablen wird der Wert der PV immer in das niederwertigste Byte der Long-
+    Variable, bei WORD- und INT16-Variablen in das niederwertige Word der Long-
+    Variable kopiert.
+    Das Beschreiben von Prozeávariablen mit komplexen Datentypen (Feld- oder
+    Strukturvariablen) erfolgt mit der Funktion PV_xsetval().
+
+
+
+
+                                  @230[ Variablendienste ]                 @001[ šbersicht ]
+.247
+    PV_getval - Wert einer PV anfordern
+
+    status = @247[PV_getval](pv_ident,adr(value))
+
+    Parameter-Datentypen :
+    ->  pv_ident  : LONG          Ident-Nummer der Prozeávariable von @235[PV_ident]
+    <-> value     : LONG          ermittelter Wert der PV
+    <-  @231[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Liest den Wert einer Prozeávariable. Mit dieser Funktion k”nnen nur die
+    Werte von Variablen einfachen Datentyps (BIT, INT8, INT16, INT32, BYTE,
+    WORD, LONG oder FLOAT) gelesen werden. Bei BIT-, BYTE- und INT8-Variablen
+    wird der ermittelte Wert der PV immer in das niederwertigste Byte der Long-
+    Variable, bei WORD- und INT16-Variablen in das niederwertige Word der Long-
+    Variable kopiert.
+    Das Lesen von Variablen mit komplexen Datentypen (Feld- oder Struktur-
+    variablen) erfolgt mit der Funktion PV_xgetval().
+
+
+
+
+                                  @230[ Variablendienste ]                 @001[ šbersicht ]
+.248
+    PV_xsetval - komplexe PV mit einem Wert beschreiben
+
+    status = @248[PV_xsetval](pv_ident,subindex,adr(daten),daten_len)
+
+    Parameter-Datentypen :
+    ->  pv_ident  : LONG          Ident-Nummer der Prozeávariable von @235[PV_ident]
+    ->  subindex  : WORD          Elementindex:
+                                  0 ... Feld/Struktur als Ganzes
+                                  1 ... 1. Element des Feldes/der Struktur
+                                  2 ... 2. Element des Feldes/der Struktur
+                                  3 ... usw.
+    ->  daten     : BYTE (FELD)   Daten, die der PV zugewiesen werden
+    ->  daten_len : BYTE          L„nge der Daten in Byte
+    <-  @231[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Weist einer Prozeávariable komplexen Datentyps (Feldvariable oder Struktur-
+    variable) einen bestimmten Wert zu.
+    Die Funktion PV_xsetval() kann erst ab Version 1.10 der RPSSW verwendet
+    werden! In der Version 1.05 des Betriebssystems RPSSW wird diese Funktion
+    noch nicht untersttzt!
+
+                                  @230[ Variablendienste ]                 @001[ šbersicht ]
+.249
+    PV_xgetval - Wert einer komplexen PV anfordern
+
+    status = @249[PV_xgetval](pv_ident,subindex,adr(daten),daten_len)
+
+    Parameter-Datentypen :
+    ->  pv_ident  : LONG          Ident-Nummer der Prozeávariable von @235[PV_ident]
+    ->  subindex  : WORD          Elementindex:
+                                  0 ... Feld/Struktur als Ganzes
+                                  1 ... 1. Element des Feldes/der Struktur
+                                  2 ... 2. Element des Feldes/der Struktur
+                                  3 ... usw.
+    <-> daten     : BYTE (FELD)   gelesene Daten
+    ->  daten_len : BYTE          L„nge der zu lesenden Daten in Byte
+    <-  @231[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Liest Daten aus einer Prozeávariable komplexen Datentyps (Feld- oder
+    Strukturvariable).
+    Die Funktion PV_xgetval() kann erst ab Version 1.10 der RPSSW verwendet
+    werden! In der Version 1.05 des Betriebssystems RPSSW wird diese Funktion
+    noch nicht untersttzt!
+
+                                  @230[ Variablendienste ]                 @001[ šbersicht ]
+.250
+    PV_info - Informationen zu einer komplexen PV anfordern (ber Ident)
+
+    status = @250[PV_info](pv_ident,adr(daten_typ),adr(daten_len),adr(dimens))
+
+    Parameter-Datentypen :
+    ->  pv_ident  : LONG          Ident-Nummer der Prozeávariable von @235[PV_ident]
+    <-> @251[daten_typ ]: LONG          Datentyp der PV
+    <-> daten_len : LONG          L„nge der PV in Byte
+    <-> @252[dimens    ]: WORD          Anzahl der Feld- bzw. Strukturelemente
+    <-  @231[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Liest Daten aus einer Prozeávariable komplexen Datentyps (Feld- oder
+    Strukturvariable).
+
+
+
+
+
+
+
+
+                                  @230[ Variablendienste ]                 @001[ šbersicht ]
+.251
+    PV_info - Informationen zu einer komplexen PV anfordern (ber Ident)
+
+    <-> Parameter <daten_typ >: LONG
+
+    Werte des Eingangsparameters "daten_typ":
+
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º "daten_typ" ³   entsprechender    º "daten_typ" ³   entsprechender    º
+    º             ³      Datentyp       º             ³      Datentyp       º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º      0      ³ Struktur            º      8      ³ FLOAT               º
+    º      1      ³ BIT                 º      9      ³ Visible String      º
+    º      2      ³ INT8                º     10      ³ Octet String        º
+    º      3      ³ INT16               º     11      ³ Date                º
+    º      4      ³ INT32               º     12      ³ Time of day         º
+    º      5      ³ BYTE                º     13      ³ Time difference     º
+    º      6      ³ WORD                º     14      ³ Bit String          º
+    º      7      ³ LONG                º     15      ³ Feld von Strukturen º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+                                       @250[ PV_info ]                     @001[ šbersicht ]
+.252
+    PV_info - Informationen zu einer komplexen PV anfordern (ber Ident)
+
+    <-> Parameter <dimens    >: WORD
+
+    Der Parameter "dimens" gibt bei Strukturen ("daten_typ" = 0) die Anzahl der
+    Strukturelemente an. Bei allen anderen Datentypen gibt dieser Parameter die
+    Anzahl der Feldelemente an.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @250[ PV_info ]                     @001[ šbersicht ]
+.253
+    PV_list - alle PVs durchsuchen
+
+    status = @253[PV_list](prev_index,adr(index),adr(pv_struct))
+
+    Parameter-Datentypen :
+    ->  prev_index: WORD          Index der PV, bei der die Suche fortgesetzt
+                                  wird. Bei Angabe von $FFFF wird die Suche
+                                  bei der ersten PV fortgesetzt.
+    <-> index     : WORD          Index der gefundenen PV
+    <-> @254[pv_struct ]: list-Struktur Struktur, in der die PV-Information der ge-
+                                  fundenen PV abgelegt wird
+    <-  @231[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion PV_list() k”nnen alle Variablen durchsucht werden. Um alle
+    Variablen zu durchsuchen, muá der Parameter "prev_index" beim ersten Aufruf
+    auf $FFFF gesetzt werden. Bei jedem weiteren Aufruf muá der Parameter
+    "index" als neuer "prev_index" verwendet werden.
+
+
+
+
+                                  @230[ Variablendienste ]                 @001[ šbersicht ]
+.254
+    PV_list - alle PVs durchsuchen (Fortsetzung)
+
+    <-> Parameter <pv_struct >: list-Struktur
+
+    Die PV-Information der gefundenen Prozeávariable wird in die Struktur
+    "list" geschrieben. Elemente der Struktur "list":
+    name       : 14 BYTE (FELD) Name der PV
+    tc         : BYTE           Taskklasse der PV
+    group      : BYTE           Gruppennummer der PV
+    ident      : BYTE           Ident-Nummer der PV
+    address    : BYTE           physikalische Adresse der PV
+                                (fr den dynamischen Zugriff)
+
+
+
+
+
+
+
+
+
+                                       @253[ PV_list ]                     @001[ šbersicht ]
+.255
+    PV_ninfo - Informationen zu einer komplexen PV anfordern (ber Name)
+
+    status = @255[PV_ninfo](adr(pv_name),adr(daten_typ),adr(daten_len),adr(dimens))
+
+    Parameter-Datentypen :
+    ->  @256[pv_name   ]: BYTE (FELD)   Name der Prozeávariable (String)
+    <-> @258[daten_typ ]: LONG          Datentyp der PV
+    <-> daten_len : LONG          L„nge der PV in Byte
+    <-> @259[dimens    ]: WORD          Anzahl der Feld- bzw. Strukturelemente
+    <-  @231[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    PV_ninfo() liefert die gleichen Informationen wie PV_info(). Durch den
+    Zugriff ber den Namen kann aber auch auf Struktur- und Feldelemente
+    zugegriffen werden (z.B. "pv.elem[1].subelem").
+
+
+
+
+
+
+
+                                  @230[ Variablendienste ]                 @001[ šbersicht ]
+.256
+    PV_ninfo - Informationen zu einer komplexen PV anfordern (ber Name)
+
+    ->  Parameter <pv_name   >: BYTE (FELD)
+
+    Name der Prozeávariable als Zeichenkette. Folgende Punkte sind zu beachten:
+
+    - Zeichenketten (Strings) sind immer nullterminiert (wie in C).
+
+    - Zeichenketten k”nnen auf drei verschiedene Arten als Eingangsparameter
+      verwendet werden:
+      adr(String) ... Adresse der BYTE-Feldvariable, die den String enth„lt
+      "Konstante" ... konstanter String (muá in Anfhrungszeichen angegeben
+                      werden!)
+
+    - Der String muá in folgender Form bergeben werden:
+      [<Task-Name>":"]<PV-Name>["["<Nummer>"]"]["."<Elementname>]
+      <Task-Name>     Name der zyklischen Task (optionelle Angabe!)
+      <PV-Name>       Name der Prozeávariable
+      <Nummer>        Index des Feldelements (optionelle Angabe!)
+      <Elementname>   Name des Strukturelements (optionelle Angabe!)
+
+                                     @257[ Fortsetzung ]                   @001[ šbersicht ]
+.257
+    PV_ninfo - Informationen zu einer komplexen PV anfordern (ber Name)
+
+    - Auf den Inhalt von dynamischen Variablen kann durch Angabe des Zeichnens
+      "*" vor dem PV-Namen zugegriffen werden (z.B. "*pv_name").
+
+    - Beispiele fr PV-Namen:
+      test:data       Variable "data" der Task "test"
+      F_Tank[3]       4. Element der Feldvariable "F_Tank"
+      Punkt.x         Element "x" der Strukturvariable "Punkt"
+      *dyn_var        Inhalt der dynamischen Variable "dyn_var"
+
+
+
+
+
+
+
+
+
+
+
+                                      @255[ PV_ninfo ]                     @001[ šbersicht ]
+.258
+    PV_ninfo - Informationen zu einer komplexen PV anfordern (ber Name)
+
+    <-> Parameter <daten_typ >: LONG
+
+    Werte des Eingangsparameters "daten_typ":
+
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º "daten_typ" ³   entsprechender    º "daten_typ" ³   entsprechender    º
+    º             ³      Datentyp       º             ³      Datentyp       º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º      0      ³ Struktur            º      8      ³ FLOAT               º
+    º      1      ³ BIT                 º      9      ³ Visible String      º
+    º      2      ³ INT8                º     10      ³ Octet String        º
+    º      3      ³ INT16               º     11      ³ Date                º
+    º      4      ³ INT32               º     12      ³ Time of day         º
+    º      5      ³ BYTE                º     13      ³ Time difference     º
+    º      6      ³ WORD                º     14      ³ Bit String          º
+    º      7      ³ LONG                º     15      ³ Feld von Strukturen º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+                                      @255[ PV_ninfo ]                     @001[ šbersicht ]
+.259
+    PV_ninfo - Informationen zu einer komplexen PV anfordern (ber Name)
+
+    <-> Parameter <dimens    >: WORD
+
+    Der Parameter "dimens" gibt bei Strukturen ("daten_typ" = 0) die Anzahl der
+    Strukturelemente an. Bei allen anderen Datentypen gibt dieser Parameter die
+    Anzahl der Feldelemente an.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @255[ PV_ninfo ]                     @001[ šbersicht ]
+.260
+    PV_item - Name eines Strukturelements anfordern
+
+    status = @260[PV_item](adr(pv_name),index,adr(itemname))
+
+    Parameter-Datentypen :
+    ->  @261[pv_name   ]: BYTE (FELD)   Name der Prozeávariable (String)
+    ->  index     : WORD          Index des Strukturelements:
+                                  0 ... 1. Element der Struktur
+                                  1 ... 2. Element der Struktur
+                                  2 ... usw.
+    <-> itemname  : BYTE (FELD)   Name des Strukturelements (ASCII)
+    <-  @231[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion PV_item() k”nnen der Name von Strukturelementen bestimmt
+    werden.
+
+
+
+
+
+
+                                  @230[ Variablendienste ]                 @001[ šbersicht ]
+.261
+    PV_item - Name eines Strukturelements anfordern (Fortsetzung)
+
+    ->  Parameter <pv_name   >: BYTE (FELD)
+
+    Name der Prozeávariable als Zeichenkette. Folgende Punkte sind zu beachten:
+
+    - Zeichenketten (Strings) sind immer nullterminiert (wie in C).
+
+    - Zeichenketten k”nnen auf drei verschiedene Arten als Eingangsparameter
+      verwendet werden:
+      adr(String) ... Adresse der BYTE-Feldvariable, die den String enth„lt
+      "Konstante" ... konstanter String (muá in Anfhrungszeichen angegeben
+                      werden!)
+
+    - Der String muá in folgender Form bergeben werden:
+      [<Task-Name>":"]<PV-Name>["["<Nummer>"]"]["."<Elementname>]
+      <Task-Name>     Name der zyklischen Task (optionelle Angabe!)
+      <PV-Name>       Name der Prozeávariable
+      <Nummer>        Index des Feldelements (optionelle Angabe!)
+      <Elementname>   Name des Strukturelements (optionelle Angabe!)
+
+                                     @262[ Fortsetzung ]                   @001[ šbersicht ]
+.262
+    PV_item - Name eines Strukturelements anfordern (Fortsetzung)
+
+    - Auf den Inhalt von dynamischen Variablen kann durch Angabe des Zeichnens
+      "*" vor dem PV-Namen zugegriffen werden (z.B. "*pv_name").
+
+    - Beispiele fr PV-Namen:
+      test:data       Variable "data" der Task "test"
+      F_Tank[3]       4. Element der Feldvariable "F_Tank"
+      Punkt.x         Element "x" der Strukturvariable "Punkt"
+      *dyn_var        Inhalt der dynamischen Variable "dyn_var"
+
+
+
+
+
+
+
+
+
+
+
+                                       @260[ PV_item ]                     @001[ šbersicht ]
+.700
+    ANHANG : LIBRARY-Informationen
+
+
+    @701[< Allgemeines           >]     Voraussetzungen etc.
+
+    @750[< Syntax                >]     Syntax fr die Erkl„rung der Funktionen
+
+    @800[< Fehlernummern         >]     Zusammenfassung aller Fehlernummern
+
+    @850[< Ausfhrungszeiten     >]     Ausfhrungszeiten und Stackbedarf
+
+    @900[< History               >]     Neue Funktionalit„ten und Versions„nderungen
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.701
+    B&R-Library : Allgemeines
+
+    Anmerkungen:
+    - Bevor Sie die Funktionen der B&R-Library in Ihrem Projekt verwenden
+      k”nnen, mssen Sie die Library in die entsprechende Projekt-Datenbank
+      importieren.
+
+    - Die Funktionen dieser Library k”nnen nur verwendet werden, wenn das
+      Library-Runtime-Modul (B&R-Modul BURTRAP.BR) auf der RPS (Anwender-ROM)
+      vorhanden ist!
+
+    - Um die Leistungsf„higkeit des Systems nicht zu beeintr„chtigen, sollten
+      Funktionen, die als Ergebnis eine Identifizierungsnummer (Ident-Nummer)
+      liefern, nur einmalig im INIT-UP (Initialisierungs-Unterprogramm) der
+      zyklischen Task aufgerufen werden. Die Ident-Nummer darf vom Anwender-
+      programm nicht ver„ndert werden!
+
+    - Fast alle Funktionen der B&R-Library liefern im Fehlerfall als Ergebnis
+      eine @800[Fehlernummer].
+
+
+                                       @700[ ANHANG ]                      @001[ šbersicht ]
+.750
+    B&R-Library : Syntaxbeschreibung
+
+    Datentypen:
+    Fr viele Funktionen sind bestimmte Gruppen von Datentypen zul„ssig. Um
+    bei der Funktionsbeschreibung nicht alle zul„ssigen Datentypen anfhren
+    zu mssen, werden folgende Gruppenbezeichnungen eingefhrt:
+    ÉÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍ»
+    º Gruppe º  BIT  ³ INT8  ³ BYTE  ³ INT16 ³ WORD  ³ INT32 ³ LONG  ³ FLOAT º
+    ÌÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍ¹
+    º BASIS  º       ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º NICHT  º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    º FLOAT  º       ³       ³       ³       ³       ³       ³       ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º ALLE   º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º FELD   º  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  º
+    ÈÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍ¼
+      x  Datentyp ist zul„ssig
+     [x] Datentyp ist zul„ssig als Feldvariable oder Zeichenkette (String)
+
+                                     @751[ Fortsetzung ]                   @001[ šbersicht ]
+.751
+    B&R-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Pfeile:
+    Fr die Darstellung von Eingangs- und Ausgangsparametern werden Pfeile
+    verwendet. Dabei gilt folgende Vereinbarung:
+    ÉÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º  Pfeil  º  Bedeutung                                                   º
+    ÌÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º   ->    º  Eingangsparameter                                           º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <->   º  Ein-/Ausgangsparameter. Funktionell ist es ein Ausgangs-    º
+    º         º  parameter. šblicherweise wird er aber vor dem Aufruf der    º
+    º         º  Funktion mit einer bestimmten Information geladen (z.B.     º
+    º         º  einer Adresse). Meist wird die Adresse einer Variable mit   º
+    º         º  adr() [PL2000] oder einem Adreákontakt [KOP] angeschlossen. º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <-    º  Ausgangsparameter                                           º
+    ÈÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @752[ Fortsetzung ]                   @001[ šbersicht ]
+.752
+    B&R-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Funktionsbl”cke:
+    Funktionsbl”cke sind in dieser Online-Hilfe nicht grafisch dargestellt.
+    Sie finden aber alle fr Funktionsbl”cke relevanten Informationen, wie
+    Eingangsparameter (->), Ein-/Ausgangsparameter (<->) und Ausgangsparameter
+    (<-) in der Online-Hilfe.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @700[ ANHANG ]                      @001[ šbersicht ]
+.800
+    B&R-Library : Fehlernummern
+
+    Die folgende Liste ist eine Zusammenfassung aller m”glichen Fehlermeldungen
+    der B&R-Library:
+
+    2061 ... ERR_BUR_WRROW        ungltige Zeilenangabe
+    2062 ... ERR_BUR_WRCOL        ungltige Spaltenangabe
+    2063 ... ERR_BUR_WR_CHAR      ungltiges ASCII-Zeichen
+    2073 ... ERR_BUR_NORTC        RTC nicht initialisiert
+    3030 ... ERR_BUR_NOMEM        kein Speicher verfgbar (RPSSW V1.05)
+    3104 ... ERR_BUR_ILLPTR       ungltiger Pointer bei MEM_free (RPSSW V1.05)
+    3300 ... ERR_BUR_ILLTKNR      falsche Taskklassen-Nummer
+    3301 ... ERR_BUR_WROFFSET     ungltiger Offset bei DA_write()
+    3302 ... ERR_BUR_ILLSTATE     falscher Modul-/Taskzustand
+    3303 ... ERR_BUR_NOMSG        keine Message fr UT_recmsg()
+    3304 ... ERR_BUR_TIMEOUT      Timeout bei SM_attach() aufgetreten
+    3305 ... ERR_BUR_DUPOBJ       Objekt existiert bereits
+    3306 ... ERR_BUR_EXISTS       Eintrag/Semaphor existiert bereits
+    3307 ... ERR_BUR_LCOUNT       AVT-Eintrag kann nicht gel”scht werden,
+                                  da der Link Count <> 0 ist
+
+                                     @801[ Fortsetzung ]                   @001[ šbersicht ]
+.801
+    B&R-Library : Fehlernummern (Fortsetzung)
+
+    3308 ... ERR_BUR_BURNING      Fehler bei DA_burn()/DA_fix() aufgetreten
+    3309 ... ERR_BUR_INVALIDMBX   es existiert keine gltige Mailbox
+    3310 ... ERR_BUR_ILLBPTR      Zugriff auf inaktiven Bereich
+    3311 ... ERR_BUR_ILLTYP       ungltige Bereichskennung
+    3312 ... ERR_BUR_ILLEXT       ungltiges Extensionbit
+    3313 ... ERR_BUR_ILLVER       ungltige B&R-Library-Version
+    3314 ... ERR_BUR_ILLLEN       ungltige L„ngenangabe
+    3315 ... ERR_BUR_LCOUNT       Link Count hat den max. Wert (127) erreicht
+    3316 ... ERR_BUR_AVT_FREE     Link Count = 0 (AVT_release)
+    3320 ... ERR_BUR_OBJDEL       Semaphor w„hrend WAIT gel”scht
+    3324 ... ERR_BUR_ILLOBJ       gewnschtes Objekt nicht vorhanden
+    3328 ... ERR_BUR_ILLOBJTYP    falscher Objekttyp (Modultyp)
+    3332 ... ERR_BUR_NOENTRY      Objekt nicht gefunden
+    3336 ... ERR_BUR_ILLIDENT     ungltige Ident-Nummer
+    3560 ... ERR_BUR_NOSMBUF      kein Puffer mehr verfgbar
+    3564 ... ERR_BUR_NOSM         Semaphor nicht verfgbar
+    3568 ... ERR_BUR_SMDEL        Semaphor bereits gel”scht
+    3584 ... ERR_BUR_NOTIME       keine Zeit verfgbar
+
+                                     @802[ Fortsetzung ]                   @001[ šbersicht ]
+.802
+    B&R-Library : Fehlernummern (Fortsetzung)
+
+    3588 ... ERR_BUR_ILLDATE      ungltiges Datum
+    3592 ... ERR_BUR_ILLTIME      ungltige Zeit
+    3596 ... ERR_BUR_ILLTICKS     ungltige Tickanzahl
+    3600 ... ERR_BUR_MEM_ALLOC    kein Speicher verfgbar (RPSSW V1.10)
+    3601 ... ERR_BUR_TMP_ALLOC    kein Speicher verfgbar
+    3700 ... ERR_BUR_MEM_FREE     ungltiger Pointer bei MEM_free (RPSSW V1.10)
+    3701 ... ERR_BUR_TMP_FREE     ungltiger Pointer bei TMP_free
+    9133 ... ERR_EXC_NIL_POINTER  Nil-Pointer Verwendung bei dynamischen PVs
+   14700 ... ERR_PV_PVNAME        ungltiger PV-Name
+   14702 ... ERR_PV_WRONG_ARRAY   ungltiger Feldindex
+   14703 ... ERR_PV_WRONG_ELEM    ungltiges Strukturelement
+   14704 ... ERR_PV_WRONG_KOMP    ungltige Komponente
+   14710 ... ERR_PV_NOTFOUND      PV nicht gefunden
+   14713 ... ERR_PV_NODETAIL      keine PV-Beschreibung vorhanden
+   14714 ... ERR_PV_AIXTOOBIG     Feldindex zu groá
+   21002 ... ERR_PMEM_OFFSET      unzul„ssiger Offset
+   21003 ... ERR_PMEM_CPUTYP      CPU-Typ hat keinen "fixierten Speicher"
+
+
+                                       @700[ ANHANG ]                      @001[ šbersicht ]
+.850
+    B&R-Library : Ausfhrungszeiten
+
+    Die folgende Tabelle zeigt die Ausfhrungszeiten der Funktionen der B&R-
+    Library sowie deren Stackbedarf. Da mit Ausnahme der Funktionen Bit2Byte(),
+    Byte2Bit(), PMEM_get(), PMEM_put() und SYS_battery() alle Funktionen der
+    B&R-Library maximal 20 Byte Userstack ben”tigen, ist der Userstack in der
+    Tabelle nicht angefhrt! Die Zeiten wurden auf einer CP1xx gemessen (ME91x,
+    ME96x).
+
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Funktion       º Ausfhrungs- ³ Supervisor-  ³ Zusatzinfo               º
+    º                º zeiten [æs]  ³ stack [Byte] ³                          º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º AVT_attach     º        415   ³        244   ³                          º
+    º AVT_cancel     º        380   ³        232   ³                          º
+    º AVT_create     º     > 2440   ³        350   ³                          º
+    º AVT_ident      º     >  710   ³        208   ³                          º
+    º AVT_info       º        140   ³        144   ³                          º
+    º AVT_release    º        410   ³        240   ³                          º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                     @851[ Fortsetzung ]                   @001[ šbersicht ]
+.851
+    B&R-Library : Ausfhrungszeiten (Fortsetzung)
+
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Funktion       º Ausfhrungs- ³ Supervisor-  ³ Zusatzinfo               º
+    º                º zeiten [æs]  ³ stack [Byte] ³                          º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º Bit2Byte       º     >   55   ³          -   ³ Userstack: 52 Byte       º
+    º Byte2Bit       º     >   55   ³          -   ³ Userstack: 56 Byte       º
+    º DA_burn        º   Stop RPS   ³        416   ³                          º
+    º DA_create      º     > 4930   ³        416   ³                          º
+    º DA_delete      º       1665   ³        338   ³                          º
+    º DA_fix         º   Stop RPS   ³        416   ³                          º
+    º DA_ident       º     >  805   ³        204   ³ abh„ngig von Modulanzahl º
+    º DA_info        º        435   ³        164   ³                          º
+    º DA_read        º     >  315   ³        168   ³ abh„ngig von Datenl„nge  º
+    º DA_write       º     >  505   ³        292   ³ abh„ngig von Datenl„nge  º
+    º DA_store       º              ³  300 - 960   ³ abh„ngig von Speichertyp º
+    º DA_copy        º              ³  300 - 960   ³ abh„ngig von Speichertyp º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+                                     @852[ Fortsetzung ]                   @001[ šbersicht ]
+.852
+    B&R-Library : Ausfhrungszeiten (Fortsetzung)
+
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Funktion       º Ausfhrungs- ³ Supervisor-  ³ Zusatzinfo               º
+    º                º zeiten [æs]  ³ stack [Byte] ³                          º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º DIS_chr        º        135   ³         30   ³                          º
+    º DIS_clr        º       1570   ³         18   ³                          º
+    º DIS_str        º        380   ³         30   ³                          º
+    º ERR_fatal      º    Nothalt   ³    Nothalt   ³                          º
+    º ERR_read       º        870   ³        172   ³                          º
+    º ERR_warning    º       1750   ³        298   ³                          º
+    º FORCE_info     º        145   ³        148   ³                          º
+    º KEY_enadis     º        115   ³         88   ³                          º
+    º KEY_read       º         80   ³         76   ³                          º
+    º MEM_alloc      º        540   ³        198   ³ bei   128 Byte           º
+    º                º       1090   ³        198   ³ bei  1024 Byte           º
+    º                º       6380   ³        198   ³ bei 10042 Byte           º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+                                     @853[ Fortsetzung ]                   @001[ šbersicht ]
+.853
+    B&R-Library : Ausfhrungszeiten (Fortsetzung)
+
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Funktion       º Ausfhrungs- ³ Supervisor-  ³ Zusatzinfo               º
+    º                º zeiten [æs]  ³ stack [Byte] ³                          º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º MEM_free       º        460   ³        178   ³ bei   128 Byte           º
+    º                º        690   ³        178   ³ bei  1024 Byte           º
+    º                º       2420   ³        178   ³ bei 10042 Byte           º
+    º MO_list        º     >  615   ³        168   ³ abh„ngig von Modulanzahl º
+    º PMEM_get       º         90   ³          -   ³ Userstack: 44 Byte       º
+    º PMEM_put       º         90   ³          -   ³ Userstack: 44 Byte       º
+    º PV_getadr      º     > 1690   ³        516   ³ abh„ngig von PV-Anzahl   º
+    º PV_getval      º        510   ³        272   ³                          º
+    º PV_ident       º     > 1730   ³        512   ³ abh„ngig von PV-Anzahl   º
+    º PV_info        º        290   ³        224   ³ elementare PV            º
+    º                º  300 - 550   ³        224   ³ Struktur / Feld          º
+    º PV_item        º     > 1900   ³        400   ³ Userstack: 96 Byte       º
+    º PV_list        º     > 3670   ³        596   ³ abh„ngig von PV-Anzahl   º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                     @854[ Fortsetzung ]                   @001[ šbersicht ]
+.854
+    B&R-Library : Ausfhrungszeiten (Fortsetzung)
+
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Funktion       º Ausfhrungs- ³ Supervisor-  ³ Zusatzinfo               º
+    º                º zeiten [æs]  ³ stack [Byte] ³                          º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º PV_ninfo       º     > 1550   ³        416   ³ Userstack: 176 Byte      º
+    º PV_setval      º        510   ³        272   ³                          º
+    º PV_xgetadr     º     > 2250   ³        544   ³ abh„ngig von PV-Anzahl   º
+    º PV_xgetval     º  365 - 490   ³        282   ³ abh„ngig von Datenl„nge  º
+    º PV_xsetval     º  365 - 490   ³        282   ³ abh„ngig von Datenl„nge  º
+    º RTC_gettime    º  125 / 490   ³         22   ³ 2010 / 2005              º
+    º RTC_settime    º  185 / 520   ³         22   ³ 2010 / 2005              º
+    º SM_attach      º         80   ³         30   ³                          º
+    º SM_create      º        130   ³         46   ³                          º
+    º SM_delete      º        125   ³         62   ³                          º
+    º SM_ident       º        100   ³         38   ³                          º
+    º SM_release     º         70   ³         26   ³                          º
+    º ST_allsuspend  º        500   ³        108   ³                          º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                     @855[ Fortsetzung ]                   @001[ šbersicht ]
+.855
+    B&R-Library : Ausfhrungszeiten (Fortsetzung)
+
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Funktion       º Ausfhrungs- ³ Supervisor-  ³ Zusatzinfo               º
+    º                º zeiten [æs]  ³ stack [Byte] ³                          º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º ST_ident       º     > 1035   ³        212   ³ abh„ngig von Taskanzahl  º
+    º ST_info        º        145   ³        152   ³                          º
+    º ST_name        º        385   ³        144   ³                          º
+    º ST_resume      º        430   ³        244   ³                          º
+    º ST_suspend     º        425   ³        244   ³                          º
+    º ST_tmp_resume  º        145   ³        144   ³                          º
+    º ST_tmp_suspend º        145   ³        144   ³                          º
+    º SW_gettime     º        115   ³         96   ³                          º
+    º SW_settime     º        260   ³        132   ³                          º
+    º SYS_battery    º          7   ³          -   ³ Userstack: 4 Byte        º
+    º SYS_info       º         70   ³         42   ³                          º
+    º SYSreset       º    RPS Reset ³  RPS Reset   ³                          º
+    º SYSxinfo       º       1180   ³        208   ³                          º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                     @856[ Fortsetzung ]                   @001[ šbersicht ]
+.856
+    B&R-Library : Ausfhrungszeiten (Fortsetzung)
+
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Funktion       º Ausfhrungs- ³ Supervisor-  ³ Zusatzinfo               º
+    º                º zeiten [æs]  ³ stack [Byte] ³                          º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º TIM_musec      º         25   ³         16   ³                          º
+    º TIM_ticks      º         60   ³         22   ³                          º
+    º TMP_alloc      º        305   ³        202   ³ bei   128 Byte           º
+    º                º        315   ³        202   ³ bei  1024 Byte           º
+    º                º        320   ³        202   ³ bei 10042 Byte           º
+    º TMP_free       º        320   ³        202   ³ bei   128 Byte           º
+    º                º        325   ³        202   ³ bei  1024 Byte           º
+    º                º        330   ³        202   ³ bei 10042 Byte           º
+    º UT_freemsg     º        115   ³         62   ³                          º
+    º UT_ident       º      > 935   ³        220   ³ abh„ngig von Taskanzahl  º
+    º UT_recmsg      º  Restzeit-T. ³  Restzeit-T. ³                          º
+    º UT_resume      º        520   ³        248   ³                          º
+    º UT_sendmsg     º        305   ³        148   ³                          º
+    º UT_suspend     º        495   ³        248   ³                          º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+                                       @700[ ANHANG ]                      @001[ šbersicht ]
+.900
+    B&R-Library : History - Versions„nderungen
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.19 -> V1.20  ³ AKTUELLE VERSION: Neue Funktionalit„ten                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Erweiterung: DA_store() und DA_copy()                                   º
+  º - Erweiterung: SYS_reset() generiert einen Eintrag im Fehlermodul         º
+  º - Erweiterung: ERRxread() und ERRxwarning() bei RPSSW >= V2.00            º
+  º - Fehlerkorrektur: PV_list() bei Verwendung von dynamischen Variablen     º
+  º - Fehlerkorrektur: DA_info() erkennt auch den Speichertyp DMEMORY         º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º V1.18 -> V1.19  ³ LTERE VERSIONEN: Fehlerbehebung                        º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Fehlerkorrektur der PV-Funktionen fr die CP260, CP200 und CP210.         º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+                                     @901[ Fortsetzung ]                   @001[ šbersicht ]
+.901
+    B&R-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.17 -> V1.18  ³ LTERE VERSIONEN: Fehlerbehebung                        º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Fehlerkorrektur bei den Funktionen PV_ninfo() und PV_item().              º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º V1.16 -> V1.17  ³ LTERE VERSIONEN: Neue Funktionalit„ten                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Die Funktionen Bit2Byte() und Byte2Bit() werden jetzt auf allen CPUs    º
+  º   untersttzt.                                                            º
+  º - PV_ninfo() und PV_item() als Funktionen integriert.                     º
+  º - Fehlerkorrektur bei PV_getadr() mit lokalen Bit-Variablen.              º
+  º - Fehlerkorrektur bei PV_xgetadr() mit dynamischen PVs.                   º
+  º - Umstellung der PV-Funktionen (Stackbedarf und Laufzeiten).              º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º V1.15 -> V1.16  ³ LTERE VERSIONEN: Neue Funktionalit„ten                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Untersttzung der neuen CPU CP200 (MO_list(), PV-Funktionen).           º
+  º - Fehlerkorrektur bei den Funktionen PV_info() und PV_xgetadr().          º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+                                     @902[ Fortsetzung ]                   @001[ šbersicht ]
+.902
+    B&R-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.14 -> V1.15  ³ LTERE VERSIONEN: Neue Funktionalit„ten                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Erweiterung: SW_gettime(), SW_settime()                                 º
+  º - Untersttzung der neuen CPU XP152.                                      º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º V1.13 -> V1.14  ³ LTERE VERSIONEN: Neue Funktionalit„ten                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º DA_read() konnte das letzte Byte eines Datenmoduls nicht lesen.           º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º V1.12 -> V1.13  ³ LTERE VERSIONEN: Neue Funktionalit„ten                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - PV_list() funktionierte nach dem Entfernen von Tasks nicht korrekt.     º
+  º - ST-Dienste lieferten bei "ITSELF" falscherweise einen Fehlerstatus.     º
+  º - Fr die RPSSW V1.05 wurden die Fehler in der Version BURTRAP V1.07      º
+  º   korrigiert.                                                             º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+                                     @903[ Fortsetzung ]                   @001[ šbersicht ]
+.903
+    B&R-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.11 -> V1.12  ³ LTERE VERSIONEN: Neue Funktionalit„ten                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Der Funktionsumfang wurde um die Funktionen PV_xgetadr(), PV_list(),    º
+  º   DA_read(), ERR_read(), SYSxinfo(), MO_list(), PMEM_get(), PMEM_put(),   º
+  º   Bit2Byte() und Byte2Bit() erweitert.                                    º
+  º - Die Funktion DA_ident() liefert erst dann den Status 0 = ERR_OK, wenn   º
+  º   das Modul vollst„ndig auf der RPS vorhanden ist (z.B. beim Download).   º
+  º - Die Funktion PV_info() liefert bei Feldern den Datentyp des Feld-       º
+  º   elements, bei Feldern von Strukturen korrekt die Dimension.             º
+  º - Die Laufzeit und der Stackbedarf der Funktionen wurde dokumentiert.     º
+  º - Fr die RPSSW V1.05 wurde die Funktionalit„t nachgezogen und die        º
+  º   Version BURTRAP V1.06 erstellt, die bis auf die nicht untersttzten     º
+  º   Funktionen PV_xgetval(), PV_xsetval() und DA_fix() der Version V1.12    º
+  º   entspricht.                                                             º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @904[ Fortsetzung ]                   @001[ šbersicht ]
+.904
+    B&R-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.10 -> V1.11  ³ LTERE VERSIONEN: Neue Funktionalit„ten                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Der Funktionsumfang wurde um die Funktion SYS_battery() erweitert, mit  º
+  º   der der Batterie- und Akku-Status festgestellt werden kann.             º
+  º - Die Funktionen MEM_alloc(), MEM_free(), TMP_alloc(), TMP_free(),        º
+  º   SM_create(), SM_ident() und TIM_ticks() wurden korrigiert, damit sie    º
+  º   auch in benutzerdefinierten FUBs verwendet werden k”nnen.               º
+  º Anmerkung: Das Modul "burtrap.br" hat sich von Version V1.10 auf V1.11    º
+  º nicht ge„ndert, nur das PG-Library-Modul "burtrap.slb", diese Hilfedatei  º
+  º und die C-Schnittstellen-Library fr Restzeit-Tasks wurden berarbeitet!  º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+                                     @905[ Fortsetzung ]                   @001[ šbersicht ]
+.905
+    B&R-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.05 -> V1.10  ³ LTERE VERSIONEN: Neue Funktionalit„ten                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Neue Funktionsgruppen:                                                    º
+  º - KEY-Funktionen zum Ein-/Ausschalten der Tastenbehandlung des CPU-Moduls º
+  º   durch die Systemsoftware bzw. zum Auslesen des Tastenzustands.          º
+  º - SYS-Funktionen zum Resetieren der RPS bzw. zum Auslesen von System-     º
+  º   information.                                                            º
+  º - FORCE-Funktion, die feststellt, ob in einer Taskklasse geforced wird.   º
+  º - TMP-Funktionen zum Allokieren von tempor„rem RAM, das nach einem POWER- º
+  º   FAIL neu allokiert werden muá.                                          º
+  º Erweiterungen von Funktionsgruppen:                                       º
+  º - DA-Funktion zum Fixieren im FIX-RAM.                                    º
+  º - PV-Funktionen fr den Zugriff auf Felder und Strukturen.                º
+  º - ST-Funktion zur Bestimmung des Namens einer RPS-Task.                   º
+  º Die Dienstgruppe PIO_*() fr das explizite Schaufeln wurde gestrichen,    º
+  º sie wird durch die DirektIO-FUBs abgedeckt, die effizienter und leichter  º
+  º zu bedienen sind.                                                         º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+                                       @700[ ANHANG ]                      @001[ šbersicht ]
+
+.End

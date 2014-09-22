@@ -1,0 +1,1224 @@
+%%
+1,0:1
+%%
+.1
+    Funktionen der I/O-Prozessor-Library
+
+    @020[SPdndata ] Downspool von Daten
+    @030[SPupdata ] Upspool von Daten
+    @040[SPdnmod  ] Downspool von B&R-Modulen
+    @050[SPupmod  ] Upspool von B&R-Modulen
+    @060[SPadr    ] Generieren der Spool-Adresse fr ein I/O-Modul
+    @070[SPdisplay] Aktivieren / Deaktivieren der Display-Ausgabe
+    @080[SPprio   ] Setzen der Priorit„t des Spoolers
+    @090[SPdminit ] Direktes Spoolen eines B&R-Moduls im INIT-UP
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º ACHTUNG: Die Funktionen der I/O-Prozessor-Library k”nnen nur verwendet    º
+  º          werden, wenn der Spooler (B&R-Modul SPOOLER.BR) auf der RPS      º
+  º          (Anwender-ROM) vorhanden ist. Der Spooler tr„gt die Funktions-   º
+  º          bl”cke w„hrend der Hochlaufphase in die Adreáverteiler-Tabelle   º
+  º          (AVT) ein.                                                       º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                       @200[ ANHANG ]                  @999[ HILFE beenden ]
+.20
+    SPdndata - Downspool von Daten
+
+    @021[SPdndata] (enable,spooladr,ip_adr,cpu_adr,data_len,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  @025[spooladr  ]: WORD          Adresse des intelligenten I/O-Prozessors am
+                                  I/O-Bus (Spool-Adresse)
+    ->  ip_adr    : LONG          Startadresse des Datenbereichs am intelli-
+                                  genten I/O-Prozessor (Destination Pointer)
+    ->  cpu_adr   : LONG          Startadresse des Datenbereichs auf der Haupt-
+                                  CPU (Source Pointer)
+    ->  data_len  : WORD          L„nge des Datenbereichs in Byte
+    <-  @026[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion SPdndata() k”nnen Daten beliebiger L„nge von der Haupt-CPU
+    zum intelligenten I/O-Prozessor (IP) gespoolt werden.
+
+
+
+                                     @021[ Fortsetzung ]                   @001[ šbersicht ]
+.21
+    SPdndata - Downspool von Daten (Fortsetzung)
+
+    Dabei ist die Applikation fr die Bereitstellung der Zieladresse am IP bzw.
+    des notwendigen Speichers am IP (freie Applikationsbereiche im DPR des IPs,
+    siehe dazu Kapitel "Multiprozessoren und Intelligente I/O-Prozessoren" im
+    Handbuch "B&R System 2000 Programmieren fr Fortgeschrittene") verantwort-
+    lich.
+
+    Die Spool-Adresse (Parameter "spooladr") bestimmt das I/O-Modul, auf das
+    gespoolt wird. Fr das Generieren der Spool-Adresse kann der Funktionsblock
+    @060[SPadr] verwendet werden.
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.25
+    SPdndata - Downspool von Daten (Fortsetzung)
+
+    -> Parameter <spooladr  >: WORD
+
+    Adresse des intelligenten I/O-Prozessors am I/O-Bus (Spool-Adresse).
+    Bei der Bestimmung der Spool-Adresse wird zwischen lokalen I/O-Bus und
+    Remote I/O-Bus unterschieden:
+
+    * @100[Spool-Adresse fr lokalen I/O-Bus]
+    * @103[Spool-Adresse fr Remote I/O-Bus ]
+
+    Die Spool-Adresse kann auch mit der Funktion @060[SPadr] generiert werden!
+
+
+
+
+
+
+
+
+
+                                      @020[ SPdndata ]                     @001[ šbersicht ]
+.26
+    SPdndata - Downspool von Daten (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummer:
+    0       Spooler fertig
+    6666    Spooler arbeitet noch
+
+    Alle anderen Fehlernummern sind im Anhang @300[Fehlermeldungen] beschrieben.
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @020[ SPdndata ]                     @001[ šbersicht ]
+.30
+    SPupdata - Upspool von Daten
+
+    @031[SPupdata] (enable,spooladr,ip_adr,cpu_adr,data_len,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  @035[spooladr  ]: WORD          Adresse des intelligenten I/O-Prozessors am
+                                  I/O-Bus (Spool-Adresse)
+    ->  ip_adr    : LONG          Startadresse des Datenbereichs am intelli-
+                                  genten I/O-Prozessor (Source Pointer)
+    ->  cpu_adr   : LONG          Startadresse des Datenbereichs auf der Haupt-
+                                  CPU (Destination Pointer)
+    ->  data_len  : WORD          L„nge des Datenbereichs in Byte
+    <-  @036[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion SPupdata() k”nnen Daten beliebiger L„nge vom intelligenten
+    I/O-Prozessor (IP) auf die Haupt-CPU geholt werden.
+
+
+
+                                     @031[ Fortsetzung ]                   @001[ šbersicht ]
+.31
+    SPupdata - Upspool von Daten (Fortsetzung)
+
+    Dabei ist die Applikation fr die Bereitstellung der Quelladresse am
+    intelligenten I/O-Prozessor (freie Applikationsbereiche im DPR des IPs,
+    siehe dazu Kapitel "Multiprozessoren und Intelligente I/O-Prozessoren" in
+    Handbuch "B&R System 2000 Programmieren fr Fortgeschrittene") und des
+    Speichers auf der Haupt-CPU ("cpu_adr") verantwortlich.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.35
+    SPupdata - Upspool von Daten (Fortsetzung)
+
+    -> Parameter <spooladr  >: WORD
+
+    Adresse des intelligenten I/O-Prozessors am I/O-Bus (Spool-Adresse).
+    Bei der Bestimmung der Spool-Adresse wird zwischen lokalen I/O-Bus und
+    Remote I/O-Bus unterschieden:
+
+    * @100[Spool-Adresse fr lokalen I/O-Bus]
+    * @103[Spool-Adresse fr Remote I/O-Bus ]
+
+    Die Spool-Adresse kann auch mit der Funktion @060[SPadr] generiert werden!
+
+
+
+
+
+
+
+
+
+                                      @030[ SPupdata ]                     @001[ šbersicht ]
+.36
+    SPupdata - Upspool von Daten (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummer:
+    0       Spooler fertig
+    6666    Spooler arbeitet noch
+
+    Alle anderen Fehlernummern sind im Anhang @300[Fehlermeldungen] beschrieben.
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @030[ SPupdata ]                     @001[ šbersicht ]
+.40
+    SPdnmod - Downspool von B&R-Modulen
+
+    @041[SPdnmod] (enable,spooladr,mo_ident,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  @045[spooladr  ]: WORD          Adresse des intelligenten I/O-Prozessors am
+                                  I/O-Bus (Spool-Adresse)
+    ->  mo_ident  : LONG          Ident-Nummer des B&R-Moduls, das gespoolt
+                                  werden soll. Die Ident-Nummer des B&R-Moduls
+                                  kann mit der Funktion DA_create() oder
+                                  DA_ident() der B&R-TRAP-Library ermittelt
+                                  werden.
+    <-  @046[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+
+    Mit diesem Funktionsblock kann ein B&R-Modul im zyklischen Betrieb zum
+    intelligenten I/O-Prozessor (IP) gespoolt werden.
+
+
+                                     @041[ Fortsetzung ]                   @001[ šbersicht ]
+.41
+    SPdnmod - Downspool von B&R-Modulen (Fortsetzung)
+
+    B&R-Module k”nnen auf zwei Arten zum intelligenten I/O-Prozessor (IP)
+    gespoolt werden:
+    - Spoolen im Hochlauf (Warmstart) bzw. beim šbertragen (Download)
+    - Spoolen im zyklischen Betrieb mit der Funktion SPdnmod()
+
+    Alle B&R-Module mit der Einstellung "Spoolen: bei Download" (siehe Task-
+    parameter bzw. Compiler-Option "Spoolen") werden sofort nach dem šbertragen
+    (Download) vom Spooler automatisch zum entsprechenden IP gespoolt.
+    Alle B&R-Module mit der Einstellung "Spoolen: bei Warmstart" (siehe Task-
+    parameter bzw. Compiler-Option "Spoolen") werden zun„chst in die Haupt-CPU
+    bertragen. Der Spoolvorgang von der Haupt-CPU an den IP erfolgt erst nach
+    einem Warmstart.
+    Beim Spoolen im zyklischen Betrieb mit der Funktion SPdnmod() wird das
+    B&R-Modul (unabh„ngig von der im PG2000 angegebenen Moduladresse) auf den
+    mit dem Parameter "spooladr" festgelegten IP gespoolt.
+    Um in der GDM einen IP eintragen zu k”nnen, muá zwischen der RPS-Ebene und
+    der Task-Ebene eine Prozessor-Ebene eingezogen werden. Fr den IP muá neben
+    der Zykluszeit der superschnellen Taskklasse am IP auch die Moduladresse
+    eingetragen werden.
+                                                                     @001[ šbersicht ]
+.45
+    SPdnmod - Downspool von B&R-Modulen (Fortsetzung)
+
+    -> Parameter <spooladr  >: WORD
+
+    Adresse des intelligenten I/O-Prozessors am I/O-Bus (Spool-Adresse).
+    Bei der Bestimmung der Spool-Adresse wird zwischen lokalen I/O-Bus und
+    Remote I/O-Bus unterschieden:
+
+    * @100[Spool-Adresse fr lokalen I/O-Bus]
+    * @103[Spool-Adresse fr Remote I/O-Bus ]
+
+    Die Spool-Adresse kann auch mit der Funktion @060[SPadr] generiert werden!
+
+
+
+
+
+
+
+
+
+                                       @040[ SPdnmod ]                     @001[ šbersicht ]
+.46
+    SPdnmod - Downspool von B&R-Modulen (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummer:
+    0       Spooler fertig
+    6639    Ident-Nummer des B&R-Moduls ist ungltig
+    6666    Spooler arbeitet noch
+
+    Alle anderen Fehlernummern sind im Anhang @300[Fehlermeldungen] beschrieben.
+
+
+
+
+
+
+
+
+
+
+
+                                       @040[ SPdnmod ]                     @001[ šbersicht ]
+.50
+    SPupmod - Upspool von B&R-Modulen
+
+    @051[SPupmod] (enable,spooladr,adr(name),modus,cpu_adr,data_adr,modullen,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  @055[spooladr  ]: WORD          Adresse des intelligenten I/O-Prozessors am
+                                  I/O-Bus (Spool-Adresse)
+    ->  @056[name      ]: BYTE (FELD)   Name des gespoolten B&R-Moduls als ASCII-
+                                  String
+    ->  modus     : BYTE          0 ... B&R-Modul nicht integrieren
+                                  1 ... B&R-Modul integrieren -> Manipulation
+                                        mit dem PG2000 m”glich (Upload)
+    <-  cpu_adr   : LONG          Adresse des B&R-Moduls auf der Haupt-CPU
+                                  (Destination Pointer)
+    <-  data_adr  : LONG          Adresse der Daten im B&R-Modul der Haupt-CPU
+                                  (nur fr Datenmodule)
+    <-  modullen  : LONG          L„nge des gespoolten B&R-Moduls in Byte
+    <-  @057[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+                                     @051[ Fortsetzung ]                   @001[ šbersicht ]
+.51
+    SPupmod - Upspool von B&R-Modulen (Fortsetzung)
+
+    Mit diesem Funktionsblock kann ein B&R-Modul im zyklischen Betrieb vom
+    intelligenten I/O-Prozessor (IP) geholt werden.
+
+    Wenn das B&R-Modul nicht auf der Haupt-CPU integriert wird ("modus" = 0),
+    ist der Anwender selbst dafr verantwortlich, daá der verwendete Speicher
+    wieder freigegeben wird. Speicherfreigabe mit der Funktion MEM_free() der
+    B&R-TRAP-Library:
+
+      MEM_free(modullen,cpu_adr)
+
+    Wenn das B&R-Modul auf der Haupt-CPU integriert wird ("modus" = 1), so
+    kann dieses Modul mit dem Programmiersystem PG2000 oder mit der Funktion
+    DA_delete() (B&R-TRAP-Library) entfernt werden. Dadurch wird der verwendete
+    Speicher automatisch freigegeben.
+
+    Der Ausgangsparameter "data_adr" wird nur bei Datenmodulen gesetzt, bei
+    allen anderen B&R-Modulen ist er ungltig!
+
+
+                                      @052[ Beispiel ]                     @001[ šbersicht ]
+.52
+    SPupmod - Upspool von B&R-Modulen (Beispiel)
+
+    Beispiel fr einen Spool-Auftrag (Upspool des Moduls "ip_dat"):
+
+      ; Der Spool-Auftrag wird hier durch Setzen eines Bit-Flags begonnen,
+      ; am Ende des Spool-Auftrags wird das Flag wieder auf 0 gesetzt
+          if spool_flag <> 0 then
+          ; Upspool des Moduls "ip_dat" mit Modus 1
+          ; (Modus 1: Integration auf der Haupt-CPU, damit UPLOAD mit
+          ; PG2000 m”glich und keine explizite Freigabe des Speichers
+          ; erforderlich ist)
+          SPupmod(1,spooladr,"ip_dat",1,cpu_adr,data_adr,modullen,status)
+          ; Prfen, ob der Spool-Auftrag fertig oder ein Fehler
+          ; aufgetreten ist
+          if status <> 6666 then
+              ; Spool-Auftrag fertig, wobei der Status anzeigt, ob ein Fehler
+              ; aufgetreten (status ungleich 0) oder alles o.k. (status=0) ist
+              ; Flag auf 0 setzen, damit Ende des Auftrags erkennbar ist
+              spool_flag = 0
+          endif
+      endif
+                                                                     @001[ šbersicht ]
+.55
+    SPupmod - Upspool von B&R-Modulen (Fortsetzung)
+
+    -> Parameter <spooladr  >: WORD
+
+    Adresse des intelligenten I/O-Prozessors am I/O-Bus (Spool-Adresse).
+    Bei der Bestimmung der Spool-Adresse wird zwischen lokalen I/O-Bus und
+    Remote I/O-Bus unterschieden:
+
+    * @100[Spool-Adresse fr lokalen I/O-Bus]
+    * @103[Spool-Adresse fr Remote I/O-Bus ]
+
+    Die Spool-Adresse kann auch mit der Funktion @060[SPadr] generiert werden!
+
+
+
+
+
+
+
+
+
+                                       @050[ SPupmod ]                     @001[ šbersicht ]
+.56
+    SPupmod - Upspool von B&R-Modulen (Fortsetzung)
+
+    -> Parameter <name      >: BYTE (FELD)
+
+    Name des gespoolten B&R-Moduls als String. Der String kann auf zwei ver-
+    schiedene Arten angegeben werden:
+
+    adr(name) ... Adresse der BYTE-Feldvariable, die den String enth„lt
+    "name" ...... Konstanter String (muá in Anfhrungszeichen angegeben
+                  werden!)
+
+
+
+
+
+
+
+
+
+
+
+                                       @050[ SPupmod ]                     @001[ šbersicht ]
+.57
+    SPupmod - Upspool von B&R-Modulen (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummer:
+    0       Spooler fertig
+    6666    Spooler arbeitet noch
+
+    Alle anderen Fehlernummern sind im Anhang @300[Fehlermeldungen] beschrieben.
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @050[ SPupmod ]                     @001[ šbersicht ]
+.60
+    SPadr - Generieren der Spool-Adresse fr ein I/O-Modul
+
+    @061[SPadr] (enable,io_type,master_no,slave_no,module_adr,spooladr,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  io_type   : BYTE          I/O-Typ:
+                                  0 ... 2010-I/O
+                                  1 ... 2005-I/O
+                                  2 ... Remote-I/O (System 2010)
+                                  3 ... Remote-I/O (System 2005)
+    ->  @065[master_no ]: BYTE          Logische Nummer des RPSIO-Masters (derzeit
+                                  immer 1) bzw. Master-Nummer der Remote
+                                  Master-Station
+    ->  @066[slave_no  ]: BYTE          Nummer der Rckwand bzw. Slave-Adresse
+    ->  module_adr: BYTE          Moduladresse des I/O-Moduls (in dezimaler
+                                  Form)
+
+
+
+                                     @061[ Fortsetzung ]                   @001[ šbersicht ]
+.61
+    SPadr - Generieren der Spool-Adresse fr ein I/O-Modul (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    <-  spooladr  : WORD          Adresse des intelligenten I/O-Prozessors am
+                                  I/O-Bus (Spool-Adresse). Die Spool-Adresse
+                                  wird fr die Funktionen SPdnmod(), SPupmod(),
+                                  SPdndata() und SPupdata() ben”tigt.
+    <-  @300[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit dem Funktionsblock SPadr() kann aus der I/O-Modul-Information die
+    Spool-Adresse, die bei den Funktionen SPdndata(), SPupdata(), SPdnmod()
+    und SPupmod() bergeben werden muá, bestimmt werden.
+    Die Spool-Adresse kann jedoch auch ohne diese Funktion bestimmt werden
+    (siehe Beschreibung der Funktionen SPdndata(), SPupdata(), SPdnmod()
+    und SPupmod()).
+
+    ACHTUNG: Bei Spool-Adressen fr 2010-I/Os, die im Modulheader eingetragen
+             sind (z.B. vom PG2000 bei 2010-IP), muá die Moduladresse im BCD-
+             Format angegeben werden (z.B. Moduladresse 10 = $0010). Bei den
+             Funktionen der I/O-Prozessor-Library sind die Moduladressen jedoch
+             immer dezimal anzugeben!
+                                                                     @001[ šbersicht ]
+.65
+    SPadr - Generieren der Spool-Adresse fr ein I/O-Modul (Fortsetzung)
+
+    -> Parameter <master_no >: BYTE
+
+    Parameter "master_no" (lokaler I/O-Bus):
+    Logische Nummer des RPSIO-Masters (derzeit immer 1).
+
+    Parameter "master_no" (Remote I/O-Bus):
+    Master-Nummer der Remote Master-Station. Die Master-Nummer entspricht
+    nicht der Moduladresse des Remote Master-Moduls! Fr die Ermittlung der
+    Master-Nummer mssen Sie die Remote Master-Module von der CPU ausgehend
+    durchnumerieren. Beim Steuerungssystem B&R 2010 wird von rechts nach links,
+    beim System B&R 2005 von links nach rechts gez„hlt. Der erste Remote Master
+    hat die Master-Nummer 1, der zweite Remote Master die Master-Nummer 2, usw.
+
+
+
+
+
+
+
+                                        @060[ SPadr ]                      @001[ šbersicht ]
+.66
+    SPadr - Generieren der Spool-Adresse fr ein I/O-Modul (Fortsetzung)
+
+    -> Parameter <slave_no  >: BYTE
+
+    Parameter "slave_no" (lokaler I/O-Bus):
+    - B&R 2005: Rckwandnummer
+                0 ... B&R 2005 Basisrckwand
+                1 ... B&R 2005 Erweiterungsrckwand 1
+                2 ... B&R 2005 Erweiterungsrckwand 2
+                3 ... B&R 2005 Erweiterungsrckwand 3
+                4 ... B&R 2005 Erweiterungsrckwand 4
+    - B&R 2010: immer 0
+
+    Parameter "slave_no" (Remote I/O-Bus):
+    Slave-Adresse der Remote Slave-Station. Die Slave-Adresse wird mit den
+    beiden Nummernschaltern (NODE #) auf dem Remote Slave-Modul eingestellt.
+
+
+
+
+
+                                     @067[ Fortsetzung ]                   @001[ šbersicht ]
+.67
+    SPadr - Generieren der Spool-Adresse fr ein I/O-Modul (Fortsetzung)
+
+    Da in der Spool-Adresse nur 5 Bit fr die Slave-Adresse reserviert sind,
+    und der Zahlenbereich von 5 Bit auf 0 bis 31 begrenzt ist, k”nnen fr die
+    Slave-Adresse "slave_no" nur die Werte 0 bis 31 angegeben werden:
+    0 .... Slave-Adresse 32
+    1 .... Slave-Adresse 1
+    2 .... Slave-Adresse 2
+    :            :
+    31 ... Slave-Adresse 31
+
+
+
+
+
+
+
+
+
+
+
+                                        @060[ SPadr ]                      @001[ šbersicht ]
+.70
+    SPdisplay - Aktivieren / Deaktivieren der Display-Ausgabe
+
+    @070[SPdisplay] (enable,mode,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  mode      : BYTE          0 ... Display-Ausgabe deaktiviert (Standard)
+                                  1 ... Display-Ausgabe aktiviert
+    <-  @300[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion SPdisplay() kann die Display-Ausgabe der Spool-FUBs
+    (Spool-Funktionsbl”cke) aktiviert bzw. deaktiviert werden.
+    Bei aktivierter Display-Ausgabe schreibt jeder Spool-FUB am Beginn des
+    Auftrag seinen Namen in die zweite Zeile des Status-Displays der Zentral-
+    einheit (nur B&R 2010). Am Ende des Spool-Auftrags wird die zweite Zeile
+    des Displays wieder gel”scht.
+    Diese Funktion wurde aus Konsistenzgrnden zur Version V1.05 der I/O-
+    Prozessor-Library, in der immer eine Display-Ausgabe erfolgte, erstellt.
+    Ab Version V1.10 der I/O-Prozessor-Library ist diese Display-Ausgabe aus
+    Performance-Grnden standardm„áig deaktiviert.
+                                                                     @001[ šbersicht ]
+.80
+    SPprio - Setzen der Priorit„t des Spoolers
+
+    @080[SPprio] (enable,mode,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  mode      : BYTE          0 ... niedrige Priorit„t (Standard)
+                                  1 ... hohe Priorit„t
+    <-  @300[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion SPprio() kann die Priorit„t des Spoolers im zyklischen
+    Betrieb eingestellt werden.
+    Bei niedriger Priorit„t wird der Spooler von den Kommunikations-Tasks
+    (z.B. Kommunikation zwischen Programmierger„t und RPS) unterbrochen.
+    Diese Priorit„t entspricht dem Verhalten bis einschlieálich Version V1.11
+    der I/O-Prozessor-Library.
+    Bei hoher Priorit„t kann der Spooler von den Kommunikations-Tasks nicht
+    unterbrochen werden.
+
+
+                                                                     @001[ šbersicht ]
+.90
+    SPdminit - Direktes Spoolen eines B&R-Moduls im INIT-UP
+
+    @091[SPdminit] (enable,name,io_type,master_no,slave_no,module adr,status,ok_flag)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  name      : LONG          Adresse des Modulnamens (ASCII-String)
+    ->  io_type   : BYTE          I/O-Typ:
+                                  0 ... 2010-I/O
+                                  1 ... 2005-I/O
+                                  2 ... Remote-I/O (System 2010)
+                                  3 ... Remote-I/O (System 2005)
+    ->  @095[master_no ]: BYTE          Logische Nummer des RPSIO-Masters (derzeit
+                                  immer 1) bzw. Master-Nummer der Remote
+                                  Master-Station
+    ->  @096[slave_no  ]: BYTE          Nummer der Rckwand bzw. Slave-Adresse
+    ->  module_adr: BYTE          Moduladresse des I/O-Moduls (in dezimaler
+                                  Form)
+    <-  @097[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+                                     @091[ Fortsetzung ]                   @001[ šbersicht ]
+.91
+    SPdminit - Direktes Spoolen eines B&R-Moduls im INIT-UP (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    <-  ok_flag   : BIT           0 ... Fehler
+                                  1 ... Modul korrekt gespoolt
+
+    Alle Funktionsbl”cke zum Spoolen von Daten bzw. B&R-Modulen im zyklischen
+    Betrieb (SPdndata, SPupdata, SPdnmod und SPupmod) mssen ber mehrere Task-
+    zyklen hinweg aufgerufen werden, da die Spool-Auftr„ge nicht direkt im
+    Funktionsblock abgearbeitet werden. Der Auftrag wird an die Spooler-Task
+    weitergereicht, die ihn in der Restzeit abarbeitet. D.h. wenn wenig Rest-
+    zeit zur Verfgung steht, kann dieser Vorgang mehrere Taskzyklen dauern.
+    Mit dem Funktionsblock SPdminit() kann ein B&R-Modul im Initialisierungs-
+    Unterprogramm direkt gespoolt werden, d.h. das B&R-Modul wird unmittelbar
+    nach dem Aufruf des Funktionsblocks (ohne Auftrag an die Spooler-Task) zum
+    angegebenen IP (intelligenter I/O-Prozessor) gespoolt.
+
+    ACHTUNG:
+    Der Funktionsblock SPdminit() darf nur in Initialisierungs-Unterprogrammen
+    (INIT-UPs) verwendet werden!
+
+                                                                     @001[ šbersicht ]
+.95
+    SPdminit - Direktes Spoolen eines B&R-Moduls im INIT-UP (Fortsetzung)
+
+    -> Parameter <master_no >: BYTE
+
+    Parameter "master_no" (lokaler I/O-Bus):
+    Logische Nummer des RPSIO-Masters (derzeit immer 1).
+
+    Parameter "master_no" (Remote I/O-Bus):
+    Master-Nummer der Remote Master-Station. Die Master-Nummer entspricht
+    nicht der Moduladresse des Remote Master-Moduls! Fr die Ermittlung der
+    Master-Nummer mssen Sie die Remote Master-Module von der CPU ausgehend
+    durchnumerieren. Beim Steuerungssystem B&R 2010 wird von rechts nach links,
+    beim System B&R 2005 von links nach rechts gez„hlt. Der erste Remote Master
+    hat die Master-Nummer 1, der zweite Remote Master die Master-Nummer 2, usw.
+
+
+
+
+
+
+
+                                      @090[ SPdminit ]                     @001[ šbersicht ]
+.96
+    SPdminit - Direktes Spoolen eines B&R-Moduls im INIT-UP (Fortsetzung)
+
+    -> Parameter <slave_no  >: BYTE
+
+    Parameter "slave_no" (lokaler I/O-Bus):
+    - B&R 2005: Rckwandnummer
+                0 ... B&R 2005 Basisrckwand
+                1 ... B&R 2005 Erweiterungsrckwand 1
+                2 ... B&R 2005 Erweiterungsrckwand 2
+                3 ... B&R 2005 Erweiterungsrckwand 3
+                4 ... B&R 2005 Erweiterungsrckwand 4
+    - B&R 2010: immer 0
+
+    Parameter "slave_no" (Remote I/O-Bus):
+    Slave-Adresse der Remote Slave-Station. Die Slave-Adresse wird mit den
+    beiden Nummernschaltern (NODE #) auf dem Remote Slave-Modul eingestellt.
+
+
+
+
+
+                                      @090[ SPdminit ]                     @001[ šbersicht ]
+.97
+    SPdminit - Direktes Spoolen eines B&R-Moduls im INIT-UP (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummer:
+    0       Spooler fertig
+    6637    Spool-Adresse ungltig
+    6638    Spool-Queue nicht vorhanden
+    6666    Spooler arbeitet noch
+
+    Alle anderen Fehlernummern sind im Anhang @300[Fehlermeldungen] beschrieben.
+
+
+
+
+
+
+
+
+
+
+                                      @090[ SPdminit ]                     @001[ šbersicht ]
+.100
+    Spool-Adresse fr lokalen I/O-Bus
+
+    Spool-Adresse fr lokalen I/O-Bus:
+    Fr den lokalen I/O-Bus (mit oder ohne Busexpansion) wird die Spool-Adresse
+    in folgender Form angegeben:
+
+    ÚÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄ¿
+    ³0³0³0³0³0³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³
+    ÀÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÙ
+     ÄÂÄ ÄÄÂÄÄ ÄÄÂÄÄ ÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄ
+      ³    ³     ³          ³
+      ³    ³     ³          ÀÄÄÄÄÄÄÄÄÄÄ Bit 0 bis 7:   @101[Moduladresse     ]
+      ³    ³     ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Bit 8 bis 10:  @102[Zusatzinformation]
+      ³    ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Bit 11 bis 13: @102[I/O-Typ          ]
+      ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Bit 14 bis 15: @102[Busnummer        ]
+
+
+
+
+
+
+                          @103[ Spool-Adresse fr Remote I/O-Bus ]         @001[ šbersicht ]
+.101
+    Spool-Adresse fr lokalen I/O-Bus (Fortsetzung)
+
+    Moduladresse:
+    Moduladresse des I/O-Moduls. Die Moduladresse von I/O-Modulen der Systeme
+    B&R 2010 (Moduladresse: 1 bis max. 99) und B&R 2005 (Moduladresse: 1 bis
+    max. 13) ist durch den Steckplatz bestimmt (Steckplatzcodierung).
+
+    B&R 2010 ... Die Z„hlung der Adressierung beginnt bei Steckplatz 1 des I/O-
+                 Busses mit der Moduladresse 1. Auf den I/O-Modulen befindet
+                 sich eine zweistellige 7-Segmentanzeige, an der die Modul-
+                 adresse direkt abgelesen werden kann.
+    B&R 2005 ... Die Z„hlung der Adressierung beginnt bei Steckplatz 3 des I/O-
+                 Bus mit der Moduladresse 1.
+
+    ACHTUNG:
+    Bei Spool-Adressen fr 2010-I/Os, die im Modulheader eingetragen sind
+    (z.B. vom PG2000 bei 2010-IP), muá die Moduladresse im BCD-Format ange-
+    geben werden (z.B. Moduladresse 10 = $0010). Bei den Funktionen der I/O-
+    Prozessor-Library sind die Moduladressen jedoch immer dezimal anzugeben!
+
+
+                                       @100[ Zurck ]                      @001[ šbersicht ]
+.102
+    Spool-Adresse fr lokalen I/O-Bus (Fortsetzung)
+
+    Zusatzinformation:
+    Nummer der Rckwand.
+    %%000 ... B&R 2010 (mit oder ohne Busexpansion)
+    %%001 ... B&R 2005 Basisrckwand
+    %%010 ... B&R 2005 Erweiterungsrckwand 1
+    %%011 ... B&R 2005 Erweiterungsrckwand 2
+    %%100 ... B&R 2005 Erweiterungsrckwand 3
+    %%101 ... B&R 2005 Erweiterungsrckwand 4
+
+    I/O-Typ:
+    Fr den lokalen I/O-Bus ist der I/O-Typ immer %%000.
+
+    Busnummer:
+    Fr den lokalen I/O-Bus ist die Busnummer immer %%00.
+
+
+
+
+
+                                       @100[ Zurck ]                      @001[ šbersicht ]
+.103
+    Spool-Adresse fr Remote I/O-Bus
+
+    Spool-Adresse fr Remote I/O-Bus:
+    Fr den Remote I/O-Bus wird die Spool-Adresse in folgender Form angegeben:
+
+    ÚÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄ¿
+    ³ ³ ³0³0³1³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³
+    ÀÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÙ
+     ÄÂÄ ÄÄÂÄÄ ÄÄÄÄÂÄÄÄÄ Â ÄÄÄÄÂÄÄÄÄ
+      ³    ³       ³     ³     ³
+      ³    ³       ³     ³     ÀÄÄÄÄÄÄÄ Bit 0 bis 4:   @104[Moduladresse  ]
+      ³    ³       ³     ÀÄÄÄÄÄÄÄÄÄÄÄÄÄ Bit 5:         @105[2005/2010-Flag]
+      ³    ³       ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Bit 6 bis 10:  @105[Slave-Adresse ]
+      ³    ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Bit 11 bis 13: @105[I/O-Typ       ]
+      ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Bit 14 bis 15: @106[Master-Nummer ]
+
+
+
+
+
+
+                          @100[ Spool-Adresse fr lokalen I/O-Bus ]        @001[ šbersicht ]
+.104
+    Spool-Adresse fr Remote I/O-Bus (Fortsetzung)
+
+    Moduladresse:
+    Moduladresse des I/O-Moduls im Remote System. Die Moduladresse von I/O-
+    Modulen der Systeme B&R 2010 (Moduladresse: 1 bis max. 32, da der Zahlen-
+    bereich von 5 Bit auf 0 bis 31 begrenzt ist) und B&R 2005 (Moduladresse:
+    1 bis max. 13) ist durch den Steckplatz bestimmt (Steckplatzcodierung).
+    Da der Zahlenbereich von 5 Bit auf 0 bis 31 begrenzt ist, k”nnen fr die
+    Moduladresse nur die Werte %%00000 (dezimal 0) bis %%11111 (dezimal 31)
+    angegeben werden:
+    %%00000 ... Moduladresse 32
+    %%00001 ... Moduladresse 1
+    %%00010 ... Moduladresse 2
+       :            :
+    %%11111 ... Moduladresse 31
+
+
+
+
+
+
+                                       @103[ Zurck ]                      @001[ šbersicht ]
+.105
+    Spool-Adresse fr Remote I/O-Bus (Fortsetzung)
+
+    2005/2010-Flag:
+    %%0 ... Remote I/O System B&R 2010
+    %%1 ... Remote I/O System B&R 2005 
+
+    Slave-Adresse:
+    Slave-Adresse der Remote Slave-Station. Die Slave-Adresse wird mit den
+    beiden Nummernschaltern (NODE #) auf dem Remote Slave-Modul eingestellt.
+    Da der Zahlenbereich von 5 Bit auf 0 bis 31 begrenzt ist, k”nnen fr die
+    Slave-Adresse nur die Werte %%00000 (dezimal 0) bis %%11111 (dezimal 31)
+    angegeben werden:
+    %%00000 ... Slave-Adresse 32
+    %%00001 ... Slave-Adresse 1
+    %%00010 ... Slave-Adresse 2
+       :            :
+    %%11111 ... Slave-Adresse 31
+
+    I/O-Typ:
+    Fr den Remote I/O-Bus ist der I/O-Typ immer %%001.
+
+                                       @103[ Zurck ]                      @001[ šbersicht ]
+.106
+    Spool-Adresse fr Remote I/O-Bus (Fortsetzung)
+
+    Master-Nummer:
+    Master-Nummer der Remote Master-Station. Die Master-Nummer entspricht
+    nicht der Moduladresse des Remote Master-Moduls! Fr die Ermittlung der
+    Master-Nummer mssen Sie die Remote Master-Module von der CPU ausgehend
+    durchnumerieren. Beim Steuerungssystem B&R 2010 wird von rechts nach links,
+    beim Steuerungssystem B&R 2005 von links nach rechts gez„hlt. Das erste
+    Remote Master-Modul hat die Master-Nummer 1 (%%01), das zweite Remote
+    Master-Modul die Master-Nummer 2 (%%10), usw.
+
+
+
+
+
+
+
+
+
+
+
+                                       @103[ Zurck ]                      @001[ šbersicht ]
+.200
+    ANHANG : LIBRARY-Informationen
+
+
+    @201[< Allgemeines       >]      Voraussetzungen etc.
+
+    @250[< Syntax            >]      Syntax fr die Erkl„rung der Funktionen
+
+    @300[< Fehlernummern     >]      Zusammenfassung aller Fehlernummern
+
+    @350[< Ausfhrungszeiten >]      Ausfhrungszeiten und Stackbedarf
+
+    @400[< History           >]      Neue Funktionalit„ten und Versions„nderungen
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.201
+    I/O-Prozessor-Library : Allgemeines
+
+    Mit den Funktionen der I/O-Prozessor-Library (Spool-Funktionsbl”cke,
+    kurz: Spool-FUBs) k”nnen Daten und B&R-Module beliebiger Gr”áe von der
+    Haupt-CPU auf intelligente I/O-Prozessoren (im weiteren auch IPs genannt)
+    bzw. von intelligenten I/O-Prozessoren auf die Haupt-CPU gespoolt werden.
+    Damit ist ein Datenaustausch zwischen IP und Haupt-CPU ohne Einschr„nkung
+    auf den IP-DPR-Datenbereich m”glich.
+
+    Anmerkungen:
+    - Bevor Sie die Funktionen der I/O-Prozessor-Library in Ihrem Projekt
+      verwenden k”nnen, mssen Sie die Library in die entsprechende Projekt-
+      Datenbank importieren.
+
+    - Die Funktionen der I/O-Prozessor-Library k”nnen nur verwendet werden,
+      wenn der Spooler (B&R-Modul SPOOLER.BR) auf der Steuerung (Anwender-ROM)
+      vorhanden ist. Der Spooler tr„gt die Funktionsbl”cke w„hrend der Hoch-
+      laufphase in die Adreáverteiler-Tabelle (AVT) ein.
+
+
+
+                                     @202[ Fortsetzung ]                   @001[ šbersicht ]
+.202
+    I/O-Prozessor-Library : Allgemeines (Fortsetzung)
+
+    - Bei Verwendung der Version 1.05 des Betriebssystems RPS-Software muá
+      zus„tzlich das AVT-Modul "SP_LIB.BR" auf der Steuerung (Anwender-ROM)
+      vorhanden sein. Dieses Modul enth„lt jedoch nur die FUBs SPdndata(),
+      SPupdata() und SPupmod().
+
+    - Alle Funktionen der I/O-Prozessor-Library liefern im Fehlerfall als
+      Ergebnis eine @300[Fehlernummer].
+
+    - Alle Funktionsbl”cke zum Spoolen von Daten bzw. B&R-Modulen mssen ber
+      mehrere Taskzyklen hinweg aufgerufen werden (Ausnahme: Funktionsblock
+      SPdminit), da die Spool-Auftr„ge nicht direkt im Funktionsblock abge-
+      arbeitet werden. Der Auftrag wird an die Spooler-Task weitergereicht,
+      die ihn in der Restzeit abarbeitet. In den Zyklen nach der Beauftragung
+      muá kontrolliert werden, ob der Auftrag fertig abgearbeitet wurde.
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.250
+    I/O-Prozessor-Library : Syntaxbeschreibung
+
+    Datentypen:
+    Fr viele Funktionen sind bestimmte Gruppen von Datentypen zul„ssig. Um
+    bei der Funktionsbeschreibung nicht alle zul„ssigen Datentypen anfhren
+    zu mssen, werden folgende Gruppenbezeichnungen eingefhrt:
+    ÉÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍ»
+    º Gruppe º  BIT  ³ INT8  ³ BYTE  ³ INT16 ³ WORD  ³ INT32 ³ LONG  ³ FLOAT º
+    ÌÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍ¹
+    º BASIS  º       ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º NICHT  º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    º FLOAT  º       ³       ³       ³       ³       ³       ³       ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º ALLE   º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º FELD   º  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  º
+    ÈÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍ¼
+      x  Datentyp ist zul„ssig
+     [x] Datentyp ist zul„ssig als Feldvariable oder Zeichenkette (String)
+
+                                     @251[ Fortsetzung ]                   @001[ šbersicht ]
+.251
+    I/O-Prozessor-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Pfeile:
+    Fr die Darstellung von Eingangs- und Ausgangsparametern werden Pfeile
+    verwendet. Dabei gilt folgende Vereinbarung:
+    ÉÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º  Pfeil  º  Bedeutung                                                   º
+    ÌÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º   ->    º  Eingangsparameter                                           º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <->   º  Ein-/Ausgangsparameter. Funktionell ist es ein Ausgangs-    º
+    º         º  parameter. šblicherweise wird er aber vor dem Aufruf der    º
+    º         º  Funktion mit einer bestimmten Information geladen (z.B.     º
+    º         º  einer Adresse). Meist wird die Adresse einer Variable mit   º
+    º         º  adr() [PL2000] oder einem Adreákontakt [KOP] angeschlossen. º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <-    º  Ausgangsparameter                                           º
+    ÈÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @252[ Fortsetzung ]                   @001[ šbersicht ]
+.252
+    I/O-Prozessor-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Funktionsbl”cke:
+    Funktionsbl”cke sind in dieser Online-Hilfe nicht grafisch dargestellt.
+    Sie finden aber alle fr Funktionsbl”cke relevanten Informationen, wie
+    Eingangsparameter (->), Ein-/Ausgangsparameter (<->) und Ausgangsparameter
+    (<-) in der Online-Hilfe.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.300
+    I/O-Prozessor-Library : Fehlernummern
+
+    Die folgende Liste ist eine Zusammenfassung aller m”glichen Fehlermeldungen
+    der I/O-Prozessor-Library:
+
+    6666    Spooler arbeitet noch (kein Fehler, denn ein Spool-Auftrag dauert
+            immer mindestens zwei Taskzyklen)
+    6610    Unbekannter Spool-Auftrag
+    6621    Schaufelprozessor kann nicht mehr initialisiert werden
+    6622    Perieller Fehler beim Spoolen, IP nicht vorhanden?
+    6623    Interrupt vom Schaufelprozessor
+    6624    Fehler bei automatischer Moduladressierung
+    6625    Schaufelprozessor-Timeout, Hardware-Problem?
+    6627    Falscher Typ bei Spool-Adresse ("spooladr")
+    6628    Angegebenes Systemmodul (B&R 2005) nicht vorhanden
+    6629    Angegebener Remote I/O-Master nicht vorhanden
+    6630    Spooler nicht vorhanden
+    6631    RIO-Spooler Auftrags-Timeout
+    6632    Zu viele Spool-I/O-Module parallel
+    6635    Interner Fehler beim 2005-Spoolen
+
+                                     @301[ Fortsetzung ]                   @001[ šbersicht ]
+.301
+    I/O-Prozessor-Library : Fehlernummern (Fortsetzung)
+
+    6636    Falscher Mode bei SPprio()
+    6637    Spool-Adresse ungltig
+    6638    Spool-Queue nicht vorhanden
+    6639    Ident-Nummer des B&R-Moduls ist ungltig
+    6650    Keine Antwort vom Slave-Spooler, Exception am IP?
+    6652    Slave-Spooler-Timeout beim Warten auf Daten von der Haupt-CPU
+    6654    Unbekannter Slave-Spooler-Auftrag
+    6656    Ungltiger Modultyp beim Downspool
+    6658    Falsche Install/Start-Info (alle Tasks mssen installiert und
+            gestartet werden!)
+    6662    Timeout beim Warten auf den Hochlauf des IP
+    6699    Timeout beim Funktionsblock-Aufruf
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.350
+    I/O-Prozessor-Library : Ausfhrungszeiten
+
+    Der folgenden Tabelle k”nnen Sie die Ausfhrungszeiten (fr Spool-Auftrag
+    und Kontrolle) sowie den maximalen Stackbedarf der Spool-FUBs entnehmen.
+    In der Spalte "Spool-Auftrag" ist die Laufzeit fr den Spool-Auftrag an-
+    gegeben. Alle Funktionsbl”cke zum Spoolen von Daten oder B&R-Modulen im
+    zyklischen Betrieb (SPdndata, SPupdata, SPdnmod und SPupmod) mssen ber
+    mehrere Taskzyklen hinweg aufgerufen werden, da die Spool-Auftr„ge nicht
+    direkt im Funktionsblock abgearbeitet werden. Der Auftrag wird an die
+    Spooler-Task weitergereicht, die ihn in der Restzeit abarbeitet. Nach der
+    Beauftragung der Spooler-Task im ersten Zyklus des Funktionsblock-Aufrufs
+    wird in jedem weiteren Zyklus kontrolliert, ob der Auftrag fertig ist. Die
+    pro Zyklus fr diese Kontrolle ben”tigte Zeit ist in der Spalte "Kontrolle"
+    angegeben. Die angefhrten Laufzeiten wurden bei deaktivierter Display-
+    Ausgabe gemessen. Bei aktivierter Display-Ausgabe sind im ersten bzw.
+    letzten Zyklus eines Spool-Auftrags jeweils ca. 410 æs zu addieren.
+
+
+
+
+
+                                     @351[ Fortsetzung ]                   @001[ šbersicht ]
+.351
+    I/O-Prozessor-Library : Ausfhrungszeiten (Fortsetzung)
+
+    ÉÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»    
+    º Funktion  º    Spool-    ³  Kontrolle  ³  Userstack  ³  Supervisor-  º
+    º           º Auftrag [æs] ³     [æs]    ³   [Bytes]   ³ stack [Bytes] º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º SPdndata  º      300     ³      65     ³     100     ³       38      º
+    º SPupdata  º      300     ³      65     ³     100     ³       38      º
+    º SPdnmod   º      380     ³      60     ³     108     ³       46      º
+    º SPupmod   º      315     ³      85     ³     112     ³       38      º
+    º SPadr     º       90     ³       -     ³      40     ³        -      º
+    º SPdisplay º       38     ³       -     ³      24     ³        -      º
+    º SPprio    º      194     ³       -     ³      38     ³       68      º
+    º SPdminit  º       *)     ³       -     ³      24     ³      488      º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+    *) Anmerkung: Die Laufzeit der Funktion SPdminit() ist abh„ngig vom I/O-Typ
+                  und von der Gr”áe des Moduls. Da die Funktion SPdminit() je-
+                  doch nur in Initialisierungs-Unterprogrammen (INIT-UPs) auf-
+                  gerufen werden kann, spielt die Laufzeit sowieso keine Rolle.
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.400
+    I/O-Prozessor-Library : History - Versions„nderungen
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.40 -> V2.00  ³ AKTUELLE VERSION: Neue Funktionalit„ten ("SPOOLER.BR")  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Untersttzung der IF260 und der IP350 (2005-BasisIO).                   º
+  º - Keine CPU-Abh„ngigkeit fr weitere CPUs bei 2005-BasisIO.               º
+  º - SPdminit() zum direkten Spoolen von B&R-Modulen im INIT-UP.             º
+  º - Fehlerkorrektur bei SPdnmod() wegen m”glichem Buserror/Adreáerror.      º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+
+
+
+                                     @401[ Fortsetzung ]                   @001[ šbersicht ]
+.401
+    I/O-Prozessor-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.30 -> V1.40  ³ LTERE VERSIONEN: Neue Funktionalit„ten ("SPOOLER.BR")  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Untersttzung der CP260 und der EX350.                                  º
+  º - SPdnmod(): Timeout ist von der Modulgr”áe abh„ngig (1 Minute pro        º
+  º              16 kByte).                                                   º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º V1.22 -> V1.30  ³ LTERE VERSIONEN: Neue Funktionalit„ten ("SPOOLER.BR")  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Untersttzung der IP151 / IF152.                                          º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º V1.21 -> V1.22  ³ LTERE VERSIONEN: Neue Funktionalit„ten ("SPOOLER.BR")  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Fehlerkorrektur beim Upspool von Daten.                                 º
+  º - Fehlerkorrektur bei der Verwendung der NSW-FUBs fr das Modul.          º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @402[ Fortsetzung ]                   @001[ šbersicht ]
+.402
+    I/O-Prozessor-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.20 -> V1.21  ³ LTERE VERSIONEN: Neue Funktionalit„ten ("SPOOLER.BR")  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Untersttzung der CP200.                                                º
+  º - Fehlerkorrektur beim Spoolen mit Moduladressen gr”áer oder gleich 10    º
+  º   fr 2010-I/O und 2005-I/O.                                              º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º V1.11 -> V1.20  ³ LTERE VERSIONEN: Neue Funktionalit„ten ("SPOOLER.BR")  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Das Spoolen fr 2005-BasisIO, 2005-Expansionen, RIO-2005 und RIO-2010   º
+  º   wird untersttzt.                                                       º
+  º - Die CPU XP152 wird untersttzt.                                         º
+  º - Neue Funktion: SPadr() zur Berechnung der Spooladresse.                 º
+  º - Neue Funktion: SPprio() zum Setzen der Priorit„t des Spoolers.          º
+  º - Beim Download des Moduls "SPOOLER.BR" wird kein Fehler 9 mehr im        º
+  º   Fehlerlogbuch eingetragen.                                              º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+                                     @403[ Fortsetzung ]                   @001[ šbersicht ]
+.403
+    I/O-Prozessor-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.10 -> V1.11  ³ LTERE VERSIONEN: Neue Funktionalit„ten ("SPOOLER.BR")  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Die Spool-FUBs werden im Hochlauf des Spoolertask im AVT eingetragen.   º
+  º   Damit ist bei Verwendung der Spool-FUBs nur mehr das Modul "SPOOLER.BR" º
+  º   erforderlich, das Modul "SP_LIB.BR" ist nicht mehr notwendig!           º
+  º - Der FUB SPdnmod() zum Downspool von Modulen von der RPS-CPU zum IP im   º
+  º   zyklischen Betrieb ist neu verfgbar.                                   º
+  º - Die Spool-FUBs geben aus Performance-Grnden standardm„áig keinen       º
+  º   String am Display aus. Mit dem FUB SPdisplay() kann die Display-Ausgabe º
+  º   dynamisch eingeschaltet werden.                                         º
+  º - Das Spoolen zu 2005-IPs (NC154) ist verfgbar, wobei auch hier im       º
+  º   Hochlauf zu allen 2005-IPs eines bestimmten Typs oder zu einer fixen    º
+  º   Moduladresse gespoolt werden kann.                                      º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+                                     @404[ Fortsetzung ]                   @001[ šbersicht ]
+.404
+    I/O-Prozessor-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.05 -> V1.10  ³ LTERE VERSIONEN: Informationen                         º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Die Spooler-Funktionalit„t wird in einem Modul ("SPOOLER.BR") zusammen- º
+  º   gefaát, in V1.05 waren zwei Module ("SU_SPOOL.BR" und "M_SPOOL.BR")     º
+  º   erforderlich. Bei Verwendung der Spool-FUBs muá das Modul "SP_LIB.BR"   º
+  º   gebrannt sein, wobei die FUBs SPdndata(), SPupdata() und SPupmod()      º
+  º   verfgbar sind.                                                         º
+  º - Beim Spoolen von Modulen im Hochlauf kann ein Modul auch zu allen IPs   º
+  º   eines bestimmten Typs gespoolt werden.                                  º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+
+.End

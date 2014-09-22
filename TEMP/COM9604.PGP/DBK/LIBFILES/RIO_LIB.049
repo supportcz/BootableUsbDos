@@ -1,0 +1,1914 @@
+%%
+1,0:1
+%%
+.1
+    Funktionen der Remote-I/O-Library
+
+    @020[RIO_init] Initialisieren des Remote Master-Moduls
+    @030[RIO_cfg ] Konfigurieren des Remote I/O-Systems
+    @050[RIO_cmd ] Aktivieren oder Rcksetzen einer Konfiguration
+    @060[RIO_in  ] RIO-Eingangsdaten abholen (Master/ISL)
+    @070[RIO_out ] RIO-Ausgangsdaten an Master/ISL bergeben
+    @080[RIO_life] Life-List abfragen
+    @090[RIO_mode] Slave-Verhalten im Fehlerfall festlegen
+    @100[RIO_quit] Ausfall bzw. READY eines Slaves quittieren
+    @110[RIO_stat] Zustand (Status) aller Slaves abfragen
+    @120[RIO_list] Remote I/O-Bus nach I/O-Modulen durchsuchen
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º ACHTUNG: Da die Remote-I/O-Library AVT-Funktionen enth„lt, k”nnen die     º
+  º          Funktionen der Library nur verwendet werden, wenn das Library-   º
+  º          Runtime-Modul (B&R-Modul RIO_LIB.BR) auf der Zentraleinheit      º
+  º          (Anwender-ROM) vorhanden ist!                                    º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+    @002[ Fortsetzung ]                      @200[ ANHANG ]                  @999[ HILFE beenden ]
+.2
+    Funktionen der Remote-I/O-Library (Fortsetzung)
+
+    Die Remote-I/O-Library enth„lt Funktionen fr die Bedienung eines Remote
+    I/O-Systems ber die Tasks einer beliebigen Taskklasse (auch superschnelle
+    Tasks werden untersttzt). Nur in den Tasks der RIO-SSTK k”nnen die Funk-
+    tionen dieser Library nicht aufgerufen werden.
+
+    Prinzipieller Aufbau einer Task bei Verwendung dieser Funktionen:
+
+      ; Initialisierungs-Unterprogramm (INIT-UP)
+      RIO_init( ... )
+      RIO_cfg( ... )      ; fr Ausg„nge (Sendekonfiguration)
+      RIO_cfg( ... )      ; fr Eing„nge (Empfangskonfiguration)
+      RIO_cmd( ... )      ; Start
+
+      ; Zyklischer Teil der Task
+      RIO_in( ... )
+      Verknpfe Daten
+      RIO_out( ... )
+
+
+    @003[ Fortsetzung ]                      @200[ ANHANG ]                      @001[ šbersicht ]
+.3
+    Funktionen der Remote-I/O-Library
+
+    Anmerkungen:
+
+    - Die Funktion RIO_cfg() kann mehrfach aufgerufen werden. Dabei wird die
+      bereits geladene Konfiguration um die bei weiteren Aufrufen der Funktion
+      RIO_cfg() angegebene Konfiguration erweitert (siehe Beschreibung dieser
+      Funktion).
+
+    - Die Funktionsbl”cke RIO_cfg() und RIO_cmd() k”nnen auch auáerhalb des
+      Initialisierungs-Unterprogramms (INIT-UPs) aufgerufen werden (dynamische
+      Konfiguration -> Achtung: Laufzeit der Funktionsbl”cke beachten!).
+
+    - Die Funktionsbl”cke RIO_in() und RIO_out() sind "laufzeitoptimiert" auf-
+      gebaut und k”nnen auch in superschnellen Tasks verwendet werden.
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.20
+    RIO_init - Initialisieren des Remote Master-Moduls
+
+    @021[RIO_init] (enable,mod_nr,adr(par_ptr),par_len,maident,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  @025[mod_nr    ]: BYTE          Moduladresse des Remote Master-Moduls, das
+                                  initialisiert werden soll
+    ->  @026[par_ptr   ]: par-Struktur  Struktur, in der die Parameter fr den
+                                  Betrieb des Remote Master-Moduls als
+                                  intelligenter Slave (ISL) definiert sind.
+                                  Wenn das Remote Master-Modul als Master
+                                  verwendet werden soll, muá fr adr(par_ptr)
+                                  der Wert 0 bergeben werden.
+    ->  par_len   : WORD          Bei Verwendung des Remote Master-Moduls als
+                                  ISL muá der Parameter par_len die L„nge der
+                                  Struktur par enthalten. Wird das Remote
+                                  Master-Modul als Master verwendet, muá
+                                  par_len = 0 sein.
+
+                                     @021[ Fortsetzung ]                   @001[ šbersicht ]
+.21
+    RIO_init - Initialisieren des Remote Master-Moduls (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    <-  maident   : LONG          Ident-Nummer des Master- oder ISL-Moduls.
+                                  Die Ident-Nummer wird fr die anderen Funk-
+                                  tionen der Remote-I/O-Library ben”tigt.
+    <-  @300[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Dieser Funktionsblock initialisiert das angegebene Remote Master-Modul
+    und liefert als Ergebnis eine Ident-Nummer ("maident"). Diese Ident-
+    Nummer muá bei allen anderen Funktionsbl”cken der Remote-I/O-Library
+    als Eingangsgr”áe verwendet werden. Der Funktionsblock RIO_init()
+    erkennt an Hand der Parameter "par_ptr" und "par_len", ob das ber die
+    Moduladresse "mod_nr" referenzierte Remote Master-Modul als ISL oder als
+    Master betrieben werden soll.
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.25
+    RIO_init - Initialisieren des Remote Master-Moduls (Fortsetzung)
+
+    -> Parameter <mod_nr    >: BYTE
+
+    Moduladresse des Remote Master-Moduls, das initialisiert werden soll.
+    Beim System B&R 2010 wird die Moduladresse des Remote Master-Moduls mit
+    einem Nummernschalter eingestellt.
+    Beim System B&R 2005 ist die Moduladresse des Remote Master-Moduls durch
+    den Steckplatz bestimmt (die Z„hlung beginnt bei Steckplatz 3 des I/O-
+    Busses mit der Moduladresse 1).
+
+
+
+
+
+
+
+
+
+
+
+                                      @020[ RIO_init ]                     @001[ šbersicht ]
+.26
+    RIO_init - Initialisieren des Remote Master-Moduls (Fortsetzung)
+
+    -> Parameter <par_ptr   >: par-Struktur
+
+    Wenn das Remote Master-Modul als ISL verwendet wird, muá dem Parameter
+    "par_ptr" eine Strukturvariable mit folgendem Format zugewiesen werden:
+    id    : BYTE    Dieses Element muá auf 0 gesetzt werden!
+    sl_nr : BYTE    Slave-Adresse, die der ISL erhalten soll. Sonderf„lle:
+                    $FF ... Die am ISL mit den Nummernschaltern NODE# einge-
+                            stellte Slave-Adresse wird verwendet.
+                    $FE ... Diese Angabe hat dieselbe Bedeutung wie $FF.
+                            Zus„tzlich wird die am ISL eingestellte Slave-
+                            Adresse im Strukturelement sl_nr abgelegt.
+    baud  : WORD    Dieses Element muá auf 0 gesetzt werden!
+    ilen  : WORD    L„nge der Eingangsdaten (siehe Funktion @060[RIO_in])
+    iptr  : LONG    Zeiger auf den Datenpuffer fr die Eingangsdaten
+                    (siehe Funktion @060[RIO_in])
+    olen  : WORD    L„nge der Ausgangsdaten (siehe Funktion @070[RIO_out])
+    optr  : LONG    Zeiger auf den Datenpuffer fr die Ausgangsdaten
+                    (siehe Funktion @070[RIO_out])
+
+                                      @020[ RIO_init ]                     @001[ šbersicht ]
+.30
+    RIO_cfg - Konfigurieren des Remote I/O-Systems
+
+    @031[RIO_cfg] (enable,maident,prio,inout,sl_adr,adr(cfg_ptr),cfg_len,
+             adr(data_ptr),data_len,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  maident   : LONG          Ident-Nummer des anzusprechenden Master- oder
+                                  ISL-Moduls (von @020[RIO_init])
+    ->  @035[prio      ]: BYTE          Priorit„t der Konfigurationstabelle
+    ->  inout     : BYTE          Sende- oder Empfangskonfigurationstabelle?
+                                  0 ... Sendekonfigurationstabelle fr
+                                        analoge Daten (Byte)
+                                  1 ... Empfangskonfigurationstabelle fr
+                                        analoge Daten (Byte)
+                                  2 ... Sendekonfigurationstabelle fr
+                                        digitale Daten (Bit)
+                                  3 ... Empfangskonfigurationstabelle fr
+                                        digitale Daten (Bit)
+
+                                     @031[ Fortsetzung ]                   @001[ šbersicht ]
+.31
+    RIO_cfg - Konfigurieren des Remote I/O-Systems (Fortsetzung)
+
+    Parameter-Datentypen (Fortsetzung) :
+    ->  sl_adr    : BYTE          0 ....... Die in der Konfigurationstabelle
+                                            angegebene Slave-Adresse wird ver-
+                                            wendet.
+                                  1-126 ... Die in der Konfigurationstabelle
+                                            angegebene Slave-Adresse wird durch
+                                            diese Nummer ersetzt.
+    ->  @036[cfg_ptr   ]: @250[ALLE]          Konfigurationstabelle. Die Konfigurations-
+                                  tabelle kann ber ein Struktur-Feld oder ein
+                                  Datenmodul erstellt werden.
+    ->  cfg_len   : WORD          L„nge der Konfigurationstabelle in Byte
+    <-> @046[data_ptr  ]: @250[ALLE]          Datenpuffer fr die Ein- oder Ausgangsdaten
+    ->  data_len  : WORD          L„nge der Ein- bzw.  Ausgangsdaten in Byte.
+                                  Wird eine digitale Konfigurationstabelle ver-
+                                  wendet (inout = 2 oder 3), so ist hier die
+                                  Anzahl der Bits anzugeben (muá ein Vielfaches
+                                  von 8 sein!)
+    <-  @300[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+                                     @032[ Fortsetzung ]                   @001[ šbersicht ]
+.32
+    RIO_cfg - Konfigurieren des Remote I/O-Systems (Fortsetzung)
+
+    Mit Hilfe der Funktion RIO_cfg() wird das Remote I/O-System konfiguriert,
+    d.h. die Slave-Konfigurationen werden im Master-Modul eingetragen. Die
+    Konfiguration der einzelnen Slaves wird in der sogenannten Konfigurations-
+    tabelle (Sende- oder Empfangskonfigurationstabelle) festgelegt.
+
+    Zus„tzlich generiert der Funktionsblock RIO_cfg() einen Sende- oder
+    Empfangspuffer fr den Datenaustausch zwischen Master und Slave und stellt
+    mit Hilfe der Konfigurationstabelle den Zusammenhang zwischen Sende- bzw.
+    Empfangspuffer und den Remote I/Os her.
+
+    Die Funktion RIO_cfg() kann mehrfach aufgerufen werden. Dabei wird die
+    bereits geladene Konfiguration um die bei weiteren Aufrufen der Funktion
+    RIO_cfg() angegebene Konfiguration erweitert.
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.35
+    RIO_cfg - Konfigurieren des Remote I/O-Systems (Fortsetzung)
+
+    -> Parameter <prio      >: BYTE
+
+    Priorit„t der Konfigurationstabelle (2 Priorit„tsstufen sind m”glich):
+    0 ... Priorit„t 0 (hohe Priorit„t)
+    1 ... Priorit„t 1 (niedrige Priorit„t)
+
+    Wenn mit dem RPS-Konfigurator fr die I/O-Auftr„ge am Remote I/O-Bus zwei
+    verschiedene Priorit„ten definiert wurden (siehe dazu "B&R System 2000
+    RPS-Konfigurator und Profiler Anwenderhandbuch"), werden alle I/O-Auftr„ge
+    der RIO-Funktionsbl”cke mit der Priorit„t 0 (hohe Priorit„t) hochprior
+    behandelt. Die Schaufelauftr„ge der RIO-Funktionsbl”cke mit der Priorit„t 1
+    (niedrige Priorit„t) werden in der RIO-Restzeit abgewickelt.
+    D.h. alle RIO-FUBs mit der Priorit„t 0 sind besonders fr sehr wichtige
+    Remote I/O-Daten geeignet, da durch die hohe Priorit„t der I/O-Auftr„ge
+    die schnellstm”gliche RIO-Aktualisierungszeit garantiert wird.
+
+
+
+
+                                       @030[ RIO_cfg ]                     @001[ šbersicht ]
+.36
+    RIO_cfg - Konfigurieren des Remote I/O-Systems (Fortsetzung)
+
+    -> Parameter <cfg_ptr   >: @250[ALLE] (beliebiger Datentyp)
+
+    Mit Hilfe der Sendekonfigurationstabelle wird der Zusammenhang zwischen
+    Sendepuffer und den Ausg„ngen am Remote I/O-Bus hergestellt. Die Empfangs-
+    konfigurationstabelle stellt den Zusammenhang zwischen dem Empfangspuffer
+    und den Eing„ngen am Remote I/O-Bus her.
+    Die Sende- bzw. Empfangskonfigurationstabelle kann ber ein @037[Struktur-Feld]
+    oder ein @040[Datenmodul] im Programmiersystem PG2000 definiert werden. D.h. fr
+    "adr(cfg_ptr)" wird entweder die Adresse eines Struktur-Feldes (ein Feld-
+    Element pro Slave-Konfiguration) oder die Startadresse eines Datenmoduls
+    (ein Datenmodul-Eintrag pro Slave-Konfiguration) angegeben. Die Start-
+    adresse des Datenmoduls k”nnen Sie mit der Funktion DA_info() (siehe B&R-
+    TRAP-Library) ermitteln.
+
+
+
+
+
+
+                                       @030[ RIO_cfg ]                     @001[ šbersicht ]
+.37
+    RIO_cfg - Konfigurieren des Remote I/O-Systems (Fortsetzung)
+
+    Format der Struktur (fr Sende- oder Empfangskonfigurationstabelle):
+    sl_adr: BYTE    Slave-Adresse der Remote Slave-Station, auf der sich der
+                    gewnschte Kanal befindet / die gewnschten Kan„le befinden
+    ma    : BYTE    Moduladresse des digitalen oder analogen I/O-Moduls, auf
+                    dem sich der gewnschte Kanal befindet / die gewnschten
+                    Kan„le befinden
+    ia    : BYTE    Interner Offset am Modul. Der Wert fr den internen Offset
+                    entspricht der Kanalnummer bei den Modultypen "Transp. In"
+                    und "Transp. Out" in der Variablendeklaration des PG2000.
+                    Digitale I/O-Daten werden immer in Gruppen zu 8 Bit ge-
+                    schaufelt. Die erste Gruppe (umfaát die Kan„le 1 bis 8) be-
+                    ginnt bei Offset 0, die zweite Gruppe (Kanal 9 bis 16) bei
+                    Offset 1 usw. Bei Analogkarten belegt jeder Kanal 2 Byte
+                    (Offset fr Kanal 1 = 0). D.h. der Offset fr Kanal 2 = 2,
+                    der Offset fr Kanal 3 = 4 usw.
+    len   : BYTE    L„nge der zu schaufelnden I/O-Daten in Byte.
+                    Zum Beschreiben von 16 digitalen Ausg„ngen muá fr len z.B.
+                    der Wert 2 (16 Bit = 2 Byte) angegeben werden.
+
+                                     @038[ Fortsetzung ]                   @001[ šbersicht ]
+.38
+    RIO_cfg - Konfigurieren des Remote I/O-Systems (Fortsetzung)
+
+    Wenn auf den Statusbereich eines I/O-Moduls zugegriffen werden soll, muá
+    in der Konfigurationstabelle statt der Moduladresse (ma) der Wert
+
+          ma = $80 or Moduladresse (Moduladresse in hexadezimaler Form)
+
+    angegeben werden.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     @039[ Fortsetzung ]                   @001[ šbersicht ]
+.39
+    RIO_cfg - Konfigurieren des Remote I/O-Systems (Fortsetzung)
+
+    Anmerkungen:
+    - Sollen mehrere Slaves gleich konfiguriert werden, ist es sinnvoll, die
+      Funktion RIO_cfg() in einer Schleife aufzurufen. Siehe dazu @043[Beispiel 1].
+    - Statt fr die L„nge der zu schaufelnden Daten den Wert 2 anzugeben, wenn
+      nur 1 Byte ben”tigt wird, k”nnen Sie auch einen Leereintrag einfgen:
+         sl_adr = 0
+         ma     = 0
+         ia     = 0
+         len    = 1
+      Dies ist notwendig, da die Eintr„ge immer an einer geraden Adresse be-
+      ginnen mssen (WORD-Ausrichtung). Siehe dazu @044[Beispiel 2].
+    - Mit folgenden Angaben k”nnen Sie einen Trenneintrag einfgen:
+         sl_adr = $FF
+         ma     = 0
+         ia     = 0
+         len    = 0
+      Ein Trenneintrag bewirkt die Verwendung eines neuen Datenblocks. Ein
+      neuer Datenbock ist dann notwendig, wenn die Summe der Eingangs- bzw.
+      Ausgangsdaten eines Slaves gr”áer als 250 Bytes ist.
+                                       @036[ Zurck ]                      @001[ šbersicht ]
+.40
+    RIO_cfg - Konfigurieren des Remote I/O-Systems (Fortsetzung)
+
+    Format des Datenmoduls (fr Sende- oder Empfangskonfigurationstabelle):
+
+                 ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ 1.
+                 ³    ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ 2.
+                 ³    ³    ÚÄÄÄÄÄÄÄÄÄÄÄÄÄ 3.
+                 ³    ³    ³    ÚÄÄÄÄÄÄÄÄ 4.
+                ÄÁÄ  ÄÁÄ  ÄÁÄ  ÄÁÄ
+                $01, $03, $00, $02
+                $02, $02, $00, $02
+                $03, $03, $01, $01
+
+    1. Slave-Adresse (siehe Nummernschalter NODE#) der Remote Slave-Station,
+       auf der sich der gewnschte Kanal befindet/die gewnschten Kan„le be-
+       finden (dieser Eintrag muá ein BYTE sein).
+    2. Moduladresse des digitalen oder analogen I/O-Moduls, auf dem sich der
+       gewnschte Kanal befindet/die gewnschten Kan„le befinden (dieser Ein-
+       trag muá ein BYTE sein).
+
+
+                                     @041[ Fortsetzung ]                   @001[ šbersicht ]
+.41
+    RIO_cfg - Konfigurieren des Remote I/O-Systems (Fortsetzung)
+
+    3. Interner Offset am Modul (dieser Eintrag muá ein BYTE sein). Der Wert
+       fr den internen Offset entspricht der Kanalnummer bei den Modultypen
+       "Transp. In" und "Transp. Out" in der Variablendeklaration des PG2000.
+       Digitale I/O-Daten werden immer in Gruppen zu 8 Bit geschaufelt. Die
+       erste Gruppe (umfaát die Kan„le 1 bis 8) beginnt bei Offset 0, die
+       zweite Gruppe (Kanal 9 bis 16) bei Offset 1 usw. Bei Analogkarten be-
+       legt jeder Kanal 2 Byte (Offset fr Kanal 1 = 0). D.h. der Offset fr
+       Kanal 2 = 2, der Offset fr Kanal 3 = 4 usw.
+    4. L„nge der zu schaufelnden I/O-Daten in Byte (dieser Eintrag muá ein
+       BYTE sein). Zum Beschreiben von 16 digitalen Ausg„ngen muá fr die
+       L„nge der Daten z.B. der Wert 2 (16 Bit = 2 Byte) angegeben werden.
+
+    Wenn auf den Statusbereich eines I/O-Moduls zugegriffen werden soll, muá
+    in der Konfigurationstabelle statt der Moduladresse der Wert
+
+          $80 or Moduladresse (Moduladresse in hexadezimaler Form)
+
+    angegeben werden.
+
+                                     @042[ Fortsetzung ]                   @001[ šbersicht ]
+.42
+    RIO_cfg - Konfigurieren des Remote I/O-Systems (Fortsetzung)
+
+    Anmerkungen:
+    - Sollen mehrere Slaves gleich konfiguriert werden, ist es sinnvoll, die
+      Funktion RIO_cfg() in einer Schleife aufzurufen. Siehe dazu @043[Beispiel 1].
+    - Statt fr die L„nge der zu schaufelnden Daten den Wert 2 anzugeben, wenn
+      nur 1 Byte ben”tigt wird, k”nnen Sie auch einen Leereintrag einfgen:
+
+         $00, $00, $00, $01
+
+      Dies ist notwendig, da die Eintr„ge immer an einer geraden Adresse be-
+      ginnen mssen (WORD-Ausrichtung). Siehe dazu @044[Beispiel 2].
+    - Mit folgenden Angaben k”nnen Sie einen Trenneintrag einfgen:
+
+         $FF, $00, $00, $00
+
+      Ein Trenneintrag bewirkt die Verwendung eines neuen Datenblocks. Ein
+      neuer Datenbock ist dann notwendig, wenn die Summe der Eingangs- bzw.
+      Ausgangsdaten eines Slaves gr”áer als 250 Bytes ist.
+
+
+                                       @036[ Zurck ]                      @001[ šbersicht ]
+.43
+    RIO_cfg - Konfigurieren des Remote I/O-Systems (Beispiel 1)
+
+    Wir haben fnf Slaves (Slave-Adresse 1 bis 5) und wollen alle gleich
+    konfigurieren. Wir wollen 2 Bytes auf die ersten 16 Ausg„nge eines
+    digitalen Ausgangsmoduls (Moduladresse 2) schreiben:
+
+      num_slaves = 5
+      io = 0                  ; Sendekonfigurationstabelle
+      cfg.sl_adr = 0
+      cfg.mod_adr = 2
+      cfg.chan = 0
+      cfg.length = 2
+      loop sl_adr = 0 to num_slaves - 1 do
+          RIO_cfg(1,mstr_id,0,io,sl_adr+1,adr(cfg),sizeof(cfg),
+                  adr(data[sl_adr]),sizeof(data[sl_adr]),st_cfg)
+      endloop
+
+    Hier wird die Slave-Adresse der Konfigurationstabelle durch unseren
+    Schleifenz„hler (sl_adr + 1) ersetzt. Die Variable data ist ein BYTE-Feld
+    mit num_slaves Elementen. Um Ausg„nge im Slave x zu beschreiben, wird der
+    Wert in data[x-1] ge„ndert.
+                                       @036[ Zurck ]                      @001[ šbersicht ]
+.44
+    RIO_cfg - Konfigurieren des Remote I/O-Systems (Beispiel 2)
+
+    Wir haben 2 Slaves, die verschieden konfiguriert werden sollen. Wir wollen
+    1 Byte auf die ersten 8 Ausg„nge des digitalen Ausgangsmoduls (Moduladr. 3)
+    auf der Slave-Station 1 (Slave-Adresse 1) und 1 Byte auf die ersten 8
+    Ausg„nge des digitalen Ausgangsmoduls (Moduladr. 2) auf der Slave-Station 2
+    (Slave-Adresse 2) schreiben. Der Konfigurationsaufruf lautet:
+
+      io = 0                  ; Sendekonfigurationstabelle
+      cfg[0].sl_adr = 1
+      cfg[0].mod_adr = 3
+      cfg[0].chan = 0
+      cfg[0].length = 1
+      cfg[1].sl_adr = 0       ; Leereintrag
+      cfg[1].mod_adr = 0      ; Leereintrag
+      cfg[1].chan = 0         ; Leereintrag
+      cfg[1].length = 1       ; Leereintrag
+      cfg[2].sl_adr = 2
+      cfg[2].mod_adr = 2
+      cfg[2].chan = 0
+      cfg[2].length = 1
+                              @045[ Fortsetzung - Beispiel 2 ]             @001[ šbersicht ]
+.45
+    RIO_cfg - Konfigurieren des Remote I/O-Systems (Beispiel 2 - Fortsetzung)
+
+      cfg[3].sl_adr = 0       ; Leereintrag
+      cfg[3].mod_adr = 0      ; Leereintrag
+      cfg[3].chan = 0         ; Leereintrag
+      cfg[3].length = 1       ; Leereintrag
+      RIO_cfg(1,id,0,io,0,adr(cfg),sizeof(cfg),adr(data),sizeof(data),st_cfg
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @036[ Zurck ]                      @001[ šbersicht ]
+.46
+    RIO_cfg - Konfigurieren des Remote I/O-Systems (Fortsetzung)
+
+    <->Parameter <data_ptr  >: @250[ALLE] (beliebiger Datentyp)
+
+    Datenpuffer fr die Ein- bzw. Ausgangsdaten:
+    "inout" = 0 oder 2 ... Datenpuffer, in dem die zu schreibenden Ausgangs-
+                           daten abgelegt sind.
+    "inout" = 1 oder 3 ... Datenpuffer, in den die zu gelesenen Eingangsdaten
+                           kopiert werden.
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @030[ RIO_cfg ]                     @001[ šbersicht ]
+.50
+    RIO_cmd - Aktivieren oder Rcksetzen einer Konfiguration
+
+    @051[RIO_cmd] (enable,maident,cmd,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  maident   : LONG          Ident-Nummer des anzusprechenden Master- oder
+                                  ISL-Moduls (von @020[RIO_init])
+    ->  cmd       : BYTE          Folgende Kommandos werden untersttzt:
+                                  $1 .... START mit Warten
+                                  $0 .... RESET mit Warten
+                                  $81 ... START ohne Warten
+                                  $80 ... RESET ohne Warten
+    <-  @300[status    ]: WORD          Fehlernummer:
+                                  0 ..... Kein Fehler
+                                  1 ..... Die Funktion muá noch einmal aufge-
+                                          rufen werden, damit das Kommando
+                                          fertig abgewickelt werden kann
+
+
+                                     @051[ Fortsetzung ]                   @001[ šbersicht ]
+.51
+    RIO_cmd - Aktivieren oder Rcksetzen einer Konfiguration (Fortsetzung)
+
+    Mit der Funktion RIO_cmd() kann die mit der Funktion RIO_cfg() festgelegte
+    Konfiguration fr ein Remote I/O-System aktiviert oder wieder rckgesetzt
+    werden.
+    Die Funktion RIO_cmd() untersttzt folgende Kommandos:
+
+    START mit Warten:
+    Startet (aktiviert) die mit der Funktion RIO_cfg() festgelegte Konfigu-
+    ration und wartet, bis der Vorgang abgeschlossen ist. Da dies relativ lange
+    dauern kann, sollte die Funktion RIO_cmd() mit dem Kommando $1 (START mit
+    Warten) nur in INIT-UPs verwendet werden. Im zyklischen Teil einer Task
+    wrde wahrscheinlich eine Zykluszeitverletzung auftreten.
+
+    RESET mit Warten:
+    Setzt eine aktivierte Konfiguration wieder zurck, stoppt einen gestarteten
+    Remote Master und wartet, bis der Vorgang abgeschlossen ist. Da dies
+    relativ lange dauern kann, sollte die Funktion RIO_cmd() mit dem Kommando
+    $0 (RESET mit Warten) nur in INIT-UPs verwendet werden. Im zyklischen
+    Teil einer Task wrde wahrscheinlich eine Zykluszeitverletzung auftreten.
+
+                                     @052[ Fortsetzung ]                   @001[ šbersicht ]
+.52
+    RIO_cmd - Aktivieren oder Rcksetzen einer Konfiguration (Fortsetzung)
+
+    START ohne Warten:
+    Das Starten der Konfiguration wird angestoáen. Die Funktion wartet dann
+    aber nicht, bis der START-Vorgang abgeschlossen ist, sondern setzt mit dem
+    Rest des Programms fort. Im n„chsten Programmzyklus wird die Funktion
+    wieder aufgerufen. L„uft das Remote I/O-System noch nicht ("status" = 1),
+    wird dieser Vorgang solange wiederholt, bis der START-Vorgang abgeschlossen
+    ist ("status" = 0). Die Funktion RIO_cmd() mit dem Kommando $81 (START
+    ohne Warten) kann also in jeder beliebigen Taskklasse laufen, ohne daá
+    eine Zykluszeitverletzung auftritt.
+
+    RESET ohne Warten:
+    Das Rcksetzen der Konfiguration wird angestoáen. Die Funktion wartet dann
+    aber nicht, bis der RESET-Vorgang abgeschlossen ist, sondern setzt mit dem
+    Rest des Programms fort. Im n„chsten Zyklus wird die Funktion wieder auf-
+    gerufen. Ist das Remote I/O-System noch nicht rckgesetzt ("status" = 1),
+    wird dieser Vorgang solange wiederholt, bis der RESET-Vorgang abgeschlossen
+    ist ("status" = 0). Die Funktion RIO_cmd() mit dem Kommando $80 (RESET ohne
+    Warten) kann also in jeder beliebigen Taskklasse laufen, ohne daá eine
+    Zykluszeitverletzung auftritt.
+                                     @053[ Fortsetzung ]                   @001[ šbersicht ]
+.53
+    RIO_cmd - Aktivieren oder Rcksetzen einer Konfiguration (Fortsetzung)
+
+    Anmerkungen:
+    - Fr Applikationen, die eine dynamische nderung der RIO-Konfiguration
+      vornehmen, sind die Kommandos "START ohne Warten" und "RESET ohne WARTEN"
+      vorhanden.
+    - Erst bei Aufruf des Funktionsblocks RIO_cmd() mit dem Kommando "START
+      mit Warten" bzw. "START ohne Warten" wird die geladene Konfiguration
+      aktiviert. Zu diesem Zeitpunkt wird festgestellt, ob die referenzierten
+      Slaves und I/O-Module vorhanden sind. D.h. eine falsche Konfiguration
+      fhrt erst beim Aufruf der Funktion RIO_cmd() zum Fehler (nicht bei
+      Aufruf von RIO_cfg())!
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.60
+    RIO_in - RIO-Eingangsdaten abholen
+
+    @061[RIO_in] (enable,maident,prio,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  maident   : LONG          Ident-Nummer des anzusprechenden Master- oder
+                                  ISL-Moduls (von @020[RIO_init])
+    ->  prio      : BYTE          Priorit„t der Schaufeltabelle:
+                                  0 ... Priorit„t 0 (hohe Priorit„t)
+                                  1 ... Priorit„t 1 (niedrige Priorit„t)
+    <-  @300[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion RIO_in() werden die in der Empfangskonfiguration defi-
+    nierten Eing„nge gelesen und die Eingangsdaten in den dafr vorgesehenen
+    Datenpuffer (Parameter "@031[data_ptr]" der Funktion RIO_cfg()) kopiert. Wenn
+    die Eing„nge nicht konfiguriert sind, erhalten Sie eine Fehlermeldung.
+
+
+
+                                     @061[ Fortsetzung ]                   @001[ šbersicht ]
+.61
+    RIO_in - RIO-Eingangsdaten abholen (Fortsetzung)
+
+    Auáerdem k”nnen mit der Funktion RIO_in() die Eingangsdaten eines ISLs
+    gelesen und in den mit der Funktion RIO_init() definierten Datenpuffer
+    (siehe Element "iptr" Struktur "@026[par]") kopiert werden.
+
+    Tritt w„hrend des Betriebs ein Fehler auf (z.B.: Slave f„llt aus), wird am
+    Ausgang "status" eine entsprechende Fehlermeldung ausgegeben.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.70
+    RIO_out - RIO-Ausgangsdaten an Master/ISL bergeben
+
+    @071[RIO_out] (enable,maident,prio,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  maident   : LONG          Ident-Nummer des anzusprechenden Master- oder
+                                  ISL-Moduls (von @020[RIO_init])
+    ->  prio      : BYTE          Priorit„t der Schaufeltabelle:
+                                  0 ... Priorit„t 0 (hohe Priorit„t)
+                                  1 ... Priorit„t 1 (niedrige Priorit„t)
+    <-  @300[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion RIO_out() werden die Ausgangsdaten (Parameter "@031[data_ptr]"
+    der Funktion RIO_cfg()) auf die in der Sendekonfiguration definierten
+    Ausg„nge geschrieben. Wenn die Ausg„nge nicht konfiguriert sind, erhalten
+    Sie eine Fehlermeldung.
+
+
+
+                                     @071[ Fortsetzung ]                   @001[ šbersicht ]
+.71
+    RIO_out - RIO-Ausgangsdaten an Master/ISL bergeben (Fortsetzung)
+
+    Auáerdem k”nnen mit der Funktion RIO_out() die mit der Funktion RIO_init()
+    definierten Ausgangsdaten (siehe Element "optr" Struktur "@026[par]") an den
+    ISL weitergegeben werden.
+
+    Tritt w„hrend des Betriebs ein Fehler auf (z.B.: Slave f„llt aus), wird am
+    Ausgang "status" eine entsprechende Fehlermeldung ausgegeben.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.80
+    RIO_life - Life-List abfragen
+
+    @081[RIO_life] (enable,maident,adr(data_ptr),data_len,sl_cnt,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  maident   : LONG          Ident-Nummer des anzusprechenden Master- oder
+                                  ISL-Moduls (von @020[RIO_init])
+    <-> data_ptr  : BYTE (FELD)   BYTE-Feld, das Informationen zu den instal-
+                                  lierten Slaves enth„lt. Jedes Element dieses
+                                  BYTE-Feldes ist einem Slave zugeordnet. Das
+                                  erste Feld-Element entspricht dem Slave mit
+                                  der Slave-Adresse 1, das zweite Feld-Element
+                                  dem Slave mit der Slave-Adresse 2 usw. Der
+                                  Zustand (0 oder 1) eines Feld-Elements zeigt
+                                  an, ob der entsprechende Slave vorhanden ist
+                                  oder fehlt:
+                                  0 ... Slave ist nicht vorhanden
+                                  1 ... Slave ist vorhanden
+
+                                     @081[ Fortsetzung ]                   @001[ šbersicht ]
+.81
+    RIO_life - Life-List abfragen (Fortsetzung)
+
+    -> data_len   : WORD          L„nge des  BYTE-Feldes "data_ptr", bzw.
+                                  Anzahl der Slaves, die berprft werden
+                                  sollen
+    <- sl_cnt     : BYTE          Anzahl der aktiven Slave-Stationen im Remote
+                                  I/O-System
+    <-  @300[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Die Funktion RIO_life() spielt eine wichtige Rolle beim Aufbau von selbst-
+    konfigurierenden RIO-Applikationen. Nach dem Hochlauf des Systems wird
+    vom Master eine Life-List erstellt. Diese Life-List kann ber die Funktion
+    RIO_life() abgefragt werden. Anhand der dadurch erhaltenen Informationen
+    kann nun die RIO-Applikation entscheiden, welche Slaves konfiguriert werden
+    sollen.
+    Bei den @202[Slave-Zust„nden] ALIVE, READY und RUN liefert diese Funktion die
+    Information "Slave ist vorhanden". Bei allen anderen @202[Slave-Zust„nden]
+    (DISABLED, NOT READY, ERROR, CONFIG und LOAD FW) wird "Slave ist nicht
+    vorhanden" zurckgegeben.
+
+
+                                                                     @001[ šbersicht ]
+.90
+    RIO_mode - Slave-Verhalten im Fehlerfall festlegen
+
+    @091[RIO_mode] (enable,maident,sl_adr,mode,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  maident   : LONG          Ident-Nummer des anzusprechenden Master- oder
+                                  ISL-Moduls (von @020[RIO_init])
+    ->  sl_adr    : BYTE          Slave-Adresse der Slave-Station, fr die
+                                  die mit dem Parameter "mode" festgelegte
+                                  Einstellung gelten soll. Wird statt der
+                                  Slave-Adresse der Wert $FF angegeben, gilt
+                                  die mit dem Parameter "mode" festgelegte
+                                  Einstellung fr alle Slaves im Remote I/O-
+                                  System.
+    ->  @092[mode      ]: BYTE          Mode-Byte
+    <-  @300[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+
+
+                                     @091[ Fortsetzung ]                   @001[ šbersicht ]
+.91
+    RIO_mode - Slave-Verhalten im Fehlerfall festlegen (Fortsetzung)
+
+    Mit der Funktion RIO_mode() kann fr einen Remote Slave das Verhalten im
+    Fehlerfall festgelegt werden.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.92
+    RIO_mode - Slave-Verhalten im Fehlerfall festlegen (Fortsetzung)
+
+    -> Parameter <mode      >: BYTE
+
+    Mode-Byte:
+    ÚÄÄÄÂÄÄÄÂÄÄÄÂÄÄÄÂÄÄÄÂÄÄÄÂÄÄÄÂÄÄÄ¿
+    ³ 7 ³ 6 ³ 5 ³ 4 ³ 3 ³ 2 ³ 1 ³ 0 ³
+    ÀÄÄÄÁÄÄÄÁÄÄÄÁÄÄÄÁÄÄÄÁÄÄÄÁÄÄÄÁÄÄÄÙ
+     ÄÄÄÄÄÂÄÄÄÄÄ ÄÂÄ ÄÂÄ ÄÂÄ ÄÂÄ ÄÂÄ
+          ³       ³   ³   ³   ³   ÀÄÄÄÄÄ ENABLE
+          ³       ³   ³   ³   ÀÄÄÄÄÄÄÄÄÄ @093[Ausfall (ERROR) -> Quittierung]
+          ³       ³   ³   ÀÄÄÄÄÄÄÄÄÄÄÄÄÄ @093[READY           -> Quittierung]
+          ³       ³   ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @094[Ausfall (ERROR) -> Exception  ]
+          ³       ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @094[READY           -> Exception  ]
+          ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Nicht verwendet
+
+
+    ENABLE (Standardwert = 1):
+    0 ... Slave wird gesperrt (DISABLED)
+    1 ... Slave wird freigegeben (ENABLED)
+
+                                      @090[ RIO_mode ]                     @001[ šbersicht ]
+.93
+    RIO_mode - Slave-Verhalten im Fehlerfall festlegen (Fortsetzung)
+
+    Ausfall (ERROR) -> Quittierung (Standardwert = 1):
+    0 ... Der Ausfall des Remote Slaves muá von der Applikation nicht quittiert
+          werden. D.h. das Remote System setzt beim Ausfall dieses Slaves die
+          Bedienung der anderen Slaves automatisch fort. Bei dieser Einstellung
+          (Bit 1 = 0) kann der Remote Slave nie in den ERROR-Zustand kommen.
+    1 ... Der Ausfall des Slaves muá von der Applikation durch Aufruf der Funk-
+          tion @100[RIO_quit] quittiert werden, bevor die Bedienung der restlichen
+          Slaves fortgesetzt wird. Der Slave bleibt solange im ERROR-Zustand,
+          bis die Quittierung durchgefhrt ist.
+
+    READY -> Quittierung (Standardwert = 0):
+    0 ... Meldet sich der Slave nach einem Ausfall wieder, wird er automatisch
+          (ohne Quittierung) in den RIO-Zyklus eingebunden. Bei dieser Einstel-
+          lung (Bit 2 = 0) kann der Slave kann nie in den READY-Zustand kommen.
+    1 ... Bevor ein Slave mit dem Zustand READY wieder in den RIO-Zyklus ein-
+          gebunden wird, muá dieser Zustand mit der Funktion @100[RIO_quit] quittiert
+          werden. D.h. dieser Slave bleibt solange im READY-Zustand, bis die
+          Quittierung durchgefhrt wird.
+
+                                       @092[ Zurck ]                      @001[ šbersicht ]
+.94
+    RIO_mode - Slave-Verhalten im Fehlerfall festlegen (Fortsetzung)
+
+    Ausfall (ERROR) -> Exception (Standardwert = 1):
+    0 ... Keine Exception beim Ausfall des Slaves.
+    1 ... Beim Ausfall des Slaves wird eine Exception (Exception-Nr. 177) aus-
+          gel”st. Diese Einstellung (Bit 3 = 1) ist nur m”glich, wenn das Bit 1
+          des Mode-Bytes 1 ist (Ausfall quittieren)!
+          Der Ausfall des Slaves muá mit der Funktion @100[RIO_quit] quittiert
+          werden, bevor die Bedienung der restlichen Slaves fortgesetzt wird.
+          Bis zur Quittierung bleibt der Remote Slave im ERROR-Zustand.
+
+    READY -> Exception (Standardwert = 0):
+    0 ... Keine Exception beim "READY-Werden" des Slaves.
+    1 ... Wenn ein Slave nach einem Ausfall wieder READY wird, l”st der Remote
+          Master fr diesen Slave eine Exception (Exception-Nr. 177) aus.
+          Diese Einstellung (Bit 4 = 1) ist nur m”glich, wenn das Bit 2 des
+          Mode-Bytes 1 ist (READY quittieren)!
+          Bevor der Remote Slave wieder in den RIO-Zyklus eingebunden wird, muá
+          der Zustand READY mit der Funktion @100[RIO_quit] quittiert werden.
+
+
+                                       @092[ Zurck ]                      @001[ šbersicht ]
+.100
+    RIO_quit - Ausfall bzw. READY eines Slaves quittieren
+
+    @101[RIO_quit] (enable,maident,sl_adr,qmode,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  maident   : LONG          Ident-Nummer des anzusprechenden Master- oder
+                                  ISL-Moduls (von @020[RIO_init])
+    ->  sl_adr    : BYTE          Slave-Adresse der Slave-Station, die quit-
+                                  tiert werden soll
+    ->  qmode     : BYTE          Ausfall (ERROR-Zustand) oder READY-Zustand
+                                  eines Slaves quittieren:
+                                  0 ... Quittiere Ausfall (ERROR)
+                                  1 ... Quittiere READY
+    <-  @300[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+
+
+
+
+                                     @101[ Fortsetzung ]                   @001[ šbersicht ]
+.101
+    RIO_quit - Ausfall bzw. READY eines Slaves quittieren (Fortsetzung)
+
+    Befindet sich ein Slave (nach einem Ausfall) im Zustand ERROR, muá dieser
+    Zustand mit der Funktion RIO_quit() quittiert werden, bevor der Slave in
+    den Zustand @207[NOT READY] bergefhrt und die Bedienung der restlichen Slaves
+    fortgesetzt wird.
+    Befindet sich der Slave im Zustand READY, muá dieser Zustand mit der
+    Funktion RIO_quit() quittiert werden. Dadurch wird der Slave in den
+    Zustand @208[CONFIG] gebracht und der Remote Master versucht wieder diesen
+    Slave zu starten.
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.110
+    RIO_stat - Zustand aller Slaves abfragen
+
+    @111[RIO_stat] (enable,maident,adr(sl_tab),len,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  maident   : LONG          Ident-Nummer des anzusprechenden Master- oder
+                                  ISL-Moduls (von @020[RIO_init])
+    <-> @111[sl_tab    ]: BYTE (FELD)   BYTE-Feld, das den Zustand (Status) aller
+                                  Slaves im Remote I/O-System anzeigt
+    ->  len       : WORD          L„nge des BYTE-Feldes "sl_tab", bzw. Anzahl
+                                  der Slaves, die berprft werden sollen
+    <-  @300[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+
+    Mit der Funktion RIO_stat() kann der Zustand aller Slaves im Remote I/O-
+    System ermittelt werden. Der Status der Slaves wird immer aktuell aus dem
+    DPR des Remote Masters geholt.
+    Die Applikation kann dann den Zustand des jeweiligen Slaves in den ent-     
+    sprechenden Programmteilen mitverknpfen.
+                                                                     @001[ šbersicht ]
+.111
+    RIO_stat - Zustand aller Slaves abfragen (Fortsetzung)
+
+    <->Parameter <sl_tab    >: BYTE (FELD)
+
+    BYTE-Feld, das den Zustand (Status) aller Slaves im Remote I/O-System
+    anzeigt. Jedes Element dieses BYTE-Feldes ist einem Slave zugeordnet.
+    Das erste Feld-Element entspricht dem Slave mit der Slave-Adresse 1, das
+    zweite Feld-Element dem Slave mit der Slave-Adresse 2 usw. Der Wert
+    (Zahlenwert) eines Feld-Elements zeigt an, welchen Zustand der ent-
+    sprechende Slave hat:
+
+    0 ... @207[DISABLED ]
+    1 ... @207[NOT READY]
+    2 ... @208[ERROR    ]
+    3 ... @208[RUN      ]
+    4 ... @208[CONFIG   ]
+    5 ... @209[READY    ]
+    6 ... @209[ALIVE    ]
+    7 ... @209[LOAD FW  ]
+
+
+                                      @110[ RIO_stat ]                     @001[ šbersicht ]
+.120
+    RIO_list - Remote I/O-Bus nach I/O-Modulen durchsuchen
+
+    @121[RIO_list] (enable,maident,slave_no,prev_mod,adr(name_adr),module_adr,
+              module_typ,io_bus,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  maident   : LONG          Ident-Nummer des anzusprechenden Master- oder
+                                  ISL-Moduls (von @020[RIO_init])
+    ->  slave_no  : BYTE          Slave-Adresse der Slave-Station, die nach
+                                  I/O-Modulen durchsucht werden soll
+    ->  prev_mod  : BYTE          Moduladresse (in dezimaler Form) des I/O-
+                                  Moduls, bei dem die Suche fortgesetzt wird
+                                  (bei Angabe von 0 wird die Suche beim ersten
+                                  I/O-Modul am Remote I/O-Bus fortgesetzt)
+    <-> @122[name_adr  ]: 6 BYTE (FELD) Name des I/O-Moduls (als nullterminierter
+                                  String)
+    <-  @123[module_adr]: BYTE          Moduladresse des ersten gefundenen I/O-Moduls
+                                  (in dezimaler Form)
+
+                                     @121[ Fortsetzung ]                   @001[ šbersicht ]
+.121
+    RIO_list - Remote I/O-Bus nach I/O-Modulen durchsuchen (Fortsetzung)
+
+    <-  @126[module_typ]: BYTE          Typ (Typ-Code) des gefundenen I/O-Moduls
+    <-  io_bus    : BYTE          0 ... B&R 2005
+                                  1 ... B&R 2010
+                                  4 ... B&R 2003
+    <-  @300[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion RIO_list() kann ein I/O-Bus am RIO-Slave (RIO-Slave 2010,
+    2005 oder 2003) nach I/O-Modulen durchsucht werden. Als Ergebnis liefert
+    diese Funktion Name, Moduladresse und Typ (@126[Typ-Code]) der gefundenen I/O-
+    Module.
+    Um den ganzen I/O-Bus zu durchsuchen, muá der Parameter "prev_mod" beim
+    ersten Aufruf auf 0 gesetzt werden. Bei jedem weiteren Aufruf der Funktion
+    muá der Ausgangsparameter "module_adr" als neuer "prev_mod" verwendet
+    werden.
+    Mit "prev_mod" = i - 1 kann man jedoch auch von jedem beliebigen Steckplatz
+    "i" aus die Suche beginnen. Wenn kein I/O-Modul mehr gefunden wird, wird am
+    Ausgang "status" eine entsprechende Fehlernummer ausgegeben.
+
+
+                                                                     @001[ šbersicht ]
+.122
+    RIO_list - Remote I/O-Bus nach I/O-Modulen durchsuchen (Fortsetzung)
+
+    <->Parameter <name_adr  >: 6 BYTE (FELD)
+
+    In der Variable "name_adr" wird die Bezeichnung des gefundenen I/O-Moduls
+    als String (5 Zeichen + Nullbyte) hinterlegt.
+    Damit die korrekte Modulbezeichnung ermittelt werden kann, mssen die
+    Datenmodule IO_2010.BR, IO_2005.BR und IO_2003.BR im Anwender-ROM der
+    Zentraleinheit vorhanden sein. Sind diese Datenmodule nicht vorhanden,
+    wird der String "?????" als Modulbezeichnung eingetragen.
+
+
+
+
+
+
+
+
+
+
+
+                                      @120[ RIO_list ]                     @001[ šbersicht ]
+.123
+    RIO_list - Remote I/O-Bus nach I/O-Modulen durchsuchen (Fortsetzung)
+
+    <- Parameter <module_adr>: BYTE
+
+    Moduladresse des ersten gefundenen I/O-Moduls (in dezimaler Form).
+
+    Achtung:
+    Beim System B&R 2003 wird fr Analogmodule mehrfach dieselbe Moduladresse
+    geliefert (siehe @124[Beispiel]).
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @120[ RIO_list ]                     @001[ šbersicht ]
+.124
+    RIO_list - Remote I/O-Bus nach I/O-Modulen durchsuchen (Fortsetzung)
+
+    Beispiel: 
+    Gesteckt sind 3 Digitalmodule (DI435) und ein Analog-Interfacemodul (AF101)
+    mit drei Anpassungsmodulen (AT351, AT662 und AI354):
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º                       ³ module_adr ³ module_typ ³ name_adr              º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º Digitalmodul          ³      1     ³     $E1    ³         DI435         º
+    ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º Digitalmodul          ³      2     ³     $E1    ³         DI435         º
+    ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º Analog-Interfacemodul ³      3     ³     $C0    ³         AF101         º
+    º 1.Steckplatz          ³      3     ³     $08    ³         AT351         º
+    º 2.Steckplatz          ³      3     ³       0    ³ (kein Modul gesteckt) º
+    º 3.Steckplatz          ³      3     ³     $0A    ³         AT662         º
+    º 4.Steckplatz          ³      3     ³     $04    ³         AI354         º
+    ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º Digitalmodul          ³      4     ³     $E1    ³         DI435         º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                     @125[ Fortsetzung ]                   @001[ šbersicht ]
+.125
+    RIO_list - Remote I/O-Bus nach I/O-Modulen durchsuchen (Fortsetzung)
+
+    Beispiel (Fortsetzung): 
+
+      if start = 1 then
+          start    = 0
+          enable   = 1
+          prev_mod = 0
+      endif
+      RIO_list(enable,ma_id,slave,prev_mod,name_adr,module_adr,module_typ,
+               io_bus,status)
+      if status = 0 then
+          ; Eintrag auswerten
+          prev_mod = module_adr
+      else if status > 1 then
+          enable = 0
+      endif
+
+
+
+
+                                      @120[ RIO_list ]                     @001[ šbersicht ]
+.126
+    RIO_list - Remote I/O-Bus nach I/O-Modulen durchsuchen (Fortsetzung)
+
+    <- Parameter <module_typ>: BYTE
+
+    Neben der Modulbezeichnung und der Moduladresse liefert die Funktion
+    RIO_list() als Ergebnis auch den Typ-Code (Parameter "module_typ") des
+    gefundenen I/O-Moduls. šber den Typ-Code kann jedes Modul der Systeme
+    B&R 2010 und B&R 2005 eindeutig bestimmt werden.
+    Typ-Codes der wichtigsten I/O-Module:
+
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º    System B&R 2010   º    System B&R 2005   º    System B&R 2003   º
+    ÇÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¶
+    º I/O-Modul ³ Typ-Code º I/O-Modul ³ Typ-Code º I/O-Modul ³ Typ-Code º
+    ÌÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍ¹
+    º   DI400   ³   $01    º   DI450   ³   $08    º   AF101   ³   $C0    º
+    º   DI425   ³   $03    º   DI475   ³   $01    º   DI435   ³   $E1    º
+    º   DI426   ³   $22    º   DI476   ³   $07    º   DO720   ³   $82    º
+    º   DI825   ³   $1F    º   DI477   ³   $05    º   DM435   ³   $E3    º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍ¼
+
+                                     @127[ Weiter ... ]                    @001[ šbersicht ]
+.127
+    RIO_list - Remote I/O-Bus nach I/O-Modulen durchsuchen (Fortsetzung)
+
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º    System B&R 2010   º    System B&R 2005   º    System B&R 2003   º
+    ÇÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¶
+    º I/O-Modul ³ Typ-Code º I/O-Modul ³ Typ-Code º I/O-Modul ³ Typ-Code º
+    ÌÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍ¹
+    º   DO428   ³   $1D    º   DO479   ³   $40    º   AI351   ³ $02, $03 º
+    º   DO430   ³   $20    º   DO480   ³   $41    º   AI354   ³   $04    º
+    º   DO600   ³   $06    º   DO650   ³   $03    º   AI774   ³   $06    º
+    º   DO700   ³   $07    º   DO690   ³   $61    º   AO352   ³   $0E    º
+    º   AI300   ³   $08    º   DO750   ³   $04    º   AT351   ³   $08    º
+    º   AI700   ³   $09    º   DM455   ³   $20    º   AT352   ³   $1A    º
+    º   AT300   ³   $0A    º   DM476   ³   $62    º   AT662   ³   $0A    º
+    º   AT400   ³   $0B    º   AI350   ³   $82    º   AT664   ³   $0C    º
+    º   AT600   ³   $0C    º   AI375   ³   $80    º   DI135   ³   $12    º
+    º   AO300   ³   $11    º   AI775   ³   $81    º   DO135   ³   $14    º
+    º   AO725   ³   $0F    º   AT350   ³   $93    º   NC161   ³   $10    º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍ¼
+
+
+                                     @128[ Weiter ... ]                    @001[ šbersicht ]
+.128
+    RIO_list - Remote I/O-Bus nach I/O-Modulen durchsuchen (Fortsetzung)
+
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º    System B&R 2010   º    System B&R 2005   º
+    ÇÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¶
+    º I/O-Modul ³ Typ-Code º I/O-Modul ³ Typ-Code º
+    ÌÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍ¹
+    º   AO900   ³   $10    º   AT450   ³   $92    º
+    º   NC102   ³   $23    º   AT650   ³   $90    º
+    º   NC302   ³   $16    º   AT651   ³   $91    º
+    º   NC303   ³   $17    º   AT652   ³   $94    º
+    º   DS100   ³   $1A    º   AT660   ³   $95    º
+    º   DS101   ³   $1B    º   AO350   ³   $A0    º
+    º   UM900   ³   $21    º   AO775   ³   $A1    º
+    º           ³          º   AM050   ³   $88    º
+    º           ³          º   AM051   ³   $89    º
+    º           ³          º   NC150   ³   $98    º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                      @120[ RIO_list ]                     @001[ šbersicht ]
+.200
+    ANHANG : LIBRARY-Informationen
+
+
+    @201[< Allgemeines   >]      Voraussetzungen etc.
+
+    @250[< Syntax        >]      Syntax fr die Erkl„rung der Funktionen
+
+    @300[< Fehlernummern >]      Zusammenfassung aller Fehlernummern
+
+    @400[< Beispiele     >]      Beispiele fr die Verwendung der RIO-Funktionsbl”cke
+
+    @500[< History       >]      Neue Funktionalit„ten und Versions„nderungen
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.201
+    Remote-I/O-Library : Allgemeines
+
+    Die Remote-I/O-Library erm”glicht die Bedienung eines Remote I/O-Systems
+    ber Funktionsbl”cke.
+
+    Anmerkungen:
+    - Bevor Sie die Funktionen der Remote-I/O-Library in Ihrem Projekt ver-
+      wenden k”nnen, mssen Sie die Library in die entsprechende Projekt-
+      Datenbank importieren.
+
+    - Da die Remote-I/O-Library AVT-Funktionen enth„lt, k”nnen die Funktionen
+      dieser Library nur verwendet werden, wenn das Library-Runtime-Modul
+      (B&R-Modul RIO_LIB.BR) auf der CPU (Anwender-ROM) vorhanden ist!
+
+    - In den Tasks der Remote-I/O-SS-Taskklasse (RIO-SSTK) k”nnen die Funk-
+      tionen der Remote-I/O-Library nicht verwendet werden!
+
+    - Alle Funktionen der Remote-I/O-Library liefern im Fehlerfall als Er-
+      gebnis eine @300[Fehlernummer].
+
+
+                                     @202[ Fortsetzung ]                   @001[ šbersicht ]
+.202
+    Remote-I/O-Library : Allgemeines (Fortsetzung)
+
+    Slave-Zust„nde:
+    Der Zustand (Status) jedes einzelnen Slaves kann von der Applikation ber
+    die Funktion @110[RIO_stat] abgefragt werden kann. Dadurch kann der Applikation
+    mitgeteilt werden, welche Slaves ausgefallen sind bzw. welche Slaves nicht
+    mehr am zyklischen I/O-Austausch teilnehmen.
+    Im RIO-DPR wird ein BYTE-Feld angelegt, das den Zustand (Status) aller
+    Slaves im Remote I/O-System anzeigt. Jedes Element dieses BYTE-Feldes ist
+    einem Slave zugeordnet. Das erste Feld-Element entspricht dem Slave mit der
+    Slave-Adresse 1, das zweite Element dem Slave mit der Slave-Adresse 2 usw.:
+                                          ÚÄÂÄÂÄ¿   ÚÄ¿
+    BYTE-Feld mit dem Status aller Slaves ³1³2³3³...³n³
+                                          ÀÄÁÄÁÄÙ   ÀÄÙ
+                                           Â Â Â     Â
+                                           ³ ³ ³     ÀÄ Status-Byte fr Slave n
+                                           ³ ³ ³         :
+                                           ³ ³ ÀÄÄÄÄÄÄÄ Status-Byte fr Slave 3
+                                           ³ ÀÄÄÄÄÄÄÄÄÄ Status-Byte fr Slave 2
+                                           ÀÄÄÄÄÄÄÄÄÄÄÄ Status-Byte fr Slave 1
+
+                                     @203[ Fortsetzung ]                   @001[ šbersicht ]
+.203
+    Remote-I/O-Library : Allgemeines (Fortsetzung)
+
+    Der Wert (Zahlenwert) eines Feld-Elements zeigt an, welchen Zustand der ent-
+    sprechende Slave hat:
+
+    0 ... @207[DISABLED ]
+    1 ... @207[NOT READY]
+    2 ... @208[ERROR    ]
+    3 ... @208[RUN      ]
+    4 ... @208[CONFIG   ]
+    5 ... @209[READY    ]
+    6 ... @209[ALIVE    ]
+    7 ... @209[LOAD FW  ]
+
+    Neben dem Status-Byte ist jedem Slave auch ein Mode-Byte zugeordnet. Im
+    Mode-Byte legen fnf Bits das Verhalten des Remote I/O-Systems fest (siehe
+    Funktion @090[RIO_mode]).
+
+
+
+
+                                     @204[ Fortsetzung ]                   @001[ šbersicht ]
+.204
+    Remote-I/O-Library : Allgemeines (Fortsetzung)
+
+    Mode-Byte:
+    ÚÄÄÄÂÄÄÄÂÄÄÄÂÄÄÄÂÄÄÄÂÄÄÄÂÄÄÄÂÄÄÄ¿
+    ³ 7 ³ 6 ³ 5 ³ 4 ³ 3 ³ 2 ³ 1 ³ 0 ³
+    ÀÄÄÄÁÄÄÄÁÄÄÄÁÄÄÄÁÄÄÄÁÄÄÄÁÄÄÄÁÄÄÄÙ
+     ÄÄÄÄÄÂÄÄÄÄÄ ÄÂÄ ÄÂÄ ÄÂÄ ÄÂÄ ÄÂÄ
+          ³       ³   ³   ³   ³   ÀÄÄÄÄÄ ENABLE
+          ³       ³   ³   ³   ÀÄÄÄÄÄÄÄÄÄ Ausfall (ERROR) -> Quittierung
+          ³       ³   ³   ÀÄÄÄÄÄÄÄÄÄÄÄÄÄ READY           -> Quittierung
+          ³       ³   ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Ausfall (ERROR) -> Exception
+          ³       ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ READY           -> Exception
+          ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Nicht verwendet
+
+
+    ENABLE (Standardwert = 1):
+    0 ... Slave wird gesperrt (DISABLED)
+    1 ... Slave wird freigegeben (ENABLED)
+
+
+
+                                     @205[ Fortsetzung ]                   @001[ šbersicht ]
+.205
+    Remote-I/O-Library : Allgemeines (Fortsetzung)
+
+    Ausfall (ERROR) -> Quittierung (Standardwert = 1):
+    0 ... Der Ausfall des Remote Slaves muá von der Applikation nicht quittiert
+          werden. Bei dieser Einstellung (Bit 1 = 0) kann der Remote Slave nie
+          in den ERROR-Zustand kommen.
+    1 ... Der Ausfall des Slaves muá von der Applikation durch Aufruf der Funk-
+          tion @100[RIO_quit] quittiert werden. Der Slave bleibt solange im ERROR-
+          Zustand bis die Quittierung durchgefhrt ist.
+
+    READY -> Quittierung (Standardwert = 0):
+    0 ... Meldet sich der Remote Slave nach einem Ausfall wieder, wird keine
+          Quittierung von der Applikation erwartet. Bei dieser Einstellung
+          (Bit 2 = 0) kann der Slave kann nie in den READY-Zustand kommen.
+    1 ... Das "READY-Werden" des Slaves muá von der Applikation durch Aufruf
+          der Funktion @100[RIO_quit] quittiert werden. Der Slave bleibt solange im
+          READY-Zustand bis die Quittierung durchgefhrt ist.
+
+
+
+
+                                     @206[ Fortsetzung ]                   @001[ šbersicht ]
+.206
+    Remote-I/O-Library : Allgemeines (Fortsetzung)
+
+    Ausfall (ERROR) -> Exception (Standardwert = 1):
+    0 ... Keine Exception beim Ausfall des Slaves.
+    1 ... Beim Ausfall des Slaves wird eine Exception (Exception-Nr. 177)
+          ausgel”st. Diese Einstellung (Bit 3 = 1) ist nur m”glich, wenn das
+          Bit 1 des Mode-Bytes 1 ist (Ausfall quittieren)!
+          Der Ausfall des Slaves muá mit der Funktion @100[RIO_quit] quittiert
+          werden, bevor die Bedienung der restlichen Slaves fortgesetzt wird.
+          Bis zur Quittierung bleibt der Remote Slave im ERROR-Zustand.
+
+    READY -> Exception (Standardwert = 0):
+    0 ... Keine Exception beim "READY-Werden" des Slaves.
+    1 ... Wenn der Slave nach einem Ausfall wieder READY wird, l”st der Remote
+          Master fr diesen Slave eine Exception (Exception-Nr. 177) aus.
+          Diese Einstellung (Bit 4 = 1) ist nur m”glich, wenn das Bit 2 des
+          Mode-Bytes 1 ist (READY quittieren)!
+          Bevor der Remote Slave wieder in den RIO-Zyklus eingebunden wird, muá
+          der Zustand READY mit der Funktion @100[RIO_quit] quittiert werden.
+
+
+                                     @207[ Fortsetzung ]                   @001[ šbersicht ]
+.207
+    Remote-I/O-Library : Allgemeines (Fortsetzung)
+
+    Zustandsbeschreibung:
+
+    DISABLED
+    Durch das Setzen des ENABLE-Bits (Bit 0 des @204[Mode-Bytes]) auf den Wert 0
+    wird der entsprechende Slave in den DISABLED-Zustand versetzt. Der Slave
+    kann diesen Zustand nur verlassen, wenn das ENABLE-Bit auf den Wert 1 ge-
+    setzt wird.
+    Vom DISABLED-Zustand kann der Slave nur in den Zustand NOT READY bergehen!
+
+    NOT READY
+    Der Slave ist nicht bereit, d.h. der Slave wird vom Master nicht gefunden.
+    In diesem Zustand werden Life-List-Telegramme zum Slave gesendet und damit
+    geprft, ob sich der Slave wieder meldet.
+    Meldet sich der Slave wieder, wird entweder in den READY-Zustand (wenn das
+    Bit 2 des @204[Mode-Bytes] = 1 ist) oder direkt in den CONFIG-Zustand (wenn das
+    Bit 2 des @204[Mode-Bytes] = 0 ist) verzweigt.
+
+
+
+    @203[ Zurck ]                         @208[ Fortsetzung ]                   @001[ šbersicht ]
+.208
+    Remote-I/O-Library : Allgemeines (Fortsetzung)
+
+    ERROR
+    Dieser Zustand kann nur erreicht werden, wenn das Bit 1 des @204[Mode-Bytes] den
+    Wert 1 hat (Ausfall quittieren). In diesem Zustand wartet der Remote Master
+    auf die Quittierung des Ausfalls durch die Applikation.
+
+    RUN
+    Der Slave ist den RIO-Zyklus eingebunden. Wird der Slave in diesem Zustand
+    abgesteckt, oder tritt ein Modulfehler am Slave auf, erfolgt entweder ein
+    šbergang in den Zustand ERROR (wenn das Bit 1 des @204[Mode-Bytes] = 1 ist) oder
+    in den Zustand NOT READY (wenn das Bit 1 des @204[Mode-Bytes] = 0 ist).
+    Ist ein Modulfehler aufgetreten wird dies in der Life-List vermerkt.
+
+    CONFIG
+    Der Slave wird gerade konfiguriert, und fr die Wiederaufnahme in den RIO-
+    Zyklus vorbereitet. Tritt dabei ein Fehler auf, erfolgt entweder ein šber-
+    gang in den Zustand ERROR (wenn das Bit 1 des @204[Mode-Bytes] = 1 ist) oder in
+    den Zustand NOT READY (wenn das Bit 1 des @204[Mode-Bytes] = 0 ist).
+
+
+    @203[ Zurck ]                         @209[ Fortsetzung ]                   @001[ šbersicht ]
+.209
+    Remote-I/O-Library : Allgemeines (Fortsetzung)
+
+    READY
+    Dieser Zustand kann nur dann erreicht werden, wenn das Bit 2 des @204[Mode-Bytes]
+    1 ist (READY quittieren). Bevor ein Slave, der sich in diesem Zustand be-
+    findet, wieder in den RIO-Zyklus eingebunden wird, muá dieser Zustand quit-
+    tiert werden.
+
+    ALIVE
+    Slave meldet sich, aber es gibt fr diesen Slave keine Konfiguration. D.h.
+    der Slave kann nicht in den RIO-Zyklus eingebunden werden!
+
+    LOAD FW
+    Auf diesen Slave wird gerade eine neue Version der Slave-Firmware geladen.
+    Dies tritt dann ein, wenn ein Slave mit einer Firmware-Version, die nicht
+    der Firmware-Version des Masters entspricht, angeschlossen wird. Das Laden
+    der Firmware erfolgt nur einmalig (parallel zum RIO-Zyklus), kann aber bis
+    zu einigen Minuten dauern.
+
+
+
+    @203[ Zurck ]                           @200[ ANHANG ]                      @001[ šbersicht ]
+.250
+    Remote-I/O-Library : Syntaxbeschreibung
+
+    Datentypen:
+    Fr viele Funktionen sind bestimmte Gruppen von Datentypen zul„ssig. Um
+    bei der Funktionsbeschreibung nicht alle zul„ssigen Datentypen anfhren
+    zu mssen, werden folgende Gruppenbezeichnungen eingefhrt:
+    ÉÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍ»
+    º Gruppe º  BIT  ³ INT8  ³ BYTE  ³ INT16 ³ WORD  ³ INT32 ³ LONG  ³ FLOAT º
+    ÌÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍ¹
+    º BASIS  º       ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º NICHT  º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    º FLOAT  º       ³       ³       ³       ³       ³       ³       ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º ALLE   º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º FELD   º  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  º
+    ÈÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍ¼
+      x  Datentyp ist zul„ssig
+     [x] Datentyp ist zul„ssig als Feldvariable oder Zeichenkette (String)
+
+                                     @251[ Fortsetzung ]                   @001[ šbersicht ]
+.251
+    Remote-I/O-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Pfeile:
+    Fr die Darstellung von Eingangs- und Ausgangsparametern werden Pfeile
+    verwendet. Dabei gilt folgende Vereinbarung:
+    ÉÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º  Pfeil  º  Bedeutung                                                   º
+    ÌÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º   ->    º  Eingangsparameter                                           º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <->   º  Ein-/Ausgangsparameter. Funktionell ist es ein Ausgangs-    º
+    º         º  parameter. šblicherweise wird er aber vor dem Aufruf der    º
+    º         º  Funktion mit einer bestimmten Information geladen (z.B.     º
+    º         º  einer Adresse). Meist wird die Adresse einer Variable mit   º
+    º         º  adr() [PL2000] oder einem Adreákontakt [KOP] angeschlossen. º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <-    º  Ausgangsparameter                                           º
+    ÈÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @252[ Fortsetzung ]                   @001[ šbersicht ]
+.252
+    Remote-I/O-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Funktionsbl”cke:
+    Funktionsbl”cke sind in dieser Online-Hilfe nicht grafisch dargestellt.
+    Sie finden aber alle fr Funktionsbl”cke relevanten Informationen, wie
+    Eingangsparameter (->), Ein-/Ausgangsparameter (<->) und Ausgangsparameter
+    (<-) in der Online-Hilfe.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.300
+    Remote-I/O-Library : Fehlernummern der RIO-Funktionsbl”cke
+
+    Die folgende Liste ist eine Zusammenfassung aller m”glichen Fehlermeldungen
+    der Remote-I/O-Library:
+
+    1       Funktionsblock ist noch besch„ftigt
+    8401    Falsche Blocknummer bergeben
+    8402    Falsches Kommando bergeben
+    8403    Eingang war bereits konfiguriert
+    8404    Schaufeltabelle zu lang
+    8405    Empfangskonfigauftrag enth„lt einen Schreib-Schaufelauftrag
+    8406    Konfigauftrag enth„lt einen EXT-Zugriff
+    8407    Moduladresse zu hoch
+    8408    Interne Adresse zu hoch
+    8409    Block wurde bereits mit einer anderen AFL_NR konfiguriert
+    8412    Offset im Frame stimmt nicht mit Bit-Schaufeleintrag berein
+    8413    Ausgang war bereits konfiguriert
+    8414    Fehler beim Konfigurieren und anschlieáendem Zugriff auf ein
+            Eingangsmodul
+    8415    Fehlerhafter Offset beim LOAD FW-Kommando
+
+                                     @301[ Fortsetzung ]                   @001[ šbersicht ]
+.301
+    Remote-I/O-Library : Fehlernummern der RIO-Funktionsbl”cke (Fortsetzung)
+
+    8417    RIO 2003: Analogzugriff mit ungerader Byte-Anzahl
+    8418    RIO 2003: Digitalzugriff mit internem Modul-Offset > 0 oder
+            L„nge > 1
+    8419    RIO 2003: Digitalzugriff mit falscher Datenrichtung
+            (In statt Out oder umgekehrt)
+    8432    Fehler beim Zugriff auf ein Eingangsmodul
+    8448    Fehler beim Zugriff auf ein Ausgangsmodul
+    8451    In den Konfig-Bl”cken ist eine illegale Slave-Adresse eingetragen
+    8452    Offsets in den Schaufeleintr„gen passen nicht, oder berlappen
+    8453    Block enth„lt keine Daten
+    8454    Blocknummer fr Slave zu groá
+    8455    Ein Block ohne Eingangs- und Ausgangsdaten soll konfiguriert werden
+    8456    Zu viele Auftragslisten wurden konfiguriert
+    8457    Copy-Puffer-šberlauf
+    8458    Frame-Puffer-šberlauf
+    8459    Keine Auftragsliste vorhanden
+    8464    Anzahl der Schaufeleintr„ge fr einen Block zu hoch
+    8500    Slave ist vor Konfig nicht da
+
+                                     @302[ Fortsetzung ]                   @001[ šbersicht ]
+.302
+    Remote-I/O-Library : Fehlernummern der RIO-Funktionsbl”cke (Fortsetzung)
+
+    8501    Falsche Slave-Adresse
+    8502    Fehlermeldung vom Slave, w„hrend des RUN-Mode
+    8503    Trotz mehrfacher Wiederholung meldet sich Slave nicht
+    8528    Fehler beim I/O-Zugriff auf einen Slave
+    8551    Ungltige Steckplatznummer wurde angegeben
+    8552    Das Systemmodul ist kein Remote Master-Modul
+    8553    Das Master-Modul hat eine zu niedrige Version (< 3.0)
+    8554    Antwort des Slave paát nicht zur Anforderung
+    8555    Falsches Kommando
+    8556    FUB-interner Fehler: unbekanntes Kommando bei Antwort auswerten
+    8557    Angegebene Datenl„nge war zu klein
+    8558    Die Anzahl der Schreib-Schaufeleintr„ge ist zu groá
+    8559    Die L„nge der Schreibdaten ist zu groá
+    8560    Fehler am Slave bei Zugriff auf Inputmodul
+    8561    Erster Eintrag in der Konfigurationstabelle war 0
+    8562    Falsche L„nge fr die Life-List angegeben
+    8563    Falsche Master-Version
+    8565    Ungltige Moduladresse wurde angegeben
+
+                                     @303[ Fortsetzung ]                   @001[ šbersicht ]
+.303
+    Remote-I/O-Library : Fehlernummern der RIO-Funktionsbl”cke (Fortsetzung)
+
+    8567    L„nge der angegebenen Eingangsdaten paát nicht zur Konfiguration
+            des Masters
+    8568    L„nge der angegebenen Ausgangsdaten paát nicht zur Konfiguration
+            des Masters
+    8570    Fehler1 beim Laden der RIO ISL-Firmware
+    8571    Fehler2 beim Laden der RIO ISL-Firmware
+    8572    Fehler3 beim Laden der RIO ISL-Firmware
+    8574    Modul ist nicht als intelligenter Slave konfiguriert
+            (=> RPS-Konfigurator)
+    8580    RIO_in(): Priorit„t <> 0 wurde angegeben
+    8581    RIO_in(): inptr = 0
+    8585    RIO_out(): Priorit„t <> 0 wurde angegeben
+    8586    RIO_out(): outptr = 0
+    8587    RIO_in()/RIO_out(): Remote Slave ist nicht im RUN-Mode
+    8591    ISL Input Status: Keine gltigen Eingangsdaten vorhanden
+    8596    Falsche Priorit„t oder fr ISL Output Status: Ausgangsdaten
+            k”nnen am ISL nicht abgelegt werden, da er vom Master noch
+            nicht konfiguriert wurde
+
+                                     @304[ Fortsetzung ]                   @001[ šbersicht ]
+.304
+    Remote-I/O-Library : Fehlernummern der RIO-Funktionsbl”cke (Fortsetzung)
+
+    8597    Falsche DPR-Adresse
+    8598    Falsche Konfigurationsl„nge
+    8599    Falsche Systemmodulnummer
+    8600    Kein gltiges Kommando
+    8601    Ungltiger Konfigurationspointer
+    8602    Ungltiger Datenpointer
+    8603    RIO-START -> falscher Status
+    8604    Falsche Datenl„nge LL
+    8605    Kein gltiges I/O angegeben
+    8606    TAB-Puffer zu klein
+    8607    Zu kleiner Kopierpuffer
+    8608    Zu hohe Slave-Adresse
+    8609    L„nge eines Leereintrags zu groá
+    8610    Zu kleiner Datenpuffer
+    8611    RIO l„uft bereits
+    8612    RIO nicht konfiguriert
+    8613    Falscher Parameterpointer
+    8614    Falsche Parameterl„nge
+
+                                     @305[ Fortsetzung ]                   @001[ šbersicht ]
+.305
+    Remote-I/O-Library : Fehlernummern der RIO-Funktionsbl”cke (Fortsetzung)
+
+    8615    RIO nicht konfiguriert oder nicht gestartet
+    8617    Falsche Parameter-ID
+    8618    Falscher Tabellenpointer
+    8619    Falsche L„nge
+    8620    ungltiger Mode
+    8621    Falscher Slave-Status
+    8622    Falscher Mode
+    8623    Falsche Bitadresse
+    8627    I/O-Moduladresse nicht m”glich
+    8628    Antwort kam vom falschen Slave
+    8631    Auftrag zur Zeit nicht durchfhrbar
+    8632    Kein I/O-Modul vorhanden (oder Busende)
+    8633    I/O-Busende erreicht
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.400
+    Remote-I/O-Library : Beispiel 1
+
+    Beim Ausfall eines Slaves soll eine Exception generiert werden. Das
+    "READY-Werden" des Slaves nur soll gemeldet werden (keine Exception).
+
+    INIT-UP der RIO-Exceptiontask:
+      ; Mode-Byte aller Slaves am Remote Master (Moduladresse 1) auf den
+      ; Wert %%01111 setzen
+      ; Mode-Byte: Bit 0 = 1 ... Slave ENABLE
+      ;            Bit 1 = 1 ... Ausfall (ERROR) quittieren
+      ;            Bit 2 = 1 ... READY quittieren
+      ;            Bit 3 = 1 ... Exception bei Ausfall (ERROR)
+      ;            Bit 4 = 0 ... keine Exception bei READY
+      sl_cnt = sizeof(sl_status)
+      ; Bestimme Ident-Nummer fr Master (Moduladresse 1)
+      RIO_init(1,1,0,0,ma_id,status)
+      RIO_mode(1,ma_id,$ff,%%01111,status)
+
+
+
+
+                                     @401[ Fortsetzung ]                   @001[ šbersicht ]
+.401
+    Remote-I/O-Library : Beispiel 1 (Fortsetzung)
+
+    RIO-Exceptiontask:
+      ; Mit der Funktion RIO_stat() wird ermittelt, welcher Slave den Fehler
+      ; (Exception) ausgel”st hat
+      RIO_stat(1,ma_id,adr(sl_status),sl_cnt,status)
+      ; In der folgenden Schleife k”nnen alle Slaves oder auch nur ein Teil
+      ; der Slaves quittiert werden. Fr Slaves, die in dieser Schleife nicht
+      ; quittiert werden, wird wieder eine Exception ausgel”st.
+      loop i = 0 to (sl_cnt - 1)
+          if sl_status[i] = 2 then
+              ; Applikationsspezifische Aktionen bei Slave-Ausfall
+              ; Quittierung des Ausfalls
+              RIO_quit(1,ma_id,i+1,0,status)
+          endif
+      endloop
+
+
+
+
+
+                                     @402[ Fortsetzung ]                   @001[ šbersicht ]
+.402
+    Remote-I/O-Library : Beispiel 1 (Fortsetzung)
+
+    In einer langsamen Taskklasse wird berprft, ob die Remote Slaves wieder
+    o.k. sind:
+      ; Falls ein Slave im Zustand READY ist, wird er wieder freigegeben
+      ; Kontrolle, ob der Index im gltigen Bereich liegt
+      if ix >= sl_anz then
+          ix = 0
+      endif
+      ; Status der Slaves holen
+      RIO_stat(1,ma_id,adr(sl_status),sl_anz,status)
+      ; Wenn ein Slave vorhanden ist, aber noch nicht am I/O-Zyklus teilnimmt,
+      ; dann aktivieren des Slaves
+      if  sl_status[ix+1] = 5 then
+          ; Applikationsspezifische Aktionen vor dem Freigeben des Slaves
+          RIO_quit(1,ma_id,ix+1,1,status)
+      endif
+     ; Im n„chsten Zyklus wird der n„chste Slave berprft
+     ix = ix + 1
+
+
+                                     @410[ Beispiel 2 ]                    @001[ šbersicht ]
+.410
+    Remote-I/O-Library : Beispiel 2
+
+    Der Ausfall eines Slaves soll keine Exception ausl”sen, sondern nur ge-
+    meldet werden. Wird der Slave wieder READY, so wird er automatisch (ohne
+    Quittierung!) in den RIO-Zyklus eingebunden.
+
+    INIT-UP der RIO-Task:
+      ; Mode-Byte aller Slaves am Remote Master (Moduladresse 1) auf den
+      ; Wert %%00011 setzen
+      ; Mode-Byte: Bit 0 = 1 ... Slave ENABLE
+      ;            Bit 1 = 1 ... Ausfall (ERROR) quittieren
+      ;            Bit 2 = 0 ... READY muá nicht quittiert werden
+      ;            Bit 3 = 0 ... keine Exception bei Ausfall (ERROR)
+      ;            Bit 4 = 0 ... keine Exception bei READY
+      sl_cnt = sizeof(sl_status)
+      ; Bestimme Ident-Nummer fr Master (Moduladresse 1)
+      RIO_init(1,1,0,0,ma_id,status)
+      RIO_mode(1,ma_id,$ff,%%00011,status)
+     
+
+
+                                     @411[ Fortsetzung ]                   @001[ šbersicht ]
+.411
+    Remote-I/O-Library : Beispiel 2 (Fortsetzung)
+
+    Task mit Remote I/O-Verknpfungen:
+      ; Status der Slaves holen
+      RIO_stat(1,ma_id,adr(sl_status),sl_cnt,status)
+      ; Slave 1 behandeln
+      if  sl_status[0] = 3 then
+          ; I/O vom Slave 1 verknpfen
+      else if sl_status[0] = 2 then
+          ; Applikationsspezifische Aktionen bei Slave-Ausfall
+          RIO_quit(1,ma_id,1,0,status)           ; Quittierung des Ausfalls
+      endif
+      ; Slave 2 behandeln
+      if  sl_status[1] = 3 then
+          ; I/O vom Slave 2 verknpfen
+      else if sl_status[1] = 2 then
+          ; Applikationsspezifische Aktionen bei Slave-Ausfall
+          RIO_quit(1,ma_id,2,0,status)           ; Quittierung des Ausfalls
+      endif
+      ; usw.
+
+                                     @420[ Beispiel 3 ]                    @001[ šbersicht ]
+.420
+    Remote-I/O-Library : Beispiel 3
+
+    Es wird ein Programm erstellt das je Slave-Station ein digitales Eingangs-
+    modul (Moduladresse 3) und ein digitales Ausgangsmodul (Moduladresse 2)
+    anspricht, wobei die Anzahl der Slave-Stationen mit dem Parameter "SLANZ"
+    frei gew„hlt werden kann.
+
+    INIT-UP der Task:
+    Es wird fr die Eingangs- und Ausgangsdaten eine Konfigurationstabelle
+    erstellt. In einer Schleife werden SLANZ Slaves konfiguriert.
+    Nach dem Laden der Konfiguration wird das Remote I/O-System gestartet.
+    Tritt beim Starten ein Fehler auf, wird dies von der Funktion RIO_cmd()
+    gemeldet.
+
+      ; Remote Master-Modul (Moduladresse 2) fr FUB-Betrieb initialisieren
+      RIO_init(1,2,0,0,maid,status)
+      if status = 0 then
+          ; Anzahl der verwendeten Slaves festlegen
+          SLANZ = 4
+
+
+                                     @421[ Fortsetzung ]                   @001[ šbersicht ]
+.421
+    Remote-I/O-Library : Beispiel 3 (Fortsetzung)
+
+          ; Sendekonfiguration von Slave 1 bis SLANZ
+          tab.sl  = 0
+          tab.ma  = 2
+          tab.ia  = 0
+          tab.len = 2
+          loop sl = 1 to SLANZ do
+              RIO_cfg(1,maid,0,0,sl,adr(tab),sizeof(tab),adr(odata[sl-1]),
+                      sizeof(odata[sl-1]),status)
+              exitif (status <> 0)
+          endloop
+          ; Empfangskonfiguration von Slave 1 bis SLANZ
+          tab.sl  = 0
+          tab.ma  = 3
+          tab.ia  = 0
+          tab.len = 2
+          loop sl = 1 to SLANZ do
+              RIO_cfg(1,maid,0,1,sl,adr(tab),sizeof(tab),adr(idata[sl-1]),
+                      sizeof(idata[sl-1]),status)
+              exitif(status <> 0)
+          endloop                    @422[ Fortsetzung ]                   @001[ šbersicht ]
+.422
+    Remote-I/O-Library : Beispiel 3 (Fortsetzung)
+
+          ; Wenn bisher alles o.k. => RIO starten
+          if status = 0 then
+              ; RIO mit der oben geladenen Sende-/Empfangskonfiguration starten
+              ; (START mit Warten)
+              RIO_cmd(1,maid,1,status)
+          endif
+      endif
+      if status = 0 then
+          DIS_str(0,0,"RUN..   ")
+      else
+          itoa(status,adr(dstr))
+          DIS_str(0,0,"ERR:    ")
+          DIS_str(0,4,adr(dstr))
+      endif
+
+
+
+
+
+                                     @423[ Fortsetzung ]                   @001[ šbersicht ]
+.423
+    Remote-I/O-Library : Beispiel 3 (Fortsetzung)
+
+    Zyklischer Teil der Task (beliebige Taskklasse):
+      ; Es werden SLANZ (max. 31) Slaves mit jeweils einem Ausgangsmodul
+      ; (Moduladresse 2) und einem Eingangsmodul (Moduladresse 3) verwendet.
+      ; SLANZ kann im INIT-UP gesetzt werden. Die I/O-Daten k”nnen ber das
+      ; WORD-Feld idata[SLANZ] bzw. odata[SLANZ] angesprochen werden.
+      if status = 0 then
+          ; Eingang vom Remote Master abholen
+          RIO_in(1,maid,0,status)
+          if status = 0 then
+              ; Eing„nge verknpfen
+              ; Ausg„nge berechnen
+              loop sl=1 to SLANZ do
+                  odata[sl-1] = ctr
+              endloop
+              ; Ausgang an Remote Master weitergeben
+              RIO_out(1,maid,0,status)
+          endif
+          ctr = ctr + 1
+      endif
+                                     @424[ Fortsetzung ]                   @001[ šbersicht ]
+.424
+    Remote-I/O-Library : Beispiel 3 (Fortsetzung)
+
+    Variablendeklaration:                 Elemente der Struktur rio_entry:
+    ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍ»        ÉÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍ»
+    º Name   ³ Datentyp  ³ L„nge º        º Name   ³ Datentyp  ³ L„nge º
+    ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍ¹        ÌÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍ¹
+    º ctr    ³ WORD      ³   1   º        º sl     ³ BYTE      ³   1   º
+    º dstr   ³ BYTE      ³  10   º        º ma     ³ BYTE      ³   1   º
+    º idata  ³ WORD      ³  31   º        º ia     ³ BYTE      ³   1   º
+    º maid   ³ LONG      ³   1   º        º len    ³ BYTE      ³   1   º
+    º odata  ³ WORD      ³  31   º        ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍ¼
+    º sl     ³ BYTE      ³   1   º
+    º SLANZ  ³ BYTE      ³   1   º
+    º status ³ WORD      ³   1   º
+    º tab    ³ rio_entry ³   1   º
+    ÈÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍ¼
+
+
+
+
+
+                                     @430[ Beispiel 4 ]                    @001[ šbersicht ]
+.430
+    Remote-I/O-Library : Beispiel 4
+
+    Anwendung der Funktion RIO_list().
+
+    INIT-UP der Task:
+      ; I/O-Bus am Remote Slave 1 nach I/O-Modulen durchsuchen
+      enable    = 1
+      slave_no  = 1        ; Slave-Adresse 
+      modul_cnt = 0        ; Initialisierung des Modulz„hlers
+      prev_mod  = 0        ; Starte mit erstem I/O-Modul
+      max_dim   = 10       ; Maximale Modulanzahl
+      mod_nr    = 2        ; Moduladresse der Remote Master-Station
+      maid      = 0        ; Ident-Nummer des Master-Moduls
+      FUB_BUSY  = 1
+      loop i = 0 to max_dim - 1 do
+          moduladr[i] = 0
+      endloop
+      ; Die Funktion RIO_init() liefert die Ident-Nummer "maid" der Remote
+      ; Master-Station
+      RIO_init(1,mod_nr,0,0,maid,status)
+
+                                     @431[ Fortsetzung ]                   @001[ šbersicht ]
+.431
+    Remote-I/O-Library : Beispiel 4 (Fortsetzung)
+
+    Zyklischer Teil der Task (beliebige Taskklasse):
+      RIO_list(enable,maid,slave_no,prev_mod,0,modul_adr,mod_typ,iobus,status)
+      if enable = 1 then
+          if status = 0 then
+              moduladr[modul_cnt] = modul_adr
+              ; "modul_typ", "iobus" auswerten, ...
+              modul_cnt = modul_cnt + 1
+              prev_mod  = modul_adr
+          endif
+          if (status > FUB_BUSY) OR (modul_cnt >= max_dim) then
+              enable = 0
+          endif
+      endif
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.500
+    Remote-I/O-Library : History - Versions„nderungen
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V4.50 -> V4.60  ³ AKTUELLE VERSION: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Bei Anpassungsmodulen mit LONG-Konsistenz (Latch-Befehl notwendig)      º
+  º   wurden (bis zur Version V4.60) nur dann richtige Daten geliefert,       º
+  º   wenn die RIO-Variablen beginnend mit Offset 0 (lckenlos) auf dieses    º
+  º   Anpassungsmodul gelegt wurden. Dieser Fehler wurde bei der Version      º
+  º   V4.60 korrigiert.                                                       º
+  º - Bei einem Digitalzugriff mit falscher Datenrichtung (Eingangsdaten      º
+  º   von einem digitalen Ausgangsmodul lesen bzw. Ausgangsdaten auf ein      º
+  º   digitales Eingangsmodul schreiben) wurde (bis zur Version V4.60) kein   º
+  º   Fehler gemeldet.                                                        º
+  º - Bei einem Analogzugriff mit falscher Datenrichtung (Eingangsdaten       º
+  º   von einem analogen Ausgangsmodul lesen bzw. Ausgangsdaten auf ein       º
+  º   analoges Eingangsmodul schreiben) wurde (bis zur Version V4.60) kein    º
+  º   Fehler gemeldet.                                                        º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+                                     @501[ Fortsetzung ]                   @001[ šbersicht ]
+.501
+    Remote-I/O-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V4.30 -> V4.50  ³ LTERE VERSIONEN: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Digitale Outputdaten desselben Bytes k”nnen ab dieser Version in unter- º
+  º   schiedlichen Taskklassen verwendet werden. Dadurch ergibt sich jedoch   º
+  º   eine leicht modifizierte Abarbeitung im RIO-Master. Digitale Output-    º
+  º   daten werden ab V4.50 am Beginn jedes RIO-Zyklus vom Master bernommen  º
+  º   (unabh„ngig von der Abarbeitung der einzelnen Taskklassen).             º
+  º - Untersttzung des RIO-2003 Slaves.                                      º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º V4.21 -> V4.30  ³ LTERE VERSIONEN: Neue Funktionalit„ten/Fehlerbehebung  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Untersttzung der CP200.                                                º
+  º - Fehlerbehebung: Ein Download von Tasks mit RIO-Datenpunkten ist jetzt   º
+  º   auch im SERVICE-Modus m”glich.                                          º
+  º - Fehlerbehebung: Beim Overload von Tasks mit RIO-Datenpunkten werden die º
+  º   Ausg„nge nicht mehr gel”scht.                                           º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+
+.End

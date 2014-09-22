@@ -1,0 +1,879 @@
+%%
+1,0:1
+%%
+.1
+    Funktionen der CANIO-Library
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º ACHTUNG: - Da die CANIO-Library AVT-Funktionen enth„lt, k”nnen die Funk-  º
+  º            tionen dieser Library nur verwendet werden, wenn das Library-  º
+  º            Runtime-Modul (B&R-Modul CANIO.BR) im nullspannungssicheren    º
+  º            Speicher (Anwender-ROM) der Steuerung vorhanden ist! Nach dem  º
+  º            šbertragen des Library-Runtime-Moduls in den nullspannungs-    º
+  º            sicheren Speicher muá ein Kaltstart (frher "TOTALINIT" ge-    º
+  º            nannt) durchgefhrt werden.                                    º
+  º          - Die Funktionen der CANIO-Library mssen im zyklischen Teil     º
+  º            einer Task (nicht im Initialisierungs-Unterprogramm) aufge-    º
+  º            rufen werden!                                                  º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+    Nach dem Importieren der CANIO-Library stehen Ihnen folgende Funktionen
+    zur Verfgung:
+
+    @020[CANIOcmd] Befehlsanforderung senden/Befehlsantwort empfangen
+    @040[CANIOexc] Exception-Auswertung (Exception-Nummer 170)
+
+                                       @200[ ANHANG ]                  @999[ HILFE beenden ]
+.20
+    CANIOcmd - Befehlsanforderung senden/Befehlsantwort empfangen
+
+    @021[CANIOcmd] (enable,busnr,nodenr,adr(cmd),adr(res),status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  @025[busnr     ]: BYTE          Bus-Nummer des gewnschten CAN-Busses (1-8)
+    ->  nodenr    : BYTE          CAN-Knotennummer der Slave-Station (1-32)
+    ->  @026[cmd       ]: 8 BYTE (FELD) Befehlsanforderung
+    <-> @028[res       ]: 8 BYTE (FELD) Befehlsantwort
+    <-  @030[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Mit der Funktion CANIOcmd() kann ein Befehl an ein CAN-Bus Slavemodul ge-
+    schickt und die Antwort auf diesen Befehl empfangen werden. Diese Funktion
+    wird vor allem zum Lesen und Beschreiben von Konfigurationsw”rtern ver-
+    wendet.
+
+
+
+
+                                     @021[ Fortsetzung ]                   @001[ šbersicht ]
+.21
+    CANIOcmd - Befehlsanforderung senden/Befehlsantwort empfangen (Fortsetzung)
+
+    Der korrekte Aufbau einer Befehlsanforderung (Eingangsparameter "cmd") ist
+    im "B&R SYSTEM 2000 B&R 2003 Anwenderhandbuch" (Kapitel "CAN-BUS Slavemodul
+    Funktionen", Abschnitt "Befehle - CAN-Bus Slavemodul") beschrieben. W„hrend
+    des Sendens der Befehlsanforderung / Empfangens der Befehlsantwort wird der
+    Ausgang "status" auf den Wert 65535 (BUSY) gesetzt. Die Befehlsantwort
+    (Ein-/Ausgangsparameter "res") kann erst ausgewertet werden, wenn am Aus-
+    gang "status" der Wert 0 ausgegeben wird. Tritt beim Ausfhren der Funktion
+    ein Fehler auf, so wird am Ausgang "status" eine entsprechende Fehlernummer
+    ausgegeben.
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.25
+    CANIOcmd - Befehlsanforderung senden/Befehlsantwort empfangen (Fortsetzung)
+
+    -> Parameter <busnr     >: BYTE
+
+    Bus-Nummer des gewnschten CAN-Busses (1-8). Der gew„hlte CAN-Bus muá in
+    der Systemkonfiguration parametriert sein. Zum Parametrieren des CAN-Busses
+    rufen Sie die Funktion <Objekt><Parameter> aus der Task-Ebene der GDM auf.
+    Der Cursor muá sich dabei auf dem "sysconf"-Symbol befinden. Anschlieáend
+    kann durch Anwahl der Funktion <CAN I/O> (siehe Popup-Men des Feldes
+    <Konfiguriere>) eine Dialogbox zum Festlegen der CAN-Parameter ge”ffnet
+    werden.
+
+
+
+
+
+
+
+
+
+
+                                      @020[ CANIOcmd ]                     @001[ šbersicht ]
+.26
+    CANIOcmd - Befehlsanforderung senden/Befehlsantwort empfangen (Fortsetzung)
+
+    -> Parameter <cmd       >: 8 BYTE (FELD)
+
+    Befehlsanforderung. Mit der Funktion CANIOcmd() k”nnen von einer Station
+    (Client) Befehle an ein CAN-Slavemodul geschickt und die Antwort darauf
+    empfangen werden. Die Befehlsanforderung muá folgenden Aufbau haben:
+    ÉÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Byte  º Bezeichnung                                      º
+    ÌÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º   0   º Kennung (freie Nummer im Bereich 0 ... 126)      º
+    ÇÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   1   º Befehlscode                                      º
+    ÇÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   2   º Parameter 1                                      º
+    ÇÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   3   º Parameter 2                                      º
+    ÇÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º 4 - 7 º Befehlsdaten im Motorolaformat                   º
+    ÈÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                     @027[ Fortsetzung ]                   @001[ šbersicht ]
+.27
+    CANIOcmd - Befehlsanforderung senden/Befehlsantwort empfangen (Fortsetzung)
+
+    Eine detaillierte Beschreibung zum Thema "Befehlsanforderung" finden Sie
+    im Kapitel "CAN-BUS Slavemodul Funktionen" (Abschnitt "Befehle - CAN-Bus
+    Slavemodul") des "B&R SYSTEM 2000 B&R 2003 Anwenderhandbuchs".
+    Nicht jede Befehlsanforderung an das Slavemodul bewirkt automatisch eine
+    Befehlsantwort (siehe Beschreibung der einzelnen Befehle).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @020[ CANIOcmd ]                     @001[ šbersicht ]
+.28
+    CANIOcmd - Befehlsanforderung senden/Befehlsantwort empfangen (Fortsetzung)
+
+    <-> Parameter <res       >: 8 BYTE (FELD)
+
+    Befehlsantwort. Mit der Funktion CANIOcmd() k”nnen von einer Station
+    (Client) Befehle an ein CAN-Slavemodul geschickt und die Antwort darauf
+    empfangen werden. Die Befehlsantwort hat folgenden Aufbau:
+
+    ÉÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Byte  º Bezeichnung                                      º
+    ÌÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º   0   º - šbertragung OK:                                º
+    º       º   Kennung = Kennung des Client                   º
+    º       º - šbertragung fehlerhaft:                        º
+    º       º   Bit 7 der Kennung ist gesetzt                  º
+    º       º - šbertragung einer unaufgeforderten Meldung:    º
+    º       º   Kennung = $FF                                  º
+    ÇÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   1   º Befehlscode                                      º
+    ÈÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                     @029[ Fortsetzung ]                   @001[ šbersicht ]
+.29
+    CANIOcmd - Befehlsanforderung senden/Befehlsantwort empfangen (Fortsetzung)
+
+    ÉÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Byte  º Bezeichnung                                      º
+    ÌÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º   2   º Parameter 1                                      º
+    ÇÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   3   º Parameter 2                                      º
+    ÇÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º 4 - 7 º Befehlsantwort im Motorolaformat oder Fehlercode º
+    ÈÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+    Eine detaillierte Beschreibung zum Thema "Befehlsantwort" finden Sie
+    im Kapitel "CAN-BUS Slavemodul Funktionen" (Abschnitt "Befehle - CAN-Bus
+    Slavemodul") des "B&R SYSTEM 2000 B&R 2003 Anwenderhandbuchs".
+
+
+
+
+
+
+                                      @020[ CANIOcmd ]                     @001[ šbersicht ]
+.30
+    CANIOcmd - Befehlsanforderung senden/Befehlsantwort empfangen (Fortsetzung)
+
+    <- Parameter <status    >: WORD
+
+    Fehlernummern der Funktion CANIOcmd():
+    65535    BUSY (Funktionsblock wartet auf die Antwort)
+    8955     Bus ist nicht konfiguriert
+    8956     Knoten ist nicht konfiguriert
+    8976     Am PP ist keine CANIO-Applikation installiert
+    8978     Lokal ist fr diesen Knoten noch keine CANIO-Applikation
+             installiert
+    8979     Knoten ist nicht aktiv
+
+    Eine Liste aller m”glichen Fehlermeldungen der CANIO-Library finden Sie im
+    Anhang @300[Fehlermeldungen].
+
+
+
+
+
+
+                                      @020[ CANIOcmd ]                     @001[ šbersicht ]
+.40
+    CANIOexc - Exception-Auswertung
+
+    @041[CANIOexc] (enable,status,exctyp,busnr,nodenr,errcode,addcode)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    <-  @300[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+    <-  exctyp    : BYTE          Typ der aufgetretenen Exception:
+                                  1 ... Knoten weggefallen
+                                  2 ... Knoten wieder aktiv
+                                  3 ... Alarm
+                                  4 ... BusOff
+    <-  busnr     : BYTE          Bus-Nummer des CAN-Busses (1-8)
+    <-  nodenr    : BYTE          CAN-Knotennummer der Slave-Station (1-32)
+    <-  @045[errcode   ]: WORD          Fehlercode bei Alarmen
+    <-  @046[addcode   ]: WORD          Zusatzcode bei Alarmen
+
+
+
+
+                                     @041[ Fortsetzung ]                   @001[ šbersicht ]
+.41
+    CANIOexc - Exception-Auswertung (Fortsetzung)
+
+    Damit beim Auftreten eines Fehlers am CAN-Bus eine Exception ausgel”st
+    wird, muá in der Systemkonfiguration fr den entsprechenden CAN-Bus die
+    Einstellung "Exception ausl”sen: Ja" angew„hlt sein. Dazu rufen Sie die
+    Funktion <Objekt><Parameter> aus der Task-Ebene der GDM auf. Der Cursor
+    muá sich dabei auf dem "sysconf"-Symbol befinden. Anschlieáend kann durch
+    Anwahl der Funktion <CAN I/O> (siehe Popup-Men des Feldes <Konfiguriere>)
+    eine Dialogbox zum Festlegen der CAN-Parameter ge”ffnet werden. In dieser
+    Dialogbox k”nnen Sie die Einstellung "Exception ausl”sen: Ja" anw„hlen.
+    Wenn bei dieser Einstellung ein Fehler am CAN-Bus auftritt (z.B.: CAN-
+    Knoten weggefallen), wird eine Exception (Exception-Nr. 170) ausgel”st.
+    In einer Exceptiontask kann mit Hilfe der Funktion CANIOexc() der Typ der
+    aufgetretenen Exception (siehe Ausgang "exctyp") ausgelesen werden.
+
+
+
+
+
+
+   
+                                     @042[ Fortsetzung ]                   @001[ šbersicht ]
+.42
+    CANIOexc - Exception-Auswertung (Fortsetzung)
+
+    Abh„ngig vom Typ der aufgetretenen Exeption k”nnen auch zus„tzliche Infor-
+    mationen ausgegeben werden (siehe Ausg„nge "busnr", "nodenr", "errcode"
+    und "addcode"):
+
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍ»
+    º Typ der Exception   º  "busnr"  ³ "nodenr"  ³ "errcode" ³ "addcode" º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍ¹
+    º Knoten weggefallen  º     x     ³     x     ³           ³           º
+    ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄ¶
+    º Knoten wieder aktiv º     x     ³     x     ³           ³           º
+    ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄ¶
+    º Alarm               º     x     ³     x     ³     x     ³     x     º
+    ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄ¶
+    º BusOff              º     x     ³           ³           ³           º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+                                     @043[ Fortsetzung ]                   @001[ šbersicht ]
+.43
+    CANIOexc - Exception-Auswertung (Fortsetzung)
+
+    Nach der Exception "BusOff" kann nur dann eine weitere "BusOff"-Exception
+    auftreten, wenn zwischendurch der Zustand BusOn (kann mit dem Funktions-
+    block nicht direkt ermittelt werden) eingetreten ist.
+
+    Wenn nach einem BusOff-Zustand nicht die Exception "Knoten weggefallen"
+    auftritt, dann war der CAN-Bus nur sehr kurz im BusOff-Zustand.
+
+    Jeder CAN-Knoten muá sich zyklisch innerhalb der eingestellten Life Guard
+    Time beim Master melden, sonst wird der entsprechende CAN-Knoten abge-
+    meldet. D.h. die in der Systemkonfiguration definierte Life Guard Time
+    ist ausschlaggebend fr die Exceptions "Knoten weggefallen" und "Knoten
+    wieder aktiv". Zum Einstellen der Life Guard Time rufen Sie die Funktion
+    <Objekt><Parameter> aus der Task-Ebene der GDM auf. Der Cursor muá sich
+    dabei auf dem "sysconf"-Symbol befinden. Anschlieáend kann durch Anwahl
+    der Funktion <CAN I/O> (siehe Popup-Men des Feldes <Konfiguriere>) eine
+    Dialogbox zum Festlegen der CAN-Parameter ge”ffnet werden. In dieser
+    Dialogbox k”nnen Sie die Life Guard Time (Eintrag "TimeoutIO") definieren.
+
+
+                                                                     @001[ šbersicht ]
+.45
+    CANIOexc - Exception-Auswertung (Fortsetzung)
+
+    <- Parameter <errcode   >: WORD
+
+    Fehlercode (wird nur bei Alarmen ausgegeben).
+    Eine Aufschlsselung der einzelnen Fehlercodes finden Sie im Anhang
+    "Fehlermeldungen CAN-Bus Slavemodul" des "B&R SYSTEM 2000 B&R 2003
+    Anwenderhandbuchs".
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @040[ CANIOexc ]                     @001[ šbersicht ]
+.46
+    CANIOexc - Exception-Auswertung (Fortsetzung)
+
+    <- Parameter <addcode   >: WORD
+
+    Zusatzcode (wird nur bei Alarmen ausgegeben).
+    Eine Aufschlsselung der einzelnen Zusatzcodes finden Sie im Anhang
+    "Fehlermeldungen CAN-Bus Slavemodul" des "B&R SYSTEM 2000 B&R 2003
+    Anwenderhandbuchs".
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @040[ CANIOexc ]                     @001[ šbersicht ]
+.200
+    ANHANG : LIBRARY-Informationen
+
+
+    @201[< Allgemeines              >]   Informationen, Voraussetzungen etc.
+
+    @210[< Untersttzte Hardware    >]   Vom CANIO-Master untersttzte Hardware
+
+    @220[< Konfigurationsbeispiele  >]   Beispiele fr Hardware-Konfigurationen
+
+    @230[< Hardware-Einschr„nkungen >]   Hardware-Einschr„nkungen (CANIO-Master)
+
+    @240[< CAN-Bus Slavemodul       >]   CAN-Bus Slavemodul - B&R 2003
+
+    @250[< Syntax                   >]   Syntax fr die Erkl„rung der Funktionen
+
+    @300[< Fehlernummern            >]   Zusammenfassung aller Fehlernummern
+
+    @400[< History                  >]   Neue Funktionalit„ten und Versions„nderungen
+
+
+
+                                                                     @001[ šbersicht ]
+.201
+    CANIO-Master / CANIO-Library : Allgemeines
+
+    CAN-I/O erm”glicht die Anbindung von CAN-Slaveknoten des Systems B&R 2003
+    an alle Zentraleinheiten der Systeme B&R 2003, B&R 2005, B&R 2010 und
+    PANELWARE, die eine CAN-Schnittstelle haben oder ber einen PP (Parallel-
+    prozessor) auf eine CAN-Schnittstelle zugreifen k”nnen. Diese Anbindung
+    wird mit Hilfe einer CANIO-Mastersoftware (kurz: CANIO-Master) realisiert.
+    Der CANIO-Master ist eine Systemtask, die die Bedienung von CAN-I/Os des
+    Systems B&R 2003 (kurz: CANIO-2003) ber das PG2000 erm”glicht (einfaches
+    "Handling" der Prozeávariablen ber die Variablendeklaration). In der
+    Variablendeklaration wurde speziell dafr der I/O-Typ "CAN-I/O" eingefhrt.
+    Der CANIO-Master ist auf allen CPUs (Voraussetzung: RPSSW-Version V2.00)
+    mit CAN-Schnittstelle lauff„hig (auch auf CPUs, die ber einen Parallel-
+    prozessor auf CAN-I/Os zugreifen k”nnen).
+    Die CAN-Slaveknoten am Bus werden vom CANIO-Master erkannt und entsprechend
+    initialisiert, um das Lesen und Beschreiben der I/O-Punkte zu erm”glichen.
+    Fr das Lesen und Beschreiben der modulspezifischen Parameter k”nnen spe-
+    zielle Variablen deklariert werden. Der CANIO-Master bernimmt die Knoten-
+    berwachung und die Fehlersignalisierung. Mit Hilfe einer Exceptiontask
+    kann auf Fehlerzust„nde reagiert werden.
+
+                                     @202[ Fortsetzung ]                   @001[ šbersicht ]
+.202
+    CANIO-Master / CANIO-Library : Allgemeines (Fortsetzung)
+
+    Vergleich zwischen Remote-IO-2003 und CANIO-2003:
+    Im Gegensatz zum Remote Master ist der CANIO-Master eine Software-L”sung,
+    d.h. es gibt keine Hardware. In der folgenden Tabelle sind die Vor- und
+    Nachteile von Remote-IO-2003 bzw. CANIO-2003 aufgelistet.
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º                                     º  Remote-IO-2003  º    CANIO-2003    º
+  ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+  º Durchsatz                           º schneller        º langsamer        º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Fremdger„te                         º geschlossen      º offen            º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Einsatz auf verschiedenen CPUs (PP) º nicht skalierbar º skalierbar       º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Reaktion auf Ereignisse             º zyklisch         º ereignisbezogen  º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º SPS-SPS-Dienste                     º kein Netzwerk    º Netzwerkmedium   º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                     @203[ Fortsetzung ]                   @001[ šbersicht ]
+.203
+    CANIO-Master / CANIO-Library : Allgemeines (Fortsetzung)
+
+    Zusammenfassung:
+    - Hinsichtlich Datendurchsatz kann CANIO (Software-L”sung) nicht die Werte
+      wie Remote-IO (Hardware-L”sung) erreichen.
+    - Fremdger„te (nicht B&R) k”nnen mit Hilfe der CAN-Library (aber nicht ber
+      den CANIO-Master) bedient werden. šber Remote-IO k”nnen keine Fremdger„te
+      angesprochen werden.
+    - CANIO kann auf allen Zentraleinheiten mit CAN-Schnittstelle eingesetzt
+      werden (auch auf Zentraleinheiten, die ber einen Parallelprozessor Zu-
+      griff auf CAN-I/Os haben).
+    - Die Reaktion auf nderungen erfolgt bei Remote-IO zyklisch, CANIO hin-
+      gegen reagiert ereignisbezogen.
+    - CAN ist ein Netzwerkmedium, bei dem in Zukunft auch SPS-SPS-Dienste
+      m”glich sind.
+
+
+
+
+
+
+                                     @204[ Fortsetzung ]                   @001[ šbersicht ]
+.204
+    CANIO-Master / CANIO-Library : Allgemeines (Fortsetzung)
+
+    Anmerkungen:
+    - Bevor Sie die Funktionen der CANIO-Library in Ihrem Projekt verwenden
+      k”nnen, mssen Sie diese Library in die entsprechende Projekt-Datenbank
+      importieren.
+
+    - Da die CANIO-Library AVT-Funktionen enth„lt, k”nnen die Funktionen dieser
+      Library nur verwendet werden, wenn das Library-Runtime-Modul (B&R-Modul
+      CANIO.BR) im nullspannungssicheren Speicher (Anwender-ROM) der Steuerung
+      vorhanden ist!
+
+    - Voraussetzung fr die Verwendung des CANIO-Masters ist die Version V2.00
+      des Betriebssystems RPSSW.
+
+    - Die Funktionen der CANIO-Library liefern im Fehlerfall als Ergebnis eine
+      @300[Fehlernummer].
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.210
+    CANIO-Master / CANIO-Library : Untersttzte Hardware
+
+    Der CANIO-Master ist auf folgenden Zentraleinheiten, die ber eine CAN-
+    Schnittstelle verfgen, lauff„hig:
+
+    - CP104 (B&R 2010)
+    - CP200 (B&R 2010)
+    - IF100 (B&R 2010)
+    - IF101 (B&R 2010)
+    - XP152 (B&R 2005)
+    - IP151 (B&R 2005)
+    - IF152 (B&R 2005)
+    - IF260 (B&R 2005)
+    - CP260 (B&R 2005)
+    - CP472/CP772 (B&R 2003)
+    - CP474/CP774 (B&R 2003)
+    - CP470/CP770 (B&R 2003)
+    - C220 (Panelware)
+
+
+
+                                     @211[ Fortsetzung ]                   @001[ šbersicht ]
+.211
+    CANIO-Master / CANIO-Library : Untersttzte Hardware (Fortsetzung)
+
+    Weiters ist der CANIO-Master auch auf Zentraleinheiten lauff„hig, die ber
+    einen PP (Parallelprozessor) Zugriff auf CANIOs haben:
+
+    - CP152 (B&R 2005)
+    - CP153 (B&R 2005)
+    - CP100 (B&R 2010)
+
+    Als PPs kommen die Module XP152, IF152, IP151, IF260, IF100 und IF101 in
+    Frage. Der CANIO-Master l„uft dann auf beiden - CPU und Master.
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.220
+    CANIO-Master / CANIO-Library : Konfigurationsbeispiele
+
+    Konfigurationsbeispiel 1:
+    Konfiguration mit einer CPU und mehreren CAN-Slaves (Es ist natrlich
+    auch eine Konfiguration mit nur einem Slaveknoten m”glich):
+
+    CPxxx
+    ÚÄÄÄ¿
+    ³   ³
+    ³ Ú¿³
+    ³ ÀÙ³
+    ÀÄÒÄÙ        CAN-Bus
+      ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍ ...
+     ÚĞÂÄÂÄÂÄ¿                  ÚĞÂÄÂÄÂÄ¿
+     Ã¿³ ³ ³ ³ CAN-Slave 2003   Ã¿³ ³ ³ ³ CAN-Slave 2003
+     ÀÁÁÄÁÄÁÄÙ                  ÀÁÁÄÁÄÁÄÙ
+
+
+
+
+
+                              @221[ Konfigurationsbeispiel 2 ]             @001[ šbersicht ]
+.221
+    CANIO-Master / CANIO-Library : Konfigurationsbeispiele (Fortsetzung)
+
+    Konfigurationsbeispiel 2:
+    Konfiguration mit CPU und einem PP (PP = Parallelprozessor):
+
+      ÚÄÄÄÄÄÄÄÄÄ CP152
+      ³   ÚÄÄÄÄÄ IF152
+    ÚÄÄÄÂÄÄÄ¿
+    ³   ³   ³   
+    ³   ³ Ú¿³
+    ³   ³ ÀÙ³
+    ÀÄÄÄÁÄÒÄÙ        CAN-Bus
+          ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍ ...
+         ÚĞÂÄÂÄÂÄ¿                  ÚĞÂÄÂÄÂÄ¿
+         Ã¿³ ³ ³ ³ CAN-Slave 2003   Ã¿³ ³ ³ ³ CAN-Slave 2003
+         ÀÁÁÄÁÄÁÄÙ                  ÀÁÁÄÁÄÁÄÙ
+
+    Der CANIO-Master l„uft sowohl auf der CPU als auch auf dem PP.
+
+
+
+                              @222[ Konfigurationsbeispiel 3 ]             @001[ šbersicht ]
+.222
+    CANIO-Master / CANIO-Library : Konfigurationsbeispiele (Fortsetzung)
+
+    Konfigurationsbeispiel 3:
+    Konfiguration mit zwei PPs (PP = Parallelprozessor):
+      ÚÄÄÄÄÄÄÄÄÄÄÄÄÄ CP152
+      ³   ÚÄÄÄÂÄÄÄÄÄ IF152
+    ÚÄÄÄÂÄÄÄÂÄÄÄ¿
+    ³   ³   ³   ³   
+    ³   ³ Ú¿³ Ú¿³
+    ³   ³ ÀÙ³ ÀÙ³
+    ÀÄÄÄÁÄÒÄÁÄÒÄÙ        CAN-Bus 2
+          º   ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍ ...
+          º  ÚĞÂÄÂÄÂÄ¿                  ÚĞÂÄÂÄÂÄ¿
+          º  Ã¿³ ³ ³ ³ CAN-Slave 2003   Ã¿³ ³ ³ ³ CAN-Slave 2003
+          º  ÀÁÁÄÁÄÁÄÙ                  ÀÁÁÄÁÄÁÄÙ
+          º              CAN-Bus 1
+          ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍ ...
+         ÚĞÂÄÂÄÂÄ¿                  ÚĞÂÄÂÄÂÄ¿
+         Ã¿³ ³ ³ ³ CAN-Slave 2003   Ã¿³ ³ ³ ³ CAN-Slave 2003
+         ÀÁÁÄÁÄÁÄÙ                  ÀÁÁÄÁÄÁÄÙ
+
+                              @223[ Konfigurationsbeispiel 4 ]             @001[ šbersicht ]
+.223
+    CANIO-Master / CANIO-Library : Konfigurationsbeispiele (Fortsetzung)
+
+    Konfigurationsbeispiel 4:
+    Konfiguration mit einer CPU, die ber mehrere CAN-Schnittstellen verfgt:
+
+    CP260
+    ÚÄÄÄ¿
+    ³   ³   
+    ³ÚÂ¿³
+    ³ÀÁÙ³
+    ÀÒÄÒÙ        CAN-Bus 2
+     º ÈÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍ ...
+     º  ÚĞÂÄÂÄÂÄ¿                  ÚĞÂÄÂÄÂÄ¿
+     º  Ã¿³ ³ ³ ³ CAN-Slave 2003   Ã¿³ ³ ³ ³ CAN-Slave 2003
+     º  ÀÁÁÄÁÄÁÄÙ                  ÀÁÁÄÁÄÁÄÙ
+     º           CAN-Bus 1
+     ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍ ...
+    ÚĞÂÄÂÄÂÄ¿                  ÚĞÂÄÂÄÂÄ¿
+    Ã¿³ ³ ³ ³ CAN-Slave 2003   Ã¿³ ³ ³ ³ CAN-Slave 2003
+    ÀÁÁÄÁÄÁÄÙ                  ÀÁÁÄÁÄÁÄÙ
+
+                              @224[ Konfigurationsbeispiel 5 ]             @001[ šbersicht ]
+.224
+    CANIO-Master / CANIO-Library : Konfigurationsbeispiele (Fortsetzung)
+
+    Konfigurationsbeispiel 5:
+    Konfiguration mit mehreren CPUs auf einem Bus:
+
+    CPU 1                             CPU 2
+    ÚÄÄÄ¿                             ÚÄÄÄ¿
+    ³   ³                             ³   ³
+    ³ Ú¿³                             ³ Ú¿³
+    ³ ÀÙ³                             ³ ÀÙ³
+    ÀÄÒÄÙ        CAN-Bus              ÀÄÒÄÙ
+      ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÊÍÍÍÍÍÍ ...
+     ÚĞÂÄÂÄÂÄ¿                  ÚĞÂÄÂÄÂÄ¿
+     Ã¿³ ³ ³ ³ CAN-Slave 2003   Ã¿³ ³ ³ ³ CAN-Slave 2003
+     ÀÁÁÄÁÄÁÄÙ                  ÀÁÁÄÁÄÁÄÙ
+
+     Es sind auch Konfigurationen mit zwei (oder mehr) CPUs auf einem CAN-Bus
+     m”glich. Die beiden CANIO-Master auf den CPUs wissen voneinander nichts.
+     Ein Knoten darf keinesfalls von zwei CPUs aus bedient werden, da es sonst
+     zu Datenkollisionen am CAN-Bus kommt.
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.230
+    CANIO-Master / CANIO-Library : Hardware-Einschr„nkungen
+
+    Fr die Realisierung der Bedienung von CAN-I/Os mit dem CANIO-Master
+    gelten folgende Bedingungen:
+    - Maximal 8 CAN-Busse werden untersttzt
+    - Feste Identifiervergabe (siehe Anhang "CAN-Identifier mit CAN-Bus
+      Slavemodul" des "B&R SYSTEM 2000 B&R 2003 Anwenderhandbuchs")
+    - Keine Untersttzung des Konfigurationsspeichers ME770
+    - Maximal 32 Knoten (wegen der fixen Identifiervergabe)
+    - Maximal 8 Module pro Knoten
+    - Maximal vier Analog-Interfacemodule auf einem Knoten
+    - Analog-Interfacemodule k”nnen nur auf den ersten vier Steckpl„tzen eines
+      Knotens gesteckt werden
+    - Der Zugriff auf Konfigurationsw”rter von Anpassungsmodulen ist nur
+      ber die Funktion CANIOcmd() m”glich. Das zyklische Anfordern per
+      Sonderbefehl wrde eine zu hohe Buslast bewirken.
+    - Bei Konfigurationen mit CPU und PP muá der CANIO-Master auf beiden Platt-
+      formen laufen.
+    - Transparenter Zugriff ist nur auf die zyklischen Daten m”glich. Offsets
+      beziehen sich auch auf die zyklischen Daten.
+
+                                     @231[ Fortsetzung ]                   @001[ šbersicht ]
+.231
+    CANIO-Master / CANIO-Library : Hardware-Einschr„nkungen (Fortsetzung)
+
+    Da der Konfigurationsspeicher ME770 nicht untersttzt wird, werden (wenn
+    ein Knoten nach einem Ausfall wieder aktiv wird) die wichtigsten Para-
+    meter eines Knotens und dessen Module ber den CANIO-Master automatisch
+    eingestellt.
+    Einstellungen, die in der Applikation mit Hilfe der Funktion CANIOcmd()
+    durchgefhrt wurden (z.B. die Umstellung der Aufl”sung eines Temperatur-
+    kanals), mssen nach dem Ausfall eines Knotens (wenn der Knoten wieder
+    aktiv ist) vom Applikationsprogramm neu eingestellt werden. Dazu kann
+    der Zustand der CAN-Knoten mit Hilfe der Funktion CANIOexc() in einer
+    Exceptiontask berwacht werden. Bei Standardanwendungen ist die Ein-
+    stellung von Parametern mit Hilfe der Funktion CANIOcmd() meist nicht
+    notwendig.
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.240
+    CANIO-Master / CANIO-Library : CAN-Bus Slavemodul - B&R 2003
+
+    Wie bereits im Abschnitt @230[Hardware-Einschr„nkungen] beschrieben, k”nnen auf
+    einem Slaveknoten maximal 8 I/O-Module vorhanden sein. Davon k”nnen die
+    ersten 4 Module Analog-Interfacemodule sein. Wobei jedes Interfacemodul 4
+    Anpassungsmodule aufnehmen kann.
+    Wir unterscheiden zwischen digitalen Modulen und Anpassungsmodulen:
+
+    - @241[Digitale Module ] 
+    - @242[Anpassungsmodule]
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.241
+    CANIO-Master / CANIO-Library : CAN-Bus Slavemodul - B&R 2003 (Fortsetzung)
+
+    Digitale Module:
+    Die einer Kanalnummer zugeordnete Variable ist immer vom Datentyp BIT. Wenn
+    Sie statt einer Kanalnummer den Modultyp "Transp.In" oder "Transp.Out" und
+    einen Offset verwenden, ist die deklarierte Variable vom Datentyp BYTE mit
+    der L„nge 1.
+
+    Bei digitalen Mischmodulen erfolgt die Umstellung von Standard-Input auf
+    Output automatisch durch den CANIO-Master. Dieser setzt die entsprechende
+    Ausgangsmaske. šber einen Befehlsidentifier werden die Betriebsparameter
+    der digitalen Module eingestellt.
+    Bei digitalen Modulen wird der gepackte Modus verwendet. D.h. die Daten
+    von 8 Modulen sind in ein CAN-Objekt gepackt. Ein Objekt fr die Ausgangs-
+    module, ein Objekt fr die Eing„nge. Jedes Bit entspricht einem Eingang
+    bzw. einem Ausgang.
+
+
+
+
+
+                                       @240[ Zurck ]                      @001[ šbersicht ]
+.242
+    CANIO-Master / CANIO-Library : CAN-Bus Slavemodul - B&R 2003 (Fortsetzung)
+
+    Anpassungsmodule:
+    Der Datenaustausch mit einem Anpassungsmodul erfolgt ber einen 32 W”rter
+    langen Speicherbereich. Je nach Anpassungsmodul kann auf bis zu 16 W”rter
+    lesend bzw. schreibend zugegriffen werden. Die W”rter 0 bis 3 werden als
+    Datenw”rter verwendet. Die W”rter 4 bis 15 sind Konfigurationsw”rter. Der
+    Zugriff auf die Konfigurationsw”rter erfolgt ber die Funktion CANIOcmd(),
+    wobei die Konfigurationsw”rter 4+5 und 6+7 immer gemeinsam angesprochen
+    werden. Das Konfigurationswort 14 ist fr die Betriebsparameter vorgesehen.
+    Die W”rter 13 und 15 sind fr interne Verwendungszwecke reserviert.
+
+    ÉÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Wort º Bezeichnung                            º
+    ÌÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º  0-3 º Datenwort                              º
+    º 4-12 º Konfigurationswort                     º
+    º   14 º Konfigurationswort (Betriebsparameter) º
+    ÈÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+                                     @243[ Fortsetzung ]                   @001[ šbersicht ]
+.243
+    CANIO-Master / CANIO-Library : CAN-Bus Slavemodul - B&R 2003 (Fortsetzung)
+
+    Anpassungsmodule (Fortsetzung):
+    Fr den Zugriff auf die Datenw”rter eines Moduls ist jedem Modul ein Daten-
+    identifier zugeordnet. Das Beschreiben der Konfigurationsw”rter erfolgt
+    ber einen Befehlsidentifier. Im Gegensatz zu den Datenidentifiern, die pro
+    Modul vorhanden sind, sind die Befehlsidentifier nur einmal pro Knoten vor-
+    handen.
+    Die Konfigurationsw”rter 4 bis 12 k”nnen mit dem Befehl "Schreibe Wert auf
+    Konfigurationswort" beschrieben werden (Aufruf ber die CANIO-Funktion
+    CANIOcmd()). Das Konfigurationswort 14 kann mit dem Befehl "Betriebs-
+    parameter schreiben" beschrieben und mit dem Befehl "Betriebsparameter
+    lesen" gelesen werden (Aufruf ber die CANIO-Funktion CANIOcmd()). Eine
+    detaillierte Beschreibung dieser Befehle finden Sie im Kapitel "CAN-BUS
+    Slavemodul Funktionen" (Abschnitt "Befehle - CAN-Bus Slavemodul") des
+    "B&R SYSTEM 2000 B&R 2003 Anwenderhandbuchs".
+
+
+
+
+
+                                       @240[ Zurck ]                      @001[ šbersicht ]
+.250
+    CANIO-Library : Syntaxbeschreibung
+
+    Datentypen:
+    Fr viele Funktionen sind bestimmte Gruppen von Datentypen zul„ssig. Um
+    bei der Funktionsbeschreibung nicht alle zul„ssigen Datentypen anfhren
+    zu mssen, werden folgende Gruppenbezeichnungen eingefhrt:
+    ÉÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍ»
+    º Gruppe º  BIT  ³ INT8  ³ BYTE  ³ INT16 ³ WORD  ³ INT32 ³ LONG  ³ FLOAT º
+    ÌÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍ¹
+    º BASIS  º       ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º NICHT  º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    º FLOAT  º       ³       ³       ³       ³       ³       ³       ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º ALLE   º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º FELD   º  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  º
+    ÈÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍ¼
+      x  Datentyp ist zul„ssig
+     [x] Datentyp ist zul„ssig als Feldvariable oder Zeichenkette (String)
+
+                                     @251[ Fortsetzung ]                   @001[ šbersicht ]
+.251
+    CANIO-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Pfeile:
+    Fr die Darstellung von Eingangs- und Ausgangsparametern werden Pfeile
+    verwendet. Dabei gilt folgende Vereinbarung:
+    ÉÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º  Pfeil  º  Bedeutung                                                   º
+    ÌÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º   ->    º  Eingangsparameter                                           º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <->   º  Ein-/Ausgangsparameter. Funktionell ist es ein Ausgangs-    º
+    º         º  parameter. šblicherweise wird er aber vor dem Aufruf der    º
+    º         º  Funktion mit einer bestimmten Information geladen (z.B.     º
+    º         º  einer Adresse). Meist wird die Adresse einer Variable mit   º
+    º         º  adr() [PL2000] oder einem Adreákontakt [KOP] angeschlossen. º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <-    º  Ausgangsparameter                                           º
+    ÈÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @252[ Fortsetzung ]                   @001[ šbersicht ]
+.252
+    CANIO-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Funktionsbl”cke:
+    Funktionsbl”cke sind in dieser Online-Hilfe nicht grafisch dargestellt.
+    Sie finden aber alle fr Funktionsbl”cke relevanten Informationen, wie
+    Eingangsparameter (->), Ein-/Ausgangsparameter (<->) und Ausgangsparameter
+    (<-) in der Online-Hilfe.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.300
+    CANIO-Library : Fehlernummern
+
+    Die folgende Liste ist eine Zusammenfassung aller m”glichen Fehlermeldungen
+    der CANIO-Library:
+
+    65535    BUSY (Funktionsblock wartet auf die Antwort)
+    8955     Bus ist nicht konfiguriert
+    8956     Knoten ist nicht konfiguriert
+    8976     Am PP (Parallelprozessor) ist keine CANIO-Applikation installiert
+    8978     Lokal ist fr diesen Knoten noch keine CANIO-Applikation
+             installiert
+    8979     Knoten ist nicht aktiv
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.400
+    CANIO-Library : History - Versions„nderungen
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.00           ³                                                         º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º Erste Version der Online-Hilfe fr die CANIO-Library.                     º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+
+.End

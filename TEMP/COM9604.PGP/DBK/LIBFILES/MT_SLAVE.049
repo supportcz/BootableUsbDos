@@ -1,0 +1,718 @@
+%%
+1,0:1
+%%
+.1
+    Funktionen der MININET-Slave-Library
+
+    Die Funktionen der MININET-Library sind entsprechend ihrer Funktionalit„t
+    in eine MININET-Master- und MININET-Slave-Library aufgeteilt.
+    Eine MININET-Slave-Kommunikation erfordert einen Funktionsblock zur
+    Initialisierung und einen Funktionsblock fr den zyklischen Betrieb:
+
+    @020[MTS_init] MININET-Slave-Initialisierung
+    @040[MTS_plca] MININET-Slave (Betrieb mit Datenmodul)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º ACHTUNG: Da die MININET-Slave-Library nur lokale Funktionsbl”cke (keine   º
+  º          AVT-Funktionsbl”cke!) enth„lt, muá kein Library-Runtime-Modul in º
+  º          die Steuerung bertragen werden.                                 º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+                                       @200[ ANHANG ]                  @999[ HILFE beenden ]
+.20
+    MTS_init - MININET-Slave-Initialisierung
+
+    @021[MTS_init] (device,mode,baud,idle,adr(vars),node,ident,status)
+
+    Parameter-Datentypen :
+    ->  @025[device    ]: LONG          Schnittstellennummer
+    ->  @026[mode      ]: WORD          Schnittstellentyp und Betriebsart
+    ->  @029[baud      ]: WORD          Baudrate
+    ->  @030[idle      ]: WORD          Maximale Pausenzeit zwischen den Zeichen
+    ->  @031[vars      ]: BYTE (FELD)   Name des Datenmoduls (String)
+    ->  @032[node      ]: BYTE          Stationsnummer der Slave-Station
+    <-  ident     : LONG          Ident-Nummer. Diese Ident-Nummer wird fr
+                                  die Funktion MTS_plca() ben”tigt.
+    <-  @300[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Diese Funktion initialisiert eine MININET-Slave-Station. Dabei werden
+    u.a. die Nummer der verwendeten Schnittstelle auf der Zentraleinheit, der
+    Schnittstellentyp (RS485, RS232, usw.) sowie die Baudrate eingestellt.
+
+
+
+                                     @021[ Fortsetzung ]                   @001[ šbersicht ]
+.21
+    MTS_init - MININET-Slave-Initialisierung (Fortsetzung)
+
+    Die Funktion MTS_init() wird nur einmal im Initialisierungs-Unterprogramm
+    (INIT-UP) der entsprechenden Task aufgerufen!
+    Diese Funktion ”ffnet den Pfad zum Schnittstellentreiber und initialisiert
+    die Treiber-Parameter. Weiters liest die Initialisierungs-Funktion die
+    Indizes aller Prozeávariablen (PVs), die im @210[Datenmodul] spezifiziert sind,
+    und speichert diese Indizes in einem allokierten Speicherbereich. D.h. die
+    Funktion MTS_init() generiert eine Liste mit Indizes (Indexliste) aller
+    Prozeávariablen, die im Datenmodul spezifiziert sind. Es ist daher erfor-
+    derlich, daá alle im Datenmodul spezifizierten Prozeávariablen tats„chlich
+    auf der RPS existieren!
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.25
+    MTS_init - MININET-Slave-Initialisierung (Fortsetzung)
+
+    -> Parameter <device    >: LONG
+
+    Schnittstellennummer:
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Modul        ³ Schnittstelle                ³ device ³ Typ             º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º CPU B&R 2010 ³ IF1 (obere Schnittstelle)    ³ 0      ³ RS232           º
+    º              ³ IF3 (mittlere Schnittstelle) ³ 2      ³ RS485/RS422     º
+    º              ³ IF2 (untere Schnittstelle)   ³ 1      ³ RS232           º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º CPU B&R 2005 ³ IF2 (obere Schnittstelle)    ³ 1      ³ RS485/RS422/TTY º
+    º              ³ IF1 (untere Schnittstelle)   ³ 0      ³ RS232           º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+                                      @020[ MTS_init ]                     @001[ šbersicht ]
+.26
+    MTS_init - MININET-Slave-Initialisierung (Fortsetzung)
+
+    -> Parameter <mode      >: WORD
+
+    Mit dem Parameter "mode" wird der Schnittstellentyp und die Betriebsart
+    ("Test" oder "normal") eingestellt:
+
+    ÚÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄÂÄ¿
+    ³ ³0³0³0³0³0³0³0³0³0³0³0³0³0³ ³ ³
+    ÀÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÁÄÙ
+     Â ÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄ ÄÂÄ
+     ³             ³              ÀÄÄÄÄÄÄÄ Bit 0 bis 1:  @027[Schnittstellentyp]
+     ³             ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Bit 2 bis 14: Nicht verwendet
+     ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Bit 15:       @028[Betriebsart      ]
+
+
+
+
+
+
+
+                                      @020[ MTS_init ]                     @001[ šbersicht ]
+.27
+    MTS_init - MININET-Slave-Initialisierung (Fortsetzung)
+
+    Schnittstellentyp:
+    ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º Modul        ³ Schnittstelle ³ device ³ mode                            º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º CPU B&R 2010 ³ IF1           ³ 0      ³ 0 (RS232)                       º
+    º              ³ IF3           ³ 2      ³ 0 (RS422) / 2 (RS485)           º
+    º              ³ IF2           ³ 1      ³ 0 (RS232)                       º
+    ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º CPU B&R 2005 ³ IF2           ³ 1      ³ 0 (RS422) / 2 (RS485) / 8 (TTY) º
+    º              ³ IF1           ³ 0      ³ 0 (RS232)                       º
+    ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+    Unabh„ngig von Hardware (B&R 2010 oder B&R2005) und Schnittstellentyp
+    k”nnen Sie mit dem Bit 15 des Eingangsparameters "mode" zwischen den
+    Betriebsarten "Test" und "normal" w„hlen.
+
+
+
+
+                                       @026[ Zurck ]                      @001[ šbersicht ]
+.28
+    MTS_init - MININET-Slave-Initialisierung (Fortsetzung)
+
+    Betriebsart:
+    Bei der Slave-Initialisierung kann zus„tzlich die Betriebsart "Test" ein-
+    geschaltet werden.
+    Normalerweise wird ein Fehler gemeldet, wenn auf eine Variable zugegriffen
+    wird, die nicht existiert. In der Betriebsart "Test" ist dies nicht der
+    Fall. Schreibbefehle werden einfach nicht ausgefhrt, Lesebefehle liefern
+    $FF fr alle Bytes.
+
+    Um die Betriebsart "Test" einzuschalten, wird bei der Initialisierung das
+    Bit 15 des WORD-Parameters "mode" gesetzt:
+
+    Bit 15 = 1 ... Betriebsart "Test"
+                   (z.B. $8002 = Betriebsart "Test", Schnittstellentyp RS485)
+    Bit 15 = 0 ... Betriebsart "normal"
+                   (z.B. $0002 = Betriebsart "normal", Schnittstellentyp RS485)
+
+    Die Betriebsart "Test" sollte nur fr Test- und Inbetriebnahmezwecke ver-
+    wendet werden. Vergessen Sie nicht, die Betriebsart auf "normal" zu „ndern,
+    wenn die Applikation l„uft.
+                                       @026[ Zurck ]                      @001[ šbersicht ]
+.29
+    MTS_init - MININET-Slave-Initialisierung (Fortsetzung)
+
+    -> Parameter <baud      >: WORD
+
+    Mit dem Parameter "baud" wird die Baudrate festgelegt. Die Baudrate wird in
+    Einheiten zu 100 Baud (z.B. 192 = 19200 Baud) angegeben:
+        24 ..... 2400 Baud
+        48 ..... 4800 Baud
+        96 ..... 9600 Baud
+       192 .... 19200 Baud
+       384 .... 38400 Baud
+       576 .... 57600 Baud
+      1152 ... 115200 Baud
+
+
+
+
+
+
+
+
+                                      @020[ MTS_init ]                     @001[ šbersicht ]
+.30
+    MTS_init - MININET-Slave-Initialisierung (Fortsetzung)
+
+    -> Parameter <idle      >: WORD
+
+    Maximale Pausenzeit zwischen den Zeichen:
+
+    "idle" = (max. Pausenzeit) / (šbertragungszeit pro Zeichen)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @020[ MTS_init ]                     @001[ šbersicht ]
+.31
+    MTS_init - MININET-Slave-Initialisierung (Fortsetzung)
+
+    -> Parameter <vars      >: BYTE (FELD)
+
+    Fr den Parameter "vars" muá der Name des @210[Datenmoduls] (Datenmodulname) in
+    Form einer Zeichenkette angegeben werden.
+    Zeichenketten (Strings) k”nnen auf drei verschiedene Arten als Eingangs-
+    parameter verwendet werden:
+
+    adr(String) ... Adresse der BYTE-Feldvariable, die den String enth„lt
+    String      ... String-Konstante (siehe Programmiersystem PG2000)
+    "Konstante" ... konstanter String (muá in Anfhrungszeichen angegeben
+                    werden!)
+
+
+
+
+
+
+
+
+                                      @020[ MTS_init ]                     @001[ šbersicht ]
+.32
+    MTS_init - MININET-Slave-Initialisierung (Fortsetzung)
+
+    -> Parameter <node      >: BYTE
+
+    Stationsnummer der Slave-Station.
+    Da fr den Master die Stationsnummer $10 reserviert ist, beginnen die
+    Slave-Stationsnummern bei $11 (die Slave-Stationsnummer muá > $10 sein).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @020[ MTS_init ]                     @001[ šbersicht ]
+.40
+    MTS_plca - Betrieb mit Datenmodul
+
+    @041[MTS_plca] (enable,ident,exec,instr,cmd_nr,status)
+
+    Parameter-Datentypen :
+    ->  enable    : BIT           Der Funktionsblock wird nur ausgefhrt, wenn
+                                  enable = 1 ist
+    ->  ident     : LONG          Ident-Nummer (von @020[MTS_init])
+    <-  exec      : BYTE          Befehl wurde ausgefhrt
+    <-  instr     : BYTE          Befehl:
+                                  0 ... schreiben
+                                  1 ... lesen
+    <-  cmd_nr    : WORD          Befehlsnummer des ausgefhrten Befehls.
+                                  Die Befehlsnummer entspricht dem Eintrag
+                                  "Befehlsnummer" im Datenmodul.
+    <-  @300[status    ]: WORD          Fehlernummer (0 = kein Fehler)
+
+    Die Funktion MTS_plca() teilt dem aufrufenden Programm mit, ob ein Schreib-
+    oder Lesebefehl (Eintrag im @210[Datenmodul]) ausgefhrt wurde und um welchen
+    Befehl (Parameter "cmd_nr") es sich dabei handelt.
+
+                                     @041[ Fortsetzung ]                   @001[ šbersicht ]
+.41
+    MTS_plca - Betrieb mit Datenmodul (Fortsetzung)
+
+    Die Betriebs-Funktion MTS_plca() muá in jedem Taskzyklus aufgerufen werden!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      @042[ Beispiel ]                     @001[ šbersicht ]
+.42
+     MTS_plca - Betrieb mit Datenmodul (Beispiel)
+
+    Wir haben einen B&R 2005 Slave und verwenden die RS422-Schnittstelle
+    (19200 Baud). Fr die anderen Eingangsparameter setzen wir einfach
+    Standardwerte ein. Die Variablen sind im Datenmodul "pv_offs" definiert.
+
+      ; INIT-UP der Task
+      device = 1           ; obere Schnittstelle (B&R 2005)
+      mode = 0             ; RS422 (B&R 2005)
+      baud = 192           ; 19200 Baud
+      idle = 5             ; typischer Wert
+      MTS_init(device,mode,baud,idle,"pv_offs",node,ident,status)
+      if status = 0 then
+          enable = 1       ; wenn kein Fehler => MTS_plca() freigeben
+      endif
+
+      ; Zyklischer Teil der Task
+      MTS_plca(enable,ident,exec,instr,cmd_nr,stat)
+
+
+
+                                      @040[ MTS_plca ]                     @001[ šbersicht ]
+.200
+    ANHANG : LIBRARY-Informationen
+
+
+    @201[< Allgemeines   >]      Voraussetzungen etc.
+
+    @210[< Datenmodul    >]      Datenmodul-Syntax
+
+    @250[< Syntax        >]      Syntax fr die Erkl„rung der Funktionen
+
+    @300[< Fehlernummern >]      Zusammenfassung aller Fehlernummern
+
+    @400[< History       >]      Neue Funktionalit„ten und Versions„nderungen
+
+
+
+
+
+
+
+
+
+                                                                     @001[ šbersicht ]
+.201
+    MININET-Slave-Library : Allgemeines
+
+    Die MININET-Slave-Library enth„lt Funktionen fr die Initialisierung und
+    den zyklischen Betrieb einer MININET-Slave-Station.
+    Detaillierte Informationen zum Thema "MININET-Netzwerk" finden Sie im Hand-
+    buch "B&R System 2000 Programmieren fr Fortgeschrittene".
+
+    Anmerkungen:
+    - Bevor Sie die Funktionen der MININET-Slave-Library in Ihrem Projekt
+      verwenden k”nnen, mssen Sie die Library in die entsprechende Projekt-
+      Datenbank importieren.
+
+    - Da die MININET-Slave-Library nur lokale Funktionsbl”cke (keine AVT-
+      Funktionsbl”cke!) enth„lt, muá kein Library-Runtime-Modul in die
+      Steuerung bertragen werden.
+
+
+
+
+
+
+                                     @202[ Fortsetzung ]                   @001[ šbersicht ]
+.202
+    MININET-Slave-Library : Allgemeines (Fortsetzung)
+
+    - Die Funktionen der MININET-Slave-Library k”nnen nur verwendet werden,
+      wenn der Schnittstellentreiber fr die MININET-Slave-Station (B&R-Modul
+      MT_SLAVE.BR) und das Runtime-Modul der B&R-TRAP-Library (B&R-Modul
+      BURTRAP.BR) im Anwender-ROM der Zentraleinheit vorhanden sind.
+
+    - S„mtliche im Datenmodul spezifizierten Prozeávariablen mssen tats„chlich
+      auf der RPS existieren!
+
+    - Die Funktionen der MININET-Slave-Library liefern im Fehlerfall als
+      Ergebnis eine @300[Fehlernummer].
+
+
+
+
+
+
+
+
+
+                                     @203[ Fortsetzung ]                   @001[ šbersicht ]
+.203
+    MININET-Slave-Library : Allgemeines (Fortsetzung)
+
+    Bei Verwendung der Version 1.05 des Betriebssystems RPSSW sind zus„tzlich
+    folgende Schritte erforderlich:
+
+    - Der Userstack fr die normalen Taskklassen muá mit dem RPS-Konfigurator
+      auf 812 Byte vergr”áert werden.
+
+    - Das BUGFIX-Modul BFIX105C.BR (oder ein neueres BUGFIX-Modul) muá ins
+      Anwender-ROM der RPS bertragen werden.
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.210
+    MININET-Slave-Library : Datenmodul
+
+    Die Funktion MTS_plca() ben”tigt ein Datenmodul, in dem die Datentransfers
+    definiert sind. Die Adresse dieses Datenmoduls muá an den Eingang "vars"
+    des Funktionsblocks MTS_init() angeschlossen werden.
+    Fr jeden Befehl im Master-Datenmodul muá es einen entsprechenden Eintrag
+    im Slave-Datenmodul geben. Die Syntax des Slave-Datenmoduls unterscheidet
+    sich von der des Master-Datenmoduls:
+
+      ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @211[PV-Offset    ]
+      ³             ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ @212[PV-Name      ]
+      ³             ³             ÚÄÄÄÄÄÄÄ @215[Befehlsnummer]
+    ÄÄÁÄ  ÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄ  ÄÄÁÄ
+    0000,"ASCII_PV_NAME       ",0010
+    0001,"Schalter[0].Sensor_4",0001
+
+    - Beachten Sie, daá jeder Offset in der Liste nur einmal vorkommen darf
+      (der gleiche PV-Name kann mehrmals eingegeben werden).
+
+    - Die Offsets mssen in aufsteigender Reihenfolge sortiert sein. Nicht ver-
+      wendete Nummern sind erlaubt.
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.211
+    MININET-Slave-Library : Datenmodul (Fortsetzung)
+
+    <PV-Offset>:
+
+    - Mit dem PV-Offset wird die Zuordnung zu den PVs in der Slave-Station
+      gemacht. Im Slave-Datenmodul wird unter PV-Offset entweder die Nummer
+      angegeben, die ber das MININET-Netzwerk gesendet wird oder jene Nummer,
+      die im Master-Datenmodul unter PV-Offset definiert wurde.
+
+    - MININET wurde ursprnglich fr die SPS-Systeme MINI-, MIDI- und
+      MULTICONTROL entwickelt. Diese Systeme konnten nur 8 Bit-Speicherstellen
+      austauschen. Deshalb wurde nur der Offset der gewnschten Speicherstellen
+      ber das MININET-Netzwerk gesendet. In den B&R 2000 Systemen kann dieser
+      Offset nicht mehr direkt zur Identifizierung der Variablen verwendet
+      werden. Deshalb muá im Datenmodul eine Zuordnung der Offsets zu den ge-
+      wnschten Variablen erfolgen.
+
+    - Achtung: Dieser Eintrag muá ein WORD sein.
+
+
+
+                                       @210[ Zurck ]                      @001[ šbersicht ]
+.212
+    MININET-Slave-Library : Datenmodul (Fortsetzung)
+
+    <PV-Name>:
+
+    - Der Name der Prozeávariable (PV). Bei einem Schreibbefehl werden die
+      Daten von dieser PV gelesen und an die Master-Station gesendet. Bei
+      Lesebefehlen werden die von der Master-Station empfangenen Daten in
+      dieser PV gespeichert.
+
+    - Auch Elemente von Feld- und Strukturvariablen k”nnen angegeben werden.
+      Der anzugebende PV-Name setzt sich wie folgt zusammen:
+
+         ARTIKEL  [xxxxx]  .TEIL_4
+        ÀÄÄÄÂÄÄÄÙÀÄÄÄÂÄÄÄÙÀÄÄÄÂÄÄÄÙ
+            ³        ³        ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Name des Strukturelements
+            ³        ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Index des Feldelements
+            ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ PV-Name
+
+      Der PV-Name muá angegeben werden, die anderen Angaben (Index, Struktur)
+      sind optionell. Der Index kann zwischen 0 und 32767 liegen.
+
+                                     @213[ Fortsetzung ]                   @001[ šbersicht ]
+.213
+    MININET-Slave-Library : Datenmodul (Fortsetzung)
+
+      Beispiele:
+      Sensor_4              ... Einzelvariable
+      Sensor[4]             ... Element einer Feldvariable
+      Schalter.Sensor_4     ... Element einer Strukturvariable
+      Schalter[0].Sensor_4  ... Element einer Struktur-Feldvariable
+
+    - Zus„tzlich zum PV-Namen kann der Task-Name (bei lokalen PVs) angegeben
+      werden:
+
+         MK_STORE:  ARTIKEL  [xxxxx]  .TEIL_4
+        ÀÄÄÄÄÂÄÄÄÄÙÀÄÄÄÂÄÄÄÙÀÄÄÄÂÄÄÄÙÀÄÄÄÂÄÄÄÙ
+             ³         ³        ³        ÀÄÄÄÄÄÄÄÄÄ Name des Strukturelements
+             ³         ³        ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Index des Feldelements
+             ³         ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ PV-Name
+             ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Task-Name (falls lokale PV)
+
+      Nur der PV-Name muá angegeben werden. Der Task-Name ist ebenso wie die
+      anderen Angaben optionell.
+
+                                     @214[ Fortsetzung ]                   @001[ šbersicht ]
+.214
+    MININET-Slave-Library : Datenmodul (Fortsetzung)
+
+    - Die L„nge des PV-Namens muá zwischen 15 und 81 Zeichen liegen.
+
+    - Die genaue L„nge des PV-Namens wird durch den Eintrag in der ersten Zeile
+      festgelegt. Alle weiteren Eintr„ge mssen dieselbe L„nge haben. Wo erfor-
+      derlich Leerzeichen verwenden.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @210[ Zurck ]                      @001[ šbersicht ]
+.215
+    MININET-Slave-Library : Datenmodul (Fortsetzung)
+
+    <Befehlsnummer>:
+
+    - Die hier angegebene Nummer wird am Ausgang "cmd_nr" des Funktionsblocks
+      MTS_plca() ausgegeben, wenn der entsprechende Eintrag des Datenmoduls
+      behandelt (gelesen oder beschrieben) wurde.
+
+    - Achtung: Dieser Eintrag muá ein WORD sein.
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @210[ Zurck ]                      @001[ šbersicht ]
+.250
+    MININET-Slave-Library : Syntaxbeschreibung
+
+    Datentypen:
+    Fr viele Funktionen sind bestimmte Gruppen von Datentypen zul„ssig. Um
+    bei der Funktionsbeschreibung nicht alle zul„ssigen Datentypen anfhren
+    zu mssen, werden folgende Gruppenbezeichnungen eingefhrt:
+    ÉÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍ»
+    º Gruppe º  BIT  ³ INT8  ³ BYTE  ³ INT16 ³ WORD  ³ INT32 ³ LONG  ³ FLOAT º
+    ÌÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍØÍÍÍÍÍÍÍ¹
+    º BASIS  º       ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º NICHT  º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³       º
+    º FLOAT  º       ³       ³       ³       ³       ³       ³       ³       º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º ALLE   º   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   ³   x   º
+    ÇÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ¶
+    º FELD   º  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  ³  [x]  º
+    ÈÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍ¼
+      x  Datentyp ist zul„ssig
+     [x] Datentyp ist zul„ssig als Feldvariable oder Zeichenkette (String)
+
+                                     @251[ Fortsetzung ]                   @001[ šbersicht ]
+.251
+    MININET-Slave-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Pfeile:
+    Fr die Darstellung von Eingangs- und Ausgangsparametern werden Pfeile
+    verwendet. Dabei gilt folgende Vereinbarung:
+    ÉÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+    º  Pfeil  º  Bedeutung                                                   º
+    ÌÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+    º   ->    º  Eingangsparameter                                           º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <->   º  Ein-/Ausgangsparameter. Funktionell ist es ein Ausgangs-    º
+    º         º  parameter. šblicherweise wird er aber vor dem Aufruf der    º
+    º         º  Funktion mit einer bestimmten Information geladen (z.B.     º
+    º         º  einer Adresse). Meist wird die Adresse einer Variable mit   º
+    º         º  adr() [PL2000] oder einem Adreákontakt [KOP] angeschlossen. º
+    ÇÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+    º   <-    º  Ausgangsparameter                                           º
+    ÈÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+                                     @252[ Fortsetzung ]                   @001[ šbersicht ]
+.252
+    MININET-Slave-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Funktionsbl”cke:
+    Funktionsbl”cke sind in dieser Online-Hilfe nicht grafisch dargestellt.
+    Sie finden aber alle fr Funktionsbl”cke relevanten Informationen, wie
+    Eingangsparameter (->), Ein-/Ausgangsparameter (<->) und Ausgangsparameter
+    (<-) in der Online-Hilfe.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.300
+    MININET-Slave-Library : Fehlernummern
+
+    Die folgende Liste ist eine Zusammenfassung aller m”glichen Fehlermeldungen
+    der MININET-Slave-Library:
+
+    20000   Variablentabelle hat keinen Eintrag
+    20001   Kein Speicher im Speicherbereich fr Betriebssystemdaten, globale
+            Daten und Stacks von Restzeit-Tasks frei (Betr.System Daten/Stack)
+    20002   BURTRAP.BR nicht auf RPS geladen
+    20003   Erster Eintrag im Datenmodul ist ungltig
+    20004   Datenmodul nicht vorhanden
+    20005   šberschreitung der maximal zul„ssigen Datenl„nge
+            (Lesebefehl: max. 249 Byte, Schreibbefehl: max. 246 Byte)
+    20010   šbergebener Indexbereich fehlerhaft
+    20011   Unbekannter Befehl empfangen
+    20012   Treiberfehler (nicht geladen,...)
+    20013   PV auf RPS nicht vorhanden
+    20020   Eintrag im Datenmodul fehlerhaft
+
+
+
+                                     @301[ Fortsetzung ]                   @001[ šbersicht ]
+.301
+    MININET-Slave-Library : Fehlernummern (Fortsetzung)
+
+    Anmerkung:
+    Tritt bei der Initialisierung der Fehler 20013 oder 20020 auf, so liefert
+    der Ausgang "ident" des Funktionsblocks MTS_init() die Nummer des fehler-
+    haften Eintrags im Datenmodul.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+.400
+    MININET-Slave-Library : History - Versions„nderungen
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.20 -> V1.21  ³ AKTUELLE VERSION: Neue Funktionalit„ten                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Neue Version (V1.21) des Treibers "MT_SLAVE.BR".                        º
+  º   Anpassen der gesendeten Fehler-Frames an Standard-Frames (Index $80     º
+  º   wird zus„tzlich mitgesendet).                                           º
+  º - Ab dieser Version wird die L„nge der zu bertragenden Daten auf Gltig- º
+  º   keit berprft. Bei einem Lesebefehl (READ) darf eine Datenl„nge von    º
+  º   249 Byte, bei einem Schreibbefehl (WRITE) eine Datenl„nge von 246 Byte  º
+  º   nicht berschritten werden.                                             º
+  º - Eine šberschreitung der zul„ssigen Datenl„nge fhrt zum Fehler 20005.   º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+
+
+
+
+
+                                     @401[ Fortsetzung ]                   @001[ šbersicht ]
+.401
+    MININET-Slave-Library : History - Versions„nderungen (Fortsetzung)
+
+  ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+  º V1.10 -> V1.20  ³ LTERE VERSIONEN: Neue Funktionalit„ten                 º
+  ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+  º - Funktionserweiterung: Lesen und Beschreiben von STRUKTUR- oder FELD-    º
+  º   ELEMENTEN und von LOKALEN Variablen.                                    º
+  º   Diese Erweiterung erforderte eine "variable" Angabe des PV-Namens im    º
+  º   entsprechenden Datenmodul.                                              º
+  º - Die L„nge der PV-Namen in den Datenmodulen wird mittels des ersten      º
+  º   Datenmodul-Eintrags festgelegt und kann zwischen MINDESTENS 15 ZEICHEN  º
+  º   und MAXIMAL 81 ZEICHEN betragen.                                        º
+  º - Die ber den ersten Datenmodul-Eintrag definierte EXAKTE Namensl„nge    º
+  º   muá jedoch bei allen weiteren Eintr„gen EXAKT eingehalten werden.       º
+  º - Die FUB-Version ist in der FUB-Maske bei der Beschreibung "Kommentar"   º
+  º   ersichtlich. (Aufruf ber <Hilfe><Funktionen>)                          º
+  º - Der Eingangsparameter "mode" der Initialisierungs-Funktion erh„lt eine  º
+  º   neue Funktionalit„t zum Einstellen der Betriebsart (normal/Test).       º
+  ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+
+                                       @200[ ANHANG ]                      @001[ šbersicht ]
+
+.End

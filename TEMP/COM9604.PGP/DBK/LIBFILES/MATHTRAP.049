@@ -1,0 +1,1247 @@
+%%
+1,0:1
+%%
+.1
+    Funktionen der Mathematik-Library
+
+    @020[< cos, sin, tan            >] Trigonometrische Funktionen
+    @030[< acos, asin, atan, atan2  >] Inverse trigonometrische Funktionen
+    @040[< cosh, sinh, tanh         >] Hyperbolische Funktionen
+    @050[< log, log10               >] Logarithmen
+    @060[< pow, exp, sqrt           >] Exponential- und Wurzelfunktionen
+    @070[< fabs, abs                >] Absolutwert-Funktionen
+    @080[< ceil, floor, TRUNC, fmod >] Rundungs- und Modulo-Funktionen
+    @090[< frexp, ldexp, modf       >] Zahlenkonvertierungen
+    @100[< L_TO_F, I32_TO_F         >] Typkonvertierung Integer -> FLOAT
+    @110[< F_TO_I32, F_TO_L         >] Typkonvertierung FLOAT -> Integer
+    @120[< atof                     >] Typkonvertierung ASCII -> FLOAT
+
+  ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ ACHTUNG: Die Funktionen dieser Library k”nnen nur verwendet werden, wenn  บ
+  บ          das Library-Runtime-Modul (B&R-Modul MATHTRAP.BR) auf der RPS    บ
+  บ          (Anwender-ROM) vorhanden ist!                                    บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+                                       @200[ ANHANG ]                  @999[ HILFE beenden ]
+.20
+    Mathematik-Library - Trigonometrische Funktionen
+
+    Trigonometrische Funktionen:
+
+    @021[cos] Cosinus
+    @022[sin] Sinus
+    @023[tan] Tangens
+
+    Alle Winkel sind in Radiant (rad) anzugeben!
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ bersicht ]
+.21
+    Mathematik-Library - Trigonometrische Funktionen (Fortsetzung)
+
+    z = @021[cos](x)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         Winkel x in Radiant (rad)
+    <-  z         : FLOAT         Cosinus von x
+
+    Die Funktion cos() berechnet den Cosinus von "x". Wertebereich der Aus-
+    gangsvariable "z": -1 bis 1.
+
+
+
+
+
+
+
+
+
+
+
+                             @020[ Trigonometrische Funktionen ]           @001[ bersicht ]
+.22
+    Mathematik-Library - Trigonometrische Funktionen (Fortsetzung)
+
+    z = @022[sin](x)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         Winkel x in Radiant (rad)
+    <-  z         : FLOAT         Sinus von x
+
+    Die Funktion sin() berechnet den Sinus von "x". Wertebereich der Ausgangs-
+    variable "z": -1 bis 1.
+
+
+
+
+
+
+
+
+
+
+
+                             @020[ Trigonometrische Funktionen ]           @001[ bersicht ]
+.23
+    Mathematik-Library - Trigonometrische Funktionen (Fortsetzung)
+
+    z = @023[tan](x)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         Winkel x in Radiant (rad)
+    <-  z         : FLOAT         Tangens von x
+
+    Die Funktion tan() berechnet den Tangens von "x".
+    Ausgangswert: tan("x") = sin("x") / cos("x").
+
+
+
+
+
+
+
+
+
+
+
+                             @020[ Trigonometrische Funktionen ]           @001[ bersicht ]
+.30
+    Mathematik-Library - Inverse trigonometrische Funktionen
+
+    Inverse trigonometrische Funktionen:
+
+    @031[acos ] Arcuscosinus
+    @032[asin ] Arcussinus
+    @033[atan ] Arcustangens
+    @034[atan2] Arcustangens von y/x
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ bersicht ]
+.31
+    Mathematik-Library - Inverse trigonometrische Funktionen (Fortsetzung)
+
+    z = @031[acos](x)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         x
+    <-  z         : FLOAT         Arcuscosinus von x in Radiant (rad)
+
+    Diese Funktion berechnet den Arcuscosinus von "x". Wertebereich der Aus-
+    gangsvariable "z": 0 bis Pi. Wenn "x" nicht zwischen -1 und 1 ist, liefert
+    die Funktion den Wert "NaN" (keine Zahl).
+
+
+
+
+
+
+
+
+
+
+                         @030[ Inverse trigonometrische Funktionen ]       @001[ bersicht ]
+.32
+    Mathematik-Library - Inverse trigonometrische Funktionen (Fortsetzung)
+
+    z = @032[asin](x)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         x
+    <-  z         : FLOAT         Arcussinus von x in Radiant (rad)
+
+    Diese Funktion berechnet den Arcussinus von "x". Wertebereich der Ausgangs-
+    variable "z": -Pi/2 bis Pi/2. Wenn "x" nicht zwischen -1 und 1 ist, liefert
+    die Funktion den Wert "NaN" (keine Zahl).
+
+
+
+
+
+
+
+
+
+
+                         @030[ Inverse trigonometrische Funktionen ]       @001[ bersicht ]
+.33
+    Mathematik-Library - Inverse trigonometrische Funktionen (Fortsetzung)
+
+    z = @033[atan](x)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         x
+    <-  z         : FLOAT         Arcustangens von x in Radiant (rad)
+
+    Diese Funktion berechnet den von "x". Wertebereich der Aus-
+    gangsvariable "z": -Pi/2 bis Pi/2.
+
+
+
+
+
+
+
+
+
+
+
+                         @030[ Inverse trigonometrische Funktionen ]       @001[ bersicht ]
+.34
+    Mathematik-Library - Inverse trigonometrische Funktionen (Fortsetzung)
+
+    z = @034[atan2](y,x)
+
+    Parameter-Datentypen :
+    ->  y         : FLOAT         y
+    ->  x         : FLOAT         x
+    <-  z         : FLOAT         Arcustangens von y/x in Radiant (rad)
+
+    Diese Funktion berechnet den Arcustangens von "y"/"x". Wertebereich der
+    Ausgangsvariable "z": -Pi bis Pi. Die Funktion atan2() liefert auch dann
+    korrekte Ergebnisse, wenn der resultierende Winkel gegen Pi/2 oder -Pi/2
+    geht. Wenn "x" = "y" = 0 ist, liefert die Funktion das Ergebnis 0.
+
+
+
+
+
+
+
+
+                         @030[ Inverse trigonometrische Funktionen ]       @001[ bersicht ]
+.40
+    Mathematik-Library - Hyperbolische Funktionen
+
+    Hyperbolische Funktionen:
+
+    @041[cosh] hyperbolischer Cosinus
+    @042[sinh] hyperbolischer Sinus
+    @043[tanh] hyperbolischer Tangens
+
+    Bei einem eventuellen Zahlenberlauf liefern die Funktionen cosh() und
+    sinh() den Wert "HUGE_VAL" (Zahl zu groแ) mit dem entsprechenden Vor-
+    zeichen.
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ bersicht ]
+.41
+    Mathematik-Library - Hyperbolische Funktionen (Fortsetzung)
+
+    z = @041[cosh](x)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         x
+    <-  z         : FLOAT         hyperbolischer Cosinus von x
+
+    Die Funktion cosh() berechnet den hyperbolischen Cosinus von "x":
+
+        z = (e^x + e^-x) / 2
+
+    Bei einem Zahlenberlauf liefert die Funktionen cosh() den Wert "HUGE_VAL"
+    (Zahl zu groแ) mit dem entsprechenden Vorzeichen.
+
+
+
+
+
+
+
+                              @040[ Hyperbolische Funktionen ]             @001[ bersicht ]
+.42
+    Mathematik-Library - Hyperbolische Funktionen (Fortsetzung)
+
+    z = @042[sinh](x)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         x
+    <-  z         : FLOAT         hyperbolischer Sinus von x
+
+    Die Funktion sinh() berechnet den hyperbolischen Sinus von "x":
+
+        z = (e^x - e^-x) / 2
+
+    Bei einem Zahlenberlauf liefert die Funktionen sinh() den Wert "HUGE_VAL"
+    (Zahl zu groแ) mit dem entsprechenden Vorzeichen.
+
+
+
+
+
+
+
+                              @040[ Hyperbolische Funktionen ]             @001[ bersicht ]
+.43
+    Mathematik-Library - Hyperbolische Funktionen (Fortsetzung)
+
+    z = @043[tanh](x)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         x
+    <-  z         : FLOAT         hyperbolischer Tangens von x
+
+    Diese Funktion berechnet den hyperbolischen Tangens von "x":
+
+        z = sinh(x) / cosh(x)
+
+
+
+
+
+
+
+
+
+
+                              @040[ Hyperbolische Funktionen ]             @001[ bersicht ]
+.50
+    Mathematik-Library - Logarithmen
+
+    Logarithmen:
+
+    @051[log  ] Natrlicher Logarithmus
+    @052[log10] Zehnerlogarithmus
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ bersicht ]
+.51
+    Mathematik-Library - Logarithmen (Fortsetzung)
+
+    z = @051[log](x)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         x
+    <-  z         : FLOAT         natrlichen Logarithmus von x
+
+    Die Funktion log() berechnet den natrlichen Logarithmus von "x":
+
+        z = log(x)
+
+    Wenn "x" kleiner oder gleich 0 ist, liefert die Funktion log() den Wert 0.
+
+
+
+
+
+
+
+
+                                     @050[ Logarithmen ]                   @001[ bersicht ]
+.52
+    Mathematik-Library - Logarithmen (Fortsetzung)
+
+    z = @052[log10](x)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         x
+    <-  z         : FLOAT         Zehnerlogarithmus von x
+
+    Diese Funktion berechnet den Zehnerlogarithmus von "x":
+
+        z = log10(x)
+
+    Wenn "x" kleiner oder gleich 0 ist, liefert die Funktion den Wert 0.
+
+
+
+
+
+
+
+
+                                     @050[ Logarithmen ]                   @001[ bersicht ]
+.60
+    Mathematik-Library - Exponential- und Wurzelfunktionen
+
+    Exponential- und Wurzelfunktionen:
+
+    @061[pow ] Exponentialfunktion (x^y)
+    @062[exp ] Natrliche Exponentialfunktion (e^x)
+    @063[sqrt] Quadratwurzel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ bersicht ]
+.61
+    Mathematik-Library - Exponential- und Wurzelfunktionen (Fortsetzung)
+
+    z = @061[pow](x,y)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         Basis
+    ->  y         : FLOAT         Exponent
+    <-  z         : FLOAT         x^y
+
+    Exponentialfunktion:
+
+        z = x^y
+
+    Wenn "x" = 0 und "y" = 0, ist das Ergebnis 1. Wenn "x" < 0 und "y" keine
+    ganze Zahl ist, liefert die Funktion pow() den Wert "NaN" (keine Zahl).
+    Bei Zahlenberlauf liefert die Funktion den Wert "HUGE_VAL" (Zahl zu groแ).
+
+
+
+
+
+                          @060[ Exponential- und Wurzelfunktionen ]        @001[ bersicht ]
+.62
+    Mathematik-Library - Exponential- und Wurzelfunktionen (Fortsetzung)
+
+    z = @062[exp](x)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         x
+    <-  z         : FLOAT         e^x
+
+    Natrliche Exponentialfunktion:
+
+        z = e^x
+
+    Bei Zahlenberlauf liefert die Funktion den Wert "HUGE_VAL" (Zahl zu groแ),
+    bei Unterschreitung des Zahlenbereiches ist das Ergebnis 0.
+
+
+
+
+
+
+
+                          @060[ Exponential- und Wurzelfunktionen ]        @001[ bersicht ]
+.63
+    Mathematik-Library - Exponential- und Wurzelfunktionen (Fortsetzung)
+
+    z = @063[sqrt](x)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         x
+    <-  z         : FLOAT         Quadratwurzel aus x
+
+    Diese Funktion berechnet die Quadratwurzel aus "x".
+    Wenn "x" negativ ist, liefert die Funktion den Wert "NaN" (keine Zahl).
+
+
+
+
+
+
+
+
+
+
+
+                          @060[ Exponential- und Wurzelfunktionen ]        @001[ bersicht ]
+.70
+    Mathematik-Library - Absolutwert-Funktionen
+
+    Absolutwert-Funktionen:
+
+    @071[fabs] Absolutwert einer Flieแkommazahl
+    @072[abs ] Absolutwert einer Integerzahl
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ bersicht ]
+.71
+    Mathematik-Library - Absolutwert-Funktionen (Fortsetzung)
+
+    z = @071[fabs](x)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         x
+    <-  z         : FLOAT         Absolutwert von x
+
+    Die Funktion fabs() liefert den Absolutwert einer Flieแkommazahl (wenn
+    "x" < 0, dann "z" = -"x"; wenn "x" >= 0, dann "z" = "x").
+
+
+
+
+
+
+
+
+
+
+
+                               @070[ Absolutwert-Funktionen ]              @001[ bersicht ]
+.72
+    Mathematik-Library - Absolutwert-Funktionen (Fortsetzung)
+
+    z = @072[abs](x)
+
+    Parameter-Datentypen :
+    ->  x         : @250[BASIS]         x
+    <-  z         : @250[BASIS]         Absolutwert von x
+
+    Diese Funktion liefert den Absolutwert einer Integerzahl (wenn "x" < 0,
+    dann "z" = -"x"; wenn "x" >= 0, dann "z" = "x"). Integerzahlen umfassen
+    die Datentypen INT8, INT16, INT32, BYTE, WORD und LONG. Das Ergebnis "z"
+    hat denselben Datentyp wie "x".
+
+    Beispiel:
+    Der Absolutwert einer Variable vom Datentyp INT16 soll in einer Variable
+    vom Datentyp WORD gespeichert werden. Zum Beispiel: aus -12000 wird 12000.
+
+      Wert2 = WORD(abs(Wert1))
+
+
+
+                               @070[ Absolutwert-Funktionen ]              @001[ bersicht ]
+.80
+    Mathematik-Library - Rundungs- und Modulo-Funktionen
+
+    Rundungs- und Modulo-Funktionen:
+    Die Mathematik-Library stellt Ihnen folgende Rundungs- und Modulo-
+    Funktionen zur Verfgung:
+
+    @081[ceil ] Aufrunden
+    @082[floor] Abrunden
+    @083[TRUNC] Truncating (Dezimalstellen "abschneiden")
+    @084[fmod ] x modulo y (Restwert einer Division)
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ bersicht ]
+.81
+    Mathematik-Library - Rundungs- und Modulo-Funktionen (Fortsetzung)
+
+    z = @081[ceil](x)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         x
+    <-  z         : FLOAT         x aufgerundet
+
+    Aufrunden (siehe @085[Beispiel]). Die Funktion ceil() liefert den kleinsten ganz-
+    zahligen Wert (Integerwert), der gr”แer oder gleich dem Eingangswert ist.
+
+
+
+
+
+
+
+
+
+
+
+                           @080[ Rundungs- und Modulo-Funktionen ]         @001[ bersicht ]
+.82
+    Mathematik-Library - Rundungs- und Modulo-Funktionen (Fortsetzung)
+
+    z = @082[floor](x)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         x
+    <-  z         : FLOAT         x abgerundet
+
+    Abrunden (siehe @085[Beispiel]). Die Funktion floor() liefert den gr”แten ganz-
+    zahligen Wert (Integerwert), der kleiner oder gleich dem Eingangswert ist.
+
+
+
+
+
+
+
+
+
+
+
+                           @080[ Rundungs- und Modulo-Funktionen ]         @001[ bersicht ]
+.83
+    Mathematik-Library - Rundungs- und Modulo-Funktionen (Fortsetzung)
+
+    z = @083[TRUNC](x)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         x
+    <-  z         : INT32         ganzzahligen Teil einer Flieแkommazahl x
+
+    Die Funktion liefert den ganzzahligen Teil einer Flieแkommazahl (siehe
+    @085[Beispiel]). Die Dezimalstellen (Nachkommastellen) werden "abgeschnitten".
+
+
+
+
+
+
+
+
+
+
+
+                           @080[ Rundungs- und Modulo-Funktionen ]         @001[ bersicht ]
+.84
+    Mathematik-Library - Rundungs- und Modulo-Funktionen (Fortsetzung)
+
+    z = @084[fmod](x,y)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         Eingangswert x
+    ->  y         : FLOAT         Eingangswert y
+    <-  z         : FLOAT         x modulo y
+
+    Die Funktion fmod() berechnet den Restwert der Division "x"/"y" (siehe
+    @086[Beispiel]):
+
+        x = a * y + z   ... Wobei a eine ganze Zahl ist und 0 < ณzณ < y.
+
+    Die Ausgangsvariable "z" hat dasselbe Vorzeichen wie "x". Wenn "y" = 0 ist,
+    liefert die Funktion den Wert "NaN" (keine Zahl).
+
+
+
+
+
+                           @080[ Rundungs- und Modulo-Funktionen ]         @001[ bersicht ]
+.85
+    Mathematik-Library - Rundungs- und Modulo-Funktionen (Beispiel)
+
+    Beispiel:
+    Aufrunden, Abrunden und Dezimalstellen "abschneiden" der Variable "Wert"
+    (Flieแkommazahl).
+
+      Aufrd = ceil(Wert)         ; Aufrunden
+      Abrd = floor(Wert)         ; Abrunden
+      Integ = TRUNC(Wert)        ; Dezimalstellen abschneiden
+
+    Ergebnisse bei verschiedenen Eingangswerten:
+    ษอออออออออหอออออออออออัอออออออออออัอออออออออออป
+    บ Wert    บ   Aufrd   ณ   Abrd    ณ   Integ   บ
+    ฬอออออออออฮอออออออออออุอออออออออออุอออออออออออน
+    บ 2.25    บ     3     ณ     2     ณ     2     บ
+    บ 3.44e-2 บ     1     ณ     0     ณ     0     บ
+    บ -1.5    บ    -1     ณ    -2     ณ    -1     บ
+    ศอออออออออสอออออออออออฯอออออออออออฯอออออออออออผ
+
+
+
+                           @080[ Rundungs- und Modulo-Funktionen ]         @001[ bersicht ]
+.86
+    Mathematik-Library - Rundungs- und Modulo-Funktionen (Beispiel)
+
+    Beispiel:
+    Die Variable "A_Winkel" stellt den absoluten (tatschlichen) Winkel in Grad
+    dar. Mit Hilfe der Funktion fmod() soll nun der relative Winkel (Winkelwert
+    zwischen 0 und 360 Grad) berechnet und in der Variable "R_Winkel" gespei-
+    chert werden. Zum Beispiel: "A_Winkel" = 760 Grad => "R_Winkel" = 40 Grad.
+
+      R_Winkel = fmod(A_Winkel,360)
+
+
+
+
+
+
+
+
+
+
+
+
+                           @080[ Rundungs- und Modulo-Funktionen ]         @001[ bersicht ]
+.90
+    Mathematik-Library - Zahlenkonvertierungen
+
+    Zahlenkonvertierungen:
+
+    @091[frexp] FLOAT-Zahl in Mantisse und Exponent zerlegen
+    @092[ldexp] FLOAT-Zahl aus Mantisse und Exponent berechnen
+    @093[modf ] FLOAT-Zahl in Vor- und Nachkommateil zerlegen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ bersicht ]
+.91
+    Mathematik-Library - Zahlenkonvertierungen (Fortsetzung)
+
+    z = @091[frexp](x,adr(exp))
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         Flieแkommazahl
+    <-> exp       : INT32         Exponent (Basis 2)
+    <-  z         : FLOAT         Mantisse
+
+    Die Funktion frexp() berechnet die Mantisse und den Exponent einer Flieแ-
+    kommazahl:
+
+        x = z * (2^exp)   ... Wobei 0,5 =< ณzณ < 1.
+
+    Wenn "x" = 0 ist, sind beide Ergebnisse ("z" und "exp") 0. Wenn "x" = "NaN"
+    (keine Zahl) oder "x" = "INF" (unendlich), ist das Ergebnis "z" = "NaN".
+
+
+
+
+
+                                @090[ Zahlenkonvertierungen ]              @001[ bersicht ]
+.92
+    Mathematik-Library - Zahlenkonvertierungen (Fortsetzung)
+
+    z = @092[ldexp](x,exp)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         Mantisse
+    ->  exp       : INT32         Exponent (Basis 2)
+    <-  z         : FLOAT         Flieแkommazahl
+
+    Diese Funktion berechnet eine Flieแkommazahl aus Mantisse und Exponent:
+
+        z = x * (2^exp) oder z = x * pow(2,exp)
+
+    Bei Zahlenberlauf liefert die Funktion "HUGE_VAL" (Zahl zu groแ) mit dem
+    entsprechenden Vorzeichen. Bei Unterschreitung des Zahlenbereiches liefert
+    sie den Wert 0.
+
+
+
+
+
+                                @090[ Zahlenkonvertierungen ]              @001[ bersicht ]
+.93
+    Mathematik-Library - Zahlenkonvertierungen (Fortsetzung)
+
+    Dez_Teil = @093[modf](x,adr(Int_Teil))
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         Flieแkommazahl
+    <-> Int_Teil  : FLOAT         Vorkommateil
+    <-  Dez_Teil  : FLOAT         Nachkommateil
+
+    Zerlegt eine Flieแkommazahl in Vor- und Nachkommateil.
+
+
+
+
+
+
+
+
+
+
+
+                                @090[ Zahlenkonvertierungen ]              @001[ bersicht ]
+.100
+    Mathematik-Library - Typkonvertierung Integer -> FLOAT
+
+    Typkonvertierung Integer -> FLOAT:
+
+    @101[L_TO_F  ] Konvertierung LONG  -> FLOAT
+    @102[I32_TO_F] Konvertierung INT32 -> FLOAT
+
+    Die Aufwrtskonvertierung von Integer auf FLOAT wird auch in den PG-
+    Compilern implizit verwendet.
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ bersicht ]
+.101
+    Mathematik-Library - Typkonvertierung Integer -> FLOAT (Fortsetzung)
+
+    z = @101[L_TO_F](x)
+
+    Parameter-Datentypen :
+    ->  x         : LONG          LONG-Zahl
+    <-  z         : FLOAT         Flieแkomma-quivalent
+
+    Die Funktion L_TO_F() konvertiert eine LONG-Zahl in FLOAT.
+
+
+
+
+
+
+
+
+
+
+
+
+                          @100[ Typkonvertierung Integer -> FLOAT ]        @001[ bersicht ]
+.102
+    Mathematik-Library - Typkonvertierung Integer -> FLOAT (Fortsetzung)
+
+    z = @102[I32_TO_F](x)
+
+    Parameter-Datentypen :
+    ->  x         : INT32         INT32-Zahl
+    <-  z         : FLOAT         Flieแkomma-quivalent
+
+    Die Funktion I32_TO_F() konvertiert eine INT32-Zahl in FLOAT.
+
+
+
+
+
+
+
+
+
+
+
+
+                          @100[ Typkonvertierung Integer -> FLOAT ]        @001[ bersicht ]
+.110
+    Mathematik-Library - Typkonvertierung FLOAT -> Integer
+
+    Typkonvertierung FLOAT -> Integer:
+
+    @111[F_TO_I32] Konvertierung FLOAT -> INT32
+    @112[F_TO_L  ] Konvertierung FLOAT -> LONG
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ bersicht ]
+.111
+    Mathematik-Library - Typkonvertierung FLOAT -> Integer (Fortsetzung)
+
+    z = @111[F_TO_I32](x)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         Flieแkommazahl
+    <-  z         : INT32         INT32-quivalent
+
+    Die Funktion F_TO_I32() konvertiert eine FLOAT-Zahl in INT32.
+
+
+
+
+
+
+
+
+
+
+
+
+                          @110[ Typkonvertierung FLOAT -> Integer ]        @001[ bersicht ]
+.112
+    Mathematik-Library - Typkonvertierung FLOAT -> Integer (Fortsetzung)
+
+    z = @112[F_TO_L](x)
+
+    Parameter-Datentypen :
+    ->  x         : FLOAT         Flieแkommazahl
+    <-  z         : LONG          LONG-quivalent
+
+    Die Funktion F_TO_L() konvertiert eine FLOAT-Zahl in LONG.
+
+
+
+
+
+
+
+
+
+
+
+
+                          @110[ Typkonvertierung FLOAT -> Integer ]        @001[ bersicht ]
+.120
+    Mathematik-Library - Typkonvertierung ASCII -> FLOAT
+
+    Typkonvertierung ASCII -> FLOAT:
+
+    @121[atof] Konvertierung ASCII -> FLOAT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ bersicht ]
+.121
+    Mathematik-Library - Typkonvertierung ASCII -> FLOAT (Fortsetzung)
+
+    z = @121[atof](adr(string))
+
+    Parameter-Datentypen :
+    ->  string    : BYTE (FELD)   String, der konvertiert werden soll
+    <-  z         : FLOAT         Konvertierter String als Flieแkommazahl
+
+    Diese Funktion wandelt einen ASCII-String in eine Flieแkommazahl um.
+
+
+
+
+
+
+
+
+
+
+
+
+                           @120[ Typkonvertierung ASCII -> FLOAT ]         @001[ bersicht ]
+.200
+    ANHANG : LIBRARY-Informationen
+
+
+    @201[< Allgemeines       >]      Voraussetzungen etc.
+
+    @250[< Syntax            >]      Syntax fr die Erklrung der Funktionen
+
+    @350[< Ausfhrungszeiten >]      Ausfhrungszeiten und Stackbedarf
+
+    @400[< History           >]      Neue Funktionalitten und Versionsnderungen
+
+
+
+
+
+
+
+
+
+
+
+                                                                     @001[ bersicht ]
+.201
+    Mathematik-Library : Allgemeines
+
+    Die Mathematik-Library enthlt alle Funktionen, die auch in Standard-C-
+    Libraries definiert sind.
+
+    Anmerkungen:
+    - Bevor Sie die Funktionen der Mathematik-Library in Ihrem Projekt ver-
+      wenden k”nnen, mssen Sie die Library in die entsprechende Projekt-
+      Datenbank importieren.
+
+    - Die Funktionen dieser Library k”nnen nur verwendet werden, wenn das
+      Library-Runtime-Modul (B&R-Modul MATHTRAP.BR) auf der RPS (Anwender-ROM)
+      vorhanden ist!
+
+    - Die Funktionen der Mathematik-Library sind konform zu den Funktionen der
+      Standard-C-Mathematik-Libraries.
+
+    - FLOAT-Datentypen werden als Single-Precision-Floating-Point gemแ 
+      IEEE 754 Standard behandelt.
+
+
+                                     @202[ Fortsetzung ]                   @001[ bersicht ]
+.202
+    Mathematik-Library : Allgemeines (Fortsetzung)
+
+    - Die in dieser Datei verwendete Abkrzung "NaN" wurde aus dem Englischen
+      bernommen und steht fr "keine Zahl" (Not a Number).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ bersicht ]
+.250
+    Mathematik-Library : Syntaxbeschreibung
+
+    Datentypen:
+    Fr viele Funktionen sind bestimmte Gruppen von Datentypen zulssig. Um
+    bei der Funktionsbeschreibung nicht alle zulssigen Datentypen anfhren
+    zu mssen, werden folgende Gruppenbezeichnungen eingefhrt:
+    ษออออออออหอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออัอออออออป
+    บ Gruppe บ  BIT  ณ INT8  ณ BYTE  ณ INT16 ณ WORD  ณ INT32 ณ LONG  ณ FLOAT บ
+    ฬออออออออฮอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออุอออออออน
+    บ BASIS  บ       ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ NICHT  บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ       บ
+    บ FLOAT  บ       ณ       ณ       ณ       ณ       ณ       ณ       ณ       บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ ALLE   บ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   ณ   x   บ
+    วฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤลฤฤฤฤฤฤฤถ
+    บ FELD   บ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  ณ  [x]  บ
+    ศออออออออสอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออฯอออออออผ
+      x  Datentyp ist zulssig
+     [x] Datentyp ist zulssig als Feldvariable oder Zeichenkette (String)
+
+                                     @251[ Fortsetzung ]                   @001[ bersicht ]
+.251
+    Mathematik-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Pfeile:
+    Fr die Darstellung von Eingangs- und Ausgangsparametern werden Pfeile
+    verwendet. Dabei gilt folgende Vereinbarung:
+    ษอออออออออหออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+    บ  Pfeil  บ  Bedeutung                                                   บ
+    ฬอออออออออฮออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+    บ   ->    บ  Eingangsparameter                                           บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <->   บ  Ein-/Ausgangsparameter. Funktionell ist es ein Ausgangs-    บ
+    บ         บ  parameter. blicherweise wird er aber vor dem Aufruf der    บ
+    บ         บ  Funktion mit einer bestimmten Information geladen (z.B.     บ
+    บ         บ  einer Adresse). Meist wird die Adresse einer Variable mit   บ
+    บ         บ  adr() [PL2000] oder einem Adreแkontakt [KOP] angeschlossen. บ
+    วฤฤฤฤฤฤฤฤฤืฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+    บ   <-    บ  Ausgangsparameter                                           บ
+    ศอออออออออสออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+
+                                     @252[ Fortsetzung ]                   @001[ bersicht ]
+.252
+    Mathematik-Library : Syntaxbeschreibung (Fortsetzung)
+
+    Funktionsbl”cke:
+    Funktionsbl”cke sind in dieser Online-Hilfe nicht grafisch dargestellt.
+    Sie finden aber alle fr Funktionsbl”cke relevanten Informationen, wie
+    Eingangsparameter (->), Ein-/Ausgangsparameter (<->) und Ausgangsparameter
+    (<-) in der Online-Hilfe.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ bersicht ]
+.350
+    Mathematik-Library : Ausfhrungszeiten
+
+    Der folgenden Tabelle k”nnen Sie die Ausfhrungszeiten und den maximalen
+    Stackbedarf der Mathematik-Library-Funktionen entnehmen. Die Ausfhrungs-
+    zeiten der meisten Funktionen sind abhngig von den angegebenen Parametern.
+
+  ษออออออออออหอออออออออออออออัอออออออออออัอออออออออออออออัออออออออออออออออออออป
+  บ Funktion บ  Ausfhrungs- ณ Userstack ณ  Supervisor-  ณ Anmerkung          บ
+  บ          บ  zeiten [ๆs]  ณ  [Bytes]  ณ stack [Bytes] ณ                    บ
+  ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุออออออออออออออออออออน
+  บ cos      บ    80 - 1000  ณ      -    ณ       86      ณ                    บ
+  บ sin      บ    80 - 1000  ณ      -    ณ       86      ณ                    บ
+  บ tan      บ    60 - 1000  ณ      -    ณ       98      ณ                    บ
+  ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุออออออออออออออออออออน
+  บ acos     บ    80 - 1200  ณ      -    ณ      138      ณ                    บ
+  บ asin     บ    60 - 1300  ณ      -    ณ      138      ณ                    บ
+  บ atan     บ    60 - 1000  ณ      -    ณ      104      ณ                    บ
+  บ atan2    บ    60 - 1000  ณ      -    ณ      138      ณ                    บ
+  ศออออออออออสอออออออออออออออฯอออออออออออฯอออออออออออออออฯออออออออออออออออออออผ
+
+
+                                     @351[ Fortsetzung ]                   @001[ bersicht ]
+.351
+    Mathematik-Library : Ausfhrungszeiten (Fortsetzung)
+
+  ษออออออออออหอออออออออออออออัอออออออออออัอออออออออออออออัออออออออออออออออออออป
+  บ Funktion บ  Ausfhrungs- ณ Userstack ณ  Supervisor-  ณ Anmerkung          บ
+  บ          บ  zeiten [ๆs]  ณ  [Bytes]  ณ stack [Bytes] ณ                    บ
+  ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุออออออออออออออออออออน
+  บ cosh     บ   100 - 1100  ณ      -    ณ      130      ณ                    บ
+  บ sinh     บ    60 - 1100  ณ      -    ณ      134      ณ                    บ
+  บ tanh     บ    60 - 1200  ณ      -    ณ      142      ณ                    บ
+  ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุออออออออออออออออออออน
+  บ log      บ    80 -  900  ณ      -    ณ       98      ณ                    บ
+  บ log10    บ    80 - 1000  ณ      -    ณ       98      ณ                    บ
+  ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุออออออออออออออออออออน
+  บ pow      บ   100 - 2000  ณ      -    ณ      136      ณ                    บ
+  บ exp      บ   100 - 1000  ณ      -    ณ       98      ณ                    บ
+  บ sqrt     บ    60 -  700  ณ      -    ณ       98      ณ                    บ
+  ศออออออออออสอออออออออออออออฯอออออออออออฯอออออออออออออออฯออออออออออออออออออออผ
+
+
+
+
+                                     @352[ Fortsetzung ]                   @001[ bersicht ]
+.352
+    Mathematik-Library : Ausfhrungszeiten (Fortsetzung)
+
+  ษออออออออออหอออออออออออออออัอออออออออออัอออออออออออออออัออออออออออออออออออออป
+  บ Funktion บ  Ausfhrungs- ณ Userstack ณ  Supervisor-  ณ Anmerkung          บ
+  บ          บ  zeiten [ๆs]  ณ  [Bytes]  ณ stack [Bytes] ณ                    บ
+  ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุออออออออออออออออออออน
+  บ fabs     บ           50  ณ      -    ณ       42      ณ                    บ
+  บ abs      บ            4  ณ      -    ณ        -      ณ                    บ
+  ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุออออออออออออออออออออน
+  บ ceil     บ    75 -  130  ณ      -    ณ       70      ณ                    บ
+  บ floor    บ    80 -  120  ณ      -    ณ       70      ณ                    บ
+  บ TRUNC    บ   125 -  200  ณ      -    ณ       46      ณ                    บ
+  บ fmod     บ    80 -  400  ณ      -    ณ       78      ณ                    บ
+  ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุออออออออออออออออออออน
+  บ frexp    บ    50 -   80  ณ      -    ณ       38      ณ                    บ
+  บ ldexp    บ    60 -   90  ณ      -    ณ       46      ณ                    บ
+  บ modf     บ    70 -  110  ณ      -    ณ       78      ณ                    บ
+  ศออออออออออสอออออออออออออออฯอออออออออออฯอออออออออออออออฯออออออออออออออออออออผ
+
+
+
+                                     @353[ Fortsetzung ]                   @001[ bersicht ]
+.353
+    Mathematik-Library : Ausfhrungszeiten (Fortsetzung)
+
+  ษออออออออออหอออออออออออออออัอออออออออออัอออออออออออออออัออออออออออออออออออออป
+  บ Funktion บ  Ausfhrungs- ณ Userstack ณ  Supervisor-  ณ Anmerkung          บ
+  บ          บ  zeiten [ๆs]  ณ  [Bytes]  ณ stack [Bytes] ณ                    บ
+  ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุออออออออออออออออออออน
+  บ L_TO_F   บ    40 -  105  ณ      -    ณ       30      ณ                    บ
+  บ I32_TO_F บ    55 -  125  ณ      -    ณ       46      ณ                    บ
+  ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุออออออออออออออออออออน
+  บ F_TO_I32 บ    70 -   90  ณ      -    ณ       46      ณ                    บ
+  บ F_TO_L   บ    50 -   60  ณ      -    ณ       26      ณ                    บ
+  ฬออออออออออฮอออออออออออออออุอออออออออออุอออออออออออออออุออออออออออออออออออออน
+  บ atof     บ   170 - 5000  ณ      -    ณ      208      ณ                    บ
+  ศออออออออออสอออออออออออออออฯอออออออออออฯอออออออออออออออฯออออออออออออออออออออผ
+
+
+
+
+
+
+
+                                       @200[ ANHANG ]                      @001[ bersicht ]
+.400
+    Mathematik-Library : History - Versionsnderungen
+
+  ษอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+  บ V1.14 -> V1.20  ณ AKTUELLE VERSION: Neue Funktionalitten                 บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Korrektur der Funktion atof().                                          บ
+  บ - Optimierungen fr CP200 (LONG-Multiplikation/-Division).                บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V1.13 -> V1.14  ณ LTERE VERSIONEN: Fehlerbehebung                        บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Schnittstellen-Inkonsistenz bei frexp() und ldexp() beseitigt.          บ
+  บ - Schnittstelle von TRUNC() in der Online-Hilfe korrigiert.               บ
+  บ - Kommentar fr Funktionshilfe im PG berarbeitet.                        บ
+  บ - Der Funktionsumfang der Mathematik-Library ist unverndert.             บ
+  ฬอออออออออออออออออัอออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+  บ V1.12 -> V1.13  ณ LTERE VERSIONEN: Fehlerbehebung                        บ
+  วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+  บ - Die nderung betrifft nur die neu erstellte Online-Hilfe.               บ
+  บ - Der Funktionsumfang der Mathematik-Library ist unverndert.             บ
+  ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+                                       @200[ ANHANG ]                      @001[ bersicht ]
+
+.End

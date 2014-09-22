@@ -1,0 +1,6 @@
+[000F4F95] Loading Device = C:\QEMM\QEMM386.SYS
+[000F502E] LoadSuccess    = C:\QEMM\QEMM386.SYS
+[000F5027] Loading Device = C:\QEMM\QDPMI.SYS
+[000F5027] LoadSuccess    = C:\QEMM\QDPMI.SYS
+[000F503A] Loading Device = C:\MOUSE\MOUSE.SYS
+[000F5046] LoadSuccess    = C:\MOUSE\MOUSE.SYS
