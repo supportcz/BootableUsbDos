@@ -1,13 +1,13 @@
-AutoExcludes=3
 AutoexecToRead=C
 BootDrive=C
 ConfigSysToRead=C
-Express
 FromInstall
-Hardware=1
+Hardware=2
 MaxTime=3
-NextAutoexec=3
-NextLabel=AG
+NextAutoexec=2
+NextLabel=AF
+NoAuto
+QAddParms=ARAM=CE80-DFFF ARAM=CE80-DFFF
 SkipWelcome
 SqueezeT=0000000000000000
-StartSeg=0EDF
+StartSeg=149D

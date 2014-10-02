@@ -9,4 +9,4 @@ C:\AUTOEXEC.BAT %1 %2 %3 %4 %5 %6 %7 %8 %9
 @if not "%_4ver%" == "" setdos /n0
 @if not "%_nver%" == "" setdos /n0
 @Call C:\QEMM\OPT3a.BAT %1 %2 %3 %4 %5 %6 %7 %8 %9
-@C:\QEMM\OPTIMIZE /DIR:C:\QEMM\ 
+@C:\QEMM\OPTIMIZE /DIR:C:\QEMM\ C:\QEMM\LOADHI.OPT
