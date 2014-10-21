@@ -1,2 +1,0 @@
-[000B58C9] Loading Device = C:\QEMM\QEMM386.SYS
-[000B593D] LoadSuccess    = C:\QEMM\QEMM386.SYS
