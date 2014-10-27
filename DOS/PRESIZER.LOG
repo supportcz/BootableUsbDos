@@ -1,0 +1,1119 @@
+The Partition Resizer v. 1.3.3 (c) Zeleps 1994-2000
+
+Starting PRESIZER...
+
+Found the following physical drives:
+-------------------------------
+
+Disk ID: 0x80
+	Real Cylinders: 1027
+	Real Heads: 255
+	Real Sectors: 63
+	Total sectors: 16450560
+	Disk supports Int13h extensions
+	LBA Cylinders: 1024
+	LBA Heads: 255
+	LBA Sectors: 63
+	Total sectors (LBA): 16498755
+
+Disk ID: 0x81
+	Real Cylinders: 785
+	Real Heads: 128
+	Real Sectors: 63
+	Total sectors: 6330240
+	Disk supports Int13h extensions
+	LBA Cylinders: 785
+	LBA Heads: 128
+	LBA Sectors: 63
+	Total sectors (LBA): 6330240
+
+Disk ID: 0x82
+	Real Cylinders: 1023
+	Real Heads: 64
+	Real Sectors: 63
+	Total sectors: 4124736
+	Disk supports Int13h extensions
+	LBA Cylinders: 1023
+	LBA Heads: 64
+	LBA Sectors: 63
+	Total sectors (LBA): 4124736
+
+
+-------------------------------
+Found the following partitions:
+-------------------------------
+
+Partition Info (partition #1):
+
+   Bootable: no
+   Physical drive number: 0x80
+   System ID byte: 0x1B (Unknown Partition Type)
+   Starting at Cylinder: 128   Head: 1   Sector: 1
+   Ending at Cylinder: 383   Head: 254   Sector: 63
+   Relative starting sector: 2056383
+   Number of sectors: 4112577
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+-------------------------------
+
+Partition Info (partition #2):
+
+   Bootable: no
+   Physical drive number: 0x80
+   System ID byte: 0x05 (Extended Partition)
+   Starting at Cylinder: 384   Head: 0   Sector: 1
+   Ending at Cylinder: 1022   Head: 254   Sector: 63
+   Relative starting sector: 6168960
+   Number of sectors: 10265535
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1CE
+   LBA Translation effective
+
+-------------------------------
+
+Partition Info (partition #3):
+
+   Bootable: no
+   Physical drive number: 0x80
+   System ID byte: 0x0B (Windows FAT32)
+   Starting at Cylinder: 384   Head: 1   Sector: 1
+   Ending at Cylinder: 1022   Head: 254   Sector: 63
+   Relative starting sector: 63
+   Number of sectors: 10265472
+   Sector containing partition information: 6168960
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+Extended Partition Info (partition #2):
+
+   Bootable: no
+   Physical drive number: 0x80
+   System ID byte: 0x05 (Extended Partition)
+   Starting at Cylinder: 384   Head: 0   Sector: 1
+   Ending at Cylinder: 1022   Head: 254   Sector: 63
+   Relative starting sector: 6168960
+   Number of sectors: 10265535
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1CE
+   LBA Translation effective
+
+FAT32 Partition Boot Sector Info:
+
+   DOS Assigned drive letter: D
+   OEM ID string: MSWIN4.1
+   Extended boot record signature: 29
+   File System ID: FAT32    (32 bit FAT)
+   Media descriptor byte: F8
+   Serial number: A9571205
+   Label: DATA1
+   Physical drive number: 80
+   Bytes per sector: 512
+   Sectors per cluster: 16
+   Sectors per track: 63
+   Sides: 255
+   Sectors per FAT: 5016
+   Number of FAT copies: 2
+   Root directory starting cluster: 435226
+   Reserved sectors: 32
+   Hidden sectors: 63
+   Total sectors in partition: 10265472
+   Total clusters in partition: 640963
+   Partition starting sector: 6169023
+   Occupied sectors: 8388720
+   Maximum size allowed for this partition: Unlimited
+   Filesystem version number: 0.0
+   Backup boot record sector (relative): 6
+   FAT Mirroring: Enabled
+
+-------------------------------
+
+Partition Info (partition #4):
+
+   Bootable: yes
+   Physical drive number: 0x80
+   System ID byte: 0x0B (Windows FAT32)
+   Starting at Cylinder: 0   Head: 1   Sector: 1
+   Ending at Cylinder: 127   Head: 254   Sector: 63
+   Relative starting sector: 63
+   Number of sectors: 2056257
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1DE
+   LBA Translation effective
+
+FAT32 Partition Boot Sector Info:
+
+   DOS Assigned drive letter: C
+   OEM ID string: MSWIN4.1
+   Extended boot record signature: 29
+   File System ID: FAT32    (32 bit FAT)
+   Media descriptor byte: F8
+   Serial number: 1DF72D3F
+   Label: MAIN98     
+   Physical drive number: 80
+   Bytes per sector: 512
+   Sectors per cluster: 8
+   Sectors per track: 63
+   Sides: 255
+   Sectors per FAT: 2005
+   Number of FAT copies: 2
+   Root directory starting cluster: 2
+   Reserved sectors: 32
+   Hidden sectors: 63
+   Total sectors in partition: 2056257
+   Total clusters in partition: 256526
+   Partition starting sector: 63
+   Occupied sectors: 1538944
+   Maximum size allowed for this partition: Unlimited
+   Filesystem version number: 0.0
+   Backup boot record sector (relative): 6
+   FAT Mirroring: Enabled
+
+-------------------------------
+
+Partition Info (partition #5):
+
+   Bootable: no
+   Physical drive number: 0x81
+   System ID byte: 0x1B (Unknown Partition Type)
+   Starting at Cylinder: 0   Head: 1   Sector: 1
+   Ending at Cylinder: 380   Head: 127   Sector: 63
+   Relative starting sector: 63
+   Number of sectors: 3072321
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+-------------------------------
+
+Partition Info (partition #6):
+
+   Bootable: no
+   Physical drive number: 0x81
+   System ID byte: 0x05 (Extended Partition)
+   Starting at Cylinder: 381   Head: 0   Sector: 1
+   Ending at Cylinder: 783   Head: 127   Sector: 63
+   Relative starting sector: 3072384
+   Number of sectors: 3249792
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1CE
+   LBA Translation effective
+
+-------------------------------
+
+Partition Info (partition #7):
+
+   Bootable: no
+   Physical drive number: 0x81
+   System ID byte: 0x0B (Windows FAT32)
+   Starting at Cylinder: 381   Head: 1   Sector: 1
+   Ending at Cylinder: 783   Head: 127   Sector: 63
+   Relative starting sector: 63
+   Number of sectors: 3249729
+   Sector containing partition information: 3072384
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+Extended Partition Info (partition #6):
+
+   Bootable: no
+   Physical drive number: 0x81
+   System ID byte: 0x05 (Extended Partition)
+   Starting at Cylinder: 381   Head: 0   Sector: 1
+   Ending at Cylinder: 783   Head: 127   Sector: 63
+   Relative starting sector: 3072384
+   Number of sectors: 3249792
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1CE
+   LBA Translation effective
+
+FAT32 Partition Boot Sector Info:
+
+   DOS Assigned drive letter: E
+   OEM ID string: MSWIN4.1
+   Extended boot record signature: 29
+   File System ID: FAT32    (32 bit FAT)
+   Media descriptor byte: F8
+   Serial number: 1B001062
+   Label: DATA2      
+   Physical drive number: 81
+   Bytes per sector: 512
+   Sectors per cluster: 8
+   Sectors per track: 63
+   Sides: 128
+   Sectors per FAT: 3168
+   Number of FAT copies: 2
+   Root directory starting cluster: 2
+   Reserved sectors: 32
+   Hidden sectors: 63
+   Total sectors in partition: 3249729
+   Total clusters in partition: 405420
+   Partition starting sector: 3072447
+   Occupied sectors: 1439376
+   Maximum size allowed for this partition: Unlimited
+   Filesystem version number: 0.0
+   Backup boot record sector (relative): 6
+   FAT Mirroring: Enabled
+
+-------------------------------
+
+Partition Info (partition #8):
+
+   Bootable: no
+   Physical drive number: 0x82
+   System ID byte: 0x05 (Extended Partition)
+   Starting at Cylinder: 1   Head: 0   Sector: 1
+   Ending at Cylinder: 1022   Head: 63   Sector: 63
+   Relative starting sector: 4032
+   Number of sectors: 4120704
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+-------------------------------
+
+Partition Info (partition #9):
+
+   Bootable: no
+   Physical drive number: 0x82
+   System ID byte: 0x0B (Windows FAT32)
+   Starting at Cylinder: 1   Head: 1   Sector: 1
+   Ending at Cylinder: 1022   Head: 63   Sector: 63
+   Relative starting sector: 63
+   Number of sectors: 4120641
+   Sector containing partition information: 4032
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+Extended Partition Info (partition #8):
+
+   Bootable: no
+   Physical drive number: 0x82
+   System ID byte: 0x05 (Extended Partition)
+   Starting at Cylinder: 1   Head: 0   Sector: 1
+   Ending at Cylinder: 1022   Head: 63   Sector: 63
+   Relative starting sector: 4032
+   Number of sectors: 4120704
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+FAT32 Partition Boot Sector Info:
+
+   DOS Assigned drive letter: F
+   OEM ID string: MSWIN4.1
+   Extended boot record signature: 29
+   File System ID: FAT32    (32 bit FAT)
+   Media descriptor byte: F8
+   Serial number: 39381267
+   Label: DATA3      
+   Physical drive number: 82
+   Bytes per sector: 512
+   Sectors per cluster: 2
+   Sectors per track: 63
+   Sides: 64
+   Sectors per FAT: 15973
+   Number of FAT copies: 2
+   Root directory starting cluster: 2
+   Reserved sectors: 32
+   Hidden sectors: 63
+   Total sectors in partition: 4120641
+   Total clusters in partition: 2044331
+   Partition starting sector: 4095
+   Occupied sectors: 1525128
+   Maximum size allowed for this partition: Unlimited
+   Filesystem version number: 0.0
+   Backup boot record sector (relative): 6
+   FAT Mirroring: Enabled
+
+-------------------------------
+
+User command 3 at main menu
+Partition selected: 9
+User command 1 at main menu
+Partition selected: 9
+
+Resizing partition 9:
+	New beginning: 4095
+	New size: 3689217
+	New extended partition beginning: 4032
+	New extended partition end: 4124735
+
+Performing changes:
+Moving 14300 sectors from 4127 to 18427
+Moving 1525128 sectors from 36073 to 32727
+Patching sector 4095 at offset 32 with value 3689217 (0x384B01)
+Patching sector 4095 at offset 36 with value 14300 (0x37DC)
+Patching sector 4096 at offset 488 with value 4294967295 (0xFFFFFFFF)
+Patching sector 4101 at offset 32 with value 3689217 (0x384B01)
+Patching sector 4101 at offset 36 with value 14300 (0x37DC)
+Patching sector 4102 at offset 488 with value 4294967295 (0xFFFFFFFF)
+Patching sector 4032 at offset 451 with value 63 (0x3F)
+Patching sector 4032 at offset 452 with value 37887 (0x93FF)
+Patching sector 4032 at offset 458 with value 3689217 (0x384B01)
+Requested changes performed
+User command 3 at main menu
+User command 1 at main menu
+Partition selected: 9
+
+Rebooting...
+
+*******************************
+
+The Partition Resizer v. 1.3.3 (c) Zeleps 1994-2000
+
+Starting PRESIZER...
+
+Found the following physical drives:
+-------------------------------
+
+Disk ID: 0x80
+	Real Cylinders: 1027
+	Real Heads: 255
+	Real Sectors: 63
+	Total sectors: 16450560
+	Disk supports Int13h extensions
+	LBA Cylinders: 1024
+	LBA Heads: 255
+	LBA Sectors: 63
+	Total sectors (LBA): 16498755
+
+Disk ID: 0x81
+	Real Cylinders: 785
+	Real Heads: 128
+	Real Sectors: 63
+	Total sectors: 6330240
+	Disk supports Int13h extensions
+	LBA Cylinders: 785
+	LBA Heads: 128
+	LBA Sectors: 63
+	Total sectors (LBA): 6330240
+
+Disk ID: 0x82
+	Real Cylinders: 1023
+	Real Heads: 64
+	Real Sectors: 63
+	Total sectors: 4124736
+	Disk supports Int13h extensions
+	LBA Cylinders: 1023
+	LBA Heads: 64
+	LBA Sectors: 63
+	Total sectors (LBA): 4124736
+
+
+-------------------------------
+Found the following partitions:
+-------------------------------
+
+Partition Info (partition #1):
+
+   Bootable: no
+   Physical drive number: 0x80
+   System ID byte: 0x1B (Unknown Partition Type)
+   Starting at Cylinder: 128   Head: 1   Sector: 1
+   Ending at Cylinder: 383   Head: 254   Sector: 63
+   Relative starting sector: 2056383
+   Number of sectors: 4112577
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+-------------------------------
+
+Partition Info (partition #2):
+
+   Bootable: no
+   Physical drive number: 0x80
+   System ID byte: 0x05 (Extended Partition)
+   Starting at Cylinder: 384   Head: 0   Sector: 1
+   Ending at Cylinder: 1022   Head: 254   Sector: 63
+   Relative starting sector: 6168960
+   Number of sectors: 10265535
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1CE
+   LBA Translation effective
+
+-------------------------------
+
+Partition Info (partition #3):
+
+   Bootable: no
+   Physical drive number: 0x80
+   System ID byte: 0x0B (Windows FAT32)
+   Starting at Cylinder: 384   Head: 1   Sector: 1
+   Ending at Cylinder: 1022   Head: 254   Sector: 63
+   Relative starting sector: 63
+   Number of sectors: 10265472
+   Sector containing partition information: 6168960
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+Extended Partition Info (partition #2):
+
+   Bootable: no
+   Physical drive number: 0x80
+   System ID byte: 0x05 (Extended Partition)
+   Starting at Cylinder: 384   Head: 0   Sector: 1
+   Ending at Cylinder: 1022   Head: 254   Sector: 63
+   Relative starting sector: 6168960
+   Number of sectors: 10265535
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1CE
+   LBA Translation effective
+
+FAT32 Partition Boot Sector Info:
+
+   DOS Assigned drive letter: D
+   OEM ID string: MSWIN4.1
+   Extended boot record signature: 29
+   File System ID: FAT32    (32 bit FAT)
+   Media descriptor byte: F8
+   Serial number: A9571205
+   Label: DATA1
+   Physical drive number: 80
+   Bytes per sector: 512
+   Sectors per cluster: 16
+   Sectors per track: 63
+   Sides: 255
+   Sectors per FAT: 5016
+   Number of FAT copies: 2
+   Root directory starting cluster: 435226
+   Reserved sectors: 32
+   Hidden sectors: 63
+   Total sectors in partition: 10265472
+   Total clusters in partition: 640963
+   Partition starting sector: 6169023
+   Occupied sectors: 8388720
+   Maximum size allowed for this partition: Unlimited
+   Filesystem version number: 0.0
+   Backup boot record sector (relative): 6
+   FAT Mirroring: Enabled
+
+-------------------------------
+
+Partition Info (partition #4):
+
+   Bootable: yes
+   Physical drive number: 0x80
+   System ID byte: 0x0B (Windows FAT32)
+   Starting at Cylinder: 0   Head: 1   Sector: 1
+   Ending at Cylinder: 127   Head: 254   Sector: 63
+   Relative starting sector: 63
+   Number of sectors: 2056257
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1DE
+   LBA Translation effective
+
+FAT32 Partition Boot Sector Info:
+
+   DOS Assigned drive letter: C
+   OEM ID string: MSWIN4.1
+   Extended boot record signature: 29
+   File System ID: FAT32    (32 bit FAT)
+   Media descriptor byte: F8
+   Serial number: 1DF72D3F
+   Label: MAIN98     
+   Physical drive number: 80
+   Bytes per sector: 512
+   Sectors per cluster: 8
+   Sectors per track: 63
+   Sides: 255
+   Sectors per FAT: 2005
+   Number of FAT copies: 2
+   Root directory starting cluster: 2
+   Reserved sectors: 32
+   Hidden sectors: 63
+   Total sectors in partition: 2056257
+   Total clusters in partition: 256526
+   Partition starting sector: 63
+   Occupied sectors: 1538944
+   Maximum size allowed for this partition: Unlimited
+   Filesystem version number: 0.0
+   Backup boot record sector (relative): 6
+   FAT Mirroring: Enabled
+
+-------------------------------
+
+Partition Info (partition #5):
+
+   Bootable: no
+   Physical drive number: 0x81
+   System ID byte: 0x1B (Unknown Partition Type)
+   Starting at Cylinder: 0   Head: 1   Sector: 1
+   Ending at Cylinder: 380   Head: 127   Sector: 63
+   Relative starting sector: 63
+   Number of sectors: 3072321
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+-------------------------------
+
+Partition Info (partition #6):
+
+   Bootable: no
+   Physical drive number: 0x81
+   System ID byte: 0x05 (Extended Partition)
+   Starting at Cylinder: 381   Head: 0   Sector: 1
+   Ending at Cylinder: 783   Head: 127   Sector: 63
+   Relative starting sector: 3072384
+   Number of sectors: 3249792
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1CE
+   LBA Translation effective
+
+-------------------------------
+
+Partition Info (partition #7):
+
+   Bootable: no
+   Physical drive number: 0x81
+   System ID byte: 0x0B (Windows FAT32)
+   Starting at Cylinder: 381   Head: 1   Sector: 1
+   Ending at Cylinder: 783   Head: 127   Sector: 63
+   Relative starting sector: 63
+   Number of sectors: 3249729
+   Sector containing partition information: 3072384
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+Extended Partition Info (partition #6):
+
+   Bootable: no
+   Physical drive number: 0x81
+   System ID byte: 0x05 (Extended Partition)
+   Starting at Cylinder: 381   Head: 0   Sector: 1
+   Ending at Cylinder: 783   Head: 127   Sector: 63
+   Relative starting sector: 3072384
+   Number of sectors: 3249792
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1CE
+   LBA Translation effective
+
+FAT32 Partition Boot Sector Info:
+
+   DOS Assigned drive letter: E
+   OEM ID string: MSWIN4.1
+   Extended boot record signature: 29
+   File System ID: FAT32    (32 bit FAT)
+   Media descriptor byte: F8
+   Serial number: 1B001062
+   Label: DATA2      
+   Physical drive number: 81
+   Bytes per sector: 512
+   Sectors per cluster: 8
+   Sectors per track: 63
+   Sides: 128
+   Sectors per FAT: 3168
+   Number of FAT copies: 2
+   Root directory starting cluster: 2
+   Reserved sectors: 32
+   Hidden sectors: 63
+   Total sectors in partition: 3249729
+   Total clusters in partition: 405420
+   Partition starting sector: 3072447
+   Occupied sectors: 1439376
+   Maximum size allowed for this partition: Unlimited
+   Filesystem version number: 0.0
+   Backup boot record sector (relative): 6
+   FAT Mirroring: Enabled
+
+-------------------------------
+
+Partition Info (partition #8):
+
+   Bootable: no
+   Physical drive number: 0x82
+   System ID byte: 0x05 (Extended Partition)
+   Starting at Cylinder: 1   Head: 0   Sector: 1
+   Ending at Cylinder: 1022   Head: 63   Sector: 63
+   Relative starting sector: 4032
+   Number of sectors: 4120704
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+-------------------------------
+
+Partition Info (partition #9):
+
+   Bootable: no
+   Physical drive number: 0x82
+   System ID byte: 0x0B (Windows FAT32)
+   Starting at Cylinder: 1   Head: 1   Sector: 1
+   Ending at Cylinder: 915   Head: 63   Sector: 63
+   Relative starting sector: 63
+   Number of sectors: 3689217
+   Sector containing partition information: 4032
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+Extended Partition Info (partition #8):
+
+   Bootable: no
+   Physical drive number: 0x82
+   System ID byte: 0x05 (Extended Partition)
+   Starting at Cylinder: 1   Head: 0   Sector: 1
+   Ending at Cylinder: 1022   Head: 63   Sector: 63
+   Relative starting sector: 4032
+   Number of sectors: 4120704
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+FAT32 Partition Boot Sector Info:
+
+   DOS Assigned drive letter: F
+   OEM ID string: MSWIN4.1
+   Extended boot record signature: 29
+   File System ID: FAT32    (32 bit FAT)
+   Media descriptor byte: F8
+   Serial number: 39381267
+   Label: DATA3      
+   Physical drive number: 82
+   Bytes per sector: 512
+   Sectors per cluster: 2
+   Sectors per track: 63
+   Sides: 64
+   Sectors per FAT: 14300
+   Number of FAT copies: 2
+   Root directory starting cluster: 2
+   Reserved sectors: 32
+   Hidden sectors: 63
+   Total sectors in partition: 3689217
+   Total clusters in partition: 1830292
+   Partition starting sector: 4095
+   Occupied sectors: 1525128
+   Maximum size allowed for this partition: Unlimited
+   Filesystem version number: 0.0
+   Backup boot record sector (relative): 6
+   FAT Mirroring: Enabled
+
+-------------------------------
+
+Partition Info (partition #11):
+
+   Bootable: no
+   Physical drive number: 0x82
+   System ID byte: 0x06 (BigDOS FAT16)
+   Starting at Cylinder: 916   Head: 1   Sector: 1
+   Ending at Cylinder: 1022   Head: 63   Sector: 63
+   Relative starting sector: 63
+   Number of sectors: 431361
+   Sector containing partition information: 3693312
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+Extended Partition Info (partition #10):
+
+   Bootable: no
+   Physical drive number: 0x82
+   System ID byte: 0x05 (Extended Partition)
+   Starting at Cylinder: 916   Head: 0   Sector: 1
+   Ending at Cylinder: 1022   Head: 63   Sector: 63
+   Relative starting sector: 3689280
+   Number of sectors: 431424
+   Sector containing partition information: 4032
+   Offset of information block in sector: 0x1CE
+   LBA Translation effective
+
+FAT16 Partition Boot Sector Info:
+
+   DOS Assigned drive letter: G
+   OEM ID string: MSWIN4.1
+   Extended boot record signature: 29
+   File System ID: FAT16    (16 bit FAT)
+   Media descriptor byte: F8
+   Serial number: 2C3D0800
+   Label: DATA4      
+   Physical drive number: 82
+   Bytes per sector: 512
+   Sectors per cluster: 8
+   Sectors per track: 63
+   Sides: 64
+   Sectors per FAT: 211
+   Number of FAT copies: 2
+   Maximum root directory entries: 512
+   Reserved sectors: 1
+   Hidden sectors: 63
+   Total sectors in partition: 431361
+   Total clusters in partition: 53863
+   Partition starting sector: 3693375
+   Occupied sectors: 40
+   Maximum size allowed for this partition: 262351K
+
+-------------------------------
+
+User command 1 at main menu
+Partition selected: 9
+User command 1 at main menu
+User command 1 at main menu
+Partition selected: 10
+
+Closing PRESIZER...
+
+*******************************
+
+The Partition Resizer v. 1.3.3 (c) Zeleps 1994-2000
+
+Starting PRESIZER...
+
+Found the following physical drives:
+-------------------------------
+
+Disk ID: 0x80
+	Real Cylinders: 1027
+	Real Heads: 255
+	Real Sectors: 63
+	Total sectors: 16450560
+	Disk supports Int13h extensions
+	LBA Cylinders: 1024
+	LBA Heads: 255
+	LBA Sectors: 63
+	Total sectors (LBA): 16498755
+
+Disk ID: 0x81
+	Real Cylinders: 785
+	Real Heads: 128
+	Real Sectors: 63
+	Total sectors: 6330240
+	Disk supports Int13h extensions
+	LBA Cylinders: 785
+	LBA Heads: 128
+	LBA Sectors: 63
+	Total sectors (LBA): 6330240
+
+Disk ID: 0x82
+	Real Cylinders: 1023
+	Real Heads: 64
+	Real Sectors: 63
+	Total sectors: 4124736
+	Disk supports Int13h extensions
+	LBA Cylinders: 1023
+	LBA Heads: 64
+	LBA Sectors: 63
+	Total sectors (LBA): 4124736
+
+
+-------------------------------
+Found the following partitions:
+-------------------------------
+
+Partition Info (partition #1):
+
+   Bootable: no
+   Physical drive number: 0x80
+   System ID byte: 0x1B (Unknown Partition Type)
+   Starting at Cylinder: 128   Head: 1   Sector: 1
+   Ending at Cylinder: 383   Head: 254   Sector: 63
+   Relative starting sector: 2056383
+   Number of sectors: 4112577
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+-------------------------------
+
+Partition Info (partition #2):
+
+   Bootable: no
+   Physical drive number: 0x80
+   System ID byte: 0x05 (Extended Partition)
+   Starting at Cylinder: 384   Head: 0   Sector: 1
+   Ending at Cylinder: 1022   Head: 254   Sector: 63
+   Relative starting sector: 6168960
+   Number of sectors: 10265535
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1CE
+   LBA Translation effective
+
+-------------------------------
+
+Partition Info (partition #3):
+
+   Bootable: no
+   Physical drive number: 0x80
+   System ID byte: 0x0B (Windows FAT32)
+   Starting at Cylinder: 384   Head: 1   Sector: 1
+   Ending at Cylinder: 1022   Head: 254   Sector: 63
+   Relative starting sector: 63
+   Number of sectors: 10265472
+   Sector containing partition information: 6168960
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+Extended Partition Info (partition #2):
+
+   Bootable: no
+   Physical drive number: 0x80
+   System ID byte: 0x05 (Extended Partition)
+   Starting at Cylinder: 384   Head: 0   Sector: 1
+   Ending at Cylinder: 1022   Head: 254   Sector: 63
+   Relative starting sector: 6168960
+   Number of sectors: 10265535
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1CE
+   LBA Translation effective
+
+FAT32 Partition Boot Sector Info:
+
+   DOS Assigned drive letter: D
+   OEM ID string: MSWIN4.1
+   Extended boot record signature: 29
+   File System ID: FAT32    (32 bit FAT)
+   Media descriptor byte: F8
+   Serial number: A9571205
+   Label: DATA1
+   Physical drive number: 80
+   Bytes per sector: 512
+   Sectors per cluster: 16
+   Sectors per track: 63
+   Sides: 255
+   Sectors per FAT: 5016
+   Number of FAT copies: 2
+   Root directory starting cluster: 435226
+   Reserved sectors: 32
+   Hidden sectors: 63
+   Total sectors in partition: 10265472
+   Total clusters in partition: 640963
+   Partition starting sector: 6169023
+   Occupied sectors: 8388720
+   Maximum size allowed for this partition: Unlimited
+   Filesystem version number: 0.0
+   Backup boot record sector (relative): 6
+   FAT Mirroring: Enabled
+
+-------------------------------
+
+Partition Info (partition #4):
+
+   Bootable: yes
+   Physical drive number: 0x80
+   System ID byte: 0x0B (Windows FAT32)
+   Starting at Cylinder: 0   Head: 1   Sector: 1
+   Ending at Cylinder: 127   Head: 254   Sector: 63
+   Relative starting sector: 63
+   Number of sectors: 2056257
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1DE
+   LBA Translation effective
+
+FAT32 Partition Boot Sector Info:
+
+   DOS Assigned drive letter: C
+   OEM ID string: MSWIN4.1
+   Extended boot record signature: 29
+   File System ID: FAT32    (32 bit FAT)
+   Media descriptor byte: F8
+   Serial number: 1DF72D3F
+   Label: MAIN98     
+   Physical drive number: 80
+   Bytes per sector: 512
+   Sectors per cluster: 8
+   Sectors per track: 63
+   Sides: 255
+   Sectors per FAT: 2005
+   Number of FAT copies: 2
+   Root directory starting cluster: 2
+   Reserved sectors: 32
+   Hidden sectors: 63
+   Total sectors in partition: 2056257
+   Total clusters in partition: 256526
+   Partition starting sector: 63
+   Occupied sectors: 1538944
+   Maximum size allowed for this partition: Unlimited
+   Filesystem version number: 0.0
+   Backup boot record sector (relative): 6
+   FAT Mirroring: Enabled
+
+-------------------------------
+
+Partition Info (partition #5):
+
+   Bootable: no
+   Physical drive number: 0x81
+   System ID byte: 0x1B (Unknown Partition Type)
+   Starting at Cylinder: 0   Head: 1   Sector: 1
+   Ending at Cylinder: 380   Head: 127   Sector: 63
+   Relative starting sector: 63
+   Number of sectors: 3072321
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+-------------------------------
+
+Partition Info (partition #6):
+
+   Bootable: no
+   Physical drive number: 0x81
+   System ID byte: 0x05 (Extended Partition)
+   Starting at Cylinder: 381   Head: 0   Sector: 1
+   Ending at Cylinder: 783   Head: 127   Sector: 63
+   Relative starting sector: 3072384
+   Number of sectors: 3249792
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1CE
+   LBA Translation effective
+
+-------------------------------
+
+Partition Info (partition #7):
+
+   Bootable: no
+   Physical drive number: 0x81
+   System ID byte: 0x0B (Windows FAT32)
+   Starting at Cylinder: 381   Head: 1   Sector: 1
+   Ending at Cylinder: 783   Head: 127   Sector: 63
+   Relative starting sector: 63
+   Number of sectors: 3249729
+   Sector containing partition information: 3072384
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+Extended Partition Info (partition #6):
+
+   Bootable: no
+   Physical drive number: 0x81
+   System ID byte: 0x05 (Extended Partition)
+   Starting at Cylinder: 381   Head: 0   Sector: 1
+   Ending at Cylinder: 783   Head: 127   Sector: 63
+   Relative starting sector: 3072384
+   Number of sectors: 3249792
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1CE
+   LBA Translation effective
+
+FAT32 Partition Boot Sector Info:
+
+   DOS Assigned drive letter: E
+   OEM ID string: MSWIN4.1
+   Extended boot record signature: 29
+   File System ID: FAT32    (32 bit FAT)
+   Media descriptor byte: F8
+   Serial number: 1B001062
+   Label: DATA2      
+   Physical drive number: 81
+   Bytes per sector: 512
+   Sectors per cluster: 8
+   Sectors per track: 63
+   Sides: 128
+   Sectors per FAT: 3168
+   Number of FAT copies: 2
+   Root directory starting cluster: 2
+   Reserved sectors: 32
+   Hidden sectors: 63
+   Total sectors in partition: 3249729
+   Total clusters in partition: 405420
+   Partition starting sector: 3072447
+   Occupied sectors: 1439376
+   Maximum size allowed for this partition: Unlimited
+   Filesystem version number: 0.0
+   Backup boot record sector (relative): 6
+   FAT Mirroring: Enabled
+
+-------------------------------
+
+Partition Info (partition #8):
+
+   Bootable: no
+   Physical drive number: 0x82
+   System ID byte: 0x05 (Extended Partition)
+   Starting at Cylinder: 1   Head: 0   Sector: 1
+   Ending at Cylinder: 1022   Head: 63   Sector: 63
+   Relative starting sector: 4032
+   Number of sectors: 4120704
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+-------------------------------
+
+Partition Info (partition #9):
+
+   Bootable: no
+   Physical drive number: 0x82
+   System ID byte: 0x0B (Windows FAT32)
+   Starting at Cylinder: 1   Head: 1   Sector: 1
+   Ending at Cylinder: 915   Head: 63   Sector: 63
+   Relative starting sector: 63
+   Number of sectors: 3689217
+   Sector containing partition information: 4032
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+Extended Partition Info (partition #8):
+
+   Bootable: no
+   Physical drive number: 0x82
+   System ID byte: 0x05 (Extended Partition)
+   Starting at Cylinder: 1   Head: 0   Sector: 1
+   Ending at Cylinder: 1022   Head: 63   Sector: 63
+   Relative starting sector: 4032
+   Number of sectors: 4120704
+   Sector containing partition information: 0
+   Offset of information block in sector: 0x1BE
+   LBA Translation effective
+
+FAT32 Partition Boot Sector Info:
+
+   DOS Assigned drive letter: F
+   OEM ID string: MSWIN4.1
+   Extended boot record signature: 29
+   File System ID: FAT32    (32 bit FAT)
+   Media descriptor byte: F8
+   Serial number: 39381267
+   Label: DATA3      
+   Physical drive number: 82
+   Bytes per sector: 512
+   Sectors per cluster: 2
+   Sectors per track: 63
+   Sides: 64
+   Sectors per FAT: 14300
+   Number of FAT copies: 2
+   Root directory starting cluster: 2
+   Reserved sectors: 32
+   Hidden sectors: 63
+   Total sectors in partition: 3689217
+   Total clusters in partition: 1830292
+   Partition starting sector: 4095
+   Occupied sectors: 1525128
+   Maximum size allowed for this partition: Unlimited
+   Filesystem version number: 0.0
+   Backup boot record sector (relative): 6
+   FAT Mirroring: Enabled
+
+-------------------------------
+
+User command 3 at main menu
+Partition selected: 9
+User command 1 at main menu
+Partition selected: 9
+
+Resizing partition 9:
+	New beginning: 4095
+	New size: 4120641
+	New extended partition beginning: 4032
+	New extended partition end: 4124735
+
+Performing changes:
+Moving 1525128 sectors from 32727 to 36071
+Zeroing sectors from 18427 to 20098
+Moving 15972 sectors from 4127 to 20099
+Patching sector 4095 at offset 32 with value 4120641 (0x3EE041)
+Patching sector 4095 at offset 36 with value 15972 (0x3E64)
+Patching sector 4096 at offset 488 with value 4294967295 (0xFFFFFFFF)
+Patching sector 4101 at offset 32 with value 4120641 (0x3EE041)
+Patching sector 4101 at offset 36 with value 15972 (0x3E64)
+Patching sector 4102 at offset 488 with value 4294967295 (0xFFFFFFFF)
+Patching sector 4032 at offset 451 with value 63 (0x3F)
+Patching sector 4032 at offset 452 with value 65279 (0xFEFF)
+Patching sector 4032 at offset 458 with value 4120641 (0x3EE041)
+Requested changes performed
+User command 3 at main menu
+
+Rebooting...
+
+*******************************
+

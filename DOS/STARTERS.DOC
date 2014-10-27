@@ -1,0 +1,242 @@
+Are you feeling a strong tendency to monasticism after reading the manuals?
+Are you still mumbling "All I wanted to do was to install Xyz OS (TM), not to
+spend the rest of my days reading about partitions and boot sectors"?
+Have you read the manuals at all?
+
+NO WORRY!
+
+This is the document for you. This is a step-by-step manual of what you should
+do in order to use Partition Resizer successfully. I hope you'll find this
+document easy to follow. You will have to read README.1ST of course, and print
+it if possible, because you may need it for reference. You should also print
+this document too. Just remember to take a good look at INCOMPAT.LST, and
+print TROUBLE.DOC to have it handy in case of emergency.
+
+BE WARNED THOUGH:
+
+Follow these instructions precisely. If you need to do something that is not
+clarified here, you have to read and understand all the proceedings described
+in the other documents. This document is complementary to README.1ST, not a
+replacement for it. You're supposed to know all the restrictions written in
+README.1ST before reading this document. It's better that you plan the whole
+process before actually performing it. This will help you prepare any boot
+disks or programs needed for emergency. So, before running the program, read
+this document and prepare your system without running Partition Resizer.
+
+START HERE:
+
+	- First choose which partition you're going to work with. Let's call
+	  this partition "the working partition".
+	- OK, let's take a look at your system (you must follow the according
+	  step for each Operating system you've got installed):
+	- if you have plain DOS installed, jump to "DOS" section.
+	- if you have OS/2 installed on a fat partition and you're using
+	  dual boot, go to "OS/2 on FAT" section.
+	- if you have OS/2 installed on an HPFS partition, go to
+	  "OS/2 Normal".
+	- if you have Windows 95 or later installed, go to "Windows 95".
+	- if you have Windows NT installed, go to Windows NT".
+	- if you have Linux installed, go to "Linux".
+	- if you have any other Operating System, go to "Other OSs".
+
+DOS:
+
+	Plain DOS. Let's take a look at your device drivers:
+	- Check your working partition's integrity with a good Disk Checking
+	  Utility. Norton Disk Doctor or Scandisk will do fine. If you're not
+	  absolutely sure for your disk's surface integrity, perform a
+	  surface scan too.
+	- You can now go to the "Defragmentation Process" section.
+
+OS/2 on FAT:
+
+        - Check your working partition's integrity with a good Disk Checking
+          Utility. I don't know if there are any restrictions for which
+          programs you can use. If you're not absolutely sure for your disk's
+          surface integrity, perform a surface scan too.
+        - The following apply only to the boot partition. If you're not going
+          to work with the boot partition, skip this and go to the
+          "Defragmentation Process" section.
+        - To reinstall OS/2 startup files, use SYSINSTX.COM.
+        - Boot with DOS, and delete the "bootsect.*" file. This will prevent
+          any accidents. You'll have to reinstall the file after you've
+          finished (this should be done by running OS/2's FDISK and adjusting
+          the Boot Manager settings from there).
+        - Now, go to the "Defragmentation Process".
+
+Windows 95:
+
+	- Check your working partition's integrity with a good Disk Checking
+	  Utility. Norton Disk Doctor 32 or Scandisk for Windows 95 will do
+	  fine. If you're not absolutely sure for your disk's surface
+	  integrity, perform a surface scan too.
+	- You won't face problems running Partition Resizer with Windows 95.
+	  Just remember when following the Defragmentation Process to use
+	  a Windows 95 suitable Defragmentation Utility, since any other
+	  will destroy the long filenames. Also remember that you can't run
+	  Partition Resizer under the multitasking environment of Windows 95.
+	  You must first restart the computer in MSDOS mode.
+	- Now you can go to the "Defragmentation Process" section.
+
+Windows NT:
+
+	- You shouldn't move Windows NT partitions (you can't resize them
+	  anyway), I haven't checked if there are any implications on
+	  the file system integrity, but you won't be able to boot from the
+	  partition (probably you can fix this afterwards with the emergency
+	  disk).
+
+Linux:
+
+	- No problems, either with moving a Linux partition, or a swap
+	  partition. Just create a startup diskette, it may become handy
+	  afterwards...
+
+Other OSs:
+
+        - Well, nothing is granted from now on. Things to avoid in general:
+        - Don't move partitions created by other Operating Systems.
+        - Don't move or resize bootable partitions (not even DOS partitions)
+          if you're not sure you can reinstall the appropriate system files
+          and boot managers.
+        - If Partition Resizer gives you errors concerning these partitions,
+	  take a good look at the log file if you're an experienced user, or
+          else send me a message with the log file. Don't run Partition
+          Resizer if you don't understand the problem completely.
+
+Defragmentation Process:
+
+	- If defragmenting your disk takes less than 20-30 minutes, read this
+	  section. If it takes more than 30 minutes, just skip it and go
+	  straight to "Running Preparations".
+	- If this process seems too complicated, skip it and go to "Running
+	  Preparations".
+	- Run "attrib -s -h -r \*.* /s" at your working partition. It would
+	  be nice to know which files in your disk are hidden or read-only or
+	  system, so that you can set their attributes back to normal when
+	  you've finished.
+	- If this is your boot partition, run "attrib +s +h +r \io.sys" (it's
+	  \ibmio.sys for IBM DOS).
+	- If you're running Windows 3.1, and there is a file named
+	  "386spart.par" in your root directory, delete it (the file, not
+	  Windows...). Don't run windows again, until after using Partition
+	  Resizer. The next time you run windows, you'll have to reinstall
+	  your swapfile (Control Panel/386 Enhanced/Virtual Memory).
+	- Run a defragmentation utility (like DOS's defrag or Norton's
+	  Speedisk. If you're using Windows 95, you'll have to run Defrag
+	  from within Windows; any other defragmentation program will destroy
+	  the long filenames. Choose "Full Optimization" as your optimization
+	  method. This is not necessary, but it will save time from presizer.
+	- You can now set the file attributes back to normal.
+	- Go to the "Running Preparations" Section.
+
+Running Preparations:
+
+	- OK, it's D-Day. Get a good diskette, check it for bad clusters you
+	  might have missed, and prepare it as written in README.1ST.
+	- Print all the manuals if possible. You might need them as reference.
+	- Don't write protect the disk: Partition Resizer has to write things
+	  on it.
+	- Create bootdisks for each operating system you've got installed.
+	  You may need them if you can't boot after running Partition Resizer.
+	- If you're using OnTrack Disk Manager or any SCSI driver, you must
+	  load it before running Partition Resizer.
+	- Now you are ready to run Partition Resizer.
+
+Running Partition Resizer:
+
+	- Boot from the diskette you've created.
+	- Run Partition Resizer.
+	- If there are any errors or warnings, the best thing to do is to read
+	  TROUBLE.DOC.
+	- If there are no errors or warnings, you will be moved to the
+	  program's main menu. From now on, it's up to you to choose what you
+	  need to do.
+	- If your computer hangs for too long (it has never happened with
+	  version 1.1.2, but who knows...) reset it and immediately rerun
+	  the program.
+	- If your computer restarts before the program finishes it's work
+	  (due to software conflict, power failure or accidental interruption)
+	  rerun the program (you'd better read TROUBLE.DOC in this case).
+	- if you have plain DOS or Windows 95 installed, jump to "DOS Final"
+	  section.
+	- if you have OS/2 installed on a fat partition and you're using
+	  dual boot, go to "OS/2 on FAT Final" section.
+	- if you have OS/2 installed on an HPFS partition, go to
+	  "OS/2 Normal Final".
+	- if you have Windows NT installed, go to Windows NT Final".
+	- if you have Linux installed, go to "Linux Final".
+	- if you have any other Operating System, go to "Other OSs Final".
+
+DOS Final:
+
+	- Try booting from your hard disk. If you're unable to boot, boot from
+	  the boot disk you created. Then change to your hard disk partition.
+	- Check all your DOS partitions. If you encounter errors, check to see
+	  what they are. If you followed all the precautions mentioned here
+	  and in README.1ST, there shouldn't be any problems. If there are,
+	  contact me. Someone told me that he lost all his data because of
+	  Partition Resizer. Then he told me that he had a boot sector
+	  protection program running along with presizer, he run mirror after
+	  running Partition Resizer using the old mirror files he had not
+	  deleted, and when he found that he had pressed N when prompted to
+	  write to the boot sector, and that his partition was ruined, he
+	  rerun presizer to undo what he had done... (the funniest thing is
+	  that he finally saved his disk! Among others, he performed a normal
+	  dos format up to 1% (!), an unformat (!!!) and some other things
+          which worked! So remember to read ALL INSTRUCTIONS CAREFULLY! I
+          didn't write 80K of documentation just for fun...
+	- If your data is OK but you can't boot from your hard disk, run sys
+	  to replace your system files.
+	- If there are no problems at all, you're ready to use your new
+	  partition configuration.
+
+OS/2 on FAT Final:
+
+	- You shouldn't boot your machine now. Boot from a floppy, and check
+	  all your drives. If you have any errors, and you followed all the
+	  precautions precisely, you should contact me.
+        - If all your drives are OK, reinstall the system files with
+          SYSINSTX.COM.
+	- Now you're ready to use your new configuration.
+
+OS/2 Normal Final:
+
+	- Boot from the original installation floppies, and use OS/2's FDISK
+	  to reinstall boot manager, just as you did when you installed it
+	  for the first time.
+	- Check all your drives. If you have any errors, and you followed all
+	  the precautions precisely, you should contact me.
+	- Now you're ready to use your new configuration.
+
+Windows NT Final:
+
+	- Do not boot your machine with the boot manager. Boot from the
+	  installation disks (the three disks you created when you installed
+	  Windows NT) and use the emergency disk to repair boot files.
+	- Check all your drives. If you have any errors, and you followed all
+	  the precautions precisely, you should contact me.
+	- Now you're ready to use your new configuration.
+
+Linux Final:
+
+	- Boot from a bootable linux diskette. If you're using the boot
+	  diskette you used for the installation, at the lilo prompt type
+	  "mount root=/dev/hd??", where /dev/hd?? is the linux boot partition.
+	- Rerun liloconfig. Make any changes to the lilo configuration and
+	  reinstall lilo.
+	- Check all your drives. If you have any errors, and you followed all
+	  the precautions precisely, you should contact me.
+	- Now you're ready to use your new configuration.
+
+Other OSs Final:
+
+	- It's simple: Reinstall system/boot files, check integrity, reboot,
+	  and you're ready.
+
+If you have something to add or correct to this document, please send me a
+message (zeleps@usa.net) with your suggestions. This document is not yet
+complete, I will add more details as soon as I can.
+
+						 Best Regards,
+						    Zeleps

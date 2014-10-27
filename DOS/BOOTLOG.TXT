@@ -1,0 +1,5 @@
+[00094D8D] Loading Device = HIMEM.SYS
+(Logo disabled)
+[00094DD8] LoadSuccess    = HIMEM.SYS
+[00094E47] Loading Device = MTMCDAI.SYS
+[00094EAB] LoadSuccess    = MTMCDAI.SYS

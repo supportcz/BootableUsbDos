@@ -1,0 +1,4 @@
+[00104AEB] Loading Device = C:\DOS\HIMEM.SYS
+[00104AEB] LoadSuccess    = C:\DOS\HIMEM.SYS
+[00104AEC] Loading Device = C:\DOS\EMM386.EXE
+[00104AED] LoadSuccess    = C:\DOS\EMM386.EXE

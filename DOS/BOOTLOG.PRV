@@ -1,0 +1,7 @@
+[000D0369] Loading Device = HIMEM.SYS
+(Logo disabled)
+[000D03BB] LoadSuccess    = HIMEM.SYS
+[000D03DE] Loading Device = \CDROM\FIND-CD.SYS
+[000D040D] LoadFailed     = \CDROM\FIND-CD.SYS
+[000D045E] Loading Device = CDROM\ATAPI_CD.SYS
+[000D04F4] LoadSuccess    = CDROM\ATAPI_CD.SYS
